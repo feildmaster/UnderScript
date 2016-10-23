@@ -7,7 +7,6 @@
 // @description  Minor changes to undercards game
 // @author       feildmaster
 // @match        https://undercards.net:8181/Play
-// @match        https://undercards.net:8181/Game
 // @grant        none
 // @history      0.1 - Made deck selection smart
 // ==/UserScript==
@@ -29,8 +28,4 @@ if (location.pathname === "/Play") {
     $('#rankedDecks').change(function updateRank() {
         localStorage.lastRanked = $('#rankedDecks option:selected').val();
     });
-}
-
-// Game changes
-if (location.pathname === "/Game") {
 }
