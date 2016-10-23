@@ -68,7 +68,7 @@ if (location.pathname === "/Game") {
 
 // === Always do the following
 // Bind hotkey listeners
-$(".mainContent").on("click.script", function (event) {
+$(document).on("click.script", function (event) {
     if (false) return; // TODO: Check for clicking in chat
     hotkeys.forEach(function(v) {
         if (v.clickbound(event.which)) {
