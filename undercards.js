@@ -29,12 +29,8 @@ if (location.pathname === "/Play") {
     $('#rankedDecks').change(function updateRank() {
         localStorage.lastRanked = $('#rankedDecks option:selected').val();
     });
-
-    // TODO: Better "game found" support
 }
 
 // Game changes
 if (location.pathname === "/Game") {
-    // TODO: Event log
-    // TODO: Visual taunt
 }
