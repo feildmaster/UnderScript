@@ -15,3 +15,4 @@
 1. Remembers Class selection
 2. Lowers "game found" volume
 3. Press "middle click" or "space" to end turn (not currently very useful... if you're using the mouse anyway)
+4. Focus chat with "enter." (In case you have it open already)
