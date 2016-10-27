@@ -4,14 +4,16 @@
 // @updateURL    https://gist.githubusercontent.com/feildmaster/d151a1cc3c7055bfd8b3323ae1529046/raw/undercards.meta.js
 // @downloadURL  https://gist.githubusercontent.com/feildmaster/d151a1cc3c7055bfd8b3323ae1529046/raw/undercards.js
 // @require      https://gist.githubusercontent.com/feildmaster/d151a1cc3c7055bfd8b3323ae1529046/raw/utilities.js?v=1
-// @version      0.2
+// @version      0.3
 // @description  Minor changes to undercards game
 // @author       feildmaster
 // @match        https://undercards.net:8181/*
 // @grant        none
+// @history      0.3 - Lowered "game found" volume
 // @history      0.2 - Added EndTurn hotkey (space, middle click), focus chat (enter)
 // @history      0.1 - Made deck selection smart
 // ==/UserScript==
+// TODO: Event system rather than current code
 
 // === Variables start
 var hotkeys = [
@@ -43,6 +45,15 @@ if (location.pathname === "/Play") {
     });
 
     // TODO: Better "game found" support
+    var oHandler = socket.onmessage;
+    socketQueue.onmessage = function onMessageScript(event) {
+        var data = JSON.parse(bin2str(event.data));
+        oHandler(event);
+        if (data.action === "getWaitingQueue") {
+            // Lower the volume, the music changing is enough as is
+            audioQueue.volume = 0.3;
+        }
+    };
 }
 // === Play changes end
 
