@@ -4,11 +4,12 @@
 // @updateURL    https://gist.githubusercontent.com/feildmaster/d151a1cc3c7055bfd8b3323ae1529046/raw/undercards.meta.js
 // @downloadURL  https://gist.githubusercontent.com/feildmaster/d151a1cc3c7055bfd8b3323ae1529046/raw/undercards.js
 // @require      https://gist.githubusercontent.com/feildmaster/d151a1cc3c7055bfd8b3323ae1529046/raw/utilities.js?v=1
-// @version      0.3
+// @version      0.4
 // @description  Minor changes to undercards game
 // @author       feildmaster
 // @match        https://undercards.net:8181/*
 // @grant        none
+// @history      0.4 - Remember "event deck" too!, also fixed bugs.
 // @history      0.3 - Lowered "game found" volume
 // @history      0.2 - Added EndTurn hotkey (space, middle click), focus chat (enter)
 // @history      0.1 - Made deck selection smart
@@ -28,24 +29,23 @@ var hotkeys = [
 
 // === Play changes start
 if (location.pathname === "/Play") {
-    // Classic class storage
-    if (localStorage.lastClassic && $('#rankedDecks option').filter((i,o) => o.value === localStorage.lastRanked).length !== 0) {
-        $('#classicDecks').val(localStorage.lastClassic).change();
-    }
-    $('#classicDecks').change(function updateClassic() {
-        localStorage.lastClassic = $('#classicDecks option:selected').val();
-    });
+    var applyDeck = function(type, last) {
+        var deck = $(`#${type}`);
+        if (!deck.length) return;
+        if (localStorage[last] && $(`#${type} option`).filter((i,o) => o.value === localStorage[last]).length !== 0) {
+            deck.val(localStorage[last]).change();
+        }
+        deck.change(function update() {
+            localStorage[last] = $(`#${type} option:selected`).val();
+        });
+    };
 
-    // Ranked class storage
-    if (localStorage.lastRanked && $('#rankedDecks option').filter((i,o) => o.value === localStorage.lastRanked).length !== 0) {
-        $('#rankedDecks').val(localStorage.lastRanked).change();
-    }
-    $('#rankedDecks').change(function updateRank() {
-        localStorage.lastRanked = $('#rankedDecks option:selected').val();
-    });
+    applyDeck("classicDecks", "lastClassic"); // Classic class storage
+    applyDeck("rankedDecks", "lastRanked"); // Ranked class storage
+    applyDeck("eventDecks", "lastEvent"); // Event class storage
 
     // TODO: Better "game found" support
-    var oHandler = socket.onmessage;
+    var oHandler = socketQueue.onmessage;
     socketQueue.onmessage = function onMessageScript(event) {
         var data = JSON.parse(bin2str(event.data));
         oHandler(event);
