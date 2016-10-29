@@ -3,6 +3,42 @@ function debug() {
     if (localStorage.getItem("debugging") !== "true") return;
     console.log.apply(console, arguments);
 }
+function onPage(name) {
+    return name.length && location.pathname.substring(1, name.length + 1) === name;
+}
+var eventManager = {
+    _events: {
+        // eventName: [events]
+    },
+    on: function(event, fn) {
+        if (typeof fn !== "function") return;
+        if (!this._events.hasOwnProperty(event)) {
+            this._events[event] = [];
+        }
+        this._events[event].push(fn);
+    },
+    emit: function(event, data, cancelable = false) {
+        var meta = {
+            cancelable: cancelable,
+            canceled: false,
+        };
+        var events = this._events[event];
+        if (events && events.length) {
+            events.forEach(function call(ev) {
+                // Should we stop processing on cancel? Probably.
+                try {
+                    ev.call(meta, data);
+                } catch (e) {
+                    console.error(`Error ocurred while parsing event: ${event.displayName || event.name || `unnamed(${event})`}`, e);
+                }
+            });
+        }
+        return cancelable && meta.canceled;
+    },
+    _emitRaw: function(event, data, cancelable) {
+        return this.emit(event, JSON.parse(bin2str(data)), cancelable);
+    },
+};
 var fn = { // Not used
     each: function(o, f, t) {
         if (!o) return;
