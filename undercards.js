@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         UnderCards script
 // @namespace    http://tampermonkey.net/
-// @downloadURL  https://gist.githubusercontent.com/feildmaster/d151a1cc3c7055bfd8b3323ae1529046/raw/undercards.js
-// @require      https://gist.githubusercontent.com/feildmaster/d151a1cc3c7055bfd8b3323ae1529046/raw/utilities.js?v=1
+// @downloadURL  https://raw.githubusercontent.com/feildmaster/UnderScript/master/undercards.js
+// @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=1
 // @version      0.4
 // @description  Minor changes to undercards game
 // @author       feildmaster
