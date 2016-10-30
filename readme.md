@@ -14,5 +14,9 @@
 ## Features ##
 1. Remembers Class selection
 2. Lowers "game found" volume
-3. Press "middle click" or "space" to end turn (not currently very useful... if you're using the mouse anyway)
-4. Focus chat with "enter." (In case you have it open already)
+3. Hot keys
+4. Battle Log
+
+### Hotkeys ###
+1. Press "middle click" or "space" to end turn (not currently very useful... if you're using the mouse anyway)
+2. Focus chat with "enter" (In case you have it open already)
