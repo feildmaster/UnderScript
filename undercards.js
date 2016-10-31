@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @downloadURL  https://raw.githubusercontent.com/feildmaster/UnderScript/master/undercards.js
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=2
-// @version      0.5.1
+// @version      0.5.2
 // @description  Minor changes to undercards game
 // @author       feildmaster
 // @match        https://undercards.net:8181/*
