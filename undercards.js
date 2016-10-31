@@ -2,13 +2,14 @@
 // @name         UnderCards script
 // @namespace    http://tampermonkey.net/
 // @downloadURL  https://raw.githubusercontent.com/feildmaster/UnderScript/master/undercards.js
-// @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=3
+// @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=2
 // @version      0.5.1
 // @description  Minor changes to undercards game
 // @author       feildmaster
 // @match        https://undercards.net:8181/*
 // @grant        none
-// @history      0.5.1 - repositioned battle log
+// @history    0.5.2 - do the same for the chat window
+// @history    0.5.1 - don't cover the battle screen
 // @history      0.5 - remember chat messages on page-change, added a battle log, lots of code changes
 // @history      0.4 - Remember "event deck" too!, also fixed bugs.
 // @history      0.3 - Lowered "game found" volume
@@ -32,13 +33,13 @@ var log = {
         // Positional math
         var pos = parseInt($("div.mainContent").css("width")) + parseInt($("div.mainContent").css("margin-left"));
         hi.css({
-            width: "400px",
+            width: `${window.innerWidth - pos - 20}px`,
             border: "2px solid white",
             "background-color": "black",
             "position": "fixed",
             right: 10,
             top: 10,
-            left: pos,
+            //"max-height": `${window.innerHeight - 20}px`,
         });
         ha.css({
             "border-bottom": "1px solid white",
@@ -331,7 +332,6 @@ $(document).on("keyup.script", function (event) {
         }
     });
 });
-
 $(window).unload(function() {
     // Store chat text (if any)
     var val = $("#message").val();
@@ -342,3 +342,5 @@ if (localStorage.oldChat) {
     $("#message").val(localStorage.oldChat);
     delete localStorage.oldChat;
 }
+// Make the chatBox smaller if necessary
+$("div.chatBox").css("max-width", $("div.mainContent").css("margin-left"));
