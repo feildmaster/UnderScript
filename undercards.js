@@ -2,12 +2,13 @@
 // @name         UnderCards script
 // @namespace    http://tampermonkey.net/
 // @downloadURL  https://raw.githubusercontent.com/feildmaster/UnderScript/master/undercards.js
-// @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=2
-// @version      0.5
+// @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=3
+// @version      0.5.1
 // @description  Minor changes to undercards game
 // @author       feildmaster
 // @match        https://undercards.net:8181/*
 // @grant        none
+// @history      0.5.1 - repositioned battle log
 // @history      0.5 - remember chat messages on page-change, added a battle log, lots of code changes
 // @history      0.4 - Remember "event deck" too!, also fixed bugs.
 // @history      0.3 - Lowered "game found" volume
@@ -28,6 +29,8 @@ var log = {
         var hi = $("<div id='history'></div>"),
             ha = $("<div class='handle'>History</div>"),
             lo = $("<div id='log'></div>");
+        // Positional math
+        var pos = parseInt($("div.mainContent").css("width")) + parseInt($("div.mainContent").css("margin-left"));
         hi.css({
             width: "400px",
             border: "2px solid white",
@@ -35,6 +38,7 @@ var log = {
             "position": "fixed",
             right: 10,
             top: 10,
+            left: pos,
         });
         ha.css({
             "border-bottom": "1px solid white",
