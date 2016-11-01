@@ -16,7 +16,6 @@
 2. Lowers "game found" volume
 3. Hot keys
 4. Battle Log
-5. Constrain the chat log width for low resolutions
 
 ### Hotkeys ###
 1. Press "middle click" or "space" to end turn (not currently very useful... if you're using the mouse anyway)
