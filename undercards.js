@@ -3,11 +3,12 @@
 // @namespace    http://tampermonkey.net/
 // @downloadURL  https://raw.githubusercontent.com/feildmaster/UnderScript/master/undercards.js
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=2
-// @version      0.5.2
+// @version      0.5.3
 // @description  Minor changes to undercards game
 // @author       feildmaster
 // @match        https://undercards.net:8181/*
 // @grant        none
+// @history    0.5.3 - Remove the chat stuff, the new chat is better.
 // @history    0.5.2 - do the same for the chat window
 // @history    0.5.1 - don't cover the battle screen
 // @history      0.5 - remember chat messages on page-change, added a battle log, lots of code changes
@@ -342,5 +343,3 @@ if (localStorage.oldChat) {
     $("#message").val(localStorage.oldChat);
     delete localStorage.oldChat;
 }
-// Make the chatBox smaller if necessary
-$("div.chatBox").css("max-width", $("div.mainContent").css("margin-left"));
