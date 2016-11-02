@@ -3,11 +3,12 @@
 // @namespace    http://tampermonkey.net/
 // @downloadURL  https://raw.githubusercontent.com/feildmaster/UnderScript/master/undercards.js
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=2
-// @version      0.5.3
+// @version      0.5.4
 // @description  Minor changes to undercards game
 // @author       feildmaster
 // @match        https://undercards.net:8181/*
 // @grant        none
+// @history    0.5.4 - Don't scroll the battle log with the page (possibly make this configurable later)
 // @history    0.5.3 - Remove the chat stuff, the new chat is better.
 // @history    0.5.2 - do the same for the chat window
 // @history    0.5.1 - don't cover the battle screen
@@ -37,7 +38,7 @@ var log = {
             width: `${window.innerWidth - pos - 20}px`,
             border: "2px solid white",
             "background-color": "black",
-            "position": "fixed",
+            "position": "absolute",
             right: 10,
             top: 10,
             //"max-height": `${window.innerHeight - 20}px`,
