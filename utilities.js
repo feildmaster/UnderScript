@@ -4,10 +4,8 @@ function debug() {
     console.log.apply(console, arguments);
 }
 function onPage(name, fn) {
-    console.log(name, location.pathname);
     var r = name.length && location.pathname.substring(1, name.length + 1) === name;
     if (typeof fn === "function" && r) {
-        console.log("running");
         fn();
     }
     return r;
