@@ -2,12 +2,13 @@
 // @name         UnderCards script
 // @namespace    http://tampermonkey.net/
 // @downloadURL  https://raw.githubusercontent.com/feildmaster/UnderScript/master/undercards.js
-// @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=2
-// @version      0.5.4
+// @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=3
+// @version      0.6
 // @description  Minor changes to undercards game
 // @author       feildmaster
-// @match        https://undercards.net:8181/*
+// @match        https://undercards.net/*
 // @grant        none
+// @history      0.6 - some upgrades to the battle log, fixed url
 // @history    0.5.4 - Don't scroll the battle log with the page (possibly make this configurable later)
 // @history    0.5.3 - Remove the chat stuff, the new chat is better.
 // @history    0.5.2 - do the same for the chat window
@@ -86,6 +87,23 @@ eventManager.on("PlayingGame", function bindHotkeys() {
 
 (function battleLogger() {
     var turn = 0, currentTurn = 0, players = {}, monsters = {}, lastEffect, other = {}, finished = false;
+    var make = {
+        player: function makePlayer(player) {
+            var c = $("<span>");
+            c.append(player.username);
+            //c.attr("title", `${player.gold} gold`); // gold is broken
+            //c.hover(); // TODO: hover information
+            c.addClass(player.class);
+            return c[0].outerHTML;
+        },
+        card: function makeCard(card) {
+            var c = $("<span>");
+            c.append(card.name);
+            //c.hover(); // TODO: hover information
+            return c[0].outerHTML;
+        },
+    };
+
     eventManager.on("GameStart", function() {
         log.init(); // Init the battle log... or we could wait until adding the first event?
     });
@@ -94,13 +112,13 @@ eventManager.on("PlayingGame", function bindHotkeys() {
     // This is an ugly thing!
     eventManager.on("GameEvent", function(data) {
         if (finished) return; // Sometimes we get events after the battle is over
-        // TODO: Delayed events... (green soul, discard (for example, sans)) 
+        // TODO: Delayed events... (green soul, discard (for example, sans))
         var card, you, enemy;
         // Battle logging happens after the game runs
         switch(data.action) {
             case "getGameStarted": // Initialize "game" history here
-                you = {id: data.yourId, username: data.yourUsername, hp: 30, class: data.yourClass, level: data.yourLevel, rank: data.yourRank};
-                enemy = {id: data.ennemyId, username: data.ennemyUsername, hp: 30, class: data.enemyClass, level: data.enemyLevel, rank: data.enemyRank};
+                you = {id: data.yourId, username: data.yourUsername, hp: 30, class: data.yourClass, level: data.yourLevel, rank: data.yourRank, gold: 2};
+                enemy = {id: data.ennemyId, username: data.ennemyUsername, hp: 30, class: data.enemyClass, level: data.enemyLevel, rank: data.enemyRank, gold: 2};
             case "getAllGameInfos": // Initialize "spectate" history here
                 // board = [0, 1, 2, 3, 4, 5, 6, 7, 8]
                 // ---- typeCard: 0 = enemy; 1: spell
@@ -112,6 +130,9 @@ eventManager.on("PlayingGame", function bindHotkeys() {
                     enemy = JSON.parse(data.ennemy);
                     you.class = data.yourClass;
                     enemy.class = data.enemyClass;
+                    var gold = JSON.parse(data.golds);
+                    you.gold = gold[you.id];
+                    enemy.gold = gold[enemy.id];
                 }
                 if (data.lives) {
                     var lives = JSON.parse(data.lives);
@@ -123,11 +144,11 @@ eventManager.on("PlayingGame", function bindHotkeys() {
                 // Test changing ID's at endTurn instead of startTurn
                 other[you.id] = enemy.id;
                 other[enemy.id] = you.id;
-                $("div#history div.handle").html(`[${data.gameType}] ${you.username} vs ${enemy.username}`);
+                $("div#history div.handle").html(`[${data.gameType}] ${make.player(you)} vs ${make.player(enemy)}`);
                 log.add(`Turn ${turn}`);
                 if (data.userTurn) {
                     currentTurn = data.userTurn;
-                    log.add(`${players[data.userTurn].username}'s turn`);
+                    log.add(`${make.player(players[data.userTurn])}'s turn`);
                 }
                 // populate monsters
                 JSON.parse(data.board).forEach(function (card) {
@@ -136,20 +157,20 @@ eventManager.on("PlayingGame", function bindHotkeys() {
                 });
                 return;
             case "getFight": // monster attack monster
-                log.add(`${monsters[data.attackMonster].name} attacked ${monsters[data.defendMonster].name}`);
+                log.add(`${make.card(monsters[data.attackMonster])} attacked ${make.card(monsters[data.defendMonster])}`);
                 return;
             case "getFightPlayer": // monster attacking player
-                log.add(`${monsters[data.attackMonster].name} attacked ${players[data.defendPlayer].username}`);
+                log.add(`${make.card(monsters[data.attackMonster])} attacked ${make.player(players[data.defendPlayer])}`);
                 return;
             case "getUpdatePlayerHp":
                 var oHp = players[data.playerId].hp;
                 var hp = data.isDamage ? oHp - data.hp : data.hp - oHp;
                 players[data.playerId].hp = data.hp;
                 if (oHp !== data.hp) { // If the player isn't at 0 hp already
-                    log.add(`${players[data.playerId].username} ${data.isDamage ? "lost" : "gained"} ${hp} hp`);
+                    log.add(`${make.player(players[data.playerId])} ${data.isDamage ? "lost" : "gained"} ${hp} hp`);
                 }
                 if (data.hp === 0 && players[data.playerId].lives > 0 && !players[data.playerId].hasOwnProperty("lostLife")) { // If they have extra lives, and they didn't lose a life already
-                    log.add(`${players[data.playerId].username} lost a life`);
+                    log.add(`${make.player(players[data.playerId])} lost a life`);
                     players[data.playerId].lostLife = true;
                 }
                 return;
@@ -160,10 +181,10 @@ eventManager.on("PlayingGame", function bindHotkeys() {
                 // TODO: Figure out how to do this better
                 if (lastEffect === data.monsterId) return;
                 lastEffect = data.monsterId;
-                log.add(`${monsters[data.monsterId].name}'s effect activated.`);
+                log.add(`${make.card(monsters[data.monsterId])}'s effect activated.`);
                 return;
             case "getSoulDoingEffect": // Soul doing effect
-                log.add(`${players[data.playerId].username}'s soul activated.`);
+                log.add(`${make.player(players[data.playerId])}'s soul activated.`);
                 // affecteds
                 // playerAffected1
                 // playerAffected2
@@ -178,7 +199,7 @@ eventManager.on("PlayingGame", function bindHotkeys() {
                 }
                 currentTurn = data.idPlayer; // It would (kindof) help to actually update who's turn it is
                 turn = data.numTurn;
-                log.add(`${players[currentTurn].username}'s turn`);
+                log.add(`${make.player(players[currentTurn])}'s turn`);
                 return;
             case "getTurnEnd": // Turn ended
                 // Lets switch the turn NOW, rather than later, the purpose of this is currently unknown... It just sounded like a good idea, also delete the "lostLife" flag...
@@ -198,7 +219,7 @@ eventManager.on("PlayingGame", function bindHotkeys() {
                 return;
             case "getMonsterDestroyed": // Monster killed
                 // monsterId: #
-                log.add(`${monsters[data.monsterId].name} was killed`);
+                log.add(`${make.card(monsters[data.monsterId])} was killed`);
                 delete monsters[data.monsterId];
                 return;
                 //case "refreshTimer": // Probably don't need this
@@ -210,7 +231,7 @@ eventManager.on("PlayingGame", function bindHotkeys() {
                 // idPlayer
                 card = JSON.parse(data.card);
                 monsters[card.id] = card;
-                log.add(`${players[data.idPlayer].username} played ${card.name}`);
+                log.add(`${make.player(players[data.idPlayer])} played ${make.card(card)}`);
                 return;
             case "getSpellPlayed": // Spell used
                 // idPlayer
@@ -218,7 +239,7 @@ eventManager.on("PlayingGame", function bindHotkeys() {
                 // immediately calls "getDoingEffect" and "getUpdateBoard"
                 card = JSON.parse(data.card);
                 monsters[card.id] = card;
-                log.add(`${players[data.idPlayer].username} used ${card.name}`);
+                log.add(`${make.player(players[data.idPlayer])} used ${make.card(card)}`);
                 return;
             case "updateSpell": // Use spell
                 return;
@@ -227,7 +248,7 @@ eventManager.on("PlayingGame", function bindHotkeys() {
             case "getCardDestroyedHandFull": // Card destroyed from full hand
                 card = JSON.parse(data.card);
                 // This event gets called for *all* discards. Have to do smarter logic here (not just currentTurn!)
-                log.add(`${players[currentTurn].username} discarded ${card.name}`);
+                log.add(`${make.player(players[currentTurn])} discarded ${make.card(card)}`);
                 return;
             case "getPlayerStats": // TODO: When does this get called?
                 var key, temp = JSON.parse(data.handsSize);
@@ -236,12 +257,19 @@ eventManager.on("PlayingGame", function bindHotkeys() {
                     //players[key].hand
                 }
                 // TODO: deck monitoring (decksSize)
-                // TODO: gold monitoring (golds)
+                temp = JSON.parse(data.golds);
+                for (key in temp) {
+                    players[key].gold = temp[key];
+                }
                 temp = JSON.parse(data.lives);
                 for (key in temp) {
                     players[key].lives = temp[key];
                 }
                 return;
+            case "getVictory": // TODO
+            case "getVictoryDeco": // TODO
+            case "getDefeat": // TODO
+                break;
             case "getResult": // Fight Finish
                 finished = true;
                 if (data.cause === "Surrender") {
@@ -259,8 +287,8 @@ eventManager.on("PlayingGame", function bindHotkeys() {
     });
 })();
 
-// === Play changes start
-if (onPage("Play")) {
+// === Play hooks
+onPage("Play", function() {
     var applyDeck = function(type, last) {
         var deck = $(`#${type}`);
         if (!deck.length) return;
@@ -283,11 +311,10 @@ if (onPage("Play")) {
         oHandler(event);
         eventManager.emit(data.action, data);
     };
-}
-// === Play changes end
+});
 
-// === Game changes start
-if (onPage("Game")) {
+// === Game hooks
+onPage("Game", function() {
     var oHandler = socket.onmessage;
     socket.onmessage = function onMessageScript(event) {
         var data = JSON.parse(bin2str(event.data));
@@ -300,11 +327,10 @@ if (onPage("Game")) {
         }
         eventManager.emit("GameEvent", data);
     };
-}
-// === Game changes end
+});
 
-// Spectate mode
-if (onPage("gameSpectate")) {
+// Spectate hooks
+onPage("gameSpectate", function() {
     eventManager.emit("GameStart");
 
     var oHandler = socket.onmessage;
@@ -313,8 +339,7 @@ if (onPage("gameSpectate")) {
         oHandler(event);
         eventManager._emitRaw("GameEvent", event.data);
     };
-}
-// Spectate mode
+});
 
 // === Always do the following
 // Bind hotkey listeners
