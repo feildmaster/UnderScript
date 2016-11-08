@@ -3,11 +3,12 @@
 // @namespace    http://tampermonkey.net/
 // @downloadURL  https://raw.githubusercontent.com/feildmaster/UnderScript/master/undercards.js
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=3
-// @version      0.6
+// @version      0.7
 // @description  Minor changes to undercards game
 // @author       feildmaster
 // @match        https://undercards.net/*
 // @grant        none
+// @history      0.7 - updated to new restrictions, thanks cloudflare -_-
 // @history      0.6 - some upgrades to the battle log, fixed url
 // @history    0.5.4 - Don't scroll the battle log with the page (possibly make this configurable later)
 // @history    0.5.3 - Remove the chat stuff, the new chat is better.
@@ -38,7 +39,7 @@ var log = {
         hi.css({
             width: `${window.innerWidth - pos - 20}px`,
             border: "2px solid white",
-            "background-color": "black",
+            "background-color": "rgba(0,0,0,0.9)",
             "position": "absolute",
             right: 10,
             top: 10,
@@ -91,6 +92,7 @@ eventManager.on("PlayingGame", function bindHotkeys() {
         player: function makePlayer(player) {
             var c = $("<span>");
             c.append(player.username);
+            // show lives, show health, show gold, show hand, possibly deck size as well
             //c.attr("title", `${player.gold} gold`); // gold is broken
             //c.hover(); // TODO: hover information
             c.addClass(player.class);
@@ -104,10 +106,6 @@ eventManager.on("PlayingGame", function bindHotkeys() {
         },
     };
 
-    eventManager.on("GameStart", function() {
-        log.init(); // Init the battle log... or we could wait until adding the first event?
-    });
-
     // TODO: Clean this up
     // This is an ugly thing!
     eventManager.on("GameEvent", function(data) {
@@ -116,45 +114,47 @@ eventManager.on("PlayingGame", function bindHotkeys() {
         var card, you, enemy;
         // Battle logging happens after the game runs
         switch(data.action) {
-            case "getGameStarted": // Initialize "game" history here
-                you = {id: data.yourId, username: data.yourUsername, hp: 30, class: data.yourClass, level: data.yourLevel, rank: data.yourRank, gold: 2};
-                enemy = {id: data.ennemyId, username: data.ennemyUsername, hp: 30, class: data.enemyClass, level: data.enemyLevel, rank: data.enemyRank, gold: 2};
             case "getAllGameInfos": // Initialize "spectate" history here
                 // board = [0, 1, 2, 3, 4, 5, 6, 7, 8]
                 // ---- typeCard: 0 = enemy; 1: spell
                 // -- card: {attack, hp, maxHp, originalAttack, originalHp, paralyzed, silence, poisoned, taunt, id, typeCard, name, image, cost, description, rarity, shiny, quantity}
                 // TODO: turnTime monitoring
+                you = JSON.parse(data.you);
+                enemy = JSON.parse(data.ennemy);
+                you.class = data.yourClass;
+                enemy.class = data.enemyClass;
+                // Set gold
+                var gold = JSON.parse(data.golds);
+                you.gold = gold[you.id];
+                enemy.gold = gold[enemy.id];
+                // Set lives
+                var lives = JSON.parse(data.lives);
+                you.lives = lives[you.id];
+                enemy.lives = lives[enemy.id];
+                // populate monsters
+                JSON.parse(data.board).forEach(function (card) {
+                    if (card === null) return;
+                    monsters[card.id] = card;
+                });
+            case "getGameStarted": // Initialize "game" history here
                 turn = data.turn || 0;
                 if (!you) {
-                    you = JSON.parse(data.you);
-                    enemy = JSON.parse(data.ennemy);
-                    you.class = data.yourClass;
-                    enemy.class = data.enemyClass;
-                    var gold = JSON.parse(data.golds);
-                    you.gold = gold[you.id];
-                    enemy.gold = gold[enemy.id];
-                }
-                if (data.lives) {
-                    var lives = JSON.parse(data.lives);
-                    you.lives = lives[you.id];
-                    enemy.lives = lives[enemy.id];
+                    you = {id: data.yourId, username: data.yourUsername, hp: 30, class: data.yourClass, level: data.yourLevel, rank: data.yourRank, gold: 2};
+                    enemy = {id: data.ennemyId, username: data.ennemyUsername, hp: 30, class: data.enemyClass, level: data.enemyLevel, rank: data.enemyRank, gold: 2};
                 }
                 players[you.id] = you;
                 players[enemy.id] = enemy;
                 // Test changing ID's at endTurn instead of startTurn
                 other[you.id] = enemy.id;
                 other[enemy.id] = you.id;
+                // Initialize the log
+                log.init();
                 $("div#history div.handle").html(`[${data.gameType}] ${make.player(you)} vs ${make.player(enemy)}`);
                 log.add(`Turn ${turn}`);
                 if (data.userTurn) {
                     currentTurn = data.userTurn;
                     log.add(`${make.player(players[data.userTurn])}'s turn`);
                 }
-                // populate monsters
-                JSON.parse(data.board).forEach(function (card) {
-                    if (card === null) return;
-                    monsters[card.id] = card;
-                });
                 return;
             case "getFight": // monster attack monster
                 log.add(`${make.card(monsters[data.attackMonster])} attacked ${make.card(monsters[data.defendMonster])}`);
@@ -287,59 +287,67 @@ eventManager.on("PlayingGame", function bindHotkeys() {
     });
 })();
 
-// === Play hooks
-onPage("Play", function() {
-    var applyDeck = function(type, last) {
-        var deck = $(`#${type}`);
-        if (!deck.length) return;
-        if (localStorage[last] && $(`#${type} option`).filter((i,o) => o.value === localStorage[last]).length !== 0) {
-            deck.val(localStorage[last]).change();
-        }
-        deck.change(function update() {
-            localStorage[last] = $(`#${type} option:selected`).val();
-        });
-    };
+// === It's a race against time, to make it work most of the time?
+setTimeout(setup, 1);
 
-    applyDeck("classicDecks", "lastClassic"); // Classic class storage
-    applyDeck("rankedDecks", "lastRanked"); // Ranked class storage
-    applyDeck("eventDecks", "lastEvent"); // Event class storage
+function setup() {
+    // === Play hooks
+    onPage("Play", function() {
+        debug("On play page");
+        var applyDeck = function(type, last) {
+            var deck = $(`#${type}`);
+            if (!deck.length) return;
+            if (localStorage[last] && $(`#${type} option`).filter((i,o) => o.value === localStorage[last]).length !== 0) {
+                deck.val(localStorage[last]).change();
+            }
+            deck.change(function update() {
+                localStorage[last] = $(`#${type} option:selected`).val();
+            });
+        };
 
-    // TODO: Better "game found" support
-    var oHandler = socketQueue.onmessage;
-    socketQueue.onmessage = function onMessageScript(event) {
-        var data = JSON.parse(bin2str(event.data));
-        oHandler(event);
-        eventManager.emit(data.action, data);
-    };
-});
+        applyDeck("classicDecks", "lastClassic"); // Classic class storage
+        applyDeck("rankedDecks", "lastRanked"); // Ranked class storage
+        applyDeck("eventDecks", "lastEvent"); // Event class storage
 
-// === Game hooks
-onPage("Game", function() {
-    var oHandler = socket.onmessage;
-    socket.onmessage = function onMessageScript(event) {
-        var data = JSON.parse(bin2str(event.data));
-        //console.log(bin2str(event.data));
-        oHandler(event);
-        if (data.action === "getGameStarted") {
-            // We're running our game.
-            eventManager.emit("GameStart");
-            eventManager.emit("PlayingGame");
-        }
-        eventManager.emit("GameEvent", data);
-    };
-});
+        // TODO: Better "game found" support
+        var oHandler = socketQueue.onmessage;
+        socketQueue.onmessage = function onMessageScript(event) {
+            var data = JSON.parse(bin2str(event.data));
+            oHandler(event);
+            eventManager.emit(data.action, data);
+        };
+    });
 
-// Spectate hooks
-onPage("gameSpectate", function() {
-    eventManager.emit("GameStart");
+    // === Game hooks
+    onPage("Game", function() {
+        debug("Playing Game");
+        var oHandler = socket.onmessage;
+        socket.onmessage = function onMessageScript(event) {
+            var data = JSON.parse(bin2str(event.data));
+            //console.log(bin2str(event.data));
+            oHandler(event);
+            if (data.action === "getGameStarted") {
+                // We're running our game.
+                eventManager.emit("GameStart");
+                eventManager.emit("PlayingGame");
+            }
+            eventManager.emit("GameEvent", data);
+        };
+    });
 
-    var oHandler = socket.onmessage;
-    socket.onmessage = function onMessageScript(event) {
-        //console.log(bin2str(event.data));
-        oHandler(event);
-        eventManager._emitRaw("GameEvent", event.data);
-    };
-});
+    // Spectate hooks
+    onPage("gameSpectate", function() {
+        debug("Spectating Game");
+        eventManager.emit("GameStart");
+
+        var oHandler = socket.onmessage;
+        socket.onmessage = function onMessageScript(event) {
+            //console.log(bin2str(event.data));
+            oHandler(event);
+            eventManager._emitRaw("GameEvent", event.data);
+        };
+    });
+}
 
 // === Always do the following
 // Bind hotkey listeners
