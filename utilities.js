@@ -4,7 +4,11 @@ function debug() {
     console.log.apply(console, arguments);
 }
 function onPage(name, fn) {
-    var r = name.length && location.pathname.substring(1, name.length + 1) === name;
+    var length = location.pathname.length, temp;
+    if ((temp = location.pathname.indexOf(".")) === -1 && (temp = location.pathname.indexOf("/")) === -1) {
+        temp = null;
+    }
+    var r = name.length && location.pathname.substring(1, temp || length) === name;
     if (typeof fn === "function" && r) {
         fn();
     }
