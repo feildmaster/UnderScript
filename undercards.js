@@ -1,13 +1,10 @@
 // ==UserScript==
 // @name         UnderCards script
-// @namespace    http://tampermonkey.net/
-// @downloadURL  https://raw.githubusercontent.com/feildmaster/UnderScript/master/undercards.js
-// @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=3
-// @version      0.7
 // @description  Minor changes to undercards game
+// @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=4
+// @version      0.8
 // @author       feildmaster
-// @match        https://undercards.net/*
-// @grant        none
+// @history      0.8 - Better performance and reliability. Disable the join queue buttons until they are ready
 // @history      0.7 - updated to new restrictions, thanks cloudflare -_-
 // @history      0.6 - some upgrades to the battle log, fixed url
 // @history    0.5.4 - Don't scroll the battle log with the page (possibly make this configurable later)
@@ -19,51 +16,17 @@
 // @history      0.3 - Lowered "game found" volume
 // @history      0.2 - Added EndTurn hotkey (space, middle click), focus chat (enter)
 // @history      0.1 - Made deck selection smart
+// @match        https://undercards.net/*
 // @website      https://github.com/feildmaster/UnderScript
 // @supportURL   https://github.com/feildmaster/UnderScript/issues
+// @downloadURL  https://raw.githubusercontent.com/feildmaster/UnderScript/master/undercards.js
+// @namespace    http://tampermonkey.net/
+// @grant        none
 // ==/UserScript==
 // TODO: more Hotkeys
-// TODO: Better battle log display (and make it movable/resizable?)
 // TODO: Visual attack targets
 // TODO: Random deck option
 // TODO: Detailed history log
-if (typeof jQuery === "undefined") return; // Might as well check if jQuery is loaded, to remove an error
-
-var log = {
-    init: function () {
-        var hi = $("<div id='history'></div>"),
-            ha = $("<div class='handle'>History</div>"),
-            lo = $("<div id='log'></div>");
-        // Positional math
-        var pos = parseInt($("div.mainContent").css("width")) + parseInt($("div.mainContent").css("margin-left"));
-        hi.css({
-            width: `${window.innerWidth - pos - 20}px`,
-            border: "2px solid white",
-            "background-color": "rgba(0,0,0,0.9)",
-            "position": "absolute",
-            right: 10,
-            top: 10,
-            //"max-height": `${window.innerHeight - 20}px`,
-        });
-        ha.css({
-            "border-bottom": "1px solid white",
-            "text-align": "center",
-        });
-        lo.css({
-            "overflow-y": "auto",
-            //height: "200px",
-            "max-height": "600px",
-        });
-        hi.append(ha);
-        hi.append(lo);
-        // hi.draggable({handle: "div.handle",}); This breaks it :(
-        $("body").append(hi);
-    },
-    add: function(text) {
-        var add = text instanceof jQuery ? text : `<div>${text}</div>`;
-        $("div#history div#log").prepend(add); // Be lazy and prepend, or append and scroll down?
-    },
-};
 
 // === Variables start
 var hotkeys = [
@@ -86,7 +49,7 @@ eventManager.on("PlayingGame", function bindHotkeys() {
     hotkeys.push(new Hotkey("End turn").bindKey(32).bindClick(2).run((e) => {if (!$(e.target).is("#endTurnBtn") && userTurn && userTurn === userId) endTurn();}));
 });
 
-(function battleLogger() {
+eventManager.on("GameStart", function battleLogger() {
     var turn = 0, currentTurn = 0, players = {}, monsters = {}, lastEffect, other = {}, finished = false;
     var make = {
         player: function makePlayer(player) {
@@ -108,7 +71,7 @@ eventManager.on("PlayingGame", function bindHotkeys() {
 
     // TODO: Clean this up
     // This is an ugly thing!
-    eventManager.on("GameEvent", function(data) {
+    eventManager.on("GameEvent", function logEvent(data) {
         if (finished) return; // Sometimes we get events after the battle is over
         // TODO: Delayed events... (green soul, discard (for example, sans))
         var card, you, enemy;
@@ -285,42 +248,56 @@ eventManager.on("PlayingGame", function bindHotkeys() {
                 return;
         }
     });
-})();
+});
 
-// === It's a race against time, to make it work most of the time?
-setTimeout(setup, 1);
+// === Play hooks
+onPage("Play", function() {
+    debug("On play page");
+    function applyDeck(type, last) {
+        var deck = $(`#${type}`);
+        if (!deck.length) return;
+        if (localStorage[last] && $(`#${type} option`).filter((i,o) => o.value === localStorage[last]).length !== 0) {
+            deck.val(localStorage[last]).change();
+        }
+        deck.change(function update() {
+            localStorage[last] = $(`#${type} option:selected`).val();
+        });
+    }
 
-function setup() {
-    // === Play hooks
-    onPage("Play", function() {
-        debug("On play page");
-        var applyDeck = function(type, last) {
-            var deck = $(`#${type}`);
-            if (!deck.length) return;
-            if (localStorage[last] && $(`#${type} option`).filter((i,o) => o.value === localStorage[last]).length !== 0) {
-                deck.val(localStorage[last]).change();
-            }
-            deck.change(function update() {
-                localStorage[last] = $(`#${type} option:selected`).val();
-            });
-        };
+    applyDeck("classicDecks", "lastClassic"); // Classic class storage
+    applyDeck("rankedDecks", "lastRanked"); // Ranked class storage
+    applyDeck("eventDecks", "lastEvent"); // Event class storage
+    var queues = $("button.btn.btn-primary");
+    queues.prop("disabled", true);
 
-        applyDeck("classicDecks", "lastClassic"); // Classic class storage
-        applyDeck("rankedDecks", "lastRanked"); // Ranked class storage
-        applyDeck("eventDecks", "lastEvent"); // Event class storage
-
+    (function hook() {
+        if (typeof socketQueue === "undefined") {
+            debug("Timeout hook");
+            return setTimeout(hook);
+        }
         // TODO: Better "game found" support
+        var oOpen = socketQueue.onopen;
+        socketQueue.onopen = function onOpenScript(event) {
+            if (oOpen) oOpen(event);
+            queues.prop("disabled", false);
+        };
         var oHandler = socketQueue.onmessage;
         socketQueue.onmessage = function onMessageScript(event) {
             var data = JSON.parse(bin2str(event.data));
             oHandler(event);
             eventManager.emit(data.action, data);
         };
-    });
+    })();
+});
 
-    // === Game hooks
-    onPage("Game", function() {
-        debug("Playing Game");
+// === Game hooks
+onPage("Game", function() {
+    debug("Playing Game");
+    (function hook() {
+        if (typeof socket === "undefined") {
+            debug("Timeout hook");
+            return setTimeout(hook);
+        }
         var oHandler = socket.onmessage;
         socket.onmessage = function onMessageScript(event) {
             var data = JSON.parse(bin2str(event.data));
@@ -333,47 +310,61 @@ function setup() {
             }
             eventManager.emit("GameEvent", data);
         };
-    });
+    })();
+});
 
-    // Spectate hooks
-    onPage("gameSpectate", function() {
-        debug("Spectating Game");
-        eventManager.emit("GameStart");
-
+// Spectate hooks
+onPage("gameSpectate", function() {
+    debug("Spectating Game");
+    eventManager.emit("GameStart");
+    (function hook() {
+        if (typeof socket === "undefined") {
+            debug("Timeout hook");
+            return setTimeout(hook);
+        }
         var oHandler = socket.onmessage;
         socket.onmessage = function onMessageScript(event) {
             //console.log(bin2str(event.data));
             oHandler(event);
             eventManager._emitRaw("GameEvent", event.data);
         };
-    });
-}
+    })();
+});
 
-// === Always do the following
-// Bind hotkey listeners
-$(document).on("click.script", function (event) {
-    if (false) return; // TODO: Check for clicking in chat
-    hotkeys.forEach(function(v) {
-        if (v.clickbound(event.which)) {
-            v.run(event);
+// === Always do the following - if jquery is loaded
+var tries = 3;
+(function jSetup() {
+    if (typeof jQuery === "undefined") {
+        if (tries-- > 0) { // jQuery is probably not going to load at this point...
+            setTimeout(jSetup);
         }
+        return;
+    }
+    // Bind hotkey listeners
+    $(document).on("click.script", function (event) {
+        if (false) return; // TODO: Check for clicking in chat
+        hotkeys.forEach(function(v) {
+            if (v.clickbound(event.which)) {
+                v.run(event);
+            }
+        });
     });
-});
-$(document).on("keyup.script", function (event) {
-    if ($(event.target).is("input")) return; // We don't want to listen while typing in chat (maybe listen for F-keys?)
-    hotkeys.forEach(function(v) {
-        if (v.keybound(event.which)) {
-            v.run(event);
-        }
+    $(document).on("keyup.script", function (event) {
+        if ($(event.target).is("input")) return; // We don't want to listen while typing in chat (maybe listen for F-keys?)
+        hotkeys.forEach(function(v) {
+            if (v.keybound(event.which)) {
+                v.run(event);
+            }
+        });
     });
-});
-$(window).unload(function() {
-    // Store chat text (if any)
-    var val = $("#message").val();
-    if (!val) return;
-    localStorage.oldChat = val;
-});
-if (localStorage.oldChat) {
-    $("#message").val(localStorage.oldChat);
-    delete localStorage.oldChat;
-}
+    $(window).unload(function() {
+        // Store chat text (if any)
+        var val = $("div.chat-public input.chat-text").val();
+        if (!val) return;
+        localStorage.oldChat = val;
+    });
+    if (localStorage.oldChat) {
+        $("div.chat-public input.chat-text").val(localStorage.oldChat);
+        delete localStorage.oldChat;
+    }
+})();
