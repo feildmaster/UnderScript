@@ -37,7 +37,8 @@ var eventManager = {
                 try {
                     ev.call(meta, data);
                 } catch (e) {
-                    console.error(`Error ocurred while parsing event: ${ev.displayName || ev.name || `unnamed(${event})`}`, e);
+                    console.error(`Error ocurred while parsing event: ${ev.displayName || ev.name || 'unnamed'}(${event})`);
+                    console.error(e.stack);
                 }
             });
         }
