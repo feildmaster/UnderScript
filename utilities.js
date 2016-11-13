@@ -47,6 +47,38 @@ var eventManager = {
         return this.emit(event, JSON.parse(bin2str(data)), cancelable);
     },
 };
+var log = {
+    init: function () {
+        var hi = $("<div id='history'></div>"),
+            ha = $("<div class='handle'>History</div>"),
+            lo = $("<div id='log'></div>");
+        // Positional math
+        var pos = parseInt($("div.mainContent").css("width")) + parseInt($("div.mainContent").css("margin-left"));
+        hi.css({
+            width: `${window.innerWidth - pos - 20}px`,
+            border: "2px solid white",
+            "background-color": "rgba(0,0,0,0.9)",
+            "position": "absolute",
+            right: 10,
+            top: 10,
+        });
+        ha.css({
+            "border-bottom": "1px solid white",
+            "text-align": "center",
+        });
+        lo.css({
+            "overflow-y": "auto",
+            "max-height": "600px",
+        });
+        hi.append(ha);
+        hi.append(lo);
+        $("body").append(hi);
+    },
+    add: function(text) {
+        var add = text instanceof jQuery ? text : `<div>${text}</div>`;
+        $("div#history div#log").prepend(add); // Be lazy and prepend, or append and scroll down?
+    },
+};
 var fn = { // Not used
     each: function(o, f, t) {
         if (!o) return;
