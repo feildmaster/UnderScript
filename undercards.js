@@ -2,8 +2,9 @@
 // @name         UnderCards script
 // @description  Minor changes to undercards game
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=4
-// @version      0.8
+// @version      0.8.1
 // @author       feildmaster
+// @history    0.8.1 - Rework loading jQuery performance
 // @history      0.8 - Better performance and reliability. Disable the join queue buttons until they are ready
 // @history      0.7 - updated to new restrictions, thanks cloudflare -_-
 // @history      0.6 - some upgrades to the battle log, fixed url
@@ -31,10 +32,12 @@
 // === Variables start
 var hotkeys = [
     new Hotkey("Focus Chat").bindKey(13).run(function(e) { // Join/Show chat and position cursor to input box
+        /* This doesn't work anymore. Enter brings up a chat list
         if (hide) {
             // This currently already works
         }
         $('#message').focus(); // Always do this
+        // */
     }),
 ];
 // === Variables end
@@ -229,9 +232,15 @@ eventManager.on("GameStart", function battleLogger() {
                     players[key].lives = temp[key];
                 }
                 return;
-            case "getVictory": // TODO
-            case "getVictoryDeco": // TODO
-            case "getDefeat": // TODO
+            case "getVictoryDeco":
+                finished = true;
+                log.add(`${make.player(players[opponentId])} left the game`);
+            case "getVictory":
+                log.add(`${make.player(players[userId])} beat ${make.player(players[opponentId])}`);
+                break;
+            case "getDefeat":
+                finished = true;
+                log.add(`${make.player(players[opponentId])} beat ${make.player(players[userId])}`);
                 break;
             case "getResult": // Fight Finish
                 finished = true;
@@ -252,34 +261,41 @@ eventManager.on("GameStart", function battleLogger() {
 
 // === Play hooks
 onPage("Play", function() {
+    // TODO: Better "game found" support
     debug("On play page");
-    function applyDeck(type, last) {
-        var deck = $(`#${type}`);
-        if (!deck.length) return;
-        if (localStorage[last] && $(`#${type} option`).filter((i,o) => o.value === localStorage[last]).length !== 0) {
-            deck.val(localStorage[last]).change();
-        }
-        deck.change(function update() {
-            localStorage[last] = $(`#${type} option:selected`).val();
-        });
-    }
+    var queues, disable = true;
 
-    applyDeck("classicDecks", "lastClassic"); // Classic class storage
-    applyDeck("rankedDecks", "lastRanked"); // Ranked class storage
-    applyDeck("eventDecks", "lastEvent"); // Event class storage
-    var queues = $("button.btn.btn-primary");
-    queues.prop("disabled", true);
+    eventManager.on("jQuery", function onPlay() {
+        function applyDeck(type, last) {
+            var deck = $(`#${type}`);
+            if (!deck.length) return;
+            if (localStorage[last] && $(`#${type} option`).filter((i,o) => o.value === localStorage[last]).length !== 0) {
+                deck.val(localStorage[last]).change();
+            }
+            deck.change(function update() {
+                localStorage[last] = $(`#${type} option:selected`).val();
+            });
+        }
+
+        applyDeck("classicDecks", "lastClassic"); // Classic class storage
+        applyDeck("rankedDecks", "lastRanked"); // Ranked class storage
+        applyDeck("eventDecks", "lastEvent"); // Event class storage
+        if (disable) {
+            queues = $("button.btn.btn-primary");
+            queues.prop("disabled", true);
+        }
+    });
 
     (function hook() {
         if (typeof socketQueue === "undefined") {
             debug("Timeout hook");
             return setTimeout(hook);
         }
-        // TODO: Better "game found" support
         var oOpen = socketQueue.onopen;
         socketQueue.onopen = function onOpenScript(event) {
-            if (oOpen) oOpen(event);
-            queues.prop("disabled", false);
+            disable = false;
+            oOpen(event);
+            if (queues) queues.prop("disabled", false);
         };
         var oHandler = socketQueue.onmessage;
         socketQueue.onmessage = function onMessageScript(event) {
@@ -301,7 +317,7 @@ onPage("Game", function() {
         var oHandler = socket.onmessage;
         socket.onmessage = function onMessageScript(event) {
             var data = JSON.parse(bin2str(event.data));
-            //console.log(bin2str(event.data));
+            //debug(bin2str(event.data));
             oHandler(event);
             if (data.action === "getGameStarted") {
                 // We're running our game.
@@ -324,7 +340,7 @@ onPage("gameSpectate", function() {
         }
         var oHandler = socket.onmessage;
         socket.onmessage = function onMessageScript(event) {
-            //console.log(bin2str(event.data));
+            //debug(bin2str(event.data));
             oHandler(event);
             eventManager._emitRaw("GameEvent", event.data);
         };
@@ -332,14 +348,7 @@ onPage("gameSpectate", function() {
 });
 
 // === Always do the following - if jquery is loaded
-var tries = 3;
-(function jSetup() {
-    if (typeof jQuery === "undefined") {
-        if (tries-- > 0) { // jQuery is probably not going to load at this point...
-            setTimeout(jSetup);
-        }
-        return;
-    }
+eventManager.on("jQuery", function always() {
     // Bind hotkey listeners
     $(document).on("click.script", function (event) {
         if (false) return; // TODO: Check for clicking in chat
@@ -357,14 +366,29 @@ var tries = 3;
             }
         });
     });
-    $(window).unload(function() {
-        // Store chat text (if any)
-        var val = $("div.chat-public input.chat-text").val();
-        if (!val) return;
-        localStorage.oldChat = val;
-    });
-    if (localStorage.oldChat) {
-        $("div.chat-public input.chat-text").val(localStorage.oldChat);
-        delete localStorage.oldChat;
+	/* This legacy code doesn't work
+	$(window).unload(function() {
+		// Store chat text (if any)
+		var val = $("div.chat-public input.chat-text").val();
+		if (!val) return;
+		localStorage.oldChat = val;
+	});
+	if (localStorage.oldChat) {
+		$("div.chat-public input.chat-text").val(localStorage.oldChat);
+		delete localStorage.oldChat;
+	}
+	// */
+});
+
+// Attempt to detect jQuery
+var tries = 20;
+(function jSetup() {
+    if (typeof jQuery === "undefined") {
+        if (tries-- <= 0) { // jQuery is probably not going to load at this point...
+            return;
+        }
+        setTimeout(jSetup,1);
+        return;
     }
+    eventManager.emit("jQuery");
 })();
