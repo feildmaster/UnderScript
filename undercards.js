@@ -2,8 +2,9 @@
 // @name         UnderCards script
 // @description  Minor changes to undercards game
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=4
-// @version      0.8.1
+// @version      0.8.2
 // @author       feildmaster
+// @history    0.8.2 - Fix the queue disconnecting.
 // @history    0.8.1 - Rework loading jQuery performance
 // @history      0.8 - Better performance and reliability. Disable the join queue buttons until they are ready
 // @history      0.7 - updated to new restrictions, thanks cloudflare -_-
@@ -291,6 +292,7 @@ onPage("Play", function() {
             debug("Timeout hook");
             return setTimeout(hook);
         }
+    	socket = socketQueue;
         var oOpen = socketQueue.onopen;
         socketQueue.onopen = function onOpenScript(event) {
             disable = false;
