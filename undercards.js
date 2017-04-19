@@ -1,9 +1,10 @@
 // ==UserScript==
 // @name         UnderCards script
 // @description  Minor changes to undercards game
-// @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=4
-// @version      0.8.2
+// @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=5
+// @version      0.8.3
 // @author       feildmaster
+// @history    0.8.3 - Script works now
 // @history    0.8.2 - Fix the queue disconnecting.
 // @history    0.8.1 - Rework loading jQuery performance
 // @history      0.8 - Better performance and reliability. Disable the join queue buttons until they are ready
@@ -301,7 +302,7 @@ onPage("Play", function() {
         };
         var oHandler = socketQueue.onmessage;
         socketQueue.onmessage = function onMessageScript(event) {
-            var data = JSON.parse(bin2str(event.data));
+            var data = JSON.parse(event.data);
             oHandler(event);
             eventManager.emit(data.action, data);
         };
@@ -318,8 +319,8 @@ onPage("Game", function() {
         }
         var oHandler = socket.onmessage;
         socket.onmessage = function onMessageScript(event) {
-            var data = JSON.parse(bin2str(event.data));
-            //debug(bin2str(event.data));
+            var data = JSON.parse(event.data);
+            //debug(event.data);
             oHandler(event);
             if (data.action === "getGameStarted") {
                 // We're running our game.
@@ -342,7 +343,7 @@ onPage("gameSpectate", function() {
         }
         var oHandler = socket.onmessage;
         socket.onmessage = function onMessageScript(event) {
-            //debug(bin2str(event.data));
+            //debug(event.data);
             oHandler(event);
             eventManager._emitRaw("GameEvent", event.data);
         };
