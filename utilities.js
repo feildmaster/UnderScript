@@ -45,7 +45,7 @@ var eventManager = {
         return cancelable && meta.canceled;
     },
     _emitRaw: function(event, data, cancelable) {
-        return this.emit(event, JSON.parse(bin2str(data)), cancelable);
+        return this.emit(event, JSON.parse(data), cancelable);
     },
 };
 var log = {
