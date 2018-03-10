@@ -2,8 +2,9 @@
 // @name         UnderCards script
 // @description  Minor changes to undercards game
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=5
-// @version      0.8.3
+// @version      0.8.4
 // @author       feildmaster
+// @history    0.8.4 - Removed "remember deck" feature (upstream), fixed event log
 // @history    0.8.3 - Script works now
 // @history    0.8.2 - Fix the queue disconnecting.
 // @history    0.8.1 - Rework loading jQuery performance
@@ -23,7 +24,7 @@
 // @website      https://github.com/feildmaster/UnderScript
 // @supportURL   https://github.com/feildmaster/UnderScript/issues
 // @downloadURL  https://raw.githubusercontent.com/feildmaster/UnderScript/master/undercards.js
-// @namespace    http://tampermonkey.net/
+// @namespace    https://feildmaster.com/
 // @grant        none
 // ==/UserScript==
 // TODO: more Hotkeys
@@ -32,16 +33,7 @@
 // TODO: Detailed history log
 
 // === Variables start
-var hotkeys = [
-    new Hotkey("Focus Chat").bindKey(13).run(function(e) { // Join/Show chat and position cursor to input box
-        /* This doesn't work anymore. Enter brings up a chat list
-        if (hide) {
-            // This currently already works
-        }
-        $('#message').focus(); // Always do this
-        // */
-    }),
-];
+var hotkeys = [];
 // === Variables end
 
 eventManager.on("getWaitingQueue", function lowerVolume() {
@@ -51,7 +43,9 @@ eventManager.on("getWaitingQueue", function lowerVolume() {
 
 eventManager.on("PlayingGame", function bindHotkeys() {
     // Binds to Space, Middle Click
-    hotkeys.push(new Hotkey("End turn").bindKey(32).bindClick(2).run((e) => {if (!$(e.target).is("#endTurnBtn") && userTurn && userTurn === userId) endTurn();}));
+    hotkeys.push(new Hotkey("End turn").bindKey(32).bindClick(2).run((e) => {
+        if (!$(e.target).is("#endTurnBtn") && userTurn && userTurn === userId) endTurn();
+    }));
 });
 
 eventManager.on("GameStart", function battleLogger() {
@@ -81,14 +75,14 @@ eventManager.on("GameStart", function battleLogger() {
         // TODO: Delayed events... (green soul, discard (for example, sans))
         var card, you, enemy;
         // Battle logging happens after the game runs
-        switch(data.action) {
+        switch (data.action) {
             case "getAllGameInfos": // Initialize "spectate" history here
                 // board = [0, 1, 2, 3, 4, 5, 6, 7, 8]
                 // ---- typeCard: 0 = enemy; 1: spell
                 // -- card: {attack, hp, maxHp, originalAttack, originalHp, paralyzed, silence, poisoned, taunt, id, typeCard, name, image, cost, description, rarity, shiny, quantity}
                 // TODO: turnTime monitoring
                 you = JSON.parse(data.you);
-                enemy = JSON.parse(data.ennemy);
+                enemy = JSON.parse(data.enemy);
                 you.class = data.yourClass;
                 enemy.class = data.enemyClass;
                 // Set gold
@@ -248,11 +242,7 @@ eventManager.on("GameStart", function battleLogger() {
                 finished = true;
                 if (data.cause === "Surrender") {
                     log.add(`${data.looser} surrendered.`);
-                }
-                if (data.cause === "Chara") {
-                    //log.add(`${data.winner} played Chara`);
-                }
-                if (data.cause === "Disconnection") {
+                } else if (data.cause === "Disconnection") {
                     log.add(`${data.looser} disconnected.`);
                 }
                 log.add(`${data.winner} beat ${data.looser}`);
@@ -262,26 +252,12 @@ eventManager.on("GameStart", function battleLogger() {
 });
 
 // === Play hooks
-onPage("Play", function() {
+onPage("Play", function () {
     // TODO: Better "game found" support
     debug("On play page");
     var queues, disable = true;
 
     eventManager.on("jQuery", function onPlay() {
-        function applyDeck(type, last) {
-            var deck = $(`#${type}`);
-            if (!deck.length) return;
-            if (localStorage[last] && $(`#${type} option`).filter((i,o) => o.value === localStorage[last]).length !== 0) {
-                deck.val(localStorage[last]).change();
-            }
-            deck.change(function update() {
-                localStorage[last] = $(`#${type} option:selected`).val();
-            });
-        }
-
-        applyDeck("classicDecks", "lastClassic"); // Classic class storage
-        applyDeck("rankedDecks", "lastRanked"); // Ranked class storage
-        applyDeck("eventDecks", "lastEvent"); // Event class storage
         if (disable) {
             queues = $("button.btn.btn-primary");
             queues.prop("disabled", true);
@@ -293,7 +269,7 @@ onPage("Play", function() {
             debug("Timeout hook");
             return setTimeout(hook);
         }
-    	socket = socketQueue;
+        socket = socketQueue;
         var oOpen = socketQueue.onopen;
         socketQueue.onopen = function onOpenScript(event) {
             disable = false;
@@ -310,7 +286,7 @@ onPage("Play", function() {
 });
 
 // === Game hooks
-onPage("Game", function() {
+onPage("Game", function () {
     debug("Playing Game");
     (function hook() {
         if (typeof socket === "undefined") {
@@ -333,7 +309,7 @@ onPage("Game", function() {
 });
 
 // Spectate hooks
-onPage("gameSpectate", function() {
+onPage("gameSpectate", function () {
     debug("Spectating Game");
     eventManager.emit("GameStart");
     (function hook() {
@@ -343,7 +319,6 @@ onPage("gameSpectate", function() {
         }
         var oHandler = socket.onmessage;
         socket.onmessage = function onMessageScript(event) {
-            //debug(event.data);
             oHandler(event);
             eventManager._emitRaw("GameEvent", event.data);
         };
@@ -355,7 +330,7 @@ eventManager.on("jQuery", function always() {
     // Bind hotkey listeners
     $(document).on("click.script", function (event) {
         if (false) return; // TODO: Check for clicking in chat
-        hotkeys.forEach(function(v) {
+        hotkeys.forEach(function (v) {
             if (v.clickbound(event.which)) {
                 v.run(event);
             }
@@ -363,24 +338,24 @@ eventManager.on("jQuery", function always() {
     });
     $(document).on("keyup.script", function (event) {
         if ($(event.target).is("input")) return; // We don't want to listen while typing in chat (maybe listen for F-keys?)
-        hotkeys.forEach(function(v) {
+        hotkeys.forEach(function (v) {
             if (v.keybound(event.which)) {
                 v.run(event);
             }
         });
     });
-	/* This legacy code doesn't work
-	$(window).unload(function() {
-		// Store chat text (if any)
-		var val = $("div.chat-public input.chat-text").val();
-		if (!val) return;
-		localStorage.oldChat = val;
-	});
-	if (localStorage.oldChat) {
-		$("div.chat-public input.chat-text").val(localStorage.oldChat);
-		delete localStorage.oldChat;
-	}
-	// */
+    /* This legacy code doesn't work
+    $(window).unload(function() {
+      // Store chat text (if any)
+      var val = $("div.chat-public input.chat-text").val();
+      if (!val) return;
+      localStorage.oldChat = val;
+    });
+    if (localStorage.oldChat) {
+      $("div.chat-public input.chat-text").val(localStorage.oldChat);
+      delete localStorage.oldChat;
+    }
+    // */
 });
 
 // Attempt to detect jQuery
@@ -390,7 +365,7 @@ var tries = 20;
         if (tries-- <= 0) { // jQuery is probably not going to load at this point...
             return;
         }
-        setTimeout(jSetup,1);
+        setTimeout(jSetup, 1);
         return;
     }
     eventManager.emit("jQuery");
