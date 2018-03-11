@@ -63,7 +63,7 @@ const log = {
       width: `${window.innerWidth - pos - 20}px`,
       border: "2px solid white",
       "background-color": "rgba(0,0,0,0.9)",
-      "position": "absolute",
+      position: "absolute",
       right: 10,
       top: 10,
     });
@@ -72,6 +72,9 @@ const log = {
       "text-align": "center",
     });
     lo.css({
+      display: 'flex',
+      'flex-direction': 'column-reverse',
+      'align-items': 'flex-start',
       "overflow-y": "auto",
       "max-height": "600px",
     });
@@ -86,7 +89,7 @@ const log = {
       div.append(a);
     });
     if (!div.html()) return;
-    $("div#history div#log").prepend(div); // Be lazy and prepend, or append and scroll down?
+    $("div#history div#log").append(div); // Be lazy and prepend, or append and scroll down?
   },
 };
 var fn = { // Not used
