@@ -3,7 +3,7 @@
 // @description  Minor changes to undercards game
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.4.1/simpletoast.js
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=5
-// @version      0.9.0-beta
+// @version      0.9
 // @author       feildmaster
 // @history    0.9.0 - Added detailed history log, log is top-bottom now, battle end is now a toast
 // @history    0.8.5 - Added some game debug
