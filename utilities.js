@@ -54,11 +54,11 @@ const eventManager = (() => {
 })();
 const log = {
   init: function () {
-    var hi = $("<div id='history'></div>"),
+    const hi = $("<div id='history'></div>"),
       ha = $("<div class='handle'>History</div>"),
       lo = $("<div id='log'></div>");
     // Positional math
-    var pos = parseInt($("div.mainContent").css("width")) + parseInt($("div.mainContent").css("margin-left"));
+    const pos = parseInt($("div.mainContent").css("width")) + parseInt($("div.mainContent").css("margin-left"));
     hi.css({
       width: `${window.innerWidth - pos - 20}px`,
       border: "2px solid white",
@@ -66,6 +66,7 @@ const log = {
       position: "absolute",
       right: 10,
       top: 10,
+      'z-index': 20,
     });
     ha.css({
       "border-bottom": "1px solid white",
@@ -85,11 +86,10 @@ const log = {
   add: function (...args) {
     const div = $('<div>');
     args.forEach((a) => {
-      if (div.html()) div.append(' ');
       div.append(a);
     });
     if (!div.html()) return;
-    $("div#history div#log").append(div); // Be lazy and prepend, or append and scroll down?
+    $("div#history div#log").prepend(div);
   },
 };
 var fn = { // Not used
