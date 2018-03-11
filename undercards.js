@@ -3,8 +3,9 @@
 // @description  Minor changes to undercards game
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.4.1/simpletoast.js
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=5
-// @version      0.9
+// @version      0.9.1
 // @author       feildmaster
+// @history    0.9.1 - Spectate result music is now disabled if you disable music playing.
 // @history    0.9.0 - Added detailed history log, log is top-bottom now, battle end is now a toast
 // @history    0.8.5 - Added some game debug
 // @history    0.8.4 - Removed "remember deck" feature (upstream), fixed event log
@@ -330,6 +331,9 @@ eventManager.on("GameStart", function battleLogger() {
       log.add(`${data.looser} surrendered.`);
     } else if (data.cause === "Disconnection") {
       log.add(`${data.looser} disconnected.`);
+    }
+    if (localStorage.getItem('gameMusicDisabled')) {
+      music.pause();
     }
     // TODO: colorize
     log.add(`${data.winner} beat ${data.looser}`);
