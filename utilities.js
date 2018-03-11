@@ -155,6 +155,28 @@ const fn = {
     }
     return status;
   },
+  toast: (arg) => {
+    if (!window.SimpleToast) return false;
+    SimpleToast(arg);
+    return true;
+  },
+  debug: (arg, permission = 'debugging') => {
+    if (typeof arg === 'string') {
+      arg = {
+        text: arg,
+      };
+    }
+    arg.css = {
+      background: '#c8354e',
+      textShadow: '#e74c3c 1px 2px 1px',
+      button: {
+        // Don't use buttons, mouseOver sucks
+        background: '#e25353',
+        textShadow: '#46231f 0px 0px 3px',
+      },
+    };
+    return localStorage.getItem(permission) === 'true' && fn.toast(arg);
+  },
 };
 class Hotkey {
   constructor(name) {

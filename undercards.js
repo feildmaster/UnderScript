@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         UnderCards script
 // @description  Minor changes to undercards game
+// @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.4.1/simpletoast.js
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=5
 // @version      0.9.0-beta
 // @author       feildmaster
-// @history    0.9.0 - Added detailed history log, log is top-bottom now
+// @history    0.9.0 - Added detailed history log, log is top-bottom now, battle end is now a toast
 // @history    0.8.5 - Added some game debug
 // @history    0.8.4 - Removed "remember deck" feature (upstream), fixed event log
 // @history    0.8.3 - Script works now
@@ -139,14 +140,12 @@ eventManager.on("GameStart", function battleLogger() {
 
   eventManager.on('GameEvent', function logEvent(data) {
     if (finished) { // Sometimes we get events after the battle is over
-      if (localStorage.getItem('debugging.extra') === "true") {
-        log.add(`Extra action: ${data.action}`);
-      }
+      fn.debug(`Extra action: ${data.action}`, 'debugging.extra');
       return;
     }
     const emitted = eventManager.emit(data.action, data).ran;
-    if (!emitted && localStorage.getItem('debugging') === "true") {
-      log.add(`Unknown action: ${data.action}`);
+    if (!emitted) {
+      fn.debug(`Unknown action: ${data.action}`);
     }
   });
 
@@ -334,6 +333,20 @@ eventManager.on("GameStart", function battleLogger() {
     }
     // TODO: colorize
     log.add(`${data.winner} beat ${data.looser}`);
+    const toast = {
+      title: 'Game Finished',
+      text: 'Return Home',
+      buttons: {
+        className: 'skiptranslate',
+        text: '🏠',
+        onclick: () => {
+          document.location.href = "/";
+        },
+      },
+    };
+    if (!localStorage.getItem('setting.disableResultToast') && fn.toast(toast)) {
+      BootstrapDialog.closeAll();
+    }
   });
   eventManager.on('updateMonster', function updateCard(data) {
     // monster {card}
