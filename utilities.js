@@ -22,10 +22,12 @@ const eventManager = (() => {
   return {
     on: function (event, fn) {
       if (typeof fn !== "function") return;
-      if (!events.hasOwnProperty(event)) {
-        events[event] = [];
-      }
-      events[event].push(fn);
+      event.split(' ').forEach((e) => {
+        if (!events.hasOwnProperty(e)) {
+          events[e] = [];
+        }
+        events[e].push(fn);
+      });
     },
     emit: function (event, data, cancelable = false) {
       const lEvents = events[event];
