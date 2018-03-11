@@ -2,8 +2,9 @@
 // @name         UnderCards script
 // @description  Minor changes to undercards game
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=5
-// @version      0.8.4
+// @version      0.8.5
 // @author       feildmaster
+// @history    0.8.5 - Added some game debug
 // @history    0.8.4 - Removed "remember deck" feature (upstream), fixed event log
 // @history    0.8.3 - Script works now
 // @history    0.8.2 - Fix the queue disconnecting.
@@ -71,7 +72,12 @@ eventManager.on("GameStart", function battleLogger() {
     // TODO: Clean this up
     // This is an ugly thing!
     eventManager.on("GameEvent", function logEvent(data) {
-        if (finished) return; // Sometimes we get events after the battle is over
+        if (finished) { // Sometimes we get events after the battle is over
+            if (localStorage.getItem("debuggingExtra") === "true") {
+                log.add(`Extra action: ${data.action}`);
+            }
+            return;
+        }
         // TODO: Delayed events... (green soul, discard (for example, sans))
         var card, you, enemy;
         // Battle logging happens after the game runs
@@ -98,6 +104,7 @@ eventManager.on("GameStart", function battleLogger() {
                     if (card === null) return;
                     monsters[card.id] = card;
                 });
+                // Gracefully fallthrough
             case "getGameStarted": // Initialize "game" history here
                 turn = data.turn || 0;
                 if (!you) {
@@ -117,13 +124,13 @@ eventManager.on("GameStart", function battleLogger() {
                     currentTurn = data.userTurn;
                     log.add(`${make.player(players[data.userTurn])}'s turn`);
                 }
-                return;
+                break;
             case "getFight": // monster attack monster
                 log.add(`${make.card(monsters[data.attackMonster])} attacked ${make.card(monsters[data.defendMonster])}`);
-                return;
+                break;
             case "getFightPlayer": // monster attacking player
                 log.add(`${make.card(monsters[data.attackMonster])} attacked ${make.player(players[data.defendPlayer])}`);
-                return;
+                break;
             case "getUpdatePlayerHp":
                 var oHp = players[data.playerId].hp;
                 var hp = data.isDamage ? oHp - data.hp : data.hp - oHp;
@@ -135,8 +142,8 @@ eventManager.on("GameStart", function battleLogger() {
                     log.add(`${make.player(players[data.playerId])} lost a life`);
                     players[data.playerId].lostLife = true;
                 }
-                return;
-            case "getDoingEffect": // Card doing effect
+                break;
+            case "getDoingEffect":
                 // affecteds: [ids]; monsters affected
                 // playerAffected1: id; player affected
                 // playerAffected2: id; player affected
@@ -144,17 +151,14 @@ eventManager.on("GameStart", function battleLogger() {
                 if (lastEffect === data.monsterId) return;
                 lastEffect = data.monsterId;
                 log.add(`${make.card(monsters[data.monsterId])}'s effect activated.`);
-                return;
-            case "getSoulDoingEffect": // Soul doing effect
+                break;
+            case "getSoulDoingEffect":
                 log.add(`${make.player(players[data.playerId])}'s soul activated.`);
                 // affecteds
                 // playerAffected1
                 // playerAffected2
-                return;
-            case "updateMonster":
-                // monster {card}
-                return;
-            case "getTurnStart": // Turn started
+                break;
+            case "getTurnStart":
                 lastEffect = 0;
                 if (data.numTurn !== turn) {
                     log.add(`Turn ${data.numTurn}`);
@@ -162,14 +166,14 @@ eventManager.on("GameStart", function battleLogger() {
                 currentTurn = data.idPlayer; // It would (kindof) help to actually update who's turn it is
                 turn = data.numTurn;
                 log.add(`${make.player(players[currentTurn])}'s turn`);
-                return;
-            case "getTurnEnd": // Turn ended
+                break;
+            case "getTurnEnd":
                 // Lets switch the turn NOW, rather than later, the purpose of this is currently unknown... It just sounded like a good idea, also delete the "lostLife" flag...
                 delete players[currentTurn].lostLife;
                 currentTurn = other[data.idPlayer];
                 delete players[currentTurn].lostLife;
                 lastEffect = 0;
-                return;
+                break;
             case "getUpdateBoard":
                 var oldMonsters = monsters;
                 monsters = {};
@@ -178,41 +182,29 @@ eventManager.on("GameStart", function battleLogger() {
                     if (card === null) return;
                     monsters[card.id] = card;
                 });
-                return;
-            case "getMonsterDestroyed": // Monster killed
+                break;
+            case "getMonsterDestroyed":
                 // monsterId: #
                 log.add(`${make.card(monsters[data.monsterId])} was killed`);
                 delete monsters[data.monsterId];
-                return;
-                //case "refreshTimer": // Probably don't need this
-            case "getPlayableCards": // Probably don't need this
-                // playableCards [#...]
-                return;
+                break;
             case "getCardBoard": // Adds card to X, Y (0(enemy), 1(you))
-                // card
-                // idPlayer
                 card = JSON.parse(data.card);
                 monsters[card.id] = card;
                 log.add(`${make.player(players[data.idPlayer])} played ${make.card(card)}`);
-                return;
-            case "getSpellPlayed": // Spell used
-                // idPlayer
-                // card
+                break;
+            case "getSpellPlayed":
                 // immediately calls "getDoingEffect" and "getUpdateBoard"
                 card = JSON.parse(data.card);
                 monsters[card.id] = card;
                 log.add(`${make.player(players[data.idPlayer])} used ${make.card(card)}`);
-                return;
-            case "updateSpell": // Use spell
-                return;
-            case "getFakeDeath": // Card fake exploded... will be re-added 1 second later?
-                return;
-            case "getCardDestroyedHandFull": // Card destroyed from full hand
+                break;
+            case "getCardDestroyedHandFull":
                 card = JSON.parse(data.card);
                 // This event gets called for *all* discards. Have to do smarter logic here (not just currentTurn!)
                 log.add(`${make.player(players[currentTurn])} discarded ${make.card(card)}`);
-                return;
-            case "getPlayerStats": // TODO: When does this get called?
+                break;
+            case "getPlayersStats": // TODO: When does this get called?
                 var key, temp = JSON.parse(data.handsSize);
                 for (key in temp) {
                     // TODO: hand size monitoring
@@ -227,10 +219,13 @@ eventManager.on("GameStart", function battleLogger() {
                 for (key in temp) {
                     players[key].lives = temp[key];
                 }
-                return;
+                // data.artifcats
+                // data.turn
+                break;
             case "getVictoryDeco":
                 finished = true;
                 log.add(`${make.player(players[opponentId])} left the game`);
+                // Gracefully fallthrough
             case "getVictory":
                 log.add(`${make.player(players[userId])} beat ${make.player(players[opponentId])}`);
                 break;
@@ -238,7 +233,7 @@ eventManager.on("GameStart", function battleLogger() {
                 finished = true;
                 log.add(`${make.player(players[opponentId])} beat ${make.player(players[userId])}`);
                 break;
-            case "getResult": // Fight Finish
+            case "getResult":
                 finished = true;
                 if (data.cause === "Surrender") {
                     log.add(`${data.looser} surrendered.`);
@@ -246,7 +241,20 @@ eventManager.on("GameStart", function battleLogger() {
                     log.add(`${data.looser} disconnected.`);
                 }
                 log.add(`${data.winner} beat ${data.looser}`);
-                return;
+                break;
+            case "refreshTimer": break; // Probably don't need this
+            case "getPlayableCards": // Probably don't need this
+                // playableCards [#...]
+                break;
+            case "updateMonster":
+                // monster {card}
+                break;
+            case "updateSpell": break; // Use spell
+            case "getFakeDeath": break; // Card fake exploded... will be re-added 1 second later?
+            default:
+                if (localStorage.getItem("debugging") === "true") {
+                    log.add(`Unknown action: ${data.action}`);
+                }
         }
     });
 });
