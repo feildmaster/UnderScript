@@ -2,9 +2,10 @@
 // @name         UnderCards script
 // @description  Minor changes to undercards game
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.4.1/simpletoast.js
-// @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=5
-// @version      0.9.1
+// @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=6
+// @version      0.9.2
 // @author       feildmaster
+// @history    0.9.2 - Fixed enemy names *again* (copy/pasting is bad)
 // @history    0.9.1 - Spectate result music is now disabled if you disable music playing.
 // @history    0.9.0 - Added detailed history log, log is top-bottom now, battle end is now a toast
 // @history    0.8.5 - Added some game debug
@@ -31,10 +32,6 @@
 // @namespace    https://feildmaster.com/
 // @grant        none
 // ==/UserScript==
-// TODO: more Hotkeys
-// TODO: Visual attack targets
-// TODO: Random deck option
-// TODO: Delayed events... (green soul, discard (for example, sans))
 
 // === Variables start
 const hotkeys = [];
@@ -53,6 +50,26 @@ eventManager.on("PlayingGame", function bindHotkeys() {
 });
 
 eventManager.on("GameStart", function battleLogger() {
+  const ignoreEvents = Object.keys({
+    getConnectedFirst: '',
+    refreshTimer: 'Never need to know about this one',
+    getPlayableCards: 'On turn start, selects cards player can play',
+    getTurn: 'Turn update',
+    getCardDrawed: 'Add card to your hand',
+    updateSpell: '',
+    updateMonster: 'monster on board updated',
+    getFakeDeath: 'Card "died" and respawns 1 second later',
+    getArtifactDoingEffect: 'Artifact activates, should probably log an event',
+    getMonsterTemp: "You're about to play a monster",
+    getSpellTemp: "You're about to play a spell",
+    getTempCancel: 'Temp card cancelled',
+    getShowMulligan: 'Switching out hands, ignore it',
+    getHideMulligan: 'Hide the mulligan, gets called twice',
+    getUpdateHand: 'Updates full hand',
+    getReconnection: '',
+    getError: 'Takes you to "home" on errors, can be turned into a toast',
+    getGameError: 'Takes you to "play" on game errors, can be turned into a toast',
+  });
   let turn = 0, currentTurn = 0, players = {}, monsters = {}, lastEffect, other = {}, finished = false;
   const hover = (function wrapper() {
     let e, x, y;
@@ -127,7 +144,11 @@ eventManager.on("GameStart", function battleLogger() {
         });
       }
       data += `<img src="images/cards/${card.image}.png"/></td></tr>`;
-      data += `<tr><td class="cardDesc" colspan="4">${card.desc || ''}</td></tr>`;
+      data += `<tr><td class="cardDesc" colspan="4">${card.desc || ''}`
+      if (card.silence) {
+        data += '<img class="silenced" title="Silence" src="images/silence.png">';
+      }
+      data += '</td></tr>';
       if (!card.typeCard) {
         data += `<tr><td id="cardATQ">${card.attack}</td><td id="cardRarity" colspan="2"><img src="images/rarity/${card.rarity}.png" /></td><td id="cardHP" class="${card.hp!==card.maxHp ? "damaged" : ""}">${card.hp}</td></tr>`;
       } else {
@@ -151,6 +172,7 @@ eventManager.on("GameStart", function battleLogger() {
   });
 
   eventManager.on('getAllGameInfos getGameStarted', function initBattle(data) {
+    debug(data, 'debugging.game.raw');
     let you, enemy;
     // Battle logging happens after the game runs
     if (this.event === 'getAllGameInfos') {
@@ -183,8 +205,8 @@ eventManager.on("GameStart", function battleLogger() {
         gold: 2
       };
       enemy = {
-        id: data.ennemyId,
-        username: data.ennemyUsername,
+        id: data.enemyId,
+        username: data.enemyUsername,
         hp: 30,
         class: data.enemyClass,
         level: data.enemyLevel,
@@ -192,6 +214,8 @@ eventManager.on("GameStart", function battleLogger() {
         gold: 2
       };
     }
+    // artifacts, avatar {id, image, name, rarity, ucpCost}, division, oldDivision, profileSkin {id, name, image, ucpCost}
+    debug({you, enemy}, 'debugging.game');
     turn = data.turn || 0;
     players[you.id] = you;
     players[enemy.id] = enemy;
@@ -352,10 +376,7 @@ eventManager.on("GameStart", function battleLogger() {
       BootstrapDialog.closeAll();
     }
   });
-  eventManager.on('updateMonster', function updateCard(data) {
-    // monster {card}
-  });
-  eventManager.on('refreshTimer getPlayableCards updateSpell getFakeDeath',
+  eventManager.on(ignoreEvents.join(' '),
     function ignore() {});
 });
 

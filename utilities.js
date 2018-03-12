@@ -1,7 +1,7 @@
 // Utilities for undercards.js
-function debug(...args) {
-  if (localStorage.getItem("debugging") !== "true") return;
-  console.log(...args);
+function debug(message, permission = 'debugging') {
+  if (localStorage.getItem(permission) !== "true") return;
+  console.log(message);
 }
 
 function onPage(name, fn) {
