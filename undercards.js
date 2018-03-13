@@ -2,9 +2,10 @@
 // @name         UnderCards script
 // @description  Minor changes to undercards game
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.4.1/simpletoast.js
-// @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=6
-// @version      0.9.2
+// @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=7
+// @version      0.10
 // @author       feildmaster
+// @history     0.10 - Added deck card preview
 // @history    0.9.2 - Fixed enemy names *again* (copy/pasting is bad)
 // @history    0.9.1 - Spectate result music is now disabled if you disable music playing.
 // @history    0.9.0 - Added detailed history log, log is top-bottom now, battle end is now a toast
@@ -71,45 +72,6 @@ eventManager.on("GameStart", function battleLogger() {
     getGameError: 'Takes you to "play" on game errors, can be turned into a toast',
   });
   let turn = 0, currentTurn = 0, players = {}, monsters = {}, lastEffect, other = {}, finished = false;
-  const hover = (function wrapper() {
-    let e, x, y;
-
-    function update() {
-      if (!e) return;
-      e.css({
-        // move to left if at the edge of screen
-        left: x + e.width() + 15 < $(window).width() ? x + 15 : x - e.width() - 10,
-        // Try to lock to the bottom
-        top: y + e.height() + 18 > $(window).height() ? $(window).height() - e.height() : y + 18,
-      });
-    }
-    $(document).on("mousemove.script", function mouseMove(event) {
-      x = event.pageX;
-      y = event.pageY;
-      update();
-    });
-    return function hover(data, border = null) {
-      if (e) {
-        // Hide element
-        e.remove();
-        e = null;
-        return;
-      }
-      if (!data) return;
-      // Make the element
-      e = $("<div>");
-      e.append(data);
-      e.css({
-        border,
-        position: "fixed",
-        "background-color": "rgba(0,0,0,0.9)",
-        padding: '2px',
-        'z-index': 20,
-      });
-      $("body").append(e);
-      update();
-    };
-  })();
   const make = {
     player: function makePlayer(player, title = false) {
       const c = $('<span>');
@@ -119,7 +81,7 @@ eventManager.on("GameStart", function battleLogger() {
         c.css('text-decoration', 'underline');
         // show lives, show health, show gold, show hand, possibly deck size as well
         const data = `${player.hp} hp, ${player.gold} gold`;
-        c.hover(() => hover(data, '2px solid white'));
+        c.hover(hover.show(data, '2px solid white'));
       }
       return c;
     },
@@ -155,7 +117,7 @@ eventManager.on("GameStart", function battleLogger() {
         data += `<tr><td id="cardRarity" colspan="4"><img src="images/rarity/${card.rarity}.png" /></td></tr>`;
       }
       data += `</table>`;
-      c.hover(() => hover(data));
+      c.hover(hover.show(data));
       return c;
     },
   };
@@ -435,6 +397,35 @@ onPage("Game", function () {
       eventManager.emit('GameEvent', data);
     };
   })();
+});
+
+// Deck hook
+onPage('Decks', function () {
+  debug('Deck editor');
+  function hoverCard(element) {
+    const id = element.attr('id');
+    const shiny = element.hasClass('shiny') ? '.shiny' : '';
+    const card = $(`table#${id}${shiny}:lt(1)`).clone();
+    if (card.length !== 1) return;
+    card.find('#quantity').remove();
+    loadCard(card);
+    return hover.show(card);
+  }
+  // Initial load
+  $('li.list-group-item').each(function (index) {
+    const element = $(this);
+    element.hover(hoverCard(element));
+  });
+  $(document).ajaxSuccess((event, xhr, settings) => {
+    const data = JSON.parse(settings.data);
+    if (data.action === 'removeCard') { // Card was removed, hide element
+      hover.hide();
+    } else if (data.action === 'addCard') { // Card was added
+      const element = $(`#deckCards${data.classe || data.class} li:last`);
+      element.hover(hoverCard(element));
+      // TODO: Re-order the card
+    }
+  });
 });
 
 // Spectate hooks

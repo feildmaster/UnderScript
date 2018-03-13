@@ -1,3 +1,10 @@
+const footer = $('<div>').css({
+  width: '100%',
+  'text-align': 'center',
+  'font-size': '12px',
+  'font-family': 'monospace',
+}).html('UnderScript &copy;feildmaster');
+
 // Utilities for undercards.js
 function debug(message, permission = 'debugging') {
   if (localStorage.getItem(permission) !== "true") return;
@@ -98,6 +105,52 @@ const log = {
     $("div#history div#log").prepend(div);
   },
 };
+const hover = (() => {
+  let e, x, y;
+  function update() {
+    if (!e) return;
+    e.css({
+      // move to left if at the edge of screen
+      left: x + e.width() + 15 < $(window).width() ? x + 15 : x - e.width() - 10,
+      // Try to lock to the bottom
+      top: y + e.height() + 18 > $(window).height() ? $(window).height() - e.height() : y + 18,
+    });
+  }
+  $(document).on("mousemove.script", function mouseMove(event) {
+    x = event.pageX;
+    y = event.pageY;
+    update();
+  });
+  function hide() {
+    if (e) {
+      // Hide element
+      e.remove();
+      e = null;
+    }
+  }
+  function show(data, border = null) {
+    return function hoverAction(event) {
+      hide();
+      if (event.type === 'mouseleave') return;
+      e = $("<div>");
+      e.append(data);
+      e.append(footer.clone());
+      e.css({
+        border,
+        position: "fixed",
+        "background-color": "rgba(0,0,0,0.9)",
+        padding: '2px',
+        'z-index': 220,
+      });
+      $("body").append(e);
+      update();
+    };
+  }
+  return {
+    hide,
+    show,
+  };
+})();
 const fn = {
   each: function (o, f, t) {
     if (!o) return;
