@@ -3,8 +3,9 @@
 // @description  Minor changes to undercards game
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.4.1/simpletoast.js
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=7
-// @version      0.10
+// @version      0.10.1
 // @author       feildmaster
+// @history   0.10.1 - Moved file to proper extension (makes fresh installs easier)
 // @history     0.10 - Added deck card preview
 // @history    0.9.2 - Fixed enemy names *again* (copy/pasting is bad)
 // @history    0.9.1 - Spectate result music is now disabled if you disable music playing.
@@ -29,7 +30,7 @@
 // @match        https://undercards.net/*
 // @website      https://github.com/feildmaster/UnderScript
 // @supportURL   https://github.com/feildmaster/UnderScript/issues
-// @downloadURL  https://raw.githubusercontent.com/feildmaster/UnderScript/master/undercards.js
+// @downloadURL  https://raw.githubusercontent.com/feildmaster/UnderScript/test/undercards.user.js
 // @namespace    https://feildmaster.com/
 // @grant        none
 // ==/UserScript==
