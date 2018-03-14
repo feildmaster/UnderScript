@@ -3,8 +3,9 @@
 // @description  Minor changes to undercards game
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.4.1/simpletoast.js
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=7
-// @version      0.10.2
+// @version      0.10.3
 // @author       feildmaster
+// @history   0.10.3 - Fix refreshing page, Log artifact activations
 // @history   0.10.2 - Bump version so broken updates work (hopefully)
 // @history   0.10.1 - Moved file to proper extension (makes fresh installs easier)
 // @history     0.10 - Added deck card preview
@@ -62,14 +63,12 @@ eventManager.on("GameStart", function battleLogger() {
     updateSpell: '',
     updateMonster: 'monster on board updated',
     getFakeDeath: 'Card "died" and respawns 1 second later',
-    getArtifactDoingEffect: 'Artifact activates, should probably log an event',
     getMonsterTemp: "You're about to play a monster",
     getSpellTemp: "You're about to play a spell",
     getTempCancel: 'Temp card cancelled',
     getShowMulligan: 'Switching out hands, ignore it',
     getHideMulligan: 'Hide the mulligan, gets called twice',
     getUpdateHand: 'Updates full hand',
-    getReconnection: '',
     getError: 'Takes you to "home" on errors, can be turned into a toast',
     getGameError: 'Takes you to "play" on game errors, can be turned into a toast',
   });
@@ -126,24 +125,36 @@ eventManager.on("GameStart", function battleLogger() {
 
   eventManager.on('GameEvent', function logEvent(data) {
     if (finished) { // Sometimes we get events after the battle is over
-      fn.debug(`Extra action: ${data.action}`, 'debugging.extra');
+      fn.debug(`Extra action: ${data.action}`, 'debugging.events.extra');
       return;
     }
+    debug(data.action, 'debugging.events.name');
     const emitted = eventManager.emit(data.action, data).ran;
     if (!emitted) {
       fn.debug(`Unknown action: ${data.action}`);
     }
   });
 
-  eventManager.on('getAllGameInfos getGameStarted', function initBattle(data) {
-    debug(data, 'debugging.game.raw');
+  eventManager.on('getAllGameInfos getGameStarted getReconnection', function initBattle(data) {
+    debug(data, 'debugging.raw.game');
     let you, enemy;
     // Battle logging happens after the game runs
-    if (this.event === 'getAllGameInfos') {
+    if (this.event === 'getGameStarted') {
+      you = {
+        id: data.yourId,
+        username: data.yourUsername,
+        hp: 30, // This is wrong with artifacts? Maybe?
+        gold: 2, // This is wrong with artifacts? Maybe?
+      };
+      enemy = {
+        id: data.enemyId,
+        username: data.enemyUsername,
+        hp: 30, // This is wrong with artifacts? Maybe?
+        gold: 2, // This is wrong with artifacts? Maybe?
+      };
+    } else {
       you = JSON.parse(data.you);
       enemy = JSON.parse(data.enemy);
-      you.class = data.yourClass;
-      enemy.class = data.enemyClass;
       // Set gold
       const gold = JSON.parse(data.golds);
       you.gold = gold[you.id];
@@ -155,30 +166,18 @@ eventManager.on("GameStart", function battleLogger() {
       // populate monsters
       JSON.parse(data.board).forEach(function (card) {
         if (card === null) return;
+        // id, attack, hp, maxHp, originalattack, originalHp, typeCard, name, image, cost, originalCost, rarity, shiny, quantity
         card.desc = getDescription(card);
         monsters[card.id] = card;
       });
-    } else {
-      you = {
-        id: data.yourId,
-        username: data.yourUsername,
-        hp: 30,
-        class: data.yourClass,
-        level: data.yourLevel,
-        rank: data.yourRank,
-        gold: 2
-      };
-      enemy = {
-        id: data.enemyId,
-        username: data.enemyUsername,
-        hp: 30,
-        class: data.enemyClass,
-        level: data.enemyLevel,
-        rank: data.enemyRank,
-        gold: 2
-      };
     }
-    // artifacts, avatar {id, image, name, rarity, ucpCost}, division, oldDivision, profileSkin {id, name, image, ucpCost}
+    you.level = data.yourLevel;
+    you.class = data.yourClass;
+    you.rank = data.yourRank;
+    enemy.level = data.enemyLevel;
+    enemy.class = data.enemyClass;
+    enemy.rank = data.enemyRank;
+    // yourArtifacts, yourAvatar {id, image, name, rarity, ucpCost}, division, oldDivision, profileSkin {id, name, image, ucpCost}
     debug({you, enemy}, 'debugging.game');
     turn = data.turn || 0;
     players[you.id] = you;
@@ -200,6 +199,7 @@ eventManager.on("GameStart", function battleLogger() {
     log.add(make.card(monsters[data.attackMonster]), ' attacked ', target);
   });
   eventManager.on('getUpdatePlayerHp', function updateHP(data) {
+    debug(data, 'debugging.raw.updateHP');
     const oHp = players[data.playerId].hp;
     const hp = data.isDamage ? oHp - data.hp : data.hp - oHp;
     players[data.playerId].hp = data.hp;
@@ -212,23 +212,32 @@ eventManager.on("GameStart", function battleLogger() {
     }
   });
   eventManager.on('getDoingEffect', function doEffect(data) {
+    debug(data, 'debugging.raw.effect');
     // affecteds: [ids]; monsters affected
     // playerAffected1: id; player affected
     // playerAffected2: id; player affected
     // TODO: Figure out how to do this better
-    if (lastEffect === data.monsterId) return;
-    lastEffect = data.monsterId;
+    if (lastEffect === 'm' + data.monsterId) return;
+    lastEffect = 'm' + data.monsterId;
     log.add(make.card(monsters[data.monsterId]), "'s effect activated");
   });
+  eventManager.on('getArtifactDoingEffect', function doEffect(data) {
+    debug(data, 'debugging.raw.effectArtifact');
+    if (lastEffect === 'a' + data.playerId) return;
+    lastEffect = 'a' + data.playerId;
+    log.add(make.player(players[data.playerId]), "'s artifact activated");
+  });
   eventManager.on('getSoulDoingEffect', function soulEffect(data) {
-    if (lastEffect === data.playerId - 2) return;
-    lastEffect = data.playerId - 2;
+    debug(data, 'debugging.raw.effectSoul');
+    if (lastEffect === 's' + data.playerId) return;
+    lastEffect = 's' + data.playerId;
     log.add(make.player(players[data.playerId]), "'s soul activated");
     // affecteds
     // playerAffected1
     // playerAffected2
   });
   eventManager.on('getTurnStart', function turnStart(data) {
+    debug(data, 'debugging.raw.turnStart');
     lastEffect = 0;
     if (data.numTurn !== turn) {
       log.add(`Turn ${data.numTurn}`);
@@ -238,6 +247,7 @@ eventManager.on("GameStart", function battleLogger() {
     log.add(make.player(players[currentTurn]), "'s turn");
   });
   eventManager.on('getTurnEnd', function turnEnd(data) {
+    debug(data, 'debugging.raw.turnEnd');
     // Lets switch the turn NOW, rather than later, the purpose of this is currently unknown... It just sounded like a good idea, also delete the "lostLife" flag...
     if (time <= 0) {
       log.add(make.player(players[currentTurn]), ' timed out');
@@ -248,6 +258,7 @@ eventManager.on("GameStart", function battleLogger() {
     lastEffect = 0;
   });
   eventManager.on('getUpdateBoard', function updateGame(data) {
+    debug(data, 'debugging.raw.boardUpdate');
     const oldMonsters = monsters;
     monsters = {};
     // TOOD: stuff....
@@ -258,17 +269,20 @@ eventManager.on("GameStart", function battleLogger() {
     });
   });
   eventManager.on('getMonsterDestroyed', function monsterKilled(data) {
+    debug(data, 'debugging.raw.kill');
     // monsterId: #
     log.add(make.card(monsters[data.monsterId]), ' was killed');
     delete monsters[data.monsterId];
   });
   eventManager.on('getCardBoard', function playCard(data) { // Adds card to X, Y (0(enemy), 1(you))
+    debug(data, 'debugging.raw.boardAdd');
     const card = JSON.parse(data.card);
     card.desc = getDescription(card);
     monsters[card.id] = card;
     log.add(make.player(players[data.idPlayer]), ' played ', make.card(card));
   });
   eventManager.on('getSpellPlayed', function useSpell(data) {
+    debug(data, 'debugging.raw.spell');
     // immediately calls "getDoingEffect" and "getUpdateBoard"
     const card = JSON.parse(data.card);
     card.desc = getDescription(card);
@@ -276,6 +290,7 @@ eventManager.on("GameStart", function battleLogger() {
     log.add(make.player(players[data.idPlayer]), ' used ', make.card(card));
   });
   eventManager.on('getCardDestroyedHandFull', function (data) {
+    debug(data, 'debugging.raw.fullHand');
     const card = JSON.parse(data.card);
     card.desc = getDescription(card);
     debug(data.card);
@@ -283,6 +298,7 @@ eventManager.on("GameStart", function battleLogger() {
     log.add(make.player(players[currentTurn]), ' discarded ', make.card(card));
   });
   eventManager.on('getPlayersStats', function updatePlayer(data) { // TODO: When does this get called?
+    debug(data, 'debugging.raw.stats');
     let key, temp = JSON.parse(data.handsSize);
     for (key in temp) {
       // TODO: hand size monitoring
@@ -301,6 +317,7 @@ eventManager.on("GameStart", function battleLogger() {
     // data.turn
   });
   eventManager.on('getVictory getVictoryDeco getDefeat', function gameEnd(data) {
+    debug(data, 'debugging.raw.end');
     finished = true;
     if (this.event === 'getVictoryDeco') {
       log.add(make.player(players[opponentId]), " left the game");
@@ -314,6 +331,7 @@ eventManager.on("GameStart", function battleLogger() {
     }
   });
   eventManager.on('getResult', function endSpectating(data) {
+    debug(data, 'debugging.raw.end');
     finished = true;
     if (data.cause === "Surrender") {
       log.add(`${data.looser} surrendered.`);
@@ -340,8 +358,10 @@ eventManager.on("GameStart", function battleLogger() {
       BootstrapDialog.closeAll();
     }
   });
-  eventManager.on(ignoreEvents.join(' '),
-    function ignore() {});
+  eventManager.on(ignoreEvents.join(' '), function ignore(data) {
+    debug(data, 'debugging.raw.ignore');
+    debug(data, `debugging.raw.ignore.${this.event}`);
+  });
 });
 
 // === Play hooks
@@ -381,6 +401,8 @@ onPage("Play", function () {
 // === Game hooks
 onPage("Game", function () {
   debug("Playing Game");
+  eventManager.emit("GameStart");
+  eventManager.emit("PlayingGame");
   (function hook() {
     if (typeof socket === 'undefined') {
       debug("Timeout hook");
@@ -391,11 +413,6 @@ onPage("Game", function () {
       const data = JSON.parse(event.data);
       //eventManager.emit('PreGameEvent', data, true);
       oHandler(event);
-      if (data.action === "getGameStarted") {
-        // We're running our game.
-        eventManager.emit("GameStart");
-        eventManager.emit("PlayingGame");
-      }
       eventManager.emit('GameEvent', data);
     };
   })();
