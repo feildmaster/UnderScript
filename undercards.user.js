@@ -338,8 +338,12 @@ eventManager.on("GameStart", function battleLogger() {
     } else if (data.cause === "Disconnection") {
       log.add(`${data.looser} disconnected.`);
     }
-    if (localStorage.getItem('gameMusicDisabled')) {
-      music.pause();
+    if (typeof music !== 'undefined') {
+      music.addEventListener('playing', function () {
+        if (localStorage.getItem('gameMusicDisabled')) {
+          music.pause();
+        }
+      });
     }
     // TODO: colorize
     log.add(`${data.winner} beat ${data.looser}`);
