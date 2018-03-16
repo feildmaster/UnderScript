@@ -3,8 +3,9 @@
 // @description  Minor changes to undercards game
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.4.1/simpletoast.js
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=7
-// @version      0.10.3
+// @version      0.11
 // @author       feildmaster
+// @history     0.11 - Fix transparent deck preview, automatically sort deck
 // @history   0.10.3 - Fix refreshing page, Log artifact activations
 // @history   0.10.2 - Bump version so broken updates work (hopefully)
 // @history   0.10.1 - Moved file to proper extension (makes fresh installs easier)
@@ -445,9 +446,20 @@ onPage('Decks', function () {
     if (data.action === 'removeCard') { // Card was removed, hide element
       hover.hide();
     } else if (data.action === 'addCard') { // Card was added
-      const element = $(`#deckCards${data.classe || data.class} li:last`);
+      const element = $(`#deckCards${data.classe} li:last`);
       element.hover(hoverCard(element, true));
-      // TODO: Re-order the card
+
+      const list = $(`#deckCards${data.classe}`);
+      list.append(list.children('li').detach().sort(function (a, b) {
+        const card1 = $(`table#${$(a).attr('id')}`);
+        const card2 = $(`table#${$(b).attr('id')}`);
+        const card1cost = parseInt(card1.find('.cardCost').html(), 10);
+        const card2cost = parseInt(card2.find('.cardCost').html(), 10);
+        if (card1cost === card2cost) {
+          return card1.find('.cardName').html() > card2.find('.cardName').html() ? 1 : -1;
+        }
+        return card1cost > card2cost ? 1 : -1;
+      }));
     }
   });
 });
