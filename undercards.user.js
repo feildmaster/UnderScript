@@ -431,6 +431,7 @@ onPage('Decks', function () {
     const card = $(`table#${id}${shiny}:lt(1)`).clone();
     if (card.length !== 1) return;
     card.find('#quantity').remove();
+    if (card.css('opacity') !== '1') card.css('opacity', 1);
     loadCard(card);
     return hover.show(card);
   }
@@ -445,7 +446,7 @@ onPage('Decks', function () {
       hover.hide();
     } else if (data.action === 'addCard') { // Card was added
       const element = $(`#deckCards${data.classe || data.class} li:last`);
-      element.hover(hoverCard(element));
+      element.hover(hoverCard(element, true));
       // TODO: Re-order the card
     }
   });
