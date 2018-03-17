@@ -290,7 +290,12 @@ eventManager.on("GameStart", function battleLogger() {
     monsters[card.id] = card;
     log.add(make.player(players[data.idPlayer]), ' used ', make.card(card));
   });
-  eventManager.on('getCardDestroyedHandFull', function (data) {
+  eventManager.on('getShowCard', function showCard(data) {
+    const card = JSON.parse(data.card);
+    card.desc = getDescription(card);
+    log.add(make.player(players[data.idPlayer]), ' exposed ', make.card(card));
+  });
+  eventManager.on('getCardDestroyedHandFull', function destroyCard(data) {
     debug(data, 'debugging.raw.fullHand');
     const card = JSON.parse(data.card);
     card.desc = getDescription(card);
