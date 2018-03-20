@@ -11,7 +11,7 @@
 1. Lowers "game found" volume
 1. [Hot keys](#hotkeys)
 1. Battle Log<br>![Battle log](https://i.imgur.com/UR8jVLp.png)
-1. Game end is now a toast<br>![Toast](https://i.imgur.com/smND8qm.png)
+1. Game end (spectator) is now a toast<br>![Toast](https://i.imgur.com/smND8qm.png)
 1. Deck card preview<br>![Card Preview](https://i.imgur.com/kVo0Fbc.png)
 
 ### Hotkeys ###

@@ -3,8 +3,9 @@
 // @description  Minor changes to undercards game
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.4.1/simpletoast.js
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=7
-// @version      0.11
+// @version      0.11.1
 // @author       feildmaster
+// @history   0.11.1 - Peaking at cards now adds them to the battle log, join queue button stays disabled when the server is restarting
 // @history     0.11 - Fix transparent deck preview, automatically sort deck
 // @history   0.10.3 - Fix refreshing page, Log artifact activations
 // @history   0.10.2 - Bump version so broken updates work (hopefully)
@@ -379,11 +380,16 @@ onPage("Play", function () {
   // TODO: Better "game found" support
   debug("On play page");
   let queues, disable = true;
+  let restarting = false;
 
   eventManager.on("jQuery", function onPlay() {
     if (disable) {
       queues = $("button.btn.btn-primary");
       queues.prop("disabled", true);
+      restarting = $('p.infoMessage:contains("The server will restart in")').length === 1;
+      if (restarting) {
+        queues.hover(hover.show('Joining is disabled due to server restart.'));
+      }
     }
   });
 
@@ -397,7 +403,7 @@ onPage("Play", function () {
     socketQueue.onopen = function onOpenScript(event) {
       disable = false;
       oOpen(event);
-      if (queues) queues.prop("disabled", false);
+      if (queues && !restarting) queues.prop("disabled", false);
     };
     const oHandler = socketQueue.onmessage;
     socketQueue.onmessage = function onMessageScript(event) {
