@@ -323,10 +323,10 @@ eventManager.on("GameStart", function battleLogger() {
     // data.artifcats
     // data.turn
   });
-  eventManager.on('getVictory getVictoryDeco getDefeat', function gameEnd(data) {
+  eventManager.on('getVictory getDefeat', function gameEnd(data) {
     debug(data, 'debugging.raw.end');
     finished = true;
-    if (this.event === 'getVictoryDeco') {
+    if (data.disconnected) {
       log.add(make.player(players[opponentId]), " left the game");
     }
     const you = make.player(players[userId]);
