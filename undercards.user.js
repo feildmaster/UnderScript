@@ -497,7 +497,7 @@ onPage("gameSpectate", function () {
 // === Always do the following - if jquery is loaded
 eventManager.on("jQuery", function always() {
   // Bind hotkey listeners
-  $(document).on("click.script", function (event) {
+  $(document).on("mouseup.script", function (event) {
     if (false) return; // TODO: Check for clicking in chat
     hotkeys.forEach(function (v) {
       if (v.clickbound(event.which)) {
