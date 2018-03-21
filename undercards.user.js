@@ -51,8 +51,24 @@ eventManager.on("getWaitingQueue", function lowerVolume() {
 eventManager.on("PlayingGame", function bindHotkeys() {
   // Binds to Space, Middle Click
   hotkeys.push(new Hotkey("End turn").bindKey(32).bindClick(2).run((e) => {
-    if (!$(e.target).is("#endTurnBtn") && userTurn && userTurn === userId) endTurn();
+    if (!$(e.target).is("#endTurnBtn") && userTurn === userId) endTurn();
   }));
+});
+
+eventManager.on('PlayingGame', function fixEndTurn() {
+  const button = $('#endTurnBtn');
+  const oEndTurn = endTurn;
+  let endedTurn = false;
+  endTurn = function restrictedEndTurn() {
+    if (endedTurn || button.prop('disabled')) return;
+    endedTurn = true;
+    oEndTurn();
+  };
+
+  eventManager.on('getTurnStart', function turnStarted() {
+    if (userTurn !== userId) return;
+    endedTurn = false;
+  });
 });
 
 eventManager.on("GameStart", function battleLogger() {
