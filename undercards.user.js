@@ -3,8 +3,9 @@
 // @description  Minor changes to undercards game
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.4.1/simpletoast.js
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/master/utilities.js?v=7
-// @version      0.11.2
+// @version      0.11.3
 // @author       feildmaster
+// @history   0.11.3 - Fix mines (and other potential cards) staying around on the baord for too long
 // @history   0.11.2 - End turn once per turn, and add a 3 second delay. Fix middle click
 // @history   0.11.1 - Peaking at cards now adds them to the battle log, join queue button stays disabled when the server is restarting
 // @history     0.11 - Fix transparent deck preview, automatically sort deck
