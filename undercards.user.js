@@ -396,6 +396,10 @@ eventManager.on("GameStart", function battleLogger() {
     debug(data, 'debugging.raw.ignore');
     debug(data, `debugging.raw.ignore.${this.event}`);
   });
+  eventManager.on('getTurnEnd', function hideSpells() {
+    // Fixes a bug with "mines" and any other potential cards that don't get cleared correctly.
+    $('#board .spellPlayed').remove();
+  })
 });
 
 // === Play hooks
