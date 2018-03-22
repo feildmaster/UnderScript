@@ -490,7 +490,10 @@ onPage('Decks', function () {
         const card1cost = parseInt(card1.find('.cardCost').html(), 10);
         const card2cost = parseInt(card2.find('.cardCost').html(), 10);
         if (card1cost === card2cost) {
-          return card1.find('.cardName').html() > card2.find('.cardName').html() ? 1 : -1;
+          const card1name = card1.find('.cardName').html();
+          const card2name = card2.find('.cardName').html();
+          if (card1name == card2name) return 0;
+          return card1name > card2name ? 1 : -1;
         }
         return card1cost > card2cost ? 1 : -1;
       }));
