@@ -3,8 +3,9 @@
 // @description  Minor changes to undercards game
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.4.1/simpletoast.js
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/0.11.4/utilities.js
-// @version      0.11.4
+// @version      0.11.5
 // @author       feildmaster
+// @history   0.11.5 - The following now work again: end turn "fixes", deck auto-sort, deck preview.
 // @history   0.11.4 - Fix issue where script was not loading
 // @history   0.11.3 - Fix mines (and other potential cards) staying around on the baord for too long
 // @history   0.11.2 - End turn once per turn, and add a 3 second delay. Fix middle click
@@ -59,11 +60,10 @@ eventManager.on("PlayingGame", function bindHotkeys() {
 });
 
 eventManager.on('PlayingGame', function fixEndTurn() {
-  const button = $('#endTurnBtn');
   const oEndTurn = endTurn;
   let endedTurn = false;
   endTurn = function restrictedEndTurn() {
-    if (endedTurn || button.prop('disabled')) return;
+    if (endedTurn || $('#endTurnBtn').prop('disabled')) return;
     endedTurn = true;
     oEndTurn();
   };
@@ -72,9 +72,9 @@ eventManager.on('PlayingGame', function fixEndTurn() {
     if (userTurn !== userId) return;
     endedTurn = false;
     if (turn > 3) {
-      button.prop('disabled', true);
+      $('#endTurnBtn').prop('disabled', true);
       setTimeout(() => {
-        button.prop('disabled', false);
+        $('#endTurnBtn').prop('disabled', false);
       }, 3000);
     }
   });
@@ -477,33 +477,35 @@ onPage('Decks', function () {
     return hover.show(card);
   }
   // Initial load
-  $('li.list-group-item').each(function (index) {
-    const element = $(this);
-    element.hover(hoverCard(element));
-  });
-  $(document).ajaxSuccess((event, xhr, settings) => {
-    const data = JSON.parse(settings.data);
-    if (data.action === 'removeCard') { // Card was removed, hide element
-      hover.hide();
-    } else if (data.action === 'addCard') { // Card was added
-      const element = $(`#deckCards${data.classe} li:last`);
-      element.hover(hoverCard(element, true));
+  eventManager.on('jQuery', () => {
+    $('li.list-group-item').each(function (index) {
+      const element = $(this);
+      element.hover(hoverCard(element));
+    });
+    $(document).ajaxSuccess((event, xhr, settings) => {
+      const data = JSON.parse(settings.data);
+      if (data.action === 'removeCard') { // Card was removed, hide element
+        hover.hide();
+      } else if (data.action === 'addCard') { // Card was added
+        const element = $(`#deckCards${data.classe} li:last`);
+        element.hover(hoverCard(element, true));
 
-      const list = $(`#deckCards${data.classe}`);
-      list.append(list.children('li').detach().sort(function (a, b) {
-        const card1 = $(`table#${$(a).attr('id')}`);
-        const card2 = $(`table#${$(b).attr('id')}`);
-        const card1cost = parseInt(card1.find('.cardCost').html(), 10);
-        const card2cost = parseInt(card2.find('.cardCost').html(), 10);
-        if (card1cost === card2cost) {
-          const card1name = card1.find('.cardName').html();
-          const card2name = card2.find('.cardName').html();
-          if (card1name == card2name) return 0;
-          return card1name > card2name ? 1 : -1;
-        }
-        return card1cost > card2cost ? 1 : -1;
-      }));
-    }
+        const list = $(`#deckCards${data.classe}`);
+        list.append(list.children('li').detach().sort(function (a, b) {
+          const card1 = $(`table#${$(a).attr('id')}`);
+          const card2 = $(`table#${$(b).attr('id')}`);
+          const card1cost = parseInt(card1.find('.cardCost').html(), 10);
+          const card2cost = parseInt(card2.find('.cardCost').html(), 10);
+          if (card1cost === card2cost) {
+            const card1name = card1.find('.cardName').html();
+            const card2name = card2.find('.cardName').html();
+            if (card1name == card2name) return 0;
+            return card1name > card2name ? 1 : -1;
+          }
+          return card1cost > card2cost ? 1 : -1;
+        }));
+      }
+    });
   });
 });
 
