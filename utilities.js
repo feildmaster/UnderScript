@@ -62,23 +62,38 @@ const eventManager = (() => {
 })();
 const log = {
   init: function () {
+    let minimized = localStorage.getItem('setting.history.startMinimized') === 'true';
     const hi = $("<div id='history'></div>"),
+      mi = $('<div></div>'),
       ha = $("<div class='handle'>History</div>"),
       lo = $("<div id='log'></div>");
     // Positional math
     const pos = parseInt($("div.mainContent").css("width")) + parseInt($("div.mainContent").css("margin-left"));
+    const width = window.innerWidth - pos - 20;
     hi.css({
-      width: `${window.innerWidth - pos - 20}px`,
+      width: `${width}px`,
       border: "2px solid white",
       "background-color": "rgba(0,0,0,0.9)",
       position: "absolute",
       right: 10,
       top: 10,
       'z-index': 20,
+      'min-height': '20px',
+    });
+    mi.css({
+      position: 'absolute',
+      right: 12,
+      top: 12,
+      padding: '0px 5px',
+      cursor: 'pointer',
+      'z-index': 20,
+      'font-weight': 'bold',
+      'font-size': '18px',
     });
     ha.css({
       "border-bottom": "1px solid white",
       "text-align": "center",
+      height: '28px',
     });
     lo.css({
       display: 'flex',
@@ -87,9 +102,15 @@ const log = {
       "overflow-y": "auto",
       "max-height": "600px",
     });
+    mi.text(minimized ? '◁' : '▷');
+    mi.click(() => {
+      hi.toggle(minimized);
+      minimized = !minimized;
+      mi.text(minimized ? '◁' : '▷');
+    });
     hi.append(ha);
     hi.append(lo);
-    $("body").append(hi);
+    $("body").append(hi).append(mi);
   },
   add: function (...args) {
     const div = $('<div>');
