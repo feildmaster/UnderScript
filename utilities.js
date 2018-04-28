@@ -1,9 +1,4 @@
-const footer = $('<div>').css({
-  width: '100%',
-  'text-align': 'center',
-  'font-size': '12px',
-  'font-family': 'monospace',
-}).html('UnderScript &copy;feildmaster');
+const footer = '<div style="width:100%;text-align:center;font-size:12px;font-family:monospace;">UnderScript &copy;feildmaster</div>';
 
 // Utilities for undercards.js
 function debug(message, permission = 'debugging') {
@@ -116,10 +111,12 @@ const hover = (() => {
       top: y + e.height() + 18 > $(window).height() ? $(window).height() - e.height() : y + 18,
     });
   }
-  $(document).on("mousemove.script", function mouseMove(event) {
-    x = event.pageX;
-    y = event.pageY;
-    update();
+  eventManager.on("jQuery", () => {
+    $(document).on("mousemove.script", function mouseMove(event) {
+      x = event.pageX;
+      y = event.pageY;
+      update();
+    });
   });
   function hide() {
     if (e) {
@@ -134,7 +131,7 @@ const hover = (() => {
       if (event.type === 'mouseleave') return;
       e = $("<div>");
       e.append(data);
-      e.append(footer.clone());
+      e.append($(footer).clone());
       e.css({
         border,
         position: "fixed",
