@@ -83,7 +83,8 @@ const log = {
     mi.css({
       position: 'absolute',
       right: 12,
-      top: 12,
+      top: 9,
+      margin: '0px',
       padding: '0px 5px',
       cursor: 'pointer',
       'z-index': 20,
@@ -93,7 +94,6 @@ const log = {
     ha.css({
       "border-bottom": "1px solid white",
       "text-align": "center",
-      height: '28px',
     });
     lo.css({
       display: 'flex',
