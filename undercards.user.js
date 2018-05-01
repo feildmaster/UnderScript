@@ -5,6 +5,7 @@
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/0.11.4/utilities.js
 // @version      0.11.5
 // @author       feildmaster
+// @history     0.12 - Added minimize button to battle log.
 // @history   0.11.5 - The following now work again: end turn "fixes", deck auto-sort, deck preview.
 // @history   0.11.4 - Fix issue where script was not loading
 // @history   0.11.3 - Fix mines (and other potential cards) staying around on the baord for too long
