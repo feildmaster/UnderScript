@@ -570,7 +570,7 @@ onPage('CardSkinsShop', function () {
         <tbody>
           <tr>
             <td class="cardName" colspan="3">${skin.card}</td>
-            <td class="ucp" style="text-align: center; font-size: 20px;">${skin.cost}</td>
+            <td class="ucp" style="text-align: center; font-size: 15px;">${skin.cost}</td>
           </tr>
           <tr>
             <td id="cardImage" colspan="4"><img src="${skin.img}"></td>
