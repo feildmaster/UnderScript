@@ -5,7 +5,7 @@
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/0.11.4/utilities.js
 // @version      0.11.5
 // @author       feildmaster
-// @history     0.12 - Draft for "Skin Shop" (Thanks Jake Horror)
+// @history     0.12 - New look for "Skin Shop" & Added "Dust Counter" (Thanks Jake Horror)
 // @history   0.11.5 - The following now work again: end turn "fixes", deck auto-sort, deck preview.
 // @history   0.11.4 - Fix issue where script was not loading
 // @history   0.11.3 - Fix mines (and other potential cards) staying around on the baord for too long
@@ -101,6 +101,13 @@ eventManager.on("GameStart", function battleLogger() {
     getGameError: 'Takes you to "play" on game errors, can be turned into a toast',
   });
   let turn = 0, currentTurn = 0, players = {}, monsters = {}, lastEffect, other = {}, finished = false;
+  const yourDust = $('<span>')
+  const enemyDust = $('<span>');
+  function addDust(player) {
+    const display = player === userId ? yourDust : enemyDust;
+    const dust = typeof players[player].dust === 'undefined' ? players[player].dust = 0 : players[player].dust += 1;
+    display.html(dust);
+  }
   const make = {
     player: function makePlayer(player, title = false) {
       const c = $('<span>');
@@ -109,7 +116,7 @@ eventManager.on("GameStart", function battleLogger() {
       if (!title) {
         c.css('text-decoration', 'underline');
         // show lives, show health, show gold, show hand, possibly deck size as well
-        const data = `${player.hp} hp, ${player.gold} gold`;
+        const data = `${player.hp} hp, ${player.gold} gold<br />${player.dust} dust`;
         c.hover(hover.show(data, '2px solid white'));
       }
       return c;
@@ -192,10 +199,13 @@ eventManager.on("GameStart", function battleLogger() {
       you.lives = lives[you.id];
       enemy.lives = lives[enemy.id];
       // populate monsters
+      let count = 0;
       JSON.parse(data.board).forEach(function (card) {
+        count += 1;
         if (card === null) return;
         // id, attack, hp, maxHp, originalattack, originalHp, typeCard, name, image, cost, originalCost, rarity, shiny, quantity
         card.desc = getDescription(card);
+        card.owner = count <= 4 ? enemy.id : you.id;
         monsters[card.id] = card;
       });
     }
@@ -210,6 +220,12 @@ eventManager.on("GameStart", function battleLogger() {
     turn = data.turn || 0;
     players[you.id] = you;
     players[enemy.id] = enemy;
+    const dustImg = $('<img style="width: 20px; height: 16px;" title="Number of cards turned to dust." src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAAZElEQVQ4jb2UUQ7AIAhDqfH+V95+NDEdrMSg/UQqr5hoFugZytanWnSwq+4RZIyzDwDW+jnCLBmLSSUhD+KIH8JdsmiwJGQiBVD+KOU7vE9YukMv3vXIMPNjKBLpUd/S38Wr7wVZPk/6kF1cXAAAAABJRU5ErkJggg==">');
+    $('.rightPart').append(dustImg, ' ');
+    $(`#user${opponentId} .rightPart`).append(enemyDust, ' ');
+    $(`#user${userId} .rightPart`).append(yourDust, ' ', $(`#user${userId} .rightPart > button`));
+    addDust(you.id);
+    addDust(enemy.id);
     // Test changing ID's at endTurn instead of startTurn
     other[you.id] = enemy.id;
     other[enemy.id] = you.id;
@@ -290,9 +306,12 @@ eventManager.on("GameStart", function battleLogger() {
     const oldMonsters = monsters;
     monsters = {};
     // TOOD: stuff....
+    let count = 0;
     JSON.parse(data.board).forEach(function (card) {
+      count += 1;
       if (card === null) return;
       card.desc = getDescription(card);
+      card.owner = count <= 4 ? opponentId : userId;
       monsters[card.id] = card;
     });
   });
@@ -300,12 +319,14 @@ eventManager.on("GameStart", function battleLogger() {
     debug(data, 'debugging.raw.kill');
     // monsterId: #
     log.add(make.card(monsters[data.monsterId]), ' was killed');
+    addDust(monsters[data.monsterId].owner);
     delete monsters[data.monsterId];
   });
   eventManager.on('getCardBoard', function playCard(data) { // Adds card to X, Y (0(enemy), 1(you))
     debug(data, 'debugging.raw.boardAdd');
     const card = JSON.parse(data.card);
     card.desc = getDescription(card);
+    card.owner = data.idPlayer;
     monsters[card.id] = card;
     log.add(make.player(players[data.idPlayer]), ' played ', make.card(card));
   });
