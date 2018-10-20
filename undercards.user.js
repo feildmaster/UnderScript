@@ -5,7 +5,7 @@
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/0.11.4/utilities.js
 // @version      0.13
 // @author       feildmaster
-// @history   0.13.1 - Fixed chat bugs caused by this script
+// @history   0.13.1 - Fixed chat bugs caused by this script, fixed end turn button moving
 // @history     0.13 - Ignore chat messags? Yes please. (Thanks CoolEdge)
 // @history     0.12 - New look for "Skin Shop" & Added "Dust Counter" (Thanks Jake Horror)
 // @history   0.11.5 - The following now work again: end turn "fixes", deck auto-sort, deck preview.
@@ -225,7 +225,7 @@ eventManager.on("GameStart", function battleLogger() {
     const dustImg = $('<img style="width: 20px; height: 16px;" title="Number of cards turned to dust." src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAAZElEQVQ4jb2UUQ7AIAhDqfH+V95+NDEdrMSg/UQqr5hoFugZytanWnSwq+4RZIyzDwDW+jnCLBmLSSUhD+KIH8JdsmiwJGQiBVD+KOU7vE9YukMv3vXIMPNjKBLpUd/S38Wr7wVZPk/6kF1cXAAAAABJRU5ErkJggg==">');
     $('.rightPart').append(dustImg, ' ');
     $(`#user${opponentId} .rightPart`).append(enemyDust, ' ');
-    $(`#user${userId} .rightPart`).append(yourDust, ' ', $(`#user${userId} .rightPart > button`));
+    $(`#user${userId} .rightPart`).append(yourDust, ' ', $(`#user${userId} .rightPart > button:last`));
     addDust(you.id);
     addDust(enemy.id);
     // Test changing ID's at endTurn instead of startTurn
