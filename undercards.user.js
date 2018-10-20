@@ -3,7 +3,7 @@
 // @description  Minor changes to undercards game
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.4.1/simpletoast.js
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/0.11.4/utilities.js
-// @version      0.11.5
+// @version      0.12
 // @author       feildmaster
 // @history     0.12 - New look for "Skin Shop" & Added "Dust Counter" (Thanks Jake Horror)
 // @history   0.11.5 - The following now work again: end turn "fixes", deck auto-sort, deck preview.
