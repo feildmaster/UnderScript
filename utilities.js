@@ -11,7 +11,7 @@ function onPage(name, fn) {
   if ((temp = location.pathname.indexOf(".")) === -1 && (temp = location.pathname.indexOf("/")) === -1) {
     temp = null;
   }
-  var r = name.length && location.pathname.substring(1, temp || length) === name;
+  var r = location.pathname.substring(1, temp || length) === name;
   if (typeof fn === "function" && r) {
     fn();
   }

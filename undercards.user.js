@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         UnderCards script
-// @description  Minor changes to undercards game
+// @description  Various changes to undercards game
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.10.1/simpletoast.js
-// @require      https://raw.githubusercontent.com/feildmaster/UnderScript/0.11.4/utilities.js
-// @version      0.13.1
+// @require      https://raw.githubusercontent.com/feildmaster/UnderScript/0.14/utilities.js
+// @version      0.14
 // @author       feildmaster
+// @history     0.14 - Utilize the full home page space (for viewing spectator games)
 // @history   0.13.1 - Fixed chat bugs caused by this script, fixed end turn button moving
 // @history     0.13 - Ignore chat messags? Yes please. (Thanks CoolEdge)
 // @history     0.12 - New look for "Skin Shop" & Added "Dust Counter" (Thanks Jake Horror)
@@ -426,6 +427,19 @@ eventManager.on("GameStart", function battleLogger() {
     // Fixes a bug with "mines" and any other potential cards that don't get cleared correctly.
     $('#board .spellPlayed').remove();
   })
+});
+
+// === Index hook
+onPage('', function adjustSpectateView() {
+  const spectate = $('.spectateTable');
+  const tbody = $('.spectateTable tbody');
+  const footer = $('.mainContent footer');
+  function doAdjustment() {
+    tbody.css({height: `${footer.offset().top - spectate.offset().top}px`});
+  }
+  $('.mainContent > br').remove();
+  doAdjustment();
+  $(window).on('resize.script', doAdjustment);
 });
 
 // === Chat hooks
