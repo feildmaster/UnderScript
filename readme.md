@@ -15,6 +15,7 @@
 1. Deck card preview<br>![Card Preview](https://i.imgur.com/kVo0Fbc.png)
 1. Card Skin shop layout improvements<br>![Card Shop](https://i.imgur.com/0l4Xb6V.png)
 1. Dust Counter<br>![Counter](https://i.imgur.com/ikvpXXn.png)
+1. Ignore users with right click<br>![Ignore](https://i.imgur.com/awTs20u.png)
 
 ### Hotkeys ###
 
