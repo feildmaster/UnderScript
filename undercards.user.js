@@ -3,9 +3,9 @@
 // @description  Various changes to undercards game
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.10.1/simpletoast.js
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/0.14/utilities.js
-// @version      0.14
+// @version      0.15
 // @author       feildmaster
-// @history     0.15 - Added a "mention" button (Thanks LampLighter), fix display of chat window
+// @history     0.15 - Added a "mention" button (Thanks LampLighter), fix display of chat window, some settings I made with Ceveno in mind
 // @history     0.14 - Utilize the full home page space (for viewing spectator games)
 // @history   0.13.1 - Fixed chat bugs caused by this script, fixed end turn button moving
 // @history     0.13 - Ignore chat messags? Yes please. (Thanks CoolEdge)
