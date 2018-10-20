@@ -13,6 +13,8 @@
 1. Battle Log<br>![Battle log](https://i.imgur.com/UR8jVLp.png)
 1. Game end (spectator) is now a toast<br>![Toast](https://i.imgur.com/smND8qm.png)
 1. Deck card preview<br>![Card Preview](https://i.imgur.com/kVo0Fbc.png)
+1. Card Skin shop layout improvements<br>![Card Shop](https://i.imgur.com/0l4Xb6V.png)
+1. Dust Counter<br>![Counter](https://i.imgur.com/ikvpXXn.png)
 
 ### Hotkeys ###
 
