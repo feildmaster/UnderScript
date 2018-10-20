@@ -559,8 +559,9 @@ if (typeof onMessage === 'function') {
     processMessage(JSON.parse(data.chatMessage), data.room);
   });
 
+  const oHandler = socketChat.onmessage;
   socketChat.onmessage = (event) => {
-    onMessage(event);
+    oHandler(event);
     const data = JSON.parse(event.data);
     eventManager.emit('ChatMessage', data);
     eventManager.emit(`Chat:${data.action}`, data);
