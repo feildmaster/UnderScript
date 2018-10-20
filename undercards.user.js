@@ -76,7 +76,7 @@ eventManager.on('PlayingGame', function fixEndTurn() {
   eventManager.on('getTurnStart', function turnStarted() {
     if (userTurn !== userId) return;
     endedTurn = false;
-    if (turn > 3) {
+    if (turn > 3 && !localStorage.getItem('setting.disable.endTurnDelay')) {
       $('#endTurnBtn').prop('disabled', true);
       setTimeout(() => {
         $('#endTurnBtn').prop('disabled', false);
