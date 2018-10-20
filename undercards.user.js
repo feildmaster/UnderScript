@@ -59,9 +59,16 @@ eventManager.on("getWaitingQueue", function lowerVolume() {
 
 eventManager.on("PlayingGame", function bindHotkeys() {
   // Binds to Space, Middle Click
-  hotkeys.push(new Hotkey("End turn").bindKey(32).bindClick(2).run((e) => {
-    if (!$(e.target).is("#endTurnBtn") && userTurn === userId) endTurn();
-  }));
+  const endTurn = new Hotkey("End turn").run((e) => {
+      if (!$(e.target).is("#endTurnBtn") && userTurn === userId) endTurn();
+    });
+  if (!localStorage.getItem('setting.disable.endTurn.space')) {
+    endTurn.bindKey(32);
+  }
+  if (!localStorage.getItem('setting.disable.endTurn.middleClick')) {
+    endTurn.bindClick(2);
+  }
+  hotkeys.push(endTurn);
 });
 
 eventManager.on('PlayingGame', function fixEndTurn() {
