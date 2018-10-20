@@ -5,6 +5,7 @@
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/0.14/utilities.js
 // @version      0.14
 // @author       feildmaster
+// @history     0.15 - Added a "mention" button (Thanks LampLighter)
 // @history     0.14 - Utilize the full home page space (for viewing spectator games)
 // @history   0.13.1 - Fixed chat bugs caused by this script, fixed end turn button moving
 // @history     0.13 - Ignore chat messags? Yes please. (Thanks CoolEdge)
@@ -450,6 +451,9 @@ if (typeof onMessage === 'function') {
   const ignorePrefix = 'underscript.ignore.';
   const ignoreList = {};
   const context = (() => {
+    function decode(string) {
+      return $('<textarea>').html(string).val();
+    }
     $('head').append($(`<style type="text/css">
         .chatContext { background: #F4F4F4; margin: 10px; color: #333; border: 1px dashed #000; position: absolute; z-index: 20; text-align: center; border-radius: 10px; }
         .chatContext header { padding: 0px 5px; height: auto; }
@@ -461,8 +465,9 @@ if (typeof onMessage === 'function') {
     const container = $('<div class="chatContext">');
     const profile = $('<li>Profile</li>');
     const ignore = $('<li>Ignore</li>');
+    const mention = $('<li>Mention</li>');
     const header = $('<header>');
-    container.append(header, profile, ignore).hide();
+    container.append(header, profile, mention, ignore).hide();
     $('body').append(container);
 
     function open(event) {
@@ -475,7 +480,6 @@ if (typeof onMessage === 'function') {
       header.html(name);
       let left = event.pageX;
       const containerWidth = container.outerWidth(true);
-      console.log(left, containerWidth);
       if (left + containerWidth > window.innerWidth) {
         left = left - containerWidth;
       }
@@ -488,6 +492,14 @@ if (typeof onMessage === 'function') {
       container.on('click.script.chatContext', 'li', (e) => {
         if (e.target === profile[0]) {
           getInfo(event.target);
+        } else if (e.target === mention[0]) {
+          const input = $(event.target).closest('.chat-box').find('.chat-text');
+          let text = input.val();
+          if (text.length !== 0 && text[text.length - 1] !== ' ') {
+            text += ' ';
+          }
+          text += decode(name) + ' ';
+          input.val(text).focus();
         } else if (e.target === ignore[0]) {
           if (disabled) return; // If it's disabled it's disabled...
           if (!ignoreList.hasOwnProperty(id)) {
