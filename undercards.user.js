@@ -5,7 +5,7 @@
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/0.14/utilities.js
 // @version      0.14
 // @author       feildmaster
-// @history     0.15 - Added a "mention" button (Thanks LampLighter)
+// @history     0.15 - Added a "mention" button (Thanks LampLighter), fix display of chat window
 // @history     0.14 - Utilize the full home page space (for viewing spectator games)
 // @history   0.13.1 - Fixed chat bugs caused by this script, fixed end turn button moving
 // @history     0.13 - Ignore chat messags? Yes please. (Thanks CoolEdge)
@@ -608,6 +608,9 @@ if (typeof onMessage === 'function') {
       }
     });
   }
+
+  // Fix chat window being all funky with sizes
+  $('<style>').html('.chat-messages { height: calc(100% - 30px); }').appendTo('head');
 }
 
 // === Play hooks
