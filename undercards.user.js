@@ -5,6 +5,7 @@
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/0.11.4/utilities.js
 // @version      0.13
 // @author       feildmaster
+// @history   0.13.1 - Fixed chat bugs caused by this script
 // @history     0.13 - Ignore chat messags? Yes please. (Thanks CoolEdge)
 // @history     0.12 - New look for "Skin Shop" & Added "Dust Counter" (Thanks Jake Horror)
 // @history   0.11.5 - The following now work again: end turn "fixes", deck auto-sort, deck preview.
@@ -429,6 +430,7 @@ eventManager.on("GameStart", function battleLogger() {
 
 // === Chat hooks
 if (typeof onMessage === 'function') {
+  debug('Chat detected');
   let toast = new SimpleToast({});
 
   const ignorePrefix = 'underscript.ignore.';
@@ -468,10 +470,12 @@ if (typeof onMessage === 'function') {
         left: `${left}px`,
       });
       container.show();
+      const disabled = staff || id === selfId;
       container.on('click.script.chatContext', 'li', (e) => {
         if (e.target === profile[0]) {
           getInfo(event.target);
         } else if (e.target === ignore[0]) {
+          if (disabled) return; // If it's disabled it's disabled...
           if (!ignoreList.hasOwnProperty(id)) {
             ignoreList[id] = name;
             localStorage.setItem(`${ignorePrefix}${id}`, name);
@@ -482,7 +486,7 @@ if (typeof onMessage === 'function') {
         }
         close();
       });
-      if (staff || id === selfId) {
+      if (disabled) {
         ignore.addClass('disabled');
       } else {
         ignore.removeClass('disabled');
@@ -540,7 +544,7 @@ if (typeof onMessage === 'function') {
         id: user.id,
       }, context.open);
     
-    if (!staff && ignoreList.hasOwnProperty(user.id)) {
+    if (!staff && user.id !== selfId && ignoreList.hasOwnProperty(user.id)) {
       $(`#${room} #message-${id} .chat-message`).html('<span class="gray">Message Ignored</span>').removeClass().addClass('chat-message');
     }
   }
