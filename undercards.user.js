@@ -3,10 +3,9 @@
 // @description  Various changes to undercards game
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.10.1/simpletoast.js
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/0.14/utilities.js
-// @version      0.15
+// @version      0.16
 // @author       feildmaster
-// @history     0.16 - Prevent custom game screen from timing out (as often)
-//                     Let the script work with www.undercards.net
+// @history     0.16 - Prevent custom game screen from timing out (as often), fixed 'endTurn' hotkeys
 // @history   0.15.1 - Fixed small game lists taking up so much space
 // @history     0.15 - Added a "mention" button (Thanks LampLighter), fix display of chat window, some settings I made with Ceveno in mind
 // @history     0.14 - Utilize the full home page space (for viewing spectator games)
@@ -62,16 +61,16 @@ eventManager.on("getWaitingQueue", function lowerVolume() {
 
 eventManager.on("PlayingGame", function bindHotkeys() {
   // Binds to Space, Middle Click
-  const endTurn = new Hotkey("End turn").run((e) => {
+  const hotkey = new Hotkey("End turn").run((e) => {
       if (!$(e.target).is("#endTurnBtn") && userTurn === userId) endTurn();
     });
   if (!localStorage.getItem('setting.disable.endTurn.space')) {
-    endTurn.bindKey(32);
+    hotkey.bindKey(32);
   }
   if (!localStorage.getItem('setting.disable.endTurn.middleClick')) {
-    endTurn.bindClick(2);
+    hotkey.bindClick(2);
   }
-  hotkeys.push(endTurn);
+  hotkeys.push(hotkey);
 });
 
 eventManager.on('PlayingGame', function fixEndTurn() {
