@@ -5,6 +5,7 @@
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/0.14/utilities.js
 // @version      0.15
 // @author       feildmaster
+// @history     0.16 - Prevent custom game screen from timing out (as often)
 // @history   0.15.1 - Fixed small game lists taking up so much space
 // @history     0.15 - Added a "mention" button (Thanks LampLighter), fix display of chat window, some settings I made with Ceveno in mind
 // @history     0.14 - Utilize the full home page space (for viewing spectator games)
@@ -678,6 +679,12 @@ onPage("Game", function () {
       eventManager.emit('GameEvent', data);
     };
   })();
+});
+
+onPage('GamesList', function keepAlive() {
+  setInterval(() => {
+    socket.send(JSON.stringify({ping: "pong"}));
+  }, 10000);
 });
 
 // Deck hook
