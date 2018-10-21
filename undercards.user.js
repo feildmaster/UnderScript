@@ -5,6 +5,7 @@
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/0.14/utilities.js
 // @version      0.16
 // @author       feildmaster
+// @history     0.17 - Added "quick open" for packs (ctrl+click)
 // @history     0.16 - Prevent custom game screen from timing out (as often), fixed 'endTurn' hotkeys
 // @history   0.15.1 - Fixed small game lists taking up so much space
 // @history     0.15 - Added a "mention" button (Thanks LampLighter), fix display of chat window, some settings I made with Ceveno in mind
@@ -750,6 +751,17 @@ onPage("gameSpectate", function () {
       eventManager.emit('GameEvent', data);
     };
   })();
+});
+
+onPage('Packs', function quickOpenPack() {
+  let autoOpen = false;
+  $(document).ajaxComplete((event, xhr, settings) => {
+    if (settings.url !== 'PacksConfig' || xhr.statusText !== 'success' || !autoOpen) return;
+    $('.slot .cardBack').each((i, e) => { show(e, i); });
+  });
+  $('#btnOpen, #btnOpenShiny').on('click', (event) => {
+    autoOpen = event.ctrlKey;
+  })
 });
 
 onPage('CardSkinsShop', function () {
