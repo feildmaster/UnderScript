@@ -6,6 +6,7 @@
 // @version      0.15
 // @author       feildmaster
 // @history     0.16 - Prevent custom game screen from timing out (as often)
+//                     Let the script work with www.undercards.net
 // @history   0.15.1 - Fixed small game lists taking up so much space
 // @history     0.15 - Added a "mention" button (Thanks LampLighter), fix display of chat window, some settings I made with Ceveno in mind
 // @history     0.14 - Utilize the full home page space (for viewing spectator games)
@@ -42,7 +43,7 @@
 // @history      0.3 - Lowered "game found" volume
 // @history      0.2 - Added EndTurn hotkey (space, middle click), focus chat (enter)
 // @history      0.1 - Made deck selection smart
-// @match        https://undercards.net/*
+// @match        https://*.undercards.net/*
 // @website      https://github.com/feildmaster/UnderScript
 // @supportURL   https://github.com/feildmaster/UnderScript/issues
 // @downloadURL  https://raw.githubusercontent.com/feildmaster/UnderScript/master/undercards.user.js
