@@ -5,6 +5,7 @@
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/0.14/utilities.js
 // @version      0.15
 // @author       feildmaster
+// @history   0.15.1 - Fixed small game lists taking up so much space
 // @history     0.15 - Added a "mention" button (Thanks LampLighter), fix display of chat window, some settings I made with Ceveno in mind
 // @history     0.14 - Utilize the full home page space (for viewing spectator games)
 // @history   0.13.1 - Fixed chat bugs caused by this script, fixed end turn button moving
@@ -443,7 +444,7 @@ onPage('', function adjustSpectateView() {
   const tbody = $('.spectateTable tbody');
   const footer = $('.mainContent footer');
   function doAdjustment() {
-    tbody.css({height: `${footer.offset().top - spectate.offset().top}px`});
+    tbody.css({height: 'auto', 'max-height': `${footer.offset().top - spectate.offset().top}px`});
   }
   $('.mainContent > br').remove();
   doAdjustment();
