@@ -788,8 +788,9 @@ onPage('Packs', function quickOpenPack() {
   let autoOpen = false, openAll = false;
   $(document).ajaxComplete((event, xhr, settings) => {
     const data = JSON.parse(settings.data);
-    if (settings.url !== 'PacksConfig' || !['openPack', 'openShinyPack'].includes(data.action) || xhr.statusText !== 'success') return;
+    if (settings.url !== 'PacksConfig' || !['openPack', 'openShinyPack'].includes(data.action) || data.status) return;
     if (openAll !== false) {
+      console.log('OpenAll:', openAll);
       JSON.parse(xhr.responseJSON.cards).forEach((card) => {
         if (!results.hasOwnProperty(card.rarity)) {
           console.error(`You're a dumbass feildmaster`);
@@ -818,7 +819,7 @@ onPage('Packs', function quickOpenPack() {
             buffer.push(`${name}${cardCount > 1 ? ` (${cardCount})` : ''}`);
           });
           if (key === 'COMMON' && buffer.length > 4) {
-            buffer = buffer.slice(0, 4);
+            buffer.splice(4);
             buffer[buffer.length - 1] += "..."; // Give an indication that it's shortened?
           }
           total += count;
@@ -838,7 +839,7 @@ onPage('Packs', function quickOpenPack() {
       $('.slot .cardBack').each((i, e) => { show(e, i); });
     }
   });
-  $('#btnOpen, #btnOpenShiny').on('click', (event) => {
+  $('#btnOpen, #btnOpenShiny').on('click.script', (event) => {
     autoOpen = event.ctrlKey;
     openAll = false;
     if (event.shiftKey) {
