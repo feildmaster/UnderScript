@@ -780,7 +780,8 @@ onPage("gameSpectate", function () {
 onPage('Packs', function quickOpenPack() {
   let autoOpen = false;
   $(document).ajaxComplete((event, xhr, settings) => {
-    if (settings.url !== 'PacksConfig' || xhr.statusText !== 'success' || !autoOpen) return;
+    const data = JSON.parse(settings.data);
+    if (settings.url !== 'PacksConfig' || data.action !== 'typeOpen' || xhr.statusText !== 'success' || !autoOpen) return;
     $('.slot .cardBack').each((i, e) => { show(e, i); });
   });
   $('#btnOpen, #btnOpenShiny').on('click', (event) => {
