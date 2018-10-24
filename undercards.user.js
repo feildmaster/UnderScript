@@ -825,6 +825,215 @@ onPage("gameSpectate", function () {
   })();
 });
 
+onPage('Decks', function deckStorage() {
+  const container = $('<p>');
+  const buttons = [];
+  let pending = [];
+
+  function processNext() {
+    const card = pending.shift();
+    if (card) {
+      if (card.action === 'clear') {
+        removeAllCards();
+      } else if (card.action === 'remove') {
+        removeCard(parseInt(card.id), card.shiny === true);
+      } else {
+        addCard(parseInt(card.id), card.shiny === true);
+      }
+    }
+  }
+
+  $(document).ajaxComplete((e, xhr, settings) => {
+    if (settings.url !== 'DecksConfig') return;
+    const data = JSON.parse(settings.data);
+    if (!['addCard', 'removeCard', 'removeAllCards'].includes(data.action)) return;
+    if (data.status === "error") {
+      pending = [];
+      return;
+    }
+    processNext();
+  });
+
+  for (let i = 1, x = Math.max(parseInt(localStorage.getItem('underscript.storage.rows') || '1'), 1) * 3; i <= x; i++) {
+    buttons.push($(`<button>${i}</button>`)
+      .addClass('btn btn-sm btn-danger')
+      .css({
+        'margin-top': '5px',
+        'margin-right': '2px',
+        width: '58px',
+      }));
+  }
+
+  buttons.forEach((button) => {
+    container.append(button);
+  });
+
+  $('#yourCardList > button').after(container);
+  $('#yourCardList > br').remove();
+
+  $("#selectClasses").change(loadStorage);
+
+  function saveDeck(i) {
+    const soul = $('#selectClasses').find(':selected').text();
+    const deck = [];
+    $(`#deckCards${soul} li`).each((i, e) => {
+      const card = {
+        id: parseInt($(e).attr('id')),
+      };
+      if ($(e).hasClass('shiny')) {
+        card.shiny = true;
+      }
+      deck.push(card);
+    });
+    if (!deck.length) return;
+    localStorage.setItem(`underscript.deck.${soul}.${i}`, JSON.stringify(deck));
+  }
+
+  function loadDeck(i) {
+    pending = []; // Clear pending
+    const soul = $('#selectClasses').find(':selected').text();
+    let deck = JSON.parse(localStorage.getItem(`underscript.deck.${soul}.${i}`));
+    const cDeck = $(`#deckCards${soul} li`);
+
+    if (cDeck.length) {
+      const builtDeck = [];
+      // Build deck options
+      cDeck.each((i, e) => {
+        const id = parseInt($(e).attr('id'));
+        const shiny = $(e).hasClass('shiny');
+        builtDeck.push({
+          id, shiny,
+          action: 'remove',
+        });
+      });
+      
+      // Compare the decks
+      const temp = deck.slice(0);
+      const removals = builtDeck.filter((card) => {
+        return !temp.some((card2, i) => {
+          const found = card2.id === card.id && (card.shiny && card2.shiny || true);
+          if (found) { // Remove the item
+            temp.splice(i, 1);
+          }
+          return found;
+        });
+      });
+
+      // Check what we need to do
+      if (!removals.length && !temp.length) { // There's nothing
+        return;
+      } else if (removals.length > 13) { // Too much to do (Cards in deck + 1)
+        pending.push({
+          action: 'clear',
+        });
+      } else {
+        pending.push.apply(pending, removals);
+        deck = temp;
+      }
+    }
+    pending.push.apply(pending, deck);
+    processNext();
+  }
+
+  function cards(list) {
+    const names = [];
+    list.forEach((card) => {
+      const name = $(`table#${card.id}:lt(1)`).find('.cardName').text();
+      names.push(`- ${card.shiny ? '<span style="color: yellow;">S</span> ':''}${name}`);
+    });
+    return names.join('<br />');
+  }
+
+  function loadStorage() {
+    for (let i = 0; i < buttons.length; i++) {
+      loadButton(i);
+    }
+  }
+
+  function loadButton(i) {
+    const soul = $('#selectClasses').find(':selected').text();
+    const button = buttons[i];
+    button.off('.deckStorage'); // Remove any lingering events
+    function refreshHover() {
+      button.trigger('mouseenter');
+    }
+    function saveButton() {
+      saveDeck(i);
+      loadButton(i); // I should be able to reset data without doing all this again...
+      refreshHover();
+    }
+    function hoverButton(e) {
+      if (e.type === 'mouseleave') {
+        hover.hide();
+      } else {
+        const deck = JSON.parse(localStorage.getItem(`underscript.deck.${soul}.${i}`));
+        let text;
+        if (deck) {
+          text = `
+            <div id="deckName">${localStorage.getItem(`underscript.deck.${soul}.${i}.name`) || (`${soul}-${i + 1}`)}</div>
+            <div><input id="deckNameInput" maxlength="28" style="border: 0; border-bottom: 2px solid #00617c; background: #000; width: 100%; display: none;" type="text" placeholder="${soul}-${i + 1}" value="${localStorage.getItem(`underscript.deck.${soul}.${i}.name`) || ''}"></div>
+            <div>Click to load (${deck.length})</div>
+            <div style="font-size: 13px;">${cards(deck)}</div>
+            <div style="font-style: italic; color: #b3b3b3;">
+              * Right Click to name deck<br />
+              * Shift Click to re-save deck<br />
+              * CTRL Click to erase deck
+            </div>
+          `;
+        } else {
+          text = `
+            <div id="name">${soul}-${i + 1}</div>
+            <div>Click to save current deck</div>`;
+        }
+        hover.show(text)(e);
+      }
+    }
+    if (!localStorage.getItem(`underscript.deck.${soul}.${i}`)) {
+      button.hover(hoverButton).addClass('btn-danger')
+        .one('click.script.deckStorage', saveButton);
+    } else {
+      button.removeClass('btn-danger')
+        .addClass('btn-primary')
+        .hover(hoverButton)
+        .on('click.script.deckStorage', (e) => {
+          if (e.ctrlKey && e.shiftKey) { // Crazy people...
+            return;
+          }
+          if (e.ctrlKey) { // ERASE
+            localStorage.removeItem(`underscript.deck.${soul}.${i}.name`);
+            localStorage.removeItem(`underscript.deck.${soul}.${i}`);
+            loadButton(i); // Reload
+            refreshHover(); // Update
+          } else if (e.shiftKey) { // Re-save
+            saveDeck(i); // Save
+            refreshHover(); // Update
+          } else { // Load
+            loadDeck(i);
+          }
+        }).on('contextmenu.script.deckStorage', (e) => {
+          function storeInput() {
+            localStorage.setItem(`underscript.deck.${soul}.${i}.name`, input.val());
+            refreshHover();
+          }
+          e.preventDefault();
+          const input = $('#deckNameInput');
+          $('#deckName').hide();
+          input.show();
+          input.focus();
+          input.select();
+          input.on('keydown.script.deckStorage', (e) => {
+            if (e.which === 27 || e.which === 13) {
+              e.preventDefault();
+              storeInput();
+            }
+          }).on('focusout.script.deckStorage', storeInput);
+        });
+      }
+  }
+
+  loadStorage();
+});
+
 onPage('Packs', function quickOpenPack() {
   const rarity = [ 'DETERMINATION', 'LEGENDARY', 'EPIC', 'RARE', 'COMMON' ];
   const results = {};
