@@ -778,14 +778,75 @@ onPage("gameSpectate", function () {
 });
 
 onPage('Packs', function quickOpenPack() {
-  let autoOpen = false;
+  const rarity = [ 'DETERMINATION', 'LEGENDARY', 'EPIC', 'RARE', 'COMMON' ];
+  const results = {};
+  function clearResults() {
+    rarity.forEach((key) => results[key] = {});
+  }
+  clearResults(); // Build once
+  let autoOpen = false, openAll = false;
   $(document).ajaxComplete((event, xhr, settings) => {
     const data = JSON.parse(settings.data);
-    if (settings.url !== 'PacksConfig' || data.action !== 'typeOpen' || xhr.statusText !== 'success' || !autoOpen) return;
-    $('.slot .cardBack').each((i, e) => { show(e, i); });
+    if (settings.url !== 'PacksConfig' || !['openPack', 'openShinyPack'].includes(data.action) || xhr.statusText !== 'success') return;
+    if (openAll !== false) {
+      JSON.parse(xhr.responseJSON.cards).forEach((card) => {
+        if (!results.hasOwnProperty(card.rarity)) {
+          console.error(`You're a dumbass feildmaster`);
+          results[card.rarity] = {};
+        }
+        const rarity = results[card.rarity];
+        rarity[card.name] = (rarity[card.name] || 0) + 1;
+      });
+      openAll -= 1;
+      if (openAll === 0) {
+        openAll = false;
+        let text = '';
+        let total = 0;
+        // Display results
+        rarity.forEach((key) => {
+          const keys = Object.keys(results[key]);
+          if (!keys.length) return;
+          const buffer = [];
+          let count = 0;
+          keys.forEach((name) => {
+            const cardCount = results[key][name];
+            count += cardCount;
+            buffer.push(`${name}${cardCount > 1 ? ` (${cardCount})` : ''}`);
+          });
+          if (key === 'COMMON' && buffer.length > 4) {
+            buffer = buffer.slice(0, 4);
+            buffer[buffer.length - 1] += "..."; // Give an indication that it's shortened?
+          }
+          total += count;
+          text += `${key} (${count}):\n- ${buffer.join('\n- ')}\n`;
+        });
+        fn.toast({
+          text,
+          title: `Pack Results (${total}):`,
+          footer: 'via UnderScript',
+          css: {
+            'font-family': 'inherit',
+            footer: { 'text-align': 'end', },
+          }
+        });
+      }
+    } else if (autoOpen) {
+      $('.slot .cardBack').each((i, e) => { show(e, i); });
+    }
   });
   $('#btnOpen, #btnOpenShiny').on('click', (event) => {
     autoOpen = event.ctrlKey;
+    openAll = false;
+    if (event.shiftKey) {
+      clearResults();
+      const shiny = $(event.target).prop('id') === 'btnOpenShiny' ? 'Shiny' : '';
+      const count = parseInt($(`#nb${shiny}Packs`).text());
+      openAll = count;
+      for (let i = 1; i < count; i++) { // Start at 1, we've "opened" a pack already
+        canOpen = true;
+        openPack(`open${shiny}Pack`);
+      }
+    }
   })
 });
 
