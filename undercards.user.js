@@ -784,6 +784,9 @@ onPage('Packs', function quickOpenPack() {
     results.shiny = 0;
     rarity.forEach((key) => results[key] = {});
   }
+  function showCards() {
+    $('.slot .cardBack').each((i, e) => { show(e, i); });
+  }
   clearResults(); // Build once
   let autoOpen = false, openAll = false;
   $(document).ajaxComplete((event, xhr, settings) => {
@@ -834,9 +837,10 @@ onPage('Packs', function quickOpenPack() {
             footer: { 'text-align': 'end', },
           }
         });
+        showCards();
       }
     } else if (autoOpen) {
-      $('.slot .cardBack').each((i, e) => { show(e, i); });
+      showCards();
     }
   });
   $('#btnOpen, #btnOpenShiny').on('click.script', (event) => {
