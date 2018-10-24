@@ -781,6 +781,7 @@ onPage('Packs', function quickOpenPack() {
   const rarity = [ 'DETERMINATION', 'LEGENDARY', 'EPIC', 'RARE', 'COMMON' ];
   const results = {};
   function clearResults() {
+    results.shiny = 0;
     rarity.forEach((key) => results[key] = {});
   }
   clearResults(); // Build once
@@ -796,6 +797,9 @@ onPage('Packs', function quickOpenPack() {
         }
         const rarity = results[card.rarity];
         rarity[card.name] = (rarity[card.name] || 0) + 1;
+        if (card.shiny && data.action === 'openPack') {
+          results.shiny += 1;
+        }
       });
       openAll -= 1;
       if (openAll === 0) {
@@ -822,7 +826,7 @@ onPage('Packs', function quickOpenPack() {
         });
         fn.toast({
           text,
-          title: `Pack Results (${total}):`,
+          title: `Pack Results (${total}${results.shiny ? `, ${results.shiny} shiny` : ''}):`,
           footer: 'via UnderScript',
           css: {
             'font-family': 'inherit',
