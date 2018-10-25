@@ -810,6 +810,15 @@ onPage('Packs', function quickOpenPack() {
         openAll = false;
         let text = '';
         let total = 0;
+        // Magic numbers, yep. Have between 6...26 cards showing
+        let limit = Math.min(Math.max(Math.floor(window.innerHeight / 38), 6), 26);
+        // Increase the limit if we don't have a specific rarity
+        rarity.forEach((key) => {
+          if (!Object.keys(results[key]).length) {
+            limit += 1;
+          }
+        });
+
         // Display results
         rarity.forEach((key) => {
           const keys = Object.keys(results[key]);
@@ -819,14 +828,13 @@ onPage('Packs', function quickOpenPack() {
           keys.forEach((name) => {
             const cardCount = results[key][name];
             count += cardCount;
-            buffer.push(`${name}${cardCount > 1 ? ` (${cardCount})` : ''}`);
+            if (limit) {
+              limit -= 1;
+              buffer.push(`${name}${cardCount > 1 ? ` (${cardCount})` : ''}${limit ? '' : '...'}`);
+            }
           });
-          if (key === 'COMMON' && buffer.length > 4) {
-            buffer.splice(4);
-            buffer[buffer.length - 1] += "..."; // Give an indication that it's shortened?
-          }
           total += count;
-          text += `${key} (${count}):\n- ${buffer.join('\n- ')}\n`;
+          text += `${key} (${count}):${buffer.length ? `\n- ${buffer.join('\n- ')}` : ' ...'}\n`;
         });
         fn.toast({
           text,
