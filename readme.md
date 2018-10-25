@@ -2,8 +2,8 @@
 
 ## Setup ##
 
-1. Using [Tampermonkey](https://tampermonkey.net/), [Violentmonkey](https://violentmonkey.github.io/), [Greasemonkey](https://www.greasespot.net/), or some other obscure script program
-2. Open **[undercards.user.js](https://raw.githubusercontent.com/feildmaster/UnderScript/master/undercards.user.js)**
+1. Install [Tampermonkey](https://tampermonkey.net/) (recommended), [Violentmonkey](https://violentmonkey.github.io/), or some other obscure script program for your browser
+2. Open **[undercards.user.js](https://github.com/feildmaster/UnderScript/raw/master/undercards.user.js)** 
 
 ## Features ##
 
