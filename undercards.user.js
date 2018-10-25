@@ -46,7 +46,7 @@
 // @match        https://*.undercards.net/*
 // @website      https://github.com/feildmaster/UnderScript
 // @supportURL   https://github.com/feildmaster/UnderScript/issues
-// @downloadURL  https://raw.githubusercontent.com/feildmaster/UnderScript/master/undercards.user.js
+// @downloadURL  https://feildmaster.github.io/UnderScript/undercards.user.js
 // @namespace    https://feildmaster.com/
 // @grant        none
 // ==/UserScript==
