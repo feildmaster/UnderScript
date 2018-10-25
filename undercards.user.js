@@ -917,7 +917,7 @@ onPage('CardSkinsShop', function () {
             <td id="cardImage" colspan="4"><img src="${skin.img}"></td>
           </tr>
           <tr>
-            <td class="cardDesc" colspan="4">${skin.name}<br />by ${skin.author}</td>
+            <td class="cardDesc" colspan="4">${skin.name}<br />by <span class="Artist">${skin.author}</span></td>
           </tr>
           <tr>
             <td style="background-color: #000; text-align: center; margin: 0; ${skin.action.includes('<p>') ? 'color: red;' : ''}" colspan="4">${skin.action}</td>
