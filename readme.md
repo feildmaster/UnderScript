@@ -3,7 +3,7 @@
 ## Setup ##
 
 1. Install [Tampermonkey](https://tampermonkey.net/) (recommended), [Violentmonkey](https://violentmonkey.github.io/), or some other obscure script program for your browser
-2. Open **[undercards.user.js](/undercards.user.js)**
+2. Open **[undercards.user.js](https://feildmaster.github.io/UnderScript/undercards.user.js)**
 
 ## Features ##
 
