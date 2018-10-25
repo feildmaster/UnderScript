@@ -855,7 +855,10 @@ onPage('Packs', function quickOpenPack() {
         openPack(`open${shiny}Pack`);
       }
     }
-  })
+  }).on('mouseenter.script', hover.show(`<span style="font-style: italic;">
+      * CTRL Click to auto reveal one pack<br />
+      * Shift Click to auto open ALL packs
+    </span>`)).on('mouseleave.script', hover.hide);
 });
 
 onPage('CardSkinsShop', function () {
