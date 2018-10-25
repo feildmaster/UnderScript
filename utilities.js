@@ -113,8 +113,8 @@ const hover = (() => {
   }
   eventManager.on("jQuery", () => {
     $(document).on("mousemove.script", function mouseMove(event) {
-      x = event.pageX;
-      y = event.pageY;
+      x = event.pageX - window.pageXOffset;
+      y = event.pageY - window.pageYOffset;
       update();
     });
   });
