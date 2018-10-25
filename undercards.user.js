@@ -793,7 +793,6 @@ onPage('Packs', function quickOpenPack() {
     const data = JSON.parse(settings.data);
     if (settings.url !== 'PacksConfig' || !['openPack', 'openShinyPack'].includes(data.action) || data.status) return;
     if (openAll !== false) {
-      console.log('OpenAll:', openAll);
       JSON.parse(xhr.responseJSON.cards).forEach((card) => {
         if (!results.hasOwnProperty(card.rarity)) {
           console.error(`You're a dumbass feildmaster`);
