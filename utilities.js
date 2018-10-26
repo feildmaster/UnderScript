@@ -206,9 +206,22 @@ const fn = {
     return status;
   },
   toast: (arg) => {
-    if (!window.SimpleToast) return false;
-    SimpleToast(arg);
-    return true;
+    if (!window.SimpleToast || !arg) return false;
+    if (typeof arg === 'string') {
+      arg = {
+        text: arg,
+      };
+    }
+    if (!arg.css) {
+      arg.css = {
+        'font-family': 'inherit',
+        footer: { 'text-align': 'end', },
+      };
+    }
+    if (!arg.footer) {
+      arg.footer = 'via UnderScript';
+    }
+    return new SimpleToast(arg);
   },
   debug: (arg, permission = 'debugging') => {
     if (typeof arg === 'string') {
