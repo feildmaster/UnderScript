@@ -5,7 +5,8 @@
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/0.14/utilities.js
 // @version      0.16
 // @author       feildmaster
-// @history     0.17 - Added "quick open" for packs (ctrl+click), "Open all" packs (shift+click), smooth scrolling deck list
+// @history     0.17 - Added "quick open" for packs (ctrl+click), smooth scrolling deck list, fixed hover boxes being odd with scrolling,
+//                      "Open all" packs (shift+click), displays a toast with compressed results
 // @history     0.16 - Prevent custom game screen from timing out (as often), fixed 'endTurn' hotkeys
 // @history   0.15.1 - Fixed small game lists taking up so much space
 // @history     0.15 - Added a "mention" button (Thanks LampLighter), fix display of chat window, some settings I made with Ceveno in mind
@@ -683,6 +684,13 @@ onPage('GamesList', function keepAlive() {
 });
 
 onPage('GamesList', function fixEnter() {
+  let toast = fn.infoToast({
+      text: 'You can now press enter on the Create Game window.',
+      onClose: () => {
+        toast = null;
+      }
+    }, 'underscript.notice.customGame', '1');
+
   $('#state1 button:contains(Create)').on('mouseup.script', () => {
     // Wait for the dialog to show up...
     $(window).one('shown.bs.modal', (e) => {
@@ -691,12 +699,16 @@ onPage('GamesList', function fixEnter() {
       $(input[0]).focus();
       input.on('keydown.script', (e) => {
         if (e.which === 13) {
+          if (toast) {
+            toast.close();
+          }
           e.preventDefault();
           $('.bootstrap-dialog-footer-buttons button:first').trigger('click');
         }
       });
     });
   });
+
 });
 
 // Deck hook
