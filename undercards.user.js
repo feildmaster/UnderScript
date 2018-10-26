@@ -2,8 +2,8 @@
 // @name         UnderCards script
 // @description  Various changes to undercards game
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.10.1/simpletoast.js
-// @require      https://raw.githubusercontent.com/feildmaster/UnderScript/0.14/utilities.js
-// @version      0.16
+// @require      https://raw.githubusercontent.com/feildmaster/UnderScript/0.17/utilities.js
+// @version      0.17
 // @author       feildmaster
 // @history     0.17 - Added "quick open" for packs (ctrl+click), smooth scrolling deck list, fixed hover boxes being odd with scrolling,
 //                      "Open all" packs (shift+click), displays a toast with compressed results
