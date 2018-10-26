@@ -457,7 +457,7 @@ onPage('', function adjustSpectateView() {
 // === Chat hooks
 if (typeof onMessage === 'function') {
   debug('Chat detected');
-  let toast = new SimpleToast({});
+  let toast;
 
   const ignorePrefix = 'underscript.ignore.';
   const ignoreList = {};
@@ -483,7 +483,9 @@ if (typeof onMessage === 'function') {
 
     function open(event) {
       if (event.ctrlKey) return;
-      toast.close();
+      if (toast) {
+        toast.close();
+      }
       close();
       const { id, name, staff } = event.data;
       event.preventDefault();
@@ -604,21 +606,12 @@ if (typeof onMessage === 'function') {
     eventManager.emit(`Chat:${data.action}`, data);
   }
 
-  if (localStorage.getItem('underscript.ignoreNotice') !== '1') {
-    toast = new SimpleToast({
-      title: 'Did you know?',
-      footer: 'via UnderScript',
-      text: 'You can right click users in chat to ignore them!',
-      css: {
-        'font-family': 'sans-serif',
-        footer: { 'text-align': 'end', },
-      },
-      onClose: () => {
-        localStorage.setItem('underscript.ignoreNotice', '1');
-        toast = new SimpleToast(); // Remove from memory
-      }
-    });
-  }
+  toast = fn.infoToast({
+    text: 'You can right click users in chat to ignore them!',
+    onClose: () => {
+      toast = null; // Remove from memory
+    }
+  }, 'underscript.ignoreNotice', '1');
 
   // Fix chat window being all funky with sizes
   $('<style>').html('.chat-messages { height: calc(100% - 30px); }').appendTo('head');
@@ -687,6 +680,23 @@ onPage('GamesList', function keepAlive() {
   setInterval(() => {
     socket.send(JSON.stringify({ping: "pong"}));
   }, 10000);
+});
+
+onPage('GamesList', function fixEnter() {
+  $('#state1 button:contains(Create)').on('mouseup.script', () => {
+    // Wait for the dialog to show up...
+    $(window).one('shown.bs.modal', (e) => {
+      const input = $('.bootstrap-dialog-message input');
+      if (!input.length) return; // This is just to prevent errors... though this is an error in itself
+      $(input[0]).focus();
+      input.on('keydown.script', (e) => {
+        if (e.which === 13) {
+          e.preventDefault();
+          $('.bootstrap-dialog-footer-buttons button:first').trigger('click');
+        }
+      });
+    });
+  });
 });
 
 // Deck hook
@@ -839,11 +849,6 @@ onPage('Packs', function quickOpenPack() {
         fn.toast({
           text,
           title: `Pack Results (${total}${results.shiny ? `, ${results.shiny} shiny` : ''}):`,
-          footer: 'via UnderScript',
-          css: {
-            'font-family': 'inherit',
-            footer: { 'text-align': 'end', },
-          }
         });
         showCards();
       }
