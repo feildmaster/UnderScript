@@ -206,6 +206,7 @@ const fn = {
     return status;
   },
   toast: (arg) => {
+    // Why do I even check for SimpleToast? It *has* to be loaded at this point...
     if (!window.SimpleToast || !arg) return false;
     if (typeof arg === 'string') {
       arg = {
@@ -222,6 +223,25 @@ const fn = {
       arg.footer = 'via UnderScript';
     }
     return new SimpleToast(arg);
+  },
+  infoToast: (arg, key, val) => {
+    if (localStorage.getItem(key) === val) return null;
+    if (typeof arg === 'string') {
+      arg = {
+        text: arg,
+      };
+    } else if (typeof arg !== 'object') return null;
+    const oClose = arg.onClose;
+    arg.onClose = (reason) => {
+      if (oClose) {
+        oClose(reason);
+      }
+      localStorage.setItem(key, val);
+    }
+    if (!arg.title) {
+      arg.title = 'Did you know?';
+    }
+    return fn.toast(arg);
   },
   debug: (arg, permission = 'debugging') => {
     if (typeof arg === 'string') {
