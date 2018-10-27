@@ -938,7 +938,7 @@ onPage('Decks', function deckStorage() {
   function cards(list) {
     const names = [];
     list.forEach((card) => {
-      const name = $(`table#${card.id}:lt(1)`).find('.cardName').text();
+      const name = $(`table#${card.id}:lt(1)`).find('.cardName').text() || '<span style="color: red;">Disenchanted/Missing</span>';
       names.push(`- ${card.shiny ? '<span style="color: yellow;">S</span> ':''}${name}`);
     });
     return names.join('<br />');
