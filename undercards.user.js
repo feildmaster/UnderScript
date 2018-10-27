@@ -1005,7 +1005,7 @@ onPage('Decks', function deckStorage() {
           if (e.ctrlKey) { // ERASE
             localStorage.removeItem(nameKey);
             localStorage.removeItem(deckKey);
-            loadButton(i); // Reload
+            loadButton(i); // Reload :(
             refreshHover(); // Update
           } else if (e.shiftKey) { // Re-save
             saveDeck(i); // Save
@@ -1020,7 +1020,7 @@ onPage('Decks', function deckStorage() {
           function storeInput() {
             localStorage.setItem(nameKey, input.val());
             display.text(input.val()).show();
-            loadButton(i);
+            loadButton(i); // I really hate this
             refreshHover();
           }
           display.hide();
@@ -1032,7 +1032,9 @@ onPage('Decks', function deckStorage() {
                 e.preventDefault();
                 storeInput();
               }
-            }).on('focusout.script.deckStorage', storeInput);
+            }).on('focusout.script.deckStorage', () => {
+              storeInput();
+            });
         });
       }
   }
