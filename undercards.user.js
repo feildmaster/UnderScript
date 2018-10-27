@@ -886,13 +886,13 @@ onPage('Decks', function deckStorage() {
       deck.push(card);
     });
     if (!deck.length) return;
-    localStorage.setItem(`underscript.deck.${soul}.${i}`, JSON.stringify(deck));
+    localStorage.setItem(`underscript.deck.${selfId}.${soul}.${i}`, JSON.stringify(deck));
   }
 
   function loadDeck(i) {
     pending = []; // Clear pending
     const soul = $('#selectClasses').find(':selected').text();
-    let deck = JSON.parse(localStorage.getItem(`underscript.deck.${soul}.${i}`));
+    let deck = JSON.parse(localStorage.getItem(`underscript.deck.${selfId}.${soul}.${i}`));
     const cDeck = $(`#deckCards${soul} li`);
 
     if (cDeck.length) {
@@ -952,9 +952,12 @@ onPage('Decks', function deckStorage() {
 
   function loadButton(i) {
     const soul = $('#selectClasses').find(':selected').text();
+    const deckKey = `underscript.deck.${selfId}.${soul}.${i}`;
+    const nameKey = `${deckKey}.name`;
     const button = buttons[i];
     button.off('.deckStorage'); // Remove any lingering events
     function refreshHover() {
+      hover.hide();
       button.trigger('mouseenter');
     }
     function saveButton() {
@@ -963,15 +966,13 @@ onPage('Decks', function deckStorage() {
       refreshHover();
     }
     function hoverButton(e) {
-      if (e.type === 'mouseleave') {
-        hover.hide();
-      } else {
-        const deck = JSON.parse(localStorage.getItem(`underscript.deck.${soul}.${i}`));
-        let text;
+      let text = '';
+      if (e.type === 'mouseenter') {
+        const deck = JSON.parse(localStorage.getItem(deckKey));
         if (deck) {
           text = `
-            <div id="deckName">${localStorage.getItem(`underscript.deck.${soul}.${i}.name`) || (`${soul}-${i + 1}`)}</div>
-            <div><input id="deckNameInput" maxlength="28" style="border: 0; border-bottom: 2px solid #00617c; background: #000; width: 100%; display: none;" type="text" placeholder="${soul}-${i + 1}" value="${localStorage.getItem(`underscript.deck.${soul}.${i}.name`) || ''}"></div>
+            <div id="deckName">${localStorage.getItem(nameKey) || (`${soul}-${i + 1}`)}</div>
+            <div><input id="deckNameInput" maxlength="28" style="border: 0; border-bottom: 2px solid #00617c; background: #000; width: 100%; display: none;" type="text" placeholder="${soul}-${i + 1}" value="${localStorage.getItem(nameKey) || ''}"></div>
             <div>Click to load (${deck.length})</div>
             <div style="font-size: 13px;">${cards(deck)}</div>
             <div style="font-style: italic; color: #b3b3b3;">
@@ -985,11 +986,13 @@ onPage('Decks', function deckStorage() {
             <div id="name">${soul}-${i + 1}</div>
             <div>Click to save current deck</div>`;
         }
-        hover.show(text)(e);
       }
+      hover.show(text)(e);
     }
-    if (!localStorage.getItem(`underscript.deck.${soul}.${i}`)) {
-      button.hover(hoverButton).addClass('btn-danger')
+    if (!localStorage.getItem(deckKey)) {
+      button.addClass('btn-danger')
+        .removeClass('btn-primary')
+        .hover(hoverButton)
         .one('click.script.deckStorage', saveButton);
     } else {
       button.removeClass('btn-danger')
@@ -1000,8 +1003,8 @@ onPage('Decks', function deckStorage() {
             return;
           }
           if (e.ctrlKey) { // ERASE
-            localStorage.removeItem(`underscript.deck.${soul}.${i}.name`);
-            localStorage.removeItem(`underscript.deck.${soul}.${i}`);
+            localStorage.removeItem(nameKey);
+            localStorage.removeItem(deckKey);
             loadButton(i); // Reload
             refreshHover(); // Update
           } else if (e.shiftKey) { // Re-save
@@ -1011,27 +1014,32 @@ onPage('Decks', function deckStorage() {
             loadDeck(i);
           }
         }).on('contextmenu.script.deckStorage', (e) => {
-          function storeInput() {
-            localStorage.setItem(`underscript.deck.${soul}.${i}.name`, input.val());
-            refreshHover();
-          }
           e.preventDefault();
           const input = $('#deckNameInput');
-          $('#deckName').hide();
-          input.show();
-          input.focus();
-          input.select();
-          input.on('keydown.script.deckStorage', (e) => {
-            if (e.which === 27 || e.which === 13) {
-              e.preventDefault();
-              storeInput();
-            }
-          }).on('focusout.script.deckStorage', storeInput);
+          const display = $('#deckName');
+          function storeInput() {
+            localStorage.setItem(nameKey, input.val());
+            display.text(input.val()).show();
+            loadButton(i);
+            refreshHover();
+          }
+          display.hide();
+          input.show()
+            .focus()
+            .select()
+            .on('keydown.script.deckStorage', (e) => {
+              if (e.which === 27 || e.which === 13) {
+                e.preventDefault();
+                storeInput();
+              }
+            }).on('focusout.script.deckStorage', storeInput);
         });
       }
   }
 
-  loadStorage();
+  $(window).on('load', () => {
+    loadStorage();
+  });
 });
 
 onPage('Packs', function quickOpenPack() {
