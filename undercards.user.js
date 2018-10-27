@@ -3,8 +3,9 @@
 // @description  Various changes to undercards game
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.10.1/simpletoast.js
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/0.17/utilities.js
-// @version      0.17
+// @version      0.17.1
 // @author       feildmaster
+// @history   0.17.1 - Fixed smooth scrolling for small resolutions
 // @history     0.17 - Added "quick open" for packs (ctrl+click), smooth scrolling deck list, fixed hover boxes being odd with scrolling,
 //                      "Open all" packs (shift+click), displays a toast with compressed results
 // @history     0.16 - Prevent custom game screen from timing out (as often), fixed 'endTurn' hotkeys
@@ -761,19 +762,40 @@ onPage('Decks', function () {
     oLoad();
     const cardList = $('#yourCardList');
     cardList.css({ 
-      'position': '',
+      'position': 'absolute',
       'max-width': '180px',
     });
+    const maxHeight = 5 + cardList.height() + $('body > footer').height();
     const oOffset = cardList.offset().top - 5;
+    const oOffsetDeck = $('#deckCardsKINDNESS').offset().top - 5;
     $(window).on('scroll.script', () => {
-      if (window.pageYOffset > oOffset) {
+      if (window.innerHeight < maxHeight) {
+        // Lock to the deck offset instead
+        if (window.pageYOffset > oOffsetDeck) {
+          $('.deckCardsList').css({
+            position: 'fixed',
+            width: '180px',
+            top: 5,
+          });
+        } else {
+          $('.deckCardsList').css({
+            position: '',
+            width: '',
+            top: '',
+          });
+        }
+        cardList.css({
+          position: '',
+          top: '',
+        });
+      } else if (window.pageYOffset > oOffset) {
         cardList.css({
           position: 'fixed',
           top: 5,
         });
       } else {
         cardList.css({
-          position: '',
+          position: 'absolute',
           top: '',
         });
       }
