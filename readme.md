@@ -18,6 +18,7 @@
 1. Ignore users with right click<br>![Ignore](/img/chatcontext.png)
 1. Smooth Scrolling deck list
 1. Quick Open packs (CTRL Click) and Open All Packs (Shift Click)
+1. Deck Storage<br>![Deck Storage](/img/deckstorage.png)
 
 ### Hotkeys ###
 
