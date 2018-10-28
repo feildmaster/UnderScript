@@ -3,8 +3,9 @@
 // @description  Various changes to undercards game
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.10.1/simpletoast.js
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/0.17/utilities.js
-// @version      0.17.3
+// @version      0.18
 // @author       feildmaster
+// @history     0.18 - Added the long awaited Deck Storage
 // @history   0.17.3 - Fixed smooth scrolling for small resolutions, when your deck isn't full (Thanks Liryax)
 // @history   0.17.2 - Fixed a display issue when opening packs
 // @history   0.17.1 - Fixed smooth scrolling for small resolutions
