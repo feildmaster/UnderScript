@@ -3,8 +3,9 @@
 // @description  Various changes to undercards game
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.10.1/simpletoast.js
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/0.17/utilities.js
-// @version      0.17.1
+// @version      0.17.2
 // @author       feildmaster
+// @history   0.17.2 - Fixed a display issue when opening packs
 // @history   0.17.1 - Fixed smooth scrolling for small resolutions
 // @history     0.17 - Added "quick open" for packs (ctrl+click), smooth scrolling deck list, fixed hover boxes being odd with scrolling,
 //                      "Open all" packs (shift+click), displays a toast with compressed results
@@ -893,15 +894,18 @@ onPage('Packs', function quickOpenPack() {
   $('#btnOpen, #btnOpenShiny').on('click.script', (event) => {
     autoOpen = event.ctrlKey;
     openAll = false;
+    const shiny = $(event.target).prop('id') === 'btnOpenShiny' ? 'Shiny' : '';
+    const count = parseInt($(`#nb${shiny}Packs`).text());
     if (event.shiftKey) {
       clearResults();
-      const shiny = $(event.target).prop('id') === 'btnOpenShiny' ? 'Shiny' : '';
-      const count = parseInt($(`#nb${shiny}Packs`).text());
       openAll = count;
       for (let i = 1; i < count; i++) { // Start at 1, we've "opened" a pack already
         canOpen = true;
         openPack(`open${shiny}Pack`);
       }
+      hover.hide();
+    } else if (count === 1) { // Last pack?
+      hover.hide();
     }
   }).on('mouseenter.script', hover.show(`<span style="font-style: italic;">
       * CTRL Click to auto reveal one pack<br />
