@@ -3,8 +3,9 @@
 // @description  Various changes to undercards game
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.10.1/simpletoast.js
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/0.17/utilities.js
-// @version      0.18
+// @version      0.18.1
 // @author       feildmaster
+// @history   0.18.1 - Fix smooth scrolling, don't rush updates!
 // @history     0.18 - Added the long awaited Deck Storage
 // @history   0.17.3 - Fixed smooth scrolling for small resolutions, when your deck isn't full (Thanks Liryax)
 // @history   0.17.2 - Fixed a display issue when opening packs
@@ -771,9 +772,9 @@ onPage('Decks', function () {
     const oOffset = cardList.offset().top - 5;
     const oOffsetDeck = $('#deckCardsKINDNESS').offset().top - 5;
     $(window).on('scroll.script', () => {
+      // Calculated here because cardList can change height
+      const maxHeight = 5 + cardList.height() + $('body > footer').height();
       if (window.innerHeight < maxHeight) {
-        // Calculated here because cardList can change height
-        const maxHeight = 5 + cardList.height() + $('body > footer').height();
         // Lock to the deck offset instead
         if (window.pageYOffset > oOffsetDeck) {
           $('.deckCardsList').css({
