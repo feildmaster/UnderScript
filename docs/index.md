@@ -15,7 +15,7 @@ title: UnderScript
   <li>
     {% if feature.deprecated %}<del>{% endif %}{{ feature.title }}{% if feature.deprecated %}</del>{% endif %}
     {% if feature.banner %}{% assign banner = site.static_files | where: "name", feature.banner | first %}
-    {% if banner %}<br><img src="{{banner.path}}">{% endif %}{% endif %}
+    {% if banner %}<br><img src="{{banner.path | relative_url }}">{% endif %}{% endif %}
   </li>
 {% endfor %}
 </ul>
