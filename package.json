@@ -13,8 +13,7 @@
   ],
   "scripts": {
     "build": "gulp --deploy",
-    "prepack": "gulp --deploy",
-    "post-prepack": "rm -rf dist"
+    "prepack": "gulp --deploy"
   },
   "files": [
     "dist/*.js"
