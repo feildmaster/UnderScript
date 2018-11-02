@@ -6,20 +6,25 @@ const rename = require('gulp-rename');
 const metafile = './src/meta.js';
 const underscript = [metafile, './src/base/*.js', './src/desktop/*.js', './src/hooks/*.js'];
 
+function buildUtils() {
+  return src('./src/utilities.js')
+    .pipe(to());
+}
+
 function buildMeta() {
   return src(metafile)
     .pipe(rename('undercards.meta.js'))
-    .pipe(docs());
+    .pipe(to());
 }
 
 function build() {
   return src(underscript)
     .pipe(concat('undercards.user.js'))
-    .pipe(docs());
+    .pipe(to());
 }
 
-function docs() {
-  return dest('./docs');
+function to() {
+  return dest('./dist');
 }
 
 if (!argv.deploy) {
@@ -27,4 +32,4 @@ if (!argv.deploy) {
   watch(underscript, build);
 }
 
-exports.default = parallel(buildMeta, build);
+exports.default = parallel(buildUtils, buildMeta, build);
