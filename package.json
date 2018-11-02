@@ -1,5 +1,23 @@
 {
-  "private": true,
+  "name": "underscript",
+  "version": "0.18.1",
+  "description": "Script for Undercards. An undertale fan-made game.",
+  "repository": "feildmaster/UnderScript",
+  "main": "docs/undercards.user.js",
+  "unpkg": "docs/undercards.user.js",
+  "browser": "docs/undercards.user.js",
+  "license": "MIT",
+  "author": "Alan H (feildmaster) <underscript@feildmaster.com> (https://feildmaster.com/)",
+  "contributors": [
+    "Austin Peterson <austin@akpwebdesign.com> (https://blog.akpwebdesign.com)"
+  ],
+  "scripts": {
+    "build": "gulp --deploy"
+  },
+  "files": [
+    "docs/undercards.meta.js",
+    "docs/undercards.user.js"
+  ],
   "devDependencies": {
     "gulp": "^4.0.0",
     "gulp-concat": "^2.6.1",
