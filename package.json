@@ -13,7 +13,9 @@
   ],
   "scripts": {
     "build": "gulp --deploy",
-    "prepack": "gulp --deploy"
+    "postversion": "scripts/versioning.js",
+    "prepack": "gulp --deploy",
+    "release": "standard-version -a"
   },
   "files": [
     "dist/*.js"
@@ -22,6 +24,10 @@
     "gulp": "^4.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-rename": "^1.4.0",
-    "minimist": "^1.2.0"
+    "minimist": "^1.2.0",
+    "replace": "^1.0.0"
+  },
+  "standard-version": {
+    "postbump": "node scripts/versioning.js && git add ./src/meta.js"
   }
 }
