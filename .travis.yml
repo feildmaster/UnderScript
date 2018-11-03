@@ -20,7 +20,7 @@ deploy:
       branch: master
   - provider: script
     skip_cleanup: true
-    script: "scripts/gist.sh dist/undercards.user.js"
+    script: scripts/gist.sh dist/undercards.user.js
     on:
       all_branches: true
       condition: $TRAVIS_BRANCH != master
