@@ -12,3 +12,15 @@ deploy:
     on:
       tags: true
       branch: master
+  - provider: releases
+    skip_cleanup: true
+    api_key: $github_token
+    on:
+      tags: true
+      branch: master
+  - provider: script
+    skip_cleanup: true
+    script: "scripts/gist.sh dist/undercards.user.js"
+    on:
+      all_branches: true
+      condition: $TRAVIS_BRANCH != master
