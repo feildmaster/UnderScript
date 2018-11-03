@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - "8"
+before_script:
+  - npm install -g gulp-cli
+script: gulp --deploy
+deploy:
+  - provider: npm
+    skip-cleanup: true
+    email: "underscript@feildmaster.com"
+    api_key: $npm_token
+    on:
+      tags: true
+      branch: master

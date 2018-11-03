@@ -2,9 +2,9 @@
 // @name         UnderCards script
 // @description  Various changes to undercards game
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.10.1/simpletoast.js
-// @require      https://raw.githubusercontent.com/feildmaster/UnderScript/0.17/utilities.js
 // @version      0.18.1
 // @author       feildmaster
+// @history   0.18.2 - New release process
 // @history   0.18.1 - Fix smooth scrolling, don't rush updates!
 // @history     0.18 - Added the long awaited Deck Storage
 // @history   0.17.3 - Fixed smooth scrolling for small resolutions, when your deck isn't full (Thanks Liryax)
@@ -53,7 +53,8 @@
 // @homepage     https://feildmaster.github.io/UnderScript/
 // @source       https://github.com/feildmaster/UnderScript
 // @supportURL   https://github.com/feildmaster/UnderScript/issues
-// @downloadURL  https://feildmaster.github.io/UnderScript/undercards.user.js
+// @updateURL    https://unpkg.com/underscript/dist/undercards.meta.js
+// @downloadURL  https://unpkg.com/underscript
 // @namespace    https://feildmaster.com/
 // @grant        none
 // ==/UserScript==
