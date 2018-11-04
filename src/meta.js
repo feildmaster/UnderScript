@@ -50,6 +50,7 @@
 // @history      0.2 - Added EndTurn hotkey (space, middle click), focus chat (enter)
 // @history      0.1 - Made deck selection smart
 // @match        https://*.undercards.net/*
+// @match        https://feildmaster.github.io/UnderScript/*
 // @homepage     https://feildmaster.github.io/UnderScript/
 // @source       https://github.com/feildmaster/UnderScript
 // @supportURL   https://github.com/feildmaster/UnderScript/issues
