@@ -5,7 +5,7 @@ const replace = require('gulp-replace');
 
 const deploy = process.argv.includes('--deploy');
 const metafile = 'src/meta.js';
-const underscript = [metafile, 'src/utils/*.js', 'src/base/*.js', 'src/desktop/*.js', 'src/hooks/*.js', '!src/**/*.ignore.js'];
+const underscript = [metafile, 'src/utils/*.js', 'src/base/*.js', 'src/hooks/*.js', '!src/**/*.ignore.js'];
 
 function buildMeta() {
   return src(metafile)
