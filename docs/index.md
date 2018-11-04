@@ -3,9 +3,11 @@ title: UnderScript
 ---
 
 ## Setup ##
-
-1. Install [Tampermonkey](https://tampermonkey.net/) (recommended), [Violentmonkey](https://violentmonkey.github.io/), or some other obscure script program for your browser
-2. Open **[undercards.user.js](/undercards.user.js)** (Tampermonkey should pop up)<br>![Install UnderScript](/assets/features/installscript.png)
+<ul class="setup">
+  <li><a class="buttons install" href="https://tampermonkey.net/">Tampermonkey</a></li>
+  <li><a class="buttons install" href="./undercards.user.js">UnderScript</a></li>
+</ul>
+![Install UnderScript](/assets/features/installscript.png)
 
 ## Features ##
 
