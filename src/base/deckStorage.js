@@ -1,3 +1,16 @@
+settings.register({
+  name: 'Deck Storage Rows',
+  key: 'underscript.storage.rows',
+  type: 'select',
+  options: ['1', '2', '3', '4', '5', '6'],
+  note: () => {
+    debug('deckStorage#note', onPage('Decks'));
+    if (onPage('Decks')) {
+      return 'Will require you to refresh the page';
+    }
+  },
+});
+
 onPage('Decks', function deckStorage() {
   const container = $('<p>');
   const buttons = [];
