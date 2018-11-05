@@ -3,7 +3,7 @@
 // @description  Various changes to undercards game
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.10.1/simpletoast.js
 // @require      https://raw.githubusercontent.com/feildmaster/UnderScript/0.17/utilities.js
-// @version      0.18.1
+// @version      0.18.2-alpha
 // @author       feildmaster
 // @history   0.18.1 - Fix smooth scrolling, don't rush updates!
 // @history     0.18 - Added the long awaited Deck Storage
@@ -57,6 +57,50 @@
 // @namespace    https://feildmaster.com/
 // @grant        none
 // ==/UserScript==
+
+// === Variables start
+const hotkeys = [];
+// === Variables end
+
+eventManager.on("getWaitingQueue", function lowerVolume() {
+  // Lower the volume, the music changing is enough as is
+  audioQueue.volume = 0.3;
+});
+
+eventManager.on("PlayingGame", function bindHotkeys() {
+  // Binds to Space, Middle Click
+  const hotkey = new Hotkey("End turn").run((e) => {
+      if (!$(e.target).is("#endTurnBtn") && userTurn === userId) endTurn();
+    });
+  if (!localStorage.getItem('setting.disable.endTurn.space')) {
+    hotkey.bindKey(32);
+  }
+  if (!localStorage.getItem('setting.disable.endTurn.middleClick')) {
+    hotkey.bindClick(2);
+  }
+  hotkeys.push(hotkey);
+});
+
+eventManager.on('PlayingGame', function fixEndTurn() {
+  const oEndTurn = endTurn;
+  let endedTurn = false;
+  endTurn = function restrictedEndTurn() {
+    if (endedTurn || $('#endTurnBtn').prop('disabled')) return;
+    endedTurn = true;
+    oEndTurn();
+  };
+
+  eventManager.on('getTurnStart', function turnStarted() {
+    if (userTurn !== userId) return;
+    endedTurn = false;
+    if (turn > 3 && !localStorage.getItem('setting.disable.endTurnDelay')) {
+      $('#endTurnBtn').prop('disabled', true);
+      setTimeout(() => {
+        $('#endTurnBtn').prop('disabled', false);
+      }, 3000);
+    }
+  });
+});
 
 eventManager.on("GameStart", function battleLogger() {
   const ignoreEvents = Object.keys({
@@ -403,77 +447,22 @@ eventManager.on("GameStart", function battleLogger() {
   })
 });
 
-onPage('CardSkinsShop', function () {
-  debug('Skin shop');
-  const cards = [];
-  $('table#cardSkinsList > tbody > tr').each(function(row) {
-    // Is this still supported?
-    if (row === 0) {
-      if($(this).children('td').length !== 6) return false;
-      return;
-    }
-    const skin = {};
-    $(this).children('td').each(function(column) {
-      let target;
-      if (column === 0) {
-        target = 'card';
-      } else if (column === 1) {
-        target = 'name';
-      } else if (column === 2) {
-        target = 'author';
-      } else if (column === 3) {
-        skin['img'] = $(this).children('img')[0].src;
-        return;
-      } else if (column === 4) {
-        skin['cost'] = $($(this).children('span')[0]).html();
-        return;
-      } else {
-        target = 'action';
-        if ($(this).children('p').length) {
-          skin[target] = '<a href="Shop" class="btn btn-sm btn-danger">Unlock</a>';
-          return;
-        }
-      }
-      skin[target] = $(this).html();
-    });
-    cards.push(skin);
-  });
-  if (cards.length) {
-    function cardMySkin(skin) {
-      return `<table class="cardBoard monster col-sm-4" style="height: 220px !important; opacity: 1; cursor: default;">
-        <tbody>
-          <tr>
-            <td class="cardName" colspan="3">${skin.card}</td>
-            <td class="ucp" style="text-align: center; font-size: 15px;">${skin.cost}</td>
-          </tr>
-          <tr>
-            <td id="cardImage" colspan="4"><img src="${skin.img}"></td>
-          </tr>
-          <tr>
-            <td class="cardDesc" colspan="4">${skin.name}<br />by <span class="Artist">${skin.author}</span></td>
-          </tr>
-          <tr>
-            <td style="background-color: #000; text-align: center; margin: 0; ${skin.action.includes('<p>') ? 'color: red;' : ''}" colspan="4">${skin.action}</td>
-          </tr>
-        </tbody>
-      </table>`;
-    }
-    // Load css/cards.min.css
-    $.get('css/decks.min.css', (css) => $('<style type="text/css"></style>').html(css).appendTo("head"));
-    $.get('css/cards.min.css', (css) => $('<style type="text/css"></style>').html(css).appendTo("head"));
-    // hide #cardSkinsList
-    $('table#cardSkinsList').hide();
-    // add cardSkinDiv
-    const div = $('<div id="cardedSkins" class="container cardsList" style="width:720px; display: block;">');
-    // build skinned cards
-    cards.forEach((card) => {
-      div.append(cardMySkin(card));
-    });
-    $('div.mainContent p:first').after(div);
+// === Index hook
+onPage('', function adjustSpectateView() {
+  const spectate = $('.spectateTable');
+  const tbody = $('.spectateTable tbody');
+  const footer = $('.mainContent footer');
+  function doAdjustment() {
+    tbody.css({height: 'auto', 'max-height': `${footer.offset().top - spectate.offset().top}px`});
   }
+  $('.mainContent > br').remove();
+  doAdjustment();
+  $(window).on('resize.script', doAdjustment);
 });
 
-eventManager.on('ChatDetected' , () => {
+// === Chat hooks
+if (typeof onMessage === 'function') {
+  debug('Chat detected');
   let toast;
 
   const ignorePrefix = 'underscript.ignore.';
@@ -615,21 +604,121 @@ eventManager.on('ChatDetected' , () => {
     processMessage(JSON.parse(data.chatMessage), data.room);
   });
 
+  const oHandler = socketChat.onmessage;
+  socketChat.onmessage = (event) => {
+    oHandler(event);
+    const data = JSON.parse(event.data);
+    eventManager.emit('ChatMessage', data);
+    eventManager.emit(`Chat:${data.action}`, data);
+  }
+
   toast = fn.infoToast({
     text: 'You can right click users in chat to ignore them!',
     onClose: () => {
       toast = null; // Remove from memory
     }
   }, 'underscript.ignoreNotice', '1');
-});
 
-eventManager.on('ChatDetected', () => {
   // Fix chat window being all funky with sizes
   $('<style>').html('.chat-messages { height: calc(100% - 30px); }').appendTo('head');
+}
+
+// === Play hooks
+onPage("Play", function () {
+  // TODO: Better "game found" support
+  debug("On play page");
+  let queues, disable = true;
+  let restarting = false;
+
+  eventManager.on("jQuery", function onPlay() {
+    if (disable) {
+      queues = $("button.btn.btn-primary");
+      queues.prop("disabled", true);
+      restarting = $('p.infoMessage:contains("The server will restart in")').length === 1;
+      if (restarting) {
+        queues.hover(hover.show('Joining is disabled due to server restart.'));
+      }
+    }
+  });
+
+  (function hook() {
+    if (typeof socketQueue === "undefined") {
+      debug("Timeout hook");
+      return setTimeout(hook);
+    }
+    socket = socketQueue;
+    const oOpen = socketQueue.onopen;
+    socketQueue.onopen = function onOpenScript(event) {
+      disable = false;
+      oOpen(event);
+      if (queues && !restarting) queues.prop("disabled", false);
+    };
+    const oHandler = socketQueue.onmessage;
+    socketQueue.onmessage = function onMessageScript(event) {
+      const data = JSON.parse(event.data);
+      oHandler(event);
+      eventManager.emit(data.action, data);
+    };
+  })();
 });
 
-// TODO: Convert to event listeners?
+// === Game hooks
+onPage("Game", function () {
+  debug("Playing Game");
+  eventManager.emit("GameStart");
+  eventManager.emit("PlayingGame");
+  (function hook() {
+    if (typeof socket === 'undefined') {
+      debug("Timeout hook");
+      return setTimeout(hook);
+    }
+    const oHandler = socket.onmessage;
+    socket.onmessage = function onMessageScript(event) {
+      const data = JSON.parse(event.data);
+      //eventManager.emit('PreGameEvent', data, true);
+      oHandler(event);
+      eventManager.emit('GameEvent', data);
+    };
+  })();
+});
+
+onPage('GamesList', function keepAlive() {
+  setInterval(() => {
+    socket.send(JSON.stringify({ping: "pong"}));
+  }, 10000);
+});
+
+onPage('GamesList', function fixEnter() {
+  let toast = fn.infoToast({
+      text: 'You can now press enter on the Create Game window.',
+      onClose: () => {
+        toast = null;
+      }
+    }, 'underscript.notice.customGame', '1');
+
+  $('#state1 button:contains(Create)').on('mouseup.script', () => {
+    // Wait for the dialog to show up...
+    $(window).one('shown.bs.modal', (e) => {
+      const input = $('.bootstrap-dialog-message input');
+      if (!input.length) return; // This is just to prevent errors... though this is an error in itself
+      $(input[0]).focus();
+      input.on('keydown.script', (e) => {
+        if (e.which === 13) {
+          if (toast) {
+            toast.close();
+          }
+          e.preventDefault();
+          $('.bootstrap-dialog-footer-buttons button:first').trigger('click');
+        }
+      });
+    });
+  });
+
+});
+
+// Deck hook
 onPage('Decks', function () {
+  debug('Deck editor');
   function hoverCard(element) {
     const id = element.attr('id');
     const shiny = element.hasClass('shiny') ? '.shiny' : '';
@@ -717,6 +806,25 @@ onPage('Decks', function () {
       }
     });
   };
+});
+
+// Spectate hooks
+onPage("gameSpectate", function () {
+  debug("Spectating Game");
+  eventManager.emit("GameStart");
+  (function hook() {
+    if (typeof socket === "undefined") {
+      debug("Timeout hook");
+      return setTimeout(hook);
+    }
+    const oHandler = socket.onmessage;
+    socket.onmessage = function onMessageScript(event) {
+      const data = JSON.parse(event.data);
+      //eventManager.emit('PreGameEvent', data, true);
+      oHandler(event);
+      eventManager.emit('GameEvent', data);
+    };
+  })();
 });
 
 onPage('Decks', function deckStorage() {
@@ -938,77 +1046,6 @@ onPage('Decks', function deckStorage() {
   });
 });
 
-eventManager.on('PlayingGame', function fixEndTurn() {
-  const oEndTurn = endTurn;
-  let endedTurn = false;
-  endTurn = function restrictedEndTurn() {
-    if (endedTurn || $('#endTurnBtn').prop('disabled')) return;
-    endedTurn = true;
-    oEndTurn();
-  };
-
-  eventManager.on('getTurnStart', function turnStarted() {
-    if (userTurn !== userId) return;
-    endedTurn = false;
-    if (turn > 3 && !localStorage.getItem('setting.disable.endTurnDelay')) {
-      $('#endTurnBtn').prop('disabled', true);
-      setTimeout(() => {
-        $('#endTurnBtn').prop('disabled', false);
-      }, 3000);
-    }
-  });
-});
-
-onPage('GamesList', function fixEnter() {
-  let toast = fn.infoToast({
-      text: 'You can now press enter on the Create Game window.',
-      onClose: () => {
-        toast = null;
-      }
-    }, 'underscript.notice.customGame', '1');
-
-  $('#state1 button:contains(Create)').on('mouseup.script', () => {
-    // Wait for the dialog to show up...
-    $(window).one('shown.bs.modal', (e) => {
-      const input = $('.bootstrap-dialog-message input');
-      if (!input.length) return; // This is just to prevent errors... though this is an error in itself
-      $(input[0]).focus();
-      input.on('keydown.script', (e) => {
-        if (e.which === 13) {
-          if (toast) {
-            toast.close();
-          }
-          e.preventDefault();
-          $('.bootstrap-dialog-footer-buttons button:first').trigger('click');
-        }
-      });
-    });
-  });
-});
-
-onPage('', function adjustSpectateView() {
-  const spectate = $('.spectateTable');
-  const tbody = $('.spectateTable tbody');
-  const footer = $('.mainContent footer');
-  function doAdjustment() {
-    tbody.css({height: 'auto', 'max-height': `${footer.offset().top - spectate.offset().top}px`});
-  }
-  $('.mainContent > br').remove();
-  doAdjustment();
-  $(window).on('resize.script', doAdjustment);
-});
-
-eventManager.on("getWaitingQueue", function lowerVolume() {
-  // Lower the volume, the music changing is enough as is
-  audioQueue.volume = 0.3;
-});
-
-onPage('GamesList', function keepAlive() {
-  setInterval(() => {
-    socket.send(JSON.stringify({ping: "pong"}));
-  }, 10000);
-});
-
 onPage('Packs', function quickOpenPack() {
   const rarity = [ 'DETERMINATION', 'LEGENDARY', 'EPIC', 'RARE', 'COMMON' ];
   const results = {};
@@ -1099,18 +1136,74 @@ onPage('Packs', function quickOpenPack() {
     </span>`)).on('mouseleave.script', hover.hide);
 });
 
-eventManager.on("PlayingGame", function bindHotkeys() {
-  // Binds to Space, Middle Click
-  const hotkey = new Hotkey("End turn").run((e) => {
-      if (!$(e.target).is("#endTurnBtn") && userTurn === userId) endTurn();
+onPage('CardSkinsShop', function () {
+  debug('Skin shop');
+  const cards = [];
+  $('table#cardSkinsList > tbody > tr').each(function(row) {
+    // Is this still supported?
+    if (row === 0) {
+      if($(this).children('td').length !== 6) return false;
+      return;
+    }
+    const skin = {};
+    $(this).children('td').each(function(column) {
+      let target;
+      if (column === 0) {
+        target = 'card';
+      } else if (column === 1) {
+        target = 'name';
+      } else if (column === 2) {
+        target = 'author';
+      } else if (column === 3) {
+        skin['img'] = $(this).children('img')[0].src;
+        return;
+      } else if (column === 4) {
+        skin['cost'] = $($(this).children('span')[0]).html();
+        return;
+      } else {
+        target = 'action';
+        if ($(this).children('p').length) {
+          skin[target] = '<a href="Shop" class="btn btn-sm btn-danger">Unlock</a>';
+          return;
+        }
+      }
+      skin[target] = $(this).html();
     });
-  if (!localStorage.getItem('setting.disable.endTurn.space')) {
-    hotkey.bindKey(32);
+    cards.push(skin);
+  });
+  if (cards.length) {
+    function cardMySkin(skin) {
+      return `<table class="cardBoard monster col-sm-4" style="height: 220px !important; opacity: 1; cursor: default;">
+        <tbody>
+          <tr>
+            <td class="cardName" colspan="3">${skin.card}</td>
+            <td class="ucp" style="text-align: center; font-size: 15px;">${skin.cost}</td>
+          </tr>
+          <tr>
+            <td id="cardImage" colspan="4"><img src="${skin.img}"></td>
+          </tr>
+          <tr>
+            <td class="cardDesc" colspan="4">${skin.name}<br />by <span class="Artist">${skin.author}</span></td>
+          </tr>
+          <tr>
+            <td style="background-color: #000; text-align: center; margin: 0; ${skin.action.includes('<p>') ? 'color: red;' : ''}" colspan="4">${skin.action}</td>
+          </tr>
+        </tbody>
+      </table>`;
+    }
+    // Load css/cards.min.css
+    $.get('css/decks.min.css', (css) => $('<style type="text/css"></style>').html(css).appendTo("head"));
+    $.get('css/cards.min.css', (css) => $('<style type="text/css"></style>').html(css).appendTo("head"));
+    // hide #cardSkinsList
+    $('table#cardSkinsList').hide();
+    // add cardSkinDiv
+    const div = $('<div id="cardedSkins" class="container cardsList" style="width:720px; display: block;">');
+    // build skinned cards
+    cards.forEach((card) => {
+      div.append(cardMySkin(card));
+    });
+    $('div.mainContent p:first').after(div);
   }
-  if (!localStorage.getItem('setting.disable.endTurn.middleClick')) {
-    hotkey.bindClick(2);
-  }
-  hotkeys.push(hotkey);
 });
 
 // === Always do the following - if jquery is loaded
@@ -1132,40 +1225,18 @@ eventManager.on("jQuery", function always() {
       }
     });
   });
-});
-
-if (typeof onMessage === 'function') {
-  debug('Chat detected');
-  eventManager.emit('ChatDetected');
-
-  const oHandler = socketChat.onmessage;
-  socketChat.onmessage = (event) => {
-    oHandler(event);
-    const data = JSON.parse(event.data);
-    eventManager.emit('ChatMessage', data);
-    eventManager.emit(`Chat:${data.action}`, data);
+  /* This legacy code doesn't work
+  $(window).unload(function() {
+    // Store chat text (if any)
+    var val = $("div.chat-public input.chat-text").val();
+    if (!val) return;
+    localStorage.oldChat = val;
+  });
+  if (localStorage.oldChat) {
+    $("div.chat-public input.chat-text").val(localStorage.oldChat);
+    delete localStorage.oldChat;
   }
-}
-onPage('Decks', function () {
-  debug('Deck editor');
-});
-onPage("Game", function () {
-  debug("Playing Game");
-  eventManager.emit("GameStart");
-  eventManager.emit("PlayingGame");
-  (function hook() {
-    if (typeof socket === 'undefined') {
-      debug("Timeout hook");
-      return setTimeout(hook);
-    }
-    const oHandler = socket.onmessage;
-    socket.onmessage = function onMessageScript(event) {
-      const data = JSON.parse(event.data);
-      //eventManager.emit('PreGameEvent', data, true);
-      oHandler(event);
-      eventManager.emit('GameEvent', data);
-    };
-  })();
+  // */
 });
 
 // Attempt to detect jQuery
@@ -1180,60 +1251,3 @@ let tries = 20;
   }
   eventManager.emit("jQuery");
 })();
-
-// TODO: convert stuff to events (maybe?)
-onPage("Play", function () {
-  // TODO: Better "game found" support
-  debug("On play page");
-  let queues, disable = true;
-  let restarting = false;
-
-  eventManager.on("jQuery", function onPlay() {
-    if (disable) {
-      queues = $("button.btn.btn-primary");
-      queues.prop("disabled", true);
-      restarting = $('p.infoMessage:contains("The server will restart in")').length === 1;
-      if (restarting) {
-        queues.hover(hover.show('Joining is disabled due to server restart.'));
-      }
-    }
-  });
-
-  (function hook() {
-    if (typeof socketQueue === "undefined") {
-      debug("Timeout hook");
-      return setTimeout(hook);
-    }
-    socket = socketQueue;
-    const oOpen = socketQueue.onopen;
-    socketQueue.onopen = function onOpenScript(event) {
-      disable = false;
-      oOpen(event);
-      if (queues && !restarting) queues.prop("disabled", false);
-    };
-    const oHandler = socketQueue.onmessage;
-    socketQueue.onmessage = function onMessageScript(event) {
-      const data = JSON.parse(event.data);
-      oHandler(event);
-      eventManager.emit(data.action, data);
-    };
-  })();
-});
-
-onPage("gameSpectate", function () {
-  debug("Spectating Game");
-  eventManager.emit("GameStart");
-  (function hook() {
-    if (typeof socket === "undefined") {
-      debug("Timeout hook");
-      return setTimeout(hook);
-    }
-    const oHandler = socket.onmessage;
-    socket.onmessage = function onMessageScript(event) {
-      const data = JSON.parse(event.data);
-      //eventManager.emit('PreGameEvent', data, true);
-      oHandler(event);
-      eventManager.emit('GameEvent', data);
-    };
-  })();
-});
