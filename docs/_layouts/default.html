@@ -27,6 +27,9 @@
           {% if site.discord_url %}
             <li><a target="blank" class="buttons discord" href="{{ site.discord_url }}">Join the Discord</a></li>
           {% endif %}
+          {% if site.patreon_id %}
+            <li><a target="blank" href="https://www.patreon.com/bePatron?u={{ site.patreon_id }}" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script></li>
+          {% endif %}
         </ul>
 
         {% if site.github.is_project_page %}
