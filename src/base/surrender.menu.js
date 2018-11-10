@@ -8,11 +8,16 @@ onPage('Game', () => {
   }
   // Add the "surrender" menu button
   menu.addButton({
-    name: 'Surrender',
+    text: 'Surrender',
     enabled: canSurrender,
+    close: true,
     note: () => {
       if (canSurrender()) return null;
       return `You can't surrender before turn 5.`;
+    },
+    action: () => {
+      if (socket.readyState !== 1) return;
+      socket.send(JSON.stringify({action: "surrender"}));
     },
   });
 });
