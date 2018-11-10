@@ -61,9 +61,15 @@ const menu = (() => {
           });
         }
         if (data.note) {
-          const note = typeof data.note === 'function' ? data.note() : data.note;
-          if (note) {
-            button.hover(hover.show(note));
+          if (typeof data.note === 'function') {
+            button.hover((e) => {
+              const note = data.note();
+              if (note) {
+                hover.show(note)(e);
+              }
+            }, hover.close);
+          } else {
+            button.hover(hover.show(data.note));
           }
         }
         body.append(button);
