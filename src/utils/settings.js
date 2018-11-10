@@ -145,6 +145,13 @@ const settings = (() => {
     return dialog !== null;
   }
 
+  menu.addButton({
+    text: 'Settings',
+    action: () => {
+      open('main'); 
+    },
+  });
+
   return {
     open, close, setDisplayName, isOpen,
     register: add,
