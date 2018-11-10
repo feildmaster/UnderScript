@@ -95,9 +95,14 @@ const menu = (() => {
     cooked = false;
     const { text, action, url, note, enabled } = button;
     const close = (button.closeMenu || button.close) === true;
-    buttons.push({
+    const safeButton = {
       text, action, url, close, note, enabled
-    });
+    };
+    if (button.top) {
+      buttons.splice(0, 0, safeButton);
+    } else {
+      buttons.push(safeButton);
+    }
   }
 
   toast = fn.infoToast({ 

@@ -11,6 +11,7 @@ onPage('Game', () => {
     text: 'Surrender',
     enabled: canSurrender,
     close: true,
+    top: true,
     note: () => {
       if (canSurrender()) return null;
       return `You can't surrender before turn 5.`;
