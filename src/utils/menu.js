@@ -50,9 +50,11 @@ const menu = (() => {
         }
         if (typeof data.action === 'function') {
           button.on('click', (e) => {
-            data.action(e);
-            if (data.close) {
-              close();
+            if (typeof data.enabled !== 'function' || data.enabled()) {
+              data.action(e);
+              if (data.close) {
+                close();
+              }
             }
           }).css({
             cursor: 'pointer',
@@ -83,12 +85,12 @@ const menu = (() => {
     return menuOpen;
   }
   function addButton(button = {}) {
-    if (!button || !button.text) throw new Error('Missing button information');
+    if (!button || !button.text) return fn.debug('Missing button information');
     cooked = false;
-    const { text, action, url, note } = button;
+    const { text, action, url, note, enabled } = button;
     const close = (button.closeMenu || button.close) === true;
     buttons.push({
-      text, action, url, close, note
+      text, action, url, close, note, enabled
     });
   }
 
