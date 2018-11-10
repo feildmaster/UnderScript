@@ -59,7 +59,10 @@ const menu = (() => {
           });
         }
         if (data.note) {
-          button.hover(hover.show(data.note));
+          const note = typeof data.note === 'function' ? data.note() : data.note;
+          if (note) {
+            button.hover(hover.show(note));
+          }
         }
         body.append(button);
       });
