@@ -42,7 +42,7 @@ const settings = (() => {
     return ret;
   }
 
-  function get(d) {
+  function getMessage(d) {
     const page = d.getData('page');
     const container = $('<div>');
     const pageSettings = configs[page].settings;
@@ -96,8 +96,8 @@ const settings = (() => {
       if (key === page) return;
       buttons.push({
         label: configs[key].name,
-        action: () => {
-          close();
+        action: (dialog) => {
+          dialog.close();
           open(key);
         },
       });
@@ -110,12 +110,19 @@ const settings = (() => {
   }
 
   function open(page = 'main') {
+    if (typeof page !== 'string') throw new Error(`Attempted to open ${typeof page}`);
     const displayName = configs[page].name;
-    dialog = BootstrapDialog.show({
+    BootstrapDialog.show({
       title: `UnderScript Configuration${page !== 'main' ? `: ${displayName}` : ''}`,
-      message: get,
+      message: getMessage,
       data: { page },
       buttons: buttons(page),
+      onshown: (diag) => {
+        dialog = diag;
+      },
+      onhidden: () => {
+        dialog = null;
+      },
     });
   }
 
@@ -134,8 +141,12 @@ const settings = (() => {
     }
   }
 
+  function isOpen() {
+    return dialog !== null;
+  }
+
   return {
-    open, close, setDisplayName,
+    open, close, setDisplayName, isOpen,
     register: add,
   };
 })();
