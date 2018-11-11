@@ -334,20 +334,6 @@ eventManager.on("GameStart", function battleLogger() {
     }
     // TODO: colorize
     log.add(`${data.winner} beat ${data.looser}`);
-    const toast = {
-      title: 'Game Finished',
-      text: 'Return Home',
-      buttons: {
-        className: 'skiptranslate',
-        text: '🏠',
-        onclick: () => {
-          document.location.href = "/";
-        },
-      },
-    };
-    if (!localStorage.getItem('setting.disableResultToast') && fn.toast(toast)) {
-      BootstrapDialog.closeAll();
-    }
   });
   eventManager.on(ignoreEvents.join(' '), function ignore(data) {
     debug(data, 'debugging.raw.ignore');
