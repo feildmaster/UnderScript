@@ -32,6 +32,13 @@ const settings = (() => {
       setting.onChange($(e.target));
     });
     const label = $(`<label for="${key}">`).html(setting.name);
+    if (setting.disabled) {
+      el.prop('disabled', true);
+      label.css({
+        color: '#666',
+        cursor: 'not-allowed',
+      });
+    }
     ret.append(el, ' ', label);
     if (setting.note) {
       const note = typeof setting.note === 'function' ? setting.note() : setting.note;
@@ -60,6 +67,7 @@ const settings = (() => {
       name: data.name || setting.key,
       type: data.type || 'boolean',
       note: data.note,
+      disabled: data.disabled === true,
       default: data.default,
       options: data.options,
     };
