@@ -2,7 +2,7 @@
 // @name         UnderCards script
 // @description  Various changes to undercards game
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.10.1/simpletoast.js
-// @version      0.18.2
+// @version      0.19.0-alpha.0
 // @author       feildmaster
 // @history   0.18.2 - New release process
 // @history   0.18.1 - Fix smooth scrolling, don't rush updates!
