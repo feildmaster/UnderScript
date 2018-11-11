@@ -1,3 +1,8 @@
+settings.register({
+  name: 'Disable Chat Context (right click)',
+  key: 'underscript.disable.chatContext',
+});
+
 eventManager.on('ChatDetected' , () => {
   let toast;
 
@@ -24,7 +29,7 @@ eventManager.on('ChatDetected' , () => {
     $('body').append(container);
 
     function open(event) {
-      if (event.ctrlKey) return;
+      if (event.ctrlKey || localStorage.getItem('underscript.disable.chatContext')) return;
       if (toast) {
         toast.close();
       }
