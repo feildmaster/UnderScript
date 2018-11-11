@@ -1,4 +1,7 @@
 const settings = (() => {
+  const settingReg = {
+    // key: setting
+  };
   const configs = {};
   let dialog = null;
 
@@ -73,7 +76,7 @@ const settings = (() => {
       options: data.options,
     };
     const conf = init(page);
-    if (conf.hasOwnProperty(setting.name)) {
+    if (conf.hasOwnProperty(setting.key)) {
       debug(`settings.add: ${setting.name} already registered`);
       return false;
     }
@@ -97,7 +100,10 @@ const settings = (() => {
         localStorage.setItem(setting.key, val);
       }
     };
-    init(page).settings[setting.name] = setting;
+    conf.settings[setting.key] = setting;
+    if (!settingReg.hasOwnProperty(setting.key)) {
+      settingReg[setting.key] = setting;
+    }
     return true;
   }
 
@@ -158,8 +164,8 @@ const settings = (() => {
   }
 
   function value(key) {
-    let val = localStorage.getItem(key);
-    const setting = {}; // Get setting somehow
+    const val = localStorage.getItem(key);
+    const setting = settingReg[key]; // Get setting somehow
     if (setting.type === 'boolean') {
       return val === '1';
     } else if (setting.type === 'select') {
