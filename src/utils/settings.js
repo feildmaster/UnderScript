@@ -32,7 +32,8 @@ const settings = (() => {
       setting.onChange($(e.target));
     });
     const label = $(`<label for="${key}">`).html(setting.name);
-    if (setting.disabled) {
+    const disabled = (typeof setting.disabled === 'function' ? setting.disabled() : setting.disabled) === true;
+    if (disabled) {
       el.prop('disabled', true);
       label.css({
         color: '#666',
@@ -40,7 +41,7 @@ const settings = (() => {
       });
     }
     ret.append(el, ' ', label);
-    if (setting.note) {
+    if (!disabled && setting.note) {
       const note = typeof setting.note === 'function' ? setting.note() : setting.note;
       if (note) { // Functions can return null
         ret.hover(hover.show(note));
@@ -67,7 +68,7 @@ const settings = (() => {
       name: data.name || setting.key,
       type: data.type || 'boolean',
       note: data.note,
-      disabled: data.disabled === true,
+      disabled: data.disabled,
       default: data.default,
       options: data.options,
     };
@@ -156,8 +157,20 @@ const settings = (() => {
     return dialog !== null;
   }
 
+  function value(key) {
+    let val = localStorage.getItem(key);
+    const setting = {}; // Get setting somehow
+    if (setting.type === 'boolean') {
+      return val === '1';
+    } else if (setting.type === 'select') {
+      // Current value, 
+      return val || setting.default || setting.options[0];
+    }
+    return val || setting.default;
+  }
+
   return {
-    open, close, setDisplayName, isOpen,
+    open, close, setDisplayName, isOpen, value,
     register: add,
   };
 })();
