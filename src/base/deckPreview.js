@@ -1,3 +1,8 @@
+settings.register({
+  name: 'Disable Deck Preview',
+  key: 'underscript.disable.deckPreview',
+});
+
 // TODO: Convert to event listeners?
 onPage('Decks', function () {
   function hoverCard(element) {
@@ -12,9 +17,17 @@ onPage('Decks', function () {
   }
   // Initial load
   eventManager.on('jQuery', () => {
+    function checkHover(el) {
+      const hover = hoverCard(el);
+      return (e) => {
+        if (!settings.value('underscript.disable.deckPreview')) {
+          hover(e);
+        }
+      };
+    }
     $('li.list-group-item').each(function (index) {
       const element = $(this);
-      element.hover(hoverCard(element));
+      element.hover(checkHover(element));
     });
     $(document).ajaxSuccess((event, xhr, settings) => {
       const data = JSON.parse(settings.data);
@@ -22,7 +35,7 @@ onPage('Decks', function () {
         hover.hide();
       } else if (data.action === 'addCard') { // Card was added
         const element = $(`#deckCards${data.classe} li:last`);
-        element.hover(hoverCard(element, true));
+        element.hover(checkHover(element));
       }
     });
   });
