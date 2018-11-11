@@ -1,5 +1,28 @@
+settings.register({
+  name: 'Disable Card Skin Layout',
+  key: 'underscript.disable.cardskins',
+  onChange: (disabled) => {
+    if (!onPage('CardSkinsShop')) return;
+    if (disabled) {
+      $('#cardSkinsList').show();
+      $('#cardedSkins').hide();
+    } else if (!$('#cardedSkins').length) {
+      location.reload();
+    } else {
+      $('#cardSkinsList').hide();
+      $('#cardedSkins').show();
+    }
+  },
+  note: () => {
+    if (onPage('CardSkinsShop') && !$('#cardedSkins').length && localStorage.getItem('underscript.disable.cardskins')) {
+      return 'Enabling will refresh the page';
+    }
+  },
+});
+
 onPage('CardSkinsShop', function () {
   debug('Skin shop');
+  if (localStorage.getItem('underscript.disable.cardskins')) return;
   const cards = [];
   $('table#cardSkinsList > tbody > tr').each(function(row) {
     // Is this still supported?
