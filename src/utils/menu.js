@@ -94,7 +94,7 @@ const menu = (() => {
     if (!button || !button.text) return fn.debug('Missing button information');
     cooked = false;
     const { text, action, url, note, enabled } = button;
-    const close = button.keep === false;
+    const close = button.keep !== true;
     const safeButton = {
       text, action, url, close, note, enabled
     };
