@@ -4,8 +4,9 @@ if (typeof onMessage === 'function' && typeof socketChat !== 'undefined') {
 
   const oHandler = socketChat.onmessage;
   socketChat.onmessage = (event) => {
-    oHandler(event);
     const data = JSON.parse(event.data);
+    if (eventManager.emit(`preChat:${data.action}`, data, true).canceled) return;
+    oHandler(event);
     eventManager.emit('ChatMessage', data);
     eventManager.emit(`Chat:${data.action}`, data);
   }
