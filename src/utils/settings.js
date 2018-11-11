@@ -18,7 +18,7 @@ const settings = (() => {
   function createSetting(setting) {
     const ret = $('<div>');
     const key = setting.key;
-    const current = localStorage.getItem(key);
+    const current = localStorage.getItem(key) || getDefault(setting);
     let el;
     if (setting.type === 'boolean') {
       el = $(`<input type="checkbox" id="${key}">`)
@@ -28,6 +28,8 @@ const settings = (() => {
       setting.options.forEach((v) => {
         el.append(`<option value="${v}"${current === v ? ' selected' : ''}>${v}</option>`);
       });
+    } else if (setting.type === 'remove') {
+      // TODO "remove" type
     } else { // How to handle.
       return null;
     }
@@ -165,13 +167,20 @@ const settings = (() => {
 
   function value(key) {
     const setting = settingReg[key]; // Get setting somehow
-    const val = localStorage.getItem(key) || setting.default;
-    if (setting.type === 'boolean') {
-      return val === '1';
+    const val = localStorage.getItem(key);
+    return val || getDefault(setting);
+  }
+
+  function getDefault(setting) {
+    if (setting.default) {
+      if (setting.type === 'boolean') {
+        return setting.default === '1' || setting.default === true;
+      }
+      return setting.default;
     } else if (setting.type === 'select') {
-      return val || setting.options[0];
+      return setting.options[0];
     }
-    return val;
+    return null;
   }
 
   return {
