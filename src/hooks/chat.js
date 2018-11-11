@@ -1,4 +1,4 @@
-if (typeof onMessage === 'function') {
+if (typeof onMessage === 'function' && typeof socketChat !== 'undefined') {
   debug('Chat detected');
   eventManager.emit('ChatDetected');
 
