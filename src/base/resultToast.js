@@ -1,3 +1,8 @@
+settings.register({
+  name: 'Disable Result Toast',
+  key: 'underscript.disable.resultToast',
+});
+
 eventManager.on('getResult', function resultToast() {
   const toast = {
     title: 'Game Finished',
@@ -10,7 +15,7 @@ eventManager.on('getResult', function resultToast() {
       document.location.href = "/";
     },
   };
-  if (!localStorage.getItem('setting.disableResultToast') && fn.toast(toast)) {
+  if (!localStorage.getItem('underscript.disable.resultToast') && fn.toast(toast)) {
     BootstrapDialog.closeAll();
   }
 });
