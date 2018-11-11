@@ -79,6 +79,9 @@ const settings = (() => {
         debug(`Unknown Setting Type: ${setting.type}`);
         return;
       }
+      if (typeof data.onChange === 'function') {
+        data.onChange(val, localStorage.getItem(setting.key));
+      }
       if (val === false) {
         localStorage.removeItem(setting.key);
       } else {

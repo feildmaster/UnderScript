@@ -1,3 +1,16 @@
+settings.register({
+  name: 'Disable Battle History',
+  key: 'underscript.disable.logger',
+  onChange: (to, from) => {
+    if (!onPage('Game') && !onPage('gameSpectate')) return;
+    if (to) {
+      $('#history').hide();
+    } else {
+      $('#history').show();
+    }
+  },
+});
+
 eventManager.on("GameStart", function battleLogger() {
   const ignoreEvents = Object.keys({
     getConnectedFirst: '',
@@ -148,6 +161,9 @@ eventManager.on("GameStart", function battleLogger() {
     other[enemy.id] = you.id;
     // Initialize the log
     log.init();
+    if (localStorage.getItem('underscript.disable.logger')) {
+      $('#history').hide();
+    }
     $("div#history div.handle").html('').append(`[${data.gameType}] `, make.player(you), ' vs ', make.player(enemy));
     log.add(`Turn ${turn}`);
     if (data.userTurn) {
