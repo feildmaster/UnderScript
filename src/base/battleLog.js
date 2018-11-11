@@ -11,6 +11,21 @@ settings.register({
   },
 });
 
+settings.register({
+  name: 'Hide Dust Counter',
+  key: 'underscript.disable.dust',
+  type: 'select',
+  options: ['never', 'playing', 'spectating', 'always'],
+  disabled: true,
+});
+settings.register({
+  name: 'Dust Counter Location',
+  key: 'underscript.disable.dust',
+  type: 'select',
+  options: [],
+  disabled: true,
+});
+
 eventManager.on("GameStart", function battleLogger() {
   const ignoreEvents = Object.keys({
     getConnectedFirst: '',
