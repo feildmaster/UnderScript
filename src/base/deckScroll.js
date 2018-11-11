@@ -1,3 +1,9 @@
+settings.register({
+  name: 'Disable Deck Scroll',
+  key: 'underscript.disable.deckScroll',
+  disabled: true,
+});
+
 onPage('Decks', function () {
   const oLoad = window.onload;
   window.onload = () => {

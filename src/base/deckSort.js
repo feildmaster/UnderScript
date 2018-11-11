@@ -1,3 +1,9 @@
+settings.register({
+  name: 'Disable Deck Sort',
+  key: 'underscript.disable.deckSort',
+  disabled: true,
+});
+
 onPage('Decks', function () {
   eventManager.on('jQuery', () => {
     $(document).ajaxSuccess((event, xhr, settings) => {
