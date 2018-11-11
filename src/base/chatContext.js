@@ -47,7 +47,7 @@ eventManager.on('ChatDetected' , () => {
     mute.append(' ', muteTime);
 
     function open(event) {
-      if (event.ctrlKey || localStorage.getItem('underscript.disable.chatContext')) return;
+      if (event.ctrlKey || settings.value('underscript.disable.chatContext')) return;
       if (toast) {
         toast.close();
       }

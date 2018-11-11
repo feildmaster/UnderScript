@@ -4,7 +4,7 @@ settings.register({
 });
 
 onPage('', function adjustSpectateView() {
-  if (localStorage.getItem('underscript.disable.adjustSpectateView')) return;
+  if (settings.value('underscript.disable.adjustSpectateView')) return;
   const spectate = $('.spectateTable');
   const tbody = $('.spectateTable tbody');
   const footer = $('.mainContent footer');

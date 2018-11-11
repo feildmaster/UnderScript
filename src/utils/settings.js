@@ -164,15 +164,14 @@ const settings = (() => {
   }
 
   function value(key) {
-    const val = localStorage.getItem(key);
     const setting = settingReg[key]; // Get setting somehow
+    const val = localStorage.getItem(key) || setting.default;
     if (setting.type === 'boolean') {
       return val === '1';
     } else if (setting.type === 'select') {
-      // Current value, 
-      return val || setting.default || setting.options[0];
+      return val || setting.options[0];
     }
-    return val || setting.default;
+    return val;
   }
 
   return {

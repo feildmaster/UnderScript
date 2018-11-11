@@ -15,7 +15,7 @@ eventManager.on('getResult', function resultToast() {
       document.location.href = "/";
     },
   };
-  if (!localStorage.getItem('underscript.disable.resultToast') && fn.toast(toast)) {
+  if (!settings.value('underscript.disable.resultToast') && fn.toast(toast)) {
     BootstrapDialog.closeAll();
   }
 });

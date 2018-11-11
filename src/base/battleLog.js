@@ -176,7 +176,7 @@ eventManager.on("GameStart", function battleLogger() {
     other[enemy.id] = you.id;
     // Initialize the log
     log.init();
-    if (localStorage.getItem('underscript.disable.logger')) {
+    if (settings.value('underscript.disable.logger')) {
       $('#history').hide();
     }
     $("div#history div.handle").html('').append(`[${data.gameType}] `, make.player(you), ' vs ', make.player(enemy));

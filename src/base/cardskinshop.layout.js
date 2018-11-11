@@ -14,7 +14,7 @@ settings.register({
     }
   },
   note: () => {
-    if (onPage('CardSkinsShop') && !$('#cardedSkins').length && localStorage.getItem('underscript.disable.cardskins')) {
+    if (onPage('CardSkinsShop') && !$('#cardedSkins').length && settings.value('underscript.disable.cardskins')) {
       return 'Enabling will refresh the page';
     }
   },
@@ -22,7 +22,7 @@ settings.register({
 
 onPage('CardSkinsShop', function () {
   debug('Skin shop');
-  if (localStorage.getItem('underscript.disable.cardskins')) return;
+  if (settings.value('underscript.disable.cardskins')) return;
   const cards = [];
   $('table#cardSkinsList > tbody > tr').each(function(row) {
     // Is this still supported?

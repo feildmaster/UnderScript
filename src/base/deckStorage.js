@@ -45,7 +45,7 @@ onPage('Decks', function deckStorage() {
     processNext();
   });
 
-  for (let i = 1, x = Math.max(parseInt(localStorage.getItem('underscript.storage.rows') || '1'), 1) * 3; i <= x; i++) {
+  for (let i = 1, x = Math.max(parseInt(settings.value('underscript.storage.rows')), 1) * 3; i <= x; i++) {
     buttons.push($(`<button>${i}</button>`)
       .addClass('btn btn-sm btn-danger')
       .css({
