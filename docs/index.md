@@ -3,6 +3,7 @@ title: UnderScript
 ---
 
 ## Setup ##
+<span class="notice">UnderScript is not supported on mobile devices</span>
 <ul class="setup">
   <li><a class="buttons install" href="https://tampermonkey.net/">Tampermonkey</a></li>
   <li><a class="buttons install" href="./undercards.user.js">UnderScript</a></li>
