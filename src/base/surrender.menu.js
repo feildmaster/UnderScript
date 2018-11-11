@@ -10,7 +10,6 @@ onPage('Game', () => {
   menu.addButton({
     text: 'Surrender',
     enabled: canSurrender,
-    close: true,
     top: true,
     note: () => {
       if (canSurrender()) return null;
