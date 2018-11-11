@@ -30,22 +30,21 @@ eventManager.on('ChatDetected' , () => {
     const header = $('<header>');
     container.append(header, profile, mention, ignore).hide();
     $('body').append(container);
-    if (selfMainGroup.priority <= 4) {
-      const times = {
-        1: '1s',
-        60: '1m',
-        600: '10m',
-        3600: '1h',
-        21600: '6h',
-        43200: '12h',
-        86400: '1d',
-      };
-      Object.keys(times).forEach((key) => {
-        console.log(key, times[key]);
-        muteTime.append($(`<option value="${key}"${key === '3600' ? ' selected':''}>${times[key]}</option>`));
-      });
-      container.append(mute.append(' ', muteTime));
-    }
+
+    const times = {
+      1: '1s',
+      60: '1m',
+      600: '10m',
+      3600: '1h',
+      21600: '6h',
+      43200: '12h',
+      86400: '1d',
+    };
+    Object.keys(times).forEach((key) => {
+      console.log(key, times[key]);
+      muteTime.append($(`<option value="${key}"${key === '3600' ? ' selected':''}>${times[key]}</option>`));
+    });
+    mute.append(' ', muteTime);
 
     function open(event) {
       if (event.ctrlKey || localStorage.getItem('underscript.disable.chatContext')) return;
@@ -55,6 +54,9 @@ eventManager.on('ChatDetected' , () => {
       close();
       const { id, name, staff, mod } = event.data;
       event.preventDefault();
+      if (selfMainGroup.priority <= 4) { // Add here to prevent a bug from happening
+        container.append(mute);
+      }
       // get top/left coordinates
       header.html(name);
       let left = event.pageX;
