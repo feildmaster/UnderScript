@@ -77,6 +77,7 @@ const settings = (() => {
       key: data.key || data,
       name: data.name || setting.key,
       type: data.type || 'boolean',
+      category: data.category, // TODO
       note: data.note,
       disabled: data.disabled,
       default: data.default,
