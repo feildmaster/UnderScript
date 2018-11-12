@@ -16,23 +16,28 @@ const settings = (() => {
   }
 
   function createSetting(setting) {
+    if (setting.hidden) return;
     const ret = $('<div>');
     const key = setting.key;
     const current = localStorage.getItem(key) || getDefault(setting);
     let el;
     if (setting.type === 'boolean') {
-      el = $(`<input type="checkbox" id="${key}">`)
+      el = $(`<input type="checkbox" >`)
         .prop('checked', !!current);
     } else if (setting.type === 'select') {
-      el = $(`<select id="${key}">`);
+      el = $(`<select>`);
       setting.options.forEach((v) => {
         el.append(`<option value="${v}"${current === v ? ' selected' : ''}>${v}</option>`);
       });
     } else if (setting.type === 'remove') {
       // TODO "remove" type
+      el = $(`<input type="checkbox" disabled>`);
     } else { // How to handle.
       return null;
     }
+    el.attr({
+      id: key,
+    });
     el.on('change.script', (e) => {
       setting.onChange($(e.target));
     });
@@ -76,6 +81,7 @@ const settings = (() => {
       disabled: data.disabled,
       default: data.default,
       options: data.options,
+      hidden: !!data.hidden,
     };
     const conf = init(page);
     if (conf.hasOwnProperty(setting.key)) {
@@ -146,8 +152,8 @@ const settings = (() => {
   }
 
   function setDisplayName(name, page = 'main') {
-    if (name && configs.hasOwnProperty(page)) {
-      configs[page].name = name;
+    if (name) {
+      init(page).name = name;
       return true;
     }
     return false;
@@ -165,7 +171,7 @@ const settings = (() => {
   }
 
   function value(key) {
-    const setting = settingReg[key]; // Get setting somehow
+    const setting = settingReg[key];
     const val = localStorage.getItem(key);
     return val || getDefault(setting);
   }
