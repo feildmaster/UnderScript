@@ -1,8 +1,7 @@
 settings.register({
   name: 'Disable Deck Storage',
   key: 'underscript.storage.disable',
-  disabled: true,
-  hidden: true,
+  // TODO: requires reload
 });
 
 settings.register({
@@ -18,6 +17,7 @@ settings.register({
 });
 
 onPage('Decks', function deckStorage() {
+  if (settings.value('underscript.storage.disable')) return;
   const container = $('<p>');
   const buttons = [];
   let pending = [];

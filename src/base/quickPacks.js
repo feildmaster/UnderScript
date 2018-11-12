@@ -1,11 +1,11 @@
 settings.register({
   name: 'Disable Quick Opening Packs',
   key: 'underscript.disable.packOpening',
-  disabled: true,
-  hidden: true,
+  // TODO: Requires reload
 });
 
 onPage('Packs', function quickOpenPack() {
+  if (settings.value('underscript.disable.packOpening')) return;
   const rarity = [ 'DETERMINATION', 'LEGENDARY', 'EPIC', 'RARE', 'COMMON' ];
   const results = {};
   function clearResults() {
