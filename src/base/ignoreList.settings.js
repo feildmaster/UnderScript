@@ -2,8 +2,6 @@ settings.register({
   name: 'Disable Ignore Chat',
   key: 'underscript.disable.ignorechat',
   page: 'ignorelist',
-  disabled: true,
-  hidden: true,
 });
 
 settings.register({
@@ -23,6 +21,7 @@ Object.keys(localStorage).forEach((key) => {
     name: localStorage.getItem(key),
     type: 'remove',
     page: 'ignorelist',
+    category: 'Users',
   });
 });
 

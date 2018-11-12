@@ -50,6 +50,11 @@ eventManager.on('ChatDetected' , () => {
       if (toast) {
         toast.close();
       }
+      if (settings.value('underscript.disable.ignorechat')) {
+        ignore.detach();
+      } else {
+        mention.after(ignore);
+      }
       close();
       const { id, name, staff, mod } = event.data;
       event.preventDefault();
@@ -168,7 +173,7 @@ eventManager.on('ChatDetected' , () => {
         id: user.id,
       }, context.open);
     
-    if (!staff && user.id !== selfId && ignoreList.hasOwnProperty(user.id)) {
+    if (!staff && !settings.value('underscript.disable.ignorechat') && user.id !== selfId && ignoreList.hasOwnProperty(user.id)) {
       $(`#${room} #message-${id} .chat-message`).html('<span class="gray">Message Ignored</span>').removeClass().addClass('chat-message');
     }
   }
@@ -184,7 +189,7 @@ eventManager.on('ChatDetected' , () => {
   });
 
   toast = fn.infoToast({
-    text: 'You can right click users in chat to ignore them!',
+    text: 'You can right click users in chat to display user options!',
     onClose: () => {
       toast = null; // Remove from memory
     }
