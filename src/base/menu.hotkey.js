@@ -1,8 +1,7 @@
 if (typeof BootstrapDialog !== 'undefined') {
   hotkeys.push(new Hotkey("Open Menu")
     .run((e) => {
-      // TODO: check if bootstrap (any) is open
-      if (settings.isOpen()) {
+      if (typeof BootstrapDialog !== 'undefined' && Object.keys(BootstrapDialog.dialogs).length) {
         return;
       }
       if (menu.isOpen()) {
