@@ -18,10 +18,13 @@ const menu = (() => {
         .menu-body { background-color: rgba(0,0,0,0.6); min-height: 250px; }
         .menu-body ul { list-style: none; padding: 0; }
         .menu-body li { list-style-type: none; border: 1px solid #fff; width: 80%; text-align: center; margin: 5px auto; opacity: 1; }
-        .menu-body li:hover { text-decoration: underline; opacity: 0.4; }
+        .menu-body li:hover, .menu-body li:focus { text-decoration: underline; opacity: 0.4; }
       </style>`);  
     body = $('<div class="menu-body">');
     wrapper = $('<div class="menu-backdrop">')
+      .attr({
+        role: 'Menu',
+      })
       .append($('<div class="menu-content">')
       .append(
         `<div class="menu-header"><span class="menu-close right">&times;</span>MENU</div>`,
@@ -41,8 +44,13 @@ const menu = (() => {
     // Generate buttons
     if (!cooked) {
       body.html(''); // Clear current buttons
+      let index = 1;
       buttons.forEach((data) => {
         const button = $('<li>');
+        button.attr({
+          role: 'button',
+          tabindex: index++,
+        });
         if (data.url) {
           // Make text a url
         } else {
