@@ -2,6 +2,7 @@ settings.register({
   name: 'Disable Quick Opening Packs',
   key: 'underscript.disable.packOpening',
   disabled: true,
+  hidden: true,
 });
 
 onPage('Packs', function quickOpenPack() {

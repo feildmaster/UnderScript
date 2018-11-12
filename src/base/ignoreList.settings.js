@@ -3,6 +3,7 @@ settings.register({
   key: 'underscript.disable.ignorechat',
   page: 'ignorelist',
   disabled: true,
+  hidden: true,
 });
 
 settings.register({
@@ -12,6 +13,7 @@ settings.register({
   options: ['remove', 'bulk', 'hide'],
   page: 'ignorelist',
   disabled: true,
+  hidden: true,
 });
 
 Object.keys(localStorage).forEach((key) => {

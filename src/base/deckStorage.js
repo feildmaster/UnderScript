@@ -2,6 +2,7 @@ settings.register({
   name: 'Disable Deck Storage',
   key: 'underscript.storage.disable',
   disabled: true,
+  hidden: true,
 });
 
 settings.register({

@@ -4,11 +4,12 @@ settings.register({
 });
 
 settings.register({
-  name: 'End turn wait time',
+  name: 'End Turn Wait Time',
   key: 'underscript.endTurnDelay',
   type: 'select',
   options: [],
   disabled: true,
+  hidden: true,
 });
 
 eventManager.on('PlayingGame', function endTurnDelay() {

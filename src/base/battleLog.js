@@ -18,7 +18,6 @@ settings.register({
   options: ['never', 'playing', 'spectating', 'always'],
 });
 
-// TODO Dust Counter Location
 settings.register({
   name: 'Dust Counter Location',
   key: 'underscript.dust.location',
