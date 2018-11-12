@@ -1,11 +1,11 @@
 settings.register({
   name: 'Disable Deck Scroll',
   key: 'underscript.disable.deckScroll',
-  disabled: true,
-  hidden: true,
+  // TODO: Requires a reload
 });
 
 onPage('Decks', function () {
+  if (settings.value('underscript.disable.deckScroll')) return;
   const oLoad = window.onload;
   window.onload = () => {
     oLoad();
