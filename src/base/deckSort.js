@@ -1,13 +1,13 @@
 settings.register({
   name: 'Disable Deck Sort',
   key: 'underscript.disable.deckSort',
-  disabled: true,
 });
 
 onPage('Decks', function () {
   eventManager.on('jQuery', () => {
-    $(document).ajaxSuccess((event, xhr, settings) => {
-      const data = JSON.parse(settings.data);
+    $(document).ajaxSuccess((event, xhr, options) => {
+      if (settings.value('underscript.disable.deckSort')) return;
+      const data = JSON.parse(options.data);
       if (data.action !== 'addCard') return;
       const list = $(`#deckCards${data.classe}`);
         list.append(list.children('li').detach().sort(function (a, b) {
