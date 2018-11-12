@@ -16,14 +16,16 @@ settings.register({
   key: 'underscript.disable.dust',
   type: 'select',
   options: ['never', 'playing', 'spectating', 'always'],
-  disabled: true,
 });
+
+// TODO Dust Counter Location
 settings.register({
   name: 'Dust Counter Location',
-  key: 'underscript.disable.dust',
+  key: 'underscript.dust.location',
   type: 'select',
   options: [],
   disabled: true,
+  hidden: true,
 });
 
 eventManager.on("GameStart", function battleLogger() {
@@ -165,10 +167,14 @@ eventManager.on("GameStart", function battleLogger() {
     turn = data.turn || 0;
     players[you.id] = you;
     players[enemy.id] = enemy;
-    const dustImg = $('<img style="width: 20px; height: 16px;" title="Number of cards turned to dust." src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAAZElEQVQ4jb2UUQ7AIAhDqfH+V95+NDEdrMSg/UQqr5hoFugZytanWnSwq+4RZIyzDwDW+jnCLBmLSSUhD+KIH8JdsmiwJGQiBVD+KOU7vE9YukMv3vXIMPNjKBLpUd/S38Wr7wVZPk/6kF1cXAAAAABJRU5ErkJggg==">');
-    $('.rightPart').append(dustImg, ' ');
-    $(`#user${opponentId} .rightPart`).append(enemyDust, ' ');
-    $(`#user${userId} .rightPart`).append(yourDust, ' ', $(`#user${userId} .rightPart > button:last`));
+    // Display Dust
+    const disableDust = settings.value('underscript.disable.dust');
+    if (disableDust === 'never' || (disableDust !== 'always' && disableDust !== (this.event === 'getAllGameInfos' ? 'spectating' : 'playing'))) {
+      const dustImg = $('<img style="width: 20px; height: 16px;" title="Number of cards turned to dust." src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAAZElEQVQ4jb2UUQ7AIAhDqfH+V95+NDEdrMSg/UQqr5hoFugZytanWnSwq+4RZIyzDwDW+jnCLBmLSSUhD+KIH8JdsmiwJGQiBVD+KOU7vE9YukMv3vXIMPNjKBLpUd/S38Wr7wVZPk/6kF1cXAAAAABJRU5ErkJggg==">');
+      $('.rightPart').append(dustImg, ' ');
+      $(`#user${opponentId} .rightPart`).append(enemyDust, ' ');
+      $(`#user${userId} .rightPart`).append(yourDust, ' ', $(`#user${userId} .rightPart > button:last`));
+    }
     addDust(you.id);
     addDust(enemy.id);
     // Test changing ID's at endTurn instead of startTurn
