@@ -110,7 +110,6 @@ const settings = (() => {
   }
 
   function buttons(page) {
-    debug('Settings#buttons');
     const buttons = [];
     Object.keys(configs).forEach((key) => {
       if (key === page) return;
