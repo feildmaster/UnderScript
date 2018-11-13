@@ -22,6 +22,7 @@ eventManager.on('ChatDetected' , () => {
       </style>`));
     const container = $('<div class="chatContext">');
     const profile = $('<li>Profile</li>');
+    const message = $('<li>Message</li>');
     const ignore = $('<li>Ignore</li>');
     const mention = $('<li>Mention</li>');
     const mute = $('<li>Mute</li>');
@@ -56,8 +57,14 @@ eventManager.on('ChatDetected' , () => {
       }
       close();
       const { id, name, staff, mod } = event.data;
+      const selfMod = selfId !== id && selfMainGroup.priority <= 4;
+      if (selfMod || isFriend(id)) {
+        profile.after(message);
+      } else {
+        message.detach();
+      }
       event.preventDefault();
-      if (selfMainGroup.priority <= 4) { // Add here to prevent a bug from happening
+      if (selfMod) { // Add here to prevent a bug from happening
         container.append(mute);
       }
       // get top/left coordinates
@@ -106,6 +113,8 @@ eventManager.on('ChatDetected' , () => {
         } else if (e.target === mute[0]) {
           if (muteDisabled) return;
           timeout(id, muteTime.val());
+        } else if (e.target === message[0]) {
+          openPrivateRoom(id, name);
         }
         close();
       });
