@@ -8,9 +8,6 @@ eventManager.on('ChatDetected' , () => {
 
   const ignorePrefix = 'underscript.ignore.';
   const context = (() => {
-    function decode(string) {
-      return $('<textarea>').html(string).val();
-    }
     $('head').append($(`<style type="text/css">
         .chatContext { background-color: #F4F4F4; margin: 10px; color: #333; border: 1px dashed #000; position: absolute; z-index: 20; text-align: center; border-radius: 10px; }
         .chatContext header { padding: 0px 5px; height: auto; }
@@ -93,7 +90,7 @@ eventManager.on('ChatDetected' , () => {
           if (text.length !== 0 && text[text.length - 1] !== ' ') {
             text += ' ';
           }
-          text += decode(name) + ' ';
+          text += fn.decode(name) + ' ';
           input.val(text).focus();
         } else if (e.target === ignore[0]) {
           if (disabled) return; // If it's disabled it's disabled...

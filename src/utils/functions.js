@@ -1,4 +1,7 @@
 const fn = {
+  decode: function (string) {
+    return $('<textarea>').html(string).val();
+  },
   each: function (o, f, t) {
     if (!o) return;
     Object.keys(o).forEach(function (x) {
