@@ -64,8 +64,8 @@ const settings = (() => {
     const page = d.getData('page');
     const container = $('<div>');
     const pageSettings = configs[page].settings;
-    Object.keys(pageSettings).forEach((key) => {
-      container.append(createSetting(pageSettings[key]));
+    fn.each(pageSettings, (data) => {
+      container.append(createSetting(data));
     });
     return container;
   }
@@ -108,7 +108,6 @@ const settings = (() => {
         data.onChange(val, localStorage.getItem(setting.key));
       }
       if (val === false) {
-        console.log('removing key', setting.key);
         localStorage.removeItem(setting.key);
       } else {
         localStorage.setItem(setting.key, val);
@@ -123,10 +122,10 @@ const settings = (() => {
 
   function buttons(page) {
     const buttons = [];
-    Object.keys(configs).forEach((key) => {
+    fn.each(configs, ({ name }, key) => {
       if (key === page) return;
       buttons.push({
-        label: configs[key].name,
+        label: name,
         action: (dialog) => {
           dialog.close();
           open(key);

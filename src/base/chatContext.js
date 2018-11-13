@@ -37,8 +37,8 @@ eventManager.on('ChatDetected' , () => {
       43200: '12h',
       86400: '1d',
     };
-    Object.keys(times).forEach((key) => {
-      muteTime.append($(`<option value="${key}"${key === '3600' ? ' selected':''}>${times[key]}</option>`));
+    fn.each(times, (item, key) => {
+      muteTime.append($(`<option value="${key}"${key === '3600' ? ' selected':''}>${item}</option>`));
     });
     mute.append(' ', muteTime);
 

@@ -14,11 +14,10 @@ settings.register({
   hidden: true,
 });
 
-Object.keys(localStorage).forEach((key) => {
+fn.each(localStorage, (name, key) => {
   if (!key.startsWith('underscript.ignore.')) return;
   settings.register({
-    key,
-    name: localStorage.getItem(key),
+    key, name,
     type: 'remove',
     page: 'ignorelist',
     category: 'Users',
