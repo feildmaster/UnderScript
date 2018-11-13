@@ -7,7 +7,6 @@ eventManager.on('ChatDetected' , () => {
   let toast;
 
   const ignorePrefix = 'underscript.ignore.';
-  const ignoreList = {};
   const context = (() => {
     function decode(string) {
       return $('<textarea>').html(string).val();
@@ -91,11 +90,17 @@ eventManager.on('ChatDetected' , () => {
           input.val(text).focus();
         } else if (e.target === ignore[0]) {
           if (disabled) return; // If it's disabled it's disabled...
-          if (!ignoreList.hasOwnProperty(id)) {
-            ignoreList[id] = name;
-            localStorage.setItem(`${ignorePrefix}${id}`, name);
+          const key = `${ignorePrefix}${id}`;
+          if (!settings.value(`${ignorePrefix}${id}`)) {
+            localStorage.setItem(key, name);
+            settings.register({
+              key, name,
+              type: 'remove',
+              page: 'ignorelist',
+              category: 'Users',
+            });
           } else {
-            localStorage.removeItem(`${ignorePrefix}${id}`);
+            settings.remove(key);
           }
           updateIgnoreText(id);
         } else if (e.target === mute[0]) {
@@ -124,7 +129,7 @@ eventManager.on('ChatDetected' , () => {
       });
     }
     function updateIgnoreText(id) {
-      if (ignoreList.hasOwnProperty(id)) {
+      if (settings.value(`${ignorePrefix}${id}`)) {
         ignore.html('Unignore');
       } else {
         ignore.html('Ignore');
@@ -140,14 +145,6 @@ eventManager.on('ChatDetected' , () => {
       close,
     };
   })();
-
-  // Load Ingore List
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key.startsWith(ignorePrefix)) {
-      ignoreList[key.substr(ignorePrefix.length)] = localStorage.getItem(key);
-    }
-  }
 
   function processMessage(message, room) {
     const id = message.id;
@@ -173,7 +170,7 @@ eventManager.on('ChatDetected' , () => {
         id: user.id,
       }, context.open);
     
-    if (!staff && !settings.value('underscript.disable.ignorechat') && user.id !== selfId && ignoreList.hasOwnProperty(user.id)) {
+    if (!staff && !settings.value('underscript.disable.ignorechat') && user.id !== selfId && settings.value(`${ignorePrefix}${user.id}`)) {
       $(`#${room} #message-${id} .chat-message`).html('<span class="gray">Message Ignored</span>').removeClass().addClass('chat-message');
     }
   }

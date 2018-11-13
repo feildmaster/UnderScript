@@ -4,6 +4,8 @@
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.10.1/simpletoast.js
 // @version      0.19.0-alpha.0
 // @author       feildmaster
+// @history   0.19.0 - Added Menu and Settings. Fixed unignoring. Added settings to disable nearly everything in the script.
+//                      Added ability to disable card draw announcements, or make them toasts.
 // @history   0.18.2 - New release process
 // @history   0.18.1 - Fix smooth scrolling, don't rush updates!
 // @history     0.18 - Added the long awaited Deck Storage

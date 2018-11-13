@@ -30,8 +30,8 @@ const settings = (() => {
         el.append(`<option value="${v}"${current === v ? ' selected' : ''}>${v}</option>`);
       });
     } else if (setting.type === 'remove') {
-      // TODO "remove" type
-      el = $(`<input type="checkbox" disabled>`);
+      el = $(`<input type="checkbox">`)
+        .prop('checked', true);
     } else { // How to handle.
       return null;
     }
@@ -74,6 +74,7 @@ const settings = (() => {
     if (!data) return false;
     const page = data.page || 'main';
     const setting = {
+      page,
       key: data.key || data,
       name: data.name || setting.key,
       type: data.type || 'boolean',
@@ -96,6 +97,9 @@ const settings = (() => {
         else val = false;
       } else if (setting.type === 'select') {
         val = el.val();
+      } else if (setting.type === 'remove') {
+        val = false;
+        removeSetting(setting, el);
       } else {
         debug(`Unknown Setting Type: ${setting.type}`);
         return;
@@ -104,6 +108,7 @@ const settings = (() => {
         data.onChange(val, localStorage.getItem(setting.key));
       }
       if (val === false) {
+        console.log('removing key', setting.key);
         localStorage.removeItem(setting.key);
       } else {
         localStorage.setItem(setting.key, val);
@@ -177,10 +182,10 @@ const settings = (() => {
     return val || getDefault(setting);
   }
 
-  function getDefault(setting) {
+  function getDefault(setting = {}) {
     if (setting.default) {
       if (setting.type === 'boolean') {
-        return setting.default === '1' || setting.default === true;
+        return !!setting.default;
       }
       return setting.default;
     } else if (setting.type === 'select') {
@@ -189,8 +194,26 @@ const settings = (() => {
     return null;
   }
 
+  function remove(key)  {
+    const setting = settingReg[key];
+    if (!setting) return;
+    removeSetting(setting, $(`[id='${key}']`));
+  }
+
+  function removeSetting(setting, el) {
+    const { key, page } = setting;
+    localStorage.removeItem(key);
+    // Remove references
+    delete configs[page].settings[key];
+    delete settingReg[key];
+    // If we're on the setting screen, remove the setting
+    if (el) {
+      el.parent().remove();
+    }
+  }
+
   return {
-    open, close, setDisplayName, isOpen, value,
+    open, close, setDisplayName, isOpen, value, remove,
     register: add,
   };
 })();
