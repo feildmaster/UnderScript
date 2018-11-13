@@ -16,7 +16,16 @@
       if (toasts[toastIndex % 3]) { // Close any old toast
         toasts[toastIndex % 3].close();
       }
-      toasts[toastIndex % 3] = fn.toast(fn.decode(data.message));
+      toasts[toastIndex % 3] = fn.toast({
+        text: fn.decode(data.message),
+        css: {
+          'background-color': 'rgba(0,5,20,0.6)',
+          color: 'yellow',
+          'font-family': 'monospace!important',
+          'text-shadow': '',
+          footer: {color: 'white'},
+        }
+      });
       toastIndex += 1;
     }
   });

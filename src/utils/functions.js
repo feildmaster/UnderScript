@@ -5,7 +5,6 @@ const fn = {
   each: function (o, f, t) {
     if (!o) return;
     Object.keys(o).forEach(function (x) {
-      if (!o[x]) return;
       f.call(t, o[x], x, o); // "this", value, key, object
     });
   },
@@ -66,16 +65,16 @@ const fn = {
         text: arg,
       };
     }
-    if (!arg.css) {
-      arg.css = {
+    const defaults = {
+      footer: 'via UnderScript',
+      css: {
         'font-family': 'inherit',
-        footer: { 'text-align': 'end', },
-      };
-    }
-    if (!arg.footer) {
-      arg.footer = 'via UnderScript';
-    }
-    return new SimpleToast(arg);
+        footer: { 
+          'text-align': 'end', 
+        },
+      },
+    };
+    return new SimpleToast(fn.merge(defaults, arg));
   },
   infoToast: (arg, key, val) => {
     if (localStorage.getItem(key) === val) return null;
@@ -95,6 +94,17 @@ const fn = {
       arg.title = 'Did you know?';
     }
     return fn.toast(arg);
+  },
+  merge: (...obj) => {
+    const ret = {};
+    if (obj) {
+      obj.forEach((o) => {
+        fn.each(o, (val, key) => {
+          ret[key] = typeof val === 'object' ? fn.merge(ret[key], val) : val;
+        });
+      });
+    }
+    return ret;
   },
   debug: (arg, permission = 'debugging') => {
     if (typeof arg === 'string') {
