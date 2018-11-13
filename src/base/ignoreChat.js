@@ -13,6 +13,7 @@ settings.register({
 });
 
 function processMessage(message, room) {
+  debug(message, 'debugging.chat.message')
   // Ignoring is disabled?
   if (settings.value('underscript.disable.ignorechat')) return;
   const user = message.user;
