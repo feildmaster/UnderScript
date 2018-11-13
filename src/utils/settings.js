@@ -1,4 +1,5 @@
 const settings = (() => {
+  $('head').append(`<style type="text/css">.mono .modal-body { font-family: monospace; }</style>`);
   const settingReg = {
     // key: setting
   };
@@ -145,6 +146,7 @@ const settings = (() => {
     BootstrapDialog.show({
       title: `UnderScript Configuration${page !== 'main' ? `: ${displayName}` : ''}`,
       message: getMessage,
+      cssClass: 'mono',
       data: { page },
       buttons: buttons(page),
       onshown: (diag) => {
