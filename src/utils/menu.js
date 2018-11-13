@@ -21,11 +21,11 @@ const menu = (() => {
         .menu-body li:hover, .menu-body li:focus { text-decoration: underline; opacity: 0.4; }
       </style>`);  
     body = $('<div class="menu-body">');
-    wrapper = $('<div class="menu-backdrop">')
+    wrapper = $('<div class="menu-backdrop" tabindex="-1">')
+      .append($('<div class="menu-content">')
       .attr({
         role: 'Menu',
       })
-      .append($('<div class="menu-content">')
       .append(
         `<div class="menu-header"><span class="menu-close right">&times;</span>MENU</div>`,
         body,
@@ -44,12 +44,11 @@ const menu = (() => {
     // Generate buttons
     if (!cooked) {
       body.html(''); // Clear current buttons
-      let index = 1;
       buttons.forEach((data) => {
         const button = $('<li>');
         button.attr({
           role: 'button',
-          tabindex: index++,
+          tabindex: 0,
         });
         if (data.url) {
           // Make text a url
@@ -57,16 +56,22 @@ const menu = (() => {
           button.text(data.text);
         }
         if (typeof data.action === 'function') {
-          button.on('click', (e) => {
+          function callable(e)  {
             if (typeof data.enabled !== 'function' || data.enabled()) {
               data.action(e);
               if (data.close) {
                 close();
               }
             }
-          }).css({
-            cursor: 'pointer',
-          });
+          }
+          button.on('click', callable)
+            .on('keydown', (e) => {
+              if (e.which !== 32 && e.which !== 13) return;
+              e.preventDefault();
+              callable(e);
+            }).css({
+              cursor: 'pointer', 
+            });
         }
         if (data.note) {
           if (typeof data.note === 'function') {
@@ -84,7 +89,7 @@ const menu = (() => {
       });
       cooked = true;
     }
-    wrapper.css({ display: 'block' });
+    wrapper.css({ display: 'block' }).focus();
     menuOpen = true;
     if (toast) {
       toast.close();
