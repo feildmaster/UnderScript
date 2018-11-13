@@ -157,28 +157,16 @@ eventManager.on('ChatDetected' , () => {
     const user = message.user;
     const name = user.username;
 
-    let staff = false, mod = false;
-    user.groups.some((group) => {
-      return staff = group.priority <= 6; // This is so hacky...
-    });
-    user.groups.some((group) => {
-      return mod = group.priority <= 4; // This is so hacky...
-    });
-
     let info = $(`#${room} #message-${id} #info-${user.id}`);
     if (!info.length) {
       info = $(`#${room} #message-${id} #info-${id}`);
     }
     info.on('contextmenu.script.chatContext', {
-        staff,
-        mod,
-        name,
-        id: user.id,
-      }, context.open);
-    
-    if (!staff && !settings.value('underscript.disable.ignorechat') && user.id !== selfId && settings.value(`${ignorePrefix}${user.id}`)) {
-      $(`#${room} #message-${id} .chat-message`).html('<span class="gray">Message Ignored</span>').removeClass().addClass('chat-message');
-    }
+      name,
+      staff: user.mainGroup.priority <= 6,
+      mod: user.mainGroup.priority <= 4,
+      id: user.id,
+    }, context.open);
   }
 
   eventManager.on('Chat:getHistory', (data) => {
@@ -188,6 +176,7 @@ eventManager.on('ChatDetected' , () => {
   });
 
   eventManager.on('Chat:getMessage', (data) => {
+    if (this.canceled) return;
     processMessage(JSON.parse(data.chatMessage), data.room);
   });
 
