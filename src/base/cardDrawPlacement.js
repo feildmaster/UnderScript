@@ -21,7 +21,7 @@
         css: {
           'background-color': 'rgba(0,5,20,0.6)',
           color: 'yellow',
-          'font-family': 'monospace!important',
+          'font-family': 'monospace',
           'text-shadow': '',
           footer: {color: 'white'},
         }
