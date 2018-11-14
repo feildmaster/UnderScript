@@ -24,7 +24,7 @@ const settings = (() => {
     let el;
     if (setting.type === 'boolean') {
       el = $(`<input type="checkbox" >`)
-        .prop('checked', !!current);
+        .prop('checked', current === '1' || current === true);
     } else if (setting.type === 'select') {
       el = $(`<select>`);
       setting.options.forEach((v) => {
@@ -77,7 +77,7 @@ const settings = (() => {
     const setting = {
       page,
       key: data.key || data,
-      name: data.name || setting.key,
+      name: data.name || data.key,
       type: data.type || 'boolean',
       category: data.category, // TODO
       note: data.note,
@@ -95,6 +95,7 @@ const settings = (() => {
       let val = '';
       if (setting.type === 'boolean') {
         if (el.is(':checked')) val = '1';
+        else if (data.default) val = '0'; // Default is true, give it a value
         else val = false;
       } else if (setting.type === 'select') {
         val = el.val();
