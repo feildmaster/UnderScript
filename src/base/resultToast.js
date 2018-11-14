@@ -11,6 +11,7 @@ eventManager.on('getResult', function resultToast() {
       className: 'skiptranslate',
       text: '🏠',
     },
+    css: {'font-family': 'inherit'},
     onClose: () => {
       document.location.href = "/";
     },

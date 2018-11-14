@@ -66,6 +66,7 @@ onPage('Packs', function quickOpenPack() {
         fn.toast({
           text,
           title: `Pack Results (${total}${results.shiny ? `, ${results.shiny} shiny` : ''}):`,
+          css: {'font-family': 'inherit'},
         });
         showCards();
       }

@@ -68,7 +68,9 @@ const fn = {
     const defaults = {
       footer: 'via UnderScript',
       css: {
-        'font-family': 'inherit',
+        'background-color': 'rgba(0,5,20,0.6)',
+        'text-shadow': '',
+        'font-family': 'monospace',
         footer: { 
           'text-align': 'end', 
         },
@@ -83,17 +85,21 @@ const fn = {
         text: arg,
       };
     } else if (typeof arg !== 'object') return null;
-    const oClose = arg.onClose;
-    arg.onClose = (reason) => {
-      if (oClose) {
-        oClose(reason);
-      }
-      localStorage.setItem(key, val);
-    }
-    if (!arg.title) {
-      arg.title = 'Did you know?';
-    }
-    return fn.toast(arg);
+    const override = {
+      onClose: (reason) => {
+        if (arg.onClose) {
+          arg.onClose(reason);
+        }
+        localStorage.setItem(key, val);
+      },
+    };
+    const defaults = {
+      title: 'Did you know?',
+      css: {
+        'font-family': 'inherit',
+      },
+    };
+    return fn.toast(fn.merge(defaults, arg, override));
   },
   merge: (...obj) => {
     const ret = {};
@@ -112,15 +118,16 @@ const fn = {
         text: arg,
       };
     }
-    arg.css = {
+    const defaults = {
       background: '#c8354e',
       textShadow: '#e74c3c 1px 2px 1px',
+      css: {'font-family': 'inherit'},
       button: {
         // Don't use buttons, mouseOver sucks
         background: '#e25353',
         textShadow: '#46231f 0px 0px 3px',
       },
     };
-    return localStorage.getItem(permission) === 'true' && fn.toast(arg);
+    return localStorage.getItem(permission) === 'true' && fn.toast(fn.merge(defaults, arg));
   },
 };

@@ -118,7 +118,7 @@ const menu = (() => {
     }
   }
 
-  toast = fn.infoToast({ 
+  toast = fn.infoToast({
     text: 'UnderScript has a menu, press ESC to open it!',
     onClose: () => {
       toast = null;
