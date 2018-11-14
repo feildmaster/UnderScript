@@ -33,6 +33,9 @@ const settings = (() => {
     } else if (setting.type === 'remove') {
       el = $(`<input type="checkbox">`)
         .prop('checked', true);
+    } else if (setting.type === 'array') {
+      // Oh dear god
+      return null;
     } else { // How to handle.
       return null;
     }
@@ -181,7 +184,10 @@ const settings = (() => {
   function value(key) {
     const setting = settingReg[key];
     const val = localStorage.getItem(key);
-    return val || getDefault(setting);
+    if (!val) return getDefault(setting);
+    if (setting.type === 'array') return JSON.parse(val);
+    else if (setting.type === 'boolean') return val === '1';
+    return val;
   }
 
   function getDefault(setting = {}) {
@@ -192,6 +198,8 @@ const settings = (() => {
       return setting.default;
     } else if (setting.type === 'select') {
       return setting.options[0];
+    } else if (setting.type === 'array') {
+      return [];
     }
     return null;
   }
