@@ -56,7 +56,7 @@ eventManager.on('ChatDetected' , () => {
       const { id, name, staff, mod } = event.data;
       const selfMod = selfId !== id && selfMainGroup.priority <= 4;
       if (selfMod || isFriend(id)) {
-        profile.after(message);
+        profile.before(message);
       } else {
         message.detach();
       }
