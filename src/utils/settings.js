@@ -42,9 +42,25 @@ const settings = (() => {
     el.attr({
       id: key,
     });
-    el.on('change.script', (e) => {
+    function callChange(e) {
       setting.onChange($(e.target));
-    });
+    }
+    switch (setting.type) {
+      default: break;
+      case 'boolean':
+      case 'select':
+      case 'remove':
+        el.on('change.script', callChange);
+        break;
+      case 'input':
+      case 'array':
+        el.on('keydown.script', (e) => {
+          if (e.which !== 13) return;
+          e.preventDefault();
+          callChange(e);
+          e.val('');
+        });
+    }
     const label = $(`<label for="${key}">`).html(setting.name);
     const disabled = (typeof setting.disabled === 'function' ? setting.disabled() : setting.disabled) === true;
     if (disabled) {
@@ -68,8 +84,33 @@ const settings = (() => {
     const page = d.getData('page');
     const container = $('<div>');
     const pageSettings = configs[page].settings;
+    const categories = {};
+    function createCategory(name) {
+      const set = $('<fieldset>').css({
+        padding: '.35em .625em .75em',
+        margin: '0 2px',
+        border: '1px solid silver',
+      });
+      categories[name] = set;
+      if (name !== 'N/A') {
+        set.append($('<legend>').css({
+          padding: 0,
+          border: 0,
+          width: 'auto',
+          margin: 0,
+          'font-family': 'DTM-Mono',
+          color: 'white',
+        }).html(name))
+      }
+      container.append(set);
+      return set;
+    }
+    function category(name = 'N/A') {
+      return categories[name] || createCategory(name);
+    }
+    category();
     fn.each(pageSettings, (data) => {
-      container.append(createSetting(data));
+      category(data.category).append(createSetting(data));
     });
     return container;
   }
@@ -105,6 +146,9 @@ const settings = (() => {
       } else if (setting.type === 'remove') {
         val = false;
         removeSetting(setting, el);
+      } else if (setting.type === 'array') {
+        // Holy crap
+        return;
       } else {
         debug(`Unknown Setting Type: ${setting.type}`);
         return;
