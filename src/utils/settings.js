@@ -21,12 +21,13 @@ const settings = (() => {
     const ret = $('<div>');
     const key = setting.key;
     const current = localStorage.getItem(key) || getDefault(setting);
-    let el;
+    let el, lf;
     if (setting.type === 'boolean') {
       el = $(`<input type="checkbox" >`)
         .prop('checked', current === '1' || current === true);
     } else if (setting.type === 'select') {
       el = $(`<select>`);
+      lf = true;
       setting.options.forEach((v) => {
         el.append(`<option value="${v}"${current === v ? ' selected' : ''}>${v}</option>`);
       });
@@ -70,7 +71,11 @@ const settings = (() => {
         cursor: 'not-allowed',
       });
     }
-    ret.append(el, ' ', label);
+    if (lf) {
+      ret.append(label, ' ', el);
+    } else {
+      ret.append(el, ' ', label);
+    }
     if (!disabled && setting.note) {
       const note = typeof setting.note === 'function' ? setting.note() : setting.note;
       if (note) { // Functions can return null
@@ -100,7 +105,7 @@ const settings = (() => {
           margin: 0,
           'font-family': 'DTM-Mono',
           color: 'white',
-        }).html(name))
+        }).html(name));
       }
       container.append(set);
       return set;
