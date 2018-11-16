@@ -16,6 +16,35 @@ const settings = (() => {
     return configs[page];
   }
 
+  function createArrayItem(text, skey) {
+    const key = `${skey}.${text}`;
+    const ret = $('<div>')
+      .on('change.script', () => {
+        const v = value(skey);
+        const i = v.indexOf(text);
+        if (i > -1) {
+          v.splice(i, 1);
+          if (v.length) {
+            localStorage.setItem(skey, JSON.stringify(v));
+          } else {
+            localStorage.removeItem(skey);
+          }
+        }
+        ret.remove();
+      });
+    const el = $('<input>')
+      .attr({
+        type: 'checkbox',
+        id: key,
+      }).prop('checked', '1');
+    const label = $(`<label>`).html(text)
+      .attr({
+        for: key,
+      });
+      ret.append(el, ' ', label);
+    return ret;
+  }
+
   function createSetting(setting) {
     if (setting.hidden) return;
     const ret = $('<div>');
@@ -36,9 +65,15 @@ const settings = (() => {
         .prop('checked', true);
     } else if (setting.type === 'array') {
       // Oh dear god
-      return null;
+      lf = true;
+      el = $('<input type="text">');
     } else { // How to handle.
       return null;
+    }
+    if (['array'].includes(setting.type)) {
+      el.css({
+        'background-color': 'transparent',
+      });
     }
     el.attr({
       id: key,
@@ -59,7 +94,7 @@ const settings = (() => {
           if (e.which !== 13) return;
           e.preventDefault();
           callChange(e);
-          e.val('');
+          el.val('');
         });
     }
     const label = $(`<label for="${key}">`).html(setting.name);
@@ -81,6 +116,15 @@ const settings = (() => {
       if (note) { // Functions can return null
         ret.hover(hover.show(note));
       }
+    }
+    if (setting.type === 'array') { // This is basically a fieldset, but not
+      const values = $('<div>').attr({
+        id: `${key}.values`,
+      });
+      value(setting.key).forEach((val) => {
+        values.append(createArrayItem(val, setting.key));
+      });
+      ret.append(values);
     }
     return ret;
   }
@@ -131,12 +175,13 @@ const settings = (() => {
       key: data.key || data,
       name: data.name || data.key,
       type: data.type || 'boolean',
-      category: data.category, // TODO
+      category: data.category,
       note: data.note,
       disabled: data.disabled,
       default: data.default,
       options: data.options,
       hidden: !!data.hidden,
+      pseudo: !!data.pseudo,
     };
     const conf = init(page);
     if (conf.hasOwnProperty(setting.key)) {
@@ -155,8 +200,12 @@ const settings = (() => {
         val = false;
         removeSetting(setting, el);
       } else if (setting.type === 'array') {
-        // Holy crap
-        return;
+        const v = value(setting.key);
+        const i = el.val().trim();
+        if (!i || v.includes(i)) return;
+        v.push(i);
+        $(document.getElementById(`${setting.key}.values`)).append(createArrayItem(i, setting.key));
+        val = JSON.stringify(v); // TODO: better handling of val storage
       } else {
         debug(`Unknown Setting Type: ${setting.type}`);
         return;

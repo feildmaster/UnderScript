@@ -6,9 +6,11 @@ settings.register({
 });
 
 settings.register({
+  name: 'On',
   key: 'underscript.ping.extras',
   type: 'array',
   experimental: true,
+  category: 'Ping Me',
   page: 'Chat',
 });
 
