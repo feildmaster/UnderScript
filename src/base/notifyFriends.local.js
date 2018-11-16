@@ -34,7 +34,6 @@ eventManager.on('ChatDetected', () => {
     setTimeout(() => {
       //openSocket();
       if (socketChat.readyState !== 1) return;
-      console.log('Pending friend update');
       updatingFriends = true;
       socketChat.send(JSON.stringify({action: 'getOnlineFriends'}));
     }, delay);
