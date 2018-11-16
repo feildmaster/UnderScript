@@ -1,11 +1,4 @@
 fn.each(localStorage, (name, key) => {
   if (!key.startsWith('underscript.ignore.')) return;
-  settings.register({
-    key, name,
-    type: 'remove',
-    page: 'ignorelist',
-    category: 'Users',
-  });
+  fn.ignoreUser(name, key);
 });
-
-settings.setDisplayName('Ignore List', 'ignorelist');

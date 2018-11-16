@@ -1,7 +1,7 @@
 settings.register({
   name: 'Disable Ignore Chat',
   key: 'underscript.disable.ignorechat',
-  page: 'ignorelist',
+  page: 'Chat',
 });
 
 settings.register({
@@ -9,7 +9,7 @@ settings.register({
   key: 'underscript.ignorechat.how',
   type: 'select',
   options: ['remove', 'bulk', 'hide'],
-  page: 'ignorelist',
+  page: 'Chat',
 });
 
 function processMessage(message, room) {

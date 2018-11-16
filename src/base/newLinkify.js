@@ -1,7 +1,7 @@
 settings.register({
   name: 'Use Original Link Detection',
   key: 'underscript.disable.linkify',
-  category: 'chat',
+  page: 'Chat',
 });
 
 eventManager.on('ChatDetected', () => {

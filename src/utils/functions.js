@@ -78,6 +78,14 @@ const fn = {
     };
     return new SimpleToast(fn.merge(defaults, arg));
   },
+  ignoreUser: (name, key) => {
+    settings.register({
+      key, name,
+      type: 'remove',
+      page: 'Chat',
+      category: 'Ignored Users',
+    });
+  },
   infoToast: (arg, key, val) => {
     if (localStorage.getItem(key) === val) return null;
     if (typeof arg === 'string') {

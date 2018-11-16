@@ -97,12 +97,7 @@ eventManager.on('ChatDetected' , () => {
           const key = `${ignorePrefix}${id}`;
           if (!settings.value(`${ignorePrefix}${id}`)) {
             localStorage.setItem(key, name);
-            settings.register({
-              key, name,
-              type: 'remove',
-              page: 'ignorelist',
-              category: 'Users',
-            });
+            fn.ignoreUser(name, key);
           } else {
             settings.remove(key);
           }

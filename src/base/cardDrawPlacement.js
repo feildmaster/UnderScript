@@ -4,6 +4,7 @@
     key: 'underscript.announcement.draws',
     type: 'select',
     options: ['chat', 'toast', 'hidden'],
+    page: 'Chat',
   });
 
   const toasts = [];
@@ -17,7 +18,7 @@
         toasts[toastIndex % 3].close();
       }
       toasts[toastIndex % 3] = fn.toast({
-        text: fn.decode(data.message),
+        text: data.message,
         css: {
           color: 'yellow',
           footer: {color: 'white'},

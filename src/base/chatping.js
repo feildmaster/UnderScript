@@ -2,13 +2,14 @@ settings.register({
   name: 'Disable ping toasts',
   key: 'underscript.disable.pingToast',
   default: true,
-  category: 'chat',
+  page: 'Chat',
 });
 
 settings.register({
   key: 'underscript.ping.extras',
   type: 'array',
-  category: 'chat',
+  experimental: true,
+  page: 'Chat',
 });
 
 (() => {
