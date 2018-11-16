@@ -117,6 +117,9 @@ const settings = (() => {
     fn.each(pageSettings, (data) => {
       category(data.category).append(createSetting(data));
     });
+    if (!category('N/A').html()) {
+      category('N/A').remove();
+    }
     return container;
   }
 
