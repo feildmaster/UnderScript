@@ -24,7 +24,9 @@ function to() {
   return dest('dist');
 }
 
-if (!deploy) {
+if (deploy) {
+  underscript.push('!src/**/*.local.js');
+} else {
   watch(underscript, build);
 }
 

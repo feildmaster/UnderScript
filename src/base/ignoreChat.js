@@ -8,7 +8,7 @@ settings.register({
   name: 'Ignore Behavior',
   key: 'underscript.ignorechat.how',
   type: 'select',
-  options: ['remove', 'bulk', 'hide'],
+  options: ['remove', 'hide'],
   page: 'Chat',
 });
 
@@ -47,6 +47,6 @@ eventManager.on('Chat:getHistory', (data) => {
   });
 });
 
-eventManager.on('Chat:getMessage', (data) => {
+eventManager.on('Chat:getMessage', function (data) {
   this.canceled = processMessage(JSON.parse(data.chatMessage), data.room);
 });

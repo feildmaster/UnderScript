@@ -1,6 +1,7 @@
 settings.register({
   name: 'Disable Chat Context (right click)',
   key: 'underscript.disable.chatContext',
+  page: 'Chat',
 });
 
 eventManager.on('ChatDetected' , () => {
@@ -164,13 +165,13 @@ eventManager.on('ChatDetected' , () => {
     }, context.open);
   }
 
-  eventManager.on('Chat:getHistory', (data) => {
+  eventManager.on('Chat:getHistory', function (data) {
     JSON.parse(data.history).forEach((message) => {
       processMessage(message, data.room);
     });
   });
 
-  eventManager.on('Chat:getMessage', (data) => {
+  eventManager.on('Chat:getMessage', function (data) {
     if (this.canceled) return;
     processMessage(JSON.parse(data.chatMessage), data.room);
   });
