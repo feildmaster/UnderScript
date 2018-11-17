@@ -12,15 +12,14 @@ settings.register({
 
 eventManager.on('ChatDetected', () => {
   const mask = '<span style="color: yellow;">$1</span>';
-  
+
   const oNotify = notif;
   notif = (text) => {
     if (!settings.value('underscript.disable.ping')) {
       if (settings.value('underscript.disable.notify')) {
         return oNotify(text);
       }
-      const exp = `\\b((?:${[selfUsername].concat(settings.value('underscript.ping.extras')).join(')|(?:')}))\\b`;
-      const regex = new RegExp(exp, 'gi');
+      const regex = fn.pingRegex();
       if (regex.test(text)) {
         if (soundsEnabled) {
           (new Audio("sounds/highlight.wav")).play();

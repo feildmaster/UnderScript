@@ -57,6 +57,18 @@ const fn = {
     }
     return status;
   },
+  pingRegex: (() => {
+    const filter = /(\||\\|\(|\)|\*|\+|\?|\.|\^|\$|\[|\{|\})/g
+    function filterMeta(text) {
+      return text.replace(filter, '\\$1');
+    }
+    function build() {
+      if (!selfUsername) console.log('Warning: Username not set');
+      const exp = `\\b((?:${[selfUsername].concat(settings.value('underscript.ping.extras')).map(filterMeta).join(')|(?:')}))\\b`;
+      return new RegExp(exp, 'gi');
+    }
+    return build;
+  })(),
   toast: (arg) => {
     // Why do I even check for SimpleToast? It *has* to be loaded at this point...
     if (!window.SimpleToast || !arg) return false;
