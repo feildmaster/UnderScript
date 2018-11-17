@@ -29,7 +29,7 @@ const menu = (() => {
       .append(
         `<div class="menu-header"><span class="menu-close right">&times;</span>MENU</div>`,
         body,
-        `<div class="menu-footer"><a href="https://git.io/fxysg" target="_blank">UnderScript</a> <a href="https://discord.gg/D8DFvrU" target="_blank"><img id="usdiscord" src="images/social/discord.png" alt="discord"></a></div>`
+        `<div class="menu-footer"><a href="https://git.io/fxysg" target="_blank">UnderScript</a> v${GM_info.script.version} <a href="https://discord.gg/D8DFvrU" target="_blank"><img id="usdiscord" src="images/social/discord.png" alt="discord"></a></div>`
       )).on('click', (e) => {
         if (e.target === wrapper[0]) {
           close();
