@@ -20,17 +20,26 @@ onPage('Decks', function deckStorage() {
   if (settings.value('underscript.storage.disable')) return;
   const container = $('<p>');
   const buttons = [];
+  let loading;
   let pending = [];
 
   function processNext() {
     const card = pending.shift();
     if (card) {
-      if (card.action === 'clear') {
+      if (card.action === 'validate') {
+        loadDeck(loading);
+        if (!pending.length) {
+          loading = null;
+        }
+      } else if (card.action === 'clear') {
         removeAllCards();
       } else if (card.action === 'remove') {
         removeCard(parseInt(card.id), card.shiny === true);
       } else {
         addCard(parseInt(card.id), card.shiny === true);
+        if (!pending.length) {
+          pending.push({action: 'validate'})
+        }
       }
     }
   }
@@ -82,7 +91,9 @@ onPage('Decks', function deckStorage() {
   }
 
   function loadDeck(i) {
+    if (i === null) return;
     pending = []; // Clear pending
+    loading = i;
     const soul = $('#selectClasses').find(':selected').text();
     let deck = JSON.parse(localStorage.getItem(`underscript.deck.${selfId}.${soul}.${i}`));
     const cDeck = $(`#deckCards${soul} li`);
