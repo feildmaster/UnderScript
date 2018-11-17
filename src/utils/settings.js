@@ -1,5 +1,9 @@
 const settings = (() => {
-  $('head').append(`<style type="text/css">.mono .modal-body { font-family: monospace; }</style>`);
+  $('head').append(`<style type="text/css">
+    .mono .modal-body { font-family: monospace; max-height: 500px; overflow-y: auto; }
+    .remove { display: none; }
+    .remove:checked + label:before { content: '× '; color: red; }
+  </style>`);
   const settingReg = {
     // key: setting
   };
@@ -33,6 +37,7 @@ const settings = (() => {
         ret.remove();
       });
     const el = $('<input>')
+      .addClass('remove')
       .attr({
         type: 'checkbox',
         id: key,
@@ -62,11 +67,19 @@ const settings = (() => {
       });
     } else if (setting.type === 'remove') {
       el = $(`<input type="checkbox">`)
+        .addClass('remove')
         .prop('checked', true);
     } else if (setting.type === 'array') {
-      // Oh dear god
       lf = true;
       el = $('<input type="text">');
+    } else if (setting.type === 'slider') {
+      lf = true;
+      el = $('<input>').attr({
+        type: 'range',
+        min: setting.min || 0,
+        max: setting.max || 100,
+        value: current,
+      });
     } else { // How to handle.
       return null;
     }
@@ -96,6 +109,10 @@ const settings = (() => {
           callChange(e);
           el.val('');
         });
+        break;
+      case 'slider':
+        el.on('input.script', callChange);
+        break;
     }
     const label = $(`<label for="${key}">`).html(setting.name);
     const disabled = (typeof setting.disabled === 'function' ? setting.disabled() : setting.disabled) === true;
