@@ -8,55 +8,6 @@ const fn = {
       f.call(t, o[x], x, o); // "this", value, key, object
     });
   },
-  cardStatus: (card) => {
-    const status = [];
-    if (card.taunt) {
-      status.push('taunt');
-    }
-    if (card.charge) {
-      status.push('charge');
-    }
-    if (card.attack !== card.originalAttack) {
-      status.push(card.attack > card.originalAttack ? 'bonusAtk' : 'malusAtk');
-    }
-    if (card.maxHp > card.originalHp) {
-      status.push('bonusHp');
-    }
-    if (card.paralyzed) {
-      status.push('paralyzed');
-    }
-    if (card.candy) {
-      status.push('candy');
-    }
-    if (card.kr) {
-      status.push('poison');
-    }
-    if (card.cantAttack) {
-      status.push('cantAttack');
-    }
-    if (card.notTargetable) {
-      status.push('notTargetable');
-    }
-    if (card.resurrect) {
-      status.push('resurrect');
-    }
-    if (card.invincible) {
-      status.push('invulnerable');
-    }
-    if (card.transparency) {
-      status.push('transparency');
-    }
-    if (card.rarity === "DETERMINATION") {
-      status.push('determination');
-    }
-    if (card.silence) {
-      status.push('silenced');
-    }
-    if (card.catchedMonster) {
-      status.push('box');
-    }
-    return status;
-  },
   pingRegex: (() => {
     const filter = /(\||\\|\(|\)|\*|\+|\?|\.|\^|\$|\[|\{|\})/g
     function filterMeta(text) {

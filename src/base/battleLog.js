@@ -54,6 +54,58 @@ eventManager.on("GameStart", function battleLogger() {
     const dust = typeof players[player].dust === 'undefined' ? players[player].dust = 0 : players[player].dust += 1;
     display.html(dust);
   }
+  function getStatus(card) {
+    const status = [];
+    if (card.taunt) {
+      status.push('taunt');
+    }
+    if (card.charge) {
+      status.push('charge');
+    }
+    if (card.haste) {
+      status.push('haste');
+    }
+    if (card.attack !== card.originalAttack) {
+      status.push(card.attack > card.originalAttack ? 'bonusAtk' : 'malusAtk');
+    }
+    if (card.maxHp > card.originalHp) {
+      status.push('bonusHp');
+    }
+    if (card.cost !== card.originalCost) {
+      status.push(card.cost > card.originalCost ? 'bonusCost' : 'malusCost');
+    }
+    if (card.paralyzed) {
+      status.push('paralyzed');
+    }
+    if (card.candy) {
+      status.push('candy');
+    }
+    if (card.kr) {
+      status.push('poison');
+    }
+    if (card.cantAttack) {
+      status.push('cantAttack');
+    }
+    if (card.anotherChance) {
+      status.push('anotherChance');
+    }
+    if (card.invincible) {
+      status.push('invulnerable');
+    }
+    if (card.transparency) {
+      status.push('transparency');
+    }
+    if (card.rarity === "DETERMINATION") {
+      status.push('determination');
+    }
+    if (card.silence) {
+      status.push('silenced');
+    }
+    if (card.catchedMonster) {
+      status.push('box');
+    }
+    return status;
+  }
   const make = {
     player: function makePlayer(player, title = false) {
       const c = $('<span>');
@@ -80,13 +132,10 @@ eventManager.on("GameStart", function battleLogger() {
       // TODO: skins
       data += `</td><td class="cardCost">${card.cost}</td></tr>`;
       data += `<tr><td id="cardImage" colspan="4">`;
-      const status = fn.cardStatus(card);
-      if (status.length) {
-        // add status images
-        status.forEach((s, i) => {
-          data += `<img class="infoPowers" style="z-index:20;right:${4 + i * 20}px;" src="images/powers/${s}.png"/>`;
-        });
-      }
+      // add status images
+      getStatus(card).forEach((s, i) => {
+        data += `<img class="infoPowers" style="z-index:20;right:${4 + i * 20}px;" src="images/powers/${s}.png"/>`;
+      });
       data += `<img src="images/cards/${card.image}.png"/></td></tr>`;
       data += `<tr><td class="cardDesc" colspan="4">${card.desc || ''}`
       if (card.silence) {
