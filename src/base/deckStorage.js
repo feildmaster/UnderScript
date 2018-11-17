@@ -1,7 +1,7 @@
 settings.register({
   name: 'Disable Deck Storage',
   key: 'underscript.storage.disable',
-  // TODO: requires reload
+  refresh: () => onPage('Decks'),
 });
 
 settings.register({
@@ -9,11 +9,7 @@ settings.register({
   key: 'underscript.storage.rows',
   type: 'select',
   options: ['1', '2', '3', '4', '5', '6'],
-  note: () => {
-    if (onPage('Decks')) {
-      return 'Will require you to refresh the page';
-    }
-  },
+  refresh: () => onPage('Decks'),
 });
 
 onPage('Decks', function deckStorage() {

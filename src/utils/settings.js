@@ -129,7 +129,7 @@ const settings = (() => {
       ret.append(el, ' ', label);
     }
     if (!disabled && setting.note) {
-      const note = typeof setting.note === 'function' ? setting.note() : setting.note;
+      const note = setting.note();
       if (note) { // Functions can return null
         ret.hover(hover.show(note));
       }
@@ -193,13 +193,22 @@ const settings = (() => {
       name: data.name || data.key,
       type: data.type || 'boolean',
       category: data.category,
-      note: data.note,
       disabled: data.disabled,
       default: data.default,
       options: data.options,
       hidden: !!data.hidden,
       pseudo: !!data.pseudo,
     };
+    if (data.refresh || data.note) {
+      setting.note = () => {
+        if (data.refresh) {
+          if (typeof data.refresh === 'function' ? data.refresh() : data.refresh) {
+            return 'Will require you to refresh the page';
+          }
+        }
+        return typeof data.note === 'function' ? data.note() : data.note;
+      };
+    }
     const conf = init(page);
     if (conf.hasOwnProperty(setting.key)) {
       debug(`settings.add: ${setting.name} already registered`);

@@ -1,5 +1,5 @@
 settings.register({
-  name: 'Disable Battle History',
+  name: 'Disable Battle Log',
   key: 'underscript.disable.logger',
   onChange: (to, from) => {
     if (!onPage('Game') && !onPage('gameSpectate')) return;

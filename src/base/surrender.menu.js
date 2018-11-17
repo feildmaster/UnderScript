@@ -12,7 +12,7 @@ onPage('Game', () => {
     enabled: canSurrender,
     top: true,
     note: () => {
-      if (canSurrender()) return null;
+      if (canSurrender()) return;
       return `You can't surrender before turn 5.`;
     },
     action: () => {

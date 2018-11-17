@@ -4,6 +4,7 @@ settings.register({
 });
 
 eventManager.on('getResult', function resultToast() {
+  if (settings.value('underscript.disable.resultToast')) return;
   const toast = {
     title: 'Game Finished',
     text: 'Return Home',
@@ -16,7 +17,7 @@ eventManager.on('getResult', function resultToast() {
       document.location.href = "/";
     },
   };
-  if (!settings.value('underscript.disable.resultToast') && fn.toast(toast)) {
+  if (fn.toast(toast)) {
     BootstrapDialog.closeAll();
   }
 });

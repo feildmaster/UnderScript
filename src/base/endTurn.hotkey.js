@@ -6,19 +6,13 @@ settings.register({
   name: 'Disable End Turn with Space',
   key: 'underscript.disable.endTurn.space',
   disabled: () => settings.value('underscript.disable.endTurn'),
-  note: () => {
-    if (typeof gameId === 'undefined') return;
-    return 'Will require you to refresh the page';
-  },
+  refresh: () => typeof gameId !== 'undefined',
 });
 settings.register({
   name: 'Disable End Turn with Middle Click',
   key: 'underscript.disable.endTurn.middleClick',
   disabled: () => settings.value('underscript.disable.endTurn'),
-  note: () => {
-    if (typeof gameId === 'undefined') return;
-    return 'Will require you to refresh the page';
-  },
+  refresh: () => typeof gameId !== 'undefined',
 });
 
 eventManager.on("PlayingGame", function bindHotkeys() {

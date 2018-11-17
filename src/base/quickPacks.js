@@ -1,7 +1,7 @@
 settings.register({
   name: 'Disable Quick Opening Packs',
   key: 'underscript.disable.packOpening',
-  // TODO: Requires reload
+  refresh: () => onPage('Packs'),
 });
 
 onPage('Packs', function quickOpenPack() {

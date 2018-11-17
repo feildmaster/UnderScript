@@ -1,6 +1,7 @@
 settings.register({
   name: 'Disable Game List Resizing',
   key: 'underscript.disable.adjustSpectateView',
+  refresh: () => onPage(''),
 });
 
 onPage('', function adjustSpectateView() {
