@@ -15,7 +15,7 @@ const fn = {
     }
     function build() {
       if (!selfUsername) console.log('Warning: Username not set');
-      const exp = `\\b((?:${[selfUsername].concat(settings.value('underscript.ping.extras')).map(filterMeta).join(')|(?:')}))\\b`;
+      const exp = `\\b((?:${[selfUsername].concat(settings.value('underscript.ping.extras')).map(filterMeta).join(')|(?:')}))(?!.*">)\\b`;
       return new RegExp(exp, 'gi');
     }
     return build;
