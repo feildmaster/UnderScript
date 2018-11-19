@@ -67,6 +67,7 @@ onPage('Decks', function deckStorage() {
 
   $('#yourCardList > button').after(container);
   $('#yourCardList > br').remove();
+  $('#yourCardList').css('margin-bottom', '35px');
 
   $("#selectClasses").change(loadStorage);
 
