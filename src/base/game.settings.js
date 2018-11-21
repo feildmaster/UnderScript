@@ -15,7 +15,7 @@
     category: 'Chat',
   },
   {
-    name: 'Disable shiny cards',
+    name: 'Disable shiny card animation',
     key: 'gameShinyDisabled',
     category: 'Game',
   },
@@ -36,8 +36,9 @@
   },
 ].forEach((setting) => {
   const {name, key, category} = setting;
+  const refresh = category === 'Game' ? () => onPage('Game') || onPage('gameSpectating') : undefined;
   settings.register({
-    name, key, category,
+    name, key, category, refresh,
     page: 'game',
   });
 });
