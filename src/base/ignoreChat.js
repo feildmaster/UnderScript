@@ -12,22 +12,31 @@ settings.register({
   page: 'Chat',
 });
 
-function processMessage(message, room) {
-  debug(message, 'debugging.chat.message')
+function shouldIgnore(message) {
   // Ignoring is disabled?
-  if (settings.value('underscript.disable.ignorechat')) return;
+  if (settings.value('underscript.disable.ignorechat')) return false;
   const user = message.user;
   const id = user.id;
   // Is it your own message?
-  if (id === selfId) return;
+  if (id === selfId) return false;
   // Is user staff?
-  if (user.mainGroup.priority <= 6) return;
+  if (user.mainGroup.priority <= 6) return false;
   // Not ignoring?
-  if (!settings.value(`underscript.ignore.${id}`)) return; 
+  if (!settings.value(`underscript.ignore.${id}`)) return false;
+  return true;
+}
+
+function processMessage(message, room, history = false) {
+  debug(message, 'debugging.chat.message')
+  if (!shouldIgnore(message)) return;
 
   const msg = $(`#${room} #message-${message.id}`);
   const type = settings.value('underscript.ignorechat.how');
   if (type === 'hide') {
+    if (!history) {
+      pendingIgnore.set(true);
+      return;
+    }
     msg.find(`.chat-message`).html('<span class="gray">Message Ignored</span>').removeClass().addClass('chat-message');
   } else if (type === 'remove') {
     debug('removed', 'debugging.chat');
@@ -43,10 +52,18 @@ function processMessage(message, room) {
 
 eventManager.on('Chat:getHistory', (data) => {
   JSON.parse(data.history).forEach((message) => {
-    processMessage(message, data.room);
+    processMessage(message, data.room, true);
   });
 });
 
-eventManager.on('Chat:getMessage', function (data) {
+eventManager.on('preChat:getMessage', function (data) {
+  if (this.canceled) return;
   this.canceled = processMessage(JSON.parse(data.chatMessage), data.room);
+});
+
+eventManager.on('Chat:getMessage', function hideMessage(data) {
+  const message = JSON.parse(data.chatMessage);
+  if (!shouldIgnore(message)) return;
+  if (settings.value('underscript.ignorechat.how') !== 'hide') return;
+  $(`#${data.room} #message-${message.id} .chat-message`).html('<span class="gray">Message Ignored</span>').removeClass().addClass('chat-message');
 });

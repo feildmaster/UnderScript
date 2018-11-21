@@ -15,7 +15,7 @@ eventManager.on('ChatDetected', () => {
 
   const oNotify = notif;
   notif = (text) => {
-    if (!settings.value('underscript.disable.ping')) {
+    if (!settings.value('underscript.disable.ping') && !pendingIgnore.get()) {
       if (settings.value('underscript.disable.notify')) {
         return oNotify(text);
       }

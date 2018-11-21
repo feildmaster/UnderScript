@@ -18,7 +18,7 @@ settings.register({
   eventManager.on('Chat:getMessage', function pingToast(data) {
     if (this.canceled || !settings.value('underscript.enable.pingToast')) return;
     const msg = JSON.parse(data.chatMessage);
-    if (msg.user.id === selfId) return;
+    if (shouldIgnore(msg)) return;
     if (!fn.pingRegex().test(msg.message)) return;
     const avatar = !settings.value('chatAvatarsDisabled') ? `<img src="/images/avatars/${msg.user.avatar.image}.png" class="avatar ${msg.user.avatar.rarity}" height="35" style="float: left; margin-right: 7px;">` : '';
     fn.toast({
