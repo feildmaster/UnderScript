@@ -12,7 +12,10 @@ eventManager.on('getResult', function resultToast() {
       className: 'skiptranslate',
       text: '🏠',
     },
-    css: {'font-family': 'inherit'},
+    css: {
+      'font-family': 'inherit',
+      button: { background: 'rgb(0, 0, 20)' }
+    },
     onClose: () => {
       document.location.href = "/";
     },
