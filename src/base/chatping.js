@@ -1,7 +1,7 @@
 settings.register({
-  name: 'Disable ping toasts',
-  key: 'underscript.disable.pingToast',
-  default: true,
+  name: 'Enable ping toasts',
+  key: 'underscript.enable.pingToast',
+  category: 'Ping Me',
   page: 'Chat',
 });
 
@@ -16,7 +16,7 @@ settings.register({
 
 (() => {
   eventManager.on('Chat:getMessage', function pingToast(data) {
-    if (this.canceled || settings.value('underscript.disable.pingToast')) return;
+    if (this.canceled || !settings.value('underscript.enable.pingToast')) return;
     const msg = JSON.parse(data.chatMessage);
     if (msg.user.id === selfId) return;
     if (!fn.pingRegex().test(msg.message)) return;
