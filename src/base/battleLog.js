@@ -35,7 +35,6 @@ eventManager.on("GameStart", function battleLogger() {
     getTurn: 'Turn update',
     getCardDrawed: 'Add card to your hand',
     updateSpell: '',
-    updateMonster: 'monster on board updated',
     getFakeDeath: 'Card "died" and respawns 1 second later',
     getMonsterTemp: "You're about to play a monster",
     getSpellTemp: "You're about to play a spell",
@@ -137,7 +136,7 @@ eventManager.on("GameStart", function battleLogger() {
         data += `<img class="infoPowers" style="z-index:20;right:${4 + i * 20}px;" src="images/powers/${s}.png"/>`;
       });
       data += `<img src="images/cards/${card.image}.png"/></td></tr>`;
-      data += `<tr><td class="cardDesc" colspan="4">${card.desc || ''}`
+      data += `<tr><td class="cardDesc" colspan="4">${card.desc || card.description || ''}`
       if (card.silence) {
         data += '<img class="silenced" title="Silence" src="images/silence.png">';
       }
@@ -316,6 +315,11 @@ eventManager.on("GameStart", function battleLogger() {
       card.owner = count <= 4 ? opponentId : userId;
       monsters[card.id] = card;
     });
+  });
+  eventManager.on('updateMonster', function updateCard(data) {
+    debug(data, 'debugging.raw.updateMonster');
+    const card = JSON.parse(data.monster);
+    monsters[card.id] = fn.merge(monsters[card.id], card);
   });
   eventManager.on('getMonsterDestroyed', function monsterKilled(data) {
     debug(data, 'debugging.raw.kill');
