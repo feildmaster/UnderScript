@@ -9,13 +9,13 @@ collections:
     output: true
     permalink: /feature/:title
 defaults:
+  - scope: # Make all file layouts "default"
+      path: ""
+    values:
+      layout: "default"
   - scope: # make author of a feature feildmaster
       path: ""
       type: "features"
     values:
       layout: "feature"
       author: "feildmaster"
-  - scope: # Make all file layouts "default"
-      path: ""
-    values:
-      layout: "default"
