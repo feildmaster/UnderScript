@@ -11,6 +11,9 @@ eventManager.on('ChatDetected', () => {
     if (settings.value('underscript.disable.linkify')) {
       return oLinkify(text);
     }
-    return text.replace(regex, `<a href="$1" target="_blank" onclick="return link('$1') || false;">$1</a>`)
+    return text.replace(regex, (i, $1) => {
+      const link = `${$1.substr(0, 4) !== 'http' ? 'http://' : ''}${$1}`;
+      return `<a href="${link}" target="_blank" onclick="return link('${link}') || false;">${$1}</a>`
+    })
   };
 });
