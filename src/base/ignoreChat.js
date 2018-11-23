@@ -12,22 +12,22 @@ settings.register({
   page: 'Chat',
 });
 
-function shouldIgnore(message) {
+// This isn't really the best name to call this function
+function shouldIgnore(message, self = false) {
   // Ignoring is disabled?
   if (settings.value('underscript.disable.ignorechat')) return false;
   const user = message.user;
   const id = user.id;
   // Is it your own message?
-  if (id === selfId) return false;
+  if (id === selfId) return self;
   // Is user staff?
   if (user.mainGroup.priority <= 6) return false;
-  // Not ignoring?
-  if (!settings.value(`underscript.ignore.${id}`)) return false;
-  return true;
+  // Ignoring user?
+  return !!settings.value(`underscript.ignore.${id}`);
 }
 
 function processMessage(message, room, history = false) {
-  debug(message, 'debugging.chat.message')
+  debug(message, 'debugging.chat.message');
   if (!shouldIgnore(message)) return;
 
   const msg = $(`#${room} #message-${message.id}`);
