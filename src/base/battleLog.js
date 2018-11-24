@@ -317,8 +317,9 @@ eventManager.on("GameStart", function battleLogger() {
     });
   });
   eventManager.on('updateMonster', function updateCard(data) {
+    data.monster = JSON.parse(data.monster);
     debug(data, 'debugging.raw.updateMonster');
-    const card = JSON.parse(data.monster);
+    const card = data.monster;
     monsters[card.id] = fn.merge(monsters[card.id], card);
   });
   eventManager.on('getMonsterDestroyed', function monsterKilled(data) {

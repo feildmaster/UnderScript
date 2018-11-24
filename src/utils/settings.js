@@ -198,6 +198,7 @@ const settings = (() => {
       options: data.options,
       hidden: !!data.hidden,
       pseudo: !!data.pseudo,
+      remove: !!data.remove,
     };
     if (data.refresh || data.note) {
       setting.note = () => {
@@ -218,8 +219,8 @@ const settings = (() => {
       let val = '';
       if (setting.type === 'boolean') {
         if (el.is(':checked')) val = '1';
-        else if (data.default) val = '0'; // Default is true, give it a value
-        else val = false;
+        else if (setting.remove) val = false; // Only remove if it's expected
+        else val = '0';
       } else if (setting.type === 'select') {
         val = el.val();
       } else if (setting.type === 'remove') {
@@ -313,7 +314,7 @@ const settings = (() => {
     const val = localStorage.getItem(key);
     if (!val) return getDefault(setting);
     if (setting.type === 'array') return JSON.parse(val);
-    else if (setting.type === 'boolean') return val === '1';
+    else if (setting.type === 'boolean') return val === '1' || val === 'true';
     return val;
   }
 

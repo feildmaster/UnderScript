@@ -40,6 +40,7 @@
   settings.register({
     name, key, category, refresh,
     page: 'game',
+    remove: true,
   });
 });
 
