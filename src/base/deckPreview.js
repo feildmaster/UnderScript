@@ -30,8 +30,8 @@ onPage('Decks', function () {
       element.hover(checkHover(element));
     });
     eventManager.on('Deck:removeCard', () => hover.hide());
-    eventManager.on('Deck:addCard', (data, settings, xhr) => {
-      const element = $(`#deckCards${data.classe} li:last`);
+    eventManager.on('Deck:addCard', (data) => {
+      const element = $(`#deckCards${data.classe} li#${data.idCard}:last`);
       element.hover(checkHover(element));
     });
   });
