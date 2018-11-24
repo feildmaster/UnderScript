@@ -18,9 +18,3 @@ deploy:
     on:
       tags: true
       branch: master
-  - provider: script
-    skip_cleanup: true
-    script: bash scripts/gist.sh dist/undercards.user.js
-    on:
-      all_branches: true
-      condition: $TRAVIS_BRANCH != master
