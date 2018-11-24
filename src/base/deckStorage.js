@@ -40,9 +40,7 @@ onPage('Decks', function deckStorage() {
     }
   }
 
-  $(document).ajaxComplete((e, xhr, settings) => {
-    if (settings.url !== 'DecksConfig') return;
-    const data = JSON.parse(settings.data);
+  eventManager.on('Deck:postChange', (data) => {
     if (!['addCard', 'removeCard', 'removeAllCards'].includes(data.action)) return;
     if (data.status === "error") {
       pending = [];

@@ -29,14 +29,10 @@ onPage('Decks', function () {
       const element = $(this);
       element.hover(checkHover(element));
     });
-    $(document).ajaxSuccess((event, xhr, settings) => {
-      const data = JSON.parse(settings.data);
-      if (data.action === 'removeCard') { // Card was removed, hide element
-        hover.hide();
-      } else if (data.action === 'addCard') { // Card was added
-        const element = $(`#deckCards${data.classe} li:last`);
-        element.hover(checkHover(element));
-      }
+    eventManager.on('Deck:removeCard', () => hover.hide());
+    eventManager.on('Deck:addCard', (data, settings, xhr) => {
+      const element = $(`#deckCards${data.classe} li:last`);
+      element.hover(checkHover(element));
     });
   });
 });
