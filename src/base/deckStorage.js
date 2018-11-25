@@ -67,7 +67,7 @@ onPage('Decks', function deckStorage() {
   $('#yourCardList > br').remove();
   $('#yourCardList').css('margin-bottom', '35px');
 
-  $("#selectClasses").change(loadStorage);
+  eventManager.on('Deck:Soul', loadStorage);
 
   function saveDeck(i) {
     const soul = $('#selectClasses').find(':selected').text();

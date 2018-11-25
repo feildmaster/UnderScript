@@ -13,5 +13,11 @@ onPage('Decks', function () {
       eventManager.emit('Deck:postChange', data, options, xhr);
       eventManager.emit(`Deck:${data.action}`, data, options, xhr);
     });
+    // Class change
+    $('#selectClasses').change(function () {
+      // Sometimes it takes too long, so lets change it now
+      classe = $(this).val();
+      eventManager.emit('Deck:Soul');
+    });
   });
 });
