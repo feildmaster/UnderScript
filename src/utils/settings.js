@@ -1,9 +1,9 @@
 const settings = (() => {
-  $('head').append(`<style type="text/css">
+  eventManager.on('jQuery', () => $('head').append(`<style type="text/css">
     .mono .modal-body { font-family: monospace; max-height: 500px; overflow-y: auto; }
     .remove { display: none; }
     .remove:checked + label:before { content: '× '; color: red; }
-  </style>`);
+  </style>`));
   const settingReg = {
     // key: setting
   };
