@@ -1,0 +1,24 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+/* Custom CSS goes here */
+
+img { border: 0; padding: 0; margin: 0; }
+
+a.discord { background: url(../images/discord_logo.svg) no-repeat -2px 1px; }
+
+.notice { color: #f00; }
+
+/* Setup CSS */
+ul.setup { list-style: none; padding: 0; }
+.setup li { list-style-type: none; width: fit-content; height: fit-content; margin-bottom: 12px; line-height: 1em; padding: 6px 6px 6px 7px; background: #AF0011; background: -moz-linear-gradient(top, #AF0011 0%, #820011 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f8f8f8), color-stop(100%, #dddddd)); background: -webkit-linear-gradient(top, #AF0011 0%, #820011 100%); background: -o-linear-gradient(top, #AF0011 0%, #820011 100%); background: -ms-linear-gradient(top, #AF0011 0%, #820011 100%); background: linear-gradient(to top, #AF0011 0%, #820011 100%); border-radius: 4px; border: 1px solid #0D0D0D; -webkit-box-shadow: inset 0px 1px 1px 0 #e90226; box-shadow: inset 0px 1px 1px 0 #e90226; }
+.setup li:hover { background: #C3001D; background: -moz-linear-gradient(top, #C3001D 0%, #950119 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f8f8f8), color-stop(100%, #dddddd)); background: -webkit-linear-gradient(top, #C3001D 0%, #950119 100%); background: -o-linear-gradient(top, #C3001D 0%, #950119 100%); background: -ms-linear-gradient(top, #C3001D 0%, #950119 100%); background: linear-gradient(to top, #C3001D 0%, #950119 100%); }
+.setup li a { color: #dddddd; }
+a.install::before { content: 'Install '; }
+a.hide { display: none; }
+a.installed::before { content: 'Installed ' }
+a.installed { background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' height='30px' width='20px'><text x='0' y='18' fill='white' font-size='20'>✓</text></svg>") no-repeat; }
+a.installed::after { content: '!' }
+a.update::before { content: 'Update '; }

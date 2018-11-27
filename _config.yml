@@ -1,0 +1,21 @@
+title: UnderScript
+description: Various changes to <a class="header" href="https://undercards.net/SignUp?ref=63068">undercards</a>, an <a class="header" href="https://undertale.com/">undertale</a> fan-made card game.
+google_analytics: UA-38424623-3
+discord_url: https://discord.gg/D8DFvrU
+theme: jekyll-theme-dinky
+permalink: /:title
+collections:
+  features:
+    output: true
+    permalink: /feature/:title
+defaults:
+  - scope: # Make all file layouts "default"
+      path: ""
+    values:
+      layout: "default"
+  - scope: # make author of a feature feildmaster
+      path: ""
+      type: "features"
+    values:
+      layout: "feature"
+      author: "feildmaster"
