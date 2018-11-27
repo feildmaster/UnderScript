@@ -1,25 +1,75 @@
 [
-  // underscript.disable.sound.bgm
-  // underscript.disable.sound.gameStart
-  // underscript.disable.sound.spectate.all
-  // underscript.disable.sound.legendary
-  // underscript.disable.sound.determination
-  // underscript.disable.sound.spells
-  // underscript.disable.sound.handFull
-  // underscript.disable.sound.destroy
-  // underscript.disable.sound.damage
-  // underscript.disable.sound.heal
-  // underscript.disable.sound.destroy.enemy
-  // underscript.disable.sound.victory
-  // underscript.disable.sound.spectate
-  // underscript.enable.bgm.spectate (TODO)
   // underscript.enable.yourTurn (TODO)
   {
-    name: '',
-    key: '',
-  }
+    name: 'Disable Background Music',
+    key: 'underscript.disable.sound.bgm',
+    category: 'Playing',
+  },
+  {
+    name: 'Disable game start sound',
+    key: 'underscript.disable.sound.gameStart',
+    category: 'Playing',
+  },
+  {
+    name: 'Disable <img src="images/rarity/LEGENDARY.png"> monster sounds',
+    key: 'underscript.disable.sound.legendary',
+  },
+  {
+    name: 'Disable <img src="images/rarity/DETERMINATION.png"> monster sounds',
+    key: 'underscript.disable.sound.determination',
+  },
+  {
+    name: 'Disable spell sounds',
+    key: 'underscript.disable.sound.spells',
+  },
+  {
+    name: 'Disable discard sound',
+    key: 'underscript.disable.sound.handFull',
+  },
+  {
+    name: 'Disable monster death sound',
+    key: 'underscript.disable.sound.destroy',
+  },
+  {
+    name: 'Disable enemy death sound',
+    key: 'underscript.disable.sound.destroy.enemy',
+    category: 'Playing'
+  },
+  {
+    name: 'Disable player heal sound',
+    key: 'underscript.disable.sound.heal',
+  },
+  {
+    name: 'Disable player damage sound',
+    key: 'underscript.disable.sound.damage',
+  },
+  {
+    name: 'Disable sounds',
+    key: 'underscript.disable.sound.spectate.sfx',
+    category: 'Spectating',
+  },
+  {
+    name: 'Disable "victory" music (at end of games)',
+    key: 'underscript.disable.sound.spectate.victory',
+    category: 'Spectating',
+  },
+  {
+    name: 'Enable Background Music',
+    key: 'underscript.enable.sound.spectate.bgm',
+    category: 'Spectating',
+  },
+  {
+    name: 'Disable Rank Up',
+    key: 'underscript.disable.sound.rankup',
+    category: 'Playing',
+  },
 ].forEach((setting) => {
-  // TODO: register settings
+  const {name, key, category} = setting;
+  settings.register({
+    name, key,
+    category: category,
+    page: 'Sound',
+  });
 });
 
 eventManager.on('GameStart', function soundManager() {
@@ -30,7 +80,7 @@ eventManager.on('GameStart', function soundManager() {
   // TODO: Play/Pause Mute/Unmute buttons
 
   function isMusicDisabled() {
-    return !settings.value('gameMusicDisabled');
+    return settings.value('gameMusicDisabled');
   }
   function disableMusic() {
     if (!canDisableMusic || !musicEnabled) return;
@@ -88,9 +138,15 @@ eventManager.on('GameStart', function soundManager() {
     }
   });
   eventManager.on('getAllGameInfos', function spectateBGM(data) {
-    if (settings.value('underscript.disable.sound.spectate.all')) {
+    if (settings.value('underscript.disable.sound.spectate.sfx')) {
       // Disable all sounds for spectator games, and don't restore it
       soundEnabled = false;
+    }
+    if (settings.value('underscript.enable.sound.spectate.bgm')) {
+      const numBackground = randomInt(1, 10);
+      // set the new background (ugh)
+      $('body').css('background', `#000 url('images/backgrounds/${numBackground}.png') no-repeat`);
+      playMusic(`musics/themes/${numBackground}.ogg`, { volume: 0.1, repeat: true });
     }
   });
   eventManager.on('getCardBoard:before', function disableLegendary(data) {
@@ -164,14 +220,16 @@ eventManager.on('GameStart', function soundManager() {
     }
   });
   eventManager.on('getResult:before', function restoreSpectateMusic() {
-    // getResult hasn't been canceled, music is disabled, we disable spectateMusic
-    if (!this.canceled || isMusicDisabled() || settings.value('underscript.disable.sound.spectate')) return;
+    if (settings.value('underscript.enable.sound.spectate.bgm')) {
+      stopAudio(music);
+    }
+    if (!this.canceled || isMusicDisabled() || settings.value('underscript.disable.sound.spectate.victory')) return;
     // Play the music, because it got canceled >.>
     playMusic('musics/victory.ogg');
   });
   eventManager.on('getResult', function stopSpectateMusic() {
     // music is undefined, music is not disabled and we do not disable spectate music
-    if (typeof music === 'undefined' || !isMusicDisabled() && !settings.value('underscript.disable.sound.spectate')) return;
+    if (typeof music === 'undefined' || !isMusicDisabled() && !settings.value('underscript.disable.sound.spectate.victory')) return;
     // if music != undefined && (isMusicDisabled || DisableFinish)
     stopAudio(music);
   });

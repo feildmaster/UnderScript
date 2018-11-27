@@ -310,7 +310,7 @@ const settings = (() => {
   }
 
   function value(key) {
-    const setting = settingReg[key];
+    const setting = settingReg[key] || {};
     const val = localStorage.getItem(key);
     if (!val) return getDefault(setting);
     if (setting.type === 'array') return JSON.parse(val);
