@@ -2,3 +2,7 @@
 /node_modules
 /dist
 src/**/*.ignore.js
+/_site
+/.vscode
+/_features
+/assets
