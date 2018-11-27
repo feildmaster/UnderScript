@@ -9,8 +9,8 @@ onPage("gameSpectate", function () {
     const oHandler = socket.onmessage;
     socket.onmessage = function onMessageScript(event) {
       const data = JSON.parse(event.data);
-      //eventManager.emit('PreGameEvent', data, true);
-      oHandler(event);
+      const run = !eventManager.emit('PreGameEvent', data, data.action === 'getResult').canceled;
+      if (run) oHandler(event);
       eventManager.emit('GameEvent', data);
     };
   })();
