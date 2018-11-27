@@ -3,12 +3,12 @@ onPage("Play", function () {
   let restarting = false;
 
   eventManager.on("jQuery", function onPlay() {
-    if (disable) {
+    restarting = $('p.infoMessage:contains("The server will restart in")').length !== 0;
+    if (disable || restarting) {
       queues = $("button.btn.btn-primary");
       queues.prop("disabled", true);
-      restarting = $('p.infoMessage:contains("The server will restart in")').length === 1;
       if (restarting) {
-        queues.hover(hover.show('Joining is disabled due to server restart.'));
+        queues.parent().hover(hover.show('Joining is disabled due to server restart.'));
       }
     }
   });
