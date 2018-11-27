@@ -163,6 +163,13 @@ eventManager.on("GameStart", function battleLogger() {
       fn.debug(`Unknown action: ${data.action}`);
     }
   });
+  // TODO: move these extra events to the hook file... Seriously
+  eventManager.on('PreGameEvent', function callPreEvent(data) {
+    if (finished) return;
+    const event = eventManager.emit(`${data.action}:before`, data, this.cancelable);
+    if (!event.ran) return;
+    this.canceled = event.canceled;
+  });
 
   eventManager.on('getAllGameInfos getGameStarted getReconnection', function initBattle(data) {
     debug(data, 'debugging.raw.game');

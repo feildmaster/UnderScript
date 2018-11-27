@@ -3,8 +3,11 @@ settings.register({
   key: 'underscript.disable.resultToast',
 });
 
-eventManager.on('getResult', function resultToast() {
+eventManager.on('getResult:before', function resultToast() {
   if (settings.value('underscript.disable.resultToast')) return;
+  // We need to mark the game as finished (like the source does)
+  finish = true;
+  this.canceled = true;
   const toast = {
     title: 'Game Finished',
     text: 'Return Home',
@@ -20,7 +23,5 @@ eventManager.on('getResult', function resultToast() {
       document.location.href = "/";
     },
   };
-  if (fn.toast(toast)) {
-    BootstrapDialog.closeAll();
-  }
+  fn.toast(toast);
 });

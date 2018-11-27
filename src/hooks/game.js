@@ -10,7 +10,7 @@ onPage("Game", function () {
     const oHandler = socket.onmessage;
     socket.onmessage = function onMessageScript(event) {
       const data = JSON.parse(event.data);
-      //eventManager.emit('PreGameEvent', data, true);
+      eventManager.emit('PreGameEvent', data);
       oHandler(event);
       eventManager.emit('GameEvent', data);
     };
