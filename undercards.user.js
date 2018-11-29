@@ -10,4 +10,4 @@
 // @grant        none
 // ==/UserScript==
 
-new SimpleToast('Underscript requires another update.\nSorry for the inconvenience!');
+new SimpleToast('UnderScript requires another update.\nSorry for the inconvenience!');
