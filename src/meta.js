@@ -1,9 +1,11 @@
 // ==UserScript==
 // @name         UnderCards script
 // @description  Various changes to undercards game
+// @require      https://unpkg.com/axios@0.18.0/dist/axios.min.js
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.12.0/simpletoast.js
 // @version      0.20.0-alpha.0
 // @author       feildmaster
+// @history   0.20.0 - Added "Quest Completion" notifications.
 // @history   0.19.2 - Fixed mod muting
 // @history   0.19.1 - Fixed link detection to not randomly turn www into links. Do it somewhat sane at least
 // @history   0.19.0 - Added Menu and Settings. Fixed unignoring. Added settings to disable nearly everything in the script.
