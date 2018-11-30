@@ -3,7 +3,7 @@
 // @description  Various changes to undercards game
 // @require      https://unpkg.com/axios@0.18.0/dist/axios.min.js
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.12.0/simpletoast.js
-// @version      0.20.0-alpha.0
+// @version      0.20.0-alpha.1
 // @author       feildmaster
 // @history   0.20.0 - Added "Quest Completion" notifications. Added "Deck Average" counter.
 // @history   0.19.1 - Fixed link detection to not randomly turn www into links. Do it somewhat sane at least
