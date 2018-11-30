@@ -11,6 +11,7 @@ deploy:
     api_key: $npm_token
     tag: next
     on:
+      tags: true
       branch: next
   - provider: npm
     skip-cleanup: true
