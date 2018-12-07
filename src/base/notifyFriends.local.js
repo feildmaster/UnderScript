@@ -1,4 +1,5 @@
 eventManager.on('ChatDetected', () => {
+  const friendToast = {};
   let updatingFriends = false;
   eventManager.on('Friends:refresh', () => {
     if (socketChat.readyState !== 1) return;
@@ -15,11 +16,19 @@ eventManager.on('ChatDetected', () => {
     });
     selfFriends.forEach((friend) => {
       // id, online, idGame, username
-      const now = friends[friend.id];
+      const id = friend.id;
+      const now = friends[id];
+      delete friends[id];
       if (friend.online !== now.online) {
         friend.online = now.online;
-        fn.toast(`${friend.username} is now ${now.online ? 'online' : 'offline'}.`);
+        if (friendToast[id]) {
+          friendToast[id].close();
+        }
+        friendToast[id] = fn.toast(`${friend.username} is now ${now.online ? 'online' : 'offline'}.`);
       }
     });
+    // New friend? o.o
+    fn.each(friends, (friend) => selfFriends.push(friend));
+    $('.nbFriends').text(selfFriends.filter((friend) => friend.online).length);
   });
 });

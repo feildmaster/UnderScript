@@ -38,7 +38,6 @@ eventManager.on('logout', () => {
   for (let key of sessionStorage) {
     if (key.startsWith('underscript.request.')) {
       sessionStorage.removeItem(key);
-      console.log('Removed', key);
     }
   }
 });
