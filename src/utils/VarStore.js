@@ -7,11 +7,17 @@ function VarStore() {
     return ret;
   }
 
+  function peak() {
+    return v;
+  }
+
   function set(val) {
+    const ret = v;
     v = val;
+    return ret;
   }
 
   return {
-    get, set
+    get, set, peak,
   };
 }
