@@ -4,7 +4,7 @@
 // @require      https://unpkg.com/axios@0.18.0/dist/axios.min.js
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.12.0/simpletoast.js
 // @require      https://unpkg.com/luxon@1.8.2/build/global/luxon.min.js
-// @version      0.20.0-alpha.1
+// @version      0.20.0-alpha.2
 // @author       feildmaster
 // @history   0.20.0 - Added "Quest Completion" notifications. Added "Deck Average" counter.
 // @history   0.19.2 - Fixed mod muting
