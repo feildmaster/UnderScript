@@ -105,7 +105,7 @@ eventManager.on('ChatDetected' , () => {
           updateIgnoreText(id);
         } else if (e.target === mute[0]) {
           if (muteDisabled) return;
-          timeout(id, muteTime.val());
+          timeout(`${id}`, muteTime.val());
         } else if (e.target === message[0]) {
           openPrivateRoom(id, name);
         }
