@@ -8,6 +8,7 @@ if (true) {
   }
 
   function loadFriends() {
+    if (typeof window.jQuery === 'undefined') return;
     axios.get('/Friends').then((response) => {
       const data = $(response.data);
       const requests = {};
