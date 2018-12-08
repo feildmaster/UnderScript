@@ -15,9 +15,13 @@ settings.register({
 const analytics = (() => {
   const config = {
     'app_name': 'underscript',
+    'app_version': GM_info.script.version,
     'version': GM_info.script.version,
     'handler': GM_info.scriptHandler,
     'anonymize_ip': true, // I don't care about IP addresses, don't track this
+    'custom_map': {
+      'dimension1': 'version',
+    },
   };
   if (sessionStorage.getItem('UserID')) {
     // This gives me a truer user count, by joining all hits from the same user together
@@ -34,7 +38,10 @@ const analytics = (() => {
     if (!args.length) return;
     gtag('event', ...args);
   }
+  function error(description, fatal = false) {
+    send('exception', {description, fatal})
+  }
   return {
-    send,
+    send, error,
   };
 })();
