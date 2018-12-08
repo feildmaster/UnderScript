@@ -387,11 +387,13 @@ eventManager.on("GameStart", function battleLogger() {
   eventManager.on('getVictory getDefeat', function gameEnd(data) {
     debug(data, 'debugging.raw.end');
     finished = true;
-    if (data.disconnected) {
-      log.add(make.player(players[opponentId]), " left the game");
-    }
     const you = make.player(players[userId]);
     const enemy = make.player(players[opponentId]);
+    if (data.disconnected) {
+      log.add(enemy.clone(), " left the game.");
+    } else if (players[opponentId].hp > 0) {
+      log.add(enemy.clone(), " surrendered.");
+    }
     if (this.event === 'getDefeat') {
       log.add(enemy, ' beat ', you);
     } else {
@@ -404,7 +406,7 @@ eventManager.on("GameStart", function battleLogger() {
     if (data.cause === "Surrender") {
       log.add(`${data.looser} surrendered.`);
     } else if (data.cause === "Disconnection") {
-      log.add(`${data.looser} disconnected.`);
+      log.add(`${data.looser} left the game.`);
     }
     if (typeof music !== 'undefined') {
       music.addEventListener('playing', function () {
