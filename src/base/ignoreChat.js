@@ -26,44 +26,57 @@ function shouldIgnore(message, self = false) {
   return !!settings.value(`underscript.ignore.${id}`);
 }
 
-function processMessage(message, room, history = false) {
-  debug(message, 'debugging.chat.message');
-  if (!shouldIgnore(message)) return;
+eventManager.on('ChatDetected', function ignoreChat() {
+  let container, count;
 
-  const msg = $(`#${room} #message-${message.id}`);
-  const type = settings.value('underscript.ignorechat.how');
-  if (type === 'hide') {
-    if (!history) {
-      pendingIgnore.set(true);
+  function processMessage(message, room, history = false) {
+    debug(message, 'debugging.chat.message');
+    if (!shouldIgnore(message)) {
+      container = null;
       return;
     }
-    msg.find(`.chat-message`).html('<span class="gray">Message Ignored</span>').removeClass().addClass('chat-message');
-  } else if (type === 'remove') {
-    debug('removed', 'debugging.chat');
-    msg.remove();
-    return true;
-  } else if (type === 'bulk') {
-    debug('bulk', 'debugging.chat');
-    // TODO "bulk" removal ("X Ignored Message")
-    msg.remove();
-    return true;
+
+    const msg = $(`#${room} #message-${message.id}`);
+    const type = settings.value('underscript.ignorechat.how');
+    if (type === 'hide') {
+      if (!history) {
+        pendingIgnore.set(true);
+        return;
+      }
+      msg.find(`.chat-message`).html('<span class="gray">Message Ignored</span>').removeClass().addClass('chat-message');
+    } else if (type === 'remove') {
+      debug('removed', 'debugging.chat');
+      if (!container) {
+        count = 1;
+        container = $('<li class="ignored-chat">');
+        if (history) {
+          msg.after(container);
+          msg.remove();
+        } else {
+          msg.parent().append(container);
+        }
+      }
+      container.text(`${count} Message${count>1?'s':''} Ignored`);
+      count += 1;
+      return true;
+    }
   }
-}
 
-eventManager.on('Chat:getHistory', (data) => {
-  JSON.parse(data.history).forEach((message) => {
-    processMessage(message, data.room, true);
+  eventManager.on('Chat:getHistory', (data) => {
+    JSON.parse(data.history).forEach((message) => {
+      processMessage(message, data.room, true);
+    });
   });
-});
 
-eventManager.on('preChat:getMessage', function (data) {
-  if (this.canceled) return;
-  this.canceled = processMessage(JSON.parse(data.chatMessage), data.room);
-});
+  eventManager.on('preChat:getMessage', function (data) {
+    if (this.canceled) return;
+    this.canceled = processMessage(JSON.parse(data.chatMessage), data.room);
+  });
 
-eventManager.on('Chat:getMessage', function hideMessage(data) {
-  const message = JSON.parse(data.chatMessage);
-  if (!shouldIgnore(message)) return;
-  if (settings.value('underscript.ignorechat.how') !== 'hide') return;
-  $(`#${data.room} #message-${message.id} .chat-message`).html('<span class="gray">Message Ignored</span>').removeClass().addClass('chat-message');
+  eventManager.on('Chat:getMessage', function hideMessage(data) {
+    const message = JSON.parse(data.chatMessage);
+    if (!shouldIgnore(message)) return;
+    if (settings.value('underscript.ignorechat.how') !== 'hide') return;
+    $(`#${data.room} #message-${message.id} .chat-message`).html('<span class="gray">Message Ignored</span>').removeClass().addClass('chat-message');
+  });
 });
