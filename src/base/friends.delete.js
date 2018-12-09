@@ -22,9 +22,9 @@ onPage('Friends', function deleteFriends() {
         fn.toast('Error: Try logging back in');
         return;
       }
-      if (onlineFriends.find(`a[href="${link}"]`).length) {
-        // This "name" detection isn't good
-        fn.toast(`Failed to remove: ${parent.find('span:nth-child(3)').text()}`);
+      const found = onlineFriends.find(`a[href="${link}"]`);
+      if (found.length) {
+        fn.toast(`Failed to remove: ${found.parent().find('span:nth-child(3)').text()}`);
         btn.appendTo(parent);
       } else {
         if (!reminded) {
