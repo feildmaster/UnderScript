@@ -35,7 +35,7 @@ eventManager.on('Friends:requests', (friends) => {
   });
 });
 eventManager.on('logout', () => {
-  for (let key of sessionStorage) {
+  for (let key in sessionStorage) {
     if (key.startsWith('underscript.request.')) {
       sessionStorage.removeItem(key);
     }
