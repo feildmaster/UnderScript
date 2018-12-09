@@ -5,6 +5,7 @@ settings.register({
 
 (() => {
   if (settings.value('underscript.disable.questHighlight')) return;
+  style.add('a.highlightQuest {color: gold !important;}');
 
   function highlightQuest() {
     if (sessionStorage.getItem('questCleared')) {
@@ -43,8 +44,6 @@ settings.register({
   }
 
   eventManager.on('jQuery', function questHighlight() {
-    $('head').append($('<style>').html('a.highlightQuest {color: gold !important;}'));
-
     const quests = $('a[href="Quests"]');
     if (quests.length) {
       if (!!~quests.text().indexOf('(0)')) {

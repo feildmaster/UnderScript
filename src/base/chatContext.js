@@ -5,19 +5,19 @@ settings.register({
 });
 
 eventManager.on('ChatDetected' , () => {
+  style.add(
+    '.chatContext { background-color: #F4F4F4; margin: 10px; color: #333; border: 1px dashed #000; position: absolute; z-index: 20; text-align: center; border-radius: 10px; }',
+    '.chatContext header { padding: 0px 5px; height: auto; }',
+    '.chatContext select { background-color: transparent !important; }',
+    '.chatContext li {  list-style: none; margin: 0; padding: 3px; border-top: 1px solid #CCC; cursor: pointer; }',
+    '.chatContext .disabled { background-color: #ccc; cursor: not-allowed; }',
+    '.chatContext li:not(.disabled):hover { background-color: #003366; color: #F2F2F2; }',
+    '.chatContext > :last-child { border-radius: 0 0 10px 10px; }'
+  );
   let toast;
 
   const ignorePrefix = 'underscript.ignore.';
   const context = (() => {
-    $('head').append($(`<style type="text/css">
-        .chatContext { background-color: #F4F4F4; margin: 10px; color: #333; border: 1px dashed #000; position: absolute; z-index: 20; text-align: center; border-radius: 10px; }
-        .chatContext header { padding: 0px 5px; height: auto; }
-        .chatContext select { background-color: transparent !important; }
-        .chatContext li {  list-style: none; margin: 0; padding: 3px; border-top: 1px solid #CCC; cursor: pointer; }
-        .chatContext .disabled { background-color: #ccc; cursor: not-allowed; }
-        .chatContext li:not(.disabled):hover { background-color: #003366; color: #F2F2F2; }
-        .chatContext > :last-child { border-radius: 0 0 10px 10px; }
-      </style>`));
     const container = $('<div class="chatContext">');
     const profile = $('<li>Profile</li>');
     const message = $('<li>Message</li>');
