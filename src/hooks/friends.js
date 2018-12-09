@@ -11,10 +11,13 @@ if (true) {
     if (typeof window.jQuery === 'undefined') return;
     axios.get('/Friends').then((response) => {
       const data = $(response.data);
+      /*
       if (data.find(`p:contains(You can't access)`)) {
         // TODO: stop processing?
+        debug("Can't access friends");
         return;
       }
+      */
       const requests = {};
       //const pending = {};
       data.find('p:contains(Friend requests)').parent().children('li').each(function () {

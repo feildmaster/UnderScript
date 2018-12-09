@@ -19,7 +19,7 @@ eventManager.on('ChatDetected', () => {
       const id = friend.id;
       const now = friends[id];
       delete friends[id];
-      if (friend.online !== now.online) {
+      if (now && friend.online !== now.online) {
         friend.online = now.online;
         if (friendToast[id]) {
           friendToast[id].close();
