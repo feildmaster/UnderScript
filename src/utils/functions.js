@@ -72,6 +72,16 @@ const fn = {
     };
     return fn.toast(fn.merge(defaults, arg, override));
   },
+  errorToast: (error) => {
+    const toast = {
+      title: error.name || 'Error',
+      text: error.message || error,
+      css: {
+        'background-color': 'rgba(200,0,0,0.6)',
+      }
+    };
+    return fn.toast(toast);
+  },
   merge: (...obj) => {
     const ret = {};
     if (obj) {

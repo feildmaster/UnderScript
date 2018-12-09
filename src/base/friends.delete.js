@@ -18,8 +18,7 @@ onPage('Friends', function deleteFriends() {
     axios.get(link).then((response) => {
       const onlineFriends = $(response.data).find(`#onlineFriends`);
       if (!onlineFriends.length) {
-        // Error
-        fn.toast('Error: Try logging back in');
+        fn.errorToast('Try logging back in');
         return;
       }
       const found = onlineFriends.find(`a[href="${link}"]`);
