@@ -104,7 +104,7 @@ const menu = (() => {
     return menuOpen;
   }
   function addButton(button = {}) {
-    if (!button || !button.text) return fn.debug('Missing button information');
+    if (!button || !button.text) return fn.debug('Menu: Missing button information');
     cooked = false;
     const { text, action, url, note, enabled } = button;
     const close = button.keep !== true;
