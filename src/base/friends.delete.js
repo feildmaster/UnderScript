@@ -5,6 +5,7 @@ settings.register({
 })
 
 onPage('Friends', function deleteFriends() {
+  let reminded = false;
   style.add('.deleted { text-decoration: line-through; }');
 
   function remove(e) {
@@ -26,6 +27,13 @@ onPage('Friends', function deleteFriends() {
         fn.toast(`Failed to remove: ${parent.find('span:nth-child(3)').text()}`);
         btn.appendTo(parent);
       } else {
+        if (!reminded) {
+          fn.toast({
+            title: 'Please note:',
+            text: 'Deleted friends will be removed upon refresh.',
+          });
+          reminded = true;
+        }
         parent.addClass('deleted');
       }
     }).catch((e) => {
