@@ -2,3 +2,4 @@ const footer = '<div style="width:100%;text-align:center;font-size:12px;font-fam
 const hotkeys = [];
 const chatRoomNames = {};
 const pendingIgnore = new VarStore();
+const fn = {};

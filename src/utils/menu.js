@@ -6,20 +6,21 @@ const menu = (() => {
     if (initialized || initialized === false) return initialized;
     // jQuery must be initialized by now
     if (typeof jQuery === 'undefined') return initialized = false;
-    $('head').append(`<style type="text/css">
-        .menu-backdrop { display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: #000; background-color: rgba(0,0,0,0.4); z-index: 1010; }
-        .menu-close { float: right; color: #aaa; font-size: 28px; font-weight: bold; margin: -5px; }
-        .menu-close:hover, .menu-close:focus { color: #FFF; text-decoration: none; cursor: pointer; }
-        .menu-content { color: #fff; margin: 4% auto; padding: 0; border: 2px solid #888; width: 280px; background: #000 url(../images/backgrounds/2.png) center 632px; }
-        .menu-content > * { padding: 2px 16px; }
-        .menu-content a { color: #fff; }
-        .menu-header { text-align: center; font-size: 30px; }
-        .menu-footer img { height: 16px; vertical-align: middle; }
-        .menu-body { background-color: rgba(0,0,0,0.6); min-height: 250px; }
-        .menu-body ul { list-style: none; padding: 0; }
-        .menu-body li { list-style-type: none; border: 1px solid #fff; width: 80%; text-align: center; margin: 5px auto; opacity: 1; }
-        .menu-body li:hover, .menu-body li:focus { text-decoration: underline; opacity: 0.4; }
-      </style>`);  
+    style.add(
+      '.menu-backdrop { display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: #000; background-color: rgba(0,0,0,0.4); z-index: 1010; }',
+      '.menu-backdrop { display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: #000; background-color: rgba(0,0,0,0.4); z-index: 1010; }',
+      '.menu-close { float: right; color: #aaa; font-size: 28px; font-weight: bold; margin: -5px; }',
+      '.menu-close:hover, .menu-close:focus { color: #FFF; text-decoration: none; cursor: pointer; }',
+      '.menu-content { color: #fff; margin: 4% auto; padding: 0; border: 2px solid #888; width: 280px; background: #000 url(../images/backgrounds/2.png) center 632px; }',
+      '.menu-content > * { padding: 2px 16px; }',
+      '.menu-content a { color: #fff; }',
+      '.menu-header { text-align: center; font-size: 30px; }',
+      '.menu-footer img { height: 16px; vertical-align: middle; }',
+      '.menu-body { background-color: rgba(0,0,0,0.6); min-height: 250px; }',
+      '.menu-body ul { list-style: none; padding: 0; }',
+      '.menu-body li { list-style-type: none; border: 1px solid #fff; width: 80%; text-align: center; margin: 5px auto; opacity: 1; }',
+      '.menu-body li:hover, .menu-body li:focus { text-decoration: underline; opacity: 0.4; }',
+    );
     body = $('<div class="menu-body">');
     wrapper = $('<div class="menu-backdrop" tabindex="-1">')
       .append($('<div class="menu-content">')

@@ -1,9 +1,9 @@
 const settings = (() => {
-  eventManager.on('jQuery', () => $('head').append(`<style type="text/css">
-    .mono .modal-body { font-family: monospace; max-height: 500px; overflow-y: auto; }
-    .remove { display: none; }
-    .remove:checked + label:before { content: '× '; color: red; }
-  </style>`));
+  eventManager.on('UnderScript:loaded', () => style.add(
+    '.mono .modal-body { font-family: monospace; max-height: 500px; overflow-y: auto; }',
+    '.remove { display: none; }',
+    '.remove:checked + label:before { content: "× "; color: red; }',
+  ));
   const settingReg = {
     // key: setting
   };
