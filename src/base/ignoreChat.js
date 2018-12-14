@@ -45,7 +45,7 @@ eventManager.on('ChatDetected', function ignoreChat() {
       }
       msg.find(`.chat-message`).html('<span class="gray">Message Ignored</span>').removeClass().addClass('chat-message');
     } else if (type === 'remove') {
-      debug('removed', 'debugging.chat');
+      debug(`removed ${message.user.username}`, 'debugging.chat');
       if (!container) {
         count = 1;
         container = $('<li class="ignored-chat">');
@@ -53,7 +53,8 @@ eventManager.on('ChatDetected', function ignoreChat() {
           msg.after(container);
           msg.remove();
         } else {
-          msg.parent().append(container);
+          $(`#${room} .chat-messages`).append(container);
+          scroll(room);
         }
       }
       container.text(`${count} Message${count>1?'s':''} Ignored`);
