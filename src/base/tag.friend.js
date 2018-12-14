@@ -11,6 +11,9 @@ eventManager.on('ChatDetected', function friendWrapper() {
     if (!settings.value('underscript.tag.friend')) return;
     if (isFriend(message.user.id)) {
       $(`#${room} #message-${message.id} .chat-user`).addClass('friend');
+      if (message.me) { // emotes
+        $(`#${room} #message-${message.id} .chat-message`).addClass('friend');
+      }
     }
   }
 

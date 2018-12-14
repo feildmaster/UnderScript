@@ -10,6 +10,9 @@ eventManager.on('PlayingGame', function tagOpponent() {
   function processMessage(message, room) {
     if (!finish && message.user.id === opponentId) {
       $(`#${room} #message-${message.id} .chat-user`).addClass('opponent');
+      if (message.me) { // emotes
+        $(`#${room} #message-${message.id} .chat-message`).addClass('opponent');
+      }
     }
   }
 
