@@ -31,7 +31,7 @@ eventManager.on('ChatDetected', function ignoreChat() {
 
   function processMessage(message, room, history = false) {
     debug(message, 'debugging.chat.message');
-    if (!shouldIgnore(message)) {
+    if (!shouldIgnore(message) || isFriend(message.user.id)) {
       container = null;
       return;
     }
@@ -74,9 +74,9 @@ eventManager.on('ChatDetected', function ignoreChat() {
   });
 
   eventManager.on('Chat:getMessage', function hideMessage(data) {
-    const message = JSON.parse(data.chatMessage);
-    if (!shouldIgnore(message)) return;
     if (settings.value('underscript.ignorechat.how') !== 'hide') return;
+    const message = JSON.parse(data.chatMessage);
+    if (!shouldIgnore(message) || isFriend(message.user.id)) return;
     $(`#${data.room} #message-${message.id} .chat-message`).html('<span class="gray">Message Ignored</span>').removeClass().addClass('chat-message');
   });
 });
