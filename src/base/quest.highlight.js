@@ -8,18 +8,22 @@ settings.register({
   style.add('a.highlightQuest {color: gold !important;}');
 
   function highlightQuest() {
-    if (sessionStorage.getItem('questCleared')) {
+    if (localStorage.getItem('underscript.quest.clear')) {
       $('a[href="Quests"]').addClass('highlightQuest');
     }
   }
 
-  if (!sessionStorage.getItem('questCleared')) {
+  function clearHighlight() {
+    localStorage.removeItem('underscript.quest.clear');
+  }
+
+  if (!localStorage.getItem('underscript.quest.clear')) {
     function checkHighlight() {
       axios.get('/Quests').then(function (response) {
         const data = $(response.data);
         const quests = data.find('input[name="dailyQuest"]:not(:disabled)');
         if (quests.length) {
-          sessionStorage.setItem('questCleared', true);
+          localStorage.setItem('underscript.quest.clear', true);
           if (onPage('Game')) {
             let questsCleared = '';
             quests.each((i, e) => questsCleared += `- ${$(e).parent().text().trim()}\n`);
@@ -37,24 +41,26 @@ settings.register({
       }).catch(() => {});
     }
 
-    if (!sessionStorage.getItem('questSkipCheck')) {
+    if (!localStorage.getItem('underscript.quest.skip')) {
       onPage('', checkHighlight);
     }
     eventManager.on('getVictory getDefeat', checkHighlight);
   }
 
+  eventManager.on('logout', clearHighlight);
+
   eventManager.on('jQuery', function questHighlight() {
     const quests = $('a[href="Quests"]');
     if (quests.length) {
       if (!!~quests.text().indexOf('(0)')) {
-        sessionStorage.setItem('questSkipCheck', true);
+        localStorage.setItem('underscript.quest.skip', true);
       } else {
-        sessionStorage.removeItem('questSkipCheck');
+        localStorage.removeItem('underscript.quest.skip');
       }
     }
 
     if (onPage('Quests') && !$('input[name="dailyQuest"]:not(:disabled)').length) {
-      sessionStorage.removeItem('questCleared');
+      clearHighlight();
     }
 
     highlightQuest();
