@@ -5,7 +5,7 @@
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.12.0/simpletoast.js
 // @require      https://unpkg.com/luxon@1.8.2/build/global/luxon.min.js
 // @require      https://www.googletagmanager.com/gtag/js?id=UA-38424623-4
-// @version      0.20.0-alpha.5
+// @version      0.20.0-alpha.6
 // @author       feildmaster
 // @history   0.20.0 - Added "Quest Completion" notifications. Added "Deck Average" counter.
 // @history   0.19.2 - Fixed mod muting
