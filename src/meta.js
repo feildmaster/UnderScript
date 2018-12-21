@@ -64,7 +64,7 @@
 // @source       https://github.com/feildmaster/UnderScript
 // @supportURL   https://github.com/feildmaster/UnderScript/issues
 // @updateURL    https://unpkg.com/underscript/dist/undercards.meta.js
-// @downloadURL  https://unpkg.com/underscript
+// @downloadURL  https://unpkg.com/underscript/dist/undercards.user.js
 // @namespace    https://feildmaster.com/
 // @grant        none
 // ==/UserScript==
