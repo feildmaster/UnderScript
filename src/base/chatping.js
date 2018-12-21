@@ -1,6 +1,7 @@
 settings.register({
   name: 'Enable ping toasts',
   key: 'underscript.enable.pingToast',
+  default: true,
   category: 'Ping Me',
   page: 'Chat',
 });
@@ -9,6 +10,7 @@ settings.register({
   name: 'On',
   key: 'underscript.ping.extras',
   type: 'array',
+  default: ['@everyone'],
   category: 'Ping Me',
   page: 'Chat',
 });

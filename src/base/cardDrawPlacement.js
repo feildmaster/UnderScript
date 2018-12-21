@@ -4,6 +4,7 @@
     key: 'underscript.announcement.draws',
     type: 'select',
     options: ['chat', 'toast', 'hidden'],
+    default: 'toast',
     page: 'Chat',
   });
 

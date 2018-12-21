@@ -39,9 +39,11 @@ fn.infoToast = (arg, key, val) => {
     };
   } else if (typeof arg !== 'object') return null;
   const override = {
-    onClose: (reason) => {
-      if (arg.onClose) {
-        arg.onClose(reason);
+    onClose: (...args) => {
+      if (typeof arg.onClose === 'function') {
+        if (arg.onClose(...args)) {
+          return;
+        }
       }
       localStorage.setItem(key, val);
     },
