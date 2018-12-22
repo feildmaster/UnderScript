@@ -136,7 +136,7 @@ onPage('Decks', function deckStorage() {
   function cards(list) {
     const names = [];
     list.forEach((card) => {
-      const name = $(`table#${card.id}:lt(1)`).find('.cardName').text() || '<span style="color: red;">Disenchanted/Missing</span>';
+      const name = $(`table#${card.id}${card.shiny?'.shiny':':not(.shiny)'}:lt(1)`).find('.cardName').text() || `<span style="color: red;">${$(`table#${card.id}:lt(1)`).find('.cardName').text() || 'Disenchanted/Missing'}</span>`;
       names.push(`- ${card.shiny ? '<span style="color: yellow;">S</span> ':''}${name}`);
     });
     return names.join('<br />');
