@@ -25,4 +25,6 @@ eventManager.on('ChatDetected', function friendWrapper() {
   eventManager.on('Chat:getMessage', function tagFriends(data) {
     processMessage(JSON.parse(data.chatMessage), data.room);
   });
+
+  fn.infoToast('<span class="friend">Friends</span> are now highlighted in chat.', 'underscript.notice.highlighting', '1');
 });

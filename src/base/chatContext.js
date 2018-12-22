@@ -46,7 +46,7 @@ eventManager.on('ChatDetected' , () => {
     function open(event) {
       if (event.ctrlKey || settings.value('underscript.disable.chatContext')) return;
       if (toast) {
-        toast.close();
+        toast.close('opened');
       }
       if (settings.value('underscript.disable.ignorechat')) {
         ignore.detach();
@@ -178,8 +178,9 @@ eventManager.on('ChatDetected' , () => {
 
   toast = fn.infoToast({
     text: 'You can right click users in chat to display user options!',
-    onClose: () => {
+    onClose: (reason) => {
       toast = null; // Remove from memory
+      return reason !== 'opened';
     }
   }, 'underscript.ignoreNotice', '1');
 });

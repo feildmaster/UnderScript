@@ -2,7 +2,7 @@
 // @name         UnderCards script
 // @description  Various changes to undercards game
 // @require      https://unpkg.com/axios@0.18.0/dist/axios.min.js
-// @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/1.12.0/simpletoast.js
+// @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/2.0.0/simpletoast.js
 // @require      https://unpkg.com/luxon@1.8.2/build/global/luxon.min.js
 // @require      https://www.googletagmanager.com/gtag/js?id=UA-38424623-4
 // @version      0.20.0

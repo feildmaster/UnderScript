@@ -93,7 +93,7 @@ const menu = (() => {
     wrapper.css({ display: 'block' }).focus();
     menuOpen = true;
     if (toast) {
-      toast.close();
+      toast.close('opened');
     }
   }
   function close() {
@@ -121,8 +121,9 @@ const menu = (() => {
 
   toast = fn.infoToast({
     text: 'UnderScript has a menu, press ESC to open it!',
-    onClose: () => {
+    onClose: (reason) => {
       toast = null;
+      return reason !== 'opened';
     },
   }, 'underscript.notice.menu', '1');
 

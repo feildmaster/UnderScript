@@ -30,4 +30,5 @@ onPage('', function refreshGameList() {
   document.addEventListener('visibilitychange', refresh);
   // Queue initial refresh
   setup();
+  fn.infoToast('The game list now refreshes automatically, every 10 seconds.', 'underscript.notice.refreshIndex', '1');
 });

@@ -1,8 +1,9 @@
 onPage('GamesList', function fixEnter() {
   let toast = fn.infoToast({
       text: 'You can now press enter on the Create Game window.',
-      onClose: () => {
+      onClose: (reason) => {
         toast = null;
+        return reason !== 'processed';
       }
     }, 'underscript.notice.customGame', '1');
 
@@ -15,7 +16,7 @@ onPage('GamesList', function fixEnter() {
       input.on('keydown.script', (e) => {
         if (e.which === 13) {
           if (toast) {
-            toast.close();
+            toast.close('processed');
           }
           e.preventDefault();
           $('.bootstrap-dialog-footer-buttons button:first').trigger('click');
