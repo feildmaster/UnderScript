@@ -119,13 +119,15 @@ const menu = (() => {
     }
   }
 
-  toast = fn.infoToast({
-    text: 'UnderScript has a menu, press ESC to open it!',
-    onClose: (reason) => {
-      toast = null;
-      return reason !== 'opened';
-    },
-  }, 'underscript.notice.menu', '1');
+  eventManager.on('UnderScript:loaded', () => {
+    toast = fn.infoToast({
+      text: 'UnderScript has a menu, press ESC to open it!',
+      onClose: (reason) => {
+        toast = null;
+        return reason !== 'opened';
+      },
+    }, 'underscript.notice.menu', '1');
+  });
 
   return {
     open, close, isOpen, addButton,
