@@ -389,16 +389,16 @@ eventManager.on("GameStart", function battleLogger() {
     finished = true;
     const you = make.player(players[userId]);
     const enemy = make.player(players[opponentId]);
+    if (this.event === 'getDefeat') {
+      log.add(enemy, ' beat ', you);
+      return;
+    } 
     if (data.disconnected) {
       log.add(enemy.clone(), " left the game.");
     } else if (players[opponentId].hp > 0) {
       log.add(enemy.clone(), " surrendered.");
     }
-    if (this.event === 'getDefeat') {
-      log.add(enemy, ' beat ', you);
-    } else {
-      log.add(you, ' beat ', enemy);
-    }
+    log.add(you, ' beat ', enemy);
   });
   eventManager.on('getResult', function endSpectating(data) {
     debug(data, 'debugging.raw.end');
