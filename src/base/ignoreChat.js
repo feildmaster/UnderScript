@@ -56,6 +56,8 @@ eventManager.on('ChatDetected', function ignoreChat() {
           $(`#${room} .chat-messages`).append(container);
           scroll(room);
         }
+      } else if (history) {
+        msg.remove();
       }
       container.text(`${count} Message${count>1?'s':''} Ignored`);
       count += 1;
