@@ -47,11 +47,13 @@ eventManager.on("GameStart", function battleLogger() {
   });
   let turn = 0, currentTurn = 0, players = {}, monsters = {}, lastEffect, other = {}, finished = false;
   let yourDust, enemyDust;
-  eventManager.on('jQuery', () => {
+  function initDust() {
+    if (yourDust) return;
     yourDust = $('<span>');
-    enemyDust = $('<span>');
-  });
+    enemyDust = $('<span>')
+  };
   function addDust(player) {
+    initDust();
     const display = player === userId ? yourDust : enemyDust;
     const dust = typeof players[player].dust === 'undefined' ? players[player].dust = 0 : players[player].dust += 1;
     display.html(dust);
