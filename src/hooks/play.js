@@ -4,7 +4,7 @@ onPage("Play", function () {
 
   (function hook() {
     if (typeof socketQueue === "undefined") {
-      debug("Timeout hook");
+      debug("Play: Timeout hook");
       return setTimeout(hook);
     }
     socket = socketQueue;

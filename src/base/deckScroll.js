@@ -6,9 +6,7 @@ settings.register({
 
 onPage('Decks', function () {
   if (settings.value('underscript.disable.deckScroll')) return;
-  const oLoad = window.onload;
-  window.onload = () => {
-    oLoad();
+  window.addEventListener('load', () => {
     const cardList = $('#yourCardList');
     cardList.css({ 
       'position': 'absolute',
@@ -50,5 +48,5 @@ onPage('Decks', function () {
         });
       }
     });
-  };
+  });
 });

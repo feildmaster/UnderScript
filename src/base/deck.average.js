@@ -24,7 +24,7 @@ onPage('Decks', () => {
       avg.text(`(${round(list.length ? val / list.length : val)})`);
     }
 
-    count();
+    window.addEventListener('load', count);
     eventManager.on('Deck:Soul Deck:Change', count);
   });
 });

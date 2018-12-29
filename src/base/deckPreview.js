@@ -16,7 +16,7 @@ onPage('Decks', function () {
     return hover.show(card);
   }
   // Initial load
-  eventManager.on('jQuery', () => {
+  window.addEventListener('load', () => {
     function checkHover(el) {
       const hover = hoverCard(el);
       return (e) => {

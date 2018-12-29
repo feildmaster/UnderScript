@@ -4,7 +4,7 @@ onPage("Game", function () {
   eventManager.emit("PlayingGame");
   (function hook() {
     if (typeof socket === 'undefined') {
-      debug("Timeout hook");
+      debug("Game: Timeout hook");
       return setTimeout(hook);
     }
     const oHandler = socket.onmessage;

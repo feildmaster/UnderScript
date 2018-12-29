@@ -8,7 +8,8 @@ settings.register({
 eventManager.on('PlayingGame', function tagOpponent() {
   style.add('.opponent { color: #d94f41 !important; }');
   function processMessage(message, room) {
-    if (!finish && message.user.id === opponentId) {
+    if (message.user.id === opponentId) {
+      fn.infoToast('<span class="opponent">Opponents</span> are now highlighted in chat.', 'underscript.notice.highlighting.opponent', '1');
       $(`#${room} #message-${message.id} .chat-user`).addClass('opponent');
       if (message.me) { // emotes
         $(`#${room} #message-${message.id} .chat-message`).addClass('opponent');

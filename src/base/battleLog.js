@@ -46,8 +46,11 @@ eventManager.on("GameStart", function battleLogger() {
     getGameError: 'Takes you to "play" on game errors, can be turned into a toast',
   });
   let turn = 0, currentTurn = 0, players = {}, monsters = {}, lastEffect, other = {}, finished = false;
-  const yourDust = $('<span>')
-  const enemyDust = $('<span>');
+  let yourDust, enemyDust;
+  eventManager.on('jQuery', () => {
+    yourDust = $('<span>');
+    enemyDust = $('<span>');
+  });
   function addDust(player) {
     const display = player === userId ? yourDust : enemyDust;
     const dust = typeof players[player].dust === 'undefined' ? players[player].dust = 0 : players[player].dust += 1;

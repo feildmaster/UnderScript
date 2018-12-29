@@ -10,6 +10,7 @@ eventManager.on('ChatDetected', function friendWrapper() {
   function processMessage(message, room) {
     if (!settings.value('underscript.tag.friend')) return;
     if (isFriend(message.user.id)) {
+      fn.infoToast('<span class="friend">Friends</span> are now highlighted in chat.', 'underscript.notice.highlighting', '1');
       $(`#${room} #message-${message.id} .chat-user`).addClass('friend');
       if (message.me) { // emotes
         $(`#${room} #message-${message.id} .chat-message`).addClass('friend');
@@ -25,6 +26,4 @@ eventManager.on('ChatDetected', function friendWrapper() {
   eventManager.on('Chat:getMessage', function tagFriends(data) {
     processMessage(JSON.parse(data.chatMessage), data.room);
   });
-
-  fn.infoToast('<span class="friend">Friends</span> are now highlighted in chat.', 'underscript.notice.highlighting', '1');
 });

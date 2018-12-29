@@ -4,6 +4,7 @@ function debug(message, permission = 'debugging') {
 }
 
 fn.debug = (arg, permission = 'debugging') => {
+  if (localStorage.getItem(permission) !== 'true') return;
   if (typeof arg === 'string') {
     arg = {
       text: arg,
@@ -19,5 +20,5 @@ fn.debug = (arg, permission = 'debugging') => {
       textShadow: '#46231f 0px 0px 3px',
     },
   };
-  return localStorage.getItem(permission) === 'true' && fn.toast(fn.merge(defaults, arg));
+  return fn.toast(fn.merge(defaults, arg));
 };

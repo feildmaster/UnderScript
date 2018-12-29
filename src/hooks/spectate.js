@@ -3,7 +3,7 @@ onPage("gameSpectate", function () {
   eventManager.emit("GameStart");
   (function hook() {
     if (typeof socket === "undefined") {
-      debug("Timeout hook");
+      debug("Spectate: Timeout hook");
       return setTimeout(hook);
     }
     const oHandler = socket.onmessage;

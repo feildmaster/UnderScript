@@ -1,6 +1,6 @@
 onPage('Game', () => {
   // Unbind the "surrender" hotkey
-  eventManager.on('jQuery', () => {
+  window.addEventListener('load', () => {
     $(document).off('keyup');
   });
   function canSurrender() {
@@ -12,11 +12,12 @@ onPage('Game', () => {
     enabled: canSurrender,
     top: true,
     note: () => {
-      if (canSurrender()) return;
-      return `You can't surrender before turn 5.`;
+      if (!canSurrender()) {
+        return `You can't surrender before turn 5.`;
+      }
     },
     action: () => {
-      if (socket.readyState !== 1) return;
+      if (socket.readyState !== WebSocket.OPEN) return;
       socket.send(JSON.stringify({action: "surrender"}));
     },
   });
