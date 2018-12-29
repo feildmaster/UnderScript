@@ -1,6 +1,7 @@
 // ==UserScript==
 // @name         UnderCards script
 // @description  Various changes to undercards game
+// @require      https://unpkg.com/tippy.js@3.3.0/dist/tippy.all.min.js
 // @require      https://unpkg.com/axios@0.18.0/dist/axios.min.js
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/2.0.0/simpletoast.js
 // @require      https://unpkg.com/luxon@1.8.2/build/global/luxon.min.js
