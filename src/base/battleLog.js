@@ -47,13 +47,7 @@ eventManager.on("GameStart", function battleLogger() {
   });
   let turn = 0, currentTurn = 0, players = {}, monsters = {}, lastEffect, other = {}, finished = false;
   let yourDust, enemyDust;
-  function initDust() {
-    if (yourDust) return;
-    yourDust = $('<span>');
-    enemyDust = $('<span>')
-  };
   function addDust(player) {
-    initDust();
     const display = player === userId ? yourDust : enemyDust;
     const dust = typeof players[player].dust === 'undefined' ? players[player].dust = 0 : players[player].dust += 1;
     display.html(dust);
@@ -228,6 +222,8 @@ eventManager.on("GameStart", function battleLogger() {
     players[enemy.id] = enemy;
     // Display Dust
     const disableDust = settings.value('underscript.disable.dust');
+    yourDust = $('<span>');
+    enemyDust = $('<span>');
     if (disableDust === 'never' || (disableDust !== 'always' && disableDust !== (this.event === 'getAllGameInfos' ? 'spectating' : 'playing'))) {
       const dustImg = $('<img style="width: 20px; height: 16px;" title="Number of cards turned to dust." src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAAZElEQVQ4jb2UUQ7AIAhDqfH+V95+NDEdrMSg/UQqr5hoFugZytanWnSwq+4RZIyzDwDW+jnCLBmLSSUhD+KIH8JdsmiwJGQiBVD+KOU7vE9YukMv3vXIMPNjKBLpUd/S38Wr7wVZPk/6kF1cXAAAAABJRU5ErkJggg==">');
       $('.rightPart').append(dustImg, ' ');
