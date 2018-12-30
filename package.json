@@ -1,6 +1,6 @@
 {
   "name": "underscript",
-  "version": "0.20.7",
+  "version": "0.21.0-2",
   "description": "Script for Undercards. An undertale fan-made game.",
   "homepage": "https://feildmaster.github.io/UnderScript/",
   "repository": "feildmaster/UnderScript",
@@ -14,7 +14,11 @@
   ],
   "scripts": {
     "build": "gulp --deploy",
-    "prepack": "gulp --deploy"
+    "prepack": "gulp --deploy",
+    "update": "npm version minor --m=\"chore(%s): Release update\"",
+    "patch": "npm version patch --m=\"chore(%s): Release patch\"",
+    "prep": "npm version preminor --preid= --m=\"chore(%s): Prep for next release\"",
+    "next": "npm version prerelease --m=\"chore(%s): Build test script\""
   },
   "files": [
     "dist/*.js"
