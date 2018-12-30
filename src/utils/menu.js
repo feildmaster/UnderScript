@@ -59,8 +59,8 @@ const menu = (() => {
         if (typeof data.action === 'function') {
           function callable(e)  {
             if (typeof data.enabled !== 'function' || data.enabled()) {
-              data.action(e);
-              if (data.close) {
+              const result = data.action(e);
+              if (result !== undefined ? result : data.close) {
                 close();
               }
             }
@@ -82,7 +82,7 @@ const menu = (() => {
                 hover.show(note)(e);
               }
             }, hover.close);
-          } else {
+          } else if (typeof data.note === 'string') {
             button.hover(hover.show(data.note));
           }
         }
