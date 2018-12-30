@@ -13,9 +13,10 @@ if (typeof tippy !== 'undefined') {
     `.tippy-popper[x-placement^='right'] .tippy-tooltip.undercards-theme .tippy-arrow { border-right-color: #fff; left: -9px; }`,
   );
 
-  const el = document.querySelector('a span.nbFriends').parentElement;
+  const el = document.querySelector('a span.nbFriends');
   if (el) {
-    tippy(el, {
+    const target = el.parentElement;
+    tippy(target, {
       content: `<div class="onlineFriends">(Loading)</div>${footer2}`,
       placement: 'top-start',
       arrow: true,
@@ -31,8 +32,9 @@ if (typeof tippy !== 'undefined') {
     });
 
     function updateTip() {
-      el._tippy.popper.querySelector('.onlineFriends').innerHTML = selfFriends.filter(({online}) => online).map(({username}) => username).join('<br>') || 'None';
+      target._tippy.popper.querySelector('.onlineFriends').innerHTML = selfFriends.filter(({online}) => online).map(({username}) => username).join('<br>') || 'None';
     }
     eventManager.on('Chat:getSelfInfos', updateTip);
+    this.updateTip = updateTip;
   }
 }

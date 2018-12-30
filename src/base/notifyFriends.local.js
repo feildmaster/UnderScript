@@ -28,7 +28,11 @@ eventManager.on('ChatDetected', () => {
       }
     });
     // New friend? o.o
-    fn.each(friends, (friend) => selfFriends.push(friend));
+    fn.each(friends, (friend) => {
+      debug(`Adding friend: ${friend.username}`);
+      selfFriends.push(friend)
+    });
     $('.nbFriends').text(selfFriends.filter((friend) => friend.online).length);
+    script.updateTip && script.updateTip();
   });
 });
