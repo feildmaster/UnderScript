@@ -22,9 +22,9 @@
       }
     },
   };
-  let toast, updateToast;
+  let toast, updateToast, autoTimeout;
   function check() {
-    if (localStorage.getItem(CHECKING)) return false;
+    if (localStorage.getItem(CHECKING)) return Promise.resolve();
     localStorage.setItem(CHECKING, true);
     return base.get('package.json').then((response) => {
       localStorage.removeItem(CHECKING);
@@ -68,20 +68,15 @@
     return true;
   }
   function autoCheck() {
-    if (latest.chk()) {
-      // It passed, do nothing
-      return;
-    }
-    const promise = check();
-    if (!promise) return;
-    debug('Auto checking for updates');
-    promise.then(({data}) => {
+      // It passed, don't need to check anymore
+    if (latest.chk()) return;
+    check().then(({data}) => {
       if (data) {
         compareAndToast(data);
       }
       // One hour from now or one minute from now (if an error occurred)
-      setTimeout(autoCheck, data ? HOUR : MINUTE);
-    })
+      autoTimeout = setTimeout(autoCheck, data ? HOUR : MINUTE);
+    });
   }
   // Frequency - when should it check for updates
   // Menu button - Manual update check
@@ -94,9 +89,8 @@
         title: 'UnderScript updater',
         text: 'Checking for updates. Please wait.'
       });
-      const promise = check();
-      if (!promise) return;
-      promise.then(({ data } = {}) => {
+      check().then(({ data } = {}) => {
+        setupAuto(); // Setup a new auto check (wait another hour)
         if (!data) return;
         if (!isNewer(data)) {
           noUpdateFound();
@@ -112,16 +106,16 @@
     }
   });
 
-  if (localStorage.getItem(LAST)) {
+  function setupAuto() {
+    if (autoTimeout) clearTimeout(autoTimeout);
     const last = parseInt(localStorage.getItem(LAST));
     const now = Date.now();
-    console.log(last, now, now < last + HOUR, now - last + HOUR);
     if (!last && now < last + HOUR) {
       autoCheck();
     } else {
-      const timeout = now - last + HOUR;
-      setTimeout(autoCheck, timeout);
+      autoTimeout = setTimeout(autoCheck, now - last + HOUR);
     }
   }
+  setupAuto();
   latest.chk();
 })();
