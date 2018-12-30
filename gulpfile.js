@@ -1,21 +1,23 @@
-const { dest, parallel, src, watch } = require('gulp');
+const { dest, series, src, watch } = require('gulp');
 const concat = require('gulp-concat');
 const rename = require('gulp-rename');
 const replace = require('gulp-replace');
+const package = require('./package.json');
 
 const deploy = process.argv.includes('--deploy');
 const metafile = 'src/meta.js';
-const underscript = [metafile, 'src/utils/*.js', 'src/base/*.js', 'src/hooks/*.js', '!src/**/*.ignore.js'];
+const underscript = [metafile, 'src/utils/**/*.js', 'src/base/**/*.js', 'src/hooks/**/*.js', '!src/**/*.ignore.js'];
 
 function buildMeta() {
   return src(metafile)
-    .pipe(replace(/\/\/ @history[^@]*\r?\n/ig, ''))
+    .pipe(replace('{{ version }}', package.version))
     .pipe(rename('undercards.meta.js'))
     .pipe(to());
 }
 
 function build() {
   return src(underscript)
+    .pipe(replace('{{ version }}', package.version))
     .pipe(concat('undercards.user.js'))
     .pipe(to());
 }
@@ -30,4 +32,4 @@ if (deploy) {
   watch(underscript, build);
 }
 
-exports.default = parallel(buildMeta, build);
+exports.default = series(buildMeta, build);

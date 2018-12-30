@@ -14,8 +14,7 @@
   ],
   "scripts": {
     "build": "gulp --deploy",
-    "prepack": "gulp --deploy",
-    "version": "node scripts/versioning.js && git add ./src/meta.js"
+    "prepack": "gulp --deploy"
   },
   "files": [
     "dist/*.js"
