@@ -1,4 +1,4 @@
-window.addEventListener('load', () => {
+eventManager.on('loaded', () => {
   if (typeof onMessage === 'function' && typeof socketChat !== 'undefined') {
     debug('Chat detected');
     eventManager.emit('ChatDetected');

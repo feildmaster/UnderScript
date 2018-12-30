@@ -7,7 +7,7 @@ settings.register({
 onPage('Decks', function () {
   debug('Deckscroll');
   if (settings.value('underscript.disable.deckScroll')) return;
-  window.addEventListener('load', () => {
+  eventManager.on('load', () => {
     debug('load');
     debug($('#deckCardsKINDNESS').offset())
     const cardList = $('#yourCardList');

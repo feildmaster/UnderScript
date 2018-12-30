@@ -1,5 +1,5 @@
 eventManager.on('PlayingGame', function fixEndTurn() {
-  window.addEventListener('load', () => {
+  eventManager.on('load', () => {
     const oEndTurn = endTurn;
     let endedTurn = false;
     endTurn = function restrictedEndTurn() {

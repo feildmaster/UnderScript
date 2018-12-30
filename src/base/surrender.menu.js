@@ -1,6 +1,6 @@
 onPage('Game', () => {
   // Unbind the "surrender" hotkey
-  window.addEventListener('load', () => {
+  eventManager.on('jQuery', () => {
     $(document).off('keyup');
   });
   function canSurrender() {
