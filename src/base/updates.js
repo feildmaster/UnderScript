@@ -101,8 +101,8 @@
       });
     },
     note() {
-      const last = localStorage.getItem(LAST);
-      return `Last Checked: ${last ? luxon.DateTime.fromMillis(parseInt(last)).toLocaleString(luxon.DateTime.DATETIME_FULL) : 'never'}`
+      const last = parseInt(localStorage.getItem(LAST));
+      return `Last Checked: ${last ? luxon.DateTime.fromMillis(last).toLocaleString(luxon.DateTime.DATETIME_FULL) : 'never'}`
     }
   });
 
@@ -110,12 +110,12 @@
     if (autoTimeout) clearTimeout(autoTimeout);
     const last = parseInt(localStorage.getItem(LAST));
     const now = Date.now();
-    if (!last && now < last + HOUR) {
+    const timeout = last - now + HOUR;
+    if (!last || timeout <= 0) {
       autoCheck();
     } else {
-      autoTimeout = setTimeout(autoCheck, now - last + HOUR);
+      autoTimeout = setTimeout(autoCheck, timeout);
     }
   }
-  setupAuto();
-  latest.chk();
+  if (!latest.chk()) setupAuto();
 })();
