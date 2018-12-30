@@ -7,10 +7,13 @@ settings.register({
 
 eventManager.on('ChatDetected', function friendWrapper() {
   style.add('.friend { color: #77cfac !important; }');
+  let toast;
   function processMessage(message, room) {
     if (!settings.value('underscript.tag.friend')) return;
     if (isFriend(message.user.id)) {
-      fn.infoToast('<span class="friend">Friends</span> are now highlighted in chat.', 'underscript.notice.highlighting', '1');
+      if (!toast || !toast.exists()) {
+        toast = fn.infoToast('<span class="friend">Friends</span> are now highlighted in chat.', 'underscript.notice.highlighting', '1');
+      }
       $(`#${room} #message-${message.id} .chat-user`).addClass('friend');
       if (message.me) { // emotes
         $(`#${room} #message-${message.id} .chat-message`).addClass('friend');
