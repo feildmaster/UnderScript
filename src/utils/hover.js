@@ -26,7 +26,7 @@ const hover = (() => {
   function show(data, border = null) {
     return function hoverAction(event) {
       hide();
-      if (event.type === 'mouseleave') return;
+      if (event.type === 'mouseleave' || event.type === 'blur') return;
       e = $("<div>");
       e.append(data);
       e.append($(footer).clone());

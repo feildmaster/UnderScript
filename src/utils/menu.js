@@ -63,6 +63,8 @@ const menu = (() => {
               if (result !== undefined ? result : data.close) {
                 close();
               }
+            } else {
+              button.blur();
             }
           }
           button.on('click', callable)
@@ -76,14 +78,15 @@ const menu = (() => {
         }
         if (data.note) {
           if (typeof data.note === 'function') {
-            button.hover((e) => {
+            button.on('mouseenter focus', (e) => {
               const note = data.note();
               if (note) {
                 hover.show(note)(e);
               }
-            }, hover.close);
+            }).on('mouseleave blur', hover.hide);
           } else if (typeof data.note === 'string') {
-            button.hover(hover.show(data.note));
+            button.on('mouseenter focus', hover.show(data.note))
+              .on('mouseleave blur', hover.hide);
           }
         }
         body.append(button);
