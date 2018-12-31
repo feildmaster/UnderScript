@@ -20,7 +20,7 @@ onPage('Packs', function quickOpenPack() {
     let autoOpen = false, openAll = false;
     $(document).ajaxComplete((event, xhr, settings) => {
       const data = JSON.parse(settings.data);
-      if (settings.url !== 'PacksConfig' || !['openPack', 'openShinyPack'].includes(data.action) || data.status) return;
+      if (settings.url !== 'PacksConfig' || data.status || xhr.responseJSON.action !== 'getCards') return;
       if (openAll !== false) {
         JSON.parse(xhr.responseJSON.cards).forEach((card) => {
           if (!results.hasOwnProperty(card.rarity)) {
@@ -29,7 +29,7 @@ onPage('Packs', function quickOpenPack() {
           }
           const rarity = results[card.rarity];
           rarity[card.name] = (rarity[card.name] || 0) + 1;
-          if (card.shiny && data.action === 'openPack') {
+          if (card.shiny && data.action !== 'openShinyPack') {
             results.shiny += 1;
           }
         });
@@ -75,17 +75,17 @@ onPage('Packs', function quickOpenPack() {
         showCards();
       }
     });
-    $('#btnOpen, #btnOpenShiny').on('click.script', (event) => {
+    $('button[id^="btnOpen"]').on('click.script', (event) => {
       autoOpen = event.ctrlKey;
       openAll = false;
-      const shiny = $(event.target).prop('id') === 'btnOpenShiny' ? 'Shiny' : '';
-      const count = parseInt($(`#nb${shiny}Packs`).text());
+      const type = $(event.target).prop('id').substring(7);
+      const count = parseInt($(`#nb${type}Packs`).text());
       if (event.shiftKey) {
         clearResults();
         openAll = count;
         for (let i = 1; i < count; i++) { // Start at 1, we've "opened" a pack already
           canOpen = true;
-          openPack(`open${shiny}Pack`);
+          openPack(`open${type}Pack`);
         }
         hover.hide();
       } else if (count === 1) { // Last pack?
