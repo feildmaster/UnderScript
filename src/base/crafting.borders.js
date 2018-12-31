@@ -1,3 +1,13 @@
+settings.register({
+  name: 'Disable Crafting Highlight',
+  key: 'underscript.disable.craftingborder',
+  onChange: () => {
+    if (onPage('Crafting')) {
+      setTimeout(() => eventManager.emit('refreshhighlight'));
+    }
+  },
+});
+
 onPage('Crafting', function craftableCards() {
   style.add(
     '.craftable { box-shadow: 0 0 10px 2px #008000; transform: translate3d(0,0,0); }',
@@ -6,13 +16,15 @@ onPage('Crafting', function craftableCards() {
 
   function highlight(el) {
     const rarity = cardHelper.rarity(el);
-    const set = rarity !== 'DETERMINATION' &&
+    const set = !settings.value('underscript.disable.craftingborder') &&
+        rarity !== 'DETERMINATION' &&
         cardHelper.craft.quantity(el) < cardHelper.craft.max(rarity) &&
         cardHelper.craft.cost(el) <= cardHelper.craft.totalDust();
     el.classList.toggle('craftable', set);
   }
 
   function highlightCards() {
+    console.log('Uhhh...');
     document.querySelectorAll('table.cardBoard').forEach(highlight);
   }
 
@@ -21,5 +33,5 @@ onPage('Crafting', function craftableCards() {
     highlight(cardHelper.find(id, shiny));
   });
   // */
-  eventManager.on('load craftcard', highlightCards);
+  eventManager.on('load craftcard refreshhighlight', highlightCards);
 });

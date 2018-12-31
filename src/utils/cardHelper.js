@@ -53,12 +53,9 @@ const cardHelper = (() => {
   function dustCost(el, r, s) {
     if (typeof el !== 'object') {
       if (el !== null) {
-        if (typeof el !== 'string' && typeof r !== 'boolean') {
-          throw new Error();
-        } else {
-          s = r;
-          r = el;
-        }
+        if (typeof el !== 'string' && typeof r !== 'boolean') throw new Error();
+        s = r;
+        r = el;
       }
     } else {
       r = r || rarity(el);
