@@ -1,6 +1,7 @@
 settings.register({
   name: 'Disable Broadcast Toast',
   key: 'underscript.disable.broadcast',
+  page: 'Chat',
 });
 
 eventManager.on('Chat:getMessageBroadcast', function broadcast({message}) {
