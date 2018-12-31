@@ -389,6 +389,24 @@ const settings = (() => {
     }
   }
 
+  // Add our button last
+  eventManager.on('UnderScript:loaded', () => {
+    menu.addButton({
+      text: 'Settings',
+      action: () => {
+        open('main'); 
+      },
+      enabled() {
+        return typeof BootstrapDialog !== 'undefined';
+      },
+      note() {
+        if (!this.enabled()) {
+          return 'Settings temporarily unavailable';
+        }
+      }
+    });
+  });
+
   return {
     open, close, setDisplayName, isOpen, value, remove,
     register: add,
