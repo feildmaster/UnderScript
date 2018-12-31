@@ -1,10 +1,9 @@
-if (typeof tippy !== 'undefined') {
-  settings.register({
-    name: 'Enable online friends',
-    key: 'underscript.enable.onlinefriends',
-    default: true,
-  });
-
+settings.register({
+  name: 'Enable online friends',
+  key: 'underscript.enable.onlinefriends',
+  default: true,
+});
+eventManager.on('loaded', () => {
   style.add(
     '.tippy-tooltip.undercards-theme { background-color: rgba(0,0,0,0.9); font-size: 13px; border: 1px solid #fff; }',
     `.tippy-popper[x-placement^='top'] .tippy-tooltip.undercards-theme .tippy-arrow { border-top-color: #fff; bottom: -9px; }`,
@@ -37,4 +36,4 @@ if (typeof tippy !== 'undefined') {
     eventManager.on('Chat:getSelfInfos', updateTip);
     this.updateTip = updateTip;
   }
-}
+});
