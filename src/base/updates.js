@@ -47,7 +47,7 @@
   }
   function isNewer(data) {
     const version = GM_info.script.version;
-    if ((version === 'L' || version.contains('-')) && !localStorage.getItem(DEBUG)) return false;
+    if ((version === 'L' || version.includes('-')) && !localStorage.getItem(DEBUG)) return false;
     if (data.time && data.time < GM_info.script.lastModified) return false;
     return data.version !== version;
   }

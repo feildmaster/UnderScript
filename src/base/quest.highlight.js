@@ -52,7 +52,7 @@ settings.register({
   eventManager.on('jQuery', function questHighlight() {
     const quests = $('a[href="Quests"]');
     if (quests.length) {
-      if (!!~quests.text().indexOf('(0)')) {
+      if (quests.text().includes('(0)')) {
         localStorage.setItem('underscript.quest.skip', true);
       } else {
         localStorage.removeItem('underscript.quest.skip');
