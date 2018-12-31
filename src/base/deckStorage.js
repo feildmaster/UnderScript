@@ -10,6 +10,7 @@ settings.register({
   type: 'select',
   options: ['1', '2', '3', '4', '5', '6'],
   refresh: () => onPage('Decks'),
+  extraPrefix: 'underscript.deck.',
 });
 
 onPage('Decks', function deckStorage() {

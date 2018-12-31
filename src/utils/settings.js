@@ -199,6 +199,8 @@ const settings = (() => {
       hidden: !!data.hidden,
       pseudo: !!data.pseudo,
       remove: !!data.remove,
+      exportable: data.export !== false,
+      extraPrefix: data.extraPrefix,
     };
     if (data.refresh || data.note) {
       setting.note = () => {
@@ -350,8 +352,47 @@ const settings = (() => {
     }
   }
 
+  function exportSettings() {
+    const settings = {};
+    const extras = ['underscript.notice.'];
+    let used = false;
+    fn.each(settingReg, (setting) => {
+      if (!setting.exportable) return;
+      const { key, extraPrefix } = setting;
+      const value = localStorage.getItem(key);
+      if (value !== null) {
+        used = true;
+        settings[key] = value;
+      }
+      // By checking against prefixes later we cut on iterations
+      if (extraPrefix) {
+        extras.push(extraPrefix);
+      }
+    });
+    Object.entries(localStorage).forEach(([key, value]) => {
+      if (settings.hasOwnProperty(key)) return;
+      used |= extras.some((prefix) => {
+        if (key.startsWith(prefix)) {
+          console.log('Found', key);
+          settings[key] = value;
+          return true;
+        }
+      });
+    });
+    return used ? btoa(JSON.stringify(settings)) : '';
+  }
+
+  function importSettings(string) {
+    try {
+      // TODO
+    } catch(e) {
+    }
+  }
+
   return {
     open, close, setDisplayName, isOpen, value, remove,
     register: add,
+    export: exportSettings,
+    import: importSettings,
   };
 })();
