@@ -93,6 +93,9 @@ eventManager.on("GameStart", function battleLogger() {
     if (card.transparency) {
       status.push('transparency');
     }
+    if (card.ranged) {
+      status.push("ranged");
+    }
     if (card.rarity === "DETERMINATION") {
       status.push('determination');
     }
@@ -141,9 +144,9 @@ eventManager.on("GameStart", function battleLogger() {
       }
       data += '</td></tr>';
       if (!card.typeCard) {
-        data += `<tr><td id="cardATQ">${card.attack}</td><td id="cardRarity" colspan="2"><img src="images/rarity/${card.rarity}.png" /></td><td id="cardHP" class="${card.hp!==card.maxHp ? "damaged" : ""}">${card.hp}</td></tr>`;
+        data += `<tr><td id="cardATQ">${card.attack}</td><td id="cardRarity" colspan="2"><img src="images/rarity/${card.extension ? `${card.extension}_` : ''}${card.rarity}.png" /></td><td id="cardHP" class="${card.hp!==card.maxHp ? "damaged" : ""}">${card.hp}</td></tr>`;
       } else {
-        data += `<tr><td id="cardRarity" colspan="4"><img src="images/rarity/${card.rarity}.png" /></td></tr>`;
+        data += `<tr><td id="cardRarity" colspan="4"><img src="images/rarity/${card.extension ? `${card.extension}_` : ''}${card.rarity}.png" /></td></tr>`;
       }
       data += `</table>`;
       c.hover(hover.show(data));
