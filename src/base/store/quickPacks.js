@@ -23,14 +23,14 @@ onPage('Packs', function quickOpenPack() {
       if (settings.url !== 'PacksConfig' || data.status || xhr.responseJSON.action !== 'getCards') return;
       if (openAll !== false) {
         JSON.parse(xhr.responseJSON.cards).forEach((card) => {
-          if (!results.hasOwnProperty(card.rarity)) {
-            console.error(`You're a dumbass feildmaster`);
-            results[card.rarity] = {};
-          }
-          const rarity = results[card.rarity];
-          rarity[card.name] = (rarity[card.name] || 0) + 1;
-          if (card.shiny && data.action !== 'openShinyPack') {
-            results.shiny += 1;
+          const result = results[card.rarity] = results[card.rarity] || {};
+          const c = result[card.name] = result[card.name] || { total:0, shiny:0 }
+          c.total += 1;
+          if (card.shiny) {
+            if (data.action !== 'openShinyPack') {
+              results.shiny += 1;
+            }
+            c.shiny += 1;
           }
         });
         openAll -= 1;
@@ -53,20 +53,22 @@ onPage('Packs', function quickOpenPack() {
             if (!keys.length) return;
             const buffer = [];
             let count = 0;
+            let shiny = 0;
             keys.forEach((name) => {
-              const cardCount = results[key][name];
-              count += cardCount;
+              const card = results[key][name];
+              count += card.total;
+              shiny += card.shiny;
               if (limit) {
                 limit -= 1;
-                buffer.push(`${name}${cardCount > 1 ? ` (${cardCount})` : ''}${limit ? '' : '...'}`);
+                buffer.push(`${card.shiny?'<span class="color: yellow;">S</span> ':''}${name}${card.total > 1 ? ` (${card.total}${card.shiny?'':''})` : ''}${limit ? '' : '...'}`);
               }
             });
             total += count;
-            text += `${key} (${count}):${buffer.length ? `\n- ${buffer.join('\n- ')}` : ' ...'}\n`;
+            text += `${key} (${count}${shiny?`, ${shiny} shiny`:''}):${buffer.length ? `\n- ${buffer.join('\n- ')}` : ' ...'}\n`;
           });
           fn.toast({
             text,
-            title: `Pack Results (${total}${results.shiny ? `, ${results.shiny} shiny` : ''}):`,
+            title: `Pack Results (${total%4?total:total/4}${results.shiny ? `, ${results.shiny} shiny` : ''}):`,
             css: {'font-family': 'inherit'},
           });
           showCards();
