@@ -6,7 +6,9 @@ const cardHelper = (() => {
       case 'LEGENDARY': return 1;
       case 'EPIC': return 2;
       case 'RARE':
+      case 'BASE':
       case 'COMMON': return 3;
+      case 'GENERATED': return 0;
       default: debug(`Unknown rarity: ${rarity}`);
     }
   }
@@ -16,12 +18,10 @@ const cardHelper = (() => {
   }
 
   function find(id, shiny) {
-    console.log('find', id, shiny);
     const elements = document.querySelectorAll(`table[id="${id}"]`);
     if (shiny !== undefined) {
       for (let i = 0; i < elements.length; i++) {
         const el = elements[i];
-        console.log('Checking', el);
         if (shiny === isShiny(el)) {
           return el;
         }
@@ -50,18 +50,13 @@ const cardHelper = (() => {
     return parseInt(document.querySelector('span#dust').textContent, 10);
   }
 
-  function dustCost(el, r, s) {
-    if (typeof el !== 'object') {
-      if (el !== null) {
-        if (typeof el !== 'string' && typeof r !== 'boolean') throw new Error();
-        s = r;
-        r = el;
+  function dustCost(r, s) {
+    if (typeof r === 'object') {
+      if (typeof s !== 'boolean') {
+        s = isShiny(r);
       }
-    } else {
-      r = r || rarity(el);
-      s = s || isShiny(el);
+      r = rarity(r);
     }
-    if (unset.contains(r) || unset.contains(s)) throw new Error();
     switch (r) {
       default:
       case 'DETERMINATION': return null;
@@ -72,11 +67,32 @@ const cardHelper = (() => {
     }
   }
 
+  function dustGain(r, s) {
+    if (typeof r === 'object') {
+      if (typeof s !== 'boolean') {
+        s = isShiny(r);
+      }
+      r = rarity(r);
+    }
+    switch (r) {
+      default: fn.debug(`Unknown Rarity: ${r}`);
+      case 'GENERATED': // You can't craft this, but I don't want an error
+      case 'DETERMINATION': return;
+      case 'LEGENDARY': return s ? 1600 : 400;
+      case 'EPIC': return s ? 400 : 100;
+      case 'RARE': return s ? 100 : 20;
+      case 'COMMON': return s ? 40 : 5;
+      case 'BASE': return s ? 40 : 0;
+    }
+  }
+
   return {
     cost, find, name, rarity,
+    shiny: isShiny,
     craft: {
       max, quantity, totalDust,
       cost: dustCost,
+      worth: dustGain,
     }
   };
 })();

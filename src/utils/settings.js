@@ -373,7 +373,6 @@ const settings = (() => {
       if (settings.hasOwnProperty(key)) return;
       used |= extras.some((prefix) => {
         if (key.startsWith(prefix)) {
-          console.log('Found', key);
           settings[key] = value;
           return true;
         }
