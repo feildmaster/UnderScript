@@ -1,6 +1,6 @@
 function debug(message, permission = 'debugging') {
   if (!settings.value(permission) && !settings.value('debugging.*')) return;
-  message.stack = new Error().stack.split('\n').slice(2);
+  //message.stack = new Error().stack.split('\n').slice(2);
   console.log(message);
 }
 
