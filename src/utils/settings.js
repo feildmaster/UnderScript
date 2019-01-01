@@ -315,9 +315,9 @@ const settings = (() => {
     const setting = settingReg[key];
     const val = localStorage.getItem(key);
     if (!val) return getDefault(setting);
-    if (setting.type === 'array') return JSON.parse(val);
-    else if (setting.type === 'boolean') return val === '1' || val === 'true';
-    return val;
+    else if (!setting || setting.type === 'boolean') return val === '1' || val === 'true';
+    else if (setting.type === 'array') return JSON.parse(val);
+    else return val;
   }
 
   function getDefault(setting = {}) {

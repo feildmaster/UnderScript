@@ -1,10 +1,11 @@
 function debug(message, permission = 'debugging') {
-  if (localStorage.getItem(permission) !== "true") return;
+  if (!settings.value(permission) && !settings.value('debugging.*')) return;
+  message.stack = new Error().stack.split('\n').slice(2);
   console.log(message);
 }
 
 fn.debug = (arg, permission = 'debugging') => {
-  if (localStorage.getItem(permission) !== 'true') return;
+  if (!settings.value(permission) && !settings.value('debugging.*')) return;
   if (typeof arg === 'string') {
     arg = {
       text: arg,
