@@ -12,6 +12,7 @@ onPage('Crafting', function craftableCards() {
   style.add(
     '.craftable { box-shadow: 0 0 10px 2px #008000; transform: translate3d(0,0,0); }',
     '.craftable td { border-color: #00cc00; }',
+    '.highlight-green { text-shadow: 0px 0px 10px #008000; color: #00cc00; }',
   );
 
   function highlight(el) {
@@ -39,4 +40,6 @@ onPage('Crafting', function craftableCards() {
 
   eventManager.on('craftcard', update);
   eventManager.on('load refreshhighlight', highlightCards);
+
+  fn.infoToast('Craftable cards are highlighted in <span class="highlight-green">green</span>', 'underscript.notice.craftingborder', '1')
 });
