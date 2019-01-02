@@ -17,6 +17,7 @@
     "prepack": "gulp --deploy",
     "update": "npm version minor --m=\"chore(%s): Release update\"",
     "patch": "npm version patch --m=\"chore(%s): Release patch\"",
+    "nextpatch": "npm version prepatch --m\"chore(%s): Build test patch\"",
     "prep": "npm version preminor --preid= --m=\"chore(%s): Prep for next release\"",
     "next": "npm version prerelease --m=\"chore(%s): Build test script\""
   },
