@@ -65,7 +65,8 @@ onPage('Decks', function deckStorage() {
       container.append(button);
     });
 
-    $('#yourCardList > button').after(container);
+    const clearDeck = $('#yourCardList > button');
+    clearDeck.after(container);
     $('#yourCardList > br').remove();
     $('#yourCardList').css('margin-bottom', '35px');
 
@@ -242,5 +243,6 @@ onPage('Decks', function deckStorage() {
     $(window).on('load', () => {
       loadStorage();
     });
+    clearDeck.on('click', () => pending = []);
   });
 });
