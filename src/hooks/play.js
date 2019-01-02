@@ -7,6 +7,7 @@ onPage("Play", function () {
       debug("Play: Timeout hook");
       return setTimeout(hook);
     }
+    debug('Play:Socket');
     socket = socketQueue;
     const oOpen = socketQueue.onopen;
     socketQueue.onopen = function onOpenScript(event) {
@@ -16,7 +17,11 @@ onPage("Play", function () {
     const oHandler = socketQueue.onmessage;
     socketQueue.onmessage = function onMessageScript(event) {
       const data = JSON.parse(event.data);
-      oHandler(event);
+      try {
+        oHandler(event);
+      } catch(e) {
+        console.error(e);
+      }
       eventManager.emit(data.action, data);
     };
   })();
