@@ -90,10 +90,11 @@ onPage('Decks', function deckStorage() {
 
     function loadDeck(i) {
       if (i === null) return;
+      debug('loading');
       pending = []; // Clear pending
       loading = i;
       const soul = $('#selectClasses').find(':selected').text();
-      let deck = JSON.parse(localStorage.getItem(`underscript.deck.${selfId}.${soul}.${i}`));
+      let deck = getDeck(`underscript.deck.${selfId}.${soul}.${i}`, true);
       const cDeck = $(`#deckCards${soul} li`);
 
       if (cDeck.length) {
@@ -122,18 +123,27 @@ onPage('Decks', function deckStorage() {
 
         // Check what we need to do
         if (!removals.length && !temp.length) { // There's nothing
+          debug('Finished');
           return;
         } else if (removals.length > 13) { // Too much to do (Cards in deck + 1)
           pending.push({
             action: 'clear',
           });
         } else {
-          pending.push.apply(pending, removals);
+          pending.push(...removals);
           deck = temp;
         }
       }
-      pending.push.apply(pending, deck);
+      pending.push(...deck);
       processNext();
+    }
+
+    function getDeck(key, trim) {
+      const deck = JSON.parse(localStorage.getItem(key));
+      if (trim) {
+        return deck.filter(({id, shiny}) => $(`table#${id}${shiny?'.shiny':':not(.shiny)'}:lt(1)`).length);
+      }
+      return deck;
     }
 
     function cards(list) {
@@ -169,7 +179,7 @@ onPage('Decks', function deckStorage() {
       function hoverButton(e) {
         let text = '';
         if (e.type === 'mouseenter') {
-          const deck = JSON.parse(localStorage.getItem(deckKey));
+          const deck = getDeck(deckKey);
           if (deck) {
             text = `
               <div id="deckName">${localStorage.getItem(nameKey) || (`${soul}-${i + 1}`)}</div>
