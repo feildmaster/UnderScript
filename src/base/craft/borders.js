@@ -23,15 +23,20 @@ onPage('Crafting', function craftableCards() {
     el.classList.toggle('craftable', set);
   }
 
+  function update({id, shiny, dust}) {
+    if (dust >= cardHelper.craft.cost('LEGENDARY', true)) {
+      debug('updating');
+      highlight(cardHelper.find(id, shiny));
+    } else {
+      highlightCards();
+    }
+  }
+
   function highlightCards() {
-    console.log('Uhhh...');
+    debug('highlighting');
     document.querySelectorAll('table.cardBoard').forEach(highlight);
   }
 
-  /* This works, but... need to check if we can still afford the other cards
-  eventManager.on('craftcard', ({id, shiny}) => {
-    highlight(cardHelper.find(id, shiny));
-  });
-  // */
-  eventManager.on('load craftcard refreshhighlight', highlightCards);
+  eventManager.on('craftcard', update);
+  eventManager.on('load refreshhighlight', highlightCards);
 });
