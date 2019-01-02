@@ -37,6 +37,9 @@ const $el = (() => {
     el.innerHTML = text;
     return el;
   }
+  function getHTML(el) {
+    return el.innerHTML;
+  }
   return {
     text: {
       contains: containsText,
@@ -46,6 +49,7 @@ const $el = (() => {
     html: {
       contains: containsHTML,
       set: setHTML,
+      get: getHTML,
     },
   };
 })();
