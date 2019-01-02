@@ -10,6 +10,17 @@
 
   const toasts = [];
   let toastIndex = 0;
+  function getToast(owner) {
+    const now = Date.now();
+    for (let i = 0; i < toasts.length; i++) {
+      const toast = toasts[i];
+      if (toast && toast.exists() && owner === toast.owner && toast.time + 1000 > now) {
+        return toast;
+      }
+    }
+    return null;
+  }
+
   eventManager.on('preChat:getMessageAuto', function drawAnnouncement(data) {
     const setting = settings.value('underscript.announcement.draws');
     const index = data.message.indexOf(' has just obtained ');
@@ -20,17 +31,15 @@
       const owner = data.message.substring(0, index);
       const card = data.message.substring(index + 19, data.message.length - 2);
 
-      const last = toastIndex > 0 && toasts[(toastIndex - 1)%3];
-      if (last && last.exists() && (true || last.time + 1000 > Date.now())) {
-        if (owner === last.owner) {
-          const text = `${owner} has just obtained ${last.cards.join(', ')} and ${card} !`;
-          last.setText(text);
-          last.cards.push(card);
-          return;
-        }
+      const last = getToast(owner);
+      if (last) {
+        const text = `${owner} has just obtained ${last.cards.join(', ')} and ${card} !`;
+        last.setText(text);
+        last.cards.push(card);
+        return;
       }
-      if (toasts[toastIndex % 3]) { // Close any old toast
-        toasts[toastIndex % 3].close();
+      if (toasts[toastIndex]) { // Close any old toast
+        toasts[toastIndex].close();
       }
       
       const toast = fn.toast({
@@ -43,8 +52,8 @@
       toast.cards = [card];
       toast.owner = owner;
       toast.time = Date.now();
-      toasts[toastIndex % 3] = toast;
-      toastIndex += 1;
+      toasts[toastIndex] = toast;
+      toastIndex = (toastIndex + 1) % 3;
     }
   });
 })();
