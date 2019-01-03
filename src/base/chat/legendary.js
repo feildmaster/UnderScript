@@ -35,6 +35,7 @@
       if (last) {
         const text = `${owner} has just obtained ${last.cards.join(', ')} and ${card} !`;
         last.setText(text);
+        toast.time = Date.now(); // This toast is still relevant!
         last.cards.push(card);
         return;
       }
