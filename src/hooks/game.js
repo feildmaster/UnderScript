@@ -16,7 +16,7 @@ onPage("Game", function () {
         }
         eventManager.emit('GameEvent', data);
     }
-    if (undefined !== bypassQueueEvents) {
+    if (undefined !== window.bypassQueueEvents) {
       const oRunEvent = runEvent;
       const oBypassEvent = bypassQueueEvent;
       runEvent = function runEventScript(event) {
@@ -29,7 +29,13 @@ onPage("Game", function () {
       const oHandler = socket.onmessage;
       socket.onmessage = function onMessageScript(event) {
         const data = JSON.parse(event.data);
-        callGameHooks(data, oHandler);
+        const run = !eventManager.emit('PreGameEvent', data).canceled;
+        try {
+          if (run) oHandler(event);
+        } catch (e) {
+          console.error(e);
+        }
+        eventManager.emit('GameEvent', data);
       };
     }
   })();
