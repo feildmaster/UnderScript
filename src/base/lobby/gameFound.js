@@ -1,4 +1,4 @@
-(() => {
+onPage('Play', () => {
   const title = document.title;
   eventManager.on('getWaitingQueue', function updateTitle() {
     // Title has been modified
@@ -9,4 +9,4 @@
     document.title = title;
   });
   fn.infoToast('The page title now changes when a match is found.', 'undercards.notice.play.title', '1');
-})();
+});
