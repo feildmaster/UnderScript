@@ -365,9 +365,9 @@ eventManager.on("GameStart", function battleLogger() {
     debug(data, 'debugging.raw.fullHand');
     const card = JSON.parse(data.card);
     card.desc = getDescription(card);
-    debug(data.card);
+    debug(data.card, 'debugging.destroyed.card');
     // This event gets called for *all* discards. Have to do smarter logic here (not just currentTurn!)
-    log.add(make.player(players[currentTurn]), ' discarded ', make.card(card));
+    log.add(make.player(players[data.idPlayer || currentTurn]), ' discarded ', make.card(card));
   });
   eventManager.on('getPlayersStats', function updatePlayer(data) { // TODO: When does this get called?
     debug(data, 'debugging.raw.stats');
