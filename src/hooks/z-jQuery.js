@@ -1,6 +1,5 @@
 // Attempt to detect jQuery
 eventManager.on('loaded', () => {
-  if (typeof jQuery !== "undefined") {
-    eventManager.emit("jQuery");
-  }
+  if (typeof jQuery === "undefined") return;
+  eventManager.emit("jQuery");
 });

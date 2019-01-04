@@ -1,11 +1,9 @@
 onPage("gameSpectate", function () {
   debug("Spectating Game");
   eventManager.emit("GameStart");
-  (function hook() {
-    if (typeof socket === "undefined") {
-      debug("Spectate: Timeout hook");
-      return setTimeout(hook);
-    }
+  console.log(document.readyState);
+  eventManager.on('loaded', () => {
+    if (typeof socket === 'undefined') return;
     function callGameHooks(data, original) {
       const run = !eventManager.emit('PreGameEvent', data, data.action === 'getResult').canceled;
       try {
@@ -33,5 +31,5 @@ onPage("gameSpectate", function () {
         eventManager.emit('GameEvent', data);
       };
     }
-  })();
+  });
 });
