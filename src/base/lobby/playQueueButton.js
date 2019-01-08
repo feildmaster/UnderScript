@@ -3,6 +3,7 @@ onPage("Play", function () {
   let restarting = false;
 
   eventManager.on("jQuery", function onPlay() {
+    debug('jquery');
     restarting = $('p.infoMessage:contains("The server will restart in")').length !== 0;
     if (disable || restarting) {
       queues = $("button.btn.btn-primary");
@@ -17,6 +18,7 @@ onPage("Play", function () {
   });
 
   eventManager.on('socketOpen', function checkButton() {
+    debug('socket');
     disable = false;
     if (queues && !restarting) {
       queues.parent().off('.script');
