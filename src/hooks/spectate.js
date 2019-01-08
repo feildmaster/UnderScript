@@ -1,8 +1,8 @@
 onPage("gameSpectate", function () {
   debug("Spectating Game");
   eventManager.emit("GameStart");
-  console.log(document.readyState);
-  eventManager.on('loaded', () => {
+
+  eventManager.on(':loaded', () => {
     if (typeof socket === 'undefined') return;
     function callGameHooks(data, original) {
       const run = !eventManager.emit('PreGameEvent', data, data.action === 'getResult').canceled;

@@ -1,5 +1,5 @@
 eventManager.on('PlayingGame', function fixEndTurn() {
-  eventManager.on('load', () => {
+  eventManager.on(':load', () => {
     const oEndTurn = endTurn;
     let endedTurn = false;
     endTurn = function restrictedEndTurn() {

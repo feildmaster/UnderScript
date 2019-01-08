@@ -250,7 +250,7 @@ onPage('Decks', function deckStorage() {
         }
     }
 
-    $(window).on('loaded', () => {
+    eventManager.on('loaded', () => {
       loadStorage();
     });
     clearDeck.on('click', () => pending = []);

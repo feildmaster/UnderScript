@@ -2,7 +2,7 @@ onPage("Game", function () {
   debug("Playing Game");
   eventManager.emit("GameStart");
   eventManager.emit("PlayingGame");
-  eventManager.on('loaded', () => {
+  eventManager.on(':loaded', () => {
     if (typeof socket === 'undefined') return;
     function callGameHooks(data, original) {
         const run = !eventManager.emit('PreGameEvent', data).canceled;

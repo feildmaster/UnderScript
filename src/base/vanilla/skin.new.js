@@ -6,7 +6,7 @@ settings.register({
 });
 
 onPage('', function skins() {
-  eventManager.on('loaded', () => {
+  eventManager.on(':loaded', () => {
     if (settings.value('underscript.disable.skintoast')) return;
     $el.text.contains(document.querySelectorAll('p'), 'New skins').forEach((el) => {
       const title = el.textContent.trim();

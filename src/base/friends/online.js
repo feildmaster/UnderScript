@@ -3,7 +3,7 @@ settings.register({
   key: 'underscript.enable.onlinefriends',
   default: true,
 });
-eventManager.on('loaded', () => {
+eventManager.on(':loaded', () => {
   style.add(
     '.tippy-tooltip.undercards-theme { background-color: rgba(0,0,0,0.9); font-size: 13px; border: 1px solid #fff; }',
     `.tippy-popper[x-placement^='top'] .tippy-tooltip.undercards-theme .tippy-arrow { border-top-color: #fff; bottom: -9px; }`,

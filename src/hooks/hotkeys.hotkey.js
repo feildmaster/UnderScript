@@ -1,5 +1,5 @@
 // === Always do the following - if jquery is loaded
-eventManager.on("loaded", function always() {
+eventManager.on(':loaded', function always() {
   // Bind hotkey listeners
   document.addEventListener("mouseup", function (event) {
     if (false) return; // TODO: Check for clicking in chat

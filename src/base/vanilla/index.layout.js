@@ -6,7 +6,7 @@ settings.register({
 
 onPage('', function adjustSpectateView() {
   if (settings.value('underscript.disable.adjustSpectateView')) return;
-  eventManager.on('load', () => {
+  eventManager.on(':load', () => {
     const spectate = $('.spectateTable');
     const tbody = $('.spectateTable tbody');
     const footer = $('.mainContent footer');

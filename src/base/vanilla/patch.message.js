@@ -6,7 +6,7 @@ settings.register({
 
 onPage('', function patches() {
   if (settings.value('underscript.season.disable')) return;
-  eventManager.on('loaded', () => {
+  eventManager.on(':loaded', () => {
     document.querySelectorAll('.infoIndex').forEach((el) => {
       const text = $el.html.get(el);
       const index = text.indexOf(' - ');

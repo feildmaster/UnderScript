@@ -122,7 +122,7 @@ const menu = (() => {
     }
   }
 
-  eventManager.on('UnderScript:loaded', () => {
+  eventManager.on(':ready', () => {
     toast = fn.infoToast({
       text: 'UnderScript has a menu, press ESC to open it!',
       onClose: (reason) => {

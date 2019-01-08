@@ -1,5 +1,5 @@
 const settings = (() => {
-  eventManager.on('UnderScript:loaded', () => style.add(
+  eventManager.on(':ready', () => style.add(
     '.mono .modal-body { font-family: monospace; max-height: 500px; overflow-y: auto; }',
     '.remove { display: none; }',
     '.remove:checked + label:before { content: "× "; color: red; }',
@@ -389,7 +389,7 @@ const settings = (() => {
   }
 
   // Add our button last
-  eventManager.on('UnderScript:loaded', () => {
+  eventManager.on(':ready', () => {
     menu.addButton({
       text: 'Settings',
       action: () => {

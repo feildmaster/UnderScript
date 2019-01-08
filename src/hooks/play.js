@@ -1,7 +1,7 @@
 onPage("Play", function () {
   debug("On play page");
 
-  eventManager.on('loaded', function hook() {
+  eventManager.on(':loaded', function hook() {
     debug('Play:Loaded');
     const oOpen = onOpen, oHandler = onMessage;
     onOpen = function onOpenScript(event) {
