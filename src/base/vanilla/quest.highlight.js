@@ -54,6 +54,7 @@ settings.register({
     if (quests.length) {
       if (quests.text().includes('(0)')) {
         localStorage.setItem('underscript.quest.skip', true);
+        clearHighlight();
       } else {
         localStorage.removeItem('underscript.quest.skip');
       }
