@@ -7,14 +7,15 @@ onPage('Crafting', function disenchant() {
   });
 
   function onclick() {
-    const normals = calcCards({shiny: false});
-    const shinies = calcCards({shiny: true});
-    //const pNormal = calcCards(false, true);
-    //const pShiny = calcCards(true, true);
+    const normals = calcCards({ shiny: false });
+    const shinies = calcCards({ shiny: true });
+    const pNormal = calcCards({ shiny: false, priority: true });
+    const pShiny = calcCards({ shiny: true, priority: true });
     BootstrapDialog.show({
       title: 'Smart Disenchant',
-      message: `Note: Smart Disenchant will only disenchant Legendary or lower cards.<br>
-      Normal/Shiny will disenchant <b>ALL</b> normal/shiny cards until you have 0.`, //<br>Prioritize will count your normal/shiny cards and disenchant extra cards until you have exactly max for that rarity (favoring the type).`,
+      message: `Note: Smart Disenchant will not disenchant DETERMINATION or Shiny BASE cards.<br>
+      Normal/Shiny will disenchant <b>ALL</b> normal/shiny cards until you have 0.<br>
+      Prioritize will count your normal/shiny cards and disenchant extra cards until you have exactly max for that rarity (favoring the type).`,
       onshow(dialog) {
         //const window = dialog.getModalBody();
       },
@@ -32,7 +33,7 @@ onPage('Crafting', function disenchant() {
           disenchant(shinies);
           dialog.close();
         },
-      },/*{
+      },{
         label: `Prioritize Normal (+${calcDust(pNormal)} dust)`,
         cssClass: 'btn-danger btn-ft',
         action(dialog) {
@@ -46,7 +47,7 @@ onPage('Crafting', function disenchant() {
           disenchant(pShiny);
           dialog.close();
         },
-      },*/],
+      },],
     });
   }
 
@@ -60,7 +61,7 @@ onPage('Crafting', function disenchant() {
 
   function disenchant(cards) {
     if (!cards.length) return;
-    const toast = fn.toast('Please wait while disenchanting shinies.<br />(this may take a while)');
+    const toast = fn.toast('Please wait while disenchanting.<br />(this may take a while)');
     axios.all(build(cards))
       .then(process)
       .then((response) => {
@@ -140,7 +141,7 @@ onPage('Crafting', function disenchant() {
     const extras = [];
     $('table.cardBoard').filter(function() {
       // Don't include DT/unknown cards
-      return include(cardHelper.rarity(this), cardHelper.shiny(this));
+      return include(cardHelper.rarity(this));
     }).filter(function() {
       // We want to calculate all cards for "priority", otherwise we only want shiny/normals
       return priority || cardHelper.shiny(this) === shiny;
@@ -174,16 +175,17 @@ onPage('Crafting', function disenchant() {
       fn.each(cards, function(data, id) {
         const name = data.name;
         const rarity = data.rarity;
+        const max = data.max;
         if (data.shiny && data.normal) {
           const prioritized = shiny ? data.shiny : data.normal;
           const other = shiny ? data.normal : data.shiny;
-          if (prioritized > data.max) {
+          if (prioritized > max) {
             extras.push({
               id, shiny, rarity, name,
               quantity: prioritized - max,
             });
           }
-          const slots = Math.max(data.max - prioritized, 0);
+          const slots = Math.max(max - prioritized, 0);
           if (other > slots) {
             extras.push({
               id, rarity, name,
@@ -193,7 +195,6 @@ onPage('Crafting', function disenchant() {
           }
         } else {
           const quantity = data.shiny || data.normal;
-          const max = data.max;
           if (quantity > max) {
             extras.push({
               id, rarity, name,
@@ -204,6 +205,7 @@ onPage('Crafting', function disenchant() {
         }
       });
     }
+    debug(extras);
     return extras;
   }
 
@@ -215,10 +217,10 @@ onPage('Crafting', function disenchant() {
     return total;
   }
 
-  function include(rarity, shiny) {
+  function include(rarity) {
     switch (rarity) {
-      case 'BASE': return shiny;
       default: fn.debug(`Unknown Rarity: ${rarity}`);
+      case 'BASE':
       case 'GENERATED':
       case 'DETERMINATION': return false;
       case 'LEGENDARY':
