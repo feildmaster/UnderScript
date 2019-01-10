@@ -45,7 +45,7 @@ eventManager.on("GameStart", function battleLogger() {
     getError: 'Takes you to "home" on errors, can be turned into a toast',
     getGameError: 'Takes you to "play" on game errors, can be turned into a toast',
   });
-  let turn = 0, currentTurn = 0, players = {}, monsters = {}, lastEffect, other = {}, finished = false;
+  let turn = 0, currentTurn = 0, players = {}, monsters = {}, lastEffect, other = {};
   let yourDust, enemyDust;
   function addDust(player) {
     const display = player === userId ? yourDust : enemyDust;
@@ -153,25 +153,6 @@ eventManager.on("GameStart", function battleLogger() {
       return c;
     },
   };
-
-  eventManager.on('GameEvent', function logEvent(data) {
-    if (finished) { // Sometimes we get events after the battle is over
-      fn.debug(`Extra action: ${data.action}`, 'debugging.events.extra');
-      return;
-    }
-    debug(data.action, 'debugging.events.name');
-    const emitted = eventManager.emit(data.action, data).ran;
-    if (!emitted) {
-      fn.debug(`Unknown action: ${data.action}`);
-    }
-  });
-  // TODO: move these extra events to the hook file... Seriously
-  eventManager.on('PreGameEvent', function callPreEvent(data) {
-    if (finished) return;
-    const event = eventManager.emit(`${data.action}:before`, data, this.cancelable);
-    if (!event.ran) return;
-    this.canceled = event.canceled;
-  });
 
   eventManager.on('getAllGameInfos getGameStarted getReconnection', function initBattle(data) {
     debug(data, 'debugging.raw.game');
@@ -390,7 +371,6 @@ eventManager.on("GameStart", function battleLogger() {
   });
   eventManager.on('getVictory getDefeat', function gameEnd(data) {
     debug(data, 'debugging.raw.end');
-    finished = true;
     const you = make.player(players[userId]);
     const enemy = make.player(players[opponentId]);
     if (this.event === 'getDefeat') {
@@ -406,7 +386,6 @@ eventManager.on("GameStart", function battleLogger() {
   });
   eventManager.on('getResult', function endSpectating(data) {
     debug(data, 'debugging.raw.end');
-    finished = true;
     if (data.cause === "Surrender") {
       log.add(`${data.looser} surrendered.`);
     } else if (data.cause === "Disconnection") {
