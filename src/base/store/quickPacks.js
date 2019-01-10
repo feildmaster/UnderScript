@@ -60,7 +60,7 @@ onPage('Packs', function quickOpenPack() {
               shiny += card.shiny;
               if (limit) {
                 limit -= 1;
-                buffer.push(`${card.shiny?'<span class="color: yellow;">S</span> ':''}${name}${card.total > 1 ? ` (${card.total}${card.shiny?'':''})` : ''}${limit ? '' : '...'}`);
+                buffer.push(`${card.shiny?'<span class="yellow">S</span> ':''}${name}${card.total > 1 ? ` (${card.total}${card.shiny?'':''})` : ''}${limit ? '' : '...'}`);
               }
             });
             total += count;
