@@ -10,6 +10,7 @@ onPage('Packs', function quickOpenPack() {
     const rarity = [ 'DETERMINATION', 'LEGENDARY', 'EPIC', 'RARE', 'COMMON' ];
     const results = {};
     function clearResults() {
+      results.packs = 0;
       results.shiny = 0;
       rarity.forEach((key) => results[key] = {});
     }
@@ -22,6 +23,7 @@ onPage('Packs', function quickOpenPack() {
       const data = JSON.parse(settings.data);
       if (settings.url !== 'PacksConfig' || data.status || xhr.responseJSON.action !== 'getCards') return;
       if (openAll !== false) {
+        results.packs += 1;
         JSON.parse(xhr.responseJSON.cards).forEach((card) => {
           const result = results[card.rarity] = results[card.rarity] || {};
           const c = result[card.name] = result[card.name] || { total:0, shiny:0 }
@@ -68,7 +70,7 @@ onPage('Packs', function quickOpenPack() {
           });
           fn.toast({
             text,
-            title: `Pack Results (${total%4?total:total/4}${results.shiny ? `, ${results.shiny} shiny` : ''}):`,
+            title: `Results: ${results.packs} Packs${results.shiny?` (${total%4?`${total}, `:''}${results.shiny} shiny)`:total%4?` (${total})`:''}`,
             css: {'font-family': 'inherit'},
           });
           showCards();
