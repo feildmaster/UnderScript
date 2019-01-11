@@ -46,7 +46,7 @@ eventManager.on("GameStart", function battleLogger() {
     getGameError: 'Takes you to "play" on game errors, can be turned into a toast',
   });
   let turn = 0, currentTurn = 0, players = {}, monsters = {}, lastEffect, other = {};
-  let yourDust, enemyDust;
+  let yourDust, enemyDust, lastSP;
   function addDust(player) {
     const display = player === userId ? yourDust : enemyDust;
     const dust = typeof players[player].dust === 'undefined' ? players[player].dust = 0 : players[player].dust += 1;
@@ -293,6 +293,7 @@ eventManager.on("GameStart", function battleLogger() {
     currentTurn = other[data.idPlayer];
     delete players[currentTurn].lostLife;
     lastEffect = 0;
+    lastSP = 0;
   });
   eventManager.on('getUpdateBoard', function updateGame(data) {
     debug(data, 'debugging.raw.boardUpdate');
@@ -333,6 +334,8 @@ eventManager.on("GameStart", function battleLogger() {
     debug(data, 'debugging.raw.spell');
     // immediately calls "getDoingEffect" and "getUpdateBoard"
     const card = JSON.parse(data.card);
+    if (lastSP === card.id) return;
+    lastSP = card.id;
     card.desc = getDescription(card);
     monsters[card.id] = card;
     log.add(make.player(players[data.idPlayer]), ' used ', make.card(card));
