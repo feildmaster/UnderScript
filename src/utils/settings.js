@@ -322,10 +322,11 @@ const settings = (() => {
 
   function getDefault(setting = {}) {
     if (setting.default) {
+      const val = typeof setting.default === 'function' ? setting.default() : setting.default;
       if (setting.type === 'boolean') {
-        return !!setting.default;
+        return val !== 'false' && val !== '0' && new Boolean(val).valueOf();
       }
-      return setting.default;
+      return val;
     } else if (setting.type === 'select') {
       return setting.options[0];
     } else if (setting.type === 'array') {
