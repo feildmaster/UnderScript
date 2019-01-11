@@ -27,7 +27,7 @@ onPage('Friends', function addFriend() {
             text: `<p style="color: ${success ? 'green' : 'red'}">${success ? 'Sent' : 'Failed to send'} friend request to ${name}<p>`,
           });
           if (success) {
-            const element = $el.text.contains(page.querySelectorAll('a[href^="Friends?delete="]'), `${name} LV`, { mutex, single });
+            const element = $el.text.contains(decrypt(page).querySelectorAll('a[href^="Friends?delete="]'), `${name} LV`, { mutex, single });
             $el.text.contains(document.querySelectorAll('p'), 'Pending requests', { single }).parentElement.append(element);
             eventManager.emit('newElement', element);
           }

@@ -6,9 +6,9 @@ onPage('', function refreshGameList() {
     if (refreshing || document.visibilityState === 'hidden') return;
     refreshing = true;
     axios.get('/').then((response) => {
-      const data = $(response.data);
+      const data = decrypt($(response.data));
       const list = data.find('#liste');
-      const live = $('#liste'); 
+      const live = $('#liste');
       live.find('tbody').html(list.find('tbody').html());
       live.prev('p').html(list.prev().html());
     }).catch((e) => {
