@@ -4,7 +4,7 @@ onPage('GamesList', function fixEnter() {
       text: 'You can now press enter on the Create Game window.',
       onClose: (reason) => {
         toast = null;
-        return reason !== 'processed';
+        //return reason !== 'processed';
       }
     }, 'underscript.notice.customGame', '1');
 

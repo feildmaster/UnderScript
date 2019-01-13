@@ -180,7 +180,7 @@ eventManager.on('ChatDetected' , () => {
     text: 'You can right click users in chat to display user options!',
     onClose: (reason) => {
       toast = null; // Remove from memory
-      return reason !== 'opened';
+      //return reason !== 'opened';
     }
   }, 'underscript.ignoreNotice', '1');
 });

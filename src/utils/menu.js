@@ -127,7 +127,7 @@ const menu = (() => {
       text: 'UnderScript has a menu, press ESC to open it!',
       onClose: (reason) => {
         toast = null;
-        return reason !== 'opened';
+        //return reason !== 'opened';
       },
     }, 'underscript.notice.menu', '1');
   });

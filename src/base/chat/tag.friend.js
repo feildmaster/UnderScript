@@ -11,7 +11,7 @@ eventManager.on('ChatDetected', function friendWrapper() {
   function processMessage(message, room) {
     if (!settings.value('underscript.tag.friend')) return;
     if (isFriend(message.user.id)) {
-      if (!toast || !toast.exists()) {
+      if (!toast) {
         toast = fn.infoToast('<span class="friend">Friends</span> are now highlighted in chat.', 'underscript.notice.highlighting', '1');
       }
       $(`#${room} #message-${message.id} .chat-user`).addClass('friend');

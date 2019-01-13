@@ -10,7 +10,7 @@ eventManager.on('PlayingGame', function tagOpponent() {
   let toast;
   function processMessage(message, room) {
     if (message.user.id === opponentId) {
-      if (!toast || !toast.exists()) {
+      if (!toast) {
         toast = fn.infoToast('<span class="opponent">Opponents</span> are now highlighted in chat.', 'underscript.notice.highlighting.opponent', '1');
       }
       $(`#${room} #message-${message.id} .chat-user`).addClass('opponent');
