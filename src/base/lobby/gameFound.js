@@ -8,5 +8,5 @@ onPage('Play', () => {
   eventManager.on('getLeaveQueue', function restoreTitle() {
     document.title = title;
   });
-  fn.infoToast('The page title now changes when a match is found.', 'undercards.notice.play.title', '1');
+  //fn.infoToast('The page title now changes when a match is found.', 'undercards.notice.play.title', '1');
 });
