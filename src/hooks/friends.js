@@ -10,7 +10,7 @@ if (true) {
   function loadFriends() {
     if (typeof window.jQuery === 'undefined') return;
     axios.get('/Friends').then((response) => {
-      const data = $(response.data);
+      const data = fn.decrypt($(response.data));
       /*
       if (data.find(`p:contains(You can't access)`)) {
         // TODO: stop processing?

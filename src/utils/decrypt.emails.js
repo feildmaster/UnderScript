@@ -1,4 +1,4 @@
-const decrypt = (() => {
+fn.decrypt = (() => {
   const selector = 'a[href="/cdn-cgi/l/email-protection"]';
   function hex_at(str, index) {
     const r = str.substr(index, 2);

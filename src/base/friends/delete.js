@@ -21,7 +21,7 @@ onPage('Friends', function deleteFriends() {
         fn.errorToast('Try logging back in');
         return;
       }
-      const found = onlineFriends.find(`a[href="${link}"]`);
+      const found = fn.decrypt(onlineFriends).find(`a[href="${link}"]`);
       if (found.length) {
         fn.toast(`Failed to remove: ${found.parent().find('span:nth-child(3)').text()}`);
         btn.appendTo(parent);

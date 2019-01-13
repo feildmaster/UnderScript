@@ -6,7 +6,7 @@ onPage('', function refreshGameList() {
     if (refreshing || document.visibilityState === 'hidden') return;
     refreshing = true;
     axios.get('/').then((response) => {
-      const data = decrypt($(response.data));
+      const data = fn.decrypt($(response.data));
       const list = data.find('#liste');
       const live = $('#liste');
       live.find('tbody').html(list.find('tbody').html());
