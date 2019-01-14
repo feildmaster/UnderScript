@@ -15,34 +15,38 @@ onPage('Crafting', function disenchant() {
       title: 'Smart Disenchant',
       message: `Note: Smart Disenchant will not disenchant DETERMINATION or Shiny BASE cards.<br>
       Normal/Shiny will disenchant <b>ALL</b> normal/shiny cards until you have 0.<br>
-      Prioritize will count your normal/shiny cards and disenchant extra cards until you have exactly max for that rarity (favoring the type).`,
+      Prioritize will count normal/shiny together and disenchant extra non normal/shiny cards.`,
       onshow(dialog) {
-        //const window = dialog.getModalBody();
+        const window = dialog.getModalFooter();
+        window.find('.us-normal').hover(hover.show('Disenchant all normal cards'));
+        window.find('.us-shiny').hover(hover.show('Disenchant all shiny cards'));
+        window.find('.us-normal-p').hover(hover.show('Disenchant extra shiny cards<br />Note: Also disenchants normals > max'));
+        window.find('.us-shiny-p').hover(hover.show('Disenchant extra normal cards<br />Note: Also disenchants shinies > max'));
       },
       buttons: [{
-        label: `All Normal (+${calcDust(normals)} dust)`,
-        cssClass: 'btn-danger btn-ff',
+        label: `All Normal (+${calcDust(normals)})`,
+        cssClass: 'btn-danger us-normal',
         action(dialog) {
           disenchant(normals);
           dialog.close();
         },
       },{
-        label: `All Shiny (+${calcDust(shinies)} dust)`,
-        cssClass: 'btn-danger btn-tf',
+        label: `All Shiny (+${calcDust(shinies)})`,
+        cssClass: 'btn-danger us-shiny',
         action(dialog) {
           disenchant(shinies);
           dialog.close();
         },
       },{
-        label: `Prioritize Normal (+${calcDust(pNormal)} dust)`,
-        cssClass: 'btn-danger btn-ft',
+        label: `Prioritize Normal (+${calcDust(pNormal)})`,
+        cssClass: 'btn-danger us-normal-p',
         action(dialog) {
           disenchant(pNormal);
           dialog.close();
         },
       },{
-        label: `Prioritize Shiny (+${calcDust(pShiny)} dust)`,
-        cssClass: 'btn-danger bnt-tt',
+        label: `Prioritize Shiny (+${calcDust(pShiny)})`,
+        cssClass: 'btn-danger us-shiny-p',
         action(dialog) {
           disenchant(pShiny);
           dialog.close();
