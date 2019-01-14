@@ -3,7 +3,7 @@
 // @description  Various changes to undercards game
 // @version      {{ version }}
 // @author       feildmaster
-// @run-at       document-body
+// @run-at       document-start
 // @match        https://*.undercards.net/*
 // @match        https://feildmaster.github.io/UnderScript/*
 // @exclude      https://*.undercards.net/*/*
