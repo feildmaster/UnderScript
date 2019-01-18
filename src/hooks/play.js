@@ -3,10 +3,13 @@ onPage("Play", function () {
 
   eventManager.on(':loaded', function hook() {
     debug('Play:Loaded');
+    function opened() {
+      eventManager.emit('socketOpen');
+    }
     const oOpen = onOpen, oHandler = onMessage;
     onOpen = function onOpenScript(event) {
       oOpen(event);
-      eventManager.emit('socketOpen');
+      opened();
     };
     onMessage = function onMessageScript(event) {
       const data = JSON.parse(event.data);
@@ -17,5 +20,12 @@ onPage("Play", function () {
       }
       eventManager.emit(data.action, data);
     };
+    if (socketQueue) {
+      if (socketQueue.readyState === WebSocket.OPEN) {
+        opened();
+      }
+      socketQueue.onopen = onOpen;
+      socketQueue.onmessage = onMessage;
+    }
   });
 });
