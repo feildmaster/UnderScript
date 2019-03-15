@@ -31,12 +31,14 @@ onPage('Decks', function () {
     };
   }
 
-  const oRefresh = refreshDeckList;
-  refreshDeckList = function newRefresh() {
-    oRefresh();
-    $('#deckCards li').each(function (index) {
-      const element = $(this);
-      element.hover(checkHover(element));
-    });
-  };
+  eventManager.on(':loaded', () => {
+    const oRefresh = refreshDeckList;
+    refreshDeckList = function newRefresh() {
+      oRefresh();
+      $('#deckCards li').each(function (index) {
+        const element = $(this);
+        element.hover(checkHover(element));
+      });
+    };
+  });
 });

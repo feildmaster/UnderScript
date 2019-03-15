@@ -24,10 +24,12 @@ onPage('Crafting', () => {
     });
   });
 
-  const oPage = showPage;
-  showPage = (...args) => {
-    const prevPage = currentPage;
-    oPage(...args);
-    eventManager.emit('Craft:RefreshPage', currentPage, prevPage);
-  };
+  eventManager.on(':loaded', () => {
+    const oPage = showPage;
+    showPage = (...args) => {
+      const prevPage = currentPage;
+      oPage(...args);
+      eventManager.emit('Craft:RefreshPage', currentPage, prevPage);
+    };
+  });
 });
