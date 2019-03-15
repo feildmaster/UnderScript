@@ -39,7 +39,8 @@ onPage('Crafting', function craftableCards() {
   }
 
   eventManager.on('craftcard', update);
-  eventManager.on(':load refreshhighlight', highlightCards);
+  eventManager.on('refreshhighlight', highlightCards);
+  eventManager.on('Craft:RefreshPage', () => eventManager.emit('refreshhighlight'));
 
   fn.infoToast('Craftable cards are highlighted in <span class="highlight-green">green</span>', 'underscript.notice.craftingborder', '1')
 });

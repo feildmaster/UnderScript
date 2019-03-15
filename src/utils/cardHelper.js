@@ -93,6 +93,6 @@ const cardHelper = (() => {
       max, quantity, totalDust,
       cost: dustCost,
       worth: dustGain,
-    }
+    },
   };
 })();

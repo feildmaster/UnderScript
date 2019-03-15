@@ -2,6 +2,10 @@ onPage('Crafting', () => {
   eventManager.on('jQuery', () => {
     $(document).ajaxComplete((event, xhr, options) => {
       if (options.url !== 'CraftConfig') return;
+      if (!options.data) {
+        eventManager.emit('Craft:Loaded');
+        return;
+      }
       const data = JSON.parse(options.data);
       const r = xhr.responseJSON;
       const success = r.status === 'success';
@@ -19,4 +23,11 @@ onPage('Crafting', () => {
       }
     });
   });
+
+  const oPage = showPage;
+  showPage = (...args) => {
+    const prevPage = currentPage;
+    oPage(...args);
+    eventManager.emit('Craft:RefreshPage', currentPage, prevPage);
+  };
 });
