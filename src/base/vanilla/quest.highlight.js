@@ -5,6 +5,9 @@ settings.register({
 
 (() => {
   if (settings.value('underscript.disable.questHighlight')) return;
+  const questSelector = 'input[type="submit"][value="Claim"]:not(:disabled)';
+
+  eventManager.on('jQuery', () => $el.removeClass(document.querySelectorAll('.yellowLink'), 'yellowLink'));
   style.add('a.highlightQuest {color: gold !important;}');
 
   function highlightQuest() {
@@ -21,12 +24,12 @@ settings.register({
     function checkHighlight() {
       axios.get('/Quests').then(function (response) {
         const data = $(response.data);
-        const quests = data.find('input[name="dailyQuest"]:not(:disabled)');
+        const quests = data.find(questSelector);
         if (quests.length) {
           localStorage.setItem('underscript.quest.clear', true);
           if (onPage('Game')) {
             let questsCleared = '';
-            quests.each((i, e) => questsCleared += `- ${$(e).parent().text().trim()}\n`);
+            quests.each((i, e) => questsCleared += `- ${$(e).parentsUntil('tbody', 'tr').find('span.descEN').text()}\n`);
             fn.toast({
               title: 'Quest Completed!',
               text: `${questsCleared}Click to go to Quests page`,
@@ -63,7 +66,7 @@ settings.register({
       }
     }
 
-    if (onPage('Quests') && !$('input[name="dailyQuest"]:not(:disabled)').length) {
+    if (onPage('Quests') && !$(questSelector).length) {
       clearHighlight();
     }
 

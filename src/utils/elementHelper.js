@@ -1,4 +1,8 @@
 const $el = (() => {
+  function removeClass(el, className) {
+    el.forEach((e) => e.classList.remove(className))
+  }
+
   function containsText(el, text, {mutex, single} = {}) {
     if (el.forEach) {
       const ret = [];
@@ -41,6 +45,7 @@ const $el = (() => {
     return el.innerHTML;
   }
   return {
+    removeClass,
     text: {
       contains: containsText,
       set: setText,
