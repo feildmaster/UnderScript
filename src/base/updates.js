@@ -1,6 +1,6 @@
 // Check for script updates
 (() => {
-  const baseURL = 'https://unpkg.com/underscript/';
+  const baseURL = 'https://unpkg.com/underscript@latest/';
   const MINUTE = 60 * 1000, HOUR = 60 * MINUTE;
   const CHECKING = 'underscript.update.checking', LAST = 'underscript.update.last', DEBUG = 'underscript.debug.update', LATEST = 'underscript.update.latest';
   const base = axios.create({ baseURL });
