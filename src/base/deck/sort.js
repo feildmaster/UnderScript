@@ -5,7 +5,7 @@ settings.register({
 
 onPage('Decks', function () {
   eventManager.on('Deck:addCard', (data) => {
-    const list = $(`#deckCards${data.classe}`);
+    const list = $(`#deckCards`);
     list.append(list.children('li').detach().sort(function (a, b) {
       const card1 = $(`table#${$(a).attr('id')}`);
       const card2 = $(`table#${$(b).attr('id')}`);

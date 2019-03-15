@@ -5,34 +5,38 @@ settings.register({
 
 // TODO: Convert to event listeners?
 onPage('Decks', function () {
+  function getCard(id, shiny) {
+    const el = decks[classe].find(card => card.id === id && card.shiny === shiny);
+    if (el) {
+      c = $('<div>');
+      appendCard(c, el); // external
+      return c;
+    }
+  }
+
   function hoverCard(element) {
     const id = element.attr('id');
-    const shiny = element.hasClass('shiny') ? '.shiny' : '';
-    const card = $(`table#${id}${shiny}:lt(1)`).clone();
-    if (card.length !== 1) return;
-    card.find('#quantity').remove();
-    if (card.css('opacity') !== '1') card.css('opacity', 1);
-    loadCard(card);
+    const shiny = element.hasClass('shiny');
+    const card = getCard(parseInt(id), shiny);
+    if (!card) return hover.show('Unknown card');
     return hover.show(card);
   }
-  // Initial load
-  eventManager.on('jQuery', () => {
-    function checkHover(el) {
-      const hover = hoverCard(el);
-      return (e) => {
-        if (!settings.value('underscript.disable.deckPreview')) {
-          hover(e);
-        }
-      };
-    }
-    $('li.list-group-item').each(function (index) {
+  
+  function checkHover(el) {
+    const hover = hoverCard(el);
+    return (e) => {
+      if (!settings.value('underscript.disable.deckPreview')) {
+        hover(e);
+      }
+    };
+  }
+
+  const oRefresh = refreshDeckList;
+  refreshDeckList = function newRefresh() {
+    oRefresh();
+    $('#deckCards li').each(function (index) {
       const element = $(this);
       element.hover(checkHover(element));
     });
-    eventManager.on('Deck:removeCard', () => hover.hide());
-    eventManager.on('Deck:addCard', (data) => {
-      const element = $(`#deckCards${data.classe} li#${data.idCard}:last`);
-      element.hover(checkHover(element));
-    });
-  });
+  };
 });

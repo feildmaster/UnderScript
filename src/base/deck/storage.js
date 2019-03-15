@@ -15,6 +15,22 @@ settings.register({
 
 onPage('Decks', function deckStorage() {
   if (settings.value('underscript.storage.disable')) return;
+  function getFromLibrary(id, shiny, library) {
+    return library.find(card => card.id === id && (shiny === undefined || card.shiny === shiny));
+  }
+  function getCardData(id, shiny, deep) {
+    if (deep) {
+      // Search all decks
+      const keys = Object.keys(collections);
+      for (let i = 0; i < keys.length; i++) {
+        const card = getFromLibrary(id, shiny, collections[keys[i]]);
+        if (card) return card;
+      }
+      return null;
+    }
+    return getFromLibrary(id, shiny, collections[classe]);
+  }
+
   eventManager.on('jQuery', () => {
     const container = $('<p>');
     const buttons = [];
@@ -65,7 +81,7 @@ onPage('Decks', function deckStorage() {
       container.append(button);
     });
 
-    const clearDeck = $('#yourCardList > button');
+    const clearDeck = $('#yourCardList > button:last');
     clearDeck.after(container);
     $('#yourCardList > br').remove();
     $('#yourCardList').css('margin-bottom', '35px');
@@ -75,7 +91,7 @@ onPage('Decks', function deckStorage() {
     function saveDeck(i) {
       const soul = $('#selectClasses').find(':selected').text();
       const deck = [];
-      $(`#deckCards${soul} li`).each((i, e) => {
+      $(`#deckCards li`).each((i, e) => {
         const card = {
           id: parseInt($(e).attr('id')),
         };
@@ -95,7 +111,7 @@ onPage('Decks', function deckStorage() {
       loading = i;
       const soul = $('#selectClasses').find(':selected').text();
       let deck = getDeck(`underscript.deck.${selfId}.${soul}.${i}`, true);
-      const cDeck = $(`#deckCards${soul} li`);
+      const cDeck = $(`#deckCards li`);
 
       if (cDeck.length) {
         const builtDeck = [];
@@ -141,7 +157,7 @@ onPage('Decks', function deckStorage() {
     function getDeck(key, trim) {
       const deck = JSON.parse(localStorage.getItem(key));
       if (trim) {
-        return deck.filter(({id, shiny}) => $(`table#${id}${shiny?'.shiny':':not(.shiny)'}:lt(1)`).length);
+        return deck.filter(({id, shiny}) => getCardData(id, shiny) !== null);
       }
       return deck;
     }
@@ -149,7 +165,8 @@ onPage('Decks', function deckStorage() {
     function cards(list) {
       const names = [];
       list.forEach((card) => {
-        const name = $(`table#${card.id}${card.shiny?'.shiny':':not(.shiny)'}:lt(1)`).find('.cardName').text() || `<span style="color: red;">${$(`table#${card.id}:lt(1)`).find('.cardName').text() || 'Disenchanted/Missing'}</span>`;
+        let data = getCardData(card.id, card.shiny) || {};
+        const name = data.name || `<span style="color: red;">${(data = getCardData(card.id) && data && data.name) || 'Disenchanted/Missing'}</span>`;
         names.push(`- ${card.shiny ? '<span style="color: yellow;">S</span> ':''}${name}`);
       });
       return names.join('<br />');
@@ -162,7 +179,7 @@ onPage('Decks', function deckStorage() {
     }
 
     function loadButton(i) {
-      const soul = $('#selectClasses').find(':selected').text();
+      const soul = classe;
       const deckKey = `underscript.deck.${selfId}.${soul}.${i}`;
       const nameKey = `${deckKey}.name`;
       const button = buttons[i];
@@ -250,7 +267,7 @@ onPage('Decks', function deckStorage() {
         }
     }
 
-    eventManager.on(':load', () => {
+    eventManager.on('Deck:Loaded', () => {
       loadStorage();
     });
     clearDeck.on('click', () => pending = []);

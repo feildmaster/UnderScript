@@ -9,7 +9,7 @@ onPage('Decks', function () {
   if (settings.value('underscript.disable.deckScroll')) return;
   eventManager.on(':load', () => {
     debug('load');
-    debug($('#deckCardsKINDNESS').offset())
+    debug($('#deckCards').offset())
     const cardList = $('#yourCardList');
     cardList.css({ 
       'position': 'absolute',
@@ -23,14 +23,14 @@ onPage('Decks', function () {
         position: 'absolute',
         top: '',
       });
-      $('.deckCardsList').css({
+      $('#deckCards').css({
         position: '',
         width: '',
         top: '',
       });
     }
     function deck() {
-      return $(`#deckCards${classe}`);
+      return $(`#deckCards`);
     }
     function resize() {
       if (!oOffsetDeck) {
@@ -47,13 +47,13 @@ onPage('Decks', function () {
         debug('small screen');
         if (window.pageYOffset > oOffsetDeck && window.innerHeight > deck().height() + footerHeight) {
           debug('fixed oOffsetDeck');
-          $('.deckCardsList').css({
+          $('#deckCards').css({
             position: 'fixed',
             width: '180px',
             top: 5,
           });
         } else {
-          $('.deckCardsList').css({
+          $('#deckCards').css({
             position: '',
             width: '',
             top: '',
