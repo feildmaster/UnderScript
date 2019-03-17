@@ -1,3 +1,4 @@
+// globals updateQuantity, currentPage, applyFilters, showPage, collection
 onPage('Crafting', function disenchant() {
   eventManager.on('jQuery', () => {
     const button = $('<button class="btn btn-info">Smart Disenchant</button>');
@@ -71,7 +72,7 @@ onPage('Crafting', function disenchant() {
       .then((response) => {
         if (!response) throw new Error('All errored out');
         const data = response.data;
-        const gained = data.dust - parseInt($('#dust').text());
+        const gained = data.dust - parseInt($('#dust').text(), 10);
         $('#dust').text(data.dust);
         $('#totalDisenchant').text(data.totalDisenchant);
         $('#nbDTFragments').text(data.DTFragments);
@@ -80,6 +81,8 @@ onPage('Crafting', function disenchant() {
         if (data.DTFragments) {
           $('#DTFragmentsDiv').show();
         }
+        applyFilters();
+        showPage(currentPage);
         updateOrToast(toast, `Finished disenchanting.\n+${gained} dust`);
       }).catch(() => {
         updateOrToast(toast, 'Could not complete disenchanting.');
@@ -129,8 +132,7 @@ onPage('Crafting', function disenchant() {
         debug('set');
         last = response;
       }
-      const quantity = cardHelper.find(response.data.cardId, response.data.shiny).querySelector(`#quantity .nb`);
-      quantity.textContent = parseInt(quantity.textContent) - 1;
+      updateQuanity(JSON.parse(response.data.card), -1); // External
     });
     if (redo.length) {
       debug(`Redoing ${redo.length}`);
@@ -140,40 +142,31 @@ onPage('Crafting', function disenchant() {
     return last;
   }
 
+  function cardFilter(card, shiny, priority, family) {
+    // TODO: Family filters
+    return card.quantity > 0 && include(card.rarity) && (priority || card.shiny === shiny);
+  }
+
   function calcCards({shiny, priority, deltarune}) {
     const cards = {};
     const extras = [];
-    $('table.cardBoard').filter(function() {
-      // Don't include DT/unknown cards
-      return include(cardHelper.rarity(this));
-    }).filter(function() {
-      // We want to calculate all cards for "priority", otherwise we only want shiny/normals
-      return priority || cardHelper.shiny(this) === shiny;
-    }).filter(function() {
-      // We only care if we actually have cards to remove
-      return cardHelper.craft.quantity(this) > 0;
-    }).each(function() {
-      const id = this.id;
-      const quantity = cardHelper.craft.quantity(this);
-      const rarity = cardHelper.rarity(this);
-      if (priority) {
-        if (!cards.hasOwnProperty(id)) {
-          const max = cardHelper.craft.max(rarity);
-          if (!max) return;
-          cards[id] = {
-            max, rarity,
-            name: cardHelper.name(this),
-          };
+    collection.filter((card) => cardFilter(card, shiny, priority, deltarune))
+      .forEach(({id, name, shiny: isShiny, rarity, quantity}) => {
+        if (priority) {
+          if (!cards.hasOwnProperty(id)) {
+            const max = cardHelper.craft.max(rarity);
+            if (!max) return;
+            cards[id] = {
+              max, rarity, name,
+            };
+          }
+          cards[id][isShiny?'shiny':'normal'] = quantity;
+        } else {
+          extras.push({
+            id, name, rarity, quantity, shiny,
+          });
         }
-        const isShiny = cardHelper.shiny(this);
-        cards[id][isShiny?'shiny':'normal'] = quantity;
-      } else {
-        extras.push({
-          id, rarity, quantity, shiny,
-          name: cardHelper.name(this),
-        });
-      }
-    });
+      });
     if (priority) {
       // Calculate extras
       fn.each(cards, function(data, id) {

@@ -95,7 +95,7 @@
         if (!isNewer(data)) {
           noUpdateFound();
         } else {
-          toast.close(); // I need a wait to change the 'onclose'
+          toast.close(); // I need a way to change the 'onclose'
           compareAndToast(data);
         }
       });

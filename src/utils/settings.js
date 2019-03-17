@@ -407,6 +407,9 @@ const settings = (() => {
     });
   });
 
+  // Main page is always first
+  init('main');
+
   return {
     open, close, setDisplayName, isOpen, value, remove,
     register: add,
