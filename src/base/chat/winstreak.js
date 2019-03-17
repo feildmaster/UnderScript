@@ -1,16 +1,18 @@
 settings.register({
-  name: 'Winstreak Handling',
+  name: 'Announcement',
   key: 'underscript.winstreak',
   options: ['Chat', 'Toast', 'Both', 'Hidden'],
   default: 'Both',
   type: 'select',
   page: 'Chat',
+  category: 'Winstreak'
 });
 
 settings.register({
-  name: 'Winstreak - Friends Only',
+  name: 'Friends Only',
   key: 'underscript.winstreak.friendsOnly',
   page: 'Chat',
+  category: 'Winstreak'
 });
 
 wrap(() => {
