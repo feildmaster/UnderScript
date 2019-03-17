@@ -9,7 +9,7 @@ onPage('Decks', () => {
   eventManager.on('jQuery', () => {
     const reg = /^.*\((\d+)\)/;
     const avg = $('<span>').hover(hover.show('Average gold cost'));
-    $('span[trad="decks-cards"]').parent().append(' ', avg);
+    $('#deckCompletion').append(' ', avg);
 
     function round(amt, dec = 2) {
       return Number.parseFloat(amt).toFixed(dec)
@@ -17,10 +17,8 @@ onPage('Decks', () => {
 
     function count() {
       let val = 0;
-      const list = $(`#deckCards li`);
-      list.each(function () {
-        val += parseInt($(this).text().replace(reg, '$1'));
-      });
+      const list = decks[classe];
+      list.forEach(({cost}) => val += cost);
       avg.text(`(${round(list.length ? val / list.length : val)})`);
     }
 
