@@ -244,9 +244,7 @@ onPage('Decks', function deckStorage() {
     }
 
     function loadStorage() {
-      for (let i = 0; i < buttons.length; i++) {
-        loadButton(i);
-      }
+      buttons.forEach((b,i) => loadButton(i));
     }
 
     function loadButton(i) {
