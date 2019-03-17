@@ -7,7 +7,6 @@ settings.register({
 // Calculate average
 onPage('Decks', () => {
   eventManager.on('jQuery', () => {
-    const reg = /^.*\((\d+)\)/;
     const avg = $('<span>').hover(hover.show('Average gold cost'));
     $('#deckCompletion').append(' ', avg);
 
