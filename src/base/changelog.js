@@ -34,7 +34,7 @@ const changelog = wrap(function changelog() {
     
     const extension = `underscript@${version}/changelog.md`;
     return getAxios().get(extension).then(({data: text}) => {
-      const first = text.indexOf(`\n## ${version.indexOf('.')>=0?version:''}`);
+      const first = text.indexOf(`\n## ${cache?`Version ${version}`:''}`);
       let end = undefined;
       if (!~first) throw new Error('Invalid Changelog');
       if (short) {
@@ -49,7 +49,10 @@ const changelog = wrap(function changelog() {
   }
 
   function load(version = 'latest', short = false) {
-    get(version, short).catch((e) => { return console.error(e), 'Unavailable at this time' }).then(open);
+    get(version, short).catch((e) => {
+      console.error(e);
+      return 'Unavailable at this time'; 
+    }).then(open);
   }
 
   // Add menu button
