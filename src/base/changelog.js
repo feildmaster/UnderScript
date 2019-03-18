@@ -58,7 +58,9 @@ const changelog = wrap(function changelog() {
   // Add menu button
   menu.addButton({
     text: 'UnderScript Change Log',
-    action: load,
+    action() {
+      load();
+    },
     enabled() {
       return typeof BootstrapDialog !== 'undefined';
     },
