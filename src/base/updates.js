@@ -1,5 +1,9 @@
 // Check for script updates
 (() => {
+  style.add(
+    '#AlertToast h2, #AlertToast h3 { margin: 0; font-size: 20px; }',
+    '#AlertToast h3 {font-size: 17px; }',
+  );
   const baseURL = 'https://unpkg.com/underscript@latest/';
   const MINUTE = 60 * 1000, HOUR = 60 * MINUTE;
   const CHECKING = 'underscript.update.checking', LAST = 'underscript.update.last', DEBUG = 'underscript.debug.update', LATEST = 'underscript.update.latest';
