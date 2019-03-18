@@ -98,6 +98,29 @@ eventManager.on('ChatDetected' , () => {
           const key = `${ignorePrefix}${id}`;
           if (!settings.value(`${ignorePrefix}${id}`)) {
             localStorage.setItem(key, name);
+            fn.toast({
+              text: `You've ignored ${name}`,
+              css: {
+                'background-color': 'rgba(208, 0, 0, 0.6)',
+              },
+              buttons: [{
+                css: {
+                  border: '',
+                  height: '',
+                  background: '',
+                  'font-size': '',
+                  'margin': '',
+                  'border-radius': '',
+                },
+                text: 'Undo',
+                className: 'dismiss',
+                onclick: () => {
+                  settings.remove(key);
+                  updateIgnoreText(id);
+                },
+              },],
+              className: 'dismissable',
+            });
             fn.ignoreUser(name, key);
           } else {
             settings.remove(key);
