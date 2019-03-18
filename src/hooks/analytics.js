@@ -15,8 +15,8 @@ settings.register({
 const analytics = (() => {
   const config = {
     'app_name': 'underscript',
-    'app_version': GM_info.script.version,
-    'version': GM_info.script.version,
+    'app_version': scriptVersion,
+    'version': scriptVersion,
     'handler': GM_info.scriptHandler,
     'anonymize_ip': true, // I don't care about IP addresses, don't track this
     'custom_map': {

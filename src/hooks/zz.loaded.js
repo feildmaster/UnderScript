@@ -1,4 +1,4 @@
-console.log(`UnderScript(v${GM_info.script.version}): Loaded`);
+console.log(`UnderScript(v${scriptVersion}): Loaded`);
 eventManager.on(':ready', () => {
   function loaded() {
     eventManager.emit(':loaded');
