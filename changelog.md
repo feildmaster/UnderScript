@@ -1,6 +1,6 @@
 # UnderScript Changelog
 
-## Version 0.23.0 ()
+## Version 0.23.0-4
 ### New Features
 1. Deck Storage now saves and loads artifacts
   * Note: You need to resave your decks to add artifacts to them

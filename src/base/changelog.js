@@ -31,7 +31,7 @@ const changelog = wrap(function changelog() {
     const cache = version.includes('.');
     const key = `${version}${short?'_short':''}`;
     if (cache && changelog[key]) return Promise.resolve(changelog[key]);
-    
+
     const extension = `underscript@${version}/changelog.md`;
     return getAxios().get(extension).then(({data: text}) => {
       const first = text.indexOf(`\n## ${cache?`Version ${version}`:''}`);
