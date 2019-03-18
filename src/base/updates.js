@@ -57,13 +57,16 @@
       return;
     }
     latest.set(data);
-    updateToast = fn.toast({
-      title: '[UnderScript] Update Available!',
-      text: `Click here to update to version ${data.version}.`,
-      onClose(reason) {
-        if (reason !== 'dismissed') return;
-        location.href = `${baseURL}${data.unpkg}`;
-      },
+    changelog.get(data.version, true).catch(() => null).then((changelog) => {
+      updateToast = fn.toast({
+        title: '[UnderScript] Update Available!',
+        text: changelog || `Version ${data.version}.`,
+        footer: 'Click to update',
+        onClose(reason) {
+          if (reason !== 'dismissed') return;
+          location.href = `${baseURL}${data.unpkg}`;
+        },
+      });
     });
     return true;
   }
