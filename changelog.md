@@ -1,6 +1,6 @@
 # UnderScript Changelog
 
-## Version 0.23.0-5
+## Version 0.23.0-6
 1. Bug fixes
 1. Change log modifications
 1. No longer display patch notes when notifying about update
@@ -10,12 +10,11 @@
 1. Deck Storage now saves and loads artifacts
   * Note: You need to resave your decks to add artifacts to them
 1. Added changelog
-1. Disable Screen Shake
 1. Added options for winstreak announcements
 1. Jump to First/Last collection page
   * Control Click
 1. Added option to disable changing collection page with scrollwheel
-1. Added feature to disable screen shaking
+1. Added option to disable screen shaking
 1. Added confirmation for ignoring users
 
 ### Fixes
