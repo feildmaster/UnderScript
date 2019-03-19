@@ -77,7 +77,7 @@
   function autoCheck() {
       // It passed, don't need to check anymore
     if (latest.chk()) return;
-    check().then(({data}) => {
+    check().then(({data} = {}) => {
       if (data) {
         compareAndToast(data);
       }
