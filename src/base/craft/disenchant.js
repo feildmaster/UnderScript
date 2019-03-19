@@ -84,7 +84,8 @@ onPage('Crafting', function disenchant() {
         applyFilters();
         showPage(currentPage);
         updateOrToast(toast, `Finished disenchanting.\n+${gained} dust`);
-      }).catch(() => {
+      }).catch((e) => {
+        console.error(e);
         updateOrToast(toast, 'Could not complete disenchanting.');
       });
   }
@@ -92,7 +93,8 @@ onPage('Crafting', function disenchant() {
   function build(cards) {
     const promises = [];
     cards.forEach((data) => {
-      for (let x = 0; x < data.quantity; x++) {
+      const limit = data.quantity;
+      for (let x = 0; x < limit; x++) {
         promises.push(axios.post('CraftConfig', {
           action: 'disenchant',
           idCard: parseInt(data.id),
@@ -132,7 +134,7 @@ onPage('Crafting', function disenchant() {
         debug('set');
         last = response;
       }
-      updateQuanity(JSON.parse(response.data.card), -1); // External
+      updateQuantity(JSON.parse(response.data.card), -1);
     });
     if (redo.length) {
       debug(`Redoing ${redo.length}`);
