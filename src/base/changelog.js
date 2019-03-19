@@ -59,7 +59,7 @@ const changelog = wrap(function changelog() {
   menu.addButton({
     text: 'UnderScript Change Log',
     action() {
-      load();
+      load(scriptVersion === 'L' ? 'latest' : scriptVersion);
     },
     enabled() {
       return typeof BootstrapDialog !== 'undefined';

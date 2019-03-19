@@ -4,7 +4,7 @@
     '#AlertToast h2, #AlertToast h3 { margin: 0; font-size: 20px; }',
     '#AlertToast h3 {font-size: 17px; }',
   );
-  const baseURL = 'https://unpkg.com/underscript@latest/';
+  const baseURL = 'https://unpkg.com/';
   const MINUTE = 60 * 1000, HOUR = 60 * MINUTE;
   const CHECKING = 'underscript.update.checking', LAST = 'underscript.update.last', DEBUG = 'underscript.debug.update', LATEST = 'underscript.update.latest';
   const base = axios.create({ baseURL });
@@ -30,7 +30,7 @@
   function check() {
     if (localStorage.getItem(CHECKING)) return Promise.resolve();
     localStorage.setItem(CHECKING, true);
-    return base.get('package.json').then((response) => {
+    return base.get(`underscript@${getVersion()}/package.json`).then((response) => {
       localStorage.removeItem(CHECKING);
       localStorage.setItem(LAST, Date.now());
       return response;
@@ -124,5 +124,10 @@
       autoTimeout = setTimeout(autoCheck, timeout);
     }
   }
+
+  function getVersion() {
+    return scriptVersion.includes('-') ? 'next' : 'latest';
+  }
+
   if (!latest.chk()) setupAuto();
 })();
