@@ -1,5 +1,10 @@
 # UnderScript Changelog
 
+## Version 0.23.0-5
+1. Bug fixes
+1. Change log modifications
+1. No longer display patch notes when notifying about update
+
 ## Version 0.23.0-4
 ### New Features
 1. Deck Storage now saves and loads artifacts

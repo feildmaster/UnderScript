@@ -61,16 +61,14 @@
       return;
     }
     latest.set(data);
-    changelog.get(data.version, true).catch(() => null).then((changelog) => {
-      updateToast = fn.toast({
-        title: '[UnderScript] Update Available!',
-        text: changelog || `Version ${data.version}.`,
-        footer: 'Click to update',
-        onClose(reason) {
-          if (reason !== 'dismissed') return;
-          location.href = `${baseURL}${data.unpkg}`;
-        },
-      });
+    updateToast = fn.toast({
+      title: '[UnderScript] Update Available!',
+      text: `Version ${data.version}.`,
+      footer: 'Click to update',
+      onClose(reason) {
+        if (reason !== 'dismissed') return;
+        location.href = `${baseURL}${data.unpkg}`;
+      },
     });
     return true;
   }
