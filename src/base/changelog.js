@@ -1,5 +1,9 @@
 // Change log :O
 const changelog = wrap(function changelog() {
+  style.add(
+    '.us-changelog h2 { font-size: 24px; }',
+    '.us-changelog h3 { font-size: 20px; }',
+  );
   function getMarkdown() {
     if (!changelog.markdown) {
       changelog.markdown = new showdown.Converter({noHeaderId: true, strikethrough: true, disableForced4SpacesIndentedSublists: true});
@@ -17,7 +21,7 @@ const changelog = wrap(function changelog() {
     BootstrapDialog.show({
       message,
       title: 'UnderScript Change Log',
-      cssClass: 'mono',
+      cssClass: 'mono us-changelog',
       buttons: [{
         label: 'Close',
         action(self) {
@@ -41,7 +45,7 @@ const changelog = wrap(function changelog() {
         const index = text.indexOf('\n## ', first + 1);
         if (!!~index) end = index;
       }
-      const parsedHTML = getMarkdown().makeHtml(text.substring(first, end).trim()).replace(/\r?\n/g, '');
+      const parsedHTML = getMarkdown().makeHtml(text.substring(first, end).trim());
       // Cache results
       if (cache) changelog[key] = parsedHTML;
       return parsedHTML;
@@ -49,10 +53,12 @@ const changelog = wrap(function changelog() {
   }
 
   function load(version = 'latest', short = false) {
+    const container = $('<div>').text('Please wait');
+    open(container);
     get(version, short).catch((e) => {
       console.error(e);
       return 'Unavailable at this time'; 
-    }).then(open);
+    }).then((m) => container.html(m));
   }
 
   // Add menu button
