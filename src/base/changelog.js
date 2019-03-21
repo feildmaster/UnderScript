@@ -45,7 +45,7 @@ const changelog = wrap(function changelog() {
         const index = text.indexOf('\n## ', first + 1);
         if (!!~index) end = index;
       }
-      const parsedHTML = getMarkdown().makeHtml(text.substring(first, end).trim());
+      const parsedHTML = getMarkdown().makeHtml(text.substring(first, end).trim()).replace(/\r?\n/g, '');
       // Cache results
       if (cache) changelog[key] = parsedHTML;
       return parsedHTML;
