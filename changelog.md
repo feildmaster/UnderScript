@@ -6,6 +6,7 @@
 1. No longer display patch notes when notifying about update
 1. @O now tags opponent
 1. Added options for legend rank announcement
+1. Can now decline all friend requests at once
 1. Added some settings
 
 ## Version 0.23.0-4
