@@ -9,18 +9,20 @@
 1. Can now decline all friend requests at once
 1. Added some settings
 
-## Version 0.23.0-4
+## Version 0.23.0
 ### New Features
 1. Deck Storage now saves and loads artifacts
   * Note: You need to resave your decks to add artifacts to them
 1. Added changelog
 1. Added options for winstreak announcements
+1. Added options for legend rank announcement
 1. Jump to First/Last collection page
   * Control Click
 1. Added option to disable changing collection page with scrollwheel
 1. Added option to disable screen shaking
 1. Added confirmation for ignoring users
 1. @O now tags opponent
+1. Can now decline all friend requests at once
 
 ### Fixes
 1. Fixed the spectator list not resizing sometimes
