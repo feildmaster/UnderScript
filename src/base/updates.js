@@ -1,5 +1,10 @@
 // Check for script updates
-(() => {
+wrap(() => {
+  const disabled = settings.register({
+    name: 'Disable Auto Updates',
+    key: 'underscript.disable.updates',
+  });
+
   style.add(
     '#AlertToast h2, #AlertToast h3 { margin: 0; font-size: 20px; }',
     '#AlertToast h3 {font-size: 17px; }',
@@ -112,6 +117,7 @@
   });
 
   function setupAuto() {
+    if (disabled.value()) return;
     if (autoTimeout) clearTimeout(autoTimeout);
     const last = parseInt(localStorage.getItem(LAST));
     const now = Date.now();
@@ -128,4 +134,4 @@
   }
 
   if (!latest.chk()) setupAuto();
-})();
+});
