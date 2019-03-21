@@ -4,6 +4,7 @@
 1. Bug fixes
 1. Change log modifications
 1. No longer display patch notes when notifying about update
+1. @O now tags opponent
 
 ## Version 0.23.0-4
 ### New Features
@@ -16,6 +17,7 @@
 1. Added option to disable changing collection page with scrollwheel
 1. Added option to disable screen shaking
 1. Added confirmation for ignoring users
+1. @O now tags opponent
 
 ### Fixes
 1. Fixed the spectator list not resizing sometimes

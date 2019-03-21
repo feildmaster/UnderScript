@@ -1,5 +1,5 @@
 onPage('Game', () => {
-  const regex = /(^| )@o\b/g;
+  const regex = /(^| )@o\b/gi;
   let toast = fn.infoToast('You can mention opponents with @o', 'underscript.notice.mention', '1');
 
   function convert() {
