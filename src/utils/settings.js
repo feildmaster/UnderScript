@@ -252,7 +252,9 @@ const settings = (() => {
     if (!settingReg.hasOwnProperty(setting.key)) {
       settingReg[setting.key] = setting;
     }
-    return true;
+    return {
+      value: () => value(setting.key),
+    };
   }
 
   function buttons(page) {
