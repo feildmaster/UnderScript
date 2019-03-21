@@ -2,6 +2,7 @@ settings.register({
   name: 'Remove friends without refreshing',
   key: 'underscript.removeFriend.background',
   default: true,
+  page: 'Friends',
 });
 
 onPage('Friends', function deleteFriends() {
@@ -11,7 +12,10 @@ onPage('Friends', function deleteFriends() {
   function remove(e) {
     if (!settings.value('underscript.removeFriend.background')) return;
     e.preventDefault();
-    const btn = $(this);
+    process($(this));
+  }
+
+  function process(btn) {
     const parent = btn.parent();
     btn.detach();
     const link = btn.attr('href');
@@ -43,4 +47,5 @@ onPage('Friends', function deleteFriends() {
   eventManager.on('Chat:getOnlineFriends', () => $('a.crossDelete').click(remove));
   eventManager.on(':loaded', () => $('a[href^="Friends?"]').click(remove));
   eventManager.on('newElement', (e) => $(e).find('a').click(remove))
+  eventManager.on('friendAction', process);
 });

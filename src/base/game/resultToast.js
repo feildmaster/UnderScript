@@ -1,6 +1,7 @@
 settings.register({
   name: 'Disable Result Toast',
   key: 'underscript.disable.resultToast',
+  page: 'Game',
 });
 
 eventManager.on('getResult:before', function resultToast() {

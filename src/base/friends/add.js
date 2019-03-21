@@ -2,6 +2,7 @@ settings.register({
   name: 'Add friends without refreshing',
   key: 'underscript.friend.add',
   default: true,
+  page: 'Friends',
 });
 
 onPage('Friends', function addFriend() {

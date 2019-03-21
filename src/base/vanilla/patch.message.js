@@ -2,6 +2,7 @@ settings.register({
   name: 'Disable version toast',
   key: 'underscript.season.disable',
   refresh: () => onPage(''),
+  category: 'Home',
 });
 
 onPage('', function patches() {

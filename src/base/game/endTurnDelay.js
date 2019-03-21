@@ -1,6 +1,7 @@
 settings.register({
   name: 'Disable End Turn Waiting',
   key: 'underscript.disable.endTurnDelay',
+  page: 'Game',
 });
 
 settings.register({
@@ -10,6 +11,7 @@ settings.register({
   options: [],
   disabled: true,
   hidden: true,
+  page: 'Game',
 });
 
 eventManager.on('PlayingGame', function endTurnDelay() {

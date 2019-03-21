@@ -1,11 +1,12 @@
-(() => {
+wrap(() => {
   settings.register({
-    name: 'Card Draw Announcement',
+    name: 'Announcement',
     key: 'underscript.announcement.draws',
     type: 'select',
     options: ['chat', 'toast', 'both', 'hidden'],
     default: 'toast',
     page: 'Chat',
+    category: 'Legendary Card',
   });
 
   const toasts = [];
@@ -57,4 +58,4 @@
       toastIndex = (toastIndex + 1) % 3;
     }
   });
-})();
+});

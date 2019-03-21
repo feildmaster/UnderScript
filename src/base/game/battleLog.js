@@ -1,6 +1,7 @@
 settings.register({
   name: 'Disable Battle Log',
   key: 'underscript.disable.logger',
+  page: 'Game',
   onChange: (to, from) => {
     if (!onPage('Game') && !onPage('gameSpectate')) return;
     if (to) {
@@ -16,6 +17,7 @@ settings.register({
   key: 'underscript.disable.dust',
   type: 'select',
   options: ['never', 'playing', 'spectating', 'always'],
+  page: 'Game',
 });
 
 settings.register({
@@ -25,6 +27,7 @@ settings.register({
   options: [],
   disabled: true,
   hidden: true,
+  page: 'Game',
 });
 
 eventManager.on("GameStart", function battleLogger() {

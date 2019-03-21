@@ -3,6 +3,7 @@ settings.register({
   key: 'underscript.persist.bgm',
   default: true,
   refresh: window.gameId !== undefined,
+  page: 'Game',
 });
 
 eventManager.on('GameStart', function () {

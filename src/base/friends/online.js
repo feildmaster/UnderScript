@@ -2,6 +2,7 @@ settings.register({
   name: 'Enable online friends',
   key: 'underscript.enable.onlinefriends',
   default: true,
+  page: 'Friends',
 });
 eventManager.on(':loaded', () => {
   style.add(

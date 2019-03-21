@@ -1,15 +1,17 @@
 settings.register({
-  name: 'Disable Ignore Chat',
+  name: 'Disable',
   key: 'underscript.disable.ignorechat',
   page: 'Chat',
+  category: 'Ignored Users',
 });
 
 settings.register({
-  name: 'Ignore Behavior',
+  name: 'Behavior',
   key: 'underscript.ignorechat.how',
   type: 'select',
   options: ['remove', 'hide'],
   page: 'Chat',
+  category: 'Ignored Users',
 });
 
 // This isn't really the best name to call this function

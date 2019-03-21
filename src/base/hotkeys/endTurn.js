@@ -1,18 +1,21 @@
 settings.register({
   name: 'Disable End Turn Hotkey',
   key: 'underscript.disable.endTurn',
+  page: 'Game',
 });
 settings.register({
   name: 'Disable End Turn with Space',
   key: 'underscript.disable.endTurn.space',
   disabled: () => settings.value('underscript.disable.endTurn'),
   refresh: () => typeof gameId !== 'undefined',
+  page: 'Game',
 });
 settings.register({
   name: 'Disable End Turn with Middle Click',
   key: 'underscript.disable.endTurn.middleClick',
   disabled: () => settings.value('underscript.disable.endTurn'),
   refresh: () => typeof gameId !== 'undefined',
+  page: 'Game',
 });
 
 eventManager.on("PlayingGame", function bindHotkeys() {
