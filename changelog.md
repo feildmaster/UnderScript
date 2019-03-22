@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.23.1
+1. Fixed updates going to the wrong URL
+
 ## Version 0.23.0
 ### New Features
 1. Deck Storage now saves and loads artifacts

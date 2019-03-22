@@ -72,7 +72,7 @@ wrap(() => {
       footer: 'Click to update',
       onClose(reason) {
         if (reason !== 'dismissed') return;
-        location.href = `${baseURL}${data.unpkg}`;
+        location.href = `${baseURL}/underscript@${getVersion()}/${data.unpkg}`;
       },
     });
     return true;
