@@ -25,6 +25,7 @@ if (true) {
         requests[f.id] = f.name;
       });
       //eventManager.emit('Friends:pending', pending);
+      eventManager.emit('preFriends:requests', requests);
       eventManager.emit('Friends:requests', requests);
       eventManager.emit('Friends:refresh');
     }).catch((e) => {
