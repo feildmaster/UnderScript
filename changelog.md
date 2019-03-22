@@ -1,8 +1,7 @@
 # UnderScript Changelog
 
-
 ## Version 0.25.0-0
-No changes yet
+1. Settings to auto decline specific friend requests
 
 ## Version 0.24.2
 1. Fixed chat breaking
