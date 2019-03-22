@@ -1,14 +1,5 @@
 # UnderScript Changelog
 
-## Version 0.23.0-6
-1. Bug fixes
-1. Change log modifications
-1. No longer display patch notes when notifying about update
-1. @O now tags opponent
-1. Added options for legend rank announcement
-1. Can now decline all friend requests at once
-1. Added some settings
-
 ## Version 0.23.0
 ### New Features
 1. Deck Storage now saves and loads artifacts
