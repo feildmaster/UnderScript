@@ -2,6 +2,7 @@
 
 ## Version 0.25.0-0
 1. Settings to auto decline specific friend requests
+1. Automatically update the online friends list
 
 ## Version 0.24.2
 1. Fixed chat breaking
