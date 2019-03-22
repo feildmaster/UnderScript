@@ -1,5 +1,9 @@
 # UnderScript Changelog
 
+
+## Version 0.25.0-0
+No changes yet
+
 ## Version 0.24.2
 1. Fixed chat breaking
 
