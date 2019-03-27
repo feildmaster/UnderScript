@@ -1,6 +1,11 @@
 settings.register({
   name: 'Disable Deck Preview',
   key: 'underscript.disable.deckPreview',
+  //hidden: typeof displayCardDeck === 'function',
+  onChange(val, val2) {
+    if (!onPage('Decks') || typeof cardHoverEnabled === 'undefined') return;
+    cardHoverEnabled = val === '0';
+  },
 });
 
 // TODO: Convert to event listeners?
@@ -32,6 +37,10 @@ onPage('Decks', function () {
   }
 
   eventManager.on(':loaded', () => {
+    if (typeof displayCardDeck === 'function') {
+      cardHoverEnabled = !settings.value('underscript.disable.deckPreview');
+      return;
+    }
     const oRefresh = refreshDeckList;
     refreshDeckList = function newRefresh() {
       oRefresh();

@@ -32,6 +32,7 @@ settings.register({
 
 eventManager.on("GameStart", function battleLogger() {
   const ignoreEvents = Object.keys({
+    getEmote: 'Player is using emote',
     getConnectedFirst: '',
     refreshTimer: 'Never need to know about this one',
     getPlayableCards: 'On turn start, selects cards player can play',
@@ -128,7 +129,7 @@ eventManager.on("GameStart", function battleLogger() {
       c.append(card.name);
       c.css('text-decoration', 'underline');
 
-      let data = `<table class="cardBoard ${card.paralyzed ? 'paralyzed' : ''}">`;
+      let data = `<table class="cardBoard card ${card.paralyzed ? 'paralyzed' : ''}">`;
       data += `<tr><td class="cardName resize ${card.classe || card.class}" colspan="3">${card.name}`;
       if (card.shiny) {
         // TODO: rainbow

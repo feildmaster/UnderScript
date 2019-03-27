@@ -34,6 +34,16 @@
     key: 'profileSkinsDisabled',
     category: 'Game',
   },
+  {
+    name: 'Disable screen shake',
+    key: 'shakeDisabled',
+    category: 'Game',
+  },
+  {
+    name: 'Disable emotes',
+    key: 'gameEmotesDisabled',
+    category: 'Game',
+  },
 ].forEach((setting) => {
   const {name, key, category} = setting;
   const refresh = category === 'Game' ? () => onPage('Game') || onPage('gameSpectating') : undefined;

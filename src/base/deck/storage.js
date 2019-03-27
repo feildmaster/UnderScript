@@ -1,4 +1,4 @@
-// globals classe, selfId, collections, decksArtifacts, userArtifacts, decks, addArtifact, clearArtifacts, removeCard, removeAllCards, addCard, lastOpenedDialog
+// globals classe, selfId, deckCollections, collections, decksArtifacts, userArtifacts, decks, addArtifact, clearArtifacts, removeCard, removeAllCards, addCard, lastOpenedDialog
 settings.register({
   name: 'Disable Deck Storage',
   key: 'underscript.storage.disable',
@@ -26,16 +26,17 @@ onPage('Decks', function deckStorage() {
     return library.find(card => card.id === id && (shiny === undefined || card.shiny === shiny));
   }
   function getCardData(id, shiny, deep) {
+    const library = deckCollections || collections;
     if (deep) {
       // Search all decks
-      const keys = Object.keys(collections);
+      const keys = Object.keys(library);
       for (let i = 0; i < keys.length; i++) {
-        const card = getFromLibrary(id, shiny, collections[keys[i]]);
+        const card = getFromLibrary(id, shiny, library[keys[i]]);
         if (card) return card;
       }
       return null;
     }
-    return getFromLibrary(id, shiny, collections[classe]);
+    return getFromLibrary(id, shiny, library[classe]);
   }
 
   eventManager.on('jQuery', () => {

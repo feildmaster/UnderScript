@@ -1,5 +1,5 @@
 eventManager.on(':loaded', () => {
-  if (typeof onMessage === 'function' && typeof socketChat !== 'undefined') {
+  if (typeof socketChat !== 'undefined') {
     debug('Chat detected');
     eventManager.emit('ChatDetected');
 

@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.23.2
+1. Prepped for next season
+
 ## Version 0.23.1
 1. Fixed updates going to the wrong URL
 

@@ -3,7 +3,6 @@ onPage("Game", function () {
   eventManager.emit("GameStart");
   eventManager.emit("PlayingGame");
   eventManager.on(':loaded', () => {
-    if (typeof socket === 'undefined') return;
     function callGameHooks(data, original) {
         const run = !eventManager.emit('PreGameEvent', data).canceled;
         try {
@@ -23,17 +22,7 @@ onPage("Game", function () {
         callGameHooks(event, oBypassEvent);
       };
     } else {
-      const oHandler = socket.onmessage;
-      socket.onmessage = function onMessageScript(event) {
-        const data = JSON.parse(event.data);
-        const run = !eventManager.emit('PreGameEvent', data).canceled;
-        try {
-          if (run) oHandler(event);
-        } catch (e) {
-          console.error(e);
-        }
-        eventManager.emit('GameEvent', data);
-      };
+      debug('Update your code yo');
     }
   });
 });
