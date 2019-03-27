@@ -59,7 +59,7 @@ onPage('CardSkinsShop', function () {
     });
     if (cards.length) {
       function cardMySkin(skin) {
-        return `<table class="cardBoard monster col-sm-4" style="height: 220px !important; opacity: 1; cursor: default;">
+        return `<table class="cardBoard card monster col-sm-4" style="height: 220px !important; opacity: 1; cursor: default;">
           <tbody>
             <tr>
               <td class="cardName" colspan="3">${skin.card}</td>

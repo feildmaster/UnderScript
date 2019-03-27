@@ -35,7 +35,7 @@ onPage('Crafting', function craftableCards() {
 
   function highlightCards() {
     debug('highlighting');
-    document.querySelectorAll('table.cardBoard').forEach(highlight);
+    document.querySelectorAll('table.cardBoard, table.card').forEach(highlight);
   }
 
   eventManager.on('craftcard', update);
