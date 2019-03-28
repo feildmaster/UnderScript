@@ -1,4 +1,3 @@
-// globals classe, selfId, deckCollections, collections, decksArtifacts, userArtifacts, decks, addArtifact, clearArtifacts, removeCard, removeAllCards, addCard, lastOpenedDialog
 settings.register({
   name: 'Disable Deck Storage',
   key: 'underscript.storage.disable',
@@ -26,7 +25,7 @@ onPage('Decks', function deckStorage() {
     return library.find(card => card.id === id && (shiny === undefined || card.shiny === shiny));
   }
   function getCardData(id, shiny, deep) {
-    const library = deckCollections || collections;
+    const library = global('deckCollections', 'collections');
     if (deep) {
       // Search all decks
       const keys = Object.keys(library);
@@ -36,7 +35,7 @@ onPage('Decks', function deckStorage() {
       }
       return null;
     }
-    return getFromLibrary(id, shiny, library[classe]);
+    return getFromLibrary(id, shiny, library[global('classe')]);
   }
 
   eventManager.on('jQuery', () => {
@@ -46,7 +45,7 @@ onPage('Decks', function deckStorage() {
     let pending = [];
 
     function processNext() {
-      if (lastOpenedDialog === mockLastOpenedDialog) {
+      if (global('lastOpenedDialog') === mockLastOpenedDialog) {
         lastOpenedDialog = templastOpenedDialog;
       }
       const job = pending.shift();
@@ -59,18 +58,18 @@ onPage('Decks', function deckStorage() {
           }
           return;
         } else if (job.action === 'clear') {
-          removeAllCards();
+          global('removeAllCards')();
         } else if (job.action === 'remove') {
-          removeCard(parseInt(job.id), job.shiny === true);
+          global('removeCard')(parseInt(job.id), job.shiny === true);
         } else if (job.action === 'clearArtifacts') {
-          clearArtifacts();
+          global('clearArtifacts')();
         } else if (job.action === 'addArtifact') {
           debug(`Adding artifact: ${job.id}`);
           templastOpenedDialog = lastOpenedDialog;
           lastOpenedDialog = mockLastOpenedDialog;
-          addArtifact(job.id);
+          global('addArtifact')(job.id);
         } else {
-          addCard(parseInt(job.id), job.shiny === true);
+          global('addCard')(parseInt(job.id), job.shiny === true);
         }
         if (!pending.length) {
           pending.push({action: 'validate'})
@@ -121,14 +120,15 @@ onPage('Decks', function deckStorage() {
         cards: [],
         artifacts: [],
       };
-      decks[classe].forEach(({id, shiny}) => {
+      const clazz = global('classe');
+      global('decks')[clazz].forEach(({id, shiny}) => {
         const card = { id, };
         if (shiny) {
           card.shiny = true;
         }
         deck.cards.push(card);
       });
-      decksArtifacts[classe].forEach(({ id }) => deck.artifacts.push(id));
+      global('decksArtifacts')[clazz].forEach(({ id }) => deck.artifacts.push(id));
       if (!deck.cards.length && !deck.artifacts.length) return;
       localStorage.setItem(getKey(i), JSON.stringify(deck));
     }
@@ -139,7 +139,7 @@ onPage('Decks', function deckStorage() {
       pending = []; // Clear pending
       loading = i;
       let deck = getDeck(i, true);
-      const cDeck = decks[classe];
+      const cDeck = global('decks')[global('classe')];
 
       if (cDeck.length) {
         const builtDeck = [];
@@ -195,13 +195,12 @@ onPage('Decks', function deckStorage() {
 
     function matchingArtifacts(id) {
       const dArts = getArtifacts(id);
-      const cArts = decksArtifacts[classe];
+      const cArts = global('decksArtifacts')[global('classe')];
       return !dArts.length || dArts.length === cArts.length && cArts.every(({id: id1}) => !!~dArts.indexOf(id1));
     }
 
     function getKey(id) {
-      const soul = classe;
-      return `underscript.deck.${selfId}.${soul}.${id}`;
+      return `underscript.deck.${global('selfId')}.${global('classe')}.${id}`;
     }
 
     function getDeck(id, trim) {
@@ -236,7 +235,7 @@ onPage('Decks', function deckStorage() {
     function artifacts(id) {
       const list = [];
       getArtifacts(id).forEach((art) => {
-        const artifact = userArtifacts.find(({id: artID}) => artID === art);
+        const artifact = global('userArtifacts').find(({id: artID}) => artID === art);
         if (artifact) {
           list.push(`<span class="${artifact.legendary ? 'yellow' : ''}"><img style="height: 16px;" src="images/artifacts/${artifact.image}.png" /> ${artifact.name}</span>`);
         }
@@ -249,7 +248,7 @@ onPage('Decks', function deckStorage() {
     }
 
     function loadButton(i) {
-      const soul = classe;
+      const soul = global('classe');
       const deckKey = getKey(i);
       const nameKey = `${deckKey}.name`;
       const button = buttons[i];
