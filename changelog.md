@@ -1,6 +1,6 @@
 # UnderScript Changelog
 
-## Version 0.23.5
+## Version 0.23.6
 1. Prepped for next season
 
 ## Version 0.23.1
