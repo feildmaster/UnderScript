@@ -2,7 +2,7 @@
 
 ## Version 0.25.0-0
 ### New Features
-1. Settings to auto decline specific friend requests
+1. Added settings to auto decline specific friend requests
 1. Automatically update the online friends list
 
 ### Fixes
