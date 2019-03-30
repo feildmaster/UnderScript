@@ -1,8 +1,7 @@
 onPage('', function refreshGameList() {
   let id;
   let refreshing = false;
-  function refresh(timeout) {
-    if (timeout) id = 0;
+  function refresh() {
     if (refreshing || document.visibilityState === 'hidden') return;
     refreshing = true;
     axios.get('/').then((response) => {
@@ -23,7 +22,7 @@ onPage('', function refreshGameList() {
     if (id) {
       clearTimeout(id);
     }
-    id = setTimeout(refresh, delay, true);
+    id = setTimeout(refresh, delay);
   }
 
   // Restart refresh sequence when returning to page

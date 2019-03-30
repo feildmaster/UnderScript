@@ -1,8 +1,12 @@
 # UnderScript Changelog
 
 ## Version 0.25.0-0
+### New Features
 1. Settings to auto decline specific friend requests
 1. Automatically update the online friends list
+
+### Fixes
+1. Fixed bug where the spectate list refreshes too quickly
 
 ## Version 0.24.2
 1. Fixed chat breaking
