@@ -1,4 +1,4 @@
-const eventManager = (() => {
+const eventManager = wrap(() => {
   const events = {
     // eventName: [events]
   };
@@ -40,4 +40,4 @@ const eventManager = (() => {
       return this.emit(event, JSON.parse(data), cancelable);
     },
   };
-})();
+});

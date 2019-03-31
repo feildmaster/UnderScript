@@ -12,7 +12,7 @@ settings.register({
   },
 });
 
-const analytics = (() => {
+const analytics = wrap(() => {
   const config = {
     'app_name': 'underscript',
     'app_version': scriptVersion,
@@ -44,4 +44,4 @@ const analytics = (() => {
   return {
     send, error,
   };
-})();
+});

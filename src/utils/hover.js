@@ -1,4 +1,4 @@
-const hover = (() => {
+const hover = wrap(() => {
   let e, x, y;
   function update() {
     if (!e) return;
@@ -87,4 +87,4 @@ const hover = (() => {
     show,
     new: tip,
   };
-})();
+});

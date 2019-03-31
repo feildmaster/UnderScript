@@ -1,23 +1,23 @@
-settings.register({
-  name: 'Enable ping toasts',
-  key: 'underscript.enable.pingToast',
-  default: true,
-  category: 'Ping Me',
-  page: 'Chat',
-});
+wrap(() => {
+  const setting = settings.register({
+    name: 'Enable ping toasts',
+    key: 'underscript.enable.pingToast',
+    default: true,
+    category: 'Ping Me',
+    page: 'Chat',
+  });
 
-settings.register({
-  name: 'On',
-  key: 'underscript.ping.extras',
-  type: 'array',
-  default: ['@everyone'],
-  category: 'Ping Me',
-  page: 'Chat',
-});
+  settings.register({
+    name: 'On',
+    key: 'underscript.ping.extras',
+    type: 'array',
+    default: ['@everyone'],
+    category: 'Ping Me',
+    page: 'Chat',
+  });
 
-(() => {
   eventManager.on('Chat:getMessage', function pingToast(data) {
-    if (this.canceled || !settings.value('underscript.enable.pingToast')) return;
+    if (this.canceled || !setting.value()) return;
     const msg = JSON.parse(data.chatMessage);
     if (shouldIgnore(msg, true)) return;
     if (!msg.message.toLowerCase().includes(`@${global('selfUsername').toLowerCase()}`) && !fn.pingRegex().test(msg.message)) return;
@@ -27,4 +27,4 @@ settings.register({
       text: msg.message,
     });
   });
-})();
+});

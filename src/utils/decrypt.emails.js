@@ -1,4 +1,4 @@
-fn.decrypt = (() => {
+fn.decrypt = wrap(() => {
   const selector = 'a[href="/cdn-cgi/l/email-protection"]';
   function hex_at(str, index) {
     const r = str.substr(index, 2);
@@ -27,4 +27,4 @@ fn.decrypt = (() => {
   }
   decode.decrypt = decrypt;
   return decode;
-})();
+});

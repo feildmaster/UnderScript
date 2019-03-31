@@ -1,4 +1,4 @@
-const $el = (() => {
+const $el = wrap(() => {
   function removeClass(el, className) {
     el.forEach((e) => e.classList.remove(className))
   }
@@ -57,4 +57,4 @@ const $el = (() => {
       get: getHTML,
     },
   };
-})();
+});

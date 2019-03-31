@@ -1,4 +1,4 @@
-fn.pingRegex = (() => {
+fn.pingRegex = wrap(() => {
   const filter = /(\||\\|\(|\)|\*|\+|\?|\.|\^|\$|\[|\{|\})/g
   function filterMeta(text) {
     return text.replace(filter, '\\$1');
@@ -8,4 +8,4 @@ fn.pingRegex = (() => {
     return new RegExp(exp, 'gi');
   }
   return build;
-})();
+});

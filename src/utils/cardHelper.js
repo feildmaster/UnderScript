@@ -1,4 +1,4 @@
-const cardHelper = (() => {
+const cardHelper = wrap(() => {
   const unset = [undefined, null];
   function max(rarity) {
     switch (rarity) {
@@ -95,4 +95,4 @@ const cardHelper = (() => {
       worth: dustGain,
     },
   };
-})();
+});
