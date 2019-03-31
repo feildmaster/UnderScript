@@ -41,8 +41,50 @@ const hover = (() => {
       update();
     };
   }
+  function getFooter(type) {
+    switch(type) {
+      default: return footer;
+      case 'footer2', 'short': return footer2;
+      case 'none', 'hidden': return '';
+    }
+  }
+  function tip(text, target, { follow=true, arrow=false, onShow, footer='footer', fade=false, placement='auto', trigger, distance, offset='50, 25' } = {}) {
+    debug(`Hover Tip: ${text}`);
+    const options = {
+      arrow, placement,
+      content: `<div>${text}</div>${getFooter(footer)}`,
+      animateFill: false,
+      //animation: '',
+      theme: 'undercards',
+      hideOnClick: true,
+      a11y: false,
+    };
+    if (offset || offset === '') options.offset = offset;
+    if (distance !== undefined) options.distance = distance;
+    if (trigger) options.trigger = trigger;
+    if (typeof onShow === 'function') options.onShow = onShow;
+    if (!fade) {
+      options.delay = 0;
+      options.duration = 0;
+    }
+    if (follow && !arrow) {
+      options.placement = 'bottom';
+      options.followCursor = true;
+      options.hideOnClick = false;
+    }
+    if (tippy.version.startsWith(3)) {
+      options.performance = true;
+    }
+    if (tippy.version.startsWith(4)) {
+      options.boundary = 'viewport';
+      options.aria = false;
+      options.ignoreAttributes = true;
+    }
+    tippy(target, options);
+  }
   return {
     hide,
     show,
+    new: tip,
   };
 })();

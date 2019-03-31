@@ -16,18 +16,13 @@ eventManager.on(':loaded', () => {
   const el = document.querySelector('a span.nbFriends');
   if (el) {
     const target = el.parentElement;
-    tippy(target, {
-      content: `<div class="onlineFriends">(Loading)</div>${footer2}`,
-      placement: 'top-start',
+    hover.new('<div class="onlineFriends">(Loading)</div>', target, {
       arrow: true,
-      theme: 'undercards',
-      hideOnClick: false,
-      a11y: false,
-      performance: true,
-      interactive: !!localStorage.getItem('debugging.showFriends'),
-      showOnInit: !!localStorage.getItem('debugging.showFriends'),
-      //lazy: false, // Instant placement
       distance: 0,
+      follow: false,
+      offset: null,
+      footer: 'short',
+      placement: 'top-start',
       onShow: () => settings.value('underscript.enable.onlinefriends'),
     });
 
