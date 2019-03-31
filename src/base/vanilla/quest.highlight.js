@@ -1,10 +1,10 @@
-settings.register({
-  name: 'Disable Quest Completed Notifications',
-  key: 'underscript.disable.questHighlight',
-});
+wrap(() => {
+  const setting = settings.register({
+    name: 'Disable Quest Completed Notifications',
+    key: 'underscript.disable.questHighlight',
+  });
 
-(() => {
-  if (settings.value('underscript.disable.questHighlight')) return;
+  if (setting.value()) return;
   const questSelector = 'input[type="submit"][value="Claim"]:not(:disabled)';
 
   eventManager.on('jQuery', () => $el.removeClass(document.querySelectorAll('.yellowLink'), 'yellowLink'));
@@ -72,4 +72,4 @@ settings.register({
 
     highlightQuest();
   });
-})();
+});

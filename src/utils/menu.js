@@ -1,4 +1,4 @@
-const menu = (() => {
+const menu = wrap(() => {
   let initialized, menuOpen, wrapper, body, cooked, toast;
   const buttons = [];
 
@@ -135,4 +135,4 @@ const menu = (() => {
   return {
     open, close, isOpen, addButton,
   };
-})();
+});

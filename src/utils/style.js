@@ -1,5 +1,5 @@
 // Custom CSS classes are great.
-const style = (() => {
+const style = wrap(() => {
   const el = document.createElement('style');
   el.type = 'text/css';
   eventManager.on(':loaded', function () {
@@ -15,4 +15,4 @@ const style = (() => {
   return {
     add,
   };
-})();
+});

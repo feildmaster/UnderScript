@@ -1,4 +1,4 @@
-const settings = (() => {
+const settings = wrap(() => {
   eventManager.on(':ready', () => style.add(
     '.mono .modal-body { font-family: monospace; max-height: 500px; overflow-y: auto; }',
     '.remove { display: none; }',
@@ -418,4 +418,4 @@ const settings = (() => {
     export: exportSettings,
     import: importSettings,
   };
-})();
+});
