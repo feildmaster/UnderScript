@@ -4,7 +4,7 @@ onPage("Game", function () {
   eventManager.emit("PlayingGame");
   eventManager.on(':loaded', () => {
     function callGameHooks(data, original) {
-        const run = !eventManager.emit('PreGameEvent', data).canceled;
+        const run = !eventManager.emit('PreGameEvent', data, true).canceled;
         try {
           if (run) original(data);
         } catch (e) {
