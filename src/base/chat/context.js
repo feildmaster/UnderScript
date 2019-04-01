@@ -91,7 +91,7 @@ eventManager.on('ChatDetected' , () => {
           if (text.length !== 0 && text[text.length - 1] !== ' ') {
             text += ' ';
           }
-          text += fn.decode(name) + ' ';
+          text += `@${fn.decode(name)} `;
           input.val(text).focus();
         } else if (e.target === ignore[0]) {
           if (disabled) return; // If it's disabled it's disabled...

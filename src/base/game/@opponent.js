@@ -8,7 +8,7 @@ onPage('Game', () => {
       toast = null;
     }
     $(this).val($(this).val()
-      .replace(regex, `$1${$('#enemyUsername').text()}`));
+      .replace(regex, `$1@${$('#enemyUsername').text()}`));
   }
   function onEnter(e) {
     if (e.which === 13) {
