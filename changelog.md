@@ -7,6 +7,7 @@
 
 ### Fixes
 1. Fixed bug where the spectate list refreshes too quickly
+1. Fixed shiny base cards showing as craftable when you can't afford it
 
 ## Version 0.24.2
 1. Fixed chat breaking
