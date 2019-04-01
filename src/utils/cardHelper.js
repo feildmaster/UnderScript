@@ -63,7 +63,8 @@ const cardHelper = wrap(() => {
       case 'LEGENDARY': return s ? 3200 : 1600;
       case 'EPIC': return s ? 1600 : 400;
       case 'RARE': return s ? 800 : 100;
-      case 'COMMON': return s ? 100: 40;
+      case 'COMMON': return s ? 400: 40;
+      case 'BASE': return s ? 400 : null;
     }
   }
 
