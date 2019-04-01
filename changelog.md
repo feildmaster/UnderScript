@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.24.2
+1. Fixed chat breaking
+
 ## Version 0.24.1
 1. Fixed @username not pinging you
 
