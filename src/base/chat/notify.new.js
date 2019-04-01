@@ -4,29 +4,23 @@ settings.register({
   page: 'Chat',
 });
 
-settings.register({
-  name: 'Use Original Chat Ping Detection',
-  key: 'underscript.disable.notify',
-  page: 'Chat',
-});
-
 eventManager.on('ChatDetected', () => {
   const mask = '<span style="color: yellow;">$1</span>';
 
-  const oNotify = notif;
-  notif = (text) => {
+  const oNotify = globalSet('notif', (original) => {
     if (!settings.value('underscript.disable.ping') && !pendingIgnore.get()) {
-      if (settings.value('underscript.disable.notify')) {
-        return oNotify(text);
-      }
+      const text = oNotify(original);
+
       const regex = fn.pingRegex();
       if (regex.test(text)) {
-        if (soundsEnabled) {
+        if (global('soundsEnabled') && original === text) {
           (new Audio("sounds/highlight.wav")).play();
         }
         return text.replace(regex, mask);
       }
+
+      return text;
     }
-    return text;
-  };
+    return original;
+  });
 });

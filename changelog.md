@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.24.1
+1. Fixed @username not pinging you
+
 ## Version 0.24.0
 ### New Features
 1. Added setting to stop April Fools Day
