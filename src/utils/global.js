@@ -6,5 +6,7 @@ function global(...key) {
 
 function globalSet(key, value) {
   if (!window.hasOwnProperty(key)) throw new Error(`[${key}] does not exist`);
+  const original = window[key];
   window[key] = value;
+  return original;
 }
