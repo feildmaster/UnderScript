@@ -1,5 +1,9 @@
 # UnderScript Changelog
 
+## Version 0.23.7
+1. Updated chat to account for @
+1. Fixed surrender button
+
 ## Version 0.23.6
 1. Prepped for next season
 

@@ -17,6 +17,7 @@ onPage('Game', () => {
       }
     },
     action: () => {
+      const socket = global('socketGame');
       if (socket.readyState !== WebSocket.OPEN) return;
       socket.send(JSON.stringify({action: "surrender"}));
     },
