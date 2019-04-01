@@ -20,8 +20,9 @@ onPage('Packs', function quickOpenPack() {
     clearResults(); // Build once
     let autoOpen = false, openAll = false;
     $(document).ajaxComplete((event, xhr, settings) => {
+      if (settings.url !== 'PacksConfig' || !settings.data) return;
       const data = JSON.parse(settings.data);
-      if (settings.url !== 'PacksConfig' || data.status || xhr.responseJSON.action !== 'getCards') return;
+      if (data.status || xhr.responseJSON.action !== 'getCards') return;
       if (openAll !== false) {
         results.packs += 1;
         JSON.parse(xhr.responseJSON.cards).forEach((card) => {
