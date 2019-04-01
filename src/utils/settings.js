@@ -220,9 +220,9 @@ const settings = wrap(() => {
     setting.onChange = (el) => {
       let val = '';
       if (setting.type === 'boolean') {
-        if (el.is(':checked')) val = '1';
+        if (el.is(':checked')) val = 1;
         else if (setting.remove) val = false; // Only remove if it's expected
-        else val = '0';
+        else val = 0;
       } else if (setting.type === 'select') {
         val = el.val();
       } else if (setting.type === 'remove') {
@@ -239,13 +239,13 @@ const settings = wrap(() => {
         debug(`Unknown Setting Type: ${setting.type}`);
         return;
       }
-      if (typeof data.onChange === 'function') {
-        data.onChange(val, localStorage.getItem(setting.key));
-      }
       if (val === false) {
         localStorage.removeItem(setting.key);
       } else {
         localStorage.setItem(setting.key, val);
+      }
+      if (typeof data.onChange === 'function') {
+        data.onChange(val, localStorage.getItem(setting.key));
       }
     };
     conf.settings[setting.key] = setting;
