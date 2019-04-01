@@ -8,7 +8,7 @@ settings.register({
 onPage('Decks', () => {
   eventManager.on('jQuery', () => {
     const avg = $('<span>').hover(hover.show('Average gold cost'));
-    $('#deckCompletion').append(' ', avg);
+    $('#classInfo span').text('Passive').after(' ', avg);
 
     function round(amt, dec = 2) {
       return Number.parseFloat(amt).toFixed(dec)
