@@ -1,6 +1,10 @@
 # UnderScript Changelog
 
-## Version 0.23.7
+## Version 0.24.0
+### New Features
+1. Added setting to stop April Fools Day
+
+### Fixes
 1. Updated chat to account for @
 1. Fixed surrender button
 

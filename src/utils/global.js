@@ -3,3 +3,8 @@ function global(...key) {
   if (found === undefined) throw new Error(`[${key.join(',')}] does not exist`);
   return window[found];
 }
+
+function globalSet(key, value) {
+  if (!window.hasOwnProperty(key)) throw new Error(`[${key}] does not exist`);
+  window[key] = value;
+}
