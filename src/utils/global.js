@@ -4,9 +4,22 @@ function global(...key) {
   return window[found];
 }
 
-function globalSet(key, value) {
-  if (!window.hasOwnProperty(key)) throw new Error(`[${key}] does not exist`);
+function globalSet(key, value, {
+  throws=true,
+} = {}) {
+  if (!window.hasOwnProperty(key)) {
+    const msg = `[${key}] does not exist`;
+    if (throws) throw new Error(msg);
+    return debug(msg);
+  }
   const original = window[key];
-  window[key] = value;
+  if (typeof value === 'function') {
+    const wrapper = {
+      super: original,
+    };
+    window[key] = value.bind(wrapper);
+  } else {
+    window[key] = value;
+  }
   return original;
 }

@@ -4,6 +4,7 @@
 ### New Features
 1. Added settings to auto decline specific friend requests
 1. Automatically update the online friends list
+1. Click on hovered cards (that shouldn't be there) to remove them
 
 ### Fixes
 1. Fixed bug where the spectate list refreshes too quickly
