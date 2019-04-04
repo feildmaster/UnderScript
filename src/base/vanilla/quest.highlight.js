@@ -29,7 +29,8 @@ wrap(() => {
           localStorage.setItem('underscript.quest.clear', true);
           if (onPage('Game')) {
             let questsCleared = '';
-            quests.each((i, e) => questsCleared += `- ${$(e).parentsUntil('tbody', 'tr').find('span.descEN').text()}\n`);
+            const lang = settings.value('language') === 'FR' ? 'span.descFR' : 'span.descEN';
+            quests.each((i, e) => questsCleared += `- ${$(e).parentsUntil('tbody', 'tr').find(lang).text()}\n`);
             fn.toast({
               title: 'Quest Completed!',
               text: `${questsCleared}Click to go to Quests page`,
