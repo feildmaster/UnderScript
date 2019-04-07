@@ -27,7 +27,9 @@ onPage('Crafting', function craftableCards() {
   function update({id, shiny, dust}) {
     if (dust >= cardHelper.craft.cost('LEGENDARY', true)) {
       debug('updating');
-      highlight(cardHelper.find(id, shiny));
+      const el = cardHelper.find(id, shiny);
+      if (el) highlight(el);
+      else debug({id, shiny}, 'underscript.debugging.borders');
     } else {
       highlightCards();
     }
