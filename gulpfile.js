@@ -28,7 +28,10 @@ function to() {
 }
 
 if (deploy) {
-  underscript.push('!src/**/*.local.js');
+  underscript.push(
+    '!src/**/*.local.js',
+    '!src/**/*.test.js',
+  );
 } else {
   watch(underscript, build);
 }

@@ -2,6 +2,7 @@
 /node_modules
 /dist
 src/**/*.ignore.js
+src/**/*.local.js
 /_site
 /.vscode
 /_features
