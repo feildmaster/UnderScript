@@ -28,6 +28,7 @@ eventManager.on(':loaded', () => {
           input: this,
         };
         if (eventManager.emit('Chat:send', data, true).canceled) {
+          debug('Canceled send');
           $(this).val('');
           e.preventDefault();
           e.stopPropagation();

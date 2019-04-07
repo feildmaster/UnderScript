@@ -55,8 +55,10 @@ eventManager.on('ChatDetected', function ignoreChat() {
           msg.after(container);
           msg.remove();
         } else {
-          $(`#${room} .chat-messages`).append(container);
-          scroll(room);
+          const messages = $(`#${room} .chat-messages`);
+          const force = messages.scrollTop() + 100 > messages.prop('scrollHeight') - messages.height();
+          messages.append(container);
+          global('scroll')(room, force);
         }
       } else if (history) {
         msg.remove();
