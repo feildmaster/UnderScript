@@ -1,9 +1,10 @@
 eventManager.on('ChatDetected', () => {
+  const socketChat = global('socketChat');
   const oClose = socketChat.onclose;
   socketChat.onclose = () => {
     oClose();
     $('.chat-box').each((i, e) => {
-      scroll($(e).attr('id'));
+      global('scroll')($(e).attr('id'), true);
     });
   };
 });

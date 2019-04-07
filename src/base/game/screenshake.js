@@ -8,12 +8,10 @@ settings.register({
 
 eventManager.on('GameStart', function rumble() {
   eventManager.on(':loaded', () => {
-    if (typeof shakeScreen !== 'function') fn.debug("You're an idiot");
     const spectating = onPage('gameSpectate');
-    const oRumble = shakeScreen;
-    shakeScreen = () => {
-      if (!disabled()) oRumble();
-    };
+    globalSet('shakeScreen', function(...args) {
+      if (!disabled()) this.super(...args);
+    });
 
     function disabled() {
       switch(settings.value('underscript.disable.rumble')) {
