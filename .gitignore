@@ -1,8 +1,8 @@
 /docs/_site
 /node_modules
 /dist
-src/**/*.ignore.js
-src/**/*.local.js
+**/*.ignore*
+**/*.local*
 /_site
 /.vscode
 /_features
