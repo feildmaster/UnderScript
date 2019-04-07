@@ -1,4 +1,3 @@
-// globals updateQuantity, currentPage, applyFilters, showPage, collection
 onPage('Crafting', function disenchant() {
   eventManager.on('jQuery', () => {
     const button = $('<button class="btn btn-info">Smart Disenchant</button>');
@@ -19,11 +18,12 @@ onPage('Crafting', function disenchant() {
       Prioritize will count normal/shiny together and disenchant extra non normal/shiny cards.`,
       onshow(dialog) {
         const window = dialog.getModalFooter();
-        window.find('.us-normal').hover(hover.show('Disenchant all normal cards'));
-        window.find('.us-shiny').hover(hover.show('Disenchant all shiny cards'));
-        window.find('.us-normal-p').hover(hover.show('Disenchant extra shiny cards<br />Note: Also disenchants normals > max'));
-        window.find('.us-shiny-p').hover(hover.show('Disenchant extra normal cards<br />Note: Also disenchants shinies > max'));
+        window.find('.us-normal').hover(hover.show('Disenchant all normal cards')).prop('disabled', !normals.length);
+        window.find('.us-shiny').hover(hover.show('Disenchant all shiny cards')).prop('disabled', !shinies.length);
+        window.find('.us-normal-p').hover(hover.show('Disenchant extra shiny cards<br />Note: Also disenchants normals > max')).prop('disabled', !pNormal.length);
+        window.find('.us-shiny-p').hover(hover.show('Disenchant extra normal cards<br />Note: Also disenchants shinies > max')).prop('disabled', !pShiny.length);
       },
+      onhide: hover.hide,
       buttons: [{
         label: `All Normal (+${calcDust(normals)})`,
         cssClass: 'btn-danger us-normal',
@@ -81,8 +81,8 @@ onPage('Crafting', function disenchant() {
         if (data.DTFragments) {
           $('#DTFragmentsDiv').show();
         }
-        applyFilters();
-        showPage(currentPage);
+        global('applyFilters')();
+        global('showPage')(global('currentPage'));
         updateOrToast(toast, `Finished disenchanting.\n+${gained} dust`);
       }).catch((e) => {
         console.error(e);
@@ -116,6 +116,7 @@ onPage('Crafting', function disenchant() {
     let last = null;
     const redo = [];
     responses.forEach((response) => {
+      debug(response);
       if (response.data === '') {
         const {idCard, isShiny} = JSON.parse(response.config.data);
         redo.push({
@@ -125,7 +126,6 @@ onPage('Crafting', function disenchant() {
         });
         return;
       }
-      debug(response);
       if (response.data.status !== 'success') {
         return;
       }
@@ -134,7 +134,7 @@ onPage('Crafting', function disenchant() {
         debug('set');
         last = response;
       }
-      updateQuantity(JSON.parse(response.data.card), -1);
+      global('updateQuantity')(JSON.parse(response.data.card), -1);
     });
     if (redo.length) {
       debug(`Redoing ${redo.length}`);
@@ -152,7 +152,7 @@ onPage('Crafting', function disenchant() {
   function calcCards({shiny, priority, deltarune}) {
     const cards = {};
     const extras = [];
-    collection.filter((card) => cardFilter(card, shiny, priority, deltarune))
+    global('collection').filter((card) => cardFilter(card, shiny, priority, deltarune))
       .forEach(({id, name, shiny: isShiny, rarity, quantity}) => {
         if (priority) {
           if (!cards.hasOwnProperty(id)) {
@@ -204,7 +204,7 @@ onPage('Crafting', function disenchant() {
         }
       });
     }
-    debug(extras);
+    debug(extras, undefined, shiny, priority);
     return extras;
   }
 

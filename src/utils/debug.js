@@ -1,7 +1,7 @@
-function debug(message, permission = 'debugging') {
+function debug(message, permission = 'debugging', ...extras) {
   if (!settings.value(permission) && !settings.value('debugging.*')) return;
   //message.stack = new Error().stack.split('\n').slice(2);
-  console.log(`[${permission}]`, message);
+  console.log(`[${permission}]`, message, ...extras);
 }
 
 fn.debug = (arg, permission = 'debugging') => {
