@@ -3,7 +3,7 @@ const menu = wrap(() => {
   const buttons = [];
 
   function init() {
-    if (initialized || initialized === false) return initialized;
+    if (typeof initialized === 'boolean') return initialized;
     // jQuery must be initialized by now
     if (typeof jQuery === 'undefined') return initialized = false;
     style.add(
@@ -46,6 +46,7 @@ const menu = wrap(() => {
     if (!cooked) {
       body.html(''); // Clear current buttons
       buttons.forEach((data) => {
+        if (data.hidden()) return;
         const button = $('<li>');
         button.attr({
           role: 'button',
@@ -54,7 +55,7 @@ const menu = wrap(() => {
         if (data.url) {
           // Make text a url
         } else {
-          button.text(data.text);
+          button.text(data.getText());
         }
         if (typeof data.action === 'function') {
           function callable(e)  {
@@ -109,17 +110,19 @@ const menu = wrap(() => {
   }
   function addButton(button = {}) {
     if (!button || !button.text) return fn.debug('Menu: Missing button information');
-    cooked = false;
-    const { text, action, url, note, enabled } = button;
+    const { text, action, url, note, enabled, hidden } = button;
     const close = button.keep !== true;
     const safeButton = {
-      text, action, url, close, note, enabled
+      action, url, close, note, enabled, 
+      getText: () => typeof text === 'function' ? text() : text,
+      hidden: () => typeof hidden === 'function' && hidden() || false,
     };
     if (button.top) {
       buttons.splice(0, 0, safeButton);
     } else {
       buttons.push(safeButton);
     }
+    dirty();
   }
 
   eventManager.on(':ready', () => {
@@ -132,7 +135,11 @@ const menu = wrap(() => {
     }, 'underscript.notice.menu', '1');
   });
 
+  function dirty() {
+    cooked = false;
+  }
+
   return {
-    open, close, isOpen, addButton,
+    open, close, isOpen, addButton, dirty,
   };
 });

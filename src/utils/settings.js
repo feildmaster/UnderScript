@@ -202,6 +202,9 @@ const settings = wrap(() => {
       exportable: data.export !== false,
       extraPrefix: data.extraPrefix,
     };
+    if (!data.type && data.options) {
+      setting.type = 'select';
+    }
     if (data.refresh || data.note) {
       setting.note = () => {
         if (data.refresh) {
@@ -254,6 +257,7 @@ const settings = wrap(() => {
     }
     return {
       value: () => value(setting.key),
+      set: (value) => localStorage.setItem(setting.key, value),
     };
   }
 
