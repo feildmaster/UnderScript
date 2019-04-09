@@ -7,6 +7,7 @@ eventManager.on(':loaded', () => {
     socketChat.onmessage = (event) => {
       const data = JSON.parse(event.data);
       const {action} = data;
+      debug(data, `debugging.rawchat.${action}`);
 
       // Populate chatroom names
       if (action === 'getHistory') {

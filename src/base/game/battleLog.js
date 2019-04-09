@@ -129,31 +129,9 @@ eventManager.on("GameStart", function battleLogger() {
       c.append(card.name);
       c.css('text-decoration', 'underline');
 
-      let data = `<table class="cardBoard card ${card.paralyzed ? 'paralyzed' : ''}">`;
-      data += `<tr><td class="cardName resize ${card.classe || card.class}" colspan="3">${card.name}`;
-      if (card.shiny) {
-        // TODO: rainbow
-      }
-      // TODO: skins
-      data += `</td><td class="cardCost">${card.cost}</td></tr>`;
-      data += `<tr><td id="cardImage" colspan="4">`;
-      // add status images
-      getStatus(card).forEach((s, i) => {
-        data += `<img class="infoPowers" style="z-index:20;right:${4 + i * 20}px;" src="images/powers/${s}.png"/>`;
-      });
-      data += `<img src="images/cards/${card.image}.png"/></td></tr>`;
-      data += `<tr><td class="cardDesc" colspan="4">${card.desc || card.description || ''}`
-      if (card.silence) {
-        data += '<img class="silenced" title="Silence" src="images/silence.png">';
-      }
-      data += '</td></tr>';
-      if (!card.typeCard) {
-        data += `<tr><td id="cardATQ">${card.attack}</td><td id="cardRarity" colspan="2"><img src="images/rarity/${card.extension ? `${card.extension}_` : ''}${card.rarity}.png" /></td><td id="cardHP" class="${card.hp!==card.maxHp ? "damaged" : ""}">${card.hp}</td></tr>`;
-      } else {
-        data += `<tr><td id="cardRarity" colspan="4"><img src="images/rarity/${card.extension ? `${card.extension}_` : ''}${card.rarity}.png" /></td></tr>`;
-      }
-      data += `</table>`;
-      c.hover(hover.show(data));
+      const d = $('<div>');
+      global('appendCard')(d, card);
+      c.hover(hover.show(d));
       return c;
     },
   };
