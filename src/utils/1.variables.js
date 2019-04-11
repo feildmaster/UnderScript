@@ -6,3 +6,5 @@ const chatRoomNames = {};
 const pendingIgnore = new VarStore();
 const scriptVersion = GM_info.script.version;
 const fn = {};
+
+function noop() {}

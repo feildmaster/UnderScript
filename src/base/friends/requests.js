@@ -7,7 +7,7 @@ eventManager.on('Friends:requests', (friends) => {
       const name = sessionStorage.getItem(key);
       sessionStorage.removeItem(key);
       fn.toast(`${accept?'Accepted':'Declined'} friend request from: ${name}`);
-    }).catch(() => {});
+    }).catch(noop());
   }
   const newRequests = [];
   fn.each(friends, (friend, id) => {

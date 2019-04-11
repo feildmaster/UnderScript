@@ -10,7 +10,7 @@ wrap(function minigames() {
     eventManager.on(':loaded', () => {
       globalSet('onload', function() {
         window.game = undefined; // gets overriden if minigame loads
-        window.saveBest = () => {}; // noop - gets overriden if minigame loads
+        window.saveBest = noop(); // gets overriden if minigame loads
         if (setting.value()) {
           debug('Disabling minigames');
           mobile = true;
