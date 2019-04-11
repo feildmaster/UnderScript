@@ -1,5 +1,5 @@
-function VarStore() {
-  let v = null;
+function VarStore(def) {
+  let v = def;
 
   function get() {
     const ret = v;
