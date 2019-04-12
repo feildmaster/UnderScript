@@ -1,14 +1,29 @@
 # UnderScript Changelog
 
-## Version 0.25.0-0
+## Version 0.25.0-1
 ### New Features
 1. Added settings to auto decline specific friend requests
+1. Added toggle to lock custom games to friends
 1. Automatically update the online friends list
 1. Click on hovered cards (that shouldn't be there) to remove them
+1. Chat will now scroll to the bottom more often
+1. You can now disable minigames in the lobby
+1. Chat commands~
+  1. /scroll to scroll to the bottom of the chat
+  1. /gg to send `@o good game`
+  1. /spectate to send the spectate url
+1. You can now turn off emotes in chat (will turn into text)
+1. Added settings for disabling in-game emotes
+1. Streamer mode
+1. Leaderboard gets a touch of magic
+  * Added a drop down menu for selecting specific pages
+  * Added URLs to go directly to a page/user
+  * Feedback when a user is not found
 
 ### Fixes
 1. Fixed bug where the spectate list refreshes too quickly
 1. Fixed shiny base cards showing as craftable when you can't afford it
+1. Cards now have their correct description on the history log
 
 ## Version 0.24.2
 1. Fixed chat breaking
