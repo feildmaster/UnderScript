@@ -11,7 +11,7 @@ wrap(function friendsOnly() {
 
   function init() {
     $(container)
-      .append($(`<input id="friends" type="checkbox"${flag?' checked':''}>`).on('change', () => flag = !flag))
+      .append($(`<input id="friends" type="checkbox">`).prop('checked', flag).on('change', () => flag = !flag))
       .append(' ', $('<label for="friends">').text('Friends only'))
       //.hover(hover.show('Only allow friends to join'));
     $('#state2 span.opponent').parent().after(container);
