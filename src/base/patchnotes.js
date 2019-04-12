@@ -5,6 +5,9 @@ wrap(function patchNotes() {
   });
 
   if (setting.value() || !scriptVersion.includes('.')) return;
+  style.add(
+    '#AlertToast div.uschangelog span:nth-of-type(2) { max-height: 300px; overflow-y: auto; display: block; }'
+  );
   const versionKey = `underscript.update.${scriptVersion}`;
   if (localStorage.getItem(versionKey)) return;
   
@@ -18,6 +21,7 @@ wrap(function patchNotes() {
       text,
       title: '[UnderScript] Patch Notes',
       footer: `v${scriptVersion}`,
+      className: 'uschangelog',
     });
   }
 });
