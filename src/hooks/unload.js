@@ -1,13 +1,11 @@
 eventManager.on(':loaded', () => {
   function unload() {
     eventManager.emit(':unload');
-    /* This just causes issues, the server should be dealing with disconnects anyway
+  }
+  function last() {
     const chat = window.socketChat;
-    if (chat) {
-      chat.onclose = noop;
-      chat.close();
-    }
-    // */
+    if (chat && chat.readyState <= WebSocket.OPEN) chat.close();
   }
   window.onbeforeunload = unload;
+  window.onunload = last;
 });

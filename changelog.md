@@ -1,6 +1,6 @@
 # UnderScript Changelog
 
-## Version 0.25.0-1
+## Version 0.25.0-2
 ### New Features
 1. Added settings to auto decline specific friend requests
 1. Added toggle to lock custom games to friends
