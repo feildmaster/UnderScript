@@ -1,11 +1,16 @@
-settings.register({
-  name: 'Disable Scrolling Collection Pages Hotkey (mousewheel)',
-  key: 'underscript.disable.scrolling',
-  refresh: onPage('Decks') || onPage('Crafting'),
-});
-
-if (onPage('Decks') || onPage('Crafting')) {
-  eventManager.on('jQuery', () => {
-    $('#collection').off('mousewheel DOMMouseScroll');
+wrap(() => {
+  const setting = settings.register({
+    name: 'Disable Scrolling Collection Pages Hotkey (mousewheel)',
+    key: 'underscript.disable.scrolling',
+    refresh: onPage('Decks') || onPage('Crafting'),
   });
-}
+
+  if (onPage('Decks') || onPage('Crafting')) {
+    eventManager.on(':loaded', () => {
+      globalSet('onload', function () {
+        this.super();
+        if (setting.value()) $('#collection').off('mousewheel DOMMouseScroll');
+      });
+    });
+  }
+});

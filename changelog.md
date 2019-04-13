@@ -1,6 +1,9 @@
 # UnderScript Changelog
 
-## Version 0.25.0-2
+## Version 0.25.0-3
+1. Disabling scrolling on collection now works
+
+## Version 0.25.0
 ### New Features
 1. Added settings to auto decline specific friend requests
 1. Added toggle to lock custom games to friends
@@ -24,6 +27,7 @@
 1. Fixed bug where the spectate list refreshes too quickly
 1. Fixed shiny base cards showing as craftable when you can't afford it
 1. Cards now have their correct description on the history log
+1. Disabling scrolling on collection now works
 
 ## Version 0.24.2
 1. Fixed chat breaking
