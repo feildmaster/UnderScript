@@ -4,7 +4,7 @@ eventManager.on('Chat:send', function chatCommand({ input, room }) {
   const index = raw.includes(' ') ? raw.indexOf(' ') : undefined;
   const command = raw.substring(1, index);
   const text = index === undefined ? '' : raw.substring(index + 1);
-  const data = { room, input, command, text, output: '' };
+  const data = { room, input, command, text, output: undefined };
   const event = eventManager.emit('Chat:command', data);
   this.canceled = event.canceled;
   if (data.output === undefined) return;
