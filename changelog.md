@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.25.2
+1. Fixed /gg command
+
 ## Version 0.25.1
 1. Fixed chat breaking
 
