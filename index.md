@@ -11,8 +11,8 @@ Tampermonkey is a script manager program that loads scripts automatically, and i
 ## Setup ##
 <span class="notice">UnderScript is not supported on mobile devices</span>
 <ul class="setup">
-  <li><a class="buttons install" href="https://tampermonkey.net/" target="_blank">Tampermonkey</a></li>
-  <li><a class="buttons install" href="https://unpkg.com/underscript/dist/undercards.user.js">UnderScript</a></li>
+  <li><a id="tampermonkey" class="buttons install" href="https://tampermonkey.net/" target="_blank">Tampermonkey</a></li>
+  <li><a id="install" class="buttons install" href="https://unpkg.com/underscript/dist/undercards.user.js">UnderScript</a></li>
 </ul>
 ![Install UnderScript](/assets/features/installscript.png)
 

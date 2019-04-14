@@ -18,11 +18,16 @@ function checkUpdate() {
   const {version, latest} = underscript;
   if (!(version && latest)) return;
   if (latest !== version) {
-    document.getElementsByClassName('setup')[0].children[1].children[0].className = 'buttons update';
+    document.getElementById('install').className = 'buttons update';
   }
 }
 
 axios.get('https://unpkg.com/underscript/package.json').then((response) => {
-  underscript.latest = response.data.version;
+  console.log(response.data);
+  const version = response.data.version;
+  underscript.latest = version;
+  const install = document.getElementById('install');
+  install.textContent = `UnderScript (${version})`;
+  install.href = `https://unpkg.com/underscript@${version}/${response.data.unpkg}`
   checkUpdate();
 });
