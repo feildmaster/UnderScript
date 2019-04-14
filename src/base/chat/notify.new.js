@@ -7,7 +7,7 @@ settings.register({
 eventManager.on('ChatDetected', () => {
   const mask = '<span style="color: yellow;">$1</span>';
 
-  globalSet('notif', (original) => {
+  globalSet('notif', function newNotify(original) {
     if (!settings.value('underscript.disable.ping') && !pendingIgnore.get()) {
       const text = this.super(original);
 

@@ -1,7 +1,7 @@
 # UnderScript Changelog
 
-## Version 0.25.0-3
-1. Disabling scrolling on collection now works
+## Version 0.25.1
+1. Fixed chat breaking
 
 ## Version 0.25.0
 ### New Features
