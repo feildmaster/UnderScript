@@ -23,7 +23,6 @@ function checkUpdate() {
 }
 
 axios.get('https://unpkg.com/underscript/package.json').then((response) => {
-  console.log(response.data);
   const version = response.data.version;
   underscript.latest = version;
   const install = document.getElementById('install');
