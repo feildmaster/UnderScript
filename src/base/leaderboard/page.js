@@ -14,7 +14,6 @@ wrap(function page() {
   function changePage(page) {
     select.value = page;
     if (typeof page !== 'number') page = parseInt(page, 10);
-    console.log('changePage:', page, select.value || '(wtf)');
     globalSet('currentPage', page);
     global('showPage')(page);
     $('#btnNext').prop('disabled', page === global('getMaxPage')());

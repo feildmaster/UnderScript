@@ -50,7 +50,6 @@ onPage('Decks', function deckStorage() {
       }
       const job = pending.shift();
       if (job) {
-        console.log('Processing', job);
         if (job.action === 'validate') {
           loadDeck(loading);
           if (!pending.length) {
