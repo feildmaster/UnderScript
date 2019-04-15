@@ -9,12 +9,12 @@ eventManager.on('ChatDetected', () => {
 
   globalSet('notif', function newNotify(original) {
     if (!settings.value('underscript.disable.ping') && !pendingIgnore.get()) {
-      const text = this.super(original);
+      const text = mentions(original);
 
       const regex = fn.pingRegex();
       if (regex.test(text)) {
-        if (global('soundsEnabled') && original === text) {
-          (new Audio("sounds/highlight.wav")).play();
+        if (original === text) {
+          playSound();
         }
         return text.replace(regex, mask);
       }
@@ -23,4 +23,19 @@ eventManager.on('ChatDetected', () => {
     }
     return original;
   });
+
+  function mentions(text) {
+    const regex = new RegExp(`((?:^|[^a-zA-Z0-9_!#$%&*@.])@${global('selfUsername')}(?:$|[ .]))`, 'gi');
+    if (regex.test(text)) {
+      playSound();
+      return text.replace(regex, mask);
+    }
+    return text;
+  }
+
+  function playSound() {
+    if (global('soundsEnabled')) {
+      (new Audio("sounds/highlight.wav")).play();
+    }
+  }
 });
