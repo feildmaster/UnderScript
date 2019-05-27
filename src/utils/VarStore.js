@@ -3,7 +3,7 @@ function VarStore(def) {
 
   function get() {
     const ret = v;
-    set(null);
+    set(def);
     return ret;
   }
 
@@ -12,9 +12,7 @@ function VarStore(def) {
   }
 
   function set(val) {
-    const ret = v;
-    v = val;
-    return ret;
+    return v = val;
   }
 
   return {
