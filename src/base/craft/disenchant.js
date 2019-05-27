@@ -1,4 +1,15 @@
+settings.register({
+  name: 'Disable Smart Disenchanting',
+  key: 'underscript.disable.disenchant',
+  default: true,
+  refresh: onPage('Crafting'),
+  note: 'Warning: using this feature may cause bugs',
+  category: 'Crafting',
+  page: 'Library',
+});
+
 onPage('Crafting', function disenchant() {
+  if (settings.value('underscript.disable.disenchant')) return;
   eventManager.on('jQuery', () => {
     const button = $('<button class="btn btn-info">Smart Disenchant</button>');
     button.click(onclick)

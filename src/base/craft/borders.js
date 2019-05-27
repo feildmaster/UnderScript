@@ -6,6 +6,7 @@ settings.register({
       setTimeout(() => eventManager.emit('refreshhighlight'));
     }
   },
+  page: 'Library',
 });
 
 onPage('Crafting', function craftableCards() {

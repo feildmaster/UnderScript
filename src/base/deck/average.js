@@ -2,6 +2,7 @@ settings.register({
   name: 'Disable deck average counter',
   key: 'underscript.disable.deck.average',
   refresh: onPage('Decks'),
+  page: 'Library',
 });
 
 // Calculate average

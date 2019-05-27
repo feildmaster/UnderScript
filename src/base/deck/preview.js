@@ -6,6 +6,7 @@ settings.register({
     if (!onPage('Decks') || typeof cardHoverEnabled === 'undefined') return;
     cardHoverEnabled = val === '0';
   },
+  page: 'Library',
 });
 
 // TODO: Convert to event listeners?

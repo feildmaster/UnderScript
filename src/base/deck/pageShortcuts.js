@@ -2,7 +2,7 @@ wrap(function pageShortcuts() {
   const disable = settings.register({
     name: 'Disable First/Last Page Shortcut',
     key: 'underscript.disable.quickpages',
-    page: 'Chat',
+    page: 'Library',
   });
 
   if (onPage('Crafting') || onPage('Decks')) {

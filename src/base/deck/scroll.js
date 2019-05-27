@@ -2,6 +2,7 @@ settings.register({
   name: 'Disable Deck Scroll',
   key: 'underscript.disable.deckScroll',
   refresh: () => onPage('Decks'),
+  page: 'Library',
 });
 
 onPage('Decks', function () {
