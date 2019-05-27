@@ -3,6 +3,9 @@ const settings = wrap(() => {
     '.mono .modal-body { font-family: monospace; max-height: 500px; overflow-y: auto; }',
     '.remove { display: none; }',
     '.remove:checked + label:before { content: "× "; color: red; }',
+    //'.underscript-dialog .modal-content { background: #000 url(../images/backgrounds/2.png) -380px -135px; }',
+    //'.underscript-dialog .modal-content .modal-header, .underscript-dialog .modal-body { background-color: transparent; }',
+    '.underscript-dialog .modal-footer button.btn { margin-bottom: 5px; }',
   ));
   const settingReg = {
     // key: setting
@@ -286,7 +289,7 @@ const settings = wrap(() => {
     BootstrapDialog.show({
       title: `UnderScript Configuration${page !== 'main' ? `: ${displayName}` : ''}`,
       message: getMessage,
-      cssClass: 'mono',
+      cssClass: 'mono underscript-dialog',
       data: { page },
       buttons: buttons(page),
       onshown: (diag) => {
