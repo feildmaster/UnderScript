@@ -165,13 +165,11 @@ eventManager.on("GameStart", function battleLogger() {
       you.lives = lives[you.id];
       enemy.lives = lives[enemy.id];
       // populate monsters
-      let count = 0;
-      JSON.parse(data.board).forEach(function (card) {
-        count += 1;
+      JSON.parse(data.board).forEach(function (card, i) {
         if (card === null) return;
         // id, attack, hp, maxHp, originalattack, originalHp, typeCard, name, image, cost, originalCost, rarity, shiny, quantity
         card.desc = getDescription(card);
-        card.owner = count <= 4 ? enemy.id : you.id;
+        card.owner = i < 4 ? enemy.id : you.id;
         monsters[card.id] = card;
       });
     }
@@ -282,12 +280,10 @@ eventManager.on("GameStart", function battleLogger() {
     const oldMonsters = monsters;
     monsters = {};
     // TOOD: stuff....
-    let count = 0;
-    JSON.parse(data.board).forEach(function (card) {
-      count += 1;
+    JSON.parse(data.board).forEach(function (card, i) {
       if (card === null) return;
       card.desc = getDescription(card);
-      card.owner = count <= 4 ? opponentId : userId;
+      card.owner = count < 4 ? opponentId : userId;
       monsters[card.id] = card;
     });
   });
