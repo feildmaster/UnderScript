@@ -78,8 +78,8 @@ onPage('CardSkinsShop', function () {
         </table>`;
       }
       // Load css/cards.min.css
-      $.get('css/decks.min.css', (css) => $('<style type="text/css"></style>').html(css).appendTo("head"));
-      $.get('css/cards.min.css', (css) => $('<style type="text/css"></style>').html(css).appendTo("head"));
+      $.get('css/decks.css', (css) => $('<style type="text/css"></style>').html(css).appendTo("head"));
+      $.get('css/cards.css', (css) => $('<style type="text/css"></style>').html(css).appendTo("head"));
       // hide #cardSkinsList
       $('table#cardSkinsList').hide();
       // add cardSkinDiv
