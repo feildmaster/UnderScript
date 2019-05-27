@@ -19,6 +19,7 @@ wrap(function streamPM() {
 
     const val = setting.value();
     if (val === allow || $(`#${data.room}`).length) return; // if private messages are allowed, if window is already open
+    debug(data);
 
     const message = JSON.parse(data.chatMessage);
     const user = message.user;

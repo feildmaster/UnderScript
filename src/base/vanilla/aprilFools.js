@@ -5,6 +5,6 @@ wrap(function noFoolsHere() {
     note: 'Disables *almost* everything.<br>Will require you to refresh the page.',
   });
   if (setting.value()) {
-    eventManager.on(':loaded', () => globalSet('fish', false));
+    eventManager.on(':loaded', () => globalSet('fish', false, { throws: false }));
   }
 });
