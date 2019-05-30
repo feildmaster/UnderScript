@@ -6,6 +6,7 @@ settings.register({
       setTimeout(() => eventManager.emit('refreshhighlight'));
     }
   },
+  category: 'Crafting',
   page: 'Library',
 });
 
