@@ -1,11 +1,14 @@
 wrap(function page() {
-  if (!onPage('leaderboard')) return;
+  if (!onPage('Translate')) return;
   const select = document.createElement('select');
   select.value = 0;
   select.id = 'selectPage';
+  select.onchange = () => {
+    changePage(select.value);
+  };
+
   function init() {
-    $('#currentPage').after(select).hide();
-    const local = $(select);
+    const local = $(select).empty();
     const maxPage = global('getMaxPage')();
     for (let i = 0; i <= maxPage; i++) {
       local.append(`<option value="${i}">${i + 1}</option>`);
@@ -23,20 +26,14 @@ wrap(function page() {
   }
 
   eventManager.on(':loaded', () => {
-    select.onchange = () => {
-      changePage(select.value);
-      eventManager.emit('Rankings:selectPage', select.value);
-    }
-    globalSet('initLeaderboard', function (...args) {
+    $('#currentPage').after(select).hide();
+    globalSet('applyFilters', function (...args) {
       this.super(...args);
       init();
-      eventManager.emit('Rankings:init');
     });
     globalSet('showPage', function (page) {
       this.super(page);
       select.value = page;
     });
   });
-
-  fn.changePage = changePage;
 });
