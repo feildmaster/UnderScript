@@ -1,5 +1,16 @@
 # UnderScript Changelog
 
+## Version 0.26.0
+### New Features
+1. Craft max with a hotkey (CTRL + Click)
+1. Translation support
+  1. Drop down menu to select specific pages
+  1. Attempt to translate things UnderScript loads if possible
+  1. Added setting to force card names to appear in English (no matter your language)
+
+### Fixes
+1. Fix card skin store not displaying cards correctly
+
 ## Version 0.25.2
 1. Fixed /gg command
 
