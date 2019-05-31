@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.26.1
+1. Fix battle log and dust count
+
 ## Version 0.26.0
 ### New Features
 1. Craft max with a hotkey (CTRL + Click)
