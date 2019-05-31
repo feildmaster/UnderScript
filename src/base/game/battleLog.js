@@ -283,7 +283,7 @@ eventManager.on("GameStart", function battleLogger() {
     JSON.parse(data.board).forEach(function (card, i) {
       if (card === null) return;
       card.desc = getDescription(card);
-      card.owner = count < 4 ? opponentId : userId;
+      card.owner = i < 4 ? opponentId : userId;
       monsters[card.id] = card;
     });
   });
