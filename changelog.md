@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.26.2
+1. Fix battle log (again)
+
 ## Version 0.26.1
 1. Fix battle log and dust count
 

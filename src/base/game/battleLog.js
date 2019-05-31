@@ -168,7 +168,6 @@ eventManager.on("GameStart", function battleLogger() {
       JSON.parse(data.board).forEach(function (card, i) {
         if (card === null) return;
         // id, attack, hp, maxHp, originalattack, originalHp, typeCard, name, image, cost, originalCost, rarity, shiny, quantity
-        card.desc = getDescription(card);
         card.owner = i < 4 ? enemy.id : you.id;
         monsters[card.id] = card;
       });
@@ -282,7 +281,6 @@ eventManager.on("GameStart", function battleLogger() {
     // TOOD: stuff....
     JSON.parse(data.board).forEach(function (card, i) {
       if (card === null) return;
-      card.desc = getDescription(card);
       card.owner = i < 4 ? opponentId : userId;
       monsters[card.id] = card;
     });
@@ -303,7 +301,6 @@ eventManager.on("GameStart", function battleLogger() {
   eventManager.on('getCardBoard', function playCard(data) { // Adds card to X, Y (0(enemy), 1(you))
     debug(data, 'debugging.raw.boardAdd');
     const card = JSON.parse(data.card);
-    card.desc = getDescription(card);
     card.owner = data.idPlayer;
     monsters[card.id] = card;
     log.add(make.player(players[data.idPlayer]), ' played ', make.card(card));
@@ -314,19 +311,16 @@ eventManager.on("GameStart", function battleLogger() {
     const card = JSON.parse(data.card);
     if (lastSP === card.id) return;
     lastSP = card.id;
-    card.desc = getDescription(card);
     monsters[card.id] = card;
     log.add(make.player(players[data.idPlayer]), ' used ', make.card(card));
   });
   eventManager.on('getShowCard', function showCard(data) {
     const card = JSON.parse(data.card);
-    card.desc = getDescription(card);
     log.add(make.player(players[data.idPlayer]), ' exposed ', make.card(card));
   });
   eventManager.on('getCardDestroyedHandFull', function destroyCard(data) {
     debug(data, 'debugging.raw.fullHand');
     const card = JSON.parse(data.card);
-    card.desc = getDescription(card);
     debug(data.card, 'debugging.destroyed.card');
     // This event gets called for *all* discards. Have to do smarter logic here (not just currentTurn!)
     log.add(make.player(players[data.idPlayer || currentTurn]), ' discarded ', make.card(card));
