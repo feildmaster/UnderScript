@@ -54,7 +54,7 @@ wrap(() => {
     }
     // At this point Toast is guaranteed
     const toast = toasts.add(fn.toast({
-      text,
+      text: translateFromServerJson(data.message),
       //timeout: 10000,
       css: {
         color: 'yellow',
