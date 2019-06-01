@@ -8,9 +8,8 @@ onPage('', function refreshGameList() {
       const data = fn.decrypt($(response.data));
       const list = data.find('#liste');
       const live = $('#liste');
-      live.find('tbody').html(list.find('tbody').html());
-      const count = $.i18n ? list.prev().i18n() : list.prev();
-      live.prev('p').html(count.html());
+      live.find('tbody').html(fn.translate(list.find('tbody')).html());
+      live.prev('p').html(fn.translate(list.prev()).html());
     }).catch((e) => {
       fn.debug(`Index: ${e.message}`);
     }).then(() => {

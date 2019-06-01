@@ -1,5 +1,9 @@
 # UnderScript Changelog
 
+## Version 0.26.3
+1. Fix quest notification
+1. Fix home page translations
+
 ## Version 0.26.2
 1. Fix battle log (again)
 
