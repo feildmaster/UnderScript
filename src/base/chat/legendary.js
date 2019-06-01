@@ -22,30 +22,32 @@ wrap(() => {
     return null;
   }
 
+  const events = ['chat-legendary-notification', 'chat-legendary-shiny-notification'];
   eventManager.on('preChat:getMessageAuto', function drawAnnouncement(data) {
+    const message = JSON.parse(JSON.parse(data.message).args);
+    if (this.canceled || !events.includes(message[0])) return;
     const setting = settings.value('underscript.announcement.draws');
-    const index = data.message.indexOf(' has just obtained ');
-    if (this.canceled || setting === 'chat' || !~index) return;
+    if (setting === 'chat') return;
     const both = setting === 'both';
     this.canceled = !both;
     if (both || setting === 'toast') {
-      const owner = data.message.substring(0, index);
-      const card = data.message.substring(index + 19, data.message.length - 2);
+      const owner = message[1];
+      const card = message[2];
 
       const last = getToast(owner);
       if (last) {
-        const text = `${owner} has just obtained ${last.cards.join(', ')} and ${card} !`;
-        last.setText(text);
-        last.time = Date.now(); // This toast is still relevant!
         last.cards.push(card);
+        message[2] = last.cards.join(', ');
+        last.setText(translateFromServerJson(JSON.stringify({args: JSON.stringify(message)})));
+        last.time = Date.now(); // This toast is still relevant!
         return;
       }
       if (toasts[toastIndex]) { // Close any old toast
         toasts[toastIndex].close();
       }
-      
+
       const toast = fn.toast({
-        text: data.message,
+        text: translateFromServerJson(data.message),
         css: {
           color: 'yellow',
           footer: {color: 'white'},

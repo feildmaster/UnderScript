@@ -38,15 +38,16 @@ wrap(() => {
     //return parseInt(amt, 10) >= settings.value('underscript.winstreak.count');
     return true;
   }
-  eventManager.on('preChat:getMessageAuto', function winstreaks({message: text}) {
-    if (this.canceled || !~text.indexOf('game winning streak !')) return;
+  const events = ['chat-user-ws', 'chat-user-ws-stop'];
+  eventManager.on('preChat:getMessageAuto', function winstreaks(data) {
+    const message = JSON.parse(JSON.parse(data.message).args);
+    if (this.canceled || !events.includes(message[0])) return;
     const handling = settings.value('underscript.winstreak');
     if (handling === 'Chat' && !friendsOnly()) return; // All default
     this.canceled = handling !== 'Chat' && handling !== 'Both';
     if (handling === 'Hidden') return;
-    const results = text.match(regex);
-    const username = results[1] || results[4];
-    const streak = results[2] || results[5];
+    const username = message[message.length - 2];
+    const streak = message[message.length - 1];
     if (!checkFriend(username) || !checkCount(streak)) {
       this.canceled = true;
       return;

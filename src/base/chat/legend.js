@@ -16,22 +16,23 @@ wrap(() => {
     category: 'Legendary User',
   });
 
-  eventManager.on('preChat:getMessageAuto', function legend({message: text}) {
-    const index = text.indexOf(' has just reached ');
-    if (this.canceled || !~index) return;
+  const events = ['chat-new-legend'];
+  eventManager.on('preChat:getMessageAuto', function legend(data) {
+    const message = JSON.parse(JSON.parse(data.message).args);
+    if (this.canceled || !events.includes(message[0])) return;
     const handling = setting.value();
     const friendsOnly = friends.value();
     if (handling === 'Chat' && !friendsOnly) return; // All default
     const hidden = handling === 'Hidden';
     this.canceled = hidden || handling === 'Toast';
     if (hidden) return;
-    const user = text.substring(0, index);
+    const user = message[1];
     if (friendsOnly && !fn.isFriend(user)) {
       this.canceled = true;
       return;
     }
     fn.toast({
-      text,
+      text: translateFromServerJson(data.message),
       css: {
         color: 'yellow',
         footer: {color: 'white'},

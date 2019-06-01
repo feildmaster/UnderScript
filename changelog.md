@@ -3,6 +3,9 @@
 ## Version 0.26.3
 1. Fix quest notification
 1. Fix home page translations
+1. Fix legend user notification
+1. Fix legendary card draw notification
+1. Fix winstreak notification
 
 ## Version 0.26.2
 1. Fix battle log (again)
