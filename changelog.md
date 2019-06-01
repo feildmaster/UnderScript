@@ -1,5 +1,12 @@
 # UnderScript Changelog
 
+## Version 0.27.0
+### New Features
+1. Return of the "game found" notification
+
+### Fixes
+1. Winstreak toast displays properly (for real this time)
+
 ## Version 0.26.3
 1. Fix quest notification
 1. Fix home page translations
