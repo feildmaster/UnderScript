@@ -4,6 +4,7 @@ wrap(function patchNotes() {
     key: 'underscript.disable.patches',
   });
 
+  fn.cleanData('underscript.update.', scriptVersion, 'last', 'checking', 'latest');
   if (setting.value() || !scriptVersion.includes('.')) return;
   style.add(
     '#AlertToast div.uschangelog span:nth-of-type(2) { max-height: 300px; overflow-y: auto; display: block; }'

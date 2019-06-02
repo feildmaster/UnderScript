@@ -14,7 +14,8 @@ onPage('', function patches() {
       const version = text.substring(0, index);
       if (!version) return;
       el.remove();
-      const key = `underscript.season.${version}.dismissed`;
+      const key = `underscript.season.dismissed.${version}`;
+      fn.cleanData('underscript.season.', key);
       if (settings.value(key)) return;
       fn.dismissable({
         key,
