@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.27.1
+1. Fixed card skin shop names looking small
+
 ## Version 0.27.0
 ### New Features
 1. Return of the "game found" notification
