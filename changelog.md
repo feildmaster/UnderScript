@@ -3,6 +3,7 @@
 ## Version 0.27.1
 1. Fixed card skin shop names looking small
 1. Fixed local reset time
+1. Fixed surrender/disconnect message in battle log
 
 ## Version 0.27.0
 ### New Features

@@ -361,9 +361,9 @@ eventManager.on("GameStart", function battleLogger() {
   });
   eventManager.on('getResult', function endSpectating(data) {
     debug(data, 'debugging.raw.end');
-    if (data.cause === "Surrender") {
+    if (data.cause === 'game-end-surrender') {
       log.add(`${data.looser} surrendered.`);
-    } else if (data.cause === "Disconnection") {
+    } else if (data.cause === 'game-end-disconnection') {
       log.add(`${data.looser} left the game.`);
     }
     if (typeof music !== 'undefined') {
