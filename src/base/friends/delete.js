@@ -33,7 +33,7 @@ onPage('Friends', function deleteFriends() {
         if (!reminded) {
           fn.toast({
             title: 'Please note:',
-            text: 'Deleted friends will be removed upon refresh.',
+            text: 'Friends list will be updated upon refresh.',
           });
           reminded = true;
         }
