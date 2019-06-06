@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.27.2
+1. New color for <span class="friend">friends</span> in chat
+
 ## Version 0.27.1
 1. Fixed card skin shop names looking small
 1. Fixed local reset time

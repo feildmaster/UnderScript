@@ -1,12 +1,12 @@
 settings.register({
-  name: 'Highlight <span style="color: #77cfac">friends</span> in chat',
+  name: 'Highlight <span style="color: #b1bfbe">friends</span> in chat',
   key: 'underscript.tag.friend',
   default: true,
   page: 'Chat',
 });
 
 eventManager.on('ChatDetected', function friendWrapper() {
-  style.add('.friend { color: #77cfac !important; }');
+  style.add('.friend { color: #b1bfbe !important; }');
   let toast;
   function processMessage(message, room) {
     if (!settings.value('underscript.tag.friend')) return;
