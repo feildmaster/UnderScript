@@ -2,6 +2,8 @@ const { dest, series, src, watch } = require('gulp');
 const concat = require('gulp-concat');
 const rename = require('gulp-rename');
 const replace = require('gulp-replace');
+const insert = require('gulp-insert');;
+const iff = require('gulp-if');
 const package = require('./package.json');
 
 const deploy = process.argv.includes('--deploy');
@@ -18,7 +20,9 @@ function buildMeta() {
 function build() {
   return src(underscript)
     .pipe(replace('{{ version }}', package.version))
-    //.pipe(replace(/((?: +|\t+|^)\/\/.[^@=].*$|(?: +|\t+|^)\/\*(?:.|\n\r?)+\*\/)/gm, ''))
+    .pipe(replace(/((?: +|\t+|^)\/\/.[^@=].*$|(?: +|\t+|^)\/\*(?:.|\n\r?)+\*\/)/gm, ''))
+    .pipe(replace(/(\n\r?){2,}/gm, '$1'))
+    .pipe(iff(!deploy, insert.transform((content, file) => `// ${file.basename}\n${content}`)))
     .pipe(concat('undercards.user.js'))
     .pipe(to());
 }
