@@ -6,6 +6,7 @@ eventManager.on('GameStart', function () {
       return;
     }
     debug(data.action, 'debugging.events.name');
+    debug(data, 'debugging.events.raw');
     const emitted = eventManager.emit(data.action, data).ran;
     if (!emitted) {
       fn.debug(`Unknown action: ${data.action}`);

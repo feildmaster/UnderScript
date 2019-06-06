@@ -11,7 +11,7 @@ eventManager.on(':loaded', () => {
 
       // Populate chatroom names
       if (action === 'getHistory') {
-        chatRoomNames[data.room] = data.roomName;
+        chatRoomNames[data.room] = fn.translateText(data.roomName);
       }
       if (eventManager.emit(`preChat:${action}`, data, true).canceled) return;
       oHandler(event);

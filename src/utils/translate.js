@@ -5,3 +5,10 @@ fn.translate = (element) => {
   }
   return element;
 };
+
+fn.translateText = (text) => {
+  if ($.i18n) {
+    return $.i18n(text);
+  }
+  return text;
+};
