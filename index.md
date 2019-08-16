@@ -21,10 +21,14 @@ Tampermonkey is a script manager program that loads scripts automatically, and i
 <ol>
 {% assign features = site.features | sort: "date" %}
 {% for feature in features %}
-  <li id="feature-{{forloop.index}}">
-    {% if feature.deprecated %}<del>{% endif %}{{ feature.title }}{% if feature.deprecated %}</del>{% endif %}
+  <li id="feature-{{forloop.index}}"
     {% if feature.banner %}{% assign banner = site.static_files | where: "name", feature.banner | first %}
-    {% if banner %}<br><img src="{{banner.path | relative_url }}">{% endif %}{% endif %}
+    {% if banner %}data-tippy="<img src='{{banner.path | relative_url}}'>"{% endif %}
+    {% endif %}
+  >
+    <a href="{{ feature.url }}">
+      {% if feature.deprecated %}<del>{% endif %}{{ feature.title }}{% if feature.deprecated %}</del>{% endif %}
+    </a>
   </li>
 {% endfor %}
 </ol>

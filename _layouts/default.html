@@ -53,6 +53,16 @@
         <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
       </footer>
     </div>
+    <script src="https://unpkg.com/popper.js@1.15.0/dist/umd/popper.min.js"></script>
+    <script src="https://unpkg.com/tippy.js@4.3.5/umd/index.all.min.js"></script>
+    <script>
+      tippy.setDefaults({
+        followCursor: true,
+        placement: 'right-start',
+        a11y: false,
+        maxWidth: 800,
+      });
+    </script>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     {% if site.google_analytics %}
       <script>
