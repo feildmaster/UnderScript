@@ -135,6 +135,10 @@ const menu = wrap(() => {
     }, 'underscript.notice.menu', '1');
   });
 
+  eventManager.on(':load', () => {
+    if (fn.addMenuButton) fn.addMenuButton('Menu').addEventListener('click', () => menu.open());
+  });
+
   function dirty() {
     cooked = false;
   }

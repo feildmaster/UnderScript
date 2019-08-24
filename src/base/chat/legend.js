@@ -18,15 +18,14 @@ wrap(() => {
 
   const events = ['chat-new-legend'];
   eventManager.on('preChat:getMessageAuto', function legend(data) {
-    const message = JSON.parse(JSON.parse(data.message).args);
-    if (this.canceled || !events.includes(message[0])) return;
+    const [type, user] = JSON.parse(JSON.parse(data.message).args);
+    if (this.canceled || !events.includes(type)) return;
     const handling = setting.value();
     const friendsOnly = friends.value();
     if (handling === 'Chat' && !friendsOnly) return; // All default
     const hidden = handling === 'Hidden';
     this.canceled = hidden || handling === 'Toast';
     if (hidden) return;
-    const user = message[1];
     if (friendsOnly && !fn.isFriend(user)) {
       this.canceled = true;
       return;
