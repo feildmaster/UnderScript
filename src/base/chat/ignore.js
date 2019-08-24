@@ -66,6 +66,9 @@ eventManager.on('ChatDetected', function ignoreChat() {
       container.text(`${count} Message${count>1?'s':''} Ignored`);
       count += 1;
       return true;
+    } else if (type === 'none') {
+      if (history) msg.remove();
+      else return true;
     }
   }
 
