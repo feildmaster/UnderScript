@@ -80,7 +80,7 @@ onPage('Packs', function quickOpenPack() {
         showCards();
       }
     });
-    $('button[id^="btnOpen"]').on('click.script', (event) => {
+    $('[id^="btnOpen"]').on('click.script', (event) => {
       autoOpen = event.ctrlKey;
       openAll = false;
       const type = $(event.target).prop('id').substring(7);
