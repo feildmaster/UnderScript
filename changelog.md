@@ -1,5 +1,16 @@
 # UnderScript Changelog
 
+## Version 0.28.0
+### New Features
+1. Added link to card editor under "Links"
+1. You can now completely hide ignored messages
+### Fixes
+1. Skins toast properly again
+### Misc.
+1. You can now ignore balancers
+1. You can access UnderScript's menu from UnderCards' menu
+1. Updated code for next season
+
 ## Version 0.27.2
 1. New color for <span class="friend">friends</span> in chat
 1. Fix game patches not turning into toasts
