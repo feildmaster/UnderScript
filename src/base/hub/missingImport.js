@@ -27,7 +27,7 @@ wrap(function() {
     const checkArt = global('ownArtifactHub');
     const deck = JSON.parse(atob(code));
     const missingCard = getOwnedCardsArrayHub(deck).some((a) => !a);
-    const missingArt = deck.artifactIds.some(({id}) => !checkArt(id));
+    const missingArt = deck.artifactIds.some((id) => !checkArt(id));
 
     $(`#hub-deck-${id} .show-button`)
       .toggleClass('missingArt', missingArt)

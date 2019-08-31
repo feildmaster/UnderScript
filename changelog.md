@@ -1,5 +1,9 @@
 # UnderScript Changelog
 
+## Version 0.28.1
+### Fixes
+1. The deck hub no longer thinks you're always missing artifacts
+
 ## Version 0.28.0
 ### New Features
 1. Added link to card editor under "Links"
