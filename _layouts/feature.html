@@ -12,7 +12,7 @@ by {{ page.author }} ({{ page.date | date: "%B %-d, %Y" }})
 {% endif %}
 <hr>
 {% if page.banner %}
-<img src="/assets/features/{{ page.banner }}">
+<img src="{{ site.url }}/assets/features/{{ page.banner }}">
 {% endif %}
 
 {{ content }}
