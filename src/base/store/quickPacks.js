@@ -38,6 +38,7 @@ onPage('Packs', function quickOpenPack() {
         });
         openAll -= 1;
         if (openAll === 0) {
+          $(`#nb${data.action.substring(4, data.action.length - 4)}Packs`).text(0);
           openAll = false;
           let text = '';
           let total = 0;
