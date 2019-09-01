@@ -26,7 +26,7 @@ Tampermonkey is a script manager program that loads scripts automatically, and i
     {% if banner %}data-tippy="<img src='{{banner.path | relative_url}}'>"{% endif %}
     {% endif %}
   >
-    <a href="{{ feature.url }}">
+    <a href="{{ feature.url | relative_url }}">
       {% if feature.deprecated %}<del>{% endif %}{{ feature.title }}{% if feature.deprecated %}</del>{% endif %}
     </a>
   </li>
