@@ -7,9 +7,11 @@ if (true) {
     return { id, name };
   }
 
-  function loadFriends() {
-    if (typeof window.jQuery === 'undefined') return;
-    axios.get('/Friends').then((response) => {
+  let validated = 0;
+
+  function loadFriends(validate) {
+    if (typeof window.jQuery === 'undefined') return undefined;
+    return axios.get('/Friends').then((response) => {
       const data = fn.decrypt($(response.data));
       /*
       if (data.find(`p:contains(You can't access)`)) {
@@ -24,6 +26,14 @@ if (true) {
         const f = getFromEl($(this));
         requests[f.id] = f.name;
       });
+      const count = Object.keys(requests).length;
+      if (count !== validated && count > 3 && !validate) {
+        return loadFriends(validate);
+      } else if (validate) {
+        validated = count;
+        if (validate !== count)fn.debug(`Friends: Validation failed (found ${validate}, got ${count})`)
+      }
+
       //eventManager.emit('Friends:pending', pending);
       eventManager.emit('preFriends:requests', requests);
       eventManager.emit('Friends:requests', requests);
