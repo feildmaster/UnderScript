@@ -16,6 +16,7 @@ settings.register({
   name: 'Hide Dust Counter',
   key: 'underscript.disable.dust',
   type: 'select',
+  default: 'always',
   options: ['never', 'playing', 'spectating', 'always'],
   page: 'Game',
 });
