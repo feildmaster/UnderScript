@@ -1,5 +1,14 @@
 # UnderScript Changelog
 
+## Version 0.29.0
+### New Features
+1. Added an Icon helper (Packs and such)
+### Fixes
+1. Pack count now decreases when opening all packs
+1. You should no longer get as many invalid friend requests
+### Misc.
+1. Dust counter is now disabled by default
+
 ## Version 0.28.1
 ### Fixes
 1. The deck hub no longer thinks you're always missing artifacts
