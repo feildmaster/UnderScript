@@ -5,7 +5,7 @@ wrap(function standardizedNaming() {
   });
 
   function createCard(card, ...rest) {
-    if (!setting.value() || $.i18n().locale === 'EN') {
+    if (!setting.value() || $.i18n().locale === 'en') {
       return this.super(card, ...rest);
     }
 
@@ -14,12 +14,8 @@ wrap(function standardizedNaming() {
     return c[0].outerHTML;
   }
 
-  function toEnglish(id, ...data) { // TODO: make this a utility
-    const l = $.i18n().locale;
-    $.i18n().locale = 'EN';
-    const text = $.i18n(id, ...data)
-    $.i18n().locale = l;
-    return text;
+  function toEnglish(id, ...data) {
+    return fn.toLocale({ id, data });
   }
 
   eventManager.on(':loaded', () => {
