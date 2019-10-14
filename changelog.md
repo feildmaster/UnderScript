@@ -1,5 +1,13 @@
 # UnderScript Changelog
 
+## Version 0.30.0
+### New Features
+1. Translations now have a preview
+2. The header bar now scrolls with the page
+### Fixes
+1. Fixed card name in english setting (maybe)
+2. Fixed quest name showing up when quests completed (hopefully)
+
 ## Version 0.29.0
 ### New Features
 1. Added an Icon helper (Packs and such)
