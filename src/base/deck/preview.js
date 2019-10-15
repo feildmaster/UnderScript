@@ -37,7 +37,7 @@ onPage('Decks', function () {
     };
   }
 
-  eventManager.on(':loaded', () => {
+  eventManager.on(':loaded', function previewLoaded() {
     if (typeof displayCardDeck === 'function') {
       cardHoverEnabled = !settings.value('underscript.disable.deckPreview');
       return;

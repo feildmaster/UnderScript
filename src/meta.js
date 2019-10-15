@@ -8,7 +8,8 @@
 // @match        https://feildmaster.github.io/UnderScript/*
 // @exclude      https://*.undercards.net/*/*
 // @require      https://unpkg.com/showdown@1.9.0/dist/showdown.min.js
-// @require      https://unpkg.com/tippy.js@3.3.0/dist/tippy.all.min.js
+// @require      https://unpkg.com/popper.js@1/dist/umd/popper.min.js
+// @require      https://unpkg.com/tippy.js@4.2.1/umd/index.all.min.js
 // @require      https://unpkg.com/axios@0.18.0/dist/axios.min.js
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/2.0.0/simpletoast.js
 // @require      https://unpkg.com/luxon@1.8.2/build/global/luxon.min.js

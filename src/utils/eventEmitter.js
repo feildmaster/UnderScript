@@ -27,8 +27,7 @@ wrap(() => {
               ev.call(meta, data);
               canceled = !!meta.canceled;
             } catch (e) {
-              console.error(`Error ocurred while parsing event: ${ev.displayName || ev.name || 'unnamed'}(${event})`);
-              console.error(e.stack);
+              console.error(`Error occurred while parsing event: ${ev.displayName || ev.name || 'unnamed'}(${event})`, e);
             }
           });
         }
