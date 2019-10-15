@@ -49,6 +49,7 @@ eventManager.on("GameStart", function battleLogger() {
     getUpdateHand: 'Updates full hand',
     getError: 'Takes you to "home" on errors, can be turned into a toast',
     getGameError: 'Takes you to "play" on game errors, can be turned into a toast',
+    getBattleLog: 'In-game battle log',
   });
   let turn = 0, currentTurn = 0, players = {}, monsters = {}, lastEffect, other = {};
   let yourDust, enemyDust, lastSP;
