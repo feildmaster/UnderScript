@@ -10,6 +10,7 @@ const settings = wrap(() => {
   const settingReg = {
     // key: setting
   };
+  const events = fn.eventEmitter();
   const configs = {};
   let dialog = null;
 
@@ -245,14 +246,16 @@ const settings = wrap(() => {
         debug(`Unknown Setting Type: ${setting.type}`);
         return;
       }
+      const prev = value(setting.key);
       if (val === false) {
         localStorage.removeItem(setting.key);
       } else {
         localStorage.setItem(setting.key, val);
       }
       if (typeof data.onChange === 'function') {
-        data.onChange(val, localStorage.getItem(setting.key));
+        data.onChange(val, prev);
       }
+      events.emit(setting.key, val, prev);
     };
     conf.settings[setting.key] = setting;
     if (!settingReg.hasOwnProperty(setting.key)) {
@@ -422,6 +425,7 @@ const settings = wrap(() => {
   return {
     open, close, setDisplayName, isOpen, value, remove,
     register: add,
+    on: (...args) => events.on(...args),
     export: exportSettings,
     import: importSettings,
   };

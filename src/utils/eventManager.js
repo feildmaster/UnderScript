@@ -1,1 +1,1 @@
-const eventManager = wrap(fn.eventEmitter);
+const eventManager = fn.eventEmitter();
