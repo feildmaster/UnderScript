@@ -34,7 +34,6 @@ wrap(() => {
   });
 
   function toggle(to, clazz = 'hidden') {
-    console.log(`Toggling ${clazz}: ${to}`);
     $('#game-history').toggleClass(clazz, to);
   }
 });

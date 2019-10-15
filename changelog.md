@@ -1,5 +1,13 @@
 # UnderScript Changelog
 
+## Version 0.31.0
+### New Features
+1. You can now disable in-game battle log
+1. Added setting to disable header scrolling
+### Fixes
+1. In-game battle log no longer covers your avatar (Sorry 'bout that)
+1. Possible fix for header scrolling leaving a bunch of lines on some computers (otherwise you can disable it now)
+
 ## Version 0.30.0
 ### New Features
 1. Translations now have a preview
