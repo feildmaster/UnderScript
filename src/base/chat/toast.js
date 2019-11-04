@@ -21,7 +21,7 @@ wrap(() => {
     const msg = JSON.parse(data.chatMessage);
     if (shouldIgnore(msg, true)) return;
     if (!msg.message.toLowerCase().includes(`@${global('selfUsername').toLowerCase()}`) && !fn.pingRegex().test(msg.message)) return;
-    const avatar = !settings.value('chatAvatarsDisabled') ? `<img src="/images/avatars/${msg.user.avatar.image}.png" class="avatar ${msg.user.avatar.rarity}" height="35" style="float: left; margin-right: 7px;">` : '';
+    const avatar = !settings.value('chatAvatarsDisabled') ? `<img src="/images/avatars/${msg.user.avatar.image}.${msg.user.avatar.extension}" class="avatar ${msg.user.avatar.rarity}" height="35" style="float: left; margin-right: 7px;">` : '';
     fn.toast({
       title: `${avatar}${msg.user.username} (${chatRoomNames[data.room]})`,
       text: msg.message,
