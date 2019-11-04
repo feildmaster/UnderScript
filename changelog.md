@@ -1,5 +1,15 @@
 # UnderScript Changelog
 
+## Version 0.32.0
+### New Features
+1. Make undercards tips pretty (by using our theme)
+### Fixes
+1. Fix emotes not getting toasted
+1. Support animated avatars
+
+## Version 0.31.1
+1. Fixed tippy being an old version
+
 ## Version 0.31.0
 ### New Features
 1. You can now disable in-game battle log
