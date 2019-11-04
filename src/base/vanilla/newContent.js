@@ -59,7 +59,7 @@ wrap(() => {
     switch (type) {
       case 'bundle': return 'Shop';
       case 'skins': return 'CardSkinsShop'
-      case 'emotes': return 'EmotesShop';
+      case 'emotes': return 'CosmeticsShop';
     }
   }
 
