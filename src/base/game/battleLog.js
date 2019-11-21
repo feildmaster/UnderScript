@@ -50,6 +50,7 @@ eventManager.on("GameStart", function battleLogger() {
     getError: 'Takes you to "home" on errors, can be turned into a toast',
     getGameError: 'Takes you to "play" on game errors, can be turned into a toast',
     getBattleLog: 'In-game battle log',
+    getBotDelay: '...',
   });
   let turn = 0, currentTurn = 0, players = {}, monsters = {}, lastEffect, other = {};
   let yourDust, enemyDust, lastSP;
@@ -83,7 +84,7 @@ eventManager.on("GameStart", function battleLogger() {
     },
   };
 
-  eventManager.on('getAllGameInfos getGameStarted getReconnection', function initBattle(data) {
+  eventManager.on('getAllGameInfos getGameStarted getReconnection connect', function initBattle(data) {
     debug(data, 'debugging.raw.game');
     let you, enemy;
     // Battle logging happens after the game runs
@@ -232,7 +233,7 @@ eventManager.on("GameStart", function battleLogger() {
       monsters[card.id] = card;
     });
   });
-  eventManager.on('updateMonster', function updateCard(data) {
+  eventManager.on('updateMonster updateCard', function updateCard(data) {
     data.monster = JSON.parse(data.monster);
     debug(data, 'debugging.raw.updateMonster');
     const card = data.monster;
@@ -245,7 +246,7 @@ eventManager.on("GameStart", function battleLogger() {
     addDust(monsters[data.monsterId].owner);
     delete monsters[data.monsterId];
   });
-  eventManager.on('getCardBoard', function playCard(data) { // Adds card to X, Y (0(enemy), 1(you))
+  eventManager.on('getCardBoard getMonsterPlayed', function playCard(data) { // Adds card to X, Y (0(enemy), 1(you))
     debug(data, 'debugging.raw.boardAdd');
     const card = JSON.parse(data.card);
     card.owner = data.idPlayer;

@@ -1,5 +1,5 @@
 // Restore sound on refresh
-eventManager.on('getReconnection', () => {
+eventManager.on('getReconnection connect', () => {
   if (settings.value('gameMusicDisabled')) return;
   let playing = false;
   music.addEventListener('play', () => playing = true);

@@ -14,7 +14,7 @@ eventManager.on('GameStart', function () {
     const value = localStorage.getItem('numBackground');
     sessionStorage.setItem(key, value);
   });
-  eventManager.on('getReconnection:before', function restoreBGM(data) {
+  eventManager.on('getReconnection:before connect:before', function restoreBGM(data) {
     const key = `underscript.bgm.${data.gameId}`;
     if (sessionStorage.getItem(key) && musicEnabled){
       debug('disabling music');
@@ -22,7 +22,7 @@ eventManager.on('GameStart', function () {
       musicEnabled = false;
     }
   });
-  eventManager.on('getReconnection', function restoreBGM(data) {
+  eventManager.on('getReconnection connect', function restoreBGM(data) {
     const key = `underscript.bgm.${data.gameId}`;
     if (!sessionStorage.getItem(key)) { // Store value for refreshes
       const value = $('body').css('background').match(/url\(\".*\/(\d+).png\"\)/)[1];
