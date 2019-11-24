@@ -1,5 +1,9 @@
 # UnderScript Changelog
 
+## Version 0.32.1
+1. Prep for next season
+2. Fix menu getting covered by other stuff sometimes
+
 ## Version 0.32.0
 ### New Features
 1. Make undercards tips pretty (by using our theme)
