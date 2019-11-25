@@ -41,10 +41,14 @@ onPage('Crafting', function craftMax() {
       });
   }
 
+  let crafting = false;
   function craft(id, shiny, count, cost, total) {
+    if (crafting) return;
+    crafting = true;
     do {
       total -= cost;
       global('craft')(id, shiny);
     } while(--count && total >= cost);
+    crafting = false;
   }
 });

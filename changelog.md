@@ -2,6 +2,7 @@
 
 ## Version 0.32.1
 1. Fixed battle log error for next season
+1. Fixed spam crafting with CTRL+Click
 
 ## Version 0.32.1
 1. Prep for next season
