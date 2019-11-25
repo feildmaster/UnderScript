@@ -1,6 +1,9 @@
 # UnderScript Changelog
 
 ## Version 0.32.1
+1. Fixed battle log error for next season
+
+## Version 0.32.1
 1. Prep for next season
 2. Fix menu getting covered by other stuff sometimes
 

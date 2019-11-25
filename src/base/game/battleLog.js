@@ -234,7 +234,7 @@ eventManager.on("GameStart", function battleLogger() {
     });
   });
   eventManager.on('updateMonster updateCard', function updateCard(data) {
-    data.monster = JSON.parse(data.monster);
+    data.monster = JSON.parse(data.monster || data.card);
     debug(data, 'debugging.raw.updateMonster');
     const card = data.monster;
     monsters[card.id] = fn.merge(monsters[card.id], card);
