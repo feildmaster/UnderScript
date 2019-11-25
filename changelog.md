@@ -1,5 +1,11 @@
 # UnderScript Changelog
 
+## Version 0.32.3
+I messed up the last changelog, so you get the old change log this time as well.
+1. Fixed battle log error for next season
+1. Fixed spam crafting with CTRL+Click
+1. Fixed more bugs
+
 ## Version 0.32.2
 1. Fixed battle log error for next season
 1. Fixed spam crafting with CTRL+Click

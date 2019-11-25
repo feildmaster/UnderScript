@@ -35,11 +35,11 @@ const cardHelper = wrap(() => {
   }
 
   function rarity(el) {
-    return el.querySelector('#cardRarity img').title;
+    return el.querySelector('#cardRarity img, .cardRarity img').title;
   }
 
   function quantity(el) {
-    return parseInt(el.querySelector('#quantity .nb').textContent, 10);
+    return parseInt(el.querySelector('#quantity .nb, .quantity .nb').textContent, 10);
   }
 
   function cost(el) {
