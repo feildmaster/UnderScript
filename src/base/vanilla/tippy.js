@@ -3,7 +3,8 @@ wrap(() => {
   eventManager.on(':loaded', () => {
     const tippy = window.tippy;
     if (!tippy) return;
-    tippy.setDefaultProps({
+    const defaults = tippy.setDefaultProps || tippy.setDefaults;
+    defaults({
       theme: 'undercards',
     });
   });
