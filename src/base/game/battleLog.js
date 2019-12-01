@@ -121,10 +121,10 @@ eventManager.on("GameStart", function battleLogger() {
       });
     }
     you.level = data.yourLevel;
-    you.class = data.yourClass;
+    you.class = data.yourSoul;
     you.rank = data.yourRank;
     enemy.level = data.enemyLevel;
-    enemy.class = data.enemyClass;
+    enemy.class = data.enemySoul;
     enemy.rank = data.enemyRank;
     // yourArtifacts, yourAvatar {id, image, name, rarity, ucpCost}, division, oldDivision, profileSkin {id, name, image, ucpCost}
     debug({you, enemy}, 'debugging.game');
