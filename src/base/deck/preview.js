@@ -12,7 +12,7 @@ settings.register({
 // TODO: Convert to event listeners?
 onPage('Decks', function () {
   function getCard(id, shiny) {
-    const el = decks[classe].find(card => card.id === id && card.shiny === shiny);
+    const el = global('decks')[global('soul')].find(card => card.id === id && card.shiny === shiny);
     if (el) {
       c = $('<div>');
       appendCard(c, el); // external

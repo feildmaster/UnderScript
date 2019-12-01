@@ -37,7 +37,7 @@ onPage('Decks', function deckStorage() {
       }
       return null;
     }
-    return getFromLibrary(id, shiny, library[global('classe')]);
+    return getFromLibrary(id, shiny, library[global('soul')]);
   }
 
   eventManager.on('jQuery', () => {
@@ -121,7 +121,7 @@ onPage('Decks', function deckStorage() {
         cards: [],
         artifacts: [],
       };
-      const clazz = global('classe');
+      const clazz = global('soul');
       global('decks')[clazz].forEach(({id, shiny}) => {
         const card = { id, };
         if (shiny) {
@@ -140,7 +140,7 @@ onPage('Decks', function deckStorage() {
       pending = []; // Clear pending
       loading = i;
       let deck = getDeck(i, true);
-      const cDeck = global('decks')[global('classe')];
+      const cDeck = global('decks')[global('soul')];
 
       if (cDeck.length) {
         const builtDeck = [];
@@ -196,12 +196,12 @@ onPage('Decks', function deckStorage() {
 
     function matchingArtifacts(id) {
       const dArts = getArtifacts(id);
-      const cArts = global('decksArtifacts')[global('classe')];
+      const cArts = global('decksArtifacts')[global('soul')];
       return !dArts.length || dArts.length === cArts.length && cArts.every(({id: id1}) => !!~dArts.indexOf(id1));
     }
 
     function getKey(id) {
-      return `underscript.deck.${global('selfId')}.${global('classe')}.${id}`;
+      return `underscript.deck.${global('selfId')}.${global('soul')}.${id}`;
     }
 
     function getDeck(id, trim) {
@@ -249,7 +249,7 @@ onPage('Decks', function deckStorage() {
     }
 
     function loadButton(i) {
-      const soul = global('classe');
+      const soul = global('soul');
       const deckKey = getKey(i);
       const nameKey = `${deckKey}.name`;
       const button = buttons[i];

@@ -17,7 +17,7 @@ onPage('Decks', () => {
 
     function count() {
       let val = 0;
-      const list = decks[classe];
+      const list = global('decks')[global('soul')];
       list.forEach(({cost}) => val += cost);
       avg.text(`(${round(list.length ? val / list.length : val)})`);
     }

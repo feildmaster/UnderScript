@@ -18,9 +18,9 @@ onPage('Decks', function () {
       eventManager.emit(`Deck:${data.action}`, data, options, xhr);
     });
     // Class change
-    $('#selectClasses').change(function () {
+    $('#selectSouls').change(function () {
       // Sometimes it takes too long, so lets change it now
-      classe = $(this).val();
+      globalSet('soul', $(this).val());
       eventManager.emit('Deck:Soul');
     });
   });

@@ -1,5 +1,9 @@
 # UnderScript Changelog
 
+## Version 0.32.4
+1. Fixed deck storage
+1. Fixed various other issues on Decks page
+
 ## Version 0.32.3
 I messed up the last changelog, so you get the old change log this time as well.
 1. Fixed battle log error for next season
