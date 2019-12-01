@@ -1,5 +1,9 @@
 # UnderScript Changelog
 
+## Version 0.32.5
+1. Fix battle log soul color
+1. Fixed miscellaneous errors
+
 ## Version 0.32.4
 1. Fixed deck storage
 1. Fixed various other issues on Decks page

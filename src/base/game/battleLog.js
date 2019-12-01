@@ -51,6 +51,7 @@ eventManager.on("GameStart", function battleLogger() {
     getGameError: 'Takes you to "play" on game errors, can be turned into a toast',
     getBattleLog: 'In-game battle log',
     getBotDelay: '...',
+    clearSpell: '',
   });
   let turn = 0, currentTurn = 0, players = {}, monsters = {}, lastEffect, other = {};
   let yourDust, enemyDust, lastSP;
