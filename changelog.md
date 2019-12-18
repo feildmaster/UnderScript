@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.32.6
+1. Fixed battle log when spectating
+
 ## Version 0.32.5
 1. Fix battle log soul color
 1. Fixed miscellaneous errors

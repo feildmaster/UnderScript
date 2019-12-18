@@ -1,4 +1,4 @@
-onPage("gameSpectate", function () {
+onPage("Spectate", function () {
   debug("Spectating Game");
   eventManager.emit("GameStart");
 
