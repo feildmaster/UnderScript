@@ -4,6 +4,9 @@ wrap(() => {
     '#game-history.left::-webkit-scrollbar { width: 8px; background-color: unset;  }',
     '#game-history.left::-webkit-scrollbar-thumb { background-color: #555; }',
     '#game-history.hidden { display: none; }',
+    '.timer.active { left: -65px; height: 26px; line-height: 22px; }',
+    '.timer.active.ally { top: 526px; }',
+    '.timer.active.enemy { top: 39px; }',
   );
 
   const BattleLogSetting = 'underscript.disable.logger';
@@ -21,11 +24,15 @@ wrap(() => {
     gameActive = true;
     eventManager.on(':load', () => {
       if (setting.value()) toggle(true);
-      if (!settings.value(BattleLogSetting)) toggle(true, 'left');
+      if (!settings.value(BattleLogSetting)) {
+        toggle(true, 'left');
+        timer(true);
+      }
     });
 
     settings.on(BattleLogSetting, (to) => {
       toggle(!to, 'left');
+      timer(true);
     });
 
     eventManager.on('getBattleLog', (data) => {
@@ -35,5 +42,9 @@ wrap(() => {
 
   function toggle(to, clazz = 'hidden') {
     $('#game-history').toggleClass(clazz, to);
+  }
+
+  function timer(apply) {
+    $('div.timer').toggleClass('active', apply);
   }
 });

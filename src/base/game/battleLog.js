@@ -53,6 +53,7 @@ eventManager.on("GameStart", function battleLogger() {
     getBotDelay: '...',
     clearSpell: '',
   });
+  let baseLives = 1;
   let turn = 0, currentTurn = 0, players = {}, monsters = {}, lastEffect, other = {};
   let yourDust, enemyDust, lastSP;
   function addDust(player) {
@@ -110,9 +111,21 @@ eventManager.on("GameStart", function battleLogger() {
       you.gold = gold[you.id];
       enemy.gold = gold[enemy.id];
       // Set lives
-      const lives = JSON.parse(data.lives);
-      you.lives = lives[you.id];
-      enemy.lives = lives[enemy.id];
+      if (data.lives) {
+        const lives = JSON.parse(data.lives);
+        you.lives = lives[you.id];
+        enemy.lives = lives[enemy.id];
+      } else {
+        baseLives = 0;
+        updateSoul({
+          idPlayer: you.id,
+          soul: you.soul,
+        });
+        updateSoul({
+          idPlayer: enemy.id,
+          soul: enemy.soul,
+        });
+      }
       // populate monsters
       JSON.parse(data.board).forEach(function (card, i) {
         if (card === null) return;
@@ -171,7 +184,7 @@ eventManager.on("GameStart", function battleLogger() {
     if (oHp !== data.hp) { // If the player isn't at 0 hp already
       log.add(make.player(players[data.playerId]), ` ${data.isDamage ? "lost" : "gained"} ${hp} hp`);
     }
-    if (data.hp === 0 && players[data.playerId].lives > 1 && !players[data.playerId].hasOwnProperty("lostLife")) { // If they have extra lives, and they didn't lose a life already
+    if (data.hp === 0 && players[data.playerId].lives > baseLives && !players[data.playerId].hasOwnProperty("lostLife")) { // If they have extra lives, and they didn't lose a life already
       log.add(make.player(players[data.playerId]), ' lost a life');
       players[data.playerId].lostLife = true;
     }
@@ -286,9 +299,11 @@ eventManager.on("GameStart", function battleLogger() {
     for (key in temp) {
       players[key].gold = temp[key];
     }
-    temp = JSON.parse(data.lives);
-    for (key in temp) {
-      players[key].lives = temp[key];
+    if (data.lives) {
+      temp = JSON.parse(data.lives);
+      for (key in temp) {
+        players[key].lives = temp[key];
+      }
     }
     // data.artifcats
     // data.turn
@@ -329,6 +344,14 @@ eventManager.on("GameStart", function battleLogger() {
     debug(data, 'debugging.raw.ignore');
     debug(data, `debugging.raw.ignore.${this.event}`);
   });
+  eventManager.on('getUpdateSoul', updateSoul);
+
+  function updateSoul(data) {
+    const soul = JSON.parse(data.soul);
+    const player = players[data.idPlayer];
+    player.lives = soul.lives || 0;
+    player.dodge = soul.dodge || 0;
+  }
 
   const log = {
     init: function () {
