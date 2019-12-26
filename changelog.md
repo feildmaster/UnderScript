@@ -1,5 +1,9 @@
 # UnderScript Changelog
 
+## Version 0.32.7
+Happy new year!
+1. Updated for next season
+
 ## Version 0.32.6
 1. Fixed battle log when spectating
 
