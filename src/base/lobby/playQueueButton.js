@@ -4,7 +4,7 @@ onPage("Play", function () {
 
   eventManager.on("jQuery", function onPlay() {
     debug('jquery');
-    restarting = $('p.infoMessage:contains("The server will restart in")').length !== 0;
+    restarting = $('p.infoMessage[data-i18n-custom="header-info-restart"]').length !== 0;
     if (disable || restarting) {
       queues = $("#standard-mode, #ranked-mode, button.btn.btn-primary");
       queues.prop("disabled", true); // TODO: Cleanup
