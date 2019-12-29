@@ -57,6 +57,7 @@ eventManager.on("GameStart", function battleLogger() {
   let turn = 0, currentTurn = 0, players = {}, monsters = {}, lastEffect, other = {};
   let yourDust, enemyDust, lastSP;
   function addDust(player) {
+    if (!player || !players[player]) return;
     const display = player === userId ? yourDust : enemyDust;
     const dust = typeof players[player].dust === 'undefined' ? players[player].dust = 0 : players[player].dust += 1;
     display.html(dust);
@@ -110,22 +111,6 @@ eventManager.on("GameStart", function battleLogger() {
       const gold = JSON.parse(data.golds);
       you.gold = gold[you.id];
       enemy.gold = gold[enemy.id];
-      // Set lives
-      if (data.lives) {
-        const lives = JSON.parse(data.lives);
-        you.lives = lives[you.id];
-        enemy.lives = lives[enemy.id];
-      } else {
-        baseLives = 0;
-        updateSoul({
-          idPlayer: you.id,
-          soul: you.soul,
-        });
-        updateSoul({
-          idPlayer: enemy.id,
-          soul: enemy.soul,
-        });
-      }
       // populate monsters
       JSON.parse(data.board).forEach(function (card, i) {
         if (card === null) return;
@@ -154,6 +139,22 @@ eventManager.on("GameStart", function battleLogger() {
       $('.rightPart').append(dustImg, ' ');
       $(`#user${opponentId} .rightPart`).append(enemyDust, ' ');
       $(`#user${userId} .rightPart`).append(yourDust, ' ', $(`#user${userId} .rightPart > button:last`));
+    }
+    // Set lives
+    if (data.lives) {
+      const lives = JSON.parse(data.lives);
+      you.lives = lives[you.id];
+      enemy.lives = lives[enemy.id];
+    } else {
+      baseLives = 0;
+      updateSoul({
+        idPlayer: you.id,
+        soul: you.soul,
+      });
+      updateSoul({
+        idPlayer: enemy.id,
+        soul: enemy.soul,
+      });
     }
     addDust(you.id);
     addDust(enemy.id);
@@ -191,6 +192,11 @@ eventManager.on("GameStart", function battleLogger() {
   });
   eventManager.on('getDoingEffect', function doEffect(data) {
     debug(data, 'debugging.raw.effect');
+    if (data.card) {
+      const card = JSON.parse(data.card);
+      monsters[card.id] = card;
+      data.monsterId = card.id;
+    }
     // affecteds: [ids]; monsters affected
     // playerAffected1: id; player affected
     // playerAffected2: id; player affected
@@ -273,6 +279,7 @@ eventManager.on("GameStart", function battleLogger() {
     const card = JSON.parse(data.card);
     if (lastSP === card.id) return;
     lastSP = card.id;
+    card.owner = data.idPlayer;
     monsters[card.id] = card;
     log.add(make.player(players[data.idPlayer]), ' used ', make.card(card));
   });
@@ -344,11 +351,15 @@ eventManager.on("GameStart", function battleLogger() {
     debug(data, 'debugging.raw.ignore');
     debug(data, `debugging.raw.ignore.${this.event}`);
   });
-  eventManager.on('getUpdateSoul', updateSoul);
+  eventManager.on('getUpdateSoul', function blah(data) {
+    updateSoul({
+      idPlayer: data.idPlayer,
+      soul: JSON.parse(data.soul),
+    });
+  });
 
-  function updateSoul(data) {
-    const soul = JSON.parse(data.soul);
-    const player = players[data.idPlayer];
+  function updateSoul({idPlayer, soul = {}}) {
+    const player = players[idPlayer];
     player.lives = soul.lives || 0;
     player.dodge = soul.dodge || 0;
   }
@@ -358,10 +369,11 @@ eventManager.on("GameStart", function battleLogger() {
       const hi = $("<div id='history'></div>"),
         ha = $("<div class='handle'>History</div>"),
         lo = $("<div id='log'></div>");
-      // Positional math
+      // Positional math -- not working anymore??
       const pos = parseInt($("div.mainContent").css("width")) + parseInt($("div.mainContent").css("margin-left"));
       hi.css({
         width: `${window.innerWidth - pos - 20}px`,
+        maxWidth: '500px',
         border: "2px solid white",
         "background-color": "rgba(0,0,0,0.9)",
         position: "absolute",

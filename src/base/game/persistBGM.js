@@ -25,7 +25,7 @@ eventManager.on('GameStart', function () {
   eventManager.on('getReconnection connect', function restoreBGM(data) {
     const key = `underscript.bgm.${data.gameId}`;
     if (!sessionStorage.getItem(key)) { // Store value for refreshes
-      const value = $('body').css('background').match(/url\(\".*\/(\d+).png\"\)/)[1];
+      const value = getBGM(data.gameType);
       debug(`set ${key} ${value}`);
       sessionStorage.setItem(key, value);
       return;
@@ -45,4 +45,13 @@ eventManager.on('GameStart', function () {
       music.play();
     }
   });
+
+  function getBGM(gameMode) {
+    if (gameMode === 'BOSS') {
+      return global('bossBackground');
+    } else if (gameMode === 'TUTORIAL') {
+      return 'tuto';
+    }
+    return $('body').css('background').match(/url\(\".*\/(\d+).png\"\)/)[1];
+  }
 });
