@@ -1,7 +1,10 @@
 # UnderScript Changelog
 
-## Version 0.32.7
+## Version 0.32.8
 Happy new year!
+1. Updated for next season (again)
+
+## Version 0.32.7
 1. Updated for next season
 
 ## Version 0.32.6
