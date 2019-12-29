@@ -18,6 +18,7 @@ onPage("Play", function () {
       } catch(e) {
         console.error(e);
       }
+      eventManager.emit('Play:Message', data);
       eventManager.emit(data.action, data);
     };
     if (socketQueue) {
