@@ -1,7 +1,14 @@
 # UnderScript Changelog
 
-## Version 0.32.8
+## Version 0.33.0
 Happy new year!
+# New Features
+1. Error toast when the queue mess up (you get disconnected)
+# Fixes
+1. Fixed server-restart not being detected
+1. Fixed removing cosmetics highlight in the menu
+
+## Version 0.32.8
 1. Updated for next season (again)
 
 ## Version 0.32.7
