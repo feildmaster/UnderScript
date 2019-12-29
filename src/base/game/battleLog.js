@@ -65,7 +65,7 @@ eventManager.on("GameStart", function battleLogger() {
   const make = {
     player: function makePlayer(player, title = false) {
       const c = $('<span>');
-      c.append(player.username);
+      c.append(`<img src="images/souls/${player.class}.png">`, ' ', player.username);
       c.addClass(player.class);
       if (!title) {
         c.css('text-decoration', 'underline');
