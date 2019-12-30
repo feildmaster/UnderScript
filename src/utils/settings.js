@@ -1,11 +1,13 @@
 const settings = wrap(() => {
   eventManager.on(':ready', () => style.add(
     '.mono .modal-body { font-family: monospace; max-height: 500px; overflow-y: auto; }',
-    '.remove { display: none; }',
-    '.remove:checked + label:before { content: "× "; color: red; }',
+    '.underscript-dialog .remove { display: none; }',
+    '.underscript-dialog .remove:checked + label:before { content: "× "; color: red; }',
     //'.underscript-dialog .modal-content { background: #000 url(../images/backgrounds/2.png) -380px -135px; }',
     //'.underscript-dialog .modal-content .modal-header, .underscript-dialog .modal-body { background-color: transparent; }',
     '.underscript-dialog .modal-footer button.btn { margin-bottom: 5px; }',
+    '.underscript-dialog input[type="color"] { width: 16px; height: 18px; padding: 0 1px; }',
+    '.underscript-dialog input[type="color"]:hover { border-color: #00b8ff; cursor: pointer; }',
   ));
   const settingReg = {
     // key: setting
@@ -84,6 +86,12 @@ const settings = wrap(() => {
         max: setting.max || 100,
         value: current,
       });
+    } else if (setting.type === 'color') {
+      //lf = true;
+      el = $('<input>').attr({
+        type: 'color',
+        value: current,
+      });
     } else { // How to handle.
       return null;
     }
@@ -103,6 +111,7 @@ const settings = wrap(() => {
       case 'boolean':
       case 'select':
       case 'remove':
+      case 'color':
         el.on('change.script', callChange);
         break;
       case 'input':
@@ -230,7 +239,7 @@ const settings = wrap(() => {
         if (el.is(':checked')) val = 1;
         else if (setting.remove) val = false; // Only remove if it's expected
         else val = 0;
-      } else if (setting.type === 'select') {
+      } else if (['select', 'color', 'slider'].includes(setting.type)) {
         val = el.val();
       } else if (setting.type === 'remove') {
         val = false;
