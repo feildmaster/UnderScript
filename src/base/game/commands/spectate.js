@@ -15,7 +15,7 @@ wrap(function spectate() {
       return;
     }
     if (toast) toast.close();
-    data.output = `${$('#yourUsername').text()} vs ${$('#enemyUsername').text()}: ${location.origin}/gameSpectate.jsp?gameId=${global('gameId')}${data.text ? ` - ${data.text}` : ''}`;
+    data.output = `${$('#yourUsername').text()} vs ${$('#enemyUsername').text()}: ${location.origin}/Spectate?gameId=${global('gameId')}&playerId=${global('userId')}${data.text ? ` - ${data.text}` : ''}`;
   });
 
   eventManager.on('GameStart', () => {

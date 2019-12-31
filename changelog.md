@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.33.2
+1. Fixed /spectate command
+
 ## Version 0.33.1
 1. Fixed revealing packs
 1. Fixed crafting max cards
