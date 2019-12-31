@@ -6,19 +6,22 @@ settings.register({
 
 onPage('Packs', function quickOpenPack() {
   if (settings.value('underscript.disable.packOpening')) return;
+
+  const rarity = [ 'DETERMINATION', 'LEGENDARY', 'EPIC', 'RARE', 'COMMON' ];
+  const results = {};
+  function clearResults() {
+    results.packs = 0;
+    results.shiny = 0;
+    rarity.forEach((key) => results[key] = {});
+  }
+  
+  let autoOpen = false, openAll = false;
+
   eventManager.on('jQuery', () => {
-    const rarity = [ 'DETERMINATION', 'LEGENDARY', 'EPIC', 'RARE', 'COMMON' ];
-    const results = {};
-    function clearResults() {
-      results.packs = 0;
-      results.shiny = 0;
-      rarity.forEach((key) => results[key] = {});
-    }
     function showCards() {
       $('.slot .cardBack').each((i, e) => { show(e, i); });
     }
     clearResults(); // Build once
-    let autoOpen = false, openAll = false;
     $(document).ajaxComplete((event, xhr, settings) => {
       if (settings.url !== 'PacksConfig' || !settings.data) return;
       const data = JSON.parse(settings.data);
@@ -87,12 +90,7 @@ onPage('Packs', function quickOpenPack() {
       const type = $(event.target).prop('id').substring(7);
       const count = parseInt($(`#nb${type}Packs`).text());
       if (event.shiftKey) {
-        clearResults();
-        openAll = count;
-        for (let i = 1; i < count; i++) { // Start at 1, we've "opened" a pack already
-          canOpen = true;
-          openPack(`open${type}Pack`);
-        }
+        openPacks(type, count, 1);
         hover.hide();
       } else if (count === 1) { // Last pack?
         hover.hide();
@@ -102,4 +100,17 @@ onPage('Packs', function quickOpenPack() {
         * Shift Click to auto open ALL packs
       </span>`)).on('mouseleave.script', hover.hide);
   });
+
+  function openPacks(type, count, start = 0) {
+    count = Math.min(count, parseInt($(`#nb${type}Packs`).text()));
+    if (count === 0) return;
+    clearResults();
+    openAll = count;
+    for (let i = start; i < count; i++) { // Start at 1, we've "opened" a pack already
+      canOpen = true;
+      openPack(`open${type}Pack`);
+    }
+  }
+
+  api.register('openPacks', (count, type = '') => openPacks(type, count));
 });
