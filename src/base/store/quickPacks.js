@@ -19,6 +19,7 @@ onPage('Packs', function quickOpenPack() {
 
   eventManager.on('jQuery', () => {
     function showCards() {
+      const show = global('revealCard', 'show');
       $('.slot .cardBack').each((i, e) => { show(e, i); });
     }
     clearResults(); // Build once

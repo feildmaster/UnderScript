@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.33.1
+1. Fixed revealing packs
+
 ## Version 0.33.0
 Happy new year!
 ### New Features
