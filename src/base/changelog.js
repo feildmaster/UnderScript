@@ -3,6 +3,7 @@ const changelog = wrap(function changelog() {
   style.add(
     '.us-changelog h2 { font-size: 24px; }',
     '.us-changelog h3 { font-size: 20px; }',
+    'extended { display: block; }',
   );
   function getMarkdown() {
     if (!changelog.markdown) {

@@ -5,10 +5,11 @@ wrap(function patchNotes() {
   });
 
   fn.cleanData('underscript.update.', scriptVersion, 'last', 'checking', 'latest');
-  if (setting.value() || !scriptVersion.includes('.')) return;
   style.add(
-    '#AlertToast div.uschangelog span:nth-of-type(2) { max-height: 300px; overflow-y: auto; display: block; }'
+    '#AlertToast div.uschangelog span:nth-of-type(2) { max-height: 300px; overflow-y: auto; display: block; }',
+    '#AlertToast div.uschangelog extended { display: none; }',
   );
+  if (setting.value() || !scriptVersion.includes('.')) return;
   const versionKey = `underscript.update.${scriptVersion}`;
   if (localStorage.getItem(versionKey)) return;
   

@@ -15,7 +15,7 @@ onPage('Packs', function quickOpenPack() {
     rarity.forEach((key) => results[key] = {});
   }
   
-  let autoOpen = false, openAll = false;
+  let autoOpen = false, openAll = false, left = 0;
 
   eventManager.on('jQuery', () => {
     function showCards() {
@@ -26,7 +26,7 @@ onPage('Packs', function quickOpenPack() {
       if (settings.url !== 'PacksConfig' || !settings.data) return;
       const data = JSON.parse(settings.data);
       if (data.status || xhr.responseJSON.action !== 'getCards') return;
-      if (openAll !== false) {
+      if (openingPacks()) {
         results.packs += 1;
         JSON.parse(xhr.responseJSON.cards).forEach((card) => {
           const result = results[card.rarity] = results[card.rarity] || {};
@@ -41,7 +41,7 @@ onPage('Packs', function quickOpenPack() {
         });
         openAll -= 1;
         if (openAll === 0) {
-          $(`#nb${data.action.substring(4, data.action.length - 4)}Packs`).text(0);
+          $(`#nb${data.action.substring(4, data.action.length - 4)}Packs`).text(left);
           openAll = false;
           let text = '';
           let total = 0;
@@ -101,20 +101,40 @@ onPage('Packs', function quickOpenPack() {
       </span>`)).on('mouseleave.script', hover.hide);
   });
 
+  function openingPacks() {
+    return openAll !== false;
+  }
+
   function openPacks(type, count, start = 0) {
-    count = Math.min(count, parseInt($(`#nb${type}Packs`).text()));
+    if (openingPacks()) return;
+    const packs = parseInt($(`#nb${type}Packs`).text());
+    count = Math.max(Math.min(count, packs), 0);
     if (count === 0) return;
     clearResults();
+    left = packs - count;
     openAll = count;
-    for (let i = start; i < count; i++) { // Start at 1, we've "opened" a pack already
-      canOpen = true;
-      openPack(`open${type}Pack`);
+    const steps = 10;
+    for (let i = count - start; i > 0; i -= steps) {
+      setTimeout(() => {
+        open(Math.min(steps, i));
+      }, i * 10);
+    }
+
+    const openPack = global('openPack');
+    function open(count) {
+      for (let i = count; i > 0; i--) {
+        globalSet('canOpen', true);
+        openPack(`open${type}Pack`);
+      }
     }
   }
 
   const types = ['', 'DR', 'Shiny', 'Super', 'Final'];
   api.register('openPacks', (count, type = '') => {
+    if (openingPacks()) throw new Error('Currently opening packs');
     if (!types.includes(type)) throw new Error(`Unsupported Pack: ${type}`);
     openPacks(type, count);
   });
+
+  api.register('openingPacks', openingPacks);
 });
