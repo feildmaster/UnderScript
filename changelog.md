@@ -16,6 +16,7 @@ Happy new year!
 ### Fixes
 1. Fixed server-restart not being detected
 1. Fixed removing cosmetics highlight in the menu
+1. Fixed opponent tag setting not working
 
 ## Version 0.32.8
 1. Updated for next season (again)
