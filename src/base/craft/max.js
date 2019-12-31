@@ -13,7 +13,7 @@ onPage('Crafting', function craftMax() {
 
   function calculate() {
     hover.hide();
-    document.querySelectorAll('table.cardBoard, table.card').forEach(checkCard);
+    document.querySelectorAll('div.card, table.cardBoard, table.card').forEach(checkCard);
   }
 
   function checkCard(el) {
@@ -45,9 +45,10 @@ onPage('Crafting', function craftMax() {
   function craft(id, shiny, count, cost, total) {
     if (crafting) return;
     crafting = true;
+    const craft = global('craft');
     do {
       total -= cost;
-      global('craft')(id, shiny);
+      craft(id, shiny);
     } while(--count && total >= cost);
     crafting = false;
   }

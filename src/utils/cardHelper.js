@@ -18,7 +18,7 @@ const cardHelper = wrap(() => {
   }
 
   function find(id, shiny) {
-    const elements = document.querySelectorAll(`table[id="${id}"]`);
+    const elements = document.querySelectorAll(`[id="${id}"]`);
     if (shiny !== undefined) {
       for (let i = 0; i < elements.length; i++) {
         const el = elements[i];
@@ -35,11 +35,11 @@ const cardHelper = wrap(() => {
   }
 
   function rarity(el) {
-    return el.querySelector('#cardRarity img, .cardRarity img').title;
+    return getCardData(el.id).rarity;
   }
 
   function quantity(el) {
-    return parseInt(el.querySelector('#quantity .nb, .quantity .nb').textContent, 10);
+    return parseInt(el.querySelector('.cardQuantity .nb, #quantity .nb, .quantity .nb').textContent, 10);
   }
 
   function cost(el) {
@@ -85,6 +85,12 @@ const cardHelper = wrap(() => {
       case 'COMMON': return s ? 40 : 5;
       case 'BASE': return s ? 40 : 0;
     }
+  }
+
+  function getCardData(id) {
+    const cards = global('allCards').filter(card => card.id === parseInt(id));
+    if (cards.length) return cards[0];
+    throw new Error(`Unknown card ${id}`);
   }
 
   return {
