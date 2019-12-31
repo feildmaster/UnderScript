@@ -3,6 +3,7 @@
 ## Version 0.33.1
 1. Fixed revealing packs
 1. Fixed crafting max cards
+1. Fixed highlighting craftable cards
 
 ## Version 0.33.0
 Happy new year!

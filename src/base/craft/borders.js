@@ -12,8 +12,7 @@ settings.register({
 
 onPage('Crafting', function craftableCards() {
   style.add(
-    '.craftable { box-shadow: 0 0 10px 2px #008000; transform: translate3d(0,0,0); }',
-    '.craftable td { border-color: #00cc00; }',
+    '.craftable .cardFrame { -webkit-filter: grayscale(100%) brightness(45%) sepia(100%) hue-rotate(80deg) saturate(400%) contrast(1.5); filter: grayscale(100%) brightness(45%) sepia(100%) hue-rotate(80deg) saturate(400%) contrast(1.5); }',
     '.highlight-green { text-shadow: 0px 0px 10px #008000; color: #00cc00; }',
   );
 
@@ -39,7 +38,7 @@ onPage('Crafting', function craftableCards() {
 
   function highlightCards() {
     debug('highlighting');
-    document.querySelectorAll('table.cardBoard, table.card').forEach(highlight);
+    document.querySelectorAll('div.card, table.cardBoard, table.card').forEach(highlight);
   }
 
   eventManager.on('craftcard', update);
