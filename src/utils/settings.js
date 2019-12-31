@@ -8,6 +8,9 @@ const settings = wrap(() => {
     '.underscript-dialog .modal-footer button.btn { margin-bottom: 5px; }',
     '.underscript-dialog input[type="color"] { width: 16px; height: 18px; padding: 0 1px; }',
     '.underscript-dialog input[type="color"]:hover { border-color: #00b8ff; cursor: pointer; }',
+    '.underscript-dialog .reset:hover { cursor: pointer; font-weight: bold; }',
+    '.underscript-dialog .reset:before { content: "["; }',
+    '.underscript-dialog .reset:after { content: "]"; }',
   ));
   const settingReg = {
     // key: setting
@@ -156,6 +159,18 @@ const settings = wrap(() => {
       });
       ret.append(values);
     }
+    if (setting.reset) {
+      const reset = $('<span>')
+        .text('x')
+        .addClass('reset')
+        .click(() => {
+          const def = getDefault(setting);
+          el.val(def === null ? '' : def); // Manually change
+          callChange({target: el}); // Trigger change
+          localStorage.removeItem(setting.key); // Remove
+        });
+      ret.append(' ', reset);
+    }
     return ret;
   }
 
@@ -214,6 +229,7 @@ const settings = wrap(() => {
       remove: !!data.remove,
       exportable: data.export !== false,
       extraPrefix: data.extraPrefix,
+      reset: data.reset === true,
     };
     if (!data.type && data.options) {
       setting.type = 'select';

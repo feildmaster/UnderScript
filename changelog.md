@@ -3,6 +3,7 @@
 ## Version 0.33.0
 Happy new year!
 # New Features
+1. You can now change the color of friends
 1. Error toast when the queue mess up (you get disconnected)
 # Fixes
 1. Fixed server-restart not being detected

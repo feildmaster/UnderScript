@@ -13,6 +13,7 @@ wrap(() => {
     default: '#b1bfbe',
     page: 'Chat',
     onChange: setColor,
+    reset: true,
   });
 
   setColor(color.value());
