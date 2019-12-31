@@ -112,5 +112,9 @@ onPage('Packs', function quickOpenPack() {
     }
   }
 
-  api.register('openPacks', (count, type = '') => openPacks(type, count));
+  const types = ['', 'DR', 'Shiny', 'Super', 'Final'];
+  api.register('openPacks', (count, type = '') => {
+    if (!types.includes(type)) throw new Error(`Unsupported Pack: ${type}`);
+    openPacks(type, count);
+  });
 });

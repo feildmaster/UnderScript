@@ -5,6 +5,7 @@ Happy new year!
 # New Features
 1. You can now change the color of friends
 1. Error toast when the queue mess up (you get disconnected)
+1. Added a few simple api's (openPacks, eventManager)
 # Fixes
 1. Fixed server-restart not being detected
 1. Fixed removing cosmetics highlight in the menu
