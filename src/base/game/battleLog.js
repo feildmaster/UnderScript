@@ -52,6 +52,8 @@ eventManager.on("GameStart", function battleLogger() {
     getBattleLog: 'In-game battle log',
     getBotDelay: '...',
     clearSpell: '',
+    getPlaySound: '',
+    getAnimation: '',
   });
   let baseLives = 1;
   let turn = 0, currentTurn = 0, players = {}, monsters = {}, lastEffect, other = {};
