@@ -33,14 +33,14 @@ wrap(() => {
   };
   let toast, updateToast, autoTimeout;
   function check() {
-    if (localStorage.getItem(CHECKING)) return Promise.resolve();
-    localStorage.setItem(CHECKING, true);
+    if (sessionStorage.getItem(CHECKING)) return Promise.resolve();
+    sessionStorage.setItem(CHECKING, true);
     return base.get(`underscript@${getVersion()}/package.json`).then((response) => {
-      localStorage.removeItem(CHECKING);
+      sessionStorage.removeItem(CHECKING);
       localStorage.setItem(LAST, Date.now());
       return response;
     }).catch((error) => {
-      localStorage.removeItem(CHECKING);
+      sessionStorage.removeItem(CHECKING);
       fn.debug(error);
       if (toast) {
         toast.setText('Failed to connect to server.');
@@ -133,5 +133,6 @@ wrap(() => {
     return scriptVersion.includes('-') ? 'next' : 'latest';
   }
 
+  sessionStorage.removeItem(CHECKING);
   if (!latest.chk()) setupAuto();
 });
