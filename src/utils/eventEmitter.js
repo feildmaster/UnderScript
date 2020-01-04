@@ -3,16 +3,16 @@ wrap(() => {
     const events = {
       // eventName: [events]
     };
-    return {
+    const emitter = {
       on: function (event, fn) {
-        if (typeof fn !== "function") return eventManager;
+        if (typeof fn !== "function") return emitter;
         event.split(' ').forEach((e) => {
           if (!events.hasOwnProperty(e)) {
             events[e] = [];
           }
           events[e].push(fn);
         });
-        return eventManager;
+        return emitter;
       },
       emit: function (event, data, cancelable = false) {
         const lEvents = events[event];
@@ -33,13 +33,15 @@ wrap(() => {
         }
         return {
           ran,
-          canceled: cancelable && canceled
+          canceled: cancelable && canceled,
         };
       },
       emitJSON: function (event, data, cancelable) {
         return this.emit(event, JSON.parse(data), cancelable);
       },
     };
+
+    return emitter;
   }
   fn.eventEmitter = eventEmitter;
 });
