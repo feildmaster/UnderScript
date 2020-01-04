@@ -1,6 +1,13 @@
 function global(...key) {
+  const {
+    throws = true,
+  } = typeof key[key.length - 1] === 'object' ? key.pop() : {};
   const found = key.find(e => window.hasOwnProperty(e));
-  if (found === undefined) throw new Error(`[${key.join(',')}] does not exist`);
+  if (found === undefined) {
+    const msg = `[${key.join(',')}] does not exist`;
+    if (throws) throw new Error(msg);
+    return debug(msg);
+  }
   return window[found];
 }
 
