@@ -9,3 +9,5 @@ function onPage(name, fn) {
   }
   return r;
 }
+
+api.register('onPage', onPage);

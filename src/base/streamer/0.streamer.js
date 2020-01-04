@@ -23,6 +23,7 @@ wrap(function streamer() {
   Object.defineProperty(script, 'streaming', {
     get: () => setting.value(),
   });
+  api.register('streamerMode', () => setting.value());
   menu.addButton({
     text: () => `Streamer Mode: ${setting.value()?'On':'Off'}`,
     hidden: () => mode.value() === disabled,
