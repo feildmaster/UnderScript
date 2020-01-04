@@ -89,38 +89,21 @@ eventManager.on("GameStart", function battleLogger() {
     },
   };
 
-  eventManager.on('getAllGameInfos getGameStarted getReconnection connect', function initBattle(data) {
+  eventManager.on('connect', function initBattle(data) {
     debug(data, 'debugging.raw.game');
-    let you, enemy;
-    // Battle logging happens after the game runs
-    if (this.event === 'getGameStarted') {
-      you = {
-        id: data.yourId,
-        username: data.yourUsername,
-        hp: 30, // This is wrong with artifacts? Maybe?
-        gold: 2, // This is wrong with artifacts? Maybe?
-      };
-      enemy = {
-        id: data.enemyId,
-        username: data.enemyUsername,
-        hp: 30, // This is wrong with artifacts? Maybe?
-        gold: 2, // This is wrong with artifacts? Maybe?
-      };
-    } else {
-      you = JSON.parse(data.you);
-      enemy = JSON.parse(data.enemy);
-      // Set gold
-      const gold = JSON.parse(data.golds);
-      you.gold = gold[you.id];
-      enemy.gold = gold[enemy.id];
-      // populate monsters
-      JSON.parse(data.board).forEach(function (card, i) {
-        if (card === null) return;
-        // id, attack, hp, maxHp, originalattack, originalHp, typeCard, name, image, cost, originalCost, rarity, shiny, quantity
-        card.owner = i < 4 ? enemy.id : you.id;
-        monsters[card.id] = card;
-      });
-    }
+    const you = JSON.parse(data.you);
+    const enemy = JSON.parse(data.enemy);
+    // Set gold
+    const gold = JSON.parse(data.golds);
+    you.gold = gold[you.id];
+    enemy.gold = gold[enemy.id];
+    // populate monsters
+    JSON.parse(data.board).forEach(function (card, i) {
+      if (card === null) return;
+      // id, attack, hp, maxHp, originalattack, originalHp, typeCard, name, image, cost, originalCost, rarity, shiny, quantity
+      card.owner = i < 4 ? enemy.id : you.id;
+      monsters[card.id] = card;
+    });
     you.level = data.yourLevel;
     you.class = data.yourSoul;
     you.rank = data.yourRank;
@@ -372,10 +355,12 @@ eventManager.on("GameStart", function battleLogger() {
         ha = $("<div class='handle'>History</div>"),
         lo = $("<div id='log'></div>");
       // Positional math -- not working anymore??
-      const pos = parseInt($("div.mainContent").css("width")) + parseInt($("div.mainContent").css("margin-left"));
+      const mainContent = $("div.mainContent");
+      mainContent.css('position', 'initial');
+      const pos = parseInt(mainContent.css("width")) + parseInt(mainContent.css("margin-left"));
+      mainContent.css('position', '');
       hi.css({
         width: `${window.innerWidth - pos - 20}px`,
-        maxWidth: '500px',
         border: "2px solid white",
         "background-color": "rgba(0,0,0,0.9)",
         position: "absolute",
@@ -406,5 +391,5 @@ eventManager.on("GameStart", function battleLogger() {
       if (!div.html()) return;
       $("div#history div#log").prepend(div);
     },
-  };  
+  };
 });
