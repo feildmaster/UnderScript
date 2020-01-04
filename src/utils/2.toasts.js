@@ -22,8 +22,8 @@ fn.toast = (arg) => {
 
 fn.errorToast = (error) => {
   const toast = {
-    title: error.name || 'Error',
-    text: error.message || error,
+    title: error.name || error.title || 'Error',
+    text: error.message || error.text || error,
     css: {
       'background-color': 'rgba(200,0,0,0.6)',
     }
