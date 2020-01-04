@@ -1,7 +1,16 @@
 # UnderScript Changelog
 
-## Version 0.33.2
+## Version 0.34.0
 1. Fixed /spectate command
+1. Fixed deck page squishing buttons
+1. Fixed updater not working
+1. Fixed battle log size issues
+1. Changed the position of the game timer
+1. Added some more API functions
+  <extended>
+    1. streamerMode(): boolean
+    1. onPage(page): boolean
+  </extended>
 
 ## Version 0.33.1
 1. Fixed revealing packs
