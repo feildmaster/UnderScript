@@ -11,6 +11,8 @@ const settings = wrap(() => {
     '.underscript-dialog .reset:hover { cursor: pointer; font-weight: bold; }',
     '.underscript-dialog .reset:before { content: "["; }',
     '.underscript-dialog .reset:after { content: "]"; }',
+    '.underscript-dialog input[type="range"] { display: inline; width: 200px; vertical-align: middle; }',
+    //'.underscript-dialog input[type="range"]:after { content: attr(value); }',
   ));
   const settingReg = {
     // key: setting
@@ -86,10 +88,10 @@ const settings = wrap(() => {
       lf = true;
       el = $('<input>').attr({
         type: 'range',
-        min: setting.min || 0,
-        max: setting.max || 100,
-        value: current,
-      });
+        min: setting.min,
+        max: setting.max,
+        step: setting.step,
+      }).val(current);
     } else if (setting.type === 'color') {
       // lf = true;
       el = $('<input>').attr({
@@ -116,6 +118,7 @@ const settings = wrap(() => {
       case 'select':
       case 'remove':
       case 'color':
+      case 'slider':
         el.on('change.script', callChange);
         break;
       case 'input':
@@ -126,9 +129,6 @@ const settings = wrap(() => {
           callChange(e);
           el.val('');
         });
-        break;
-      case 'slider':
-        el.on('input.script', callChange);
         break;
     }
     const label = $(`<label for="${key}">`).html(setting.name);
@@ -234,6 +234,11 @@ const settings = wrap(() => {
     };
     if (!data.type && data.options) {
       setting.type = 'select';
+    }
+    if (setting.type === 'slider') {
+      setting.min = data.min || '0';
+      setting.max = data.max || '100';
+      setting.step = data.step || '1';
     }
     if (data.refresh || data.note) {
       setting.note = () => {
