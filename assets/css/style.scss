@@ -26,3 +26,10 @@ a.installed { background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3
 a.installed::after { content: '!' }
 a.update::before { content: 'Update '; }
 li:target { background-color: yellow; }
+
+dl dd { font-style: initial; }
+
+blockquote { border-left: 5px solid rgb(138, 138, 138); background-color: rgb(207, 207, 207); }
+
+.highlight .c1 { color: rgb(26, 121, 26); }
+.highlight .nx { color: rgb(36, 163, 221); }
