@@ -1,0 +1,7 @@
+{
+  "name": "underscript-pages",
+  "private": true,
+  "scripts": {
+    "start": "bundle exec jekyll serve"
+  }
+}
