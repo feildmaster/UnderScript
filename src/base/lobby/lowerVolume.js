@@ -7,6 +7,7 @@ wrap(() => {
     max: 1,
     step: 0.1,
     page: 'Lobby',
+    reset: true,
   });
 
   eventManager.on("getWaitingQueue", function lowerVolume() {

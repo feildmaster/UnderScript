@@ -1,5 +1,9 @@
 const settings = wrap(() => {
   eventManager.on(':ready', () => style.add(
+    '.flex-start { display: flex; align-items: flex-start; }',
+    '.flex-start input[type="range"] { flex-grow: 1; }',
+    '.flex-start > label + * { margin-left: 7px; }',
+    '.flex-start > input { margin-right: 4px; }',
     '.mono .modal-body { font-family: monospace; max-height: 500px; overflow-y: auto; }',
     '.underscript-dialog .remove { display: none; }',
     '.underscript-dialog .remove:checked + label:before { content: "× "; color: red; }',
@@ -63,7 +67,7 @@ const settings = wrap(() => {
 
   function createSetting(setting) {
     if (setting.hidden) return;
-    const ret = $('<div>');
+    const ret = $('<div>').addClass('flex-start');
     const key = setting.key;
     const current = localStorage.getItem(key) || getDefault(setting);
     let el;
