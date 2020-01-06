@@ -114,19 +114,18 @@ onPage('Packs', function quickOpenPack() {
     clearResults();
     left = packs - count;
     openAll = count;
-    const steps = 10;
-    for (let i = count - start; i > 0; i -= steps) {
-      setTimeout(() => {
-        open(Math.min(steps, i));
-      }, i * 10);
-    }
+    open(`open${type}Pack`, count - start, count > 1000 ? 5 : 10);
+  }
 
+  function open(pack, count, step) {
     const openPack = global('openPack');
-    function open(count) {
-      for (let i = count; i > 0; i--) {
-        globalSet('canOpen', true);
-        openPack(`open${type}Pack`);
-      }
+    const amt = Math.min(step, count);
+    for (let i = 0; i < amt; i++) {
+      globalSet('canOpen', true);
+      openPack(pack);
+    }
+    if (count > step) {
+      setTimeout(open, 10, pack, count - step)
     }
   }
 
