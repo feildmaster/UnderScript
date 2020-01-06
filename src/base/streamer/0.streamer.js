@@ -4,6 +4,7 @@ wrap(function streamer() {
   const mode = settings.register({
     name: 'Enable?',
     key: 'underscript.streamer',
+    note: 'Enables a button on the menu, streamer mode is "off" by default.',
     options: ['Yes', silent, disabled],
     default: disabled,
     onChange: (val) => {
