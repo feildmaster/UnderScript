@@ -17,4 +17,7 @@ eventManager.on(':ready', () => {
     done();
   }
 });
-eventManager.emit(':ready');
+
+if (eventManager.emit(':ready').ran) {
+  api.register('ready', true);
+}
