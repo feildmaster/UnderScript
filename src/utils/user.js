@@ -1,4 +1,12 @@
 fn.user = wrap(function fnUser() {
+  function self() {
+    return {
+      id: global('selfId'),
+      username: global('selfUsername'),
+      mainGroup: global('selfMainGroup'),
+    };
+  }
+
   function name(user) {
     return user.username;
   }
@@ -16,6 +24,9 @@ fn.user = wrap(function fnUser() {
   }
 
   return {
-    name, isMod, isStaff,
+    self,
+    name,
+    isMod,
+    isStaff,
   };
 });
