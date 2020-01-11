@@ -12,6 +12,8 @@ const style = wrap(() => {
     });
   }
 
+  api.register('addStyle', add);
+
   return {
     add,
   };
