@@ -16,7 +16,8 @@ eventManager.on('ChatDetected', () => {
         if (global('soundsEnabled') && original === text) {
           (new Audio('sounds/highlight.wav')).play();
         }
-        return text.replace(regex, mask);
+        const atReplace = fn.pingRegex.atReplace;
+        return text.replace('@', atReplace).replace(regex, mask).replace(atReplace, '@');
       }
 
       return text;
