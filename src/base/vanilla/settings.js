@@ -44,6 +44,15 @@
     key: 'gameEmotesDisabled',
     category: 'Game',
   },
+  { key: 'deckBeginnerInfo' },
+  { key: 'firstVisit' },
+  { key: 'playDeck' },
+  // { key: 'scrollY' },
+  // { key: 'browser' },
+  // { key: 'leaderboardPage' },
+  // { key: 'chat' },
+  // { key: 'language' },
+  // { key: '' },
 ].forEach((setting) => {
   const {name, key, category} = setting;
   const refresh = category === 'Game' ? () => onPage('Game') || onPage('gameSpectating') : undefined;
@@ -51,6 +60,7 @@
     name, key, category, refresh,
     page: 'game',
     remove: true,
+    hidden: name === false,
   });
 });
 
