@@ -5,12 +5,13 @@ settings.register({
   page: 'Friends',
 });
 eventManager.on(':loaded', () => {
+  const px = 12;
   style.add(
     '.tippy-tooltip.undercards-theme { background-color: rgba(0,0,0,0.9); font-size: 13px; border: 1px solid #fff; }',
-    `.tippy-popper[x-placement^='top'] .tippy-tooltip.undercards-theme .tippy-arrow { border-top-color: #fff; bottom: -9px; }`,
-    `.tippy-popper[x-placement^='bottom'] .tippy-tooltip.undercards-theme .tippy-arrow { border-bottom-color: #fff; top: -9px; }`,
-    `.tippy-popper[x-placement^='left'] .tippy-tooltip.undercards-theme .tippy-arrow { border-left-color: #fff; right: -9px; }`,
-    `.tippy-popper[x-placement^='right'] .tippy-tooltip.undercards-theme .tippy-arrow { border-right-color: #fff; left: -9px; }`,
+    `.tippy-popper[x-placement^='top'] .tippy-tooltip.undercards-theme .tippy-arrow { border-top-color: #fff; bottom: -${px}px; }`,
+    `.tippy-popper[x-placement^='bottom'] .tippy-tooltip.undercards-theme .tippy-arrow { border-bottom-color: #fff; top: -${px}px; }`,
+    `.tippy-popper[x-placement^='left'] .tippy-tooltip.undercards-theme .tippy-arrow { border-left-color: #fff; right: -${px}px; }`,
+    `.tippy-popper[x-placement^='right'] .tippy-tooltip.undercards-theme .tippy-arrow { border-right-color: #fff; left: -${px}px; }`,
   );
 
   const el = document.querySelector('a span.nbFriends');
@@ -27,7 +28,7 @@ eventManager.on(':loaded', () => {
     });
 
     function updateTip() {
-      target._tippy.popper.querySelector('.onlineFriends').innerHTML = selfFriends.filter(({online}) => online).map(({username}) => username).join('<br>') || 'None';
+      target._tippy.popper.querySelector('.onlineFriends').innerHTML = selfFriends.filter(({online}) => online).map((user) => fn.user.name(user)).join('<br>') || 'None';
     }
     eventManager.on('Chat:getSelfInfos', updateTip);
     this.updateTip = updateTip;
