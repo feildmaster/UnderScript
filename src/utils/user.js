@@ -1,10 +1,14 @@
 fn.user = wrap(function fnUser() {
+  let selfData;
   function self() {
-    return {
+    if (!selfData) {
+      selfData = Object.freeze({
       id: global('selfId'),
       username: global('selfUsername'),
       mainGroup: global('selfMainGroup'),
-    };
+      });
+  }
+    return selfData;
   }
 
   function name(user) {
