@@ -22,8 +22,8 @@ function shouldIgnore(message, self = false) {
   const id = user.id;
   // Is it your own message?
   if (id === global('selfId')) return self;
-  // Is user staff?
-  if (user.mainGroup.priority <= 6) return false;
+  // Is user mod?
+  if (fn.user.isMod(user)) return false;
   // Ignoring user?
   return !!settings.value(`underscript.ignore.${id}`);
 }
@@ -49,7 +49,7 @@ eventManager.on('ChatDetected', function ignoreChat() {
       msg.find(`.chat-message`).html('<span class="gray">Message Ignored</span>')
         .removeClass().addClass('chat-message');
     } else if (type === 'remove') {
-      debug(`removed ${message.user.username}`, 'debugging.chat');
+      debug(`removed ${fn.user.name(message.user)}`, 'debugging.chat');
       if (!container) {
         count = 1;
         container = $('<li class="ignored-chat">');

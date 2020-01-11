@@ -175,14 +175,13 @@ eventManager.on('ChatDetected', () => {
   function processMessage(message, room) {
     const id = message.id;
     const user = message.user;
-    const name = user.username;
 
     let info = $(`#${room} #message-${id} #info-${user.id}`);
     if (!info.length) {
       info = $(`#${room} #message-${id} #info-${id}`);
     }
     info.on('contextmenu.script.chatContext', {
-      name,
+      name: fn.user.name(user),
       staff: user.mainGroup.priority <= 6,
       mod: user.mainGroup.priority <= 4,
       id: user.id,

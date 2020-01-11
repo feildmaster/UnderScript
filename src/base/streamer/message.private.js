@@ -36,7 +36,7 @@ wrap(function streamPM() {
     
     if (toasts[userId]) return; // Don't announce anymore
     const toast = toasts[userId] = fn.toast({
-      text: `Message from ${user.username}`,
+      text: `Message from ${fn.user.name(user)}`,
       buttons: [{
         css: {
           border: '',
@@ -63,7 +63,7 @@ wrap(function streamPM() {
   eventManager.on(':unload', closeAll);
 
   function open(user) {
-    global('openPrivateRoom')(user.id, user.username.replace('\'', ''));
+    global('openPrivateRoom')(user.id, fn.user.name(user).replace('\'', ''));
   }
 
   function close(user) {
