@@ -7,7 +7,7 @@ settings.register({
 
 // Calculate average
 onPage('Decks', () => {
-  eventManager.on('jQuery', () => {
+  eventManager.on(':loaded', () => {
     const avg = $('<span>').hover(hover.show('Average gold cost'));
     $('#soulInfo span').after('<span>Passive</span> ', avg).remove();
 
