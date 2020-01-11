@@ -134,7 +134,7 @@ const menu = wrap(() => {
     dirty();
   }
 
-  eventManager.on(':ready', () => {
+  eventManager.on(':utils', () => {
     toast = fn.infoToast({
       text: 'UnderScript has a menu, press ESC to open it!',
       onClose: (reason) => {

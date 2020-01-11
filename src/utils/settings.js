@@ -1,5 +1,5 @@
 const settings = wrap(() => {
-  eventManager.on(':ready', () => style.add(
+  eventManager.on(':utils', () => style.add(
     '.flex-start { display: flex; align-items: flex-start; }',
     '.flex-start input[type="range"] { flex-grow: 1; }',
     '.flex-start > label + * { margin-left: 7px; }',
