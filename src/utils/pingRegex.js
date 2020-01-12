@@ -9,11 +9,13 @@ fn.pingRegex = wrap(() => {
     return new AtSafeRegExp(exp, 'gi');
   }
 
-  build.atReplace = atReplace;
-
   class AtSafeRegExp extends RegExp {
     test(string) {
       return super.test(string.replace('@', atReplace))
+    }
+
+    replace(text, mask) {
+      return text.replace('@', atReplace).replace(this, mask).replace(atReplace, '@');
     }
   }
 
