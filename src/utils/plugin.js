@@ -16,7 +16,7 @@ wrap(() => {
 
     modules.forEach(({name, mod}) => {
       if (methods.hasOwnProperty(name)) return console.error(`Skipping "${name}": Already exists`);
-      methods[name] = mod(plugin);
+      methods[name] = mod(methods);
     });
 
     const plugin = Object.freeze(methods);
