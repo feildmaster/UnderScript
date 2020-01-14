@@ -1,5 +1,29 @@
 # UnderScript Changelog
 
+## Version 0.35.0
+### New Features
+1. Added Volume Slider for Game Found sound
+1. More Api
+  <extended>
+    1. ready: boolean
+    1. addStyle(...style: string): void
+    1. plugin(name: string): RegisteredPlugin
+      1. plugin.toast(data): toast
+      1. plugin.logger
+      1. plugin.events
+      1. plugin.settings()
+  </extended>
+1. appendCard() event (for plugins)
+### Fixes
+1. Gold average works again
+1. `@` now works in custom ping values
+1. Tip styling arrow (online friends list)
+1. Fixed `/scroll` giving an error
+### Misc
+1. Removed `smooth scrolling deck` feature (it causes bugs, don't need it anymore)
+1. Added note for streamer mode
+1. More stability for opening large amounts of packs
+
 ## Version 0.34.1
 1. Fixed battle log not showing card events
 
