@@ -14,11 +14,9 @@ wrap(() => {
       name,
     };
 
-    modules.forEach(({name, fn}) => {
+    modules.forEach(({name, mod}) => {
       if (methods.hasOwnProperty(name)) return console.error(`Skipping "${name}": Already exists`);
-      methods[name] = (...args) => {
-        fn(plugin, ...args);
-      };
+      methods[name] = mod(plugin);
     });
 
     const plugin = Object.freeze(methods);
@@ -30,5 +28,5 @@ wrap(() => {
 
   api.register('plugin', Plugin);
 
-  script.registerModule = (name, fn) => modules.push({name, fn});
+  script.registerModule = (name, mod) => modules.push({name, mod});
 });
