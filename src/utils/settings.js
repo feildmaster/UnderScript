@@ -393,7 +393,7 @@ const settings = wrap(() => {
 
   function exportSettings() {
     const settings = {};
-    const extras = ['underscript.notice.'];
+    const extras = ['underscript.notice.', 'underscript.plugin.'];
     let used = false;
     fn.each(settingReg, (setting) => {
       if (!setting.exportable) return;
