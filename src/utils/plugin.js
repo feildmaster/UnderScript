@@ -1,6 +1,7 @@
 wrap(() => {
   const nameRegex = /^[a-z0-9 ]+$/i;
   const registry = new Map();
+  const modules = [];
 
   function Plugin(name = '') {
     name = name.trim();
@@ -9,14 +10,18 @@ wrap(() => {
     if (!nameRegex.test(name)) throw new Error('Name contains illegal characters');
     if (registry.has(name)) throw new Error('Name already registered');
 
-    const plugin = Object.freeze({
-      name, 
-      toast: (data) => toast(plugin, data),
-      //menu: Object.freeze({}),
-      //settings: Object.freeze({}),
-      //logger: Object.freeze({}),
-      //events: Object.freeze({}),
+    const methods = {
+      name,
+    };
+
+    modules.forEach(({name, fn}) => {
+      if (methods.hasOwnProperty(name)) return console.error(`Skipping "${name}": Already exists`);
+      methods[name] = (...args) => {
+        fn(plugin, ...args);
+      };
     });
+
+    const plugin = Object.freeze(methods);
 
     registry.set(name, plugin);
 
@@ -25,10 +30,5 @@ wrap(() => {
 
   api.register('plugin', Plugin);
 
-  function toast(plugin, data) {
-    const toast = typeof data === 'object' ? {...data} : { text: data, };
-    toast.footer = `${plugin.name} • via UnderScript`;
-    if (toast.error) return fn.errorToast(toast);
-    return fn.toast(toast);
-  }
+  script.registerModule = (name, fn) => modules.push({name, fn});
 });
