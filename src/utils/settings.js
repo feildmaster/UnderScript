@@ -287,6 +287,7 @@ const settings = wrap(() => {
       settingReg[setting.key] = setting;
     }
     return {
+      key: setting.key,
       value: () => value(setting.key),
       set: (value) => localStorage.setItem(setting.key, value),
     };
