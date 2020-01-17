@@ -4,7 +4,7 @@ settings.register({
   page: 'Chat',
 });
 
-eventManager.on('ChatDetected' , () => {
+eventManager.on('ChatDetected', () => {
   style.add(
     '.chatContext { background-color: #F4F4F4; margin: 10px; color: #333; border: 1px dashed #000; position: absolute; z-index: 20; text-align: center; border-radius: 10px; }',
     '.chatContext header { padding: 0px 5px; height: auto; }',
@@ -12,7 +12,7 @@ eventManager.on('ChatDetected' , () => {
     '.chatContext li {  list-style: none; margin: 0; padding: 3px; border-top: 1px solid #CCC; cursor: pointer; }',
     '.chatContext .disabled { background-color: #ccc; cursor: not-allowed; }',
     '.chatContext li:not(.disabled):hover { background-color: #003366; color: #F2F2F2; }',
-    '.chatContext > :last-child { border-radius: 0 0 10px 10px; }'
+    '.chatContext > :last-child { border-radius: 0 0 10px 10px; }',
   );
   let toast;
 
@@ -39,7 +39,7 @@ eventManager.on('ChatDetected' , () => {
       86400: '1d',
     };
     fn.each(times, (item, key) => {
-      muteTime.append($(`<option value="${key}"${key === '3600' ? ' selected':''}>${item}</option>`));
+      muteTime.append($(`<option value="${key}"${key === '3600' ? ' selected' : ''}>${item}</option>`));
     });
     mute.append(' ', muteTime);
 
@@ -55,8 +55,9 @@ eventManager.on('ChatDetected' , () => {
       }
       close();
       const { id, name, staff, mod } = event.data;
-      const selfMod = selfId !== id && selfMainGroup.priority <= 4;
-      if (selfMod || isFriend(id)) {
+      const selfId = global('selfId');
+      const selfMod = selfId !== id && global('selfMainGroup').priority <= 4;
+      if (selfMod || global('isFriend')(id)) {
         profile.before(message);
       } else {
         message.detach();
@@ -70,7 +71,7 @@ eventManager.on('ChatDetected' , () => {
       let left = event.pageX;
       const containerWidth = container.outerWidth(true);
       if (left + containerWidth > window.innerWidth) {
-        left = left - containerWidth;
+        left -= containerWidth;
       }
       container.css({
         top: `${event.pageY}px`,
@@ -84,7 +85,7 @@ eventManager.on('ChatDetected' , () => {
           return;
         }
         if (e.target === profile[0]) {
-          getInfo(event.target);
+          global('getInfo')(event.target);
         } else if (e.target === mention[0]) {
           const input = $(event.target).closest('.chat-box').find('.chat-text');
           let text = input.val();
@@ -109,7 +110,7 @@ eventManager.on('ChatDetected' , () => {
                   height: '',
                   background: '',
                   'font-size': '',
-                  'margin': '',
+                  margin: '',
                   'border-radius': '',
                 },
                 text: 'Undo',
@@ -118,7 +119,7 @@ eventManager.on('ChatDetected' , () => {
                   settings.remove(key);
                   updateIgnoreText(id);
                 },
-              },],
+              }],
               className: 'dismissable',
             });
             fn.ignoreUser(name, key);
@@ -128,9 +129,9 @@ eventManager.on('ChatDetected' , () => {
           updateIgnoreText(id);
         } else if (e.target === mute[0]) {
           if (muteDisabled) return;
-          timeout(`${id}`, muteTime.val());
+          global('timeout')(`${id}`, muteTime.val());
         } else if (e.target === message[0]) {
-          openPrivateRoom(id, name);
+          global('openPrivateRoom')(id, name);
         }
         close();
       });
@@ -147,8 +148,8 @@ eventManager.on('ChatDetected' , () => {
         muteTime.prop('disabled', false);
       }
       updateIgnoreText(id);
-      $('html').on('mousedown.chatContext', (event) => {
-        if ($(event.target).closest('.chatContext').length === 0) {
+      $('html').on('mousedown.chatContext', (e) => {
+        if ($(e.target).closest('.chatContext').length === 0) {
           close();
         }
       });
@@ -188,13 +189,13 @@ eventManager.on('ChatDetected' , () => {
     }, context.open);
   }
 
-  eventManager.on('Chat:getHistory', function (data) {
+  eventManager.on('Chat:getHistory', (data) => {
     JSON.parse(data.history).forEach((message) => {
       processMessage(message, data.room);
     });
   });
 
-  eventManager.on('Chat:getMessage', function (data) {
+  eventManager.on('Chat:getMessage', (data) => {
     if (this.canceled) return;
     processMessage(JSON.parse(data.chatMessage), data.room);
   });
@@ -203,7 +204,7 @@ eventManager.on('ChatDetected' , () => {
     text: 'You can right click users in chat to display user options!',
     onClose: (reason) => {
       toast = null; // Remove from memory
-      //return reason !== 'opened';
-    }
+      // return reason !== 'opened';
+    },
   }, 'underscript.ignoreNotice', '1');
 });

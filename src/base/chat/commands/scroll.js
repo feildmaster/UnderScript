@@ -8,7 +8,7 @@ wrap(function scroll() {
     category: 'Commands',
   });
 
-  eventManager.on('Chat:command', function(data) {
+  eventManager.on('Chat:command', (data) => {
     debug(data);
     if (this.canceled || data.command !== command || setting.value()) return;
     debug('Scroll command');

@@ -8,7 +8,7 @@ wrap(function simpleText() {
 
   function replace() {
     if (!setting.value()) return;
-    $('.chat-messages img[title$=":"]').replaceWith(function() {
+    $('.chat-messages img[title$=":"]').replaceWith(function rep() {
       return this.title.substring(this.title.indexOf(':'));
     });
   }

@@ -4,7 +4,7 @@ settings.register({
   page: 'Chat',
 });
 
-eventManager.on('Chat:getMessageBroadcast', function broadcast({message}) {
+eventManager.on('Chat:getMessageBroadcast', function broadcast({ message }) {
   if (settings.value('underscript.disable.broadcast')) return;
   fn.infoToast({
     title: '[INFO] Undercards Broadcast Message',
