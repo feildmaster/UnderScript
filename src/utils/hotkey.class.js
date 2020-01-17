@@ -6,17 +6,15 @@ class Hotkey {
     this.fn = null;
   }
 
-  _has(x, a) {
-    var h = false;
-    a.some(function (v, i) {
-      //if (v === x) h = i;
-      return h = v === x;
-    });
+  has(x, a) {
+    let h = false;
+    // if (v === x) h = i;
+    a.some((v, i) => h = v === x);
     return h;
   }
 
-  _del(x, a) {
-    a.some(function (v, i) {
+  del(x, a) {
+    a.some((v, i) => {
       if (x === v) {
         a.splice(i, 1);
         return true;
@@ -33,12 +31,12 @@ class Hotkey {
   }
 
   unbindKey(x) {
-    this._del(x, this.keys);
+    this.del(x, this.keys);
     return this;
   }
 
   keybound(x) {
-    return this._has(x, this.keys);
+    return this.has(x, this.keys);
   }
 
   bindClick(x) {
@@ -49,24 +47,25 @@ class Hotkey {
   }
 
   unbindClick(x) {
-    this._del(x, this.clicks);
+    this.del(x, this.clicks);
     return this;
   }
 
   clickbound(x) {
-    return this._has(x, this.clicks);
+    return this.has(x, this.clicks);
   }
 
   run(x) {
-    if (typeof x === "function") { // Set the function
+    if (typeof x === 'function') { // Set the function
       this.fn = x;
       return this; // Allow inline constructing
-    } else if (this.fn) { // All clear (x is the event)
+    }
+    if (this.fn) { // All clear (x is the event)
       this.fn(x);
     }
   }
 
   toString() {
-    return `${this.name || "Hotkey"}: Bind{Keys:${JSON.stringify(this.keys)}, Clicks:${JSON.stringify(this.clicks)}}, FN:${this.fn!==null}`;
+    return `${this.name || 'Hotkey'}: Bind{Keys:${JSON.stringify(this.keys)}, Clicks:${JSON.stringify(this.clicks)}}, FN:${this.fn !== null}`;
   }
 }

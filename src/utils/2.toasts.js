@@ -12,8 +12,8 @@ fn.toast = (arg) => {
       'background-color': 'rgba(0,5,20,0.6)',
       'text-shadow': '',
       'font-family': 'monospace',
-      footer: { 
-        'text-align': 'end', 
+      footer: {
+        'text-align': 'end',
       },
     },
   };
@@ -26,7 +26,7 @@ fn.errorToast = (error) => {
     text: error.message || error.text || error,
     css: {
       'background-color': 'rgba(200,0,0,0.6)',
-    }
+    },
   };
   return fn.toast(toast);
 };
@@ -57,7 +57,7 @@ fn.infoToast = (arg, key, val) => {
   return fn.toast(fn.merge(defaults, arg, override));
 };
 
-fn.dismissable = ({title, text, key}) => {
+fn.dismissable = ({ title, text, key }) => {
   const buttons = {
     text: 'Dismiss',
     className: 'dismiss',
@@ -66,7 +66,7 @@ fn.dismissable = ({title, text, key}) => {
       height: '',
       background: '',
       'font-size': '',
-      'margin': '',
+      margin: '',
       'border-radius': '',
     },
     onclick: (e) => {
@@ -74,7 +74,9 @@ fn.dismissable = ({title, text, key}) => {
     },
   };
   return fn.toast({
-    title, text, buttons,
+    title,
+    text,
+    buttons,
     className: 'dismissable',
   });
 };

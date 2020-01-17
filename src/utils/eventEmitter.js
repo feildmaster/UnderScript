@@ -4,17 +4,17 @@ wrap(() => {
       // eventName: [events]
     };
     const emitter = {
-      on: function (event, fn) {
-        if (typeof fn !== "function") return emitter;
+      on: (event, fn) => {
+        if (typeof fn !== 'function') return emitter;
         event.split(' ').forEach((e) => {
-          if (!events.hasOwnProperty(e)) {
+          if (!events.hasOwnProperty(e)) { // eslint-disable-line no-prototype-builtins
             events[e] = [];
           }
           events[e].push(fn);
         });
         return emitter;
       },
-      emit: function (event, data, cancelable = false) {
+      emit: (event, data, cancelable = false) => {
         const lEvents = events[event];
         let ran = false;
         let canceled = false;
@@ -36,9 +36,7 @@ wrap(() => {
           canceled: cancelable && canceled,
         };
       },
-      emitJSON: function (event, data, cancelable) {
-        return this.emit(event, JSON.parse(data), cancelable);
-      },
+      emitJSON: (event, data, cancelable) => emitter.emit(event, JSON.parse(data), cancelable),
     };
 
     return emitter;

@@ -1,9 +1,9 @@
 const $el = wrap(() => {
   function removeClass(el, className) {
-    el.forEach((e) => e.classList.remove(className))
+    el.forEach((e) => e.classList.remove(className));
   }
 
-  function containsText(el, text, {mutex, single} = {}) {
+  function containsText(el, text, { mutex, single } = {}) {
     if (el.forEach) {
       const ret = [];
       for (let i = 0; i < el.length; i++) {
@@ -14,7 +14,7 @@ const $el = wrap(() => {
       }
       return single ? ret[0] : ret;
     }
-    return !!~(el.textContent||el.innerText).indexOf(text);
+    return !!~(el.textContent || el.innerText).indexOf(text);
   }
   function getText(el) {
     return el.value || el.textContent || el.innerText;
@@ -24,7 +24,7 @@ const $el = wrap(() => {
     el[set] = text;
     return el;
   }
-  function containsHTML(el, text, {mutex, single} = {}) {
+  function containsHTML(el, text, { mutex, single } = {}) {
     if (el.forEach) {
       const ret = [];
       for (let i = 0; i < el.length; i++) {

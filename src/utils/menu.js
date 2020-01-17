@@ -1,5 +1,10 @@
 const menu = wrap(() => {
-  let initialized, menuOpen, wrapper, body, cooked, toast;
+  let initialized;
+  let menuOpen;
+  let wrapper;
+  let body;
+  let cooked;
+  let toast;
   const buttons = [];
 
   function init() {
@@ -24,14 +29,15 @@ const menu = wrap(() => {
     body = $('<div class="menu-body">');
     wrapper = $('<div class="menu-backdrop" tabindex="-1">')
       .append($('<div class="menu-content">')
-      .attr({
-        role: 'Menu',
-      })
-      .append(
-        `<div class="menu-header"><span class="menu-close right">&times;</span>MENU</div>`,
-        body,
-        `<div class="menu-footer"><a href="https://git.io/fxysg" target="_blank">UnderScript</a> v${scriptVersion} <a href="https://discord.gg/D8DFvrU" target="_blank"><img id="usdiscord" src="images/social/discord.png" alt="discord"></a></div>`
-      )).on('click', (e) => {
+        .attr({
+          role: 'Menu',
+        })
+        .append(
+          `<div class="menu-header"><span class="menu-close right">&times;</span>MENU</div>`,
+          body,
+          `<div class="menu-footer"><a href="https://git.io/fxysg" target="_blank">UnderScript</a> v${scriptVersion} <a href="https://discord.gg/D8DFvrU" target="_blank"><img id="usdiscord" src="images/social/discord.png" alt="discord"></a></div>`,
+        ))
+      .on('click', (e) => {
         if (e.target === wrapper[0]) {
           close();
         }
@@ -58,7 +64,7 @@ const menu = wrap(() => {
           button.text(data.getText());
         }
         if (typeof data.action === 'function') {
-          function callable(e)  {
+          const callable = (e) => {
             if (typeof data.enabled !== 'function' || data.enabled()) {
               const result = data.action(e);
               if (result !== undefined ? result : data.close) {
@@ -67,14 +73,14 @@ const menu = wrap(() => {
             } else {
               button.blur();
             }
-          }
+          };
           button.on('click', callable)
             .on('keydown', (e) => {
               if (e.which !== 32 && e.which !== 13) return;
               e.preventDefault();
               callable(e);
             }).css({
-              cursor: 'pointer', 
+              cursor: 'pointer',
             });
         }
         if (data.note) {
@@ -111,10 +117,13 @@ const menu = wrap(() => {
   function addButton(button = {}) {
     if (!button || !button.text) return fn.debug('Menu: Missing button information');
     const { text, action, url, note, enabled, hidden } = button;
-    const close = button.keep !== true;
     const safeButton = {
-      action, url, close, note, enabled, 
-      getText: () => typeof text === 'function' ? text() : text,
+      action,
+      url,
+      note,
+      enabled,
+      close: button.keep !== true,
+      getText: () => (typeof text === 'function' ? text() : text),
       hidden: () => typeof hidden === 'function' && hidden() || false,
     };
     if (button.top) {
@@ -130,7 +139,7 @@ const menu = wrap(() => {
       text: 'UnderScript has a menu, press ESC to open it!',
       onClose: (reason) => {
         toast = null;
-        //return reason !== 'opened';
+        // return reason !== 'opened';
       },
     }, 'underscript.notice.menu', '1');
   });

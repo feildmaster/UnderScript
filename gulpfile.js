@@ -1,8 +1,9 @@
+/* eslint-env node */
 const { dest, series, src, watch } = require('gulp');
 const concat = require('gulp-concat');
 const rename = require('gulp-rename');
 const replace = require('gulp-replace');
-const insert = require('gulp-insert');;
+const insert = require('gulp-insert');
 const iff = require('gulp-if');
 const package = require('./package.json');
 

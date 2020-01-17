@@ -16,13 +16,13 @@ wrap(() => {
     fn.addMenuButton = (name, url) => {
       if (!name) throw new Error('Menu button must have a name');
       const el = document.createElement('li');
-  
+
       const a = document.createElement('a');
       a.classList.add('click');
       a.text = name;
       if (url) a.href = url;
       el.append(a);
-  
+
       menu.append(el);
       return el;
     };

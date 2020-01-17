@@ -1,6 +1,6 @@
 const cardHelper = wrap(() => {
   const unset = [undefined, null];
-  function max(rarity) {
+  function max(rarity) { // eslint-disable-line no-shadow
     switch (rarity) {
       case 'DETERMINATION':
       case 'LEGENDARY': return 1;
@@ -9,7 +9,9 @@ const cardHelper = wrap(() => {
       case 'BASE':
       case 'COMMON': return 3;
       case 'GENERATED': return 0;
-      default: debug(`Unknown rarity: ${rarity}`);
+      default:
+        debug(`Unknown rarity: ${rarity}`);
+        return undefined;
     }
   }
 
@@ -28,7 +30,7 @@ const cardHelper = wrap(() => {
       }
     }
     return elements[0];
-  } 
+  }
 
   function name(el) {
     return el.querySelector('.cardName').textContent;
@@ -63,7 +65,7 @@ const cardHelper = wrap(() => {
       case 'LEGENDARY': return s ? 3200 : 1600;
       case 'EPIC': return s ? 1600 : 400;
       case 'RARE': return s ? 800 : 100;
-      case 'COMMON': return s ? 400: 40;
+      case 'COMMON': return s ? 400 : 40;
       case 'BASE': return s ? 400 : null;
     }
   }
@@ -76,9 +78,9 @@ const cardHelper = wrap(() => {
       r = rarity(r);
     }
     switch (r) {
-      default: fn.debug(`Unknown Rarity: ${r}`);
+      default: fn.debug(`Unknown Rarity: ${r}`); // fallthrough
       case 'GENERATED': // You can't craft this, but I don't want an error
-      case 'DETERMINATION': return;
+      case 'DETERMINATION': return undefined;
       case 'LEGENDARY': return s ? 1600 : 400;
       case 'EPIC': return s ? 400 : 100;
       case 'RARE': return s ? 100 : 20;
@@ -88,16 +90,21 @@ const cardHelper = wrap(() => {
   }
 
   function getCardData(id) {
-    const cards = global('allCards').filter(card => card.id === parseInt(id));
+    const cards = global('allCards').filter((card) => card.id === parseInt(id, 10));
     if (cards.length) return cards[0];
     throw new Error(`Unknown card ${id}`);
   }
 
   return {
-    cost, find, name, rarity,
+    cost,
+    find,
+    name,
+    rarity,
     shiny: isShiny,
     craft: {
-      max, quantity, totalDust,
+      max,
+      quantity,
+      totalDust,
       cost: dustCost,
       worth: dustGain,
     },

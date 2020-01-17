@@ -1,10 +1,12 @@
 const api = wrap(() => {
-  const underscript = window.underscript = {
+  const underscript = {
     version: scriptVersion,
   };
 
+  window.underscript = underscript;
+
   function register(name, val) {
-    if (underscript.hasOwnProperty(name)) throw new Error('Variable already exposed');
+    if (Object.prototype.hasOwnProperty.call(underscript, name)) throw new Error('Variable already exposed');
 
     underscript[name] = val;
   }

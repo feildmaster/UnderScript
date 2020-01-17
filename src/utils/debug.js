@@ -1,11 +1,11 @@
 function debug(message, permission = 'debugging', ...extras) {
   if (!settings.value(permission) && !settings.value('debugging.*')) return;
-  //message.stack = new Error().stack.split('\n').slice(2);
+  // message.stack = new Error().stack.split('\n').slice(2);
   console.log(`[${permission}]`, message, ...extras);
 }
 
 fn.debug = (arg, permission = 'debugging') => {
-  if (!settings.value(permission) && !settings.value('debugging.*')) return;
+  if (!settings.value(permission) && !settings.value('debugging.*')) return false;
   if (typeof arg === 'string') {
     arg = {
       text: arg,
@@ -14,7 +14,7 @@ fn.debug = (arg, permission = 'debugging') => {
   const defaults = {
     background: '#c8354e',
     textShadow: '#e74c3c 1px 2px 1px',
-    css: {'font-family': 'inherit'},
+    css: { 'font-family': 'inherit' },
     button: {
       // Don't use buttons, mouseOver sucks
       background: '#e25353',

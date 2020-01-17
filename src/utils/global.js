@@ -2,7 +2,7 @@ function global(...key) {
   const {
     throws = true,
   } = typeof key[key.length - 1] === 'object' ? key.pop() : {};
-  const found = key.find(e => window.hasOwnProperty(e));
+  const found = key.find((e) => Object.prototype.hasOwnProperty.call(window, e));
   if (found === undefined) {
     const msg = `[${key.join(',')}] does not exist`;
     if (throws) throw new Error(msg);
@@ -12,9 +12,9 @@ function global(...key) {
 }
 
 function globalSet(key, value, {
-  throws=true,
+  throws = true,
 } = {}) {
-  if (!window.hasOwnProperty(key)) {
+  if (!Object.prototype.hasOwnProperty.call(window, key)) {
     const msg = `[${key}] does not exist`;
     if (throws) throw new Error(msg);
     return debug(msg);

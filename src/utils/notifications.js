@@ -8,7 +8,7 @@ wrap(() => {
     return Promise.resolve(false);
   }
 
-  function isType(type='default') {
+  function isType(type = 'default') {
     return window.Notification && Notification.permission === type;
   }
 
@@ -44,8 +44,8 @@ wrap(() => {
       className: 'dismiss',
       onclick() {
         requestPermission().then((result) => {
-          fn.toast('Notifications ' + (result === 'granted' ? 'allowed' : 'denied'));
-        })
+          fn.toast(`Notifications ${result === 'granted' ? 'allowed' : 'denied'}`);
+        });
       },
     }, {
       css,
@@ -53,10 +53,11 @@ wrap(() => {
       className: 'dismiss',
       onclick() {
         localStorage.setItem('underscript.notification.dismissPrompt', true);
-      }
+      },
     }];
     fn.toast({
-      buttons, text,
+      buttons,
+      text,
       className: 'dismissable',
     });
   }

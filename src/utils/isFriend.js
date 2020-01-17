@@ -1,1 +1,1 @@
-fn.isFriend = (name) => window.selfFriends && selfFriends.some((friend) => friend.username === name);
+fn.isFriend = (name) => window.selfFriends && global('selfFriends').some((friend) => friend.username === name);

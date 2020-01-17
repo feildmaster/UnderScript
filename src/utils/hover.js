@@ -1,5 +1,7 @@
 const hover = wrap(() => {
-  let e, x, y;
+  let e;
+  let x;
+  let y;
   function update() {
     if (!e) return;
     e.css({
@@ -9,8 +11,8 @@ const hover = wrap(() => {
       top: y + e.height() + 18 > $(window).height() ? $(window).height() - e.height() : y + 18,
     });
   }
-  eventManager.on("jQuery", () => {
-    $(document).on("mousemove.script", function mouseMove(event) {
+  eventManager.on('jQuery', () => {
+    $(document).on('mousemove.script', function mouseMove(event) {
       x = event.pageX - window.pageXOffset;
       y = event.pageY - window.pageYOffset;
       update();
@@ -27,34 +29,47 @@ const hover = wrap(() => {
     return function hoverAction(event) {
       hide();
       if (event.type === 'mouseleave' || event.type === 'blur') return;
-      e = $("<div>");
+      e = $('<div>');
       e.append(data);
       e.append($(footer).clone());
       e.css({
         border,
-        position: "fixed",
-        "background-color": "rgba(0,0,0,0.9)",
+        position: 'fixed',
+        'background-color': 'rgba(0,0,0,0.9)',
         padding: '2px',
         'z-index': 1220,
       });
-      $("body").append(e);
+      $('body').append(e);
       update();
     };
   }
   function getFooter(type) {
-    switch(type) {
+    switch (type) {
       default: return footer;
-      case 'footer2', 'short': return footer2;
-      case 'none', 'hidden': return '';
+      case 'footer2':
+      case 'short': return footer2;
+      case 'none':
+      case 'hidden': return '';
     }
   }
-  function tip(text, target, { follow=true, arrow=false, onShow, footer='footer', fade=false, placement='auto', trigger, distance, offset='50, 25' } = {}) {
+  function tip(text, target, {
+    follow = true,
+    arrow = false,
+    onShow,
+    footer = 'footer',
+    fade = false,
+    placement = 'auto',
+    trigger,
+    distance,
+    offset = '50, 25',
+  } = {}) {
     debug(`Hover Tip: ${text}`);
     const options = {
-      arrow, placement,
+      arrow,
+      placement,
       content: `<div>${text}</div>${getFooter(footer)}`,
       animateFill: false,
-      //animation: '',
+      // animation: '',
       theme: 'undercards',
       hideOnClick: true,
       a11y: false,

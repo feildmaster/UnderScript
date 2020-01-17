@@ -46,7 +46,8 @@ eventManager.on('ChatDetected', function ignoreChat() {
         pendingIgnore.set(true); // TODO
         return;
       }
-      msg.find(`.chat-message`).html('<span class="gray">Message Ignored</span>').removeClass().addClass('chat-message');
+      msg.find(`.chat-message`).html('<span class="gray">Message Ignored</span>')
+        .removeClass().addClass('chat-message');
     } else if (type === 'remove') {
       debug(`removed ${message.user.username}`, 'debugging.chat');
       if (!container) {
@@ -88,6 +89,7 @@ eventManager.on('ChatDetected', function ignoreChat() {
     if (settings.value('underscript.ignorechat.how') !== 'hide') return;
     const message = JSON.parse(data.chatMessage);
     if (!shouldIgnore(message) || global('isFriend')(message.user.id)) return;
-    $(`#${data.room} #message-${message.id} .chat-message`).html('<span class="gray">Message Ignored</span>').removeClass().addClass('chat-message');
+    $(`#${data.room} #message-${message.id} .chat-message`).html('<span class="gray">Message Ignored</span>')
+      .removeClass().addClass('chat-message');
   });
 });

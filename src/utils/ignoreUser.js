@@ -1,6 +1,7 @@
 fn.ignoreUser = (name, key) => {
   settings.register({
-    key, name,
+    key,
+    name,
     type: 'remove',
     page: 'Chat',
     category: 'Ignored Users',
