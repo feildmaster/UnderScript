@@ -83,7 +83,12 @@ eventManager.on("GameStart", function battleLogger() {
       c.css('text-decoration', 'underline');
 
       const d = $('<div>');
-      global('appendCard')(d, card);
+      const appendCard = global('appendCard');
+      try {
+        appendCard(card, d);
+      } catch(e) { // if he ever decides to switch it again.......
+        appendCard(d, card);
+      }
       c.hover(hover.show(d));
       return c;
     },
