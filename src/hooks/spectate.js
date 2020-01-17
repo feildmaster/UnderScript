@@ -1,6 +1,6 @@
-onPage("Spectate", function () {
-  debug("Spectating Game");
-  eventManager.emit("GameStart");
+onPage('Spectate', () => {
+  debug('Spectating Game');
+  eventManager.emit('GameStart');
 
   eventManager.on(':loaded', () => {
     function callGameHooks(data, original) {
@@ -8,21 +8,20 @@ onPage("Spectate", function () {
       try {
         if (run) original(data);
       } catch (e) {
-        console.error(e);
+        console.error(e); // eslint-disable-line no-console
       }
       eventManager.emit('GameEvent', data);
     }
+
+    function hookEvent(event) {
+      callGameHooks(event, this.super);
+    }
+
     if (undefined !== window.bypassQueueEvents) {
-      const oRunEvent = runEvent;
-      const oBypassEvent = bypassQueueEvent;
-      runEvent = function runEventScript(event) {
-        callGameHooks(event, oRunEvent);
-      };
-      bypassQueueEvent = function runEventScript(event) {
-        callGameHooks(event, oBypassEvent);
-      };
+      globalSet('runEvent', hookEvent);
+      globalSet('bypassQueueEvent', hookEvent);
     } else {
-      debug(`You\'re a fool.`);
+      debug(`You're a fool.`);
     }
   });
 });

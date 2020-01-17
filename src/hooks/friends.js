@@ -1,5 +1,5 @@
 // Friends list hooks. TODO: only work if logged in
-if (true) {
+wrap(() => {
   function getFromEl(el) {
     const link = el.find('a:first').attr('href');
     const id = link.substring(link.indexOf('=') + 1);
@@ -21,23 +21,25 @@ if (true) {
       }
       */
       const requests = {};
-      //const pending = {};
-      data.find('p:contains(Friend requests)').parent().children('li').each(function () {
+      // const pending = {};
+      data.find('p:contains(Friend requests)').parent().children('li').each(function fR() {
         const f = getFromEl($(this));
         requests[f.id] = f.name;
       });
       const count = Object.keys(requests).length;
       if (count !== validated && count > 3 && !validate) {
         return loadFriends(validate);
-      } else if (validate) {
+      }
+      if (validate) {
         validated = count;
-        if (validate !== count)fn.debug(`Friends: Validation failed (found ${validate}, got ${count})`)
+        if (validate !== count) fn.debug(`Friends: Validation failed (found ${validate}, got ${count})`);
       }
 
-      //eventManager.emit('Friends:pending', pending);
+      // eventManager.emit('Friends:pending', pending);
       eventManager.emit('preFriends:requests', requests);
       eventManager.emit('Friends:requests', requests);
       eventManager.emit('Friends:refresh');
+      return undefined;
     }).catch((e) => {
       fn.debug(`Friends: ${e.message}`);
     }).then(() => {
@@ -46,4 +48,4 @@ if (true) {
   }
 
   setTimeout(loadFriends, 10000);
-}
+});

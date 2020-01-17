@@ -19,17 +19,18 @@ onPage('Crafting', () => {
           });
         }
       } else if (data.action === 'disenchant') {
+        // TODO
       } else if (data.action === 'auto') {
+        // TODO
       }
     });
   });
 
   eventManager.on(':loaded', () => {
-    const oPage = showPage;
-    showPage = (...args) => {
-      const prevPage = currentPage;
-      oPage(...args);
-      eventManager.emit('Craft:RefreshPage', currentPage, prevPage);
-    };
+    globalSet('showPage', function showPage(...args) {
+      const prevPage = global('currentPage');
+      this.super(...args);
+      eventManager.emit('Craft:RefreshPage', global('currentPage'), prevPage);
+    });
   });
 });

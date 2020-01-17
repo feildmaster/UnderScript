@@ -1,4 +1,4 @@
-onPage('Decks', function () {
+onPage('Decks', function deckPage() {
   debug('Deck editor');
   eventManager.on('jQuery', () => {
     $(document).ajaxSuccess((event, xhr, options) => {
@@ -18,7 +18,7 @@ onPage('Decks', function () {
       eventManager.emit(`Deck:${data.action}`, data, options, xhr);
     });
     // Class change
-    $('#selectSouls').change(function () {
+    $('#selectSouls').change(function soulChange() {
       // Sometimes it takes too long, so lets change it now
       globalSet('soul', $(this).val());
       eventManager.emit('Deck:Soul');

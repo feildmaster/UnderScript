@@ -457,7 +457,12 @@ const settings = wrap(() => {
   init('main');
 
   return {
-    open, close, setDisplayName, isOpen, value, remove, // TODO
+    open,
+    close,
+    setDisplayName,
+    isOpen,
+    value,
+    remove,
     register: add,
     on: (...args) => events.on(...args),
     export: exportSettings,

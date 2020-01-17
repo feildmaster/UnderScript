@@ -1,4 +1,4 @@
-eventManager.on('GameStart', function () {
+eventManager.on('GameStart', function gameEvents() {
   let finished = false;
   eventManager.on('GameEvent', function logEvent(data) {
     if (finished) { // Sometimes we get events after the battle is over

@@ -9,6 +9,8 @@ module.exports = {
     },
     'globals': {
         'api': 'readonly',
+        'axios': 'readonly',
+        'chatRoomNames': 'readonly',
         'debug': 'readonly',
         'eventManager': 'readonly',
         'fn': 'readonly',

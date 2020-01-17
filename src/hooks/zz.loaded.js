@@ -1,4 +1,4 @@
-console.log(`UnderScript(v${scriptVersion}): Loaded`);
+console.log(`UnderScript(v${scriptVersion}): Loaded`); // eslint-disable-line no-console
 eventManager.on(':ready', () => {
   function loaded() {
     eventManager.emit(':loaded');

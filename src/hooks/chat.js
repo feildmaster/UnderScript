@@ -3,10 +3,11 @@ eventManager.on(':loaded', () => {
     debug('Chat detected');
     eventManager.emit('ChatDetected');
 
+    const socketChat = global('socketChat');
     const oHandler = socketChat.onmessage;
     socketChat.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      const {action} = data;
+      const { action } = data;
       debug(data, `debugging.rawchat.${action}`);
 
       // Populate chatroom names
@@ -17,15 +18,17 @@ eventManager.on(':loaded', () => {
       oHandler(event);
       eventManager.emit('ChatMessage', data);
       eventManager.emit(`Chat:${action}`, data);
-    }
-    eventManager.on('Chat:getHistory', ({room, roomName: name}) => {
+    };
+    eventManager.on('Chat:getHistory', ({ room, roomName: name }) => {
       // Send text hook
       const messages = $(`#${room} .chat-messages`);
-      $(`#${room} input[type="text"]`).keydown(function (e) {
+      $(`#${room} input[type="text"]`).keydown(function sending(e) {
         if (e.which !== 13) return;
 
         const data = {
-          room, name, messages,
+          room,
+          name,
+          messages,
           input: this,
         };
         if (eventManager.emit('Chat:send', data, true).canceled) {
