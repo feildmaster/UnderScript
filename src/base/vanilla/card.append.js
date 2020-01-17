@@ -1,7 +1,7 @@
 wrap(function cardEvent() {
   eventManager.on(':loaded', () => {
-    globalSet('appendCard', function (container, card) {
-      const element = this.super(container, card);
+    globalSet('appendCard', function (card, container) {
+      const element = this.super(card, container);
       eventManager.emit('appendCard()', {
         card, element,
       });
