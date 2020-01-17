@@ -236,12 +236,15 @@ const settings = wrap(() => {
     }
     if (data.refresh || data.note) {
       setting.note = () => {
+        const notes = [];
+        const note = typeof data.note === 'function' ? data.note() : data.note;
+        if (note) notes.push(note);
         if (data.refresh) {
           if (typeof data.refresh === 'function' ? data.refresh() : data.refresh) {
-            return 'Will require you to refresh the page';
+            notes.push('Will require you to refresh the page');
           }
         }
-        return typeof data.note === 'function' ? data.note() : data.note;
+        return notes.join('<br>');
       };
     }
     const conf = init(page);
