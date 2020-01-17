@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.34.1
+1. Fixed battle log not showing card events
+
 ## Version 0.34.0
 1. Fixed /spectate command
 1. Fixed deck page squishing buttons
