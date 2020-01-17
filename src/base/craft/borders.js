@@ -2,7 +2,7 @@ settings.register({
   name: 'Disable Crafting Highlight',
   key: 'underscript.disable.craftingborder',
   onChange: () => {
-    if (script.onPage('Crafting')) {
+    if (onPage('Crafting')) {
       setTimeout(() => eventManager.emit('refreshhighlight'));
     }
   },
@@ -10,7 +10,7 @@ settings.register({
   page: 'Library',
 });
 
-script.onPage('Crafting', function craftableCards() {
+onPage('Crafting', function craftableCards() {
   style.add(
     '.craftable .cardFrame { -webkit-filter: grayscale(100%) brightness(45%) sepia(100%) hue-rotate(80deg) saturate(400%) contrast(1.5); filter: grayscale(100%) brightness(45%) sepia(100%) hue-rotate(80deg) saturate(400%) contrast(1.5); }',
     '.highlight-green { text-shadow: 0px 0px 10px #008000; color: #00cc00; }',
