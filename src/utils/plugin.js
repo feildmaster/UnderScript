@@ -14,9 +14,10 @@ wrap(() => {
       name,
     };
 
-    modules.forEach(({name, mod}) => {
-      if (methods.hasOwnProperty(name)) return console.error(`Skipping "${name}": Already exists`);
-      methods[name] = mod(methods);
+    modules.forEach(({ name: prop, mod }) => {
+      // eslint-disable-next-line no-prototype-builtins
+      if (methods.hasOwnProperty(prop)) return console.error(`Skipping "${prop}": Already exists`);
+      methods[prop] = mod(methods);
     });
 
     const plugin = Object.freeze(methods);
@@ -28,5 +29,7 @@ wrap(() => {
 
   api.register('plugin', Plugin);
 
-  script.registerModule = (name, mod) => modules.push({name, mod});
+  script.registerModule = (name, mod) => {
+    modules.push({ name, mod });
+  };
 });

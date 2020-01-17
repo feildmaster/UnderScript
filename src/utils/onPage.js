@@ -1,5 +1,6 @@
 function onPage(name, fn) {
-  var length = location.pathname.length, temp;
+  const length = location.pathname.length;
+  let temp;
   if ((temp = location.pathname.indexOf(".")) === -1 && (temp = location.pathname.indexOf("/")) === -1) {
     temp = null;
   }

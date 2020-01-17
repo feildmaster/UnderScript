@@ -3,8 +3,8 @@ const settings = wrap(() => {
     '.mono .modal-body { font-family: monospace; max-height: 500px; overflow-y: auto; }',
     '.underscript-dialog .remove { display: none; }',
     '.underscript-dialog .remove:checked + label:before { content: "× "; color: red; }',
-    //'.underscript-dialog .modal-content { background: #000 url(../images/backgrounds/2.png) -380px -135px; }',
-    //'.underscript-dialog .modal-content .modal-header, .underscript-dialog .modal-body { background-color: transparent; }',
+    // '.underscript-dialog .modal-content { background: #000 url(../images/backgrounds/2.png) -380px -135px; }',
+    // '.underscript-dialog .modal-content .modal-header, .underscript-dialog .modal-body { background-color: transparent; }',
     '.underscript-dialog .modal-footer button.btn { margin-bottom: 5px; }',
     '.underscript-dialog input[type="color"] { width: 16px; height: 18px; padding: 0 1px; }',
     '.underscript-dialog input[type="color"]:hover { border-color: #00b8ff; cursor: pointer; }',
@@ -20,7 +20,7 @@ const settings = wrap(() => {
   let dialog = null;
 
   function init(page) {
-    if (!configs.hasOwnProperty(page)) {
+    if (!Object.prototype.hasOwnProperty.call(configs, page)) {
       configs[page] = {
         name: page === 'main' ? 'UnderScript' : page,
         settings: {},
@@ -55,7 +55,7 @@ const settings = wrap(() => {
       .attr({
         for: key,
       });
-      ret.append(el, ' ', label);
+    ret.append(el, ' ', label);
     return ret;
   }
 
@@ -64,7 +64,8 @@ const settings = wrap(() => {
     const ret = $('<div>');
     const key = setting.key;
     const current = localStorage.getItem(key) || getDefault(setting);
-    let el, lf;
+    let el;
+    let lf;
     if (setting.type === 'boolean') {
       el = $(`<input type="checkbox" >`)
         .prop('checked', current === '1' || current === true);
@@ -90,7 +91,7 @@ const settings = wrap(() => {
         value: current,
       });
     } else if (setting.type === 'color') {
-      //lf = true;
+      // lf = true;
       el = $('<input>').attr({
         type: 'color',
         value: current,
@@ -166,7 +167,7 @@ const settings = wrap(() => {
         .click(() => {
           const def = getDefault(setting);
           el.val(def === null ? '' : def); // Manually change
-          callChange({target: el}); // Trigger change
+          callChange({ target: el }); // Trigger change
           localStorage.removeItem(setting.key); // Remove
         });
       ret.append(' ', reset);
@@ -248,7 +249,7 @@ const settings = wrap(() => {
       };
     }
     const conf = init(page);
-    if (conf.hasOwnProperty(setting.key)) {
+    if (Object.prototype.hasOwnProperty.call(conf, setting.key)) {
       debug(`settings.add: ${setting.name} already registered`);
       return false;
     }
@@ -286,39 +287,39 @@ const settings = wrap(() => {
       events.emit(setting.key, val, prev);
     };
     conf.settings[setting.key] = setting;
-    if (!settingReg.hasOwnProperty(setting.key)) {
+    if (!Object.prototype.hasOwnProperty.call(settingReg, setting.key)) {
       settingReg[setting.key] = setting;
     }
     return {
       key: setting.key,
       value: () => value(setting.key),
-      set: (value) => localStorage.setItem(setting.key, value),
+      set: (val) => localStorage.setItem(setting.key, val),
     };
   }
 
   function buttons(page) {
-    const buttons = [];
+    const btns = [];
     fn.each(configs, ({ name }, key) => {
       if (key === page) return;
-      buttons.push({
+      btns.push({
         label: name,
-        action: (dialog) => {
-          dialog.close();
+        action: (diag) => {
+          diag.close();
           open(key);
         },
       });
     });
-    buttons.push({
+    btns.push({
       label: 'Close',
       action: close,
     });
-    return buttons;
+    return btns;
   }
 
   function open(page = 'main') {
     if (typeof page !== 'string') throw new Error(`Attempted to open ${typeof page}`);
     const displayName = configs[page].name;
-    BootstrapDialog.show({
+    global('BootstrapDialog').show({
       title: `UnderScript Configuration${page !== 'main' ? `: ${displayName}` : ''}`,
       message: getMessage,
       cssClass: 'mono underscript-dialog',
@@ -356,27 +357,29 @@ const settings = wrap(() => {
     const setting = settingReg[key];
     const val = localStorage.getItem(key);
     if (!val) return getDefault(setting);
-    else if (!setting || setting.type === 'boolean') return val === '1' || val === 'true';
-    else if (setting.type === 'array') return JSON.parse(val);
-    else return val;
+    if (!setting || setting.type === 'boolean') return val === '1' || val === 'true';
+    if (setting.type === 'array') return JSON.parse(val);
+    return val;
   }
 
   function getDefault(setting = {}) {
     if (setting.default) {
       const val = typeof setting.default === 'function' ? setting.default() : setting.default;
       if (setting.type === 'boolean') {
-        return val !== 'false' && val !== '0' && new Boolean(val).valueOf();
+        return val !== 'false' && val !== '0' && Boolean(val);
       }
       return val;
-    } else if (setting.type === 'select') {
+    }
+    if (setting.type === 'select') {
       return setting.options[0];
-    } else if (setting.type === 'array') {
+    }
+    if (setting.type === 'array') {
       return [];
     }
     return null;
   }
 
-  function remove(key)  {
+  function remove(key) {
     const setting = settingReg[key];
     if (!setting) return;
     removeSetting(setting, $(`[id='${key}']`));
@@ -395,38 +398,40 @@ const settings = wrap(() => {
   }
 
   function exportSettings() {
-    const settings = {};
+    const localSet = {};
     const extras = ['underscript.notice.', 'underscript.plugin.'];
     let used = false;
     fn.each(settingReg, (setting) => {
       if (!setting.exportable) return;
       const { key, extraPrefix } = setting;
-      const value = localStorage.getItem(key);
-      if (value !== null) {
+      const val = localStorage.getItem(key);
+      if (val !== null) {
         used = true;
-        settings[key] = value;
+        localSet[key] = val;
       }
       // By checking against prefixes later we cut on iterations
       if (extraPrefix) {
         extras.push(extraPrefix);
       }
     });
-    Object.entries(localStorage).forEach(([key, value]) => {
-      if (settings.hasOwnProperty(key)) return;
+    Object.entries(localStorage).forEach(([key, val]) => {
+      if (Object.prototype.hasOwnProperty.call(localSet, key)) return;
       used |= extras.some((prefix) => {
         if (key.startsWith(prefix)) {
-          settings[key] = value;
+          localSet[key] = val;
           return true;
         }
+        return false;
       });
     });
-    return used ? btoa(JSON.stringify(settings)) : '';
+    return used ? btoa(JSON.stringify(localSet)) : '';
   }
 
   function importSettings(string) {
     try {
       // TODO
-    } catch(e) {
+    } catch (e) {
+      // TODO
     }
   }
 
@@ -435,7 +440,7 @@ const settings = wrap(() => {
     menu.addButton({
       text: 'Settings',
       action: () => {
-        open('main'); 
+        open('main');
       },
       enabled() {
         return typeof BootstrapDialog !== 'undefined';
@@ -444,7 +449,7 @@ const settings = wrap(() => {
         if (!this.enabled()) {
           return 'Settings temporarily unavailable';
         }
-      }
+      },
     });
   });
 
@@ -452,7 +457,7 @@ const settings = wrap(() => {
   init('main');
 
   return {
-    open, close, setDisplayName, isOpen, value, remove,
+    open, close, setDisplayName, isOpen, value, remove, // TODO
     register: add,
     on: (...args) => events.on(...args),
     export: exportSettings,

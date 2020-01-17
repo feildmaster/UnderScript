@@ -1,5 +1,5 @@
 fn.pingRegex = wrap(() => {
-  const filter = /(\||\\|\(|\)|\*|\+|\?|\.|\^|\$|\[|\{|\})/g
+  const filter = /(\||\\|\(|\)|\*|\+|\?|\.|\^|\$|\[|\{|\})/g;
   function filterMeta(text) {
     return text.replace(filter, '\\$1');
   }

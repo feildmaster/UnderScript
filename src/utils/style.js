@@ -2,13 +2,13 @@
 const style = wrap(() => {
   const el = document.createElement('style');
   el.type = 'text/css';
-  eventManager.on(':loaded', function () {
+  eventManager.on(':loaded', function append() {
     document.head.append(el);
   });
 
   function add(...styles) {
-    styles.forEach((style) => {
-      el.appendChild(document.createTextNode(style));
+    styles.forEach((newStyle) => {
+      el.appendChild(document.createTextNode(newStyle));
     });
   }
 

@@ -1,4 +1,4 @@
-fn.user = wrap(function () {
+fn.user = wrap(function fnUser() {
   function name(user) {
     return user.username;
   }

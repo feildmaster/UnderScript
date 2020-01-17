@@ -8,11 +8,9 @@ fn.toLocale = ({
   let text;
   try {
     text = $.i18n(id, ...data);
-  } catch(_) {
+  } catch (_) {
     text = 'ERROR';
   }
   $.i18n().locale = l;
   return text;
 };
-
-window.toLocale = fn.toLocale;

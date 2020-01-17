@@ -1,22 +1,22 @@
-settings.register({
-  name: 'Announcement',
-  key: 'underscript.winstreak',
-  options: ['Chat', 'Toast', 'Both', 'Hidden'],
-  default: 'Both',
-  type: 'select',
-  page: 'Chat',
-  category: 'Winstreak'
-});
-
-settings.register({
-  name: 'Friends Only',
-  key: 'underscript.winstreak.friendsOnly',
-  page: 'Chat',
-  category: 'Winstreak'
-});
-
 wrap(() => {
-  const empty = { close() {} }
+  settings.register({
+    name: 'Announcement',
+    key: 'underscript.winstreak',
+    options: ['Chat', 'Toast', 'Both', 'Hidden'],
+    default: 'Both',
+    type: 'select',
+    page: 'Chat',
+    category: 'Winstreak',
+  });
+
+  settings.register({
+    name: 'Friends Only',
+    key: 'underscript.winstreak.friendsOnly',
+    page: 'Chat',
+    category: 'Winstreak',
+  });
+
+  const empty = { close() {} };
   const toasts = {
     v: [],
     i: 0,
@@ -27,7 +27,6 @@ wrap(() => {
       return toast;
     },
   };
-  const regex = /(?:(.*) is on a (\d+))|(?:(.*) has just stopped (.*)'s (\d+))/;
   function friendsOnly() {
     return settings.value('underscript.winstreak.friendsOnly');
   }
@@ -35,7 +34,7 @@ wrap(() => {
     return !friendsOnly() || fn.isFriend(name);
   }
   function checkCount(amt) {
-    //return parseInt(amt, 10) >= settings.value('underscript.winstreak.count');
+    // return parseInt(amt, 10) >= settings.value('underscript.winstreak.count');
     return true;
   }
   const events = ['chat-user-ws', 'chat-user-ws-stop'];
@@ -54,11 +53,11 @@ wrap(() => {
     }
     // At this point Toast is guaranteed
     const toast = toasts.add(fn.toast({
-      text: translateFromServerJson(data.message),
-      //timeout: 10000,
+      text: global('translateFromServerJson')(data.message),
+      // timeout: 10000,
       css: {
         color: 'yellow',
-        footer: {color: 'white'},
+        footer: { color: 'white' },
       },
     }));
     toast.time = Date.now();

@@ -31,10 +31,10 @@ wrap(() => {
       return;
     }
     fn.toast({
-      text: translateFromServerJson(data.message),
+      text: global('translateFromServerJson')(data.message),
       css: {
         color: 'yellow',
-        footer: {color: 'white'},
+        footer: { color: 'white' },
       },
     });
   });

@@ -22,7 +22,7 @@ wrap(() => {
     let toast;
     function processMessage(message, room) {
       if (!tag.value()) return;
-      if (isFriend(message.user.id)) {
+      if (global('isFriend')(message.user.id)) {
         if (!toast) {
           toast = fn.infoToast('<span class="friend">Friends</span> are now highlighted in chat.', 'underscript.notice.highlighting', '1');
         }
@@ -43,7 +43,7 @@ wrap(() => {
     });
   });
 
-  function setColor(color) {
-    style.add(`.friend { color: ${color} !important; }`);
+  function setColor(newColor) {
+    style.add(`.friend { color: ${newColor} !important; }`);
   }
 });

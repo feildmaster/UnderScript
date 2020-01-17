@@ -21,7 +21,7 @@ function shouldIgnore(message, self = false) {
   const user = message.user;
   const id = user.id;
   // Is it your own message?
-  if (id === selfId) return self;
+  if (id === global('selfId')) return self;
   // Is user staff?
   if (user.mainGroup.priority <= 6) return false;
   // Ignoring user?
@@ -29,11 +29,12 @@ function shouldIgnore(message, self = false) {
 }
 
 eventManager.on('ChatDetected', function ignoreChat() {
-  let container, count;
+  let container;
+  let count;
 
   function processMessage(message, room, history = false) {
     debug(message, 'debugging.chat.message');
-    if (!shouldIgnore(message) || isFriend(message.user.id)) {
+    if (!shouldIgnore(message) || global('isFriend')(message.user.id)) {
       container = null;
       return;
     }
@@ -42,7 +43,7 @@ eventManager.on('ChatDetected', function ignoreChat() {
     const type = settings.value('underscript.ignorechat.how');
     if (type === 'hide') {
       if (!history) {
-        pendingIgnore.set(true);
+        pendingIgnore.set(true); // TODO
         return;
       }
       msg.find(`.chat-message`).html('<span class="gray">Message Ignored</span>').removeClass().addClass('chat-message');
@@ -63,7 +64,7 @@ eventManager.on('ChatDetected', function ignoreChat() {
       } else if (history) {
         msg.remove();
       }
-      container.text(`${count} Message${count>1?'s':''} Ignored`);
+      container.text(`${count} Message${count > 1 ? 's' : ''} Ignored`);
       count += 1;
       return true;
     } else if (type === 'none') {
@@ -78,7 +79,7 @@ eventManager.on('ChatDetected', function ignoreChat() {
     });
   });
 
-  eventManager.on('preChat:getMessage', function (data) {
+  eventManager.on('preChat:getMessage', function preProcess(data) {
     if (this.canceled) return;
     this.canceled = processMessage(JSON.parse(data.chatMessage), data.room);
   });
@@ -86,7 +87,7 @@ eventManager.on('ChatDetected', function ignoreChat() {
   eventManager.on('Chat:getMessage', function hideMessage(data) {
     if (settings.value('underscript.ignorechat.how') !== 'hide') return;
     const message = JSON.parse(data.chatMessage);
-    if (!shouldIgnore(message) || isFriend(message.user.id)) return;
+    if (!shouldIgnore(message) || global('isFriend')(message.user.id)) return;
     $(`#${data.room} #message-${message.id} .chat-message`).html('<span class="gray">Message Ignored</span>').removeClass().addClass('chat-message');
   });
 });

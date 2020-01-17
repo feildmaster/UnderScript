@@ -34,11 +34,12 @@ wrap(() => {
       const owner = message[1];
       const card = message[2];
 
+      const translateFromServerJson = global('translateFromServerJson');
       const last = getToast(owner);
       if (last) {
         last.cards.push(card);
         message[2] = last.cards.join(', ');
-        last.setText(translateFromServerJson(JSON.stringify({args: JSON.stringify(message)})));
+        last.setText(translateFromServerJson(JSON.stringify({ args: JSON.stringify(message) })));
         last.time = Date.now(); // This toast is still relevant!
         return;
       }
@@ -50,8 +51,10 @@ wrap(() => {
         text: translateFromServerJson(data.message),
         css: {
           color: 'yellow',
-          footer: {color: 'white'},
-        }
+          footer: {
+            color: 'white',
+          },
+        },
       });
       toast.cards = [card];
       toast.owner = owner;
