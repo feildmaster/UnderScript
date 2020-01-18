@@ -57,10 +57,15 @@ eventManager.on('GameStart', function battleLogger() {
     getAnimation: '',
   });
   let baseLives = 1;
-  let turn = 0; let currentTurn = 0; const players = {}; let monsters = {}; let lastEffect; const
-    other = {};
-  let yourDust; let enemyDust; let
-    lastSP;
+  let turn = 0;
+  let currentTurn = 0;
+  const players = {};
+  let monsters = {};
+  let lastEffect;
+  const other = {};
+  let yourDust;
+  let enemyDust;
+  let lastSP;
   function addDust(player) {
     if (!player || !players[player]) return;
     const display = player === global('userId') ? yourDust : enemyDust;

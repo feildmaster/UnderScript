@@ -36,8 +36,9 @@ wrap(() => {
       }
     },
   };
-  let toast; let updateToast; let
-    autoTimeout;
+  let toast;
+  let updateToast;
+  let autoTimeout;
   function check() {
     if (sessionStorage.getItem(CHECKING)) return Promise.resolve();
     sessionStorage.setItem(CHECKING, true);

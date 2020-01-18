@@ -2,6 +2,7 @@
 
 ## Version 0.35.0
 ### New Features
+1. Disable full card art setting
 1. Added Volume Slider for Game Found sound
 1. More Api
   <extended>
@@ -12,8 +13,8 @@
       1. plugin.logger
       1. plugin.events
       1. plugin.settings()
+    1. appendCard() event
   </extended>
-1. appendCard() event (for plugins)
 ### Fixes
 1. Gold average works again
 1. `@` now works in custom ping values
