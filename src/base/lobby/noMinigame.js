@@ -8,15 +8,15 @@ wrap(function minigames() {
 
   onPage('Play', () => {
     eventManager.on(':loaded', () => {
-      globalSet('onload', function() {
+      globalSet('onload', function onload() {
         window.game = undefined; // gets overriden if minigame loads
         window.saveBest = noop(); // gets overriden if minigame loads
         if (setting.value()) {
           debug('Disabling minigames');
-          mobile = true;
+          globalSet('mobile', true);
         }
         this.super();
-        if (setting.value()) mobile = false;
+        if (setting.value()) globalSet('mobile', false);
       });
     });
   });

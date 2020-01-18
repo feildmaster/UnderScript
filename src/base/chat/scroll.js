@@ -1,4 +1,5 @@
 eventManager.on('ChatDetected', function override() {
+  // eslint-disable-next-line consistent-return
   globalSet('scroll', function scroll(room, force = false) {
     if (!force) return this.super(room);
     debug('Forcing scroll');

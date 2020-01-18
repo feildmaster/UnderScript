@@ -1,4 +1,4 @@
-wrap(function page() {
+wrap(() => {
   if (!onPage('Translate')) return;
   const select = document.createElement('select');
   select.value = 0;
@@ -27,11 +27,11 @@ wrap(function page() {
 
   eventManager.on(':loaded', () => {
     $('#currentPage').after(select).hide();
-    globalSet('applyFilters', function (...args) {
+    globalSet('applyFilters', function applyFilters(...args) {
       this.super(...args);
       init();
     });
-    globalSet('showPage', function (page) {
+    globalSet('showPage', function showPage(page) {
       this.super(page);
       select.value = page;
     });

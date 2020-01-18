@@ -3,6 +3,6 @@ eventManager.on('getTurnEnd getTurnStart getPlayableCards', function hideSpells(
   const spells = $('.spellPlayed');
   if (spells.length) {
     spells.remove();
-    debug(`(${this.event}) Removed spell`)
+    debug(`(${this.event}) Removed spell`);
   }
 });

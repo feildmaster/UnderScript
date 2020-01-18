@@ -9,12 +9,12 @@ settings.register({
 eventManager.on('GameStart', function rumble() {
   eventManager.on(':loaded', () => {
     const spectating = onPage('gameSpectate');
-    globalSet('shakeScreen', function(...args) {
+    globalSet('shakeScreen', function shakeScreen(...args) {
       if (!disabled()) this.super(...args);
     });
 
     function disabled() {
-      switch(settings.value('underscript.disable.rumble')) {
+      switch (settings.value('underscript.disable.rumble')) {
         case 'Spectate': return spectating;
         case 'Always': return true;
         default: return false;

@@ -3,12 +3,12 @@ wrap(() => {
   function mod(plugin) {
     const obj = {
       on(event, fn) {
-        if (typeof fn !== "function") throw new Error('Must pass a function');
+        if (typeof fn !== 'function') throw new Error('Must pass a function');
 
         function pluginListener(...args) {
           try {
             fn.call(this, ...args);
-          } catch(e) {
+          } catch (e) {
             plugin.logger.error(`Event error (${event}):\n`, e, '\n', {
               args,
               event: this,

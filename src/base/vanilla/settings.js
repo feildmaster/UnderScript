@@ -54,10 +54,13 @@
   // { key: 'language' },
   // { key: '' },
 ].forEach((setting) => {
-  const {name, key, category} = setting;
+  const { name, key, category } = setting;
   const refresh = category === 'Game' ? () => onPage('Game') || onPage('gameSpectating') : undefined;
   settings.register({
-    name, key, category, refresh,
+    name,
+    key,
+    category,
+    refresh,
     page: 'game',
     remove: true,
     hidden: name === false,

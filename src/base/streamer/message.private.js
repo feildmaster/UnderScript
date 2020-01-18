@@ -1,3 +1,4 @@
+/* eslint-disable no-multi-assign */
 // Toast for private messages while streaming mode is on
 wrap(function streamPM() {
   const busyMessage = ':me:is in do not disturb mode'; // TODO: configurable?
@@ -27,13 +28,13 @@ wrap(function streamPM() {
     if (fn.user.isMod(user)) return; // Moderators are always allowed
 
     this.canceled = true; // Cancel the event from going through
-    
+
     const userId = user.id;
     if (userId === global('selfId')) return; // ignore automated reply
-    
+
     global('sendPrivateMessage')(busyMessage, userId); // send a message that you're busy
     if (val === silent) return close(user); // Close instantly when silent mode
-    
+
     if (toasts[userId]) return; // Don't announce anymore
     const toast = toasts[userId] = fn.toast({
       text: `Message from ${fn.user.name(user)}`,
@@ -43,7 +44,7 @@ wrap(function streamPM() {
           height: '',
           background: '',
           'font-size': '',
-          'margin': '',
+          margin: '',
           'border-radius': '',
         },
         text: 'Open',
@@ -52,7 +53,7 @@ wrap(function streamPM() {
           open(user);
           toast.close('open');
         },
-      },],
+      }],
       onClose(type) {
         if (type === 'open') return;
         close(user);
@@ -71,7 +72,6 @@ wrap(function streamPM() {
   }
 
   function closeAll() {
-    fn.each(toasts, t => t.close());
+    fn.each(toasts, (t) => t.close());
   }
 });
-

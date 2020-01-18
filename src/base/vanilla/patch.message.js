@@ -18,7 +18,8 @@ onPage('', function patches() {
       fn.cleanData('underscript.season.', key);
       if (settings.value(key)) return;
       fn.dismissable({
-        key, text,
+        key,
+        text,
         title: `Undercards Update`,
       });
     });

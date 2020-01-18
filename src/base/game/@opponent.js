@@ -2,7 +2,7 @@ onPage('Game', () => {
   const regex = /(^| )@o\b/gi;
   let toast = fn.infoToast('You can mention opponents with @o', 'underscript.notice.mention', '1');
 
-  function convert({input}) {
+  function convert({ input }) {
     if (toast) {
       toast.close('processed');
       toast = null;

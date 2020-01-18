@@ -8,7 +8,7 @@ wrap(() => {
     key: 'underscript.disable.header.scrolling',
     onChange: (to) => {
       toggle(!to);
-    }
+    },
   });
 
   eventManager.on(':loaded', () => {

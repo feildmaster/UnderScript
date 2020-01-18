@@ -12,13 +12,13 @@ onPage('Decks', () => {
     $('#soulInfo span').after('<span>Passive</span> ', avg).remove();
 
     function round(amt, dec = 2) {
-      return Number.parseFloat(amt).toFixed(dec)
+      return Number.parseFloat(amt).toFixed(dec);
     }
 
     function count() {
       let val = 0;
       const list = global('decks')[global('soul')];
-      list.forEach(({cost}) => val += cost);
+      list.forEach(({ cost }) => val += cost); // eslint-disable-line no-return-assign
       avg.text(`(${round(list.length ? val / list.length : val)})`);
     }
 

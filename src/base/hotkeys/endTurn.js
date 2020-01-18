@@ -18,12 +18,12 @@ settings.register({
   page: 'Game',
 });
 
-eventManager.on("PlayingGame", function bindHotkeys() {
+eventManager.on('PlayingGame', function bindHotkeys() {
   // Binds to Space, Middle Click
-  const hotkey = new Hotkey("End turn").run((e) => {
-      if (settings.value('underscript.disable.endTurn')) return;
-      if (!$(e.target).is("#endTurnBtn") && userTurn === userId) endTurn();
-    });
+  const hotkey = new Hotkey('End turn').run((e) => {
+    if (settings.value('underscript.disable.endTurn')) return;
+    if (!$(e.target).is('#endTurnBtn') && global('userTurn') === global('userId')) global('endTurn')();
+  });
   if (!settings.value('underscript.disable.endTurn.space')) {
     hotkey.bindKey(32);
   }

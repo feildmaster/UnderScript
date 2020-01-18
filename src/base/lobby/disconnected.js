@@ -7,16 +7,19 @@ wrap(function disconnected() {
     eventManager.on('socketOpen', () => {
       const socket = global('socketQueue');
       socket.addEventListener('close', announce);
-      globalSet('onbeforeunload', function () {
+      globalSet('onbeforeunload', function onbeforeunload() {
         socket.removeEventListener('close', announce);
         this.super();
       });
     });
 
     eventManager.on('Play:Message', (data) => {
-      switch(data.action) {
-        default: return waiting = false;
-        case 'getLeaveQueue': return waiting = true;
+      switch (data.action) {
+        default:
+          waiting = false;
+          return;
+        case 'getLeaveQueue':
+          waiting = true;
       }
     });
   }

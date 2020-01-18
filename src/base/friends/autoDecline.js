@@ -19,7 +19,7 @@ wrap(function autoDecline() {
     key: 'underscript.autodecline.ignored',
     default: true,
     page: 'Friends',
-    category: 'Auto Decline'
+    category: 'Auto Decline',
   });
 
   // Load blocked users
@@ -30,7 +30,8 @@ wrap(function autoDecline() {
 
   function register(key, name, set = false) {
     settings.register({
-      key, name,
+      key,
+      name,
       type: 'remove',
       page: 'Friends',
       category: 'Auto Decline',
@@ -76,10 +77,10 @@ wrap(function autoDecline() {
       const block = $('<span class="material-icons md-light clickable">').css({
         'font-size': '14px',
       }).text('block');
-      $('p:contains("Friend requests")').parent().find('li').each(function () {
+      $('p:contains("Friend requests")').parent().find('li').each(function elements() {
         const el = $(this);
         const name = el.text().substring(0, el.text().lastIndexOf(' LV '));
-        el.append(' ', block.clone().click(function () {
+        el.append(' ', block.clone().click(function onClick() {
           hover.hide();
           const link = el.find('a:first').attr('href');
           const id = link.substring(link.indexOf('=') + 1);
@@ -92,5 +93,5 @@ wrap(function autoDecline() {
         }).hover(hover.show(`Block ${el.text().substring(0, name)}`)));
       });
     });
-  })
+  });
 });

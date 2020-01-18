@@ -5,7 +5,7 @@ wrap(() => {
     default: true,
     page: 'Chat',
   });
-  
+
   style.add('.opponent { color: #d94f41 !important; }');
 
   eventManager.on('PlayingGame', function tagOpponent() {

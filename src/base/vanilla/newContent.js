@@ -50,20 +50,22 @@ wrap(() => {
   function title(type) {
     switch (type) {
       case 'bundle': return 'New Bundle Available';
-      case 'skins': return 'New skins / avatars !'
+      case 'skins': return 'New skins / avatars !';
       case 'emotes': return 'New Emotes Available';
+      default: throw new Error(`Unknown Type: ${type}`);
     }
   }
 
   function selector(type) {
     switch (type) {
       case 'bundle': return 'Shop';
-      case 'skins': return 'CardSkinsShop'
+      case 'skins': return 'CardSkinsShop';
       case 'emotes': return 'CosmeticsShop';
+      default: throw new Error(`Unknown Type: ${type}`);
     }
   }
 
   function imageName(src) {
-    return src.substring(src.lastIndexOf('/')+1, src.lastIndexOf('.'));
+    return src.substring(src.lastIndexOf('/') + 1, src.lastIndexOf('.'));
   }
 });

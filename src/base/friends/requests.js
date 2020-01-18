@@ -6,7 +6,7 @@ eventManager.on('Friends:requests', (friends) => {
       const key = `underscript.request.${id}`;
       const name = sessionStorage.getItem(key);
       sessionStorage.removeItem(key);
-      fn.toast(`${accept?'Accepted':'Declined'} friend request from: ${name}`);
+      fn.toast(`${accept ? 'Accepted' : 'Declined'} friend request from: ${name}`);
     }).catch(noop());
   }
   const newRequests = [];
@@ -24,20 +24,20 @@ eventManager.on('Friends:requests', (friends) => {
         text: ' ',
         className: 'glyphicon glyphicon-ok green',
         onclick: post.bind(null, id),
-      },{
+      }, {
         css,
         text: ' ',
         className: 'glyphicon glyphicon-remove red',
         onclick: post.bind(null, id, false),
       }],
-    })
+    });
     sessionStorage.setItem(key, friend);
   });
 });
 eventManager.on('logout', () => {
-  for (let key in sessionStorage) {
+  Object.keys(sessionStorage).forEach((key) => {
     if (key.startsWith('underscript.request.')) {
       sessionStorage.removeItem(key);
     }
-  }
+  });
 });

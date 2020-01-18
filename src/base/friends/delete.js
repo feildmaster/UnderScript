@@ -40,12 +40,12 @@ onPage('Friends', function deleteFriends() {
         parent.addClass('deleted');
       }
     }).catch((e) => {
-      fn.debug(`DeleteFriend: ${e}`)
+      fn.debug(`DeleteFriend: ${e}`);
     });
   }
 
   eventManager.on('Chat:getOnlineFriends', () => $('a.crossDelete').click(remove));
   eventManager.on(':loaded', () => $('a[href^="Friends?"]').click(remove));
-  eventManager.on('newElement', (e) => $(e).find('a').click(remove))
+  eventManager.on('newElement', (e) => $(e).find('a').click(remove));
   eventManager.on('friendAction', process);
 });

@@ -11,14 +11,16 @@ wrap(function friendsOnly() {
 
   function init() {
     $(container)
-      .append($(`<input id="friends" type="checkbox">`).prop('checked', flag).on('change', () => flag = !flag))
-      .append(' ', $('<label for="friends">').text('Friends only'))
-      //.hover(hover.show('Only allow friends to join'));
+      .append($(`<input id="friends" type="checkbox">`).prop('checked', flag).on('change', () => {
+        flag = !flag;
+      }))
+      .append(' ', $('<label for="friends">').text('Friends only'));
+    // .hover(hover.show('Only allow friends to join'))
     $('#state2 span.opponent').parent().after(container);
-    //hover.new(`Only allow friends to join`, container);
+    // hover.new(`Only allow friends to join`, container);
   }
 
-  function joined({username}) {
+  function joined({ username }) {
     if (this.canceled || !flag || fn.isFriend(username)) return;
     debug(`Kicked: ${username}`);
     this.canceled = true;

@@ -1,4 +1,5 @@
 // Change log :O
+// eslint-disable-next-line no-unused-vars
 const changelog = wrap(function changelog() {
   style.add(
     '.us-changelog h2 { font-size: 24px; }',
@@ -7,13 +8,17 @@ const changelog = wrap(function changelog() {
   );
   function getMarkdown() {
     if (!changelog.markdown) {
-      changelog.markdown = new showdown.Converter({noHeaderId: true, strikethrough: true, disableForced4SpacesIndentedSublists: true});
+      changelog.markdown = new showdown.Converter({
+        noHeaderId: true,
+        strikethrough: true,
+        disableForced4SpacesIndentedSublists: true,
+      });
     }
     return changelog.markdown;
   }
   function getAxios() {
     if (!changelog.axios) {
-      changelog.axios = axios.create({baseURL: 'https://unpkg.com/'});
+      changelog.axios = axios.create({ baseURL: 'https://unpkg.com/' });
     }
     return changelog.axios;
   }
@@ -34,13 +39,13 @@ const changelog = wrap(function changelog() {
 
   function get(version = 'latest', short = false) {
     const cache = version.includes('.');
-    const key = `${version}${short?'_short':''}`;
+    const key = `${version}${short ? '_short' : ''}`;
     if (cache && changelog[key]) return Promise.resolve(changelog[key]);
 
     const extension = `underscript@${version}/changelog.md`;
-    return getAxios().get(extension).then(({data: text}) => {
-      const first = text.indexOf(`\n## ${cache?`Version ${version}`:''}`);
-      let end = undefined;
+    return getAxios().get(extension).then(({ data: text }) => {
+      const first = text.indexOf(`\n## ${cache ? `Version ${version}` : ''}`);
+      let end;
       if (!~first) throw new Error('Invalid Changelog');
       if (short) {
         const index = text.indexOf('\n## ', first + 1);
@@ -58,7 +63,7 @@ const changelog = wrap(function changelog() {
     open(container);
     get(version, short).catch((e) => {
       console.error(e);
-      return 'Unavailable at this time'; 
+      return 'Unavailable at this time';
     }).then((m) => container.html(m));
   }
 

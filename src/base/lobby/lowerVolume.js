@@ -10,7 +10,7 @@ wrap(() => {
     reset: true,
   });
 
-  eventManager.on("getWaitingQueue", function lowerVolume() {
+  eventManager.on('getWaitingQueue', function lowerVolume() {
     // Lower the volume, the music changing is enough as is
     global('audioQueue').volume = parseFloat(volume.value());
   });

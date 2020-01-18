@@ -17,18 +17,18 @@ onPage('Crafting', function craftableCards() {
   );
 
   function highlight(el) {
-    const rarity = script.cardHelper.rarity(el);
+    const rarity = cardHelper.rarity(el);
     const set = !settings.value('underscript.disable.craftingborder') &&
         rarity !== 'DETERMINATION' &&
-        script.cardHelper.craft.quantity(el) < script.cardHelper.craft.max(rarity) &&
-        script.cardHelper.craft.cost(el) <= script.cardHelper.craft.totalDust();
+        cardHelper.craft.quantity(el) < cardHelper.craft.max(rarity) &&
+        cardHelper.craft.cost(el) <= cardHelper.craft.totalDust();
     el.classList.toggle('craftable', set);
   }
 
   function update({ id, shiny, dust }) {
-    if (dust >= script.cardHelper.craft.cost('LEGENDARY', true)) {
+    if (dust >= cardHelper.craft.cost('LEGENDARY', true)) {
       debug('updating');
-      const el = script.cardHelper.find(id, shiny);
+      const el = cardHelper.find(id, shiny);
       if (el) highlight(el);
       else debug({ id, shiny }, 'underscript.debugging.borders');
     } else {

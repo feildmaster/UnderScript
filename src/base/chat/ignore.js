@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 settings.register({
   name: 'Disable',
   key: 'underscript.disable.ignorechat',
@@ -43,7 +44,7 @@ eventManager.on('ChatDetected', function ignoreChat() {
     const type = settings.value('underscript.ignorechat.how');
     if (type === 'hide') {
       if (!history) {
-        pendingIgnore.set(true); // TODO
+        pendingIgnore.set(true);
         return;
       }
       msg.find(`.chat-message`).html('<span class="gray">Message Ignored</span>')

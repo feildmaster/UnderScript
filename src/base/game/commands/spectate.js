@@ -23,7 +23,7 @@ wrap(function spectate() {
       text: 'You can send a spectate URL in chat by typing /specate',
       onClose() {
         toast = null;
-      }
+      },
     }, 'underscript.notice.spectatecommand', '1');
   });
 });

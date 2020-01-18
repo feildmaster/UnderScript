@@ -1,4 +1,4 @@
-hotkeys.push(new Hotkey("Open Menu")
+hotkeys.push(new Hotkey('Open Menu')
   .run((e) => {
     if (typeof BootstrapDialog !== 'undefined' && Object.keys(BootstrapDialog.dialogs).length) {
       return;

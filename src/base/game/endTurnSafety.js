@@ -1,15 +1,14 @@
 eventManager.on('PlayingGame', function fixEndTurn() {
   eventManager.on(':load', () => {
-    const oEndTurn = endTurn;
     let endedTurn = false;
-    endTurn = function restrictedEndTurn() {
+    globalSet('endTurn', function endTurn() {
       if (endedTurn || $('#endTurnBtn').prop('disabled')) return;
       endedTurn = true;
-      oEndTurn();
-    };
+      this.super();
+    });
 
     eventManager.on('getTurnStart', function turnStarted() {
-      if (userTurn !== userId) return;
+      if (global('userTurn') !== global('userId')) return;
       endedTurn = false;
     });
   });

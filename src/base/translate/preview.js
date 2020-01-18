@@ -16,7 +16,7 @@ wrap(() => {
     return ret;
   }
 
-  function newShowPage (page) {
+  function newShowPage(page) {
     this.super(page);
 
     const textarea = $('#translators textarea');
@@ -29,7 +29,8 @@ wrap(() => {
 
   function getPreview(id, locale = getLocale()) {
     return fn.toLocale({
-      locale, id,
+      locale,
+      id,
       data: [1],
     });
   }
@@ -41,7 +42,7 @@ wrap(() => {
   function loadLanguages() {
     const languages = {};
     const version = global('translateVersion');
-    $('#selectLanguage option').each(function () {
+    $('#selectLanguage option').each(function languageOption() {
       const lang = this.value.toLowerCase();
       languages[lang] = `/translation/${lang}.json?v=${version}`;
     });

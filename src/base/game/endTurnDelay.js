@@ -16,8 +16,8 @@ settings.register({
 
 eventManager.on('PlayingGame', function endTurnDelay() {
   eventManager.on('getTurnStart', function checkDelay() {
-    if (userTurn !== userId) return;
-    if (turn > 3 && !settings.value('underscript.disable.endTurnDelay')) {
+    if (global('userTurn') !== global('userId')) return;
+    if (global('turn') > 3 && !settings.value('underscript.disable.endTurnDelay')) {
       debug('Waiting');
       $('#endTurnBtn').prop('disabled', true);
       setTimeout(() => {

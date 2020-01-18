@@ -1,11 +1,12 @@
 eventManager.on('ChatDetected', () => {
   let updatingFriends = false;
   eventManager.on('Friends:refresh', () => {
+    const socketChat = global('socketChat');
     if (socketChat.readyState !== 1) return;
     updatingFriends = true;
-    socketChat.send(JSON.stringify({action: 'getOnlineFriends'}));
+    socketChat.send(JSON.stringify({ action: 'getOnlineFriends' }));
   });
-  eventManager.on('preChat:getOnlineFriends', function (data) {
+  eventManager.on('preChat:getOnlineFriends', function updateFriends(data) {
     if (!updatingFriends) return;
     updatingFriends = false;
     this.canceled = true;
@@ -13,6 +14,7 @@ eventManager.on('ChatDetected', () => {
     JSON.parse(data.friends).forEach((friend) => {
       friends[friend.id] = friend;
     });
+    const selfFriends = global('selfFriends');
     selfFriends.forEach((friend) => {
       // id, online, idGame, username
       const id = friend.id;

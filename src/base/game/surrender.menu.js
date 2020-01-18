@@ -4,7 +4,7 @@ onPage('Game', () => {
     $(document).off('keyup');
   });
   function canSurrender() {
-    return turn >= 5;
+    return global('turn') >= 5;
   }
   // Add the "surrender" menu button
   menu.addButton({
@@ -19,7 +19,7 @@ onPage('Game', () => {
     action: () => {
       const socket = global('socketGame');
       if (socket.readyState !== WebSocket.OPEN) return;
-      socket.send(JSON.stringify({action: "surrender"}));
+      socket.send(JSON.stringify({ action: 'surrender' }));
     },
   });
 });

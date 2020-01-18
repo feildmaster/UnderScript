@@ -24,7 +24,7 @@ onPage('Decks', function deckStorage() {
   style.add('.btn-storage { margin-top: 5px; margin-right: 8px; width: 36px; }');
 
   function getFromLibrary(id, shiny, library) {
-    return library.find(card => card.id === id && (shiny === undefined || card.shiny === shiny));
+    return library.find((card) => card.id === id && (shiny === undefined || card.shiny === shiny));
   }
   function getCardData(id, shiny, deep) {
     const library = global('deckCollections', 'collections');
@@ -48,7 +48,7 @@ onPage('Decks', function deckStorage() {
 
     function processNext() {
       if (global('lastOpenedDialog') === mockLastOpenedDialog) {
-        lastOpenedDialog = templastOpenedDialog;
+        globalSet('lastOpenedDialog', templastOpenedDialog);
       }
       const job = pending.shift();
       if (job) {
@@ -58,36 +58,37 @@ onPage('Decks', function deckStorage() {
             loading = null;
           }
           return;
-        } else if (job.action === 'clear') {
+        }
+        if (job.action === 'clear') {
           global('removeAllCards')();
         } else if (job.action === 'remove') {
-          global('removeCard')(parseInt(job.id), job.shiny === true);
+          global('removeCard')(parseInt(job.id, 10), job.shiny === true);
         } else if (job.action === 'clearArtifacts') {
           global('clearArtifacts')();
         } else if (job.action === 'addArtifact') {
           debug(`Adding artifact: ${job.id}`);
-          templastOpenedDialog = lastOpenedDialog;
-          lastOpenedDialog = mockLastOpenedDialog;
+          templastOpenedDialog = global('lastOpenedDialog');
+          globalSet('lastOpenedDialog', mockLastOpenedDialog);
           global('addArtifact')(job.id);
         } else {
-          global('addCard')(parseInt(job.id), job.shiny === true);
+          global('addCard')(parseInt(job.id, 10), job.shiny === true);
         }
         if (!pending.length) {
-          pending.push({action: 'validate'})
+          pending.push({ action: 'validate' });
         }
       }
     }
 
     eventManager.on('Deck:postChange', (data) => {
       if (!['addCard', 'removeCard', 'removeAllCards', 'clearArtifacts', 'addArtifact'].includes(data.action)) return;
-      if (data.status === "error") {
+      if (data.status === 'error') {
         pending = [];
         return;
       }
       processNext();
     });
 
-    for (let i = 1, x = Math.max(parseInt(settings.value('underscript.storage.rows')), 1) * 4; i <= x; i++) {
+    for (let i = 1, x = Math.max(parseInt(settings.value('underscript.storage.rows'), 10), 1) * 4; i <= x; i++) {
       buttons.push($('<button>')
         .text(i)
         .addClass('btn btn-sm btn-danger btn-storage'));
@@ -108,7 +109,7 @@ onPage('Decks', function deckStorage() {
       const key = getKey(id);
       const deck = JSON.parse(localStorage.getItem(key));
       if (!deck) return;
-      if (!deck.hasOwnProperty('cards')) {
+      if (!Object.prototype.hasOwnProperty.call(deck, 'cards')) {
         localStorage.setItem(key, JSON.stringify({
           cards: deck,
           artifacts: [],
@@ -122,8 +123,8 @@ onPage('Decks', function deckStorage() {
         artifacts: [],
       };
       const clazz = global('soul');
-      global('decks')[clazz].forEach(({id, shiny}) => {
-        const card = { id, };
+      global('decks')[clazz].forEach(({ id, shiny }) => {
+        const card = { id };
         if (shiny) {
           card.shiny = true;
         }
@@ -145,24 +146,23 @@ onPage('Decks', function deckStorage() {
       if (cDeck.length) {
         const builtDeck = [];
         // Build deck options
-        cDeck.forEach(({id, shiny}) => {
+        cDeck.forEach(({ id, shiny }) => {
           builtDeck.push({
-            id, shiny,
+            id,
+            shiny,
             action: 'remove',
           });
         });
-        
+
         // Compare the decks
         const temp = deck.slice(0);
-        const removals = builtDeck.filter((card) => {
-          return !temp.some((card2, i) => {
-            const found = card2.id === card.id && (card.shiny && card2.shiny || true);
-            if (found) { // Remove the item
-              temp.splice(i, 1);
-            }
-            return found;
-          });
-        });
+        const removals = builtDeck.filter((card) => !temp.some((card2, ind) => {
+          const found = card2.id === card.id && (card.shiny && card2.shiny || true);
+          if (found) { // Remove the item
+            temp.splice(ind, 1);
+          }
+          return found;
+        }));
 
         // Check what we need to do
         if (!removals.length && !temp.length) { // There's nothing
@@ -187,7 +187,7 @@ onPage('Decks', function deckStorage() {
           pending.push({
             id,
             action: 'addArtifact',
-          })
+          });
         });
       }
       processNext();
@@ -197,20 +197,20 @@ onPage('Decks', function deckStorage() {
     function matchingArtifacts(id) {
       const dArts = getArtifacts(id);
       const cArts = global('decksArtifacts')[global('soul')];
-      return !dArts.length || dArts.length === cArts.length && cArts.every(({id: id1}) => !!~dArts.indexOf(id1));
+      return !dArts.length || dArts.length === cArts.length && cArts.every(({ id: id1 }) => !!~dArts.indexOf(id1));
     }
 
     function getKey(id) {
       return `underscript.deck.${global('selfId')}.${global('soul')}.${id}`;
     }
 
-    function getDeck(id, trim) {
-      fixDeck(id);
-      const key = getKey(id);
+    function getDeck(deckId, trim) {
+      fixDeck(deckId);
+      const key = getKey(deckId);
       const deck = JSON.parse(localStorage.getItem(key));
       if (!deck) return null;
       if (trim) {
-        return deck.cards.filter(({id, shiny}) => getCardData(id, shiny) !== null);
+        return deck.cards.filter(({ id, shiny }) => getCardData(id, shiny) !== null);
       }
       return deck.cards;
     }
@@ -228,7 +228,7 @@ onPage('Decks', function deckStorage() {
       list.forEach((card) => {
         let data = getCardData(card.id, card.shiny) || {};
         const name = data.name || `<span style="color: red;">${(data = getCardData(card.id) && data && data.name) || 'Disenchanted/Missing'}</span>`;
-        names.push(`- ${card.shiny ? '<span style="color: yellow;">S</span> ':''}${name}`);
+        names.push(`- ${card.shiny ? '<span style="color: yellow;">S</span> ' : ''}${name}`);
       });
       return names.join('<br />');
     }
@@ -236,7 +236,7 @@ onPage('Decks', function deckStorage() {
     function artifacts(id) {
       const list = [];
       getArtifacts(id).forEach((art) => {
-        const artifact = global('userArtifacts').find(({id: artID}) => artID === art);
+        const artifact = global('userArtifacts').find(({ id: artID }) => artID === art);
         if (artifact) {
           list.push(`<span class="${artifact.legendary ? 'yellow' : ''}"><img style="height: 16px;" src="images/artifacts/${artifact.image}.png" /> ${artifact.name}</span>`);
         }
@@ -245,7 +245,7 @@ onPage('Decks', function deckStorage() {
     }
 
     function loadStorage() {
-      buttons.forEach((b,i) => loadButton(i));
+      buttons.forEach((b, i) => loadButton(i));
     }
 
     function loadButton(i) {
@@ -312,7 +312,8 @@ onPage('Decks', function deckStorage() {
             } else { // Load
               loadDeck(i);
             }
-          }).on('contextmenu.script.deckStorage', (e) => {
+          })
+          .on('contextmenu.script.deckStorage', (e) => {
             e.preventDefault();
             const input = $('#deckNameInput');
             const display = $('#deckName');
@@ -326,21 +327,25 @@ onPage('Decks', function deckStorage() {
             input.show()
               .focus()
               .select()
+              // eslint-disable-next-line no-shadow
               .on('keydown.script.deckStorage', (e) => {
                 if (e.which === 27 || e.which === 13) {
                   e.preventDefault();
                   storeInput();
                 }
-              }).on('focusout.script.deckStorage', () => {
+              })
+              .on('focusout.script.deckStorage', () => {
                 storeInput();
               });
           });
-        }
+      }
     }
 
     eventManager.on('Deck:Loaded', () => {
       loadStorage();
     });
-    clearDeck.on('click', () => pending = []);
+    clearDeck.on('click', () => {
+      pending = [];
+    });
   });
 });

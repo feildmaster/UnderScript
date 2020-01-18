@@ -10,7 +10,7 @@ onPage('Friends', function addFriend() {
   const input = document.querySelector('input[name="username"]');
 
   function submit() {
-    if (typeof URLSearchParams === 'undefined' || !settings.value('underscript.friend.add')) return;
+    if (typeof URLSearchParams === 'undefined' || !settings.value('underscript.friend.add')) return undefined;
     const name = input.value.trim();
     if (name) {
       input.value = '';
@@ -19,7 +19,7 @@ onPage('Friends', function addFriend() {
       params.append('username', name);
       params.append('addFriend', 'Add friend');
       axios.post('/Friends', params).then((results) => {
-        const page = new DOMParser().parseFromString(results.data, "text/html").querySelector('div.mainContent');
+        const page = new DOMParser().parseFromString(results.data, 'text/html').querySelector('div.mainContent');
         const result = page.querySelector('form[action="Friends"] + p');
         if (result) {
           const success = result.classList.contains('green');
@@ -40,11 +40,11 @@ onPage('Friends', function addFriend() {
   function mutex(el) {
     return el.parentElement;
   }
-  
+
   input.addEventListener('keydown', (e) => {
     if ((e.keyCode || e.which) === 13 || [e.code, e.key].contains('Enter')) {
       if (submit() === false) e.preventDefault();
-    } 
+    }
   });
   document.querySelector('form[action="Friends"]').onsubmit = submit;
 });

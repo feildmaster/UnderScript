@@ -6,7 +6,7 @@ settings.register({
   page: 'Game',
 });
 
-eventManager.on('GameStart', function () {
+eventManager.on('GameStart', () => {
   if (!settings.value('underscript.persist.bgm')) return;
   let restartMusic = false;
   eventManager.on('getGameStarted', function rememberBGM(data) {
@@ -16,10 +16,10 @@ eventManager.on('GameStart', function () {
   });
   eventManager.on('getReconnection:before connect:before', function restoreBGM(data) {
     const key = `underscript.bgm.${data.gameId}`;
-    if (sessionStorage.getItem(key) && musicEnabled){
+    if (sessionStorage.getItem(key) && global('musicEnabled')) {
       debug('disabling music');
       restartMusic = true;
-      musicEnabled = false;
+      globalSet('musicEnabled', false);
     }
   });
   eventManager.on('getReconnection connect', function restoreBGM(data) {
@@ -35,10 +35,11 @@ eventManager.on('GameStart', function () {
     $('body').css('background', `#000 url('images/backgrounds/${numBackground}.png') no-repeat`);
     if (restartMusic) {
       debug('restarting music');
-      musicEnabled = true;
-      music = new Audio(`musics/themes/${numBackground}.ogg`);
+      globalSet('musicEnabled', true);
+      const music = new Audio(`musics/themes/${numBackground}.ogg`);
+      globalSet('music', music);
       music.volume = 0.1;
-      music.addEventListener('ended', function () {
+      music.addEventListener('ended', function repeat() {
         this.currentTime = 0;
         this.play();
       }, false);
@@ -49,9 +50,10 @@ eventManager.on('GameStart', function () {
   function getBGM(gameMode) {
     if (gameMode === 'BOSS') {
       return global('bossBackground');
-    } else if (gameMode === 'TUTORIAL') {
+    }
+    if (gameMode === 'TUTORIAL') {
       return 'tuto';
     }
-    return $('body').css('background').match(/url\(\".*\/(\d+).png\"\)/)[1];
+    return $('body').css('background').match(/url\(".*\/(\d+).png"\)/)[1];
   }
 });

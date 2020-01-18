@@ -2,7 +2,10 @@
 eventManager.on('getReconnection connect', () => {
   if (settings.value('gameMusicDisabled')) return;
   let playing = false;
-  music.addEventListener('play', () => playing = true);
+  const music = global('music');
+  music.addEventListener('play', () => {
+    playing = true;
+  });
   function restoreSound() {
     if (playing) return;
     music.play();

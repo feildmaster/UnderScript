@@ -1,5 +1,5 @@
 wrap(function emoteManager() {
-  let live = false;
+  // let live = false;
   let self;
   const spectating = onPage('gameSpectate');
   const spectate = settings.register({
@@ -22,10 +22,10 @@ wrap(function emoteManager() {
     category: 'Emotes',
   });
 
-  eventManager.on('GameStart', function() {
+  eventManager.on('GameStart', () => {
     eventManager.on(':loaded', () => {
       self = global('selfId');
-      live = true;
+      // live = true;
       if (disableSpectating()) {
         globalSet('gameEmotesEnabled', false);
         debug('Hiding emotes (spectator)');
@@ -40,7 +40,7 @@ wrap(function emoteManager() {
     });
   });
 
-  eventManager.on('getEmote:before', function(data) {
+  eventManager.on('getEmote:before', function hideEmotes(data) {
     // Do nothing if already disabled
     if (this.canceled || !global('gameEmotesEnabled')) return;
     if (friendsOnly(data.idUser)) {

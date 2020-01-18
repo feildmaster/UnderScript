@@ -8,11 +8,11 @@ settings.register({
   page: 'Library',
 });
 
-onPage('Crafting', function disenchant() {
+onPage('Crafting', function disenchantWrapper() {
   if (settings.value('underscript.disable.disenchant')) return;
   eventManager.on('jQuery', () => {
     const button = $('<button class="btn btn-info">Smart Disenchant</button>');
-    button.click(onclick)
+    button.click(onclick);
     // Add Disenchant Siny button
     $('#dust').after(' ', button);
   });
@@ -42,28 +42,28 @@ onPage('Crafting', function disenchant() {
           disenchant(normals);
           dialog.close();
         },
-      },{
+      }, {
         label: `All Shiny (+${calcDust(shinies)})`,
         cssClass: 'btn-danger us-shiny',
         action(dialog) {
           disenchant(shinies);
           dialog.close();
         },
-      },{
+      }, {
         label: `Prioritize Normal (+${calcDust(pNormal)})`,
         cssClass: 'btn-danger us-normal-p',
         action(dialog) {
           disenchant(pNormal);
           dialog.close();
         },
-      },{
+      }, {
         label: `Prioritize Shiny (+${calcDust(pShiny)})`,
         cssClass: 'btn-danger us-shiny-p',
         action(dialog) {
           disenchant(pShiny);
           dialog.close();
         },
-      },],
+      }],
     });
   }
 
@@ -96,7 +96,7 @@ onPage('Crafting', function disenchant() {
         global('showPage')(global('currentPage'));
         updateOrToast(toast, `Finished disenchanting.\n+${gained} dust`);
       }).catch((e) => {
-        console.error(e);
+        console.error(e); // eslint-disable-line no-console
         updateOrToast(toast, 'Could not complete disenchanting.');
       });
   }
@@ -108,7 +108,7 @@ onPage('Crafting', function disenchant() {
       for (let x = 0; x < limit; x++) {
         promises.push(axios.post('CraftConfig', {
           action: 'disenchant',
-          idCard: parseInt(data.id),
+          idCard: parseInt(data.id, 10),
           isShiny: data.shiny,
         }, {
           headers: {
@@ -129,7 +129,7 @@ onPage('Crafting', function disenchant() {
     responses.forEach((response) => {
       debug(response);
       if (response.data === '') {
-        const {idCard, isShiny} = JSON.parse(response.config.data);
+        const { idCard, isShiny } = JSON.parse(response.config.data);
         redo.push({
           quantity: 1,
           id: idCard,
@@ -160,12 +160,13 @@ onPage('Crafting', function disenchant() {
     return card.quantity > 0 && include(card.rarity) && (priority || card.shiny === shiny);
   }
 
-  function calcCards({shiny, priority, deltarune}) {
+  function calcCards({ shiny, priority, deltarune }) {
     const cards = {};
     const extras = [];
     global('collection').filter((card) => cardFilter(card, shiny, priority, deltarune))
-      .forEach(({id, name, shiny: isShiny, rarity, quantity}) => {
+      .forEach(({ id, name, shiny: isShiny, rarity, quantity }) => {
         if (priority) {
+          // eslint-disable-next-line no-prototype-builtins
           if (!cards.hasOwnProperty(id)) {
             const max = cardHelper.craft.max(rarity);
             if (!max) return;
@@ -173,7 +174,7 @@ onPage('Crafting', function disenchant() {
               max, rarity, name,
             };
           }
-          cards[id][isShiny?'shiny':'normal'] = quantity;
+          cards[id][isShiny ? 'shiny' : 'normal'] = quantity;
         } else {
           extras.push({
             id, name, rarity, quantity, shiny,
@@ -182,7 +183,7 @@ onPage('Crafting', function disenchant() {
       });
     if (priority) {
       // Calculate extras
-      fn.each(cards, function(data, id) {
+      fn.each(cards, (data, id) => {
         const name = data.name;
         const rarity = data.rarity;
         const max = data.max;
@@ -191,14 +192,19 @@ onPage('Crafting', function disenchant() {
           const other = shiny ? data.normal : data.shiny;
           if (prioritized > max) {
             extras.push({
-              id, shiny, rarity, name,
+              id,
+              shiny,
+              rarity,
+              name,
               quantity: prioritized - max,
             });
           }
           const slots = Math.max(max - prioritized, 0);
           if (other > slots) {
             extras.push({
-              id, rarity, name,
+              id,
+              rarity,
+              name,
               shiny: !shiny,
               quantity: other - slots,
             });
@@ -207,7 +213,9 @@ onPage('Crafting', function disenchant() {
           const quantity = data.shiny || data.normal;
           if (quantity > max) {
             extras.push({
-              id, rarity, name,
+              id,
+              rarity,
+              name,
               quantity: quantity - max,
               shiny: !!data.shiny,
             });
@@ -229,7 +237,7 @@ onPage('Crafting', function disenchant() {
 
   function include(rarity) {
     switch (rarity) {
-      default: fn.debug(`Unknown Rarity: ${rarity}`);
+      default: fn.debug(`Unknown Rarity: ${rarity}`); // fallthrough
       case 'BASE':
       case 'GENERATED':
       case 'DETERMINATION': return false;

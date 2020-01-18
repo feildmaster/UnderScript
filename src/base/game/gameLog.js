@@ -5,10 +5,11 @@ wrap(() => {
     '#game-history.left::-webkit-scrollbar-thumb { background-color: #555; }',
     '#game-history.hidden { display: none; }',
     '.timer.active { left: -65px; height: 26px; line-height: 22px; top: 497px; }',
-    //'.timer.active.ally { top: 526px; }',
-    //'.timer.active.enemy { top: 39px; }',
+    // '.timer.active.ally { top: 526px; }',
+    // '.timer.active.enemy { top: 39px; }',
   );
 
+  let gameActive = false;
   const BattleLogSetting = 'underscript.disable.logger';
   const setting = settings.register({
     name: 'Disable Undercards Battle Log',
@@ -18,7 +19,6 @@ wrap(() => {
       if (gameActive) toggle(to);
     },
   });
-  let gameActive = false;
 
   eventManager.on('GameStart', () => {
     gameActive = true;

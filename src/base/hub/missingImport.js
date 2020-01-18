@@ -1,11 +1,11 @@
-wrap(function() {
+wrap(() => {
   style.add(
     '.missingArt { color: orange; }',
     '.missing { color: red; }',
   );
 
   function init() {
-    globalSet('showPage', function (page) {
+    globalSet('showPage', function showPage(page) {
       this.super(page);
       thing(page * 10);
     });
@@ -23,11 +23,11 @@ wrap(function() {
     }
   }
 
-  function check({code, id}) {
+  function check({ code, id }) {
     const checkArt = global('ownArtifactHub');
     const deck = JSON.parse(atob(code));
-    const missingCard = getOwnedCardsArrayHub(deck).some((a) => !a);
-    const missingArt = deck.artifactIds.some((id) => !checkArt(id));
+    const missingCard = global('getOwnedCardsArrayHub')(deck).some((a) => !a);
+    const missingArt = deck.artifactIds.some((art) => !checkArt(art));
 
     $(`#hub-deck-${id} .show-button`)
       .toggleClass('missingArt', missingArt)

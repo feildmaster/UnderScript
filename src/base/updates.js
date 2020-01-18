@@ -10,14 +10,19 @@ wrap(() => {
     '#AlertToast h3 {font-size: 17px; }',
   );
   const baseURL = 'https://unpkg.com/';
-  const MINUTE = 60 * 1000, HOUR = 60 * MINUTE;
-  const CHECKING = 'underscript.update.checking', LAST = 'underscript.update.last', DEBUG = 'underscript.debug.update', LATEST = 'underscript.update.latest';
+  const MINUTE = 60 * 1000;
+  const HOUR = 60 * MINUTE;
+  const CHECKING = 'underscript.update.checking';
+  const LAST = 'underscript.update.last';
+  const DEBUG = 'underscript.debug.update';
+  const LATEST = 'underscript.update.latest';
   const base = axios.create({ baseURL });
   const latest = {
-    set({version, unpkg}) {
+    set({ version, unpkg }) {
       if (!version || !unpkg) return;
       localStorage.setItem(LATEST, JSON.stringify({
-        version, unpkg,
+        version,
+        unpkg,
         time: Date.now(),
       }));
     },
@@ -25,13 +30,14 @@ wrap(() => {
       localStorage.removeItem(LATEST);
     },
     chk() {
-      const latest = JSON.parse(localStorage.getItem(LATEST));
-      if (latest) {
-        return compareAndToast(latest);
+      const stored = JSON.parse(localStorage.getItem(LATEST));
+      if (stored) {
+        return compareAndToast(stored);
       }
     },
   };
-  let toast, updateToast, autoTimeout;
+  let toast; let updateToast; let
+    autoTimeout;
   function check() {
     if (sessionStorage.getItem(CHECKING)) return Promise.resolve();
     sessionStorage.setItem(CHECKING, true);
@@ -78,9 +84,9 @@ wrap(() => {
     return true;
   }
   function autoCheck() {
-      // It passed, don't need to check anymore
+    // It passed, don't need to check anymore
     if (latest.chk()) return;
-    check().then(({data} = {}) => {
+    check().then(({ data } = {}) => {
       if (data) {
         compareAndToast(data);
       }
@@ -97,7 +103,7 @@ wrap(() => {
       if (toast) toast.close();
       toast = fn.toast({
         title: 'UnderScript updater',
-        text: 'Checking for updates. Please wait.'
+        text: 'Checking for updates. Please wait.',
       });
       check().then(({ data } = {}) => {
         setupAuto(); // Setup a new auto check (wait another hour)
@@ -111,15 +117,15 @@ wrap(() => {
       });
     },
     note() {
-      const last = parseInt(localStorage.getItem(LAST));
-      return `Last Checked: ${last ? luxon.DateTime.fromMillis(last).toLocaleString(luxon.DateTime.DATETIME_FULL) : 'never'}`
-    }
+      const last = parseInt(localStorage.getItem(LAST), 10);
+      return `Last Checked: ${last ? luxon.DateTime.fromMillis(last).toLocaleString(luxon.DateTime.DATETIME_FULL) : 'never'}`;
+    },
   });
 
   function setupAuto() {
     if (disabled.value()) return;
     if (autoTimeout) clearTimeout(autoTimeout);
-    const last = parseInt(localStorage.getItem(LAST));
+    const last = parseInt(localStorage.getItem(LAST), 10);
     const now = Date.now();
     const timeout = last - now + HOUR;
     if (!last || timeout <= 0) {

@@ -16,16 +16,17 @@ onPage('', function skins() {
       const title = el.textContent.trim() || 'New skins / avatars !';
       const images = [];
       const imageNames = [];
-      el.querySelectorAll('img').forEach(({outerHTML, src}) => {
+      el.querySelectorAll('img').forEach(({ outerHTML, src }) => {
         images.push(outerHTML);
-        imageNames.push(src.substring(src.lastIndexOf('/')+1, src.length - 4));
+        imageNames.push(src.substring(src.lastIndexOf('/') + 1, src.length - 4));
       });
       const key = `underscript.skins.dismiss.${imageNames.join(',')}`;
       keys.push(key);
       el.remove();
       if (settings.value(key)) return;
       fn.dismissable({
-        title, key,
+        title,
+        key,
         text: images.join('<br>'),
       });
     });

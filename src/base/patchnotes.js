@@ -12,11 +12,11 @@ wrap(function patchNotes() {
   if (setting.value() || !scriptVersion.includes('.')) return;
   const versionKey = `underscript.update.${scriptVersion}`;
   if (localStorage.getItem(versionKey)) return;
-  
+
   changelog.get(scriptVersion, true)
     .then(notify)
     .catch();
-  
+
   function notify(text) {
     localStorage.setItem(versionKey, true);
     fn.toast({

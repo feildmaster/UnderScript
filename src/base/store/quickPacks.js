@@ -1,3 +1,4 @@
+/* eslint-disable no-multi-assign, no-nested-ternary */
 settings.register({
   name: 'Disable Quick Opening Packs',
   key: 'underscript.disable.packOpening',
@@ -7,15 +8,19 @@ settings.register({
 onPage('Packs', function quickOpenPack() {
   if (settings.value('underscript.disable.packOpening')) return;
 
-  const rarity = [ 'DETERMINATION', 'LEGENDARY', 'EPIC', 'RARE', 'COMMON' ];
+  const rarity = ['DETERMINATION', 'LEGENDARY', 'EPIC', 'RARE', 'COMMON'];
   const results = {};
   function clearResults() {
     results.packs = 0;
     results.shiny = 0;
-    rarity.forEach((key) => results[key] = {});
+    rarity.forEach((key) => {
+      results[key] = {};
+    });
   }
-  
-  let autoOpen = false, openAll = false, left = 0;
+
+  let autoOpen = false;
+  let openAll = false;
+  let left = 0;
 
   eventManager.on('jQuery', () => {
     function showCards() {
@@ -31,7 +36,7 @@ onPage('Packs', function quickOpenPack() {
         results.packs += 1;
         JSON.parse(xhr.responseJSON.cards).forEach((card) => {
           const result = results[card.rarity] = results[card.rarity] || {};
-          const c = result[card.name] = result[card.name] || { total:0, shiny:0 }
+          const c = result[card.name] = result[card.name] || { total: 0, shiny: 0 };
           c.total += 1;
           if (card.shiny) {
             if (data.action !== 'openShinyPack') {
@@ -68,16 +73,16 @@ onPage('Packs', function quickOpenPack() {
               shiny += card.shiny;
               if (limit) {
                 limit -= 1;
-                buffer.push(`${card.shiny?'<span class="yellow">S</span> ':''}${name}${card.total > 1 ? ` (${card.total}${card.shiny?'':''})` : ''}${limit ? '' : '...'}`);
+                buffer.push(`${card.shiny ? '<span class="yellow">S</span> ' : ''}${name}${card.total > 1 ? ` (${card.total}${card.shiny ? '' : ''})` : ''}${limit ? '' : '...'}`);
               }
             });
             total += count;
-            text += `${key} (${count}${shiny?`, ${shiny} shiny`:''}):${buffer.length ? `\n- ${buffer.join('\n- ')}` : ' ...'}\n`;
+            text += `${key} (${count}${shiny ? `, ${shiny} shiny` : ''}):${buffer.length ? `\n- ${buffer.join('\n- ')}` : ' ...'}\n`;
           });
           fn.toast({
             text,
-            title: `Results: ${results.packs} Packs${results.shiny?` (${total%4?`${total}, `:''}${results.shiny} shiny)`:total%4?` (${total})`:''}`,
-            css: {'font-family': 'inherit'},
+            title: `Results: ${results.packs} Packs${results.shiny ? ` (${total % 4 ? `${total}, ` : ''}${results.shiny} shiny)` : total % 4 ? ` (${total})` : ''}`,
+            css: { 'font-family': 'inherit' },
           });
           showCards();
         }
@@ -89,7 +94,7 @@ onPage('Packs', function quickOpenPack() {
       autoOpen = event.ctrlKey;
       openAll = false;
       const type = $(event.target).prop('id').substring(7);
-      const count = parseInt($(`#nb${type}Packs`).text());
+      const count = parseInt($(`#nb${type}Packs`).text(), 10);
       if (event.shiftKey) {
         openPacks(type, count, 1);
         hover.hide();
@@ -108,7 +113,7 @@ onPage('Packs', function quickOpenPack() {
 
   function openPacks(type, count, start = 0) {
     if (openingPacks()) return;
-    const packs = parseInt($(`#nb${type}Packs`).text());
+    const packs = parseInt($(`#nb${type}Packs`).text(), 10);
     count = Math.max(Math.min(count, packs), 0);
     if (count === 0) return;
     clearResults();
@@ -125,7 +130,7 @@ onPage('Packs', function quickOpenPack() {
       openPack(pack);
     }
     if (count > step) {
-      setTimeout(open, 10, pack, count - step)
+      setTimeout(open, 10, pack, count - step);
     }
   }
 

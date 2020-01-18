@@ -8,7 +8,7 @@ wrap(() => {
 
   if (onPage('Decks') || onPage('Crafting')) {
     eventManager.on(':loaded', function scrollwheelLoaded() {
-      globalSet('onload', function () {
+      globalSet('onload', function onload() {
         this.super && this.super();
         if (setting.value()) $('#collection').off('mousewheel DOMMouseScroll');
       });

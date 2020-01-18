@@ -21,15 +21,18 @@ wrap(() => {
   }
 
   if (!localStorage.getItem('underscript.quest.clear')) {
+    // eslint-disable-next-line no-inner-declarations
     function checkHighlight() {
-      axios.get('/Quests').then(function (response) {
+      axios.get('/Quests').then((response) => {
         const data = $(response.data);
         const quests = data.find(questSelector);
         if (quests.length) {
           localStorage.setItem('underscript.quest.clear', true);
           if (onPage('Game')) {
             let questsCleared = '';
-            quests.each((i, e) => questsCleared += `- ${fn.translate($(e).parentsUntil('tbody', 'tr').find('span[data-i18n-custom]:first')).text()}\n`);
+            quests.each((i, e) => {
+              questsCleared += `- ${fn.translate($(e).parentsUntil('tbody', 'tr').find('span[data-i18n-custom]:first')).text()}\n`;
+            });
             fn.toast({
               title: 'Quest Completed!',
               text: `${questsCleared}Click to go to Quests page`,

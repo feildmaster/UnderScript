@@ -15,22 +15,22 @@ eventManager.on(':loaded', () => {
   );
 
   const el = document.querySelector('a span.nbFriends');
-  if (el) {
-    const target = el.parentElement;
-    hover.new('<div class="onlineFriends">(Loading)</div>', target, {
-      arrow: true,
-      distance: 0,
-      follow: false,
-      offset: null,
-      footer: 'short',
-      placement: 'top-start',
-      onShow: () => settings.value('underscript.enable.onlinefriends'),
-    });
+  if (!el) return;
+  const target = el.parentElement;
+  hover.new('<div class="onlineFriends">(Loading)</div>', target, {
+    arrow: true,
+    distance: 0,
+    follow: false,
+    offset: null,
+    footer: 'short',
+    placement: 'top-start',
+    onShow: () => settings.value('underscript.enable.onlinefriends'),
+  });
 
-    function updateTip() {
-      target._tippy.popper.querySelector('.onlineFriends').innerHTML = selfFriends.filter(({online}) => online).map((user) => fn.user.name(user)).join('<br>') || 'None';
-    }
-    eventManager.on('Chat:getSelfInfos', updateTip);
-    this.updateTip = updateTip;
+  function updateTip() {
+    // eslint-disable-next-line no-underscore-dangle
+    target._tippy.popper.querySelector('.onlineFriends').innerHTML = global('selfFriends').filter(({ online }) => online).map((user) => fn.user.name(user)).join('<br>') || 'None';
   }
+  eventManager.on('Chat:getSelfInfos', updateTip);
+  this.updateTip = updateTip;
 });

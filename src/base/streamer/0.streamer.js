@@ -26,7 +26,7 @@ wrap(function streamer() {
   });
   api.register('streamerMode', () => setting.value());
   menu.addButton({
-    text: () => `Streamer Mode: ${setting.value()?'On':'Off'}`,
+    text: () => `Streamer Mode: ${setting.value() ? 'On' : 'Off'}`,
     hidden: () => mode.value() === disabled,
     action: () => update(!setting.value()),
   });

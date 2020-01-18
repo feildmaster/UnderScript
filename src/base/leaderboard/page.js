@@ -1,4 +1,4 @@
-wrap(function page() {
+wrap(() => {
   if (!onPage('leaderboard')) return;
   const select = document.createElement('select');
   select.value = 0;
@@ -26,13 +26,13 @@ wrap(function page() {
     select.onchange = () => {
       changePage(select.value);
       eventManager.emit('Rankings:selectPage', select.value);
-    }
-    globalSet('initLeaderboard', function (...args) {
+    };
+    globalSet('initLeaderboard', function initLeaderboard(...args) {
       this.super(...args);
       init();
       eventManager.emit('Rankings:init');
     });
-    globalSet('showPage', function (page) {
+    globalSet('showPage', function showPage(page) {
       this.super(page);
       select.value = page;
     });
