@@ -4,17 +4,17 @@ wrap(() => {
     key: 'underscript.hide.full-skin',
     page: 'Library',
     onChange: toggle,
+    category: 'Card Skins',
   });
-  let art;
+  const art = new VarStore();
 
   function toggle() {
-    if (art) {
-      art.remove();
-      art = undefined;
+    if (art.isSet()) {
+      art.get().remove();
     } else {
-      art = style.add(
+      art.set(style.add(
         '.full-skin .cardHeader, .full-skin .cardFooter { background-color: rgb(0, 0, 0); }',
-      );
+      ));
     }
   }
 

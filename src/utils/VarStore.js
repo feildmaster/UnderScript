@@ -15,7 +15,11 @@ function VarStore(def) {
     return v = val;
   }
 
+  function isSet() {
+    return v !== def;
+  }
+
   return {
-    get, set, peak,
+    get, set, peak, isSet,
   };
 }
