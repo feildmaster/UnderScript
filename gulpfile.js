@@ -21,7 +21,7 @@ function buildMeta() {
 function build() {
   return src(underscript)
     .pipe(replace('{{ version }}', package.version))
-    .pipe(replace(/((?: +|\t+|^)\/\/.[^@=].*$|(?: +|\t+|^)\/\*(?:.|\n\r?)+\*\/)/gm, ''))
+    .pipe(replace(/((?: +|\t+|^)\/\/.[^@=].*$|(?: +|\t+|^)\/\*(?:[^*]|\n\r?)+\*\/)/gm, ''))
     .pipe(replace(/(\n\r?){2,}/gm, '$1'))
     .pipe(iff(!deploy, insert.transform((content, file) => `// ${file.basename}\n${content}`)))
     .pipe(concat('undercards.user.js'))
