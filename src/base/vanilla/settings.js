@@ -63,7 +63,7 @@
     refresh,
     page: 'game',
     remove: true,
-    hidden: name === false,
+    hidden: name === undefined,
   });
 });
 
