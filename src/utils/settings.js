@@ -16,7 +16,7 @@ const settings = wrap(() => {
     '.underscript-dialog .reset:before { content: "["; }',
     '.underscript-dialog .reset:after { content: "]"; }',
     '.underscript-dialog input[type="range"] { display: inline; width: 200px; vertical-align: middle; }',
-    //'.underscript-dialog input[type="range"]:after { content: attr(value); }',
+    // '.underscript-dialog input[type="range"]:after { content: attr(value); }',
   ));
   const settingReg = {
     // key: setting

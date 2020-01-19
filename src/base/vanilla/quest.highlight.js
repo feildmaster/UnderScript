@@ -7,7 +7,7 @@ wrap(() => {
   if (setting.value()) return;
   const questSelector = 'input[type="submit"][value="Claim"]:not(:disabled)';
 
-  eventManager.on('jQuery', () => $el.removeClass(document.querySelectorAll('.yellowLink[href="Quests"]'), 'yellowLink'));
+  eventManager.on(':loaded', () => $el.removeClass(document.querySelectorAll('.yellowLink[href="Quests"]'), 'yellowLink'));
   style.add('a.highlightQuest {color: gold !important;}');
 
   function highlightQuest() {
