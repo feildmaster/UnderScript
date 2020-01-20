@@ -1,6 +1,6 @@
 wrap(() => {
   style.add(
-    '.navbar.navbar-default.sticky { position: sticky; top: 0; z-index: 5; -webkit-transform: translateZ(0); transform: translateZ(0); }',
+    '.navbar.navbar-default.sticky { position: sticky; top: 0; z-index: 10; -webkit-transform: translateZ(0); transform: translateZ(0); }',
   );
 
   const setting = settings.register({
