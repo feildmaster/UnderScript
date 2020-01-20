@@ -47,6 +47,8 @@
   { key: 'deckBeginnerInfo' },
   { key: 'firstVisit' },
   { key: 'playDeck' },
+  // { key: 'cardsVersion' }, // no-export?
+  // { key: 'allCards' }, // no-export?
   // { key: 'scrollY' },
   // { key: 'browser' },
   // { key: 'leaderboardPage' },

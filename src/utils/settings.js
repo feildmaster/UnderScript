@@ -293,7 +293,10 @@ const settings = wrap(() => {
       if (typeof data.onChange === 'function') {
         data.onChange(val, prev);
       }
-      events.emit(setting.key, val, prev);
+      events.emit(setting.key, { val, prev });
+      events.emit('setting:change', {
+        key: setting.key, val, prev,
+      });
     };
     conf.settings[setting.key] = setting;
     if (!Object.prototype.hasOwnProperty.call(settingReg, setting.key)) {
@@ -302,7 +305,7 @@ const settings = wrap(() => {
     return {
       key: setting.key,
       value: () => value(setting.key),
-      set: (val) => localStorage.setItem(setting.key, val),
+      set: (val) => localStorage.setItem(setting.key, val), // TODO: call event
     };
   }
 
