@@ -10,7 +10,7 @@ settings.register({
   name: 'Behavior',
   key: 'underscript.ignorechat.how',
   type: 'select',
-  options: ['remove', 'hide'],
+  options: ['remove', 'hide', 'none'],
   page: 'Chat',
   category: 'Ignored Users',
 });
