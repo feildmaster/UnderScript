@@ -30,13 +30,12 @@ function shouldIgnore(message, self = false) {
 }
 
 eventManager.on('ChatDetected', function ignoreChat() {
-  let container;
   let count;
 
   function processMessage(message, room, history = false) {
     debug(message, 'debugging.chat.message');
     if (!shouldIgnore(message) || global('isFriend')(message.user.id)) {
-      container = null;
+      $(`#${room}`).removeData('container');
       return;
     }
 
@@ -51,6 +50,7 @@ eventManager.on('ChatDetected', function ignoreChat() {
         .removeClass().addClass('chat-message');
     } else if (type === 'remove') {
       debug(`removed ${fn.user.name(message.user)}`, 'debugging.chat');
+      let container = $(`#${room}`).data('container');
       if (!container) {
         count = 1;
         container = $('<li class="ignored-chat">');
@@ -59,10 +59,10 @@ eventManager.on('ChatDetected', function ignoreChat() {
           msg.remove();
         } else {
           const messages = $(`#${room} .chat-messages`);
-          const force = messages.scrollTop() + 100 > messages.prop('scrollHeight') - messages.height();
           messages.append(container);
-          global('scroll')(room, force);
+          global('scroll')(room, true);
         }
+        $(`#${room}`).data('container', container);
       } else if (history) {
         msg.remove();
       }
