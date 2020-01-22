@@ -15,12 +15,14 @@ onPage('', function patches() {
       const version = patch.dataset.i18nArgs;
       el.remove();
       const key = `underscript.season.dismissed.${version}`;
+      const message = $.i18n('home-patch-message', version);
       fn.cleanData('underscript.season.dismissed.', key);
-      if (settings.value(key)) return;
+      if (settings.value(key) === message) return;
       fn.dismissable({
         key,
         text,
         title: `Undercards Update`,
+        value: message,
       });
     });
   });
