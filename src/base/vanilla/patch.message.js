@@ -15,7 +15,7 @@ onPage('', function patches() {
       const version = patch.dataset.i18nArgs;
       el.remove();
       const key = `underscript.season.dismissed.${version}`;
-      fn.cleanData('underscript.season.', key);
+      fn.cleanData('underscript.season.dismissed.', key);
       if (settings.value(key)) return;
       fn.dismissable({
         key,
