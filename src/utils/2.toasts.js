@@ -57,7 +57,7 @@ fn.infoToast = (arg, key, val) => {
   return fn.toast(fn.merge(defaults, arg, override));
 };
 
-fn.dismissable = ({ title, text, key }) => {
+fn.dismissable = ({ title, text, key, value = true }) => {
   const buttons = {
     text: 'Dismiss',
     className: 'dismiss',
@@ -70,7 +70,7 @@ fn.dismissable = ({ title, text, key }) => {
       'border-radius': '',
     },
     onclick: (e) => {
-      localStorage.setItem(key, true);
+      localStorage.setItem(key, value);
     },
   };
   return fn.toast({
