@@ -38,7 +38,9 @@ wrap(() => {
       links.push(el.parentElement.outerHTML);
       el.parentElement.remove();
     });
-    const key = `underscript.dismiss.${type}.${names.join(',')}`;
+    const prefix = `underscript.dismiss.${type}.`;
+    const key = `${prefix}${names.join(',')}`;
+    fn.cleanData(prefix, key);
     if (settings.value(key)) return;
     fn.dismissable({
       key,
