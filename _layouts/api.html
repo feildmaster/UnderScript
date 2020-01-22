@@ -1,0 +1,11 @@
+---
+layout: default
+---
+<h1>{{ page.title }}</h1>
+by {{ page.author }} ({{ page.date | date: "%B %-d, %Y" }})
+<hr>
+
+{{ content }}
+
+<hr>
+{{ page.last_modified_at | date: "Last updated: %B %-d, %Y at %H:%M" }}
