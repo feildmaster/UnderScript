@@ -35,6 +35,7 @@ onPage('Packs', function quickOpenPack() {
       if (openingPacks()) {
         results.packs += 1;
         JSON.parse(xhr.responseJSON.cards).forEach((card) => {
+          debug(card, 'debugging.openPack');
           const result = results[card.rarity] = results[card.rarity] || {};
           const c = result[card.name] = result[card.name] || { total: 0, shiny: 0 };
           c.total += 1;
@@ -94,7 +95,7 @@ onPage('Packs', function quickOpenPack() {
       autoOpen = event.ctrlKey;
       openAll = false;
       const type = $(event.target).prop('id').substring(7);
-      const count = parseInt($(`#nb${type}Packs`).text(), 10);
+      const count = autoOpen ? 1 : parseInt($(`#nb${type}Packs`).text(), 10);
       if (event.shiftKey) {
         openPacks(type, count, 1);
         hover.hide();
