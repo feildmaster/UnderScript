@@ -14,15 +14,14 @@ onPage('', function patches() {
       const text = $el.html.get(el);
       const version = patch.dataset.i18nArgs;
       el.remove();
-      const key = `underscript.season.dismissed.${version}`;
-      const message = $.i18n('home-patch-message', version);
-      fn.cleanData('underscript.season.dismissed.', key);
-      if (settings.value(key) === message) return;
+      const prefix = 'underscript.season.dismissed.';
+      const key = `${prefix}${version}`;
+      fn.cleanData(prefix, key);
+      if (settings.value(key)) return;
       fn.dismissable({
         key,
-        text,
+        text, // This only works because it gets translated by the loader
         title: `Undercards Update`,
-        value: message,
       });
     });
   });
