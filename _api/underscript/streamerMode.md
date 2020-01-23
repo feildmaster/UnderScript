@@ -9,4 +9,7 @@ Detect if streamer mode is active
 
 ## Examples
 ```javascript
+if (underscript.streamerMode()) {
+    // Do something special
+}
 ```

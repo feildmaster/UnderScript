@@ -8,9 +8,9 @@ Listen to and emit events.
 ## Syntax
 > plugin.events();
 
-## Methods
-* on
-* emit
+## Event Methods
+* on(*event*, *data*)
+* emit(*event*, *data*, *options*)
 
 ## Examples
 ```javascript
