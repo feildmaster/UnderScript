@@ -12,7 +12,7 @@ Underscript exposes a public API via the variable `underscript`.
 ## Methods
 {% for page in site.api %}
   {% if page.categories contains "underscript" and page.method %}
-<a href="{{ page.url }}">{{ page.title }}</a>
+<a href="{{ page.url | relative_url }}">{{ page.title }}</a>
 : {{ page.excerpt }}
   {% endif %}
 {% endfor %}
@@ -20,7 +20,7 @@ Underscript exposes a public API via the variable `underscript`.
 ## Properties
 {% for page in site.api %}
   {% if page.categories contains "underscript" and page.property %}
-<a href="{{ page.url }}">{{ page.title }}</a>
+<a href="{{ page.url | relative_url }}">{{ page.title }}</a>
 : {{ page.excerpt }}
   {% endif %}
 {% endfor %}

@@ -8,6 +8,10 @@ by {{ page.author }} ({{ page.date | date: "%B %-d, %Y" }})
 {{ content }}
 
 <hr>
-API Documentation: | <a href="{% link _api/underscript/index.md %}">UnderScript</a> | <a href="{% link _api/plugin/index.md %}">Plugin</a> | <a href="{% link _api/eventemitter.md %}">EventEmitter</a> | 
+API Documentation: 
+| <a href="{{site.baseurl}}{% link _api/underscript/index.md %}">UnderScript</a>
+| <a href="{{site.baseurl}}{% link _api/plugin/index.md %}">Plugin</a>
+| <a href="{{site.baseurl}}{% link _api/eventemitter.md %}">EventEmitter</a>
+| 
 <br>
 {{ page.last_modified_at | date: "Last updated: %B %-d, %Y at %H:%M" }}

@@ -17,7 +17,7 @@ Return Value
 ## Methods
 {% for page in site.api %}
   {% if page.plugin and page.method %}
-<a href="{{ page.url }}">{{ page.title }}</a>
+<a href="{{ page.url | relative_url }}">{{ page.title }}</a>
 : {{ page.excerpt }}
   {% endif %}
 {% endfor %}
@@ -25,7 +25,7 @@ Return Value
 ## Properties
 {% for page in site.api %}
   {% if page.plugin and page.property %}
-<a href="{{ page.url }}">{{ page.title }}</a>
+<a href="{{ page.url | relative_url }}">{{ page.title }}</a>
 : {{ page.excerpt }}
   {% endif %}
 {% endfor %}
