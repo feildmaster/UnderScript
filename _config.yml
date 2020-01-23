@@ -5,10 +5,15 @@ discord_url: https://discord.gg/jRupwTU
 repository: feildmaster/UnderScript
 theme: jekyll-theme-dinky
 permalink: /:title
+plugins:
+  - jekyll-last-modified-at
 collections:
   features:
     output: true
     permalink: /feature/:title
+  api:
+    output: true
+    permalink: /:collection/:categories/:title
 defaults:
   - scope: # Make all file layouts "default"
       path: ""
@@ -19,4 +24,10 @@ defaults:
       type: "features"
     values:
       layout: "feature"
+      author: "feildmaster"
+  - scope: # make author of api feildmaster
+      path: ""
+      type: "api"
+    values:
+      layout: "api"
       author: "feildmaster"
