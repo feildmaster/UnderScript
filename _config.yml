@@ -13,7 +13,7 @@ collections:
     permalink: /feature/:title
   api:
     output: true
-    permalink: /:collection/:categories/:title
+    permalink: /api/:categories/:title
 defaults:
   - scope: # Make all file layouts "default"
       path: ""
