@@ -4,7 +4,7 @@ settings.register({
   key: 'underscript.disable.logger',
   page: 'Game',
   onChange: (to, from) => {
-    if (!onPage('Game') && !onPage('gameSpectate')) return;
+    if (!onPage('Game') && !onPage('Spectate')) return;
     if (to) {
       $('#history').hide();
     } else {

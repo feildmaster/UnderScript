@@ -1,7 +1,7 @@
 wrap(function emoteManager() {
   // let live = false;
   let self;
-  const spectating = onPage('gameSpectate');
+  const spectating = onPage('Spectate');
   const spectate = settings.register({
     name: 'Show when spectating',
     key: 'underscript.emote.spectate',

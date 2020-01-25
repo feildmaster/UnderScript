@@ -8,7 +8,7 @@ settings.register({
 
 eventManager.on('GameStart', function rumble() {
   eventManager.on(':loaded', () => {
-    const spectating = onPage('gameSpectate');
+    const spectating = onPage('Spectate');
     globalSet('shakeScreen', function shakeScreen(...args) {
       if (!disabled()) this.super(...args);
     });
