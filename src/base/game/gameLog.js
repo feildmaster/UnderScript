@@ -30,9 +30,9 @@ wrap(() => {
       }
     });
 
-    settings.on(BattleLogSetting, (to) => {
+    settings.on(BattleLogSetting, ({ val: to }) => {
       toggle(!to, 'left');
-      timer(true);
+      timer(!to);
     });
 
     eventManager.on('getBattleLog', (data) => {
