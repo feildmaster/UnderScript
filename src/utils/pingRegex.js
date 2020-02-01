@@ -5,13 +5,21 @@ fn.pingRegex = wrap(() => {
     return text.replace(filter, '\\$1').replace('@', atReplace);
   }
   function build() {
-    const exp = `\\b((?:${settings.value('underscript.ping.extras').map(filterMeta).join(')|(?:')}))(?!.*">)\\b`;
+    const extras = settings.value('underscript.ping.extras');
+    if (!extras.length) {
+      return {
+        test() {
+          return false;
+        },
+      };
+    }
+    const exp = `\\b((?:${extras.map(filterMeta).join(')|(?:')}))(?!.*">)\\b`;
     return new AtSafeRegExp(exp, 'gi');
   }
 
   class AtSafeRegExp extends RegExp {
     test(string) {
-      return super.test(string.replace('@', atReplace))
+      return super.test(string.replace('@', atReplace));
     }
 
     replace(text, mask) {
