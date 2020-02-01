@@ -43,11 +43,8 @@ const settings = wrap(() => {
         const i = v.indexOf(text);
         if (i > -1) {
           v.splice(i, 1);
-          if (v.length) {
-            localStorage.setItem(skey, JSON.stringify(v));
-          } else {
-            localStorage.removeItem(skey);
-          }
+          localStorage.setItem(skey, JSON.stringify(v));
+          // TODO: Call event. Value changed
         }
         ret.remove();
       });
