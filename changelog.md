@@ -1,5 +1,24 @@
 # UnderScript Changelog
 
+## Version 0.36.0
+### New Features
+1. Visual Autocomplete
+1. List completed quests
+1. Call an event when translations get loaded
+1. Disable breaking card art setting
+### Fixes
+1. CTRL+SHIFT when opening packs will only open one pack (with toast)
+1. Fixed not having any ping phrases causing everything to ping you
+1. Fixed battle log setting not applying while playing game
+1. Fixed ignoring stacking messages in a single window
+1. Fixed 'none' ignore type not being an option
+1. Fix the header mixing with card tribes and such
+1. Footer can no longer cover any part of the page
+1. Vanilla settings that shouldn't show no longer show
+1. Fixed bugs that cropped up when the spectate URL changed
+### Misc
+1. Removed some old features that don't do anything anymore
+
 ## Version 0.35.0
 ### New Features
 1. Disable full card art setting
