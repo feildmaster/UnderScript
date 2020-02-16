@@ -21,13 +21,24 @@ fn.toast = (arg) => {
 };
 
 fn.errorToast = (error) => {
+  function getStack(err = {}) {
+    const stack = err.stack;
+    if (stack) {
+      return stack.replace('<', '&lt;');
+    }
+    return null;
+  }
+
   const toast = {
     title: error.name || error.title || 'Error',
-    text: error.message || error.text || error,
+    text: error.message || error.text || getStack(error.error || error) || error,
     css: {
       'background-color': 'rgba(200,0,0,0.6)',
     },
   };
+  if (error.footer) {
+    toast.footer = error.footer;
+  }
   return fn.toast(toast);
 };
 
