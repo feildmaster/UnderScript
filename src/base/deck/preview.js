@@ -4,7 +4,7 @@ settings.register({
   // hidden: typeof displayCardDeck === 'function',
   onChange(val, val2) {
     if (!onPage('Decks') || typeof cardHoverEnabled === 'undefined') return;
-    globalSet('cardHoverEnabled', val === '0');
+    globalSet('cardHoverEnabled', !val);
   },
   page: 'Library',
 });

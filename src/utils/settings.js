@@ -63,7 +63,7 @@ const settings = wrap(() => {
   }
 
   function createSetting(setting) {
-    if (setting.hidden) return;
+    if (setting.hidden) return null;
     const ret = $('<div>').addClass('flex-start');
     const key = setting.key;
     const current = localStorage.getItem(key) || getDefault(setting);
@@ -72,6 +72,12 @@ const settings = wrap(() => {
     if (setting.type === 'boolean') {
       el = $(`<input type="checkbox" >`)
         .prop('checked', current === '1' || current === true);
+    } else if (setting.type === 'text') {
+      el = $('<input type="text">')
+        .val(current);
+    } else if (setting.type === 'password') {
+      el = $('<input type="password">')
+        .val(current);
     } else if (setting.type === 'select') {
       el = $(`<select>`);
       lf = true;
@@ -102,7 +108,7 @@ const settings = wrap(() => {
     } else { // How to handle.
       return null;
     }
-    if (['array'].includes(setting.type)) {
+    if (['array', 'text', 'password'].includes(setting.type)) {
       el.css({
         'background-color': 'transparent',
       });
@@ -122,7 +128,11 @@ const settings = wrap(() => {
       case 'slider':
         el.on('change.script', callChange);
         break;
-      case 'input':
+      case 'text':
+      case 'password':
+        el.on('blur.script', callChange);
+        break;
+      case 'input': // This type doesn't exist
       case 'array':
         el.on('keydown.script', (e) => {
           if (e.which !== 13) return;
@@ -173,6 +183,7 @@ const settings = wrap(() => {
         });
       ret.append(' ', reset);
     }
+    // TODO: show password button
     return ret;
   }
 
@@ -265,7 +276,7 @@ const settings = wrap(() => {
         if (el.is(':checked')) val = 1;
         else if (setting.remove) val = false; // Only remove if it's expected
         else val = 0;
-      } else if (['select', 'color', 'slider'].includes(setting.type)) {
+      } else if (['select', 'color', 'slider', 'text', 'password'].includes(setting.type)) {
         val = el.val();
       } else if (setting.type === 'remove') {
         val = false;
@@ -288,7 +299,7 @@ const settings = wrap(() => {
         localStorage.setItem(setting.key, val);
       }
       if (typeof data.onChange === 'function') {
-        data.onChange(val, prev);
+        data.onChange(value(setting.key), prev);
       }
       events.emit(setting.key, { val, prev });
       events.emit('setting:change', {

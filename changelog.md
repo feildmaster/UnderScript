@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.36.1
+1. Fixed various bugs
+
 ## Version 0.36.0
 ### New Features
 1. Visual Autocomplete
