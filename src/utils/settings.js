@@ -68,8 +68,9 @@ const settings = wrap(() => {
     const key = setting.key;
     const current = localStorage.getItem(key) || getDefault(setting);
     let el;
-    let lf;
+    let lf = true;
     if (setting.type === 'boolean') {
+      lf = false;
       el = $(`<input type="checkbox" >`)
         .prop('checked', current === '1' || current === true);
     } else if (setting.type === 'text') {
@@ -85,6 +86,7 @@ const settings = wrap(() => {
         el.append(`<option value="${v}"${current === v ? ' selected' : ''}>${v}</option>`);
       });
     } else if (setting.type === 'remove') {
+      lf = false;
       el = $(`<input type="checkbox">`)
         .addClass('remove')
         .prop('checked', true);
@@ -101,6 +103,7 @@ const settings = wrap(() => {
       }).val(current);
     } else if (setting.type === 'color') {
       // lf = true;
+      lf = false;
       el = $('<input>').attr({
         type: 'color',
         value: current,
