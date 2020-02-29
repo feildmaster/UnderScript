@@ -1,5 +1,9 @@
 # UnderScript Changelog
 
+## Version 0.36.2
+1. Fixed background song playing twice
+1. Fixed duplicate names in autocomplete
+
 ## Version 0.36.1
 1. Fixed various bugs
 
