@@ -1,5 +1,13 @@
 # UnderScript Changelog
 
+## Version 0.37.0
+### New Features
+1. Added setting to disable game list refresh
+### Fixes
+1. Fixed completed daily quests looking bad
+### Stop-gap
+1. Quick opening packs can now only open 10 at a time, due to Onucode.
+
 ## Version 0.36.2
 1. Fixed background song playing twice
 1. Fixed duplicate names in autocomplete
