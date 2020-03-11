@@ -8,7 +8,11 @@ wrap(() => {
       const block = getBlock();
       const table = block.querySelector('.questTable tbody');
       quests.forEach((quest) => {
-        table.append(quest.parentElement.parentElement.parentElement.cloneNode(true));
+        const row = quest.parentElement.parentElement.parentElement.cloneNode(true);
+        if (row.childElementCount !== 4) {
+          row.firstElementChild.remove();
+        }
+        table.append(row);
       });
       document.querySelector('#event-list').after(block);
     }
