@@ -103,8 +103,9 @@ onPage('Packs', function quickOpenPack() {
         hover.hide();
       }
     }).on('mouseenter.script', hover.show(`<span style="font-style: italic;">
-        * CTRL Click to auto reveal one pack<br />
-        * Shift Click to auto open ALL packs
+        * CTRL Click to auto reveal one (1) pack<br />
+        * Shift Click to auto open ten (10) packs***<br />
+        *** Temporary until a new method for opening packs is made
       </span>`)).on('mouseleave.script', hover.hide);
   });
 
@@ -115,7 +116,8 @@ onPage('Packs', function quickOpenPack() {
   function openPacks(type, count, start = 0) {
     if (openingPacks()) return;
     const packs = parseInt($(`#nb${type}Packs`).text(), 10);
-    count = Math.max(Math.min(count, packs), 0);
+    // TODO: Make a new way that doesn't limit to 10 packs
+    count = Math.max(Math.min(count, packs, 10), 0);
     if (count === 0) return;
     clearResults();
     left = packs - count;
