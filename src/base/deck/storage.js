@@ -220,7 +220,21 @@ onPage('Decks', function deckStorage() {
       const key = getKey(id);
       const deck = JSON.parse(localStorage.getItem(key));
       if (!deck) return [];
-      return deck.artifacts || [];
+      const arts = deck.artifacts || [];
+      if (arts.length > 1) {
+        const userArtifacts = global('userArtifacts');
+        const legend = arts.find((art) => {
+          const artifact = userArtifacts.find(({ id: artID }) => artID === art);
+          if (artifact) {
+            return !!artifact.legendary;
+          }
+          return false;
+        });
+        if (legend) {
+          return [legend];
+        }
+      }
+      return arts;
     }
 
     function cards(list) {
@@ -235,8 +249,9 @@ onPage('Decks', function deckStorage() {
 
     function artifacts(id) {
       const list = [];
+      const userArtifacts = global('userArtifacts');
       getArtifacts(id).forEach((art) => {
-        const artifact = global('userArtifacts').find(({ id: artID }) => artID === art);
+        const artifact = userArtifacts.find(({ id: artID }) => artID === art);
         if (artifact) {
           list.push(`<span class="${artifact.legendary ? 'yellow' : ''}"><img style="height: 16px;" src="images/artifacts/${artifact.image}.png" /> ${artifact.name}</span>`);
         }

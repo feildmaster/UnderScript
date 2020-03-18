@@ -117,6 +117,7 @@ onPage('Packs', function quickOpenPack() {
     if (openingPacks()) return;
     const packs = parseInt($(`#nb${type}Packs`).text(), 10);
     // TODO: Make a new way that doesn't limit to 10 packs
+    // eslint-disable-next-line no-param-reassign
     count = Math.max(Math.min(count, packs, 10), 0);
     if (count === 0) return;
     clearResults();

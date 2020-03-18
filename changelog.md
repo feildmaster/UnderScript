@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.37.1
+1. Fixed a bug with loading new reinforcement artifact from deck storage.
+
 ## Version 0.37.0
 ### New Features
 1. Added setting to disable game list refresh
