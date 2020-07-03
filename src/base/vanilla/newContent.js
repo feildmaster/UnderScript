@@ -60,7 +60,7 @@ wrap(() => {
 
   function selector(type) {
     switch (type) {
-      case 'bundle': return 'Shop';
+      case 'bundle': return 'Bundle';
       case 'skins': return 'CardSkinsShop';
       case 'emotes': return 'CosmeticsShop';
       default: throw new Error(`Unknown Type: ${type}`);

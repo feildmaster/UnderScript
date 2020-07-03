@@ -56,6 +56,7 @@ eventManager.on('GameStart', function battleLogger() {
     getPlaySound: '',
     getAnimation: '',
   });
+  const turnText = '>>> Turn';
   let baseLives = 1;
   let turn = 0;
   let currentTurn = 0;
@@ -166,7 +167,7 @@ eventManager.on('GameStart', function battleLogger() {
       $('#history').hide();
     }
     $('div#history div.handle').html('').append(`[${data.gameType}] `, make.player(you), ' vs ', make.player(enemy));
-    log.add(`Turn ${turn}`);
+    log.add(`${turnText} ${turn}`);
     if (data.userTurn) {
       currentTurn = data.userTurn;
       log.add(make.player(players[data.userTurn]), '\'s turn');
@@ -224,7 +225,7 @@ eventManager.on('GameStart', function battleLogger() {
     debug(data, 'debugging.raw.turnStart');
     lastEffect = 0;
     if (data.numTurn !== turn) {
-      log.add(`Turn ${data.numTurn}`);
+      log.add(`${turnText} ${data.numTurn}`);
     }
     currentTurn = data.idPlayer; // It would (kindof) help to actually update who's turn it is
     turn = data.numTurn;

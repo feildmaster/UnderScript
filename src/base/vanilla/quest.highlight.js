@@ -20,36 +20,35 @@ wrap(() => {
     localStorage.removeItem('underscript.quest.clear');
   }
 
-  if (!localStorage.getItem('underscript.quest.clear')) {
-    // eslint-disable-next-line no-inner-declarations
-    function checkHighlight() {
-      axios.get('/Quests').then((response) => {
-        const data = $(response.data);
-        const quests = data.find(questSelector);
-        if (quests.length) {
-          localStorage.setItem('underscript.quest.clear', true);
-          if (onPage('Game')) {
-            let questsCleared = '';
-            quests.each((i, e) => {
-              questsCleared += `- ${fn.translate($(e).parentsUntil('tbody', 'tr').find('span[data-i18n-custom]:first')).text()}\n`;
-            });
-            fn.toast({
-              title: 'Quest Completed!',
-              text: `${questsCleared}Click to go to Quests page`,
-              onClose: () => {
-                location.href = '/Quests';
-              },
-            });
-          } else {
-            highlightQuest();
-          }
+  function checkHighlight() {
+    axios.get('/Quests').then((response) => {
+      const data = $(response.data);
+      const quests = data.find(questSelector);
+      if (quests.length) {
+        localStorage.setItem('underscript.quest.clear', true);
+        if (onPage('Game')) {
+          let questsCleared = '';
+          quests.each((i, e) => {
+            questsCleared += `- ${fn.translate($(e).parentsUntil('tbody', 'tr').find('span[data-i18n-custom]:first')).text()}\n`;
+          });
+          fn.toast({
+            title: 'Quest Completed!',
+            text: `${questsCleared}Click to go to Quests page`,
+            onClose: () => {
+              location.href = '/Quests';
+            },
+          });
         } else {
-          // Perhaps another tab found a quest at some point...?
-          clearHighlight();
+          highlightQuest();
         }
-      }).catch(noop());
-    }
+      } else {
+        // Perhaps another tab found a quest at some point...?
+        clearHighlight();
+      }
+    }).catch(noop());
+  }
 
+  if (!localStorage.getItem('underscript.quest.clear')) {
     if (!localStorage.getItem('underscript.quest.skip')) {
       onPage('', checkHighlight);
     }
