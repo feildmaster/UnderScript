@@ -2,6 +2,10 @@ onPage('Play', () => {
   debug('On play page');
 
   eventManager.on(':loaded', function hook() {
+    if (undefined !== window.bypassQueueEvents) {
+      location.href = '/Game';
+      return;
+    }
     debug('Play:Loaded');
     function opened() {
       eventManager.emit('socketOpen');
