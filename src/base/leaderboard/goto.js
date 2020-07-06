@@ -5,7 +5,9 @@ wrap(() => {
   let replacePage;
 
   function set(type, value, replace = true) {
-    if (history.state && Object.prototype.hasOwnProperty.call(history.state, type) && history.state[type] === value) return;
+    if (history.state &&
+      Object.prototype.hasOwnProperty.call(history.state, type) &&
+      history.state[type] === value) return;
     const func = replace && !userLast() ? history.replaceState : history.pushState;
     const o = {};
     o[type] = value;

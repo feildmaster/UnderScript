@@ -30,6 +30,7 @@ onPage('Crafting', () => {
     globalSet('showPage', function showPage(...args) {
       const prevPage = global('currentPage');
       this.super(...args);
+      // !!!
       eventManager.emit('Craft:RefreshPage', global('currentPage'), prevPage);
     });
   });

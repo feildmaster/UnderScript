@@ -4,7 +4,7 @@ wrap(() => {
     key: 'underscript.disable.questHighlight',
   });
 
-  if (setting.value()) return;
+  if (setting.value()) return; // TODO: Split into a setting to disable just the toast and a setting to disable highlighting.
   const questSelector = 'input[type="submit"][value="Claim"]:not(:disabled)';
 
   eventManager.on(':loaded', () => $el.removeClass(document.querySelectorAll('.yellowLink[href="Quests"]'), 'yellowLink'));

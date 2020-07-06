@@ -4,6 +4,7 @@ onPage('Decks', function deckPage() {
     $(document).ajaxSuccess((event, xhr, options) => {
       if (options.url !== 'DecksConfig' || !options.data) return;
       const data = JSON.parse(options.data);
+      // TODO: Fix these events.. Oops
       eventManager.emit('Deck:Change', data, options, xhr);
       eventManager.emit(`Deck:${data.action}`, data, options, xhr);
     });
