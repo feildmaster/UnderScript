@@ -14,7 +14,7 @@ eventManager.on(':loaded', () => {
       if (action === 'getHistory') {
         chatRoomNames[data.room] = fn.translateText(data.roomName);
       }
-      if (eventManager.emit(`preChat:${action}`, data, true).canceled) return;
+      if (eventManager.cancelable.emit(`preChat:${action}`, data).canceled) return;
       oHandler(event);
       eventManager.emit('ChatMessage', data);
       eventManager.emit(`Chat:${action}`, data);
@@ -31,7 +31,7 @@ eventManager.on(':loaded', () => {
           messages,
           input: this,
         };
-        if (eventManager.emit('Chat:send', data, true).canceled) {
+        if (eventManager.cancelable.emit('Chat:send', data).canceled) {
           debug('Canceled send');
           $(this).val('');
           e.preventDefault();

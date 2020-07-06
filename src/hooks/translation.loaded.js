@@ -1,10 +1,6 @@
 eventManager.on(':loaded', () => {
-  let called;
   globalSet('translateElement', function translateElement(...args) {
-    if (!called) {
-      eventManager.emit('translation:loaded');
-      called = true;
-    }
+    eventManager.singleton.emit('translation:loaded');
     return this.super(...args);
   });
 });

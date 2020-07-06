@@ -1,10 +1,10 @@
 console.log(`UnderScript(v${scriptVersion}): Loaded`); // eslint-disable-line no-console
 eventManager.on(':ready', () => {
   function loaded() {
-    eventManager.emit(':loaded');
+    eventManager.singleton.emit(':loaded');
   }
   function done() {
-    eventManager.emit(':load');
+    eventManager.singleton.emit(':load');
   }
 
   document.addEventListener('DOMContentLoaded', loaded);
@@ -18,6 +18,6 @@ eventManager.on(':ready', () => {
   }
 });
 
-if (eventManager.emit(':ready').ran) {
+if (eventManager.singleton.emit(':ready').ran) {
   api.register('ready', true);
 }

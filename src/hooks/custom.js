@@ -6,7 +6,7 @@ onPage('GamesList', function customGame() {
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
       const { action } = data;
-      if (eventManager.emit(`preCustom:${action}`, data, true).canceled) return;
+      if (eventManager.cancelable.emit(`preCustom:${action}`, data).canceled) return;
       oHandler(event);
       eventManager.emit(`Custom:${action}`, data);
     };
