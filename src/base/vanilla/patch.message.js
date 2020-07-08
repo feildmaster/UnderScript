@@ -11,17 +11,23 @@ onPage('', function patches() {
     document.querySelectorAll('.infoIndex').forEach((el) => {
       const patch = el.querySelector('[data-i18n-custom="home-patch-message"]');
       if (!patch) return;
-      const text = $el.html.get(el);
+      const element = $(el);
       const version = patch.dataset.i18nArgs;
       el.remove();
       const prefix = 'underscript.season.dismissed.';
       const key = `${prefix}${version}`;
       fn.cleanData(prefix, key);
-      if (settings.value(key)) return;
-      fn.dismissable({
-        key,
-        text, // This only works because it gets translated by the loader
-        title: `Undercards Update`,
+      eventManager.on('translation:loaded', () => {
+        const translateElement = global('translateElement');
+        element.find('[data-i18n-custom],[data-i18n]').each((i, e) => translateElement($(e)));
+        const value = element.text();
+        if (localStorage.getItem(key) === value) return;
+        fn.dismissable({
+          key,
+          text: element.html(),
+          title: `Undercards Update`,
+          value,
+        });
       });
     });
   });

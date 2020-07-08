@@ -5,6 +5,7 @@
 1. Display a toast about space/middle click turn skip hotkey
 1. Added a friendship reward toast
 ### Fixes
+1. Fixed patch notes not showing on mid-season patch
 1. Fixed a bug with loading new reinforcement artifact from deck storage
 1. Fixed a bug with Bundle toasts not working
 1. Fixed bug where it thinks you're on the play page while in a game

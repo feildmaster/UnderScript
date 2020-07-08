@@ -4,9 +4,9 @@ onPage('Decks', function deckPage() {
     $(document).ajaxSuccess((event, xhr, options) => {
       if (options.url !== 'DecksConfig' || !options.data) return;
       const data = JSON.parse(options.data);
-      // TODO: Fix these events.. Oops
-      eventManager.emit('Deck:Change', data, options, xhr);
-      eventManager.emit(`Deck:${data.action}`, data, options, xhr);
+      const obj = Object.freeze({ data, options, xhr });
+      eventManager.emit('Deck:Change', obj);
+      eventManager.emit(`Deck:${data.action}`, obj);
     });
     $(document).ajaxComplete((event, xhr, options) => {
       if (options.url !== 'DecksConfig') return;
@@ -15,14 +15,16 @@ onPage('Decks', function deckPage() {
         return;
       }
       const data = JSON.parse(options.data);
-      eventManager.emit('Deck:postChange', data, options, xhr);
-      eventManager.emit(`Deck:${data.action}`, data, options, xhr);
+      const obj = Object.freeze({ data, options, xhr });
+      eventManager.emit('Deck:postChange', obj);
+      eventManager.emit(`Deck:${data.action}`, obj);
     });
     // Class change
     $('#selectSouls').change(function soulChange() {
       // Sometimes it takes too long, so lets change it now
-      globalSet('soul', $(this).val());
-      eventManager.emit('Deck:Soul');
+      const val = $(this).val();
+      globalSet('soul', val);
+      eventManager.emit('Deck:Soul', val);
     });
   });
 });
