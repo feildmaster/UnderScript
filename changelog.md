@@ -4,7 +4,9 @@
 ### New Features
 1. Display a toast about space/middle click turn skip hotkey
 1. Added a friendship reward toast
+1. Added a progress bar when opening multiple packs
 ### Fixes
+1. You can now open all packs again
 1. Fixed patch notes not showing on mid-season patch
 1. Fixed a bug with loading new reinforcement artifact from deck storage
 1. Fixed a bug with Bundle toasts not working
