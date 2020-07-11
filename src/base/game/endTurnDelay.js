@@ -20,9 +20,9 @@ eventManager.on('PlayingGame', function endTurnDelay() {
     if (global('turn') > 3 && !settings.value('underscript.disable.endTurnDelay')) {
       debug('Waiting');
       $('#endTurnBtn').prop('disabled', true);
-      setTimeout(() => {
+      sleep(3000).then(() => {
         $('#endTurnBtn').prop('disabled', false);
-      }, 3000);
+      });
     }
   });
 });

@@ -45,6 +45,7 @@ module.exports = {
         setVersion: readonly,
         shouldIgnore: readonly,
         showdown: readonly,
+        sleep: readonly,
         style: readonly,
         tippy: readonly,
         VarStore: readonly,

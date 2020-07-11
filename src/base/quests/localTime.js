@@ -1,6 +1,6 @@
 onPage('Quests', function localTime() {
   eventManager.on(':load', () => {
-    setTimeout(updateTime);
+    sleep().then(updateTime);
   });
 
   function updateTime() {

@@ -56,7 +56,7 @@ wrap(() => {
         event.split(' ').forEach((e) => {
           const singleton = singletonEvents[e];
           if (singleton) {
-            setTimeout(() => emit(e, [fn], singleton.data));
+            sleep().then(() => emit(e, [fn], singleton.data));
           } else {
             if (!Object.hasOwnProperty.call(events, e)) {
               events[e] = [];

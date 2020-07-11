@@ -3,7 +3,7 @@ settings.register({
   key: 'underscript.disable.craftingborder',
   onChange: () => {
     if (onPage('Crafting')) {
-      setTimeout(() => eventManager.emit('refreshhighlight'));
+      sleep().then(() => eventManager.emit('refreshhighlight'));
     }
   },
   category: 'Crafting',

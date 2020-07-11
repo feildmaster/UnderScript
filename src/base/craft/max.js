@@ -50,6 +50,8 @@ onPage('Crafting', function craftMax() {
       total -= cost;
       craft(id, shiny);
     } while (--count && total >= cost); // eslint-disable-line no-plusplus
-    crafting = false;
+    sleep(1000).then(() => { // Wait a second before allowing crafting again
+      crafting = false;
+    });
   }
 });

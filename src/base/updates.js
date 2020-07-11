@@ -58,7 +58,7 @@ wrap(() => {
     const ref = toast;
     if (ref && ref.exists()) {
       ref.setText('No updates available.');
-      setTimeout(ref.close, 3000);
+      sleep(3000).then(ref.close);
     }
   }
   function isNewer(data) {

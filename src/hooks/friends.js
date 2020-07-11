@@ -43,9 +43,9 @@ wrap(() => {
     }).catch((e) => {
       fn.debug(`Friends: ${e.message}`);
     }).then(() => {
-      setTimeout(loadFriends, 10000);
+      sleep(10000).then(loadFriends);
     });
   }
 
-  setTimeout(loadFriends, 10000);
+  sleep(10000).then(loadFriends);
 });

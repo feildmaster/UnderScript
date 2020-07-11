@@ -18,7 +18,7 @@ wrap(() => {
       icon: 'images/favicon.ico',
     });
 
-    setTimeout(() => n.close(), 5000);
+    sleep(5000).then(() => n.close());
   }
 
   fn.notify = notify;
