@@ -1,1 +1,1 @@
-fn.formatNumber = (number, options) => Number(number).toLocaleString(null, options);
+fn.formatNumber = (number, options) => Number(number).toLocaleString(undefined, options);
