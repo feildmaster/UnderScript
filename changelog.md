@@ -4,7 +4,7 @@
 ### New Features
 1. Display a toast about space/middle click turn skip hotkey
 1. Added a friendship reward toast
-1. Added a progress bar when opening multiple packs
+1. Added a progress bar when opening multiple packs (and a stop button)
 ### Fixes
 1. You can now open all packs again
 1. Fixed patch notes not showing on mid-season patch

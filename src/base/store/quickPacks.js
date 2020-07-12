@@ -31,7 +31,7 @@ wrap(() => {
       clearPing(reset);
       timeoutID = setTimeout(() => {
         status.pingTimeout += 1;
-        if (status.pringTimeout > 10) {
+        if (status.pingTimeout > 10) {
           events.emit('cancel');
         }
         setupPing(false);
@@ -114,7 +114,7 @@ wrap(() => {
         toast.setText(`<progress value="${results.packs}" max="${status.total}"></progress>`);
       } else {
         toast = fn.toast({
-          title: `Opening ${status.total} packs`,
+          title: `Opening ${fn.formatNumber(status.total)} packs`,
           text: `<progress value="${results.packs}" max="${status.total}"></progress>`,
           className: 'dismissable',
           buttons: {
@@ -190,7 +190,7 @@ wrap(() => {
             shiny += card.shiny;
             if (limit) {
               limit -= 1;
-              buffer.push(`${card.shiny ? '<span class="yellow">S</span> ' : ''}${name}${card.total > 1 ? ` (${card.total}${card.shiny ? '' : ''})` : ''}${limit ? '' : '...'}`);
+              buffer.push(`${card.shiny ? '<span class="yellow">S</span> ' : ''}${name}${card.total > 1 ? ` (${fn.formatNumber(card.total)}${card.shiny ? `, ${card.shiny}` : ''})` : ''}${limit ? '' : '...'}`);
             }
           });
           text += `${key} (${count}${shiny ? `, ${shiny} shiny` : ''}):${buffer.length ? `\n- ${buffer.join('\n- ')}` : ' ...'}\n`;
@@ -199,7 +199,7 @@ wrap(() => {
         // Create result toast
         const total = results.cards.length;
         fn.toast({
-          title: `Results: ${results.packs} Packs${cardResults.shiny ? ` (${total % 4 ? `${total}, ` : ''}${cardResults.shiny} shiny)` : total % 4 ? ` (${total})` : ''}`,
+          title: `Results: ${fn.formatNumber(results.packs)} Packs${cardResults.shiny ? ` (${total % 4 ? `${fn.formatNumber(total)}, ` : ''}${fn.formatNumber(cardResults.shiny)} shiny)` : total % 4 ? ` (${fn.formatNumber(total)})` : ''}`,
           text,
           css: { 'font-family': 'inherit' },
         });
@@ -217,7 +217,7 @@ wrap(() => {
     });
 
     events.on('error', (err) => {
-      // Error occurred
+      // TODO: Error occurred
     });
 
     let autoOpen = false;
