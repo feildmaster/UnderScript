@@ -1,5 +1,9 @@
 # UnderScript Changelog
 
+## Version 0.38.1
+1. Fixed bug that made deck storage load only one card at a time
+1. Fixed bug where deleted artifacts caused deck loading to repeat endlessly
+
 ## Version 0.38.0
 ### New Features
 1. Display a toast about space/middle click turn skip hotkey

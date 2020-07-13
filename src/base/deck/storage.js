@@ -79,7 +79,7 @@ onPage('Decks', function deckStorage() {
       }
     }
 
-    eventManager.on('Deck:postChange', (data) => {
+    eventManager.on('Deck:postChange', ({ data }) => {
       if (!['addCard', 'removeCard', 'removeAllCards', 'clearArtifacts', 'addArtifact'].includes(data.action)) return;
       if (data.status === 'error') {
         pending = [];
@@ -220,9 +220,10 @@ onPage('Decks', function deckStorage() {
       const key = getKey(id);
       const deck = JSON.parse(localStorage.getItem(key));
       if (!deck) return [];
-      const arts = deck.artifacts || [];
+      const userArtifacts = global('userArtifacts');
+      const arts = (deck.artifacts || [])
+        .filter((art) => userArtifacts.some(({ id: artID }) => artID === art));
       if (arts.length > 1) {
-        const userArtifacts = global('userArtifacts');
         const legend = arts.find((art) => {
           const artifact = userArtifacts.find(({ id: artID }) => artID === art);
           if (artifact) {
