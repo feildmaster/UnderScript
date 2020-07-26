@@ -22,8 +22,8 @@ const style = wrap(() => {
   function wrapper(nodes) {
     return {
       remove() {
-        nodes.forEach((node) => node.remove());
-        nodes.splice(0);
+        nodes.splice(0)
+          .forEach((node) => node.remove());
         return this;
       },
       replace(...styles) {

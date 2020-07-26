@@ -13,9 +13,11 @@ wrap(() => {
     };
 
     function reset() {
+      const ret = { ...options };
       options.cancelable = false;
       options.singleton = false;
       options.async = false;
+      return ret;
     }
 
     function emit(event, e, data) {
@@ -23,19 +25,20 @@ wrap(() => {
         cancelable,
         singleton,
         async,
-      } = { ...options };
-      reset();
+      } = reset();
+
+      if (singleton) { // Need to save even if we don't run
+        singletonEvents[event] = {
+          data,
+        };
+      }
 
       let ran = false;
       let canceled = false;
       const promises = [];
-      if (!singletonEvents[event] && Array.isArray(e) && e.length) {
+
+      if (Array.isArray(e) && e.length) {
         ran = true;
-        if (singleton) {
-          singletonEvents[event] = {
-            data,
-          };
-        }
         e.forEach((ev) => {
           // Should we stop processing on cancel? Maybe.
           try {
@@ -53,12 +56,14 @@ wrap(() => {
           }
         });
       }
+
       if (async) {
         return Promise.all(promises).then(() => ({
           ran,
           canceled: cancelable && canceled,
         }));
       }
+
       return {
         ran,
         canceled: cancelable && canceled,
@@ -72,7 +77,10 @@ wrap(() => {
         event.split(' ').forEach((e) => {
           const singleton = singletonEvents[e];
           if (singleton) {
-            sleep().then(() => emit(e, [fn], singleton.data));
+            sleep().then(() => {
+              reset(); // Make sure nothing is set!
+              emit(e, [fn], singleton.data);
+            });
           } else {
             if (!Object.hasOwnProperty.call(events, e)) {
               events[e] = [];
@@ -87,7 +95,7 @@ wrap(() => {
           console.error('Deprecation Warning: emit argument "cancelable" is deprecated. Use `.cancelable.emit()` instead!');
           options.cancelable = true;
         }
-        return emit(event, events[event], data);
+        return emit(event, singletonEvents[event] || events[event], data);
       },
       emitJSON: (event, data, cancelable) => emitter.emit(event, JSON.parse(data), cancelable),
     };
