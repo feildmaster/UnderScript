@@ -9,22 +9,26 @@ wrap(() => {
     const options = {
       cancelable: false,
       singleton: false,
+      async: false,
     };
 
     function reset() {
       options.cancelable = false;
       options.singleton = false;
+      options.async = false;
     }
 
     function emit(event, e, data) {
       const {
         cancelable,
         singleton,
+        async,
       } = { ...options };
       reset();
 
       let ran = false;
       let canceled = false;
+      const promises = [];
       if (!singletonEvents[event] && Array.isArray(e) && e.length) {
         ran = true;
         if (singleton) {
@@ -36,12 +40,24 @@ wrap(() => {
           // Should we stop processing on cancel? Maybe.
           try {
             const meta = { event, cancelable, canceled };
-            ev.call(meta, data);
+            const ret = ev.call(meta, data);
+            if (async && ret !== undefined) {
+              promises.push(Promise.resolve(ret)
+                .catch((err) => {
+                  console.error(`Error occurred while parsing (async) event: ${ev.displayName || ev.name || 'unnamed'}(${event})`, err, data);
+                }));
+            }
             canceled = !!meta.canceled;
           } catch (err) {
             console.error(`Error occurred while parsing event: ${ev.displayName || ev.name || 'unnamed'}(${event})`, err, data);
           }
         });
+      }
+      if (async) {
+        return Promise.all(promises).then(() => ({
+          ran,
+          canceled: cancelable && canceled,
+        }));
       }
       return {
         ran,
@@ -68,6 +84,7 @@ wrap(() => {
       },
       emit: (event, data, cancelable = false) => {
         if (cancelable) {
+          console.error('Deprecation Warning: emit argument "cancelable" is deprecated. Use `.cancelable.emit()` instead!');
           options.cancelable = true;
         }
         return emit(event, events[event], data);
