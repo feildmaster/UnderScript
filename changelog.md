@@ -2,7 +2,14 @@
 
 ## Version 0.39.0
 ### New Features
-1. Minigames no longer take over your arrow keys while playing minigames
+1. Minigames no longer take over your arrow keys while playing them
+1. Friendship now displays rankings for each of your cards
+### Fixes
+1. Added setting to disable "collect all friendship"
+1. Autocomplete no longer selects trailing text
+### Plugins
+1. Fixed some bugs
+1. Deprecated "cancelable" events
 
 ## Version 0.38.1
 1. Fixed bug that made deck storage load only one card at a time

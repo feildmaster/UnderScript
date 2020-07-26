@@ -18,6 +18,10 @@ eventManager.on(':loaded', () => {
       oHandler(event);
       eventManager.emit('ChatMessage', data);
       eventManager.emit(`Chat:${action}`, data);
+
+      if (action === 'getSelfInfos') {
+        eventManager.singleton.emit('Chat:Connected');
+      }
     };
     eventManager.on('Chat:getHistory', ({ room, roomName: name }) => {
       // Send text hook

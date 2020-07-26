@@ -1,4 +1,5 @@
 onPage('Friendship', () => {
+  eventManager.emit('Friendship:load');
   eventManager.on(':loaded', () => {
     $(document).ajaxComplete((event, xhr, settings) => {
       if (settings.url !== 'FriendshipConfig') return;
@@ -30,6 +31,11 @@ onPage('Friendship', () => {
           error: true,
         });
       }
+    });
+
+    globalSet('showPage', function func(page) {
+      this.super(page);
+      eventManager.emit('Friendship:page', page);
     });
   });
 });
