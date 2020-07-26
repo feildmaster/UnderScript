@@ -1,7 +1,9 @@
 wrap(() => {
   const setting = settings.register({
-    name: 'Disable friendship notification',
+    name: 'Disable Friendship Notification',
     key: 'underscript.disable.friendship.notification',
+    page: 'Library',
+    category: 'Friendship',
   });
 
   const max = 200 / 5; // Limit level 200

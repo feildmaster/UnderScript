@@ -1,4 +1,11 @@
 wrap(() => {
+  const setting = settings.register({
+    name: 'Disable Collect All',
+    key: 'underscript.disable.friendship.collect',
+    page: 'Library',
+    category: 'Friendship',
+  });
+
   onPage('Friendship', () => {
     const maxClaim = 200 / 5; // Current level limit, no way to dynamically figure this out if he ever adds more rewards
     let button;
@@ -40,7 +47,16 @@ wrap(() => {
     }
 
     eventManager.on('Friendship:loaded', () => {
-      button.prop('disabled', !canCollect());
+      button.prop('disabled', setting.value() || !canCollect());
+    });
+
+    setting.on(({ val: disabled }) => {
+      if (disabled) {
+        button.addClass('hidden');
+      } else {
+        button.removeClass('hidden')
+          .prop('disabled', setting.value() || !canCollect());
+      }
     });
 
     eventManager.on('Friendship:claim', ({
@@ -77,6 +93,9 @@ wrap(() => {
 
     eventManager.on(':loaded', () => {
       button = $('<button class="btn btn-info">Collect All</button>');
+      if (setting.value()) {
+        button.addClass('hidden');
+      }
       button.prop('disabled', true);
       button.on('click.script', collect);
       button.hover(hover.show('Collect all rewards'));
