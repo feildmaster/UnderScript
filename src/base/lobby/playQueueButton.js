@@ -14,8 +14,7 @@ onPage('Play', () => {
   eventManager.on('socketOpen', function checkButton() {
     disable = false;
     if (queues && !restarting) {
-      queues.parent().off('.script');
-      queues.prop('disabled', false); // TODO: Cleanup
+      queues.off('.script');
       queues.toggleClass('closed', false);
       hover.hide();
     }
@@ -24,9 +23,8 @@ onPage('Play', () => {
   eventManager.on('closeQueues', closeQueues);
 
   function closeQueues(message) {
-    queues.prop('disabled', true); // TODO: Cleanup
     queues.toggleClass('closed', true);
-    queues.parent()
+    queues
       .on('mouseenter.script', hover.show(message))
       .on('mouseleave.script', hover.hide());
   }
