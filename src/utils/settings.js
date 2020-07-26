@@ -273,16 +273,31 @@ const settings = wrap(() => {
       debug(`settings.add: ${setting.name} already registered`);
       return false;
     }
+    function update(val) {
+      const prev = value(setting.key);
+      if (val === undefined) {
+        localStorage.removeItem(setting.key);
+      } else {
+        localStorage.setItem(setting.key, val);
+      }
+      if (typeof data.onChange === 'function') {
+        data.onChange(value(setting.key), prev);
+      }
+      events.emit(setting.key, { val, prev });
+      events.emit('setting:change', {
+        key: setting.key, val, prev,
+      });
+    }
     setting.onChange = (el) => {
       let val = '';
       if (setting.type === 'boolean') {
         if (el.is(':checked')) val = 1;
-        else if (setting.remove) val = false; // Only remove if it's expected
+        else if (setting.remove) val = undefined; // Only remove if it's expected
         else val = 0;
       } else if (['select', 'color', 'slider', 'text', 'password'].includes(setting.type)) {
         val = el.val();
       } else if (setting.type === 'remove') {
-        val = false;
+        val = undefined;
         removeSetting(setting, el);
       } else if (setting.type === 'array') {
         const v = value(setting.key);
@@ -295,19 +310,7 @@ const settings = wrap(() => {
         debug(`Unknown Setting Type: ${setting.type}`);
         return;
       }
-      const prev = value(setting.key);
-      if (val === false) {
-        localStorage.removeItem(setting.key);
-      } else {
-        localStorage.setItem(setting.key, val);
-      }
-      if (typeof data.onChange === 'function') {
-        data.onChange(value(setting.key), prev);
-      }
-      events.emit(setting.key, { val, prev });
-      events.emit('setting:change', {
-        key: setting.key, val, prev,
-      });
+      update(val);
     };
     conf.settings[setting.key] = setting;
     if (!Object.prototype.hasOwnProperty.call(settingReg, setting.key)) {
@@ -316,7 +319,7 @@ const settings = wrap(() => {
     return {
       key: setting.key,
       value: () => value(setting.key),
-      set: (val) => localStorage.setItem(setting.key, val), // TODO: call event
+      set: update,
     };
   }
 
