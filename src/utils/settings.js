@@ -247,6 +247,10 @@ const settings = wrap(() => {
       extraPrefix: data.extraPrefix,
       reset: data.reset === true,
     };
+    if (Object.prototype.hasOwnProperty.call(settingReg, setting.key)) {
+      debug(`settings.add: ${setting.name} already registered`);
+      return false;
+    }
     if (!data.type && data.options) {
       setting.type = 'select';
     }
@@ -269,10 +273,6 @@ const settings = wrap(() => {
       };
     }
     const conf = init(page);
-    if (Object.prototype.hasOwnProperty.call(conf, setting.key)) {
-      debug(`settings.add: ${setting.name} already registered`);
-      return false;
-    }
     function update(val) {
       const prev = value(setting.key);
       if (val === undefined) {
@@ -320,6 +320,9 @@ const settings = wrap(() => {
       key: setting.key,
       value: () => value(setting.key),
       set: update,
+      on: (func) => {
+        events.on(setting.key, func);
+      },
     };
   }
 
@@ -490,7 +493,9 @@ const settings = wrap(() => {
     value,
     remove,
     register: add,
-    on: (...args) => events.on(...args),
+    on: (...args) => {
+      events.on(...args);
+    },
     export: exportSettings,
     import: importSettings,
   };
