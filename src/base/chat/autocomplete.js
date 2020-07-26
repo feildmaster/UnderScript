@@ -145,6 +145,7 @@ wrap(function setup() {
     function replace(str) {
       input.value = `${text.substring(0, start)}${str} ${text.substring(end)}`;
       input.selectionStart = start + str.length + 1;
+      input.selectionEnd = input.selectionStart;
       input.focus();
     }
     return {
