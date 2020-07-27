@@ -72,7 +72,9 @@ wrap(() => {
   }
 
   function saveCache() {
-    localStorage.setItem('underscript.cache.friendship', JSON.stringify(cache));
+    const local = { ...cache };
+    delete local.loaded;
+    localStorage.setItem('underscript.cache.friendship', JSON.stringify(local));
   }
 
   function getCachedData(card, user) {
@@ -97,6 +99,7 @@ wrap(() => {
 
     // XP hasn't changed
     if (xpTooLow || xpSame) {
+      cached.cached = true;
       return Promise.resolve(cached);
     }
 
@@ -124,7 +127,6 @@ wrap(() => {
   // eventManager.on('updateFriendship', (data) => updateCache({ ...data, save: true }));
 
   eventManager.on('Friendship:load', () => {
-    window.displayRank = displayRank;
     style.add(
       `.rank {
         position: relative;
@@ -186,7 +188,10 @@ wrap(() => {
         if (setting.value() !== disabled) {
           const id = card.idCard || card.fixedId || card.id;
           pending.push(pendingUpdate(id, card.xp)
-            .then(({ rank }) => displayRank(id, rank)));
+            .then(({ rank, cached }) => {
+              displayRank(id, rank);
+              return cached;
+            }));
         }
         return ret;
       });
@@ -195,7 +200,12 @@ wrap(() => {
     eventManager.on('Friendship:page', () => {
       if (pending.length) {
         Promise.all(pending.splice(0))
-          .then(() => saveCache());
+          .then((vals = []) => {
+            const notAllCached = vals.some((val) => !val);
+            if (notAllCached) {
+              saveCache();
+            }
+          });
       }
     });
   });

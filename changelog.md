@@ -1,6 +1,6 @@
 # UnderScript Changelog
 
-## Version 0.39.0
+## Version 0.39.0-1
 ### New Features
 1. Minigames no longer take over your arrow keys while playing them
 1. Friendship now displays rankings for each of your cards
