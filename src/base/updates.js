@@ -42,7 +42,7 @@ wrap(() => {
   function check() {
     if (sessionStorage.getItem(CHECKING)) return Promise.resolve();
     sessionStorage.setItem(CHECKING, true);
-    return base.get(`underscript@${getVersion()}/package.json`).then((response) => {
+    return base.get(`underscript@latest/package.json`).then((response) => {
       sessionStorage.removeItem(CHECKING);
       localStorage.setItem(LAST, Date.now());
       return response;
@@ -63,14 +63,15 @@ wrap(() => {
   }
   function isNewer(data) {
     const version = scriptVersion;
-    if ((version === 'L' || version.includes('-')) && !localStorage.getItem(DEBUG)) return false;
-    if (data.time && data.time < GM_info.script.lastModified) return false;
-    return data.version !== version;
+    if (version === 'L' && !localStorage.getItem(DEBUG)) return false;
+    if (data.time && data.time < GM_info.script.lastModified) return false; // Check if stored version is newer than script date
+    if (version.includes('-')) return fn.semver(data.version, version); // Allow test scripts to update to release
+    return data.version !== version; // Always assume that the marked version is better
   }
   function compareAndToast(data) {
     if (!isNewer(data)) {
       latest.del();
-      return;
+      return false;
     }
     latest.set(data);
     updateToast = fn.toast({
@@ -134,10 +135,6 @@ wrap(() => {
     } else {
       autoTimeout = setTimeout(autoCheck, timeout);
     }
-  }
-
-  function getVersion() {
-    return scriptVersion.includes('-') ? 'next' : 'latest';
   }
 
   sessionStorage.removeItem(CHECKING);
