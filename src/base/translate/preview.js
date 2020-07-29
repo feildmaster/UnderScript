@@ -9,21 +9,17 @@ wrap(() => {
   });
 
   function newTranslator(translator) {
-    let ret = this.super(translator);
-    if (!translator.translations.length) {
-      ret += `<div id="preview">${getPreview('decks-preview')}: <span></span></div>`;
-    }
-    return ret;
+    return `<div id="preview"></div>${this.super(translator)}`;
   }
 
   function newShowPage(page) {
     this.super(page);
 
     const textarea = $('#translators textarea');
-    const preview = $('#preview span');
+    const preview = $('#preview');
     textarea.on('input', () => {
-      const text = getPreview(textarea.val());
-      preview.html(text);
+      const text = textarea.val().trim();
+      preview.html(text ? `${getPreview('decks-preview')}: ${getPreview(text)}` : '');
     });
   }
 
