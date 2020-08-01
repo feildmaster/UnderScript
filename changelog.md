@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.39.1
+1. Fixed broken avatars
+
 ## Version 0.39.0
 ### New Features
 1. Minigames no longer take over your arrow keys while playing them
