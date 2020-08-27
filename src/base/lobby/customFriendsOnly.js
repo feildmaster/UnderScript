@@ -23,6 +23,7 @@ wrap(function friendsOnly() {
   function joined({ username }) {
     if (this.canceled || !flag || fn.isFriend(username)) return;
     debug(`Kicked: ${username}`);
+    // TODO: Toast
     this.canceled = true;
     global('banUser')();
   }

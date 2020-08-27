@@ -26,6 +26,6 @@ onPage('Play', () => {
     queues.toggleClass('closed', true);
     queues
       .on('mouseenter.script', hover.show(message))
-      .on('mouseleave.script', hover.hide());
+      .on('mouseleave.script', () => hover.hide());
   }
 });
