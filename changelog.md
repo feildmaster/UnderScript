@@ -1,5 +1,10 @@
 # UnderScript Changelog
 
+## Version 0.39.2
+1. Fixed battle log being inconsistent on game finish for players/spectators
+1. Fixed some internal bugs
+1. Fixed queue disabled message
+
 ## Version 0.39.1
 1. Fixed broken avatars
 
