@@ -57,6 +57,8 @@ eventManager.on('GameStart', function battleLogger() {
     getAnimation: '',
   });
   const turnText = '>>> Turn';
+  const surrendered = 'surrendered';
+  const overwhelmed = 'was overwhelmed';
   let baseLives = 1;
   let turn = 0;
   let currentTurn = 0;
@@ -313,7 +315,13 @@ eventManager.on('GameStart', function battleLogger() {
         players[key].lives = temp[key];
       });
     }
-    // data.artifcats
+    // data.artifacts
+    if (data.artifacts) {
+      temp = JSON.parse(data.artifacts);
+      fn.each(temp, (array = [], user = 0) => {
+        players[user].overwhelmed = array.some((art) => art.id === 34 && art.custom === 0);
+      });
+    }
     // data.turn
   });
   eventManager.on('getVictory getDefeat', function gameEnd(data) {
@@ -323,22 +331,37 @@ eventManager.on('GameStart', function battleLogger() {
     const you = make.player(players[userId]);
     const enemy = make.player(players[opponentId]);
     if (this.event === 'getDefeat') {
+      const player = players[userId];
+      if (player.overwhelmed) {
+        log.add(you.clone(), ` ${overwhelmed}.`);
+      } else if (player.hp > 0) {
+        log.add(you.clone(), ` ${surrendered}.`);
+      }
       log.add(enemy, ' beat ', you);
       return;
     }
     if (data.disconnected) {
       log.add(enemy.clone(), ' left the game.');
     } else if (players[opponentId].hp > 0) {
-      log.add(enemy.clone(), ' surrendered.');
+      const msg = players[opponentId].overwhelmed ? overwhelmed : surrendered;
+      log.add(enemy.clone(), ` ${msg}.`);
     }
     log.add(you, ' beat ', enemy);
   });
   eventManager.on('getResult', function endSpectating(data) {
     debug(data, 'debugging.raw.end');
+    const loser = lookupPlayer(data.looser);
+    let loseReason = '';
     if (data.cause === 'game-end-surrender') {
-      log.add(`${data.looser} surrendered.`);
+      loseReason = surrendered;
     } else if (data.cause === 'game-end-disconnection') {
-      log.add(`${data.looser} left the game.`);
+      loseReason = 'left the game';
+    } else if (loser.overwhelmed) {
+      loseReason = overwhelmed;
+    }
+    const lost = make.player(loser);
+    if (loseReason) {
+      log.add(lost.clone(), ` ${loseReason}.`);
     }
     if (typeof music !== 'undefined') {
       global('music').addEventListener('playing', () => {
@@ -347,8 +370,8 @@ eventManager.on('GameStart', function battleLogger() {
         }
       });
     }
-    // TODO: colorize
-    log.add(`${data.winner} beat ${data.looser}`);
+    const winner = lookupPlayer(data.winner);
+    log.add(make.player(winner), ` beat `, lost);
   });
   eventManager.on(ignoreEvents.join(' '), function ignore(data) {
     debug(data, 'debugging.raw.ignore');
@@ -365,6 +388,10 @@ eventManager.on('GameStart', function battleLogger() {
     const player = players[idPlayer];
     player.lives = soul.lives || 0;
     player.dodge = soul.dodge || 0;
+  }
+
+  function lookupPlayer(name) { // This is undefined
+    return fn.find(players, (player) => fn.user.name(player) === name);
   }
 
   const log = {
