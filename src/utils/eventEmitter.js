@@ -90,12 +90,12 @@ wrap(() => {
         });
         return emitter;
       },
-      emit: (event, data, cancelable = false) => {
-        if (cancelable) {
+      emit: (event, ...data) => {
+        if (data.length === 2 && data[1] === true) {
           console.error('Deprecation Warning: emit argument "cancelable" is deprecated. Use `.cancelable.emit()` instead!');
           options.cancelable = true;
         }
-        return emit(event, singletonEvents[event] || events[event], data);
+        return emit(event, singletonEvents[event] || events[event], ...data);
       },
       emitJSON: (event, data, cancelable) => emitter.emit(event, JSON.parse(data), cancelable),
     };
