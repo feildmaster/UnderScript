@@ -1,4 +1,3 @@
-/* global hotkeys */
 eventManager.on(':loaded', function always() {
   // Bind hotkey listeners
   document.addEventListener('mouseup', (event) => {
@@ -10,6 +9,7 @@ eventManager.on(':loaded', function always() {
     });
   });
   document.addEventListener('keyup', (event) => {
+    // TODO: possibly doesn't work in firefox
     if (event.target.tagName === 'INPUT') return; // We don't want to listen while typing in chat (maybe listen for F-keys?)
     hotkeys.forEach((v) => {
       if (v.keybound(event.which)) {
