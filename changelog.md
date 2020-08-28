@@ -1,5 +1,11 @@
 # UnderScript Changelog
 
+## Version 0.40.0-1
+### New Features
+1. Split Generated and Base rarities on the crafting screen.
+1. Merge shiny and non-shiny in collection (disabled by default)
+  1. Settings -> Library -> Merge Shiny Cards
+
 ## Version 0.39.2
 1. Fixed battle log being inconsistent on game finish for players/spectators
 1. Fixed some internal bugs
