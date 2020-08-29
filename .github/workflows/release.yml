@@ -1,0 +1,71 @@
+name: Auto-publish
+on: push
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@master
+    - name: Check version changes
+      uses: EndBug/version-check@v1
+      id: check
+  latest:
+    name: Publish Latest
+    runs-on: ubuntu-latest
+    needs: check
+    if: contains(github.ref, 'master') && needs.check.steps.check.outputs.changed == 'true'
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@master
+    - name: Set up Node.js
+      uses: actions/setup-node@master
+      with:
+        registry-url: "https://registry.npmjs.org"
+    - name: Install dependencies
+      run: npm install
+    - name: Build script
+      run: npm run build
+    - name: Publish to NPM
+      run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    - name: Set up Node.js for GPR
+      uses: actions/setup-node@v1.2.0
+      with:
+        registry-url: 'https://npm.pkg.github.com/'
+        scope: '@UCProjects'
+    - name: Set up package for GPR
+      run: npm run gpr-setup
+    - name: Publish package to GPR
+      run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  beta:
+    name: Publish Beta
+    runs-on: ubuntu-latest
+    needs: check
+    if: contains(github.ref, 'next') && needs.check.steps.check.outputs.changed == 'true'
+    steps:
+    - name: Set up Node.js
+      uses: actions/setup-node@master
+      with:
+        registry-url: "https://registry.npmjs.org"
+    - name: Install dependencies
+      run: npm install
+    - name: Build script
+      run: npm run build
+    - name: Publish to NPM
+      run: npm publish --tag next
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    - name: Set up Node.js for GPR
+      uses: actions/setup-node@v1.2.0
+      with:
+        registry-url: 'https://npm.pkg.github.com/'
+        scope: '@UCProjects'
+    - name: Set up package for GPR
+      run: npm run gpr-setup
+    - name: Publish package to GPR
+      run: npm publish --tag next
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
