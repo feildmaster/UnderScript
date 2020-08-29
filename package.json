@@ -1,5 +1,6 @@
 {
   "name": "underscript",
+  "gpr": "@ucprojects/underscript",
   "version": "0.40.0-6",
   "description": "Script for Undercards. An undertale fan-made game.",
   "homepage": "https://feildmaster.github.io/UnderScript/",
@@ -19,7 +20,8 @@
     "patch": "npm version patch --m=\"chore(patch): Release v%s\"",
     "nextpatch": "npm version prepatch --m=\"chore(next): Build patch v%s\"",
     "prep": "npm version preminor --preid= --m=\"chore(%s): Prep next version\"",
-    "next": "npm version prerelease --m=\"chore(next): Build script v%s\""
+    "next": "npm version prerelease --m=\"chore(next): Build script v%s\"",
+    "gpr-setup": "node scripts/gpr.js"
   },
   "files": [
     "dist/*.js"
