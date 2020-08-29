@@ -24,12 +24,13 @@ wrap(function pageShortcuts() {
   }
   function setPage(page, max = global('getMaxPage')()) {
     global('showPage')(page);
+    globalSet('currentPage', page);
     $('#currentPage').text(page + 1);
     $('#btnNext').prop('disabled', page === max);
     $('#btnPrevious').prop('disabled', page === 0);
   }
 
-  eventManager.on('jQuery', () => {
+  eventManager.on(':loaded', () => {
     if (!global('getMaxPage', { throws: false })) return;
     $('#btnNext').on('click.script', lastPage).hover(hover.show('CTRL Click: Go to last page'));
     $('#btnPrevious').on('click.script', firstPage).hover(hover.show('CTRL Click: Go to first page'));
