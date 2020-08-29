@@ -15,11 +15,11 @@
   "scripts": {
     "build": "gulp --deploy",
     "prepack": "gulp --deploy",
-    "update": "npm version minor --m=\"chore(%s): Release update\"",
-    "patch": "npm version patch --m=\"chore(%s): Release patch\"",
-    "nextpatch": "npm version prepatch --m\"chore(%s): Build test patch\"",
-    "prep": "npm version preminor --preid= --m=\"chore(%s): Prep for next release\"",
-    "next": "npm version prerelease --m=\"chore(%s): Build test script\""
+    "update": "npm version minor --m=\"chore(update): Release v%s\"",
+    "patch": "npm version patch --m=\"chore(patch): Release v%s\"",
+    "nextpatch": "npm version prepatch --m=\"chore(next): Build patch v%s\"",
+    "prep": "npm version preminor --preid= --m=\"chore(%s): Prep next version\"",
+    "next": "npm version prerelease --m=\"chore(next): Build script v%s\""
   },
   "files": [
     "dist/*.js"
