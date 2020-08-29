@@ -31,9 +31,8 @@ wrap(function pageShortcuts() {
   }
 
   eventManager.on('jQuery', () => {
-    if (global('getMaxPage', { throws: false })) {
-      $('#btnNext').on('click.script', lastPage).hover(hover.show('CTRL Click: Go to last page'));
-      $('#btnPrevious').on('click.script', firstPage).hover(hover.show('CTRL Click: Go to first page'));
-    }
+    if (!global('getMaxPage', { throws: false })) return;
+    $('#btnNext').on('click.script', lastPage).hover(hover.show('CTRL Click: Go to last page'));
+    $('#btnPrevious').on('click.script', firstPage).hover(hover.show('CTRL Click: Go to first page'));
   });
 });
