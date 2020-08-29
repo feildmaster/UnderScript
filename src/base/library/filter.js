@@ -37,7 +37,7 @@ wrap(function filter() {
     '.filter #shinyInput:disabled, .filter #shinyInput:disabled+* { display: none; }',
   );
 
-  function applyLook(refresh = true) {
+  function applyLook(refresh = decks || crafting) {
     function createButton(type) {
       return $(`<label>
         <input type="checkbox" id="${type.toLowerCase()}RarityInput" class="rarityInput customRarityInput"
