@@ -38,13 +38,6 @@ wrap(function filter() {
   );
 
   function applyLook(refresh = decks || crafting) {
-    function createButton(type) {
-      return $(`<label>
-        <input type="checkbox" id="${type.toLowerCase()}RarityInput" class="rarityInput customRarityInput"
-        rarity="${type}" onchange="applyFilters(); showPage(0);">
-        <img src="images/rarity/BASE_${type}.png">
-      </label>`);
-    }
     $('input[onchange^="applyFilters();"]').parent().parent().toggleClass('filter', !setting.value());
     if (crafting) {
       if (!setting.value() && splitBaseGen.value() && !$('#baseRarityInput').length) {
@@ -102,5 +95,13 @@ wrap(function filter() {
 
   function splitGenerated() {
     return crafting && splitBaseGen.value();
+  }
+
+  function createButton(type) {
+    return $(`<label>
+      <input type="checkbox" id="${type.toLowerCase()}RarityInput" class="rarityInput customRarityInput"
+      rarity="${type}" onchange="applyFilters(); showPage(0);">
+      <img src="images/rarity/BASE_${type}.png">
+    </label>`);
   }
 });
