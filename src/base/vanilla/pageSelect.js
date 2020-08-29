@@ -1,4 +1,9 @@
 wrap(() => {
+  const disable = settings.register({
+    name: 'Disable Page Select',
+    key: 'underscript.disable.pageselect',
+  });
+
   const select = document.createElement('select');
   select.value = 0;
   select.id = 'selectPage';
@@ -27,9 +32,11 @@ wrap(() => {
   }
 
   eventManager.on(':loaded', () => {
-    // Leaderboard has special handling/events
-    if (!global('getMaxPage', { throws: false })) return;
+    if (disable.value() || !global('getMaxPage', { throws: false })) return;
+    // Add select dropdown
     $('#currentPage').after(select).hide();
+
+    // Initialization
     globalSet('applyFilters', function applyFilters(...args) {
       this.super(...args);
       setTimeout(init);
@@ -41,6 +48,8 @@ wrap(() => {
         eventManager.emit('Rankings:init');
       });
     }, { throws: false });
+
+    // Update
     globalSet('showPage', function showPage(page) {
       this.super(page);
       select.value = page;

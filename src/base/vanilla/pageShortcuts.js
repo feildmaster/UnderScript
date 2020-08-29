@@ -2,7 +2,6 @@ wrap(function pageShortcuts() {
   const disable = settings.register({
     name: 'Disable First/Last Page Shortcut',
     key: 'underscript.disable.quickpages',
-    page: 'Library',
   });
 
   function ignoring(e) {
