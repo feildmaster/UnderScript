@@ -22,6 +22,7 @@ wrap(function filter() {
     name: 'Merge Shiny Cards',
     key: 'underscript.deck.filter.shiny',
     options: ['Never (default)', 'Deck', 'Always'],
+    default: 'Deck',
     onChange: applyLook,
     category: 'Filter',
     page: 'Library',
