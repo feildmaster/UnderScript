@@ -18,10 +18,11 @@ jobs:
     if: contains(github.ref, 'master') && needs.check.outputs.changed == 'true'
     steps:
     - name: Checkout repository
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
     - name: Set up Node.js
-      uses: actions/setup-node@master
+      uses: actions/setup-node@v1
       with:
+        node-version: '12.x'
         registry-url: "https://registry.npmjs.org"
     - name: Install dependencies
       run: npm install
@@ -48,9 +49,12 @@ jobs:
     needs: check
     if: contains(github.ref, 'next') && needs.check.outputs.changed == 'true'
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
     - name: Set up Node.js
-      uses: actions/setup-node@master
+      uses: actions/setup-node@v1
       with:
+        node-version: '12.x'
         registry-url: "https://registry.npmjs.org"
     - name: Install dependencies
       run: npm install
