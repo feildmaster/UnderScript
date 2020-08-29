@@ -4,7 +4,7 @@
   "version": "0.40.0-7",
   "description": "Script for Undercards. An undertale fan-made game.",
   "homepage": "https://feildmaster.github.io/UnderScript/",
-  "repository": "feildmaster/UnderScript",
+  "repository": "UCProjects/UnderScript",
   "main": "dist/undercards.user.js",
   "unpkg": "dist/undercards.user.js",
   "browser": "dist/undercards.user.js",
