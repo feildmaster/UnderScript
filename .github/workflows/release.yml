@@ -70,7 +70,7 @@ jobs:
         registry-url: 'https://npm.pkg.github.com/'
         scope: '@UCProjects'
     - name: Set up package for GPR
-      run: npm run gpr-setup
+      run: npm run gpr-setup --if-present
     - name: Publish package to GPR
       run: npm publish --tag next
       env:
