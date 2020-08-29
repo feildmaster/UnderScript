@@ -1,10 +1,12 @@
 wrap(() => {
-  if (!onPage('Translate')) return;
   const select = document.createElement('select');
   select.value = 0;
   select.id = 'selectPage';
   select.onchange = () => {
     changePage(select.value);
+    if (onPage('leaderboard')) {
+      eventManager.emit('Rankings:selectPage', select.value);
+    }
   };
 
   function init() {
@@ -22,18 +24,28 @@ wrap(() => {
     global('showPage')(page);
     $('#btnNext').prop('disabled', page === global('getMaxPage')());
     $('#btnPrevious').prop('disabled', page === 0);
-    $('#btnFirst').prop('disabled', page === 0);
   }
 
   eventManager.on(':loaded', () => {
+    // Leaderboard has special handling/events
+    if (!global('getMaxPage', { throws: false })) return;
     $('#currentPage').after(select).hide();
     globalSet('applyFilters', function applyFilters(...args) {
       this.super(...args);
-      init();
-    });
+      setTimeout(init);
+    }, { throws: false });
+    globalSet('initLeaderboard', function initLeaderboard(...args) {
+      this.super(...args);
+      setTimeout(() => {
+        init();
+        eventManager.emit('Rankings:init');
+      });
+    }, { throws: false });
     globalSet('showPage', function showPage(page) {
       this.super(page);
       select.value = page;
     });
+
+    fn.changePage = changePage;
   });
 });
