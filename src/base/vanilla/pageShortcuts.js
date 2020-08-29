@@ -13,20 +13,20 @@ wrap(function pageShortcuts() {
     if (ignoring(e)) return;
     e.preventDefault();
     hover.hide();
-    global('showPage')(0);
-    $('#currentPage').text(1);
-    $('#btnPrevious').prop('disabled', true);
-    $('#btnNext').prop('disabled', false);
+    setPage(0);
   }
   function lastPage(e) {
     if (ignoring(e)) return;
     e.preventDefault();
     hover.hide();
     const page = global('getMaxPage')();
+    setPage(page, page);
+  }
+  function setPage(page, max = global('getMaxPage')()) {
     global('showPage')(page);
     $('#currentPage').text(page + 1);
-    $('#btnNext').prop('disabled', true);
-    $('#btnPrevious').prop('disabled', false);
+    $('#btnNext').prop('disabled', page === max);
+    $('#btnPrevious').prop('disabled', page === 0);
   }
 
   eventManager.on('jQuery', () => {
