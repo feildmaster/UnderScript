@@ -7,7 +7,7 @@ jobs:
       changed: ${{ steps.check.outputs.changed }}
     steps:
     - name: Checkout repository
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
     - name: Check version changes
       uses: EndBug/version-check@v1
       id: check
@@ -22,27 +22,13 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v1
       with:
-        node-version: '12.x'
         registry-url: "https://registry.npmjs.org"
     - name: Install dependencies
       run: npm install
-    - name: Build script
-      run: npm run build
     - name: Publish to NPM
-      run: npm publish
+      run: npm publish # Publish builds automatically
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-    - name: Set up Node.js for GPR
-      uses: actions/setup-node@v1.2.0
-      with:
-        registry-url: 'https://npm.pkg.github.com/'
-        scope: '@UCProjects'
-    - name: Set up package for GPR
-      run: npm run gpr-setup
-    - name: Publish package to GPR
-      run: npm publish
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   beta:
     name: Publish Beta
     runs-on: ubuntu-latest
@@ -54,24 +40,10 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v1
       with:
-        node-version: '12.x'
         registry-url: "https://registry.npmjs.org"
     - name: Install dependencies
       run: npm install
-    - name: Build script
-      run: npm run build
     - name: Publish to NPM
-      run: npm publish --tag next
+      run: npm publish --tag next # Publish builds automatically
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-    - name: Set up Node.js for GPR
-      uses: actions/setup-node@v1.2.0
-      with:
-        registry-url: 'https://npm.pkg.github.com/'
-        scope: '@ucprojects'
-    - name: Set up package for GPR
-      run: npm run gpr-setup
-    - name: Publish package to GPR
-      run: npm publish --tag next
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
