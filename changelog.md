@@ -1,12 +1,13 @@
 # UnderScript Changelog
 
-## Version 0.40.0-2
+## Version 0.40.0
 ### New Features
+1. First/Last page shortcut now works on every valid webpage
+1. Page selection now works on every valid webpage
 1. Split Generated and Base rarities on the crafting screen.
 1. Merge shiny and non-shiny in collection (disabled by default)
   1. Settings -> Library -> Merge Shiny Cards
-1. First/Last page shortcut now works on every valid webpage
-1. Page selection now works on every valid webpage
+Note: When these filter settings are applied, the rarity icons are semi-transparent (making them look darker)
 
 ## Version 0.39.2
 1. Fixed battle log being inconsistent on game finish for players/spectators
