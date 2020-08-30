@@ -1,10 +1,16 @@
 name: Auto-publish
-on: push
+on: 
+  push:
+    branches:
+      - master
+      - next
 jobs:
   check:
     runs-on: ubuntu-latest
     outputs:
       changed: ${{ steps.check.outputs.changed }}
+      version: ${{ steps.check.outputs.version }}
+      commit: ${{ steps.check.outputs.commit }}
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -19,6 +25,13 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+      with:
+        ref: ${{ needs.check.outputs.commit }}
+    - name: Parse Changelog # Exits if changelog not found
+      id: changelog
+      env:
+        INPUT_VERSION: ${{ needs.check.outputs.version }}
+      run: node ./scripts/changelog
     - name: Set up Node.js
       uses: actions/setup-node@v1
       with:
@@ -29,6 +42,12 @@ jobs:
       run: npm publish # Publish builds automatically
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    - name: Tag and Release
+      uses: avakar/tag-and-release@v1
+      with:
+        tag_name: ${{ needs.check.outputs.version }}
+        commit: ${{ needs.check.outputs.commit }}
+        body: ${{ steps.changelog.outputs.changes }}
   beta:
     name: Publish Beta
     runs-on: ubuntu-latest
@@ -37,6 +56,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+      with:
+        ref: ${{ needs.check.outputs.commit }}
     - name: Set up Node.js
       uses: actions/setup-node@v1
       with:
