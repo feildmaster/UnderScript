@@ -16,11 +16,11 @@
   "scripts": {
     "build": "gulp --deploy",
     "prepack": "gulp --deploy",
-    "update": "npm version minor --m=\"chore(update): Release v%s\"",
-    "patch": "npm version patch --m=\"chore(patch): Release v%s\"",
-    "nextpatch": "npm version prepatch --m=\"chore(next): Build patch v%s\"",
-    "prep": "npm version preminor --preid= --m=\"chore(%s): Prep next version\"",
-    "next": "npm version prerelease --m=\"chore(next): Build script v%s\"",
+    "update": "npm --no-git-tag-version version minor --m=\"chore(update): Release v%s\"",
+    "patch": "npm --no-git-tag-version version patch --m=\"chore(patch): Release v%s\"",
+    "nextpatch": "npm --no-git-tag-version version prepatch --m=\"chore(next): Build patch v%s\"",
+    "prep": "npm --no-git-tag-version version preminor --preid= --m=\"chore(%s): Prep next version\"",
+    "next": "npm --no-git-tag-version version prerelease --m=\"chore(next): Build script v%s\"",
     "gpr-setup": "node scripts/gpr.js"
   },
   "files": [
