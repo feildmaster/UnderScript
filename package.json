@@ -1,6 +1,5 @@
 {
   "name": "underscript",
-  "gpr": "@ucprojects/underscript",
   "version": "0.40.0-8",
   "description": "Script for Undercards. An undertale fan-made game.",
   "homepage": "https://feildmaster.github.io/UnderScript/",
