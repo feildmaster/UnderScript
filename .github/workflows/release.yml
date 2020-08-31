@@ -8,7 +8,7 @@ jobs:
   check:
     runs-on: ubuntu-latest
     outputs:
-      changed: ${{ steps.check.outputs.changed == 'true' }}
+      changed: ${{ steps.check.outputs.changed }}
       version: ${{ steps.check.outputs.version }}
       commit: ${{ steps.check.outputs.commit }}
       beta: ${{ startsWith(steps.check.outputs.type, 'pre') }}
@@ -22,7 +22,7 @@ jobs:
     name: Publish Latest
     runs-on: ubuntu-latest
     needs: check
-    if: contains(github.ref, 'master') && needs.check.outputs.changed && !needs.check.outputs.beta
+    if: contains(github.ref, 'master') && needs.check.outputs.changed == 'true' && needs.check.outputs.beta != 'true'
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -53,7 +53,7 @@ jobs:
     name: Publish Beta
     runs-on: ubuntu-latest
     needs: check
-    if: contains(github.ref, 'next') && needs.check.outputs.changed && needs.check.outputs.beta
+    if: contains(github.ref, 'next') && needs.check.outputs.changed == 'true' && needs.check.outputs.beta == 'true'
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
