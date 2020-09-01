@@ -49,6 +49,8 @@ jobs:
         tag_name: ${{ needs.check.outputs.version }}
         commit: ${{ needs.check.outputs.commit }}
         body: ${{ steps.changelog.outputs.changes }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   beta:
     name: Publish Beta
     runs-on: ubuntu-latest
