@@ -23,7 +23,7 @@ onPage('Decks', function deckStorage() {
   let templastOpenedDialog;
   style.add('.btn-storage { margin-top: 5px; margin-right: 8px; width: 36px; }');
 
-  function getFromLibrary(id, shiny, library) {
+  function getFromLibrary(id, library, shiny) {
     return library.find((card) => card.id === id && (shiny === undefined || card.shiny === shiny));
   }
   function getCardData(id, shiny, deep) {
@@ -32,12 +32,12 @@ onPage('Decks', function deckStorage() {
       // Search all decks
       const keys = Object.keys(library);
       for (let i = 0; i < keys.length; i++) {
-        const card = getFromLibrary(id, shiny, library[keys[i]]);
+        const card = getFromLibrary(id, library[keys[i]], shiny);
         if (card) return card;
       }
       return null;
     }
-    return getFromLibrary(id, shiny, library[global('soul')]);
+    return getFromLibrary(id, library[global('soul')], shiny);
   }
 
   eventManager.on('jQuery', () => {
@@ -242,7 +242,7 @@ onPage('Decks', function deckStorage() {
       const names = [];
       list.forEach((card) => {
         let data = getCardData(card.id, card.shiny) || {};
-        const name = data.name || `<span style="color: red;">${(data = getCardData(card.id) && data && data.name) || 'Disenchanted/Missing'}</span>`;
+        const name = data.name || `<span style="color: red;">${(data = getFromLibrary(card.id, global('allCards')) && data && data.name) || 'Disenchanted/Missing'}</span>`;
         names.push(`- ${card.shiny ? '<span style="color: yellow;">S</span> ' : ''}${name}`);
       });
       return names.join('<br />');
