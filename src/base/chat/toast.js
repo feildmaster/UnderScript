@@ -11,7 +11,7 @@ wrap(() => {
     name: 'On',
     key: 'underscript.ping.extras',
     type: 'array',
-    default: ['@everyone'],
+    default: ['@underscript'],
     category: 'Ping Me',
     page: 'Chat',
   });
