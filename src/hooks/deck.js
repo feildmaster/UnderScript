@@ -19,11 +19,10 @@ onPage('Decks', function deckPage() {
       eventManager.emit('Deck:postChange', obj);
       eventManager.emit(`Deck:${data.action}`, obj);
     });
-    // Class change
-    $('#selectSouls').change(function soulChange() {
-      // Sometimes it takes too long, so lets change it now
-      const val = $(this).val();
-      globalSet('soul', val);
+    // Soul change
+    globalSet('updateSoul', function updateSoul() {
+      this.super();
+      const val = $('#selectSouls').val();
       eventManager.emit('Deck:Soul', val);
     });
   });
