@@ -2,7 +2,7 @@ wrap(() => {
   const name = 'logger';
   function mod(plugin) {
     const obj = {};
-    ['info', 'error', 'log', 'warn'].forEach((key) => {
+    ['info', 'error', 'log', 'warn', 'debug'].forEach((key) => {
       obj[key] = (...args) => console[key]( // eslint-disable-line no-console
         `[%c${plugin.name}%c/${key}]`,
         'color: #436ad6;',
