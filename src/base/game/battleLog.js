@@ -227,11 +227,13 @@ eventManager.on('GameStart', function battleLogger() {
     debug(data, 'debugging.raw.turnStart');
     lastEffect = 0;
     if (data.numTurn !== turn) {
-      log.add(`${turnText} ${data.numTurn}`);
+      turn = data.numTurn;
+      log.add(`${turnText} ${turn}`);
     }
-    currentTurn = data.idPlayer; // It would (kindof) help to actually update who's turn it is
-    turn = data.numTurn;
-    log.add(make.player(players[currentTurn]), '\'s turn');
+    if (currentTurn !== data.idPlayer) {
+      currentTurn = data.idPlayer; // It would (kindof) help to actually update who's turn it is
+      log.add(make.player(players[currentTurn]), '\'s turn');
+    }
   });
   eventManager.on('getTurnEnd', function turnEnd(data) {
     debug(data, 'debugging.raw.turnEnd');
