@@ -66,13 +66,13 @@ const settings = wrap(() => {
     if (setting.hidden) return null;
     const ret = $('<div>').addClass('flex-start');
     const key = setting.key;
-    const current = localStorage.getItem(key) || getDefault(setting);
+    const current = value(key);
     let el;
     let lf = true;
     if (setting.type === 'boolean') {
       lf = false;
       el = $(`<input type="checkbox" >`)
-        .prop('checked', current === '1' || current === true);
+        .prop('checked', current);
     } else if (setting.type === 'text') {
       el = $('<input type="text">')
         .val(current);
@@ -398,6 +398,9 @@ const settings = wrap(() => {
         return val !== 'false' && val !== '0' && Boolean(val);
       }
       return val;
+    }
+    if (setting.type === 'boolean') {
+      return false;
     }
     if (setting.type === 'select') {
       return setting.options[0];
