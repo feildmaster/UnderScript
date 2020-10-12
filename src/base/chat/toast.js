@@ -22,8 +22,9 @@ wrap(() => {
     if (shouldIgnore(msg, true)) return;
     if (!msg.message.toLowerCase().includes(`@${global('selfUsername').toLowerCase()}`) && !fn.pingRegex().test(msg.message)) return;
     const avatar = !settings.value('chatAvatarsDisabled') ? `<img src="/images/avatars/${msg.user.avatar.image}.${msg.user.avatar.extension || 'png'}" class="avatar ${msg.user.avatar.rarity}" height="35" style="float: left; margin-right: 7px;">` : '';
+    const chatNames = global('chatNames', { throws: false });
     fn.toast({
-      title: `${avatar}${fn.user.name(msg.user)} (${chatRoomNames[data.room]})`,
+      title: `${avatar}${fn.user.name(msg.user)} (${chatRoomNames[data.room] || chatNames && chatNames[data.idRoom] ? $.i18n(chatNames[data.idRoom]) : data.idRoom || 'UNKNOWN'})`,
       text: msg.message,
     });
   });

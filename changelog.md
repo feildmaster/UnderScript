@@ -1,5 +1,16 @@
 # UnderScript Changelog
 
+## Version 0.41.0 (2020-10-12)
+### New Features
+1. Reload Cards menu item
+### Fixes
+1. Load storage more reliably
+1. Don't show "turn start" twice
+1. Load card name from storage
+### Misc.
+1. Changed @everyone to @underscript
+1. Updated for next patch
+
 ## Version 0.40.0 (2020-08-31)
 ### New Features
 1. First/Last page shortcut now works on every valid webpage
@@ -8,6 +19,7 @@
 1. Merge shiny and non-shiny in collection (default: Deck only)
   1. Settings -> Library -> Merge Shiny Cards
 Note: When these filter settings are applied, the rarity icons are semi-transparent (making them look darker)
+
 
 ## Version 0.39.2
 1. Fixed battle log being inconsistent on game finish for players/spectators

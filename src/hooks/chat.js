@@ -16,6 +16,12 @@ eventManager.on(':loaded', () => {
       }
       if (eventManager.cancelable.emit(`preChat:${action}`, data).canceled) return;
       oHandler(event);
+      if (action === 'getMessage' && data.idRoom) { // For new chat.
+        data.room = `chat-public-${data.idRoom}`;
+        data.open = global('openPublicChats').includes(data.idRoom);
+      } else {
+        data.open = true; // Just assume it's open for old chat
+      }
       eventManager.emit('ChatMessage', data);
       eventManager.emit(`Chat:${action}`, data);
 
@@ -23,6 +29,21 @@ eventManager.on(':loaded', () => {
         eventManager.singleton.emit('Chat:Connected');
       }
     };
+    // Simulate old getHistory
+    globalSet('appendChat', function appendChat(idRoom = '', chatMessages = [], isPrivate = true) {
+      const room = `chat-${isPrivate ? 'private' : 'public'}-${idRoom}`;
+      const newRoom = !document.querySelector(`#${room}`);
+      this.super(idRoom, chatMessages, isPrivate);
+      if (newRoom) {
+        eventManager.emit('Chat:getHistory', {
+          room,
+          roomName: isPrivate ? '' : global('chatNames')[idRoom] || idRoom,
+          history: JSON.stringify(chatMessages), // TODO: Stop stringify
+        });
+      }
+    }, {
+      throws: false,
+    });
     eventManager.on('Chat:getHistory', ({ room, roomName: name }) => {
       // Send text hook
       const messages = $(`#${room} .chat-messages`);

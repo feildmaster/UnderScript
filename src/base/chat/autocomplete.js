@@ -155,7 +155,7 @@ wrap(function setup() {
   }
 
   function add(name, list) {
-    if (name === global('selfUsername')) return;
+    if (!list || name === global('selfUsername')) return;
     const slot = list.indexOf(name);
     if (slot > -1) list.splice(slot, 1);
     list.push(name);
