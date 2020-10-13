@@ -8,6 +8,7 @@ const cardHelper = wrap(() => {
       case 'RARE':
       case 'BASE':
       case 'COMMON': return 3;
+      case 'TOKEN':
       case 'GENERATED': return 0;
       default:
         debug(`Unknown rarity: ${rarity}`);
@@ -79,6 +80,7 @@ const cardHelper = wrap(() => {
     }
     switch (r) {
       default: fn.debug(`Unknown Rarity: ${r}`); // fallthrough
+      case 'TOKEN':
       case 'GENERATED': // You can't craft this, but I don't want an error
       case 'DETERMINATION': return undefined;
       case 'LEGENDARY': return s ? 1600 : 400;

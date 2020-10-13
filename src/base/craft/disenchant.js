@@ -240,6 +240,7 @@ onPage('Crafting', function disenchantWrapper() {
       default: fn.debug(`Unknown Rarity: ${rarity}`); // fallthrough
       case 'BASE':
       case 'GENERATED':
+      case 'TOKEN':
       case 'DETERMINATION': return false;
       case 'LEGENDARY':
       case 'EPIC':
