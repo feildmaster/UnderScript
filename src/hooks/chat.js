@@ -33,13 +33,18 @@ eventManager.on(':loaded', () => {
     globalSet('appendChat', function appendChat(idRoom = '', chatMessages = [], isPrivate = true) {
       const room = `chat-${isPrivate ? 'private' : 'public'}-${idRoom}`;
       const newRoom = !document.querySelector(`#${room}`);
+      const data = {
+        idRoom,
+        room,
+        roomName: isPrivate ? '' : global('chatNames')[idRoom - 1] || '',
+        history: JSON.stringify(chatMessages), // TODO: Stop stringify
+      };
+      if (newRoom) {
+        eventManager.emit('preChat:getHistory', data);
+      }
       this.super(idRoom, chatMessages, isPrivate);
       if (newRoom) {
-        eventManager.emit('Chat:getHistory', {
-          room,
-          roomName: isPrivate ? '' : global('chatNames')[idRoom] || idRoom,
-          history: JSON.stringify(chatMessages), // TODO: Stop stringify
-        });
+        eventManager.emit('Chat:getHistory', data);
       }
     }, {
       throws: false,
