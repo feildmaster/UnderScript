@@ -7,6 +7,15 @@ settings.register({
 eventManager.on('ChatDetected', () => {
   const mask = '<span style="color: yellow;">$1</span>';
 
+  let disabled = false;
+
+  eventManager.on('preChat:getHistory Chat:getHistory', function enable(data) {
+    if (disabled || global('soundsEnabled')) {
+      globalSet('soundsEnabled', this.event === 'Chat:getHistory');
+      disabled = !disabled;
+    }
+  });
+
   globalSet('notif', function newNotify(original) {
     if (!settings.value('underscript.disable.ping') && !pendingIgnore.get()) { // TODO
       const text = this.super(original);
