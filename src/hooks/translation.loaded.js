@@ -1,8 +1,11 @@
 eventManager.on(':loaded', () => {
-  globalSet('translateElement', function translateElement(...args) {
+  if (global('translationReady', { throws: false })) {
     eventManager.singleton.emit('translation:loaded');
-    return this.super(...args);
-  }, {
-    throws: false,
-  });
+  } else {
+    document.addEventListener('translationReady', () => {
+      eventManager.singleton.emit('translation:loaded');
+    }, {
+      once: true,
+    });
+  }
 });

@@ -10,7 +10,7 @@ wrap(function filter() {
     page: 'Library',
   });
   const splitBaseGen = settings.register({
-    name: 'Split Based and Generated',
+    name: 'Split Based and Token',
     key: 'underscript.deck.filter.split',
     default: true,
     onChange: applyLook,
@@ -43,9 +43,8 @@ wrap(function filter() {
       if (!setting.value() && splitBaseGen.value() && !$('#baseRarityInput').length) {
         // Add BASE
         $('#commonRarityInput').parent().before(createButton('BASE'), ' ');
-        // GENERATED
         $('#baseGenInput').prop('checked', true).prop('disabled', true).parent()
-          .after(createButton('GENERATED'));
+          .after(createButton('TOKEN'));
       } else if (setting.value() || !splitBaseGen.value()) {
         $('#baseGenInput').prop('checked', false).prop('disabled', false);
         $('.customRarityInput').parent().remove();
@@ -76,7 +75,7 @@ wrap(function filter() {
         if (card.rarity === 'BASE' && !card.shiny && !$('#baseRarityInput').prop('checked')) {
           return true;
         }
-        if (card.rarity === 'GENERATED' && !$('#generatedRarityInput').prop('checked')) {
+        if (card.rarity === 'TOKEN' && !$('#generatedRarityInput').prop('checked')) {
           return true;
         }
       }
