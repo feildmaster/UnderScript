@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.41.2 (2020-10-15)
+1. Fixed Token not working in Craft page (again)
+
 ## Version 0.41.1 (2020-10-15)
 1. Fixed "Token" not working in Crafting page.
 1. History pings no longer make sound

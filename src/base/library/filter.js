@@ -75,7 +75,7 @@ wrap(function filter() {
         if (card.rarity === 'BASE' && !card.shiny && !$('#baseRarityInput').prop('checked')) {
           return true;
         }
-        if (card.rarity === 'TOKEN' && !$('#generatedRarityInput').prop('checked')) {
+        if (card.rarity === 'TOKEN' && !$('#tokenRarityInput').prop('checked')) {
           return true;
         }
       }
