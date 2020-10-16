@@ -239,11 +239,10 @@ eventManager.on('GameStart', function battleLogger() {
     debug(data, 'debugging.raw.turnEnd');
     // Lets switch the turn NOW, rather than later, the purpose of this is currently unknown... It just sounded like a good idea, also delete the "lostLife" flag...
     if (global('time') <= 0) {
-      log.add(make.player(players[currentTurn]), ' timed out');
+      log.add(make.player(players[data.idPlayer]), ' timed out');
     }
-    delete players[currentTurn].lostLife;
-    currentTurn = other[data.idPlayer];
-    delete players[currentTurn].lostLife;
+    delete players[data.idPlayer].lostLife;
+    delete players[other[data.idPlayer]].lostLife;
     lastEffect = 0;
     lastSP = 0;
   });
@@ -296,8 +295,7 @@ eventManager.on('GameStart', function battleLogger() {
     debug(data, 'debugging.raw.fullHand');
     const card = JSON.parse(data.card);
     debug(data.card, 'debugging.destroyed.card');
-    // This event gets called for *all* discards. Have to do smarter logic here (not just currentTurn!)
-    log.add(make.player(players[data.idPlayer || currentTurn]), ' discarded ', make.card(card));
+    log.add(make.player(players[data.idPlayer || card.ownerId]), ' discarded ', make.card(card));
   });
   eventManager.on('getPlayersStats', function updatePlayer(data) { // TODO: When does this get called?
     debug(data, 'debugging.raw.stats');
