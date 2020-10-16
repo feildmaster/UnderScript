@@ -10,18 +10,17 @@ eventManager.on(':loaded', () => {
       const { action } = data;
       debug(data, `debugging.rawchat.${action}`);
 
-      // Populate chatroom names
-      if (action === 'getHistory') {
-        chatRoomNames[data.room] = fn.translateText(data.roomName);
-      }
-      if (eventManager.cancelable.emit(`preChat:${action}`, data).canceled) return;
-      oHandler(event);
       if (action === 'getMessage' && data.idRoom) { // For new chat.
         data.room = `chat-public-${data.idRoom}`;
         data.open = global('openPublicChats').includes(data.idRoom);
-      } else {
-        data.open = true; // Just assume it's open for old chat
+      } else if (action === 'getPrivateMessage' && data.idFriend) {
+        data.idRoom = data.idFriend;
+        data.room = `chat-private-${data.idRoom}`;
+        data.open = Array.isArray(global('privateChats')[data.idRoom]);
       }
+
+      if (eventManager.cancelable.emit(`preChat:${action}`, data).canceled) return;
+      oHandler(event);
       eventManager.emit('ChatMessage', data);
       eventManager.emit(`Chat:${action}`, data);
 
