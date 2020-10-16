@@ -20,7 +20,7 @@ wrap(() => {
       return ret;
     }
 
-    function emit(event, e, data) {
+    function emit(event, e, ...data) {
       const {
         cancelable,
         singleton,
@@ -28,6 +28,14 @@ wrap(() => {
       } = reset();
 
       if (singleton) { // Need to save even if we don't run
+        if (singletonEvents[event]) {
+          const ret = {
+            ran: false,
+            canceled: false,
+          };
+          if (async) return Promise.resolve(ret);
+          return ret;
+        }
         singletonEvents[event] = {
           data,
         };
@@ -43,16 +51,16 @@ wrap(() => {
           // Should we stop processing on cancel? Maybe.
           try {
             const meta = { event, cancelable, canceled };
-            const ret = ev.call(meta, data);
+            const ret = ev.call(meta, ...data);
             if (async && ret !== undefined) {
               promises.push(Promise.resolve(ret)
                 .catch((err) => {
-                  console.error(`Error occurred while parsing (async) event: ${ev.displayName || ev.name || 'unnamed'}(${event})`, err, data);
+                  console.error(`Error occurred while parsing (async) event: ${ev.displayName || ev.name || 'unnamed'}(${event})`, err, ...data);
                 }));
             }
             canceled = !!meta.canceled;
           } catch (err) {
-            console.error(`Error occurred while parsing event: ${ev.displayName || ev.name || 'unnamed'}(${event})`, err, data);
+            console.error(`Error occurred while parsing event: ${ev.displayName || ev.name || 'unnamed'}(${event})`, err, ...data);
           }
         });
       }
