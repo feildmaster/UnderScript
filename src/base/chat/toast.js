@@ -7,6 +7,13 @@ wrap(() => {
     page: 'Chat',
   });
 
+  const globalPing = settings.register({
+    name: 'Only open chats',
+    key: 'underscript.enable.ping.global',
+    category: 'Ping Me',
+    page: 'Chat',
+  });
+
   settings.register({
     name: 'On',
     key: 'underscript.ping.extras',
@@ -18,6 +25,7 @@ wrap(() => {
 
   eventManager.on('Chat:getMessage', function pingToast(data) {
     if (this.canceled || !setting.value()) return;
+    if (globalPing.value() && !data.open) return;
     const msg = JSON.parse(data.chatMessage);
     if (shouldIgnore(msg, true)) return;
     if (!msg.message.toLowerCase().includes(`@${global('selfUsername').toLowerCase()}`) && !fn.pingRegex().test(msg.message)) return;
