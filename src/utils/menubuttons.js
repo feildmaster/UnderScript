@@ -19,8 +19,11 @@ wrap(() => {
 
       const a = document.createElement('a');
       a.classList.add('click');
-      a.text = name;
-      if (url) a.href = url;
+      a.innerHTML = name;
+      if (url) {
+        a.rel = 'noreferrer';
+        a.href = url;
+      }
       el.append(a);
 
       menu.append(el);

@@ -1,5 +1,13 @@
 # UnderScript Changelog
 
+## Version 0.42.0 (2020-10-31)
+### New Features
+1. Added setting to ignore pings from closed chats
+1. Added external projects to Undercards Menu
+### Fixes
+1. Fixed user turn not showing in battle log
+1. Fixed streamer mode chat errors
+
 ## Version 0.41.2 (2020-10-15)
 1. Fixed Token not working in Craft page (again)
 
