@@ -19,6 +19,7 @@ eventManager.on(':loaded', () => {
         data.open = Array.isArray(global('privateChats')[data.idRoom]);
       }
 
+      eventManager.emit('preChatMessage', data);
       if (eventManager.cancelable.emit(`preChat:${action}`, data).canceled) return;
       oHandler(event);
       eventManager.emit('ChatMessage', data);

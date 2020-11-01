@@ -4,9 +4,9 @@ eventManager.on('ChatDetected', () => {
     const socketChat = global('socketChat');
     if (socketChat.readyState !== 1) return;
     updatingFriends = true;
-    socketChat.send(JSON.stringify({ action: 'getOnlineFriends' }));
+    socketChat.send(JSON.stringify({ action: 'getFriends' }));
   });
-  eventManager.on('preChat:getOnlineFriends', function updateFriends(data) {
+  eventManager.on('preChat:getFriends', function updateFriends(data) {
     if (!updatingFriends) return;
     updatingFriends = false;
     this.canceled = true;
