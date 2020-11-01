@@ -11,4 +11,8 @@ onPage('Game', () => {
       .replace(regex, `$1@${$('#enemyUsername').text()}`));
   }
   eventManager.on('Chat:send', convert);
+
+  eventManager.on('@autocomplete', ({ list }) => {
+    list.push($('#enemyUsername').text());
+  });
 });
