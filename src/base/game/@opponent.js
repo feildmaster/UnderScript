@@ -12,7 +12,13 @@ onPage('Game', () => {
   }
   eventManager.on('Chat:send', convert);
 
-  eventManager.on('@autocomplete', ({ list }) => {
-    list.push($('#enemyUsername').text());
+  eventManager.on('@autocomplete', ({ list = [] }) => {
+    const name = $('#enemyUsername').text();
+    if (!name) return;
+    const pos = list.indexOf(name);
+    if (pos > -1) { // Remove older entry
+      list.splice(pos, 1);
+    }
+    list.push(name); // Put on top
   });
 });
