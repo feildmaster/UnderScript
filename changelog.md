@@ -1,12 +1,15 @@
 # UnderScript Changelog
 
-## Version 0.42.0 (2020-10-31)
+## Version 0.42.0 (2020-11-01)
 ### New Features
 1. Added setting to ignore pings from closed chats
+1. Opponent now shows on autocomplete
 1. Added external projects to Undercards Menu
+1. Added option to only show online friends in autocomplete
 ### Fixes
 1. Fixed user turn not showing in battle log
 1. Fixed streamer mode chat errors
+1. Fixed online friends not updating (thanks Onu)
 
 ## Version 0.41.2 (2020-10-15)
 1. Fixed Token not working in Craft page (again)
