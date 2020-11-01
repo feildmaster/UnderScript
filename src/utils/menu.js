@@ -145,7 +145,7 @@ const menu = wrap(() => {
   });
 
   eventManager.on(':load', () => {
-    if (fn.addMenuButton) fn.addMenuButton('Menu').addEventListener('click', () => menu.open());
+    fn.addMenuButton('Menu').addEventListener('click', () => menu.open());
   });
 
   function dirty() {

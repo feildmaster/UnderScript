@@ -1,7 +1,10 @@
 wrap(() => {
   eventManager.on(':loaded', () => {
     const menu = document.querySelector('ul.dropdown-menu[role="menu"]');
-    if (!menu) return;
+    if (!menu) {
+      fn.addMenuButton = noop;
+      return;
+    }
     style.add('.click {cursor: pointer;}');
 
     const divider = document.createElement('li');
