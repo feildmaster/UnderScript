@@ -43,7 +43,7 @@ wrap(() => {
       this.super(...args);
       setTimeout(init);
     }, { throws: false });
-    globalSet('initLeaderboard', function initLeaderboard(...args) {
+    globalSet('setupLeaderboard', function setupLeaderboard(...args) {
       this.super(...args);
       setTimeout(() => {
         init();
