@@ -78,6 +78,15 @@ wrap(() => {
       };
     }
 
+    function off(event, fn) {
+      event.split(' ').forEach((e) => {
+        const list = events[e] || [];
+        while (list.includes(fn)) {
+          list.splice(list.indexOf(fn), 1);
+        }
+      });
+    }
+
     const emitter = {
       on: (event, fn) => {
         reset();
@@ -97,6 +106,14 @@ wrap(() => {
           }
         });
         return emitter;
+      },
+      once: (event, fn) => {
+        if (typeof fn !== 'function') return emitter;
+        function wrapper(...args) {
+          off(event, wrapper);
+          fn(...args);
+        }
+        return emitter.on(event, wrapper);
       },
       emit: (event, ...data) => {
         if (data.length === 2 && data[1] === true) {
