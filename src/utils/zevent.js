@@ -1,1 +1,1 @@
-eventManager.emit(':utils');
+eventManager.singleton.emit(':utils');
