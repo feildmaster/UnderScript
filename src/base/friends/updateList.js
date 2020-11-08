@@ -1,19 +1,10 @@
 eventManager.on('ChatDetected', () => {
-  let updatingFriends = false;
-  eventManager.on('Friends:refresh', () => {
-    const socketChat = global('socketChat');
-    if (socketChat.readyState !== 1) return;
-    updatingFriends = true;
-    socketChat.send(JSON.stringify({ action: 'getFriends' }));
-  });
   eventManager.on('preChat:getFriends', function updateFriends(data) {
-    if (!updatingFriends) return;
-    updatingFriends = false;
     this.canceled = true;
-    const friends = {};
-    JSON.parse(data.friends).forEach((friend) => {
-      friends[friend.id] = friend;
-    });
+    const friends = JSON.parse(data.friends).reduce((ret, friend) => {
+      ret[friend.id] = friend;
+      return ret;
+    }, {});
     const selfFriends = global('selfFriends');
     selfFriends.forEach((friend) => {
       // id, online, idGame, username
@@ -27,4 +18,11 @@ eventManager.on('ChatDetected', () => {
     $('.nbFriends').text(selfFriends.filter((friend) => friend.online).length);
     script.updateTip && script.updateTip();
   });
+  function refresh() {
+    const socketChat = global('socketChat');
+    if (socketChat.readyState !== 1) return;
+    socketChat.send(JSON.stringify({ action: 'getFriends' }));
+    sleep(2000).then(refresh);
+  }
+  sleep(2000).then(refresh);
 });
