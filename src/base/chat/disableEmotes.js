@@ -13,6 +13,5 @@ wrap(function simpleText() {
     });
   }
 
-  eventManager.on('Chat:getHistory', replace);
-  eventManager.on('Chat:getMessage', replace);
+  eventManager.on('Chat:getHistory Chat:getMessage', replace);
 });

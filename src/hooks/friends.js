@@ -38,7 +38,6 @@ wrap(() => {
       // eventManager.emit('Friends:pending', pending);
       eventManager.emit('preFriends:requests', requests);
       eventManager.emit('Friends:requests', requests);
-      eventManager.emit('Friends:refresh');
       return undefined;
     }).catch((e) => {
       fn.debug(`Friends: ${e.message}`);

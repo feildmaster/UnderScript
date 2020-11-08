@@ -44,8 +44,13 @@ onPage('Friends', function deleteFriends() {
     });
   }
 
-  eventManager.on('Chat:getOnlineFriends', () => $('a.crossDelete').click(remove));
-  eventManager.on(':loaded', () => $('a[href^="Friends?"]').click(remove));
+  eventManager.on(':loaded', () => {
+    $('a[href^="Friends?"]').click(remove);
+    globalSet('updateFriends', function updateFriends() {
+      this.super();
+      $('a.crossDelete').click(remove);
+    });
+  });
   eventManager.on('newElement', (e) => $(e).find('a').click(remove));
   eventManager.on('friendAction', process);
 });
