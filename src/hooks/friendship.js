@@ -33,9 +33,6 @@ onPage('Friendship', () => {
       }
     });
 
-    globalSet('showPage', function func(page) {
-      this.super(page);
-      eventManager.emit('Friendship:page', page);
-    });
+    eventManager.on('ShowPage', (page) => eventManager.emit('Friendship:page', page));
   });
 });

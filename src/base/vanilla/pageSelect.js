@@ -34,6 +34,13 @@ wrap(() => {
   }
 
   eventManager.on(':loaded', () => {
+    globalSet('showPage', function showPage(page) {
+      if (!eventManager.cancelable.emit('preShowPage', page).canceled) {
+        this.super(page);
+      }
+      eventManager.emit('ShowPage', page);
+    }, { throws: false });
+
     if (disable.value() || !global('getMaxPage', { throws: false })) return;
     // Add select dropdown
     $('#currentPage').after(select).hide();
@@ -41,19 +48,18 @@ wrap(() => {
     // Initialization
     globalSet('applyFilters', function applyFilters(...args) {
       this.super(...args);
-      setTimeout(init);
+      sleep().then(init);
     }, { throws: false });
     globalSet('setupLeaderboard', function setupLeaderboard(...args) {
       this.super(...args);
-      setTimeout(() => {
+      sleep().then(() => {
         init();
         eventManager.emit('Rankings:init');
       });
     }, { throws: false });
 
     // Update
-    globalSet('showPage', function showPage(page) {
-      this.super(page);
+    eventManager.on('ShowPage', (page) => {
       select.value = page;
     });
 

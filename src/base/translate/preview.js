@@ -5,7 +5,7 @@ wrap(() => {
 
     globalSet('createTranslator', newTranslator);
 
-    globalSet('showPage', newShowPage);
+    eventManager.on('ShowPage', newShowPage);
   });
 
   function newTranslator(translator) {

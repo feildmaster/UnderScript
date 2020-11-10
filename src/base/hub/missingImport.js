@@ -5,10 +5,7 @@ wrap(() => {
   );
 
   function init() {
-    globalSet('showPage', function showPage(page) {
-      this.super(page);
-      thing(page * 10);
-    });
+    eventManager.on('ShowPage', (page) => thing(page * 10));
     fn.dismissable({
       title: 'Did you know?',
       text: `An <span class="missingArt">orange arrow</span> means you're missing artifact(s) and a <span class="missing">red arrow</span> means you're missing card(s)`,

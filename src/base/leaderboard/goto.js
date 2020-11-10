@@ -26,8 +26,7 @@ wrap(() => {
   eventManager.on('Rankings:init', () => load(data));
 
   eventManager.on(':loaded', () => {
-    globalSet('showPage', function showPage(page) {
-      this.super(page);
+    eventManager.on('ShowPage', function showPage(page) {
       if (skip.get()) return;
       set('page', page, replacePage);
       replacePage = undefined;
