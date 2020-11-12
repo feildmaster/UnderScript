@@ -334,7 +334,7 @@ eventManager.on('GameStart', function battleLogger() {
       const player = players[userId];
       if (player.overwhelmed) {
         log.add(you.clone(), ` ${overwhelmed}.`);
-      } else if (player.hp > 0) {
+      } else if (player.hp > 0 && player.maxHp > 0) {
         log.add(you.clone(), ` ${surrendered}.`);
       }
       log.add(enemy, ' beat ', you);
@@ -342,7 +342,7 @@ eventManager.on('GameStart', function battleLogger() {
     }
     if (data.disconnected) {
       log.add(enemy.clone(), ' left the game.');
-    } else if (players[opponentId].hp > 0) {
+    } else if (players[opponentId].hp > 0 && players[opponentId].maxHp > 0) {
       const msg = players[opponentId].overwhelmed ? overwhelmed : surrendered;
       log.add(enemy.clone(), ` ${msg}.`);
     }
