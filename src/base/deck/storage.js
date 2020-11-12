@@ -79,8 +79,8 @@ onPage('Decks', function deckStorage() {
       }
     }
 
-    eventManager.on('Deck:postChange', ({ data }) => {
-      if (!['addCard', 'removeCard', 'removeAllCards', 'clearArtifacts', 'addArtifact'].includes(data.action)) return;
+    eventManager.on('Deck:postChange', ({ action, data }) => {
+      if (!['addCard', 'removeCard', 'removeAllCards', 'clearArtifacts', 'addArtifact'].includes(action)) return;
       if (data.status === 'error') {
         pending = [];
         return;
