@@ -1,25 +1,41 @@
 wrap(() => {
+  const def = 'Breaking (Default)';
+  const tran = 'Covered (Transparent)';
+  const dis = 'Covered';
+
   const setting = settings.register({
-    name: 'Disable Breaking Card Art',
+    name: 'Breaking Card Art Behavior',
     key: 'underscript.hide.breaking-skin',
+    options: [def, tran, dis],
     page: 'Library',
-    onChange: toggle,
+    onChange: update,
     category: 'Card Skins',
+    converter(value) {
+      switch (value) {
+        case '0': return def;
+        case '1': return dis;
+        default: return undefined;
+      }
+    },
   });
   const art = new VarStore();
+  const type1 = 'rgb(0, 0, 0)';
+  const type2 = 'rgba(0, 0, 0, 0.2)';
 
-  function toggle() {
+  function update(value) {
     if (art.isSet()) {
       art.get().remove();
-    } else {
-      art.set(style.add(
-        '.breaking-skin .cardHeader, .breaking-skin .cardFooter { background-color: rgb(0, 0, 0); }',
-        '.breaking-skin .cardImage { z-index: 1; }',
-      ));
     }
+    if (value === def) return;
+
+    const color = value === tran ? type2 : type1;
+    art.set(style.add(
+      `.breaking-skin .cardHeader, .breaking-skin .cardFooter { background-color: ${color}; }`,
+      '.breaking-skin .cardImage { z-index: 1; }',
+    ));
   }
 
   eventManager.on(':loaded', () => {
-    if (setting.value()) toggle();
+    update(setting.value());
   });
 });
