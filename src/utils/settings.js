@@ -288,6 +288,17 @@ const settings = wrap(() => {
         key: setting.key, val, prev,
       });
     }
+    if (typeof data.converter === 'function') {
+      const current = localStorage.getItem(setting.key);
+      if (typeof current === 'string') {
+        const converted = data.converter(current);
+        if (converted === false) {
+          localStorage.removeItem(setting.key);
+        } else if (converted) {
+          localStorage.setItem(setting.key, converted);
+        }
+      }
+    }
     setting.onChange = (el) => {
       let val = '';
       if (setting.type === 'boolean') {
