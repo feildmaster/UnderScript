@@ -30,10 +30,9 @@ wrap(function filter() {
 
   if (!(decks || crafting)) return;
   style.add(
-    // '.filter input { display: none; }',
     '.filter input+* {  opacity: 0.4; }',
     '.filter input:checked+* {  opacity: 1; }',
-    '.filter #baseGenInput, .filter #baseGenInput:disabled+* { display: none; }',
+    '.filter #baseGenInput:disabled, .filter #baseGenInput:disabled+* { display: none; }',
     '.filter #shinyInput:disabled, .filter #shinyInput:disabled+* { display: none; }',
   );
 
