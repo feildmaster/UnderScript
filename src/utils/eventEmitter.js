@@ -115,6 +115,15 @@ wrap(() => {
         }
         return emitter.on(event, wrapper);
       },
+      until: (event, fn) => {
+        if (typeof fn !== 'function') return emitter;
+        function wrapper(...args) {
+          if (fn(...args)) {
+            off(event, wrapper);
+          }
+        }
+        return emitter.on(event, wrapper);
+      },
       emit: (event, ...data) => {
         if (data.length === 2 && data[1] === true) {
           console.error('Deprecation Warning: emit argument "cancelable" is deprecated. Use `.cancelable.emit()` instead!');

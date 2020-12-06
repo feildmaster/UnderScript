@@ -1,5 +1,19 @@
 # UnderScript Changelog
 
+## Version 0.43.0 (2020-12-05)
+### New Features
+1. Added button to show your friend rankings on the leaderboard
+1. Added setting to disable friend request notifications
+1. Added option to show "breaking" art as "full" art
+### Fixes
+1. Fix page selection on leaderboard
+1. Loading user links on leaderboard now load correctly
+1. Fix deleting friends without reloading page
+1. Error when loading deck correctly exits
+### Plugins
+1. Added "eventManager.once(event, function)"<extended> - Listens to event once</extended>
+1. Added "eventManager.until(event, function)"<extended> - Listens to event until returns truthy</extended>
+
 ## Version 0.42.0 (2020-11-01)
 ### New Features
 1. Added setting to ignore pings from closed chats
