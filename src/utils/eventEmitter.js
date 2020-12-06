@@ -47,7 +47,7 @@ wrap(() => {
 
       if (Array.isArray(e) && e.length) {
         ran = true;
-        e.forEach((ev) => {
+        [...e].forEach((ev) => {
           // Should we stop processing on cancel? Maybe.
           try {
             const meta = { event, cancelable, canceled };
