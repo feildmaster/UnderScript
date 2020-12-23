@@ -10,7 +10,7 @@ module.exports = {
         browser: true,
         jquery: true,
         greasemonkey: true,
-        node: false,
+        node: true,
     },
     globals: {
         $el: readonly,
@@ -84,7 +84,7 @@ module.exports = {
         'object-curly-newline': [error, { multiline: true, consistent: true }],
         'operator-linebreak': [error, 'after'],
         'quotes': [error, 'single', { allowTemplateLiterals: true, }],
-        'max-len': [error, { 
+        'max-len': [error, {
             code: 120,
             ignoreComments: true,
             ignoreRegExpLiterals: true,
