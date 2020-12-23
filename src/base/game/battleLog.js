@@ -394,6 +394,12 @@ eventManager.on('GameStart', function battleLogger() {
     return fn.find(players, (player) => fn.user.name(player) === name);
   }
 
+  style.add(
+    '#history { border: 2px solid white; background-color: rgba(0,0,0,0.9); position: absolute; right: 10px; top: 10px; z-index: 20; user-select: text; }',
+    '#history .handle { border-bottom: 1px solid white; text-align: center; }',
+    '#history #log { display: flex; flex-direction: column-reverse; align-items: flex-start; overflow-y: auto; max-height: 600px; }',
+  );
+
   const log = {
     init() {
       const hi = $('<div id=\'history\'></div>');
@@ -406,23 +412,6 @@ eventManager.on('GameStart', function battleLogger() {
       mainContent.css('position', '');
       hi.css({
         width: `${window.innerWidth - pos - 20}px`,
-        border: '2px solid white',
-        'background-color': 'rgba(0,0,0,0.9)',
-        position: 'absolute',
-        right: 10,
-        top: 10,
-        'z-index': 20,
-      });
-      ha.css({
-        'border-bottom': '1px solid white',
-        'text-align': 'center',
-      });
-      lo.css({
-        display: 'flex',
-        'flex-direction': 'column-reverse',
-        'align-items': 'flex-start',
-        'overflow-y': 'auto',
-        'max-height': '600px',
       });
       hi.append(ha);
       hi.append(lo);
