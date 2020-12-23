@@ -1,7 +1,6 @@
 // Custom CSS classes are great.
 const style = wrap(() => {
   const el = document.createElement('style');
-  el.type = 'text/css';
   eventManager.on(':loaded', function appendStyle() {
     document.head.append(el);
   });
