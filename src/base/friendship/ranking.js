@@ -46,7 +46,7 @@ wrap(() => {
     cachee.timestamp = timestamp;
     cachee.baseline = base || 0;
 
-    if (xp && xp !== cachee.xp) {
+    if (xp && xp !== cachee.xp || rank !== cachee.rank) {
       cachee.xp = xp;
       cachee.rank = rank;
     }
@@ -94,7 +94,7 @@ wrap(() => {
     const cached = getCachedData(id, user);
 
     const notExpired = cached.timestamp !== undefined && cached.timestamp > Date.now() - HOUR;
-    const xpTooLow = cached.baseline !== undefined && xp < cached.baseline;
+    const xpTooLow = cached.baseline !== undefined && xp < cached.baseline && !cached.rank;
     const xpSame = cached.xp !== undefined && xp === cached.xp && notExpired;
 
     // XP hasn't changed
@@ -109,7 +109,7 @@ wrap(() => {
         const base = data[data.length - 1].xp;
 
         const rank = xp >= base ? data.findIndex(({ user: { id: userid } }) => userid === user) + 1 : 0;
-        updateCache({ card: id, user, rank, xp, base });
+        return updateCache({ card: id, user, rank, xp, base });
       }
 
       return getCachedData(id, user);
@@ -117,8 +117,8 @@ wrap(() => {
   }
 
   function displayRank(card, rank) {
+    $(`#${card} > .rank`).remove();
     if (rank > 0) {
-      $(`#${card} > .rank`).remove();
       $(`#${card}`).append(`<div class="rank"${rank <= 5 ? ' top' : ''} val="${rank}"></div>`);
     }
   }
@@ -189,6 +189,7 @@ wrap(() => {
           const id = card.idCard || card.fixedId || card.id;
           pending.push(pendingUpdate(id, card.xp)
             .then(({ rank, cached }) => {
+              console.log(id, rank, cached);
               displayRank(id, rank);
               return cached;
             }));
