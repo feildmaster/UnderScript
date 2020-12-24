@@ -13,6 +13,7 @@
     "Austin Peterson <austin@akpwebdesign.com> (https://blog.akpwebdesign.com)"
   ],
   "scripts": {
+    "local": "rollup -c && gulp",
     "build": "gulp --deploy && rollup -c",
     "prepack": "gulp --deploy",
     "update": "npm version minor --m=\"chore(update): Release v%s\"",
@@ -39,7 +40,8 @@
     "gulp-rename": "^1.4.0",
     "gulp-replace": "^1.0.0",
     "replace": "^1.1.5",
-    "rollup": "^2.35.1"
+    "rollup": "^2.35.1",
+    "rollup-plugin-cleanup": "^3.2.1"
   },
   "dependencies": {
     "axios": "^0.18.0",

@@ -1,6 +1,7 @@
 const commonjs = require('@rollup/plugin-commonjs');
 const json = require('@rollup/plugin-json');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
+const cleanup = require('rollup-plugin-cleanup');
 
 module.exports = {
   input: 'src/bundle/bundle.js',
@@ -8,5 +9,11 @@ module.exports = {
     file: 'dist/undercards.dependencies.js',
     format: 'cjs',
   },
-  plugins: [nodeResolve({ browser: true }), commonjs(), json()],
+  context: 'this',
+  plugins: [
+    nodeResolve({ browser: true }),
+    commonjs(),
+    json(),
+    cleanup(),
+  ],
 };
