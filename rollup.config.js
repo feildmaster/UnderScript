@@ -6,7 +6,7 @@ const cleanup = require('rollup-plugin-cleanup');
 module.exports = {
   input: 'src/bundle/bundle.js',
   output: {
-    file: 'dist/undercards.dependencies.js',
+    file: 'dist/dependencies.js',
     format: 'cjs',
   },
   context: 'this',

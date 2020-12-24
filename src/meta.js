@@ -7,7 +7,7 @@
 // @match        https://*.undercards.net/*
 // @match        https://feildmaster.github.io/UnderScript/*
 // @exclude      https://*.undercards.net/*/*
-// @require      https://unpkg.com/underscript@{{ version }}/dist/undercards.dependencies.js
+// @require      https://unpkg.com/underscript@{{ version }}/dist/dependencies.js
 // @require      https://www.googletagmanager.com/gtag/js?id=UA-38424623-4
 // @homepage     https://feildmaster.github.io/UnderScript/
 // @source       https://github.com/UCProjects/UnderScript
