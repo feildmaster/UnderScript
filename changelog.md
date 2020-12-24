@@ -1,11 +1,14 @@
 # UnderScript Changelog
 
-## Version 0.43.1 (2020-12-24)
+## Version 0.43.2 (2020-12-24)
 Merry Christmas!
 1. Fixed friendship bug
 1. Fixed not being able to copy battle log text
 1. Fixed a bug I missed in the last update
 1. Changed how UnderScript loads 3rd party code
+
+## Version 0.43.1 (2020-12-24)
+This update is broken!
 
 ## Version 0.43.0 (2020-12-05)
 ### New Features

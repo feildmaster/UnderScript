@@ -15,7 +15,7 @@
   "scripts": {
     "local": "rollup -c && gulp",
     "build": "gulp --deploy && rollup -c",
-    "prepack": "gulp --deploy",
+    "prepack": "gulp --deploy && rollup -c",
     "update": "npm version minor --m=\"chore(update): Release v%s\"",
     "patch": "npm version patch --m=\"chore(patch): Release v%s\"",
     "nextpatch": "npm version prepatch --m=\"chore(next): Build patch v%s\"",
