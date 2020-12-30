@@ -1,5 +1,9 @@
 # UnderScript Changelog
 
+## Version 0.43.3 (2020-12-30)
+1. Fixed issue where background tasks didn't run correctly
+  * This includes: Accepting friends, Deleting Friends, Refreshing the main page, Quest notifications...
+
 ## Version 0.43.2 (2020-12-24)
 Merry Christmas!
 1. Fixed friendship bug
