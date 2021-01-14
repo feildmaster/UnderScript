@@ -334,6 +334,7 @@ const settings = wrap(() => {
       on: (func) => {
         events.on(setting.key, func);
       },
+      disabled: () => !!setting.disabled,
     };
   }
 

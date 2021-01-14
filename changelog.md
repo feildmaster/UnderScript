@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.43.3 (2020-12-31)
+1. Completely disabled smart disenchant, until it's remade.
+
 ## Version 0.43.3 (2020-12-30)
 1. Fixed issue where background tasks didn't run correctly
   * This includes: Accepting friends, Deleting Friends, Refreshing the main page, Quest notifications...
