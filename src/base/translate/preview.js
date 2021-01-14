@@ -12,9 +12,7 @@ wrap(() => {
     return `<div id="preview"></div>${this.super(translator)}`;
   }
 
-  function newShowPage(page) {
-    this.super(page);
-
+  function newShowPage() {
     const textarea = $('#translators textarea');
     const preview = $('#preview');
     textarea.on('input', () => {
