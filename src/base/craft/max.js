@@ -35,7 +35,9 @@ onPage('Crafting', function craftMax() {
         const shiny = card.hasClass('shiny');
         if (e.ctrlKey) {
           hover.hide();
-          craftCards(id, shiny, limit, cost, total);
+          const l = max - cardHelper.craft.quantity(el);
+          if (l <= 0) return;
+          craftCards(id, shiny, l, cost, total);
         } else {
           global('action')(id, shiny);
         }
