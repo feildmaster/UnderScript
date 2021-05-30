@@ -23,7 +23,10 @@ wrap(function friendsOnly() {
   function joined({ username }) {
     if (this.canceled || !flag || fn.isFriend(username)) return;
     debug(`Kicked: ${username}`);
-    // TODO: Toast
+    fn.errorToast({
+      title: '[Match] Banned User',
+      text: `'${username}' has been banned from custom match!`,
+    });
     this.canceled = true;
     global('banUser')();
   }
