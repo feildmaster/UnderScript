@@ -1,7 +1,17 @@
 # UnderScript Changelog
 
-## Version 0.44.0 (2021-)
+## Version 0.44.0 (2021-05-30)
+### New Features
 1. Now handles Quest Pass announcements
+1. Added "outline card text" setting
+1. Added "outline card tribe" setting
+1. Added setting to disable *all* card skins
+1. Added toast when kicking non-friends out of custom games
+### Fixes
+1. Fixed translation preview
+1. Fixed crafting more than max (with CTRL)
+### Misc.
+1. Removed "smart disenchant"
 
 ## Version 0.43.3 (2020-12-31)
 1. Completely disabled smart disenchant, until it's remade.
