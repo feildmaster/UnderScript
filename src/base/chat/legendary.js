@@ -37,7 +37,7 @@ wrap(() => {
       const translateFromServerJson = global('translateFromServerJson');
       const last = getToast(owner);
       if (last) {
-        last.cards.push(card);
+        last.cards.unshift(card);
         message[2] = last.cards.join(', ');
         last.setText(translateFromServerJson(JSON.stringify({ args: JSON.stringify(message) })));
         last.time = Date.now(); // This toast is still relevant!
