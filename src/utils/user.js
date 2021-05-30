@@ -3,11 +3,11 @@ fn.user = wrap(function fnUser() {
   function self() {
     if (!selfData) {
       selfData = Object.freeze({
-      id: global('selfId'),
-      username: global('selfUsername'),
-      mainGroup: global('selfMainGroup'),
+        id: global('selfId'),
+        username: global('selfUsername'),
+        mainGroup: global('selfMainGroup'),
       });
-  }
+    }
     return selfData;
   }
 
