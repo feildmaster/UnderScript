@@ -17,16 +17,17 @@ onPage('Crafting', function craftMax() {
   }
 
   function checkCard(el) {
+    const card = $(el);
+    card.off('hover');
     if (settings.value('underscript.disable.craftMax')) return;
     const rarity = cardHelper.rarity(el);
-    const max = cardHelper.craft.max(rarity);
     if (rarity === 'DETERMINATION') return;
+    const max = cardHelper.craft.max(rarity);
     const limit = max - cardHelper.craft.quantity(el);
     if (limit <= 0) return;
     const cost = cardHelper.craft.cost(el);
     const total = cardHelper.craft.totalDust();
     if (cost > total) return;
-    const card = $(el);
     card.hover(hover.show(`CTRL Click: Craft up to max(${max})`))
       .off('click')
       .on('click.script', (e) => {
@@ -51,6 +52,7 @@ onPage('Crafting', function craftMax() {
       craft(id, shiny);
     } while (--count && total >= cost); // eslint-disable-line no-plusplus
     sleep(1000).then(() => { // Wait a second before allowing crafting again
+      calculate(); // Re-calculate after crafting
       crafting = false;
     });
   }
