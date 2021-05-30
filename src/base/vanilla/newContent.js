@@ -21,12 +21,20 @@ wrap(() => {
     refresh: () => onPage(''),
     category: 'Home',
   });
+  const quest = settings.register({
+    name: 'Enable quest pass toast',
+    key: 'underscript.toast.quests',
+    default: true,
+    refresh: () => onPage(''),
+    category: 'Home',
+  });
 
   onPage('', () => {
     eventManager.on(':loaded', function toasts() {
       if (bundle.value()) toast('bundle');
       if (skin.value()) toast('skins');
       if (emotes.value()) toast('emotes');
+      if (quest.value()) toast('quest');
     });
   });
 
@@ -54,6 +62,7 @@ wrap(() => {
       case 'bundle': return 'New Bundle Available';
       case 'skins': return 'New skins / avatars !';
       case 'emotes': return 'New Emotes Available';
+      case 'quest': return 'New Quest Pass';
       default: throw new Error(`Unknown Type: ${type}`);
     }
   }
@@ -63,6 +72,7 @@ wrap(() => {
       case 'bundle': return 'Bundle';
       case 'skins': return 'CardSkinsShop';
       case 'emotes': return 'CosmeticsShop';
+      case 'quest': return 'Quests';
       default: throw new Error(`Unknown Type: ${type}`);
     }
   }
