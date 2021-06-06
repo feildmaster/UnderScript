@@ -1,5 +1,11 @@
 # UnderScript Changelog
 
+## Version 0.45.0 (2021-06-06)
+### New Features
+1. Added ability to buy multiple packs
+1. Added confirmation for buying packs with UCP
+1. Added plugin API to buy multiple packs
+
 ## Version 0.44.0 (2021-05-30)
 ### New Features
 1. Now handles Quest Pass announcements
