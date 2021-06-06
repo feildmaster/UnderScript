@@ -5,6 +5,8 @@
 1. Added ability to buy multiple packs
 1. Added confirmation for buying packs with UCP
 1. Added plugin API to buy multiple packs
+### Fixes
+1. Fixed bug with base card skin setting
 
 ## Version 0.44.0 (2021-05-30)
 ### New Features

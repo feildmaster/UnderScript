@@ -6,7 +6,7 @@ wrap(() => {
     category: 'Card Skins',
   });
 
-  globalSet('createCard', function createCard(card) {
+  function createCard(card) {
     const image = card.baseImage;
     if (setting.value() && image && image !== card.image) {
       card.typeSkin = 0;
@@ -14,5 +14,10 @@ wrap(() => {
       card.image = image;
     }
     return this.super(card);
+  }
+
+  eventManager.on(':loaded', () => {
+    if (!window.createCard) return;
+    globalSet('createCard', createCard);
   });
 });
