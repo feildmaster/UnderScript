@@ -39,7 +39,7 @@
     "gulp-insert": "^0.5.0",
     "gulp-rename": "^1.4.0",
     "gulp-replace": "^1.0.0",
-    "replace": "^1.1.5",
+    "replace": "^1.2.1",
     "rollup": "^2.35.1",
     "rollup-plugin-cleanup": "^3.2.1"
   },
@@ -47,7 +47,7 @@
     "axios": "^0.21.1",
     "luxon": "^1.8.2",
     "popper.js": "^1.16.1",
-    "showdown": "^1.9.0",
+    "showdown": "^1.9.1",
     "tippy.js": "^4.2.1"
   }
 }
