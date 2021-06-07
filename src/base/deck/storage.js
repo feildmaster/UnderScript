@@ -21,7 +21,7 @@ onPage('Decks', function deckStorage() {
     close() {},
   };
   let templastOpenedDialog;
-  style.add('.btn-storage { margin-top: 5px; margin-right: 8px; width: 36px; }');
+  style.add('.btn-storage { margin-top: 5px; margin-right: 6px; width: 30px; padding: 5px 0; }');
 
   function getFromLibrary(id, library, shiny) {
     return library.find((card) => card.id === id && (shiny === undefined || card.shiny === shiny));
@@ -88,7 +88,7 @@ onPage('Decks', function deckStorage() {
       processNext();
     });
 
-    for (let i = 1, x = Math.max(parseInt(settings.value('underscript.storage.rows'), 10), 1) * 4; i <= x; i++) {
+    for (let i = 1, x = Math.max(parseInt(settings.value('underscript.storage.rows'), 10), 1) * 5; i <= x; i++) {
       buttons.push($('<button>')
         .text(i)
         .addClass('btn btn-sm btn-danger btn-storage'));
