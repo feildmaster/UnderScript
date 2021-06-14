@@ -1,9 +1,10 @@
 wrap(function minigames() {
   const setting = settings.register({
-    name: 'Disable mini-games',
+    name: 'Disable',
     key: 'underscript.minigames.disabled',
     page: 'Lobby',
     refresh: onPage('Play'),
+    category: 'Minigames',
   });
 
   onPage('Play', () => {

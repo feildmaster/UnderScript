@@ -5,8 +5,11 @@
 1. Added ability to buy multiple packs
 1. Added confirmation for buying packs with UCP
 1. Added plugin API to buy multiple packs
+1. Added a setting to switch minigame controls to WASD (disabled by default)
 ### Fixes
 1. Fixed bug with base card skin setting
+### Misc.
+1. Added a 5th slot to the storage rows
 
 ## Version 0.44.0 (2021-05-30)
 ### New Features
