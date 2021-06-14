@@ -4,10 +4,12 @@
 ### New Features
 1. Added ability to buy multiple packs
 1. Added confirmation for buying packs with UCP
-1. Added plugin API to buy multiple packs
 1. Added a setting to switch minigame controls to WASD (disabled by default)
+1. Added a random avatar button
 ### Fixes
 1. Fixed bug with base card skin setting
+### Plugins
+1. Added API to buy multiple packs
 ### Misc.
 1. Added a 5th slot to the storage rows
 
