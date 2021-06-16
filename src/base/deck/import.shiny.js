@@ -11,7 +11,7 @@ wrap(() => {
     if (setting.value()) {
       list.sort((a, b) => b.shiny - a.shiny);
     }
-    this.super(idCard, list);
+    return this.super(idCard, list);
   }
 
   onPage('Decks', () => {
