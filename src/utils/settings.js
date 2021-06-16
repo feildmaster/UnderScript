@@ -473,9 +473,14 @@ const settings = wrap(() => {
 
   function importSettings(string) {
     try {
-      // TODO
+      // TODO: Call setting events?
+      const parsed = JSON.parse(atob(string));
+      fn.each(parsed, (val, key) => {
+        console.log(key, val);
+        localStorage.setItem(key, val);
+      });
     } catch (e) {
-      // TODO
+      console.error(e);
     }
   }
 

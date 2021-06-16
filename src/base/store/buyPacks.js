@@ -48,18 +48,20 @@ wrap(() => {
             type,
             gold: !cost,
           };
-          if (cost) {
+          if (cost && !e.shiftKey) {
             global('BootstrapDialog').show({
               title: 'Buy packs with UCP?',
-              message: `You are about to buy ${count} pack${count > 1 ? 's' : ''} with UCP, continue?`,
+              message: $.i18n(`Buy ${count} pack${count > 1 ? 's' : ''} for {{UCP:${count * 10}}} UCP?`),
               buttons: [{
-                label: `Continue`,
+                label: $.i18n('dialog-continue'),
+                cssClass: 'btn-success',
                 action(diag) {
                   buyPacks(data);
                   diag.close();
                 },
               }, {
-                label: 'Cancel',
+                label: $.i18n('dialog-cancel'),
+                cssClass: 'btn-danger',
                 action(diag) {
                   diag.close();
                 },
@@ -69,7 +71,7 @@ wrap(() => {
             buyPacks(data);
           }
         });
-        hover.new('CTRL: Buy MAX packs<br>ALT: Buy (up to) 10 packs', el);
+        hover.new(`CTRL: Buy MAX packs<br>ALT: Buy (up to) 10 packs${cost ? '<br>SHIFT: Bypass confirmation' : ''}`, el);
       });
     });
   });
