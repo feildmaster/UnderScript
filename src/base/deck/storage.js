@@ -17,10 +17,6 @@ settings.register({
 
 onPage('Decks', function deckStorage() {
   if (settings.value('underscript.storage.disable')) return;
-  const mockLastOpenedDialog = {
-    close() {},
-  };
-  let templastOpenedDialog;
   style.add('.btn-storage { margin-top: 5px; margin-right: 6px; width: 30px; padding: 5px 0; }');
 
   function getFromLibrary(id, library, shiny) {
@@ -43,50 +39,6 @@ onPage('Decks', function deckStorage() {
   eventManager.on('jQuery', () => {
     const container = $('<p>');
     const buttons = [];
-    let loading;
-    let pending = [];
-
-    function processNext() {
-      if (global('lastOpenedDialog') === mockLastOpenedDialog) {
-        globalSet('lastOpenedDialog', templastOpenedDialog);
-      }
-      const job = pending.shift();
-      if (job) {
-        if (job.action === 'validate') {
-          loadDeck(loading);
-          if (!pending.length) {
-            loading = null;
-          }
-          return;
-        }
-        if (job.action === 'clear') {
-          global('removeAllCards')();
-        } else if (job.action === 'remove') {
-          global('removeCard')(parseInt(job.id, 10), job.shiny === true);
-        } else if (job.action === 'clearArtifacts') {
-          global('clearArtifacts')();
-        } else if (job.action === 'addArtifact') {
-          debug(`Adding artifact: ${job.id}`);
-          templastOpenedDialog = global('lastOpenedDialog');
-          globalSet('lastOpenedDialog', mockLastOpenedDialog);
-          global('addArtifact')(job.id);
-        } else {
-          global('addCard')(parseInt(job.id, 10), job.shiny === true);
-        }
-        if (!pending.length) {
-          pending.push({ action: 'validate' });
-        }
-      }
-    }
-
-    eventManager.on('Deck:postChange', ({ action, data }) => {
-      if (!['addCard', 'removeCard', 'removeAllCards', 'clearArtifacts', 'addArtifact'].includes(action)) return;
-      if (data.status === 'error') {
-        pending = [];
-        return;
-      }
-      processNext();
-    });
 
     for (let i = 1, x = Math.max(parseInt(settings.value('underscript.storage.rows'), 10), 1) * 5; i <= x; i++) {
       buttons.push($('<button>')
@@ -98,8 +50,7 @@ onPage('Decks', function deckStorage() {
       container.append(button);
     });
 
-    const clearDeck = $('#yourCardList > button:last');
-    clearDeck.after(container);
+    $('#deckCardsCanvas').before(container);
     $('#yourCardList > br').remove();
     $('#yourCardList').css('margin-bottom', '35px');
 
@@ -137,67 +88,10 @@ onPage('Decks', function deckStorage() {
 
     function loadDeck(i) {
       if (i === null) return;
-      debug('loading');
-      pending = []; // Clear pending
-      loading = i;
-      let deck = getDeck(i, true);
-      const cDeck = global('decks')[global('soul')];
-
-      if (cDeck.length) {
-        const builtDeck = [];
-        // Build deck options
-        cDeck.forEach(({ id, shiny }) => {
-          builtDeck.push({
-            id,
-            shiny,
-            action: 'remove',
-          });
-        });
-
-        // Compare the decks
-        const temp = deck.slice(0);
-        const removals = builtDeck.filter((card) => !temp.some((card2, ind) => {
-          const found = card2.id === card.id && (card.shiny && card2.shiny || true);
-          if (found) { // Remove the item
-            temp.splice(ind, 1);
-          }
-          return found;
-        }));
-
-        // Check what we need to do
-        if (!removals.length && !temp.length) { // There's nothing
-          debug('Finished');
-          deck = [];
-        } else if (removals.length > 13) { // Too much to do (Cards in deck + 1)
-          pending.push({
-            action: 'clear',
-          });
-        } else {
-          pending.push(...removals);
-          deck = temp;
-        }
-      }
-      pending.push(...deck);
-      if (!matchingArtifacts(i)) {
-        debug('Loading Artifacts');
-        pending.push({
-          action: 'clearArtifacts',
-        });
-        getArtifacts(i).forEach((id) => {
-          pending.push({
-            id,
-            action: 'addArtifact',
-          });
-        });
-      }
-      processNext();
-    }
-
-
-    function matchingArtifacts(id) {
-      const dArts = getArtifacts(id);
-      const cArts = global('decksArtifacts')[global('soul')];
-      return !dArts.length || dArts.length === cArts.length && cArts.every(({ id: id1 }) => !!~dArts.indexOf(id1));
+      fn.deckLoader.load({
+        cards: getDeck(i, true),
+        artifacts: getArtifacts(i),
+      });
     }
 
     function getKey(id) {
@@ -210,7 +104,10 @@ onPage('Decks', function deckStorage() {
       const deck = JSON.parse(localStorage.getItem(key));
       if (!deck) return null;
       if (trim) {
-        return deck.cards.filter(({ id, shiny }) => getCardData(id, shiny) !== null);
+        return deck.cards.filter(({ id, shiny }) => {
+          const data = getCardData(id, shiny);
+          return data && data.name;
+        });
       }
       return deck.cards;
     }
@@ -360,8 +257,8 @@ onPage('Decks', function deckStorage() {
     eventManager.on('Deck:Loaded', () => {
       loadStorage();
     });
-    clearDeck.on('click', () => {
-      pending = [];
+    $('#yourCardList > button[onclick="removeAllCards();"]').on('click', () => {
+      fn.deckLoader.clear();
     });
   });
 });

@@ -7,6 +7,7 @@
 1. Added a setting to switch minigame controls to WASD (disabled by default)
 1. Added a random avatar button
 1. Added setting to prefer shiny on import (enabled by default)
+1. Added "fill deck" button
 ### Fixes
 1. Fixed bug with base card skin setting
 ### Plugins
