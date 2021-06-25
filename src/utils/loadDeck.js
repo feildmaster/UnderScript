@@ -16,7 +16,7 @@ fn.deckLoader = (() => {
     if (!job) return;
 
     if (job.action === 'validate') {
-      loadDeck({ artifacts: job.artifacts, cards: job.cards });
+      loadDeck({ ...job, validate: true });
     } else if (job.action === 'clear') {
       global('removeAllCards')();
     } else if (job.action === 'remove') {
@@ -41,9 +41,10 @@ fn.deckLoader = (() => {
     }
   });
 
-  function loadDeck({ cards = [], artifacts = [] }) {
+  function loadDeck({ cards = [], artifacts = [], validate = false }) {
     clear();
-    if (cards.length > 25 || artifacts > 2) return;
+    if (cards.length > 25 || artifacts.length > 2) return;
+    let clearDeck = false;
     // Get current deck
     const cDeck = global('decks')[global('soul')];
     // Remove unwanted cards
@@ -62,6 +63,7 @@ fn.deckLoader = (() => {
       }));
 
       if (removals.length > 13 || removals.length === cDeck.length) { // Too much to do (Cards in deck + 1) OR removing all cards
+        clearDeck = true;
         pending.push({ action: 'clear' });
         pending.push(...cards); // Add everything
       } else { // Remove bad cards
@@ -72,8 +74,8 @@ fn.deckLoader = (() => {
       pending.push(...cards);
     }
     const cArts = global('decksArtifacts')[global('soul')];
-    if (!cArts.every((art) => artifacts.includes(art) || artifacts.includes(art.id))) { // Clear artifacts (if they don't match)
-      pending.push({ action: 'clearArtifacts' });
+    if (clearDeck || !cArts.every((art) => artifacts.includes(art) || artifacts.includes(art.id))) { // Clear artifacts (if they don't match)
+      if (!clearDeck) pending.push({ action: 'clearArtifacts' });
       artifacts.forEach((art) => {
         pending.push({
           id: art.id || art,
@@ -93,6 +95,7 @@ fn.deckLoader = (() => {
     }
     // Validate
     if (pending.length) {
+      if (validate) debug([...pending]);
       pending.push({
         action: 'validate',
         cards: cards.map(({ id, shiny }) => ({ id, shiny })),
