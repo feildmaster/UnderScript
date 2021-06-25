@@ -1,21 +1,13 @@
 # UnderScript Changelog
 
-## Version 0.45.1 (2021-06-16)
-1. Fixed import bug (what does testing mean?)
+## Version 0.46.0 (2021-06-)
 ### New Features
-1. Added ability to buy multiple packs
-1. Added confirmation for buying packs with UCP
-1. Added a setting to switch minigame controls to WASD (disabled by default)
-1. Added a random avatar button
-1. Added setting to prefer shiny on import (enabled by default)
-1. Added "fill deck" button
-1. Added confirmation for buying cosmetics
+1. Added modes to "Random fill deck" button
 ### Fixes
-1. Fixed bug with base card skin setting
-### Plugins
-1. Added API to buy multiple packs
-### Misc.
-1. Added a 5th slot to the storage rows
+1. Fixed deck storage loading (hopefully?)
+
+## Version 0.45.1 (2021-06-16)
+1. Fixed import bug (what does testing mean?)\
 
 ## Version 0.45.0 (2021-06-16)
 ### New Features

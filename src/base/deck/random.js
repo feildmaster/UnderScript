@@ -41,7 +41,7 @@ wrap(() => {
       return current;
     }
 
-    function fillDeck() {
+    function fillDeck(e) {
       const cDeck = global('decks')[global('soul')];
       const cArts = global('decksArtifacts')[global('soul')];
       const artifacts = buildArtifacts();
@@ -65,7 +65,7 @@ wrap(() => {
       cDeck.forEach(addCard);
 
       // Fill deck with cards
-      const pool = buildPool();
+      const pool = buildPool(getMode(e));
       while (cards.length < 25 && pool.length) {
         addCard(pool.shift());
       }
@@ -85,11 +85,17 @@ wrap(() => {
       button.addClass('btn btn-sm btn-primary');
       button.append(inner);
       button.click(fillDeck);
-      button.hover(hover.show('Randomly fill deck'), hover.hide);
+      button.hover(hover.show('Randomly fill deck<br>CTRL: Shiny mode<br>SHIFT: Non-shiny mode'), hover.hide);
       const clearDeck = $('#yourCardList > button:last');
       clearDeck.after(' ', button);
     });
   });
+
+  function getMode({ ctrlKey = false, shiftKey = false }) {
+    if (ctrlKey) return true;
+    if (shiftKey) return false;
+    return undefined;
+  }
 
   function random(array = []) {
     return array[fn.rand(array.length)];
