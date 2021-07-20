@@ -19,7 +19,14 @@ function VarStore(def) {
     return v !== def;
   }
 
-  return {
+  const ret = {
     get, set, peak, isSet,
   };
+
+  Object.defineProperty(ret, 'value', {
+    get,
+    set,
+  });
+
+  return ret;
 }
