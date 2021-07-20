@@ -30,3 +30,5 @@ function VarStore(def) {
 
   return ret;
 }
+
+api.module.utils.VarStore = Object.freeze(VarStore);

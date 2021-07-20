@@ -30,3 +30,6 @@ function globalSet(key, value, {
   }
   return original;
 }
+
+api.module.utils.global = global;
+api.module.utils.globalSet = globalSet;

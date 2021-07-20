@@ -4,3 +4,5 @@ fn.each = (o, f, t) => {
     f.call(t, o[x], x, o); // "this", value, key, object
   });
 };
+
+api.module.utils.each = fn.each;

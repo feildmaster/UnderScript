@@ -69,3 +69,5 @@ class Hotkey {
     return `${this.name || 'Hotkey'}: Bind{Keys:${JSON.stringify(this.keys)}, Clicks:${JSON.stringify(this.clicks)}}, FN:${this.fn !== null}`;
   }
 }
+
+api.module.utils.Hotkey = Hotkey;

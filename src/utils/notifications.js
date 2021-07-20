@@ -22,6 +22,7 @@ wrap(() => {
   }
 
   fn.notify = notify;
+  api.module.utils.notify = notify;
 
   if (isType() && !localStorage.getItem('underscript.notification.dismissPrompt')) {
     if (onPage('Play')) {

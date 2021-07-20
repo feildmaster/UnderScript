@@ -112,3 +112,18 @@ const cardHelper = wrap(() => {
     },
   };
 });
+
+api.module.utils.rarity = Object.freeze({
+  max(rarity = '') {
+    if (!rarity) throw new Error('Rarity required!');
+    return cardHelper.craft.max(rarity);
+  },
+  cost(rarity = '', shiny = false) {
+    if (!rarity) throw new Error('Rarity required!');
+    return cardHelper.craft.dustCost(rarity, shiny);
+  },
+  dust(rarity = '', shiny = false) {
+    if (!rarity) throw new Error('Rarity required!');
+    return cardHelper.craft.dustGain(rarity, shiny);
+  },
+});

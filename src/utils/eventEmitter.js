@@ -148,4 +148,5 @@ wrap(() => {
     return emitter;
   }
   fn.eventEmitter = eventEmitter;
+  api.module.utils.eventEmitter = eventEmitter;
 });

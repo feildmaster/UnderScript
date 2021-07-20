@@ -68,7 +68,7 @@ fn.infoToast = (arg, key, val) => {
   return fn.toast(fn.merge(defaults, arg, override));
 };
 
-fn.dismissable = ({ title, text, key, value = true }) => {
+fn.dismissable = ({ title, text, key, value = true, css = {} }) => {
   const buttons = {
     text: 'Dismiss',
     className: 'dismiss',
@@ -89,5 +89,6 @@ fn.dismissable = ({ title, text, key, value = true }) => {
     text,
     buttons,
     className: 'dismissable',
+    css,
   });
 };

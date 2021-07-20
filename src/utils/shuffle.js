@@ -5,3 +5,4 @@ fn.shuffle = (array = []) => {
   }
   return array;
 };
+api.module.utils.shuffle = fn.shuffle;

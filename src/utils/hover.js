@@ -103,3 +103,5 @@ const hover = wrap(() => {
     new: tip,
   };
 });
+
+api.module.utils.hover = hover;
