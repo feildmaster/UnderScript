@@ -28,6 +28,13 @@ wrap(() => {
     refresh: () => onPage(''),
     category: 'Home',
   });
+  const card = settings.register({
+    name: 'Enable new Card toast',
+    key: 'underscript.toast.cards',
+    default: true,
+    refresh: () => onPage(''),
+    category: 'Home',
+  });
 
   onPage('', () => {
     eventManager.on(':loaded', function toasts() {
@@ -35,13 +42,15 @@ wrap(() => {
       if (skin.value()) toast('skins');
       if (emotes.value()) toast('emotes');
       if (quest.value()) toast('quest');
+      if (card.value()) toast('card');
     });
   });
 
   function toast(type) {
     const names = [];
     const links = [];
-    [...document.querySelectorAll(`p a[href="${selector(type)}"] img`)].forEach((el) => {
+    const sType = selector(type);
+    [...document.querySelectorAll(`p a[href="${sType}"] img, p img[class*="${sType}"]`)].forEach((el) => {
       names.push(imageName(el.src));
       links.push(el.parentElement.outerHTML);
       el.parentElement.remove();
@@ -52,17 +61,18 @@ wrap(() => {
     if (settings.value(key)) return;
     fn.dismissable({
       key,
-      text: links.join('<br>'),
-      title: title(type),
+      text: links.join('<br>').replace(/\n/g, ''),
+      title: title(type, links.length > 1),
     });
   }
 
-  function title(type) {
+  function title(type, plural = false) {
     switch (type) {
       case 'bundle': return 'New Bundle Available';
-      case 'skins': return 'New skins / avatars !';
+      case 'skins': return 'New Skins or Avatars';
       case 'emotes': return 'New Emotes Available';
       case 'quest': return 'New Quest Pass';
+      case 'card': return `New Card${plural ? 's' : ''}`;
       default: throw new Error(`Unknown Type: ${type}`);
     }
   }
@@ -73,6 +83,7 @@ wrap(() => {
       case 'skins': return 'CardSkinsShop';
       case 'emotes': return 'CosmeticsShop';
       case 'quest': return 'Quests';
+      case 'card': return 'card-preview';
       default: throw new Error(`Unknown Type: ${type}`);
     }
   }
