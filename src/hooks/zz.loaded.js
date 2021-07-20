@@ -19,5 +19,5 @@ eventManager.on(':ready', () => {
 });
 
 if (eventManager.singleton.emit(':ready').ran) {
-  api.register('ready', true);
+  api.finalize();
 }
