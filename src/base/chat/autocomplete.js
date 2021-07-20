@@ -172,10 +172,12 @@ wrap(function setup() {
   eventManager.on('Chat:getMessage', ({ room, chatMessage }) => {
     add(fn.user.name(JSON.parse(chatMessage).user), lists[room]);
   });
-  eventManager.on(':loaded', () => {
-    globalSet('autoComplete', (...args) => {
+  eventManager.on('ChatDetected', () => {
+    globalSet('autoComplete', function autoComplete(...args) {
       if (setting.value()) return;
       this.super(...args);
+    }, {
+      throws: false,
     });
   });
 });
