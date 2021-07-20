@@ -24,8 +24,13 @@ fn.user = wrap(function fnUser() {
   }
 
   function isPriority(user, priority) {
+    if (!user || !user.mainGroup || typeof user.mainGroup.priority !== 'number') throw new Error('Invalid user');
     return user.mainGroup.priority <= priority;
   }
+
+  const user = api.module.user;
+  user.isMod = isMod;
+  user.isStaff = isStaff;
 
   return {
     self,
