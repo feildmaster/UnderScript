@@ -17,11 +17,7 @@ onPage('Play', () => {
     globalSet('onMessage', function onMessage(event) {
       const data = JSON.parse(event.data);
       eventManager.emit(`pre:${data.action}`, data);
-      try {
-        this.super(event);
-      } catch (e) {
-        console.error(e); // eslint-disable-line no-console
-      }
+      wrap(() => this.super(event));
       eventManager.emit('Play:Message', data);
       eventManager.emit(data.action, data);
     });

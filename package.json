@@ -39,6 +39,7 @@
     "gulp-insert": "^0.5.0",
     "gulp-rename": "^1.4.0",
     "gulp-replace": "^1.0.0",
+    "parcel": "^2.0.0-nightly.750",
     "replace": "^1.2.1",
     "rollup": "^2.35.1",
     "rollup-plugin-cleanup": "^3.2.1"

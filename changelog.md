@@ -3,8 +3,14 @@
 ## Version 0.46.0 (2021-06-)
 ### New Features
 1. Added modes to "Random fill deck" button
+1. Added "new card" toast
 ### Fixes
-1. Fixed deck storage loading (hopefully?)
+1. Fixed deck storage loading
+1. Fixed chat not showing up with certain settings
+### Plugins
+1. Expose `underscript.utils`
+1. Expose `underscript.lib`
+1. BootstrapDialog events `BootstrapDialog:create|show|shown|hide|hidden`
 
 ## Version 0.45.1 (2021-06-16)
 1. Fixed import bug (what does testing mean?)\

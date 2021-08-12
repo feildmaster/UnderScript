@@ -3,7 +3,7 @@ wrap(() => {
     const original = args[`on${key}`];
     function wrapper(dialog) {
       if (typeof original === 'function') {
-        original(dialog);
+        wrap(() => original(dialog), `BootstrapDialog:on${key}`);
       }
       eventManager.emit(`BootstrapDialog:${key}`, dialog);
     }

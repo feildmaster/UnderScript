@@ -6,10 +6,8 @@ wrap(() => {
     eventManager.on(':loaded', () => {
       function callGameHooks(data, original) {
         const run = !eventManager.cancelable.emit('PreGameEvent', data).canceled;
-        try {
-          if (run) original(data);
-        } catch (e) {
-          console.error(e); // eslint-disable-line no-console
+        if (run) {
+          wrap(() => original(data));
         }
         eventManager.emit('GameEvent', data);
       }

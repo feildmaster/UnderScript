@@ -472,16 +472,14 @@ const settings = wrap(() => {
   }
 
   function importSettings(string) {
-    try {
+    wrap(() => {
       // TODO: Call setting events?
       const parsed = JSON.parse(atob(string));
       fn.each(parsed, (val, key) => {
         console.log(key, val);
         localStorage.setItem(key, val);
       });
-    } catch (e) {
-      console.error(e);
-    }
+    });
   }
 
   // Add our button last
@@ -498,6 +496,7 @@ const settings = wrap(() => {
         if (!this.enabled()) {
           return 'Settings temporarily unavailable';
         }
+        return undefined;
       },
     });
   });
