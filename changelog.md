@@ -1,6 +1,6 @@
 # UnderScript Changelog
 
-## Version 0.46.0 (2021-06-)
+## Version 0.46.1 (2021-08-12)
 ### New Features
 1. Added modes to "Random fill deck" button
 1. Added "new card" toast
