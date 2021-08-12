@@ -29,6 +29,10 @@ wrap(function streamPM() {
 
     this.canceled = true; // Cancel the event from going through
 
+    const privateChats = global('privateChats');
+    const history = privateChats[userId] || [];
+    history.push(message);
+
     const userId = user.id;
     if (userId === global('selfId')) return; // ignore automated reply
 
