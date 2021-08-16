@@ -74,13 +74,41 @@ wrap(() => {
       return false;
     }
     latest.set(data);
+    const path = `underscript@${data.version}/${data.unpkg}`;
     updateToast = fn.toast({
       title: '[UnderScript] Update Available!',
       text: `Version ${data.version}.`,
-      footer: 'Click to update',
+      className: 'dismissable',
+      buttons: [{
+        text: 'Update',
+        className: 'dismiss',
+        css: {
+          border: '',
+          height: '',
+          background: '',
+          'font-size': '',
+          margin: '',
+          'border-radius': '',
+        },
+      }, {
+        text: 'Update (Alt)',
+        className: 'dismiss',
+        css: {
+          border: '',
+          height: '',
+          background: '',
+          'font-size': '',
+          margin: '',
+          'border-radius': '',
+        },
+        onclick: (e) => {
+          location.href = `https://cdn.jsdelivr.net/npm/${path}`;
+          this.close('update');
+        },
+      }],
       onClose(reason) {
         if (reason !== 'dismissed') return;
-        location.href = `${baseURL}/underscript@${data.version}/${data.unpkg}`;
+        location.href = `${baseURL}/${path}`;
       },
     });
     return true;
