@@ -1,6 +1,13 @@
 # UnderScript Changelog
 
+## Version 0.46.2 (2021-08-16)
+1. Fixed minimizing chat
+1. Added "alt" update button on update toast
+
 ## Version 0.46.1 (2021-08-12)
+1. Fixed script not working
+
+## Version 0.46.0 (2021-08-12)
 ### New Features
 1. Added modes to "Random fill deck" button
 1. Added "new card" toast
