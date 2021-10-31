@@ -3,7 +3,7 @@ wrap(() => {
     name: 'Persist Arena (Background and Music)',
     key: 'underscript.persist.bgm',
     default: true,
-    refresh: window.gameId !== undefined,
+    refresh: () => window.gameId !== undefined,
     page: 'Game',
   });
 
