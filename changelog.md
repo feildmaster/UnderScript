@@ -1,5 +1,13 @@
 # UnderScript Changelog
 
+## Version 0.46.4 (2021-10-31)
+1. Fixed streamer mode chat
+1. Sandboxed `underscript.addStyle`
+1. Fixed randomly broken setting
+
+## Version 0.46.3 (2021-10-31)
+1. Skipped on accident
+
 ## Version 0.46.2 (2021-08-16)
 1. Fixed minimizing chat
 1. Added "alt" update button on update toast
