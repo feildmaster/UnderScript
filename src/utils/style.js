@@ -1,17 +1,20 @@
 // Custom CSS classes are great.
-const style = wrap(() => {
+fn.style = () => {
   const el = document.createElement('style');
-  eventManager.on(':loaded', function appendStyle() {
+  function appendStyle() {
+    if (el.parentElement) return;
     document.head.append(el);
-  });
+  }
+  eventManager.on(':loaded', appendStyle);
 
   function add(...styles) {
+    appendStyle();
     return wrapper(append(styles));
   }
 
   function append(styles = [], nodes = []) {
-    styles.forEach((newStyle) => {
-      const node = document.createTextNode(newStyle);
+    styles.forEach((style) => {
+      const node = document.createTextNode(style);
       nodes.push(node);
       el.appendChild(node);
     });
@@ -35,9 +38,19 @@ const style = wrap(() => {
     };
   }
 
-  api.register('addStyle', add);
-
   return {
     add,
   };
+};
+
+const style = fn.style();
+function safeStyle() {
+  if (!safeStyle.style) {
+    safeStyle.style = fn.style();
+  }
+  return safeStyle.style;
+}
+api.register('addStyle', (...rest) => {
+  console.warn('addStyle is deprecated. Please use plugin.addStyle');
+  return safeStyle().add(...rest);
 });
