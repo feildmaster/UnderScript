@@ -1,7 +1,14 @@
 wrap(() => {
+  const options = {
+    cancelable: false,
+    singleton: false,
+    async: false,
+  };
+
   const name = 'events';
   function mod(plugin) {
     const obj = {
+      ...eventManager,
       on(event, fn) {
         if (typeof fn !== 'function') throw new Error('Must pass a function');
 
@@ -16,12 +23,23 @@ wrap(() => {
           }
         }
 
-        eventManager.on(event, pluginListener);
+        eventManager.on.call(obj, event, pluginListener);
       },
-      emit(event, data, cancelable = false) {
-        return eventManager.emit(event, data, cancelable);
+      emit(...args) {
+        return eventManager.emit(...args);
       },
     };
+
+    Object.keys(options).forEach((key) => {
+      Object.defineProperty(obj.emit, key, {
+        get: () => {
+          // Toggle the event manager
+          eventManager[key]; // eslint-disable-line no-unused-expressions
+          // Return our object
+          return obj.emit;
+        },
+      });
+    });
 
     return Object.freeze(obj);
   }

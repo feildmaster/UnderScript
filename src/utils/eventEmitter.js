@@ -131,7 +131,6 @@ wrap(() => {
         }
         return emit(event, singletonEvents[event] || events[event], ...data);
       },
-      emitJSON: (event, data, cancelable) => emitter.emit(event, JSON.parse(data), cancelable),
     };
 
     Object.keys(options).forEach((key) => {
