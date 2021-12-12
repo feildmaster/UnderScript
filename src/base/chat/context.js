@@ -98,7 +98,6 @@ eventManager.on('ChatDetected', () => {
           if (disabled) return; // If it's disabled it's disabled...
           const key = `${ignorePrefix}${id}`;
           if (!settings.value(key)) {
-            localStorage.setItem(key, name);
             fn.toast({
               text: `You've ignored ${name}`,
               css: {
@@ -122,7 +121,7 @@ eventManager.on('ChatDetected', () => {
               }],
               className: 'dismissable',
             });
-            fn.ignoreUser(name, key);
+            fn.ignoreUser(name, key, true);
           } else {
             settings.remove(key);
           }

@@ -7,7 +7,7 @@ wrap(() => {
     if (!name || !id) throw new Error('Invalid user');
     if (isIgnored(user)) return;
     const key = `${ignorePrefix}${id}`;
-    fn.ignoreUser(name, key);
+    fn.ignoreUser(name, key, true);
   }
 
   function unignore(user) {
