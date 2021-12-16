@@ -1,6 +1,6 @@
 # UnderScript Changelog
 
-## Version 0.47.0 (2021-12-12)
+## Version 0.47.1 (2021-12-16)
 ### New Features
 1. New display for underscript settings
 1. Added audio settings
