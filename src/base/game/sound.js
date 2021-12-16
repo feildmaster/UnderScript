@@ -1,5 +1,6 @@
 wrap(() => {
   const baseVolumeSettings = { type: 'slider', page: 'Audio', max: 0.5, step: 0.01, default: 0.2, reset: true };
+  let active = false;
 
   const bgmEnabled = settings.register({
     name: 'Enable BGM',
@@ -7,6 +8,14 @@ wrap(() => {
     default: () => !settings.value('gameMusicDisabled'),
     page: 'Audio',
     note: 'This setting overrides the game setting!',
+    onChange(val) {
+      if (!active) return;
+      if (val) {
+        overrideMusic(global('numBackground'));
+      } else {
+        pauseMusic();
+      }
+    },
   });
   const bgmVolume = settings.register({
     ...baseVolumeSettings,
@@ -114,6 +123,7 @@ wrap(() => {
   }
 
   eventManager.on('connect', () => {
+    active = true;
     // Override sound functions
     globalSet('playMusic', overrideResult);
     globalSet('playBackgroundMusic', overrideMusic);
