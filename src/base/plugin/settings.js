@@ -10,8 +10,7 @@ wrap(() => {
         ...data,
         key: `${prefix}.${data.key}`,
         name: data.name || data.key,
-        page: 'Plugins',
-        category: plugin.name,
+        page: plugin,
       };
       return settings.register(setting);
     };

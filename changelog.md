@@ -2,11 +2,13 @@
 
 ## Version 0.47.0-1 (2021-12-12)
 ### New Features
+1. New display for underscript settings
 1. Added audio settings
 1. Game errors now show a notification instead of a window
 ### Plugins
 1. Expose more `events` functions
 1. Fix `user.ignore()`
+1. Added `setting.show()` to open the settings window
 
 ## Version 0.46.4 (2021-10-31)
 1. Fixed streamer mode chat

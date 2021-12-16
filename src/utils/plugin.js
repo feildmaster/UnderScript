@@ -16,7 +16,7 @@ wrap(() => {
 
     modules.forEach(({ name: prop, mod }) => {
       // eslint-disable-next-line no-prototype-builtins
-      if (methods.hasOwnProperty(prop)) {
+      if (typeof methods[prop] !== 'undefined') {
         console.error(`Skipping "${prop}": Already exists`);
         return;
       }

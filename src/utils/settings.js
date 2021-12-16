@@ -5,6 +5,7 @@ const settings = wrap(() => {
     '.flex-start > label + * { margin-left: 7px; }',
     '.flex-start > input { margin-right: 4px; }',
     '.mono .modal-body { font-family: monospace; max-height: 500px; overflow-y: auto; }',
+    '.underscript-dialog .bootstrap-dialog-message { display: flex; }',
     '.underscript-dialog .remove { display: none; }',
     '.underscript-dialog .remove:checked + label:before { content: "× "; color: red; }',
     // '.underscript-dialog .modal-content { background: #000 url(../images/backgrounds/2.png) -380px -135px; }',
@@ -22,17 +23,54 @@ const settings = wrap(() => {
     // key: setting
   };
   const events = fn.eventEmitter();
-  const configs = {};
+  const configs = new Map();
   let dialog = null;
 
-  function init(page) {
-    if (!Object.prototype.hasOwnProperty.call(configs, page)) {
-      configs[page] = {
-        name: page === 'main' ? 'UnderScript' : page,
-        settings: {},
-      };
+  function getScreen() {
+    if (getScreen.screen) {
+      return getScreen.screen;
     }
-    return configs[page];
+    const screen = fn.tabManager();
+    screen.settings({ left: true });
+
+    screen.plugins = fn.tabManager();
+    const tab = screen.addTab('Plugins', screen.plugins);
+    tab.setEnd(true); // Plugins go to the bottom of the list
+    configs.set('Plugins', {
+      page: tab,
+    });
+
+    getScreen.screen = screen;
+    return screen;
+  }
+
+  function getPage(key) {
+    const config = configs.get(key);
+    if (config && config.page) {
+      return config.page;
+    }
+
+    function builder() {
+      return getMessage(key)[0];
+    }
+    const screen = key.name ? getScreen().plugins : getScreen();
+    const name = key.name || key;
+    const tab = screen.addTab(name, builder);
+    return tab;
+  }
+
+  function init(page) {
+    if (!configs.has(page)) {
+      const name = page === 'main' ? 'UnderScript' : page.name || page;
+      const data = {
+        name,
+        settings: {},
+        page: getPage(page),
+      };
+      data.page.setName(name);
+      configs.set(page, data);
+    }
+    return configs.get(page);
   }
 
   function createArrayItem(text, skey) {
@@ -190,10 +228,9 @@ const settings = wrap(() => {
     return ret;
   }
 
-  function getMessage(d) {
-    const page = d.getData('page');
+  function getMessage(page) {
     const container = $('<div>');
-    const pageSettings = configs[page].settings;
+    const pageSettings = configs.get(page).settings;
     const categories = {};
     function createCategory(name) {
       const set = $('<fieldset>').css({
@@ -335,37 +372,28 @@ const settings = wrap(() => {
         events.on(setting.key, func);
       },
       disabled: () => !!setting.disabled,
+      show: () => open(page, setting.key),
     };
   }
 
-  function buttons(page) {
-    const btns = [];
-    fn.each(configs, ({ name }, key) => {
-      if (key === page) return;
-      btns.push({
-        label: name,
-        action: (diag) => {
-          diag.close();
-          open(key);
-        },
-      });
-    });
-    btns.push({
-      label: 'Close',
-      action: close,
-    });
-    return btns;
-  }
-
   function open(page = 'main') {
-    if (typeof page !== 'string') throw new Error(`Attempted to open ${typeof page}`);
-    const displayName = configs[page].name;
+    const test = page.name || page;
+    if (typeof test !== 'string') throw new Error(`Attempted to open unknown page, ${test} (${typeof page})`);
+    getPage(page).setActive();
+    if (page.name) {
+      getPage('Plugins').setActive();
+    }
     global('BootstrapDialog').show({
-      title: `UnderScript Configuration${page !== 'main' ? `: ${displayName}` : ''}`,
-      message: getMessage,
+      title: `UnderScript Configuration`,
+      // size: 'size-wide',
+      message() {
+        return getScreen().render(true);
+      },
       cssClass: 'mono underscript-dialog',
-      data: { page },
-      buttons: buttons(page),
+      buttons: [{
+        label: 'Close',
+        action: close,
+      }],
       onshown: (diag) => {
         dialog = diag;
       },
@@ -378,6 +406,7 @@ const settings = wrap(() => {
   function setDisplayName(name, page = 'main') {
     if (name) {
       init(page).name = name;
+      getPage(page).setName(name);
       return true;
     }
     return false;
@@ -433,7 +462,7 @@ const settings = wrap(() => {
     const { key, page } = setting;
     localStorage.removeItem(key);
     // Remove references
-    delete configs[page].settings[key];
+    delete configs.get(page).settings[key];
     delete settingReg[key];
     // If we're on the setting screen, remove the setting
     if (el) {
@@ -476,11 +505,14 @@ const settings = wrap(() => {
       // TODO: Call setting events?
       const parsed = JSON.parse(atob(string));
       fn.each(parsed, (val, key) => {
-        console.log(key, val);
         localStorage.setItem(key, val);
       });
     });
   }
+
+  eventManager.on(':utils', () => {
+    init('main');
+  });
 
   // Add our button last
   eventManager.on(':ready', () => {
@@ -500,9 +532,6 @@ const settings = wrap(() => {
       },
     });
   });
-
-  // Main page is always first
-  init('main');
 
   return {
     open,
