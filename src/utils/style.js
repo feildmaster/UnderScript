@@ -50,7 +50,3 @@ function safeStyle() {
   }
   return safeStyle.style;
 }
-api.register('addStyle', (...rest) => {
-  console.warn('addStyle is deprecated. Please use plugin.addStyle');
-  return safeStyle().add(...rest);
-});
