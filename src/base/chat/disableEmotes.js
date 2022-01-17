@@ -1,17 +1,40 @@
-wrap(function simpleText() {
-  const setting = settings.register({
-    name: 'Replace emotes with text',
-    key: 'underscript.emotes.simple',
+wrap(function disableEmotes() {
+  const baseSetting = {
+    key: 'underscript.emotes.disable',
     page: 'Chat',
-    refresh: () => setting.value(),
-  });
+    category: 'Emotes',
+  };
+  const originalEmotes = [{
+    id: 0,
+    image: '',
+    name: '',
+    ucpCost: 0,
+    code: '::',
+  }];
+  originalEmotes.shift();
 
-  function replace() {
-    if (!setting.value()) return;
-    $('.chat-messages img[title$=":"]').replaceWith(function rep() {
-      return this.title.substring(this.title.indexOf(':'));
+  function init() {
+    originalEmotes.push(...global('chatEmotes'));
+    makeSettings();
+    updateEmotes();
+  }
+
+  function makeSettings() {
+    originalEmotes.forEach((emote) => {
+      const setting = {
+        ...baseSetting,
+        name: `<img height="32px" src="images/emotes/${emote.image}.png"/> Disable ${emote.name}`,
+        onChange: updateEmotes,
+      };
+      setting.key += `.${emote.id}`;
+      settings.register(setting);
     });
   }
 
-  eventManager.on('Chat:getHistory Chat:getMessage', replace);
+  function updateEmotes() {
+    const filtered = originalEmotes.filter(({ id }) => !settings.value(`${baseSetting.key}.${id}`));
+    globalSet('chatEmotes', filtered);
+  }
+
+  eventManager.on('Chat:Connected', init);
 });
