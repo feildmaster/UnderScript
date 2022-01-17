@@ -17,10 +17,11 @@ wrap(() => {
       state: 'waiting', // waiting, processing, canceled
       pack: '',
       original: 0,
-      total: 0,
-      remaining: 0,
-      pending: 0, // How many cards are being waited on
+      total: 0, // Total packs to open
+      remaining: 0, // How many packs still need to be opened
+      pending: 0, // How many packs are being waited on
       pingTimeout: 0,
+      errors: 0,
     };
     const events = fn.eventEmitter();
 
@@ -46,6 +47,7 @@ wrap(() => {
     }
 
     function open(pack, count) {
+      status.pending = 0;
       const openPack = global('openPack');
       // const amt = Math.min(step, count);
       for (let i = 0; i < count; i++) {
@@ -65,7 +67,7 @@ wrap(() => {
       count: amt = 0,
       offset = false,
     }) => {
-      if (status.state !== 'waiting') return;
+      if (openingPacks()) return;
       results.packs = 0;
       results.cards = [];
       status.state = 'processing';
@@ -73,6 +75,7 @@ wrap(() => {
       status.total = amt;
       status.remaining = amt - offset;
       status.pending = 0;
+      status.errors = 0;
       if (!offset) {
         events.emit('next');
       }
@@ -217,20 +220,40 @@ wrap(() => {
     });
 
     events.on('error', (err) => {
-      // TODO: Error occurred
+      status.pending -= 1;
+      status.errors += 1;
+      // Retry once for every pack
+      if (status.errors <= status.total - results.packs) {
+        status.remaining += 1;
+      }
     });
 
     let autoOpen = false;
 
+    eventManager.on('BootstrapDialog:shown', function cancel(dialog) {
+      if (openingPacks() && dialog.getTitle() === $.i18n('dialog-error')) {
+        dialog.close();
+      }
+    });
+
     eventManager.on('jQuery', () => {
+      globalSet('translateFromServerJson', function override(message) {
+        try {
+          return this.super(message);
+        } catch (_) {
+          return message;
+        }
+      });
+
       $(document).ajaxComplete((event, xhr, settings) => {
         if (settings.url !== 'PacksConfig' || !settings.data) return;
         const data = xhr.responseJSON;
-        if (data.action !== 'getCards') return;
+        const error = data.action === 'getError';
+        if (data.action !== 'getCards' && !error) return;
         if (openingPacks()) {
           if (data.cards) {
             events.emit('pack', JSON.parse(data.cards));
-          } else if (data.status || data.action === 'getError') {
+          } else if (data.status || error) {
             events.emit('error', data.message);
           }
         } else if (autoOpen && !data.status) {
