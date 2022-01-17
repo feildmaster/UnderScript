@@ -27,15 +27,17 @@ wrap(() => {
         async,
       } = reset();
 
+      // If this event has run previously, don't run it again
+      if (singletonEvents[event]) {
+        const ret = {
+          ran: false,
+          canceled: false,
+        };
+        if (async) return Promise.resolve(ret);
+        return ret;
+      }
+
       if (singleton) { // Need to save even if we don't run
-        if (singletonEvents[event]) {
-          const ret = {
-            ran: false,
-            canceled: false,
-          };
-          if (async) return Promise.resolve(ret);
-          return ret;
-        }
         singletonEvents[event] = {
           data,
         };
@@ -124,13 +126,7 @@ wrap(() => {
         }
         return emitter.on(event, wrapper);
       },
-      emit: (event, ...data) => {
-        if (data.length === 2 && data[1] === true) {
-          console.error('Deprecation Warning: emit argument "cancelable" is deprecated. Use `.cancelable.emit()` instead!');
-          options.cancelable = true;
-        }
-        return emit(event, singletonEvents[event] || events[event], ...data);
-      },
+      emit: (event, ...data) => emit(event, singletonEvents[event] || events[event], ...data),
     };
 
     Object.keys(options).forEach((key) => {
