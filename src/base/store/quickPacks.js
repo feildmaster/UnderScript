@@ -37,7 +37,7 @@ wrap(() => {
         }
         setupPing(false);
         events.emit('next');
-      }, 1000);
+      }, 200);
     }
 
     function clearPing(safe = true) {
