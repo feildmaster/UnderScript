@@ -24,7 +24,13 @@ wrap(() => {
 
   function get(target, prop, R) {
     if (prop === 'show') {
-      return (o = {}) => new R(o).open();
+      return (o = {}) => {
+        const ret = new R(o);
+        if (eventManager.cancelable.emit('BootstrapDialog:preshow', ret).canceled) {
+          return ret;
+        }
+        return ret.open();
+      };
     }
     return Reflect.get(target, prop, R);
   }

@@ -214,7 +214,7 @@ wrap(() => {
     });
 
     events.on('cancel', () => { // Sets the canceled flag
-      if (status.state !== 'waiting') {
+      if (openingPacks()) {
         status.state = 'canceled';
       }
     });
@@ -230,9 +230,9 @@ wrap(() => {
 
     let autoOpen = false;
 
-    eventManager.on('BootstrapDialog:shown', function cancel(dialog) {
+    eventManager.on('BootstrapDialog:preshow', function cancel(dialog) {
       if (openingPacks() && dialog.getTitle() === $.i18n('dialog-error')) {
-        dialog.close();
+        this.canceled = true;
       }
     });
 
