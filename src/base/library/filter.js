@@ -2,30 +2,37 @@ wrap(function filter() {
   const crafting = onPage('Crafting');
   const decks = onPage('Decks');
 
-  const setting = settings.register({
-    name: 'Disable filter',
-    key: 'underscript.deck.filter.disable',
+  const base = {
     onChange: applyLook,
     category: 'Filter',
     page: 'Library',
+  };
+
+  const setting = settings.register({
+    ...base,
+    name: 'Disable filter',
+    key: 'underscript.deck.filter.disable',
   });
   const splitBaseGen = settings.register({
+    ...base,
     name: 'Split Based and Token',
     key: 'underscript.deck.filter.split',
     default: true,
-    onChange: applyLook,
-    category: 'Filter',
-    page: 'Library',
   });
 
   const shiny = settings.register({
+    ...base,
     name: 'Merge Shiny Cards',
     key: 'underscript.deck.filter.shiny',
     options: ['Never (default)', 'Deck', 'Always'],
     default: 'Deck',
-    onChange: applyLook,
-    category: 'Filter',
-    page: 'Library',
+  });
+
+  const tribe = settings.register({
+    ...base,
+    name: 'Tribe button',
+    key: 'underscript.deck.filter.tribe',
+    hidden: true,
   });
 
   if (!(decks || crafting)) return;
@@ -82,6 +89,7 @@ wrap(function filter() {
       // Type
       // Family
       // Search
+      // Owned/Unowned
       // fall back for now
       return removed;
     });
