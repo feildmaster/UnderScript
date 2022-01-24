@@ -2,11 +2,11 @@ console.log(`UnderScript(v${scriptVersion}): Loaded`); // eslint-disable-line no
 eventManager.on(':ready', () => {
   function loaded() {
     eventManager.singleton.emit(':loaded');
-    eventManager.singleton.emit(`:${fn.getPageName()}:loaded`);
+    eventManager.singleton.emit(`:loaded:${fn.getPageName()}`);
   }
   function done() {
     eventManager.singleton.emit(':load');
-    eventManager.singleton.emit(`:${fn.getPageName()}:load`);
+    eventManager.singleton.emit(`:load:${fn.getPageName()}`);
   }
 
   document.addEventListener('DOMContentLoaded', loaded);

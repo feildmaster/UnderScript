@@ -1,7 +1,7 @@
 eventManager.on(':loaded', () => {
   function unload() {
     eventManager.emit(':unload');
-    eventManager.emit(`:${fn.getPageName()}:unload`);
+    eventManager.emit(`:unload:${fn.getPageName()}`);
   }
   function last() {
     const chat = window.socketChat;

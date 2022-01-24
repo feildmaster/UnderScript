@@ -1,5 +1,18 @@
 # UnderScript Changelog
 
+## Version 0.48.0 (2022-01-23)
+### New Features
+1. Added settings to disable/hide individual emotes you own
+1. Added a few new events
+  <extended>
+  1. :loaded:PAGE
+  1. :load:PAGE
+  1. :unload:PAGE
+  </extended>
+### Fixes
+1. Fixed singletons being callable twice
+1. Improved pack opening algorithm
+
 ## Version 0.47.1 (2021-12-16)
 ### New Features
 1. New display for underscript settings
