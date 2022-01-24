@@ -1,9 +1,5 @@
 wrap(() => {
-  const options = {
-    cancelable: false,
-    singleton: false,
-    async: false,
-  };
+  const options = ['cancelable', 'canceled', 'singleton', 'async'];
 
   const name = 'events';
   function mod(plugin) {
@@ -30,7 +26,7 @@ wrap(() => {
       },
     };
 
-    Object.keys(options).forEach((key) => {
+    options.forEach((key) => {
       Object.defineProperty(obj.emit, key, {
         get: () => {
           // Toggle the event manager

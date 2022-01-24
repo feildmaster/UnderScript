@@ -4,17 +4,20 @@ wrap(() => {
       // eventName: [events]
     };
     const singletonEvents = {
-      // eventName: { data }
+      // eventName: { data, async }
     };
     const options = {
       cancelable: false,
+      canceled: false,
       singleton: false,
       async: false,
     };
+    options.cancelable = undefined;
 
     function reset() {
       const ret = { ...options };
-      options.cancelable = false;
+      options.cancelable = undefined;
+      options.canceled = false;
       options.singleton = false;
       options.async = false;
       return ret;
@@ -22,13 +25,16 @@ wrap(() => {
 
     function emit(event, e, ...data) {
       const {
-        cancelable,
+        canceled: canceledState,
+        cancelable = canceledState,
         singleton,
         async,
       } = reset();
 
+      const delayed = e !== events[event];
+
       // If this event has run previously, don't run it again
-      if (singletonEvents[event]) {
+      if (singletonEvents[event] && !delayed) {
         const ret = {
           ran: false,
           canceled: false,
@@ -40,11 +46,12 @@ wrap(() => {
       if (singleton) { // Need to save even if we don't run
         singletonEvents[event] = {
           data,
+          async,
         };
       }
 
       let ran = false;
-      let canceled = false;
+      let canceled = canceledState;
       const promises = [];
 
       if (Array.isArray(e) && e.length) {
@@ -52,10 +59,11 @@ wrap(() => {
         [...e].forEach((ev) => {
           // Should we stop processing on cancel? Maybe.
           try {
-            const meta = { event, cancelable, canceled };
+            const meta = { event, cancelable, canceled, async, delayed };
             const ret = ev.call(meta, ...data);
             if (async && ret !== undefined) {
               promises.push(Promise.resolve(ret)
+                .then(() => canceled = !!meta.canceled)
                 .catch((err) => {
                   console.error(`Error occurred while parsing (async) event: ${ev.displayName || ev.name || 'unnamed'}(${event})`, err, ...data);
                 }));
@@ -98,6 +106,7 @@ wrap(() => {
           if (singleton) {
             sleep().then(() => {
               reset(); // Make sure nothing is set!
+              options.async = singleton.async;
               emit(e, [fn], singleton.data);
             });
           } else {

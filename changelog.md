@@ -9,9 +9,12 @@
   1. :load:PAGE
   1. :unload:PAGE
   </extended>
+1. Added `async` and `delayed` to event meta
+1. Added `canceled` to event emitter<extended>: sets initial canceled state to true</extended>
 ### Fixes
 1. Fixed singletons being callable twice
 1. Improved pack opening algorithm
+1. Fixed a few issues with event emitter
 
 ## Version 0.47.1 (2021-12-16)
 ### New Features
