@@ -1,5 +1,5 @@
-onPage('GamesList', function customGame() {
-  eventManager.on(':loaded', () => {
+wrap(function customGame() {
+  eventManager.on(':loaded:GamesList', () => {
     eventManager.singleton.emit('enterCustom');
     const socket = global('socket');
     const oHandler = socket.onmessage;

@@ -1,6 +1,5 @@
 wrap(() => {
-  if (!onPage('Translate')) return;
-  eventManager.on(':loaded', () => {
+  eventManager.on(':loaded:Translate', () => {
     loadLanguages();
 
     globalSet('createTranslator', newTranslator);

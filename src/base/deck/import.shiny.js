@@ -14,9 +14,7 @@ wrap(() => {
     return this.super(idCard, list);
   }
 
-  onPage('Decks', () => {
-    eventManager.on(':loaded', () => {
-      globalSet('getCardInList', override);
-    });
+  eventManager.on(':loaded:Decks', () => {
+    globalSet('getCardInList', override);
   });
 });

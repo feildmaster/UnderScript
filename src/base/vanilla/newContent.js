@@ -36,14 +36,12 @@ wrap(() => {
     category: 'Home',
   });
 
-  onPage('', () => {
-    eventManager.on(':loaded', function toasts() {
-      if (bundle.value()) toast('bundle');
-      if (skin.value()) toast('skins');
-      if (emotes.value()) toast('emotes');
-      if (quest.value()) toast('quest');
-      if (card.value()) toast('card');
-    });
+  eventManager.on(':loaded:', function toasts() {
+    if (bundle.value()) toast('bundle');
+    if (skin.value()) toast('skins');
+    if (emotes.value()) toast('emotes');
+    if (quest.value()) toast('quest');
+    if (card.value()) toast('card');
   });
 
   function toast(type) {

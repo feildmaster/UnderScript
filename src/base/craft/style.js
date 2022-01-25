@@ -1,6 +1,5 @@
 wrap(() => {
-  if (!onPage('Decks')) return;
-  eventManager.on(':loaded', () => {
+  eventManager.on(':loaded:Decks', () => {
     const collection = $('#collection');
     collection.css({
       width: '717px',

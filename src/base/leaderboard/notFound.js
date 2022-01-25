@@ -1,6 +1,6 @@
-onPage('leaderboard', () => {
+wrap(() => {
   const toasts = {};
-  eventManager.on(':loaded', () => {
+  eventManager.on(':loaded:leaderboard', () => {
     globalSet('findUserRow', function findUserRow(user) {
       const row = this.super(user);
       if (row === -1) {

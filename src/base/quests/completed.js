@@ -1,5 +1,4 @@
 wrap(() => {
-  if (!onPage('Quests')) return;
   const questSelector = 'input[type="submit"][value="Claim"]:not(:disabled)';
 
   function collectQuests() {
@@ -18,7 +17,7 @@ wrap(() => {
     }
   }
 
-  eventManager.on(':loaded', collectQuests);
+  eventManager.on(':loaded:Quests', collectQuests);
   // style.add('progress::before { content: attr(value) " / " attr(max); float: right; color: white; }');
 
   function getBlock() {

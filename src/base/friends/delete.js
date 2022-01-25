@@ -1,16 +1,15 @@
-settings.register({
-  name: 'Remove friends without refreshing',
-  key: 'underscript.removeFriend.background',
-  default: true,
-  page: 'Friends',
-});
+wrap(() => {
+  const setting = settings.register({
+    name: 'Remove friends without refreshing',
+    key: 'underscript.removeFriend.background',
+    default: true,
+    page: 'Friends',
+  });
 
-onPage('Friends', function deleteFriends() {
   let reminded = false;
-  style.add('.deleted { text-decoration: line-through; }');
 
   function remove(e) {
-    if (!settings.value('underscript.removeFriend.background')) return;
+    if (!setting.value()) return;
     e.preventDefault();
     process($(this));
   }
@@ -44,7 +43,8 @@ onPage('Friends', function deleteFriends() {
     });
   }
 
-  eventManager.on(':loaded', () => {
+  eventManager.on(':loaded:Friends', () => {
+    style.add('.deleted { text-decoration: line-through; }');
     $('a[href^="Friends?"]').click(remove);
     globalSet('updateFriends', function updateFriends() {
       this.super();

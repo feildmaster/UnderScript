@@ -189,7 +189,6 @@ wrap(() => {
           const id = card.idCard || card.fixedId || card.id;
           pending.push(pendingUpdate(id, card.xp)
             .then(({ rank, cached }) => {
-              console.log(id, rank, cached);
               displayRank(id, rank);
               return cached;
             }));

@@ -35,7 +35,6 @@ wrap(function filter() {
     hidden: true,
   });
 
-  if (!(decks || crafting)) return;
   style.add(
     '.filter input+* {  opacity: 0.4; }',
     '.filter input:checked+* {  opacity: 1; }',
@@ -64,7 +63,7 @@ wrap(function filter() {
     }
   }
 
-  eventManager.on(':loaded', () => {
+  eventManager.on(':loaded:Decks :loaded:Crafting', () => {
     // Update filter visuals
     applyLook(false);
     globalSet('isRemoved', function newFilter(card) {

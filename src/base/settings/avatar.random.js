@@ -3,11 +3,9 @@ wrap(() => {
     $('input[name="changeAvatar"]').random().click();
   }
 
-  onPage('Avatars', () => {
-    eventManager.on(':loaded', () => {
-      $('.avatarsList').prepend(buildButton());
-      $('.avatarsList button').click(random);
-    });
+  eventManager.on(':loaded:Avatars', () => {
+    $('.avatarsList').prepend(buildButton());
+    $('.avatarsList button').click(random);
   });
 
   style.add('.avatar.glyphicon-random { width: 64px; text-align: center; margin: auto; height: 64px; padding-top: 24px; }');

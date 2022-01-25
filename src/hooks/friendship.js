@@ -1,6 +1,6 @@
-onPage('Friendship', () => {
-  eventManager.emit('Friendship:load');
-  eventManager.on(':loaded', () => {
+wrap(() => {
+  eventManager.on(':loaded:Friendship', () => {
+    eventManager.emit('Friendship:load');
     $(document).ajaxComplete((event, xhr, settings) => {
       if (settings.url !== 'FriendshipConfig') return;
       if (settings.type === 'GET') {

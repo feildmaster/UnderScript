@@ -1,7 +1,5 @@
-onPage('Play', () => {
-  debug('On play page');
-
-  eventManager.on(':loaded', function hook() {
+wrap(() => {
+  eventManager.on(':loaded:Play', function hook() {
     if (undefined !== window.bypassQueueEvents) {
       location.href = '/Game';
       return;

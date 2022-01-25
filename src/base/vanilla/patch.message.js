@@ -1,13 +1,12 @@
-settings.register({
-  name: 'Disable version toast',
-  key: 'underscript.season.disable',
-  refresh: () => onPage(''),
-  category: 'Home',
-});
-
-onPage('', function patches() {
-  if (settings.value('underscript.season.disable')) return;
-  eventManager.on(':loaded', () => {
+wrap(function patches() {
+  const setting = settings.register({
+    name: 'Disable version toast',
+    key: 'underscript.season.disable',
+    refresh: () => onPage(''),
+    category: 'Home',
+  });
+  eventManager.on(':loaded:', () => {
+    if (setting.value()) return;
     document.querySelectorAll('.infoIndex').forEach((el) => {
       const patch = el.querySelector('[data-i18n-custom="home-patch-message"]');
       if (!patch) return;

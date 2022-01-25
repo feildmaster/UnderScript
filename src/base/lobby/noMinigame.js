@@ -7,18 +7,16 @@ wrap(function minigames() {
     category: 'Minigames',
   });
 
-  onPage('Play', () => {
-    eventManager.on(':loaded', () => {
-      globalSet('onload', function onload() {
-        window.game = undefined; // gets overriden if minigame loads
-        window.saveBest = noop(); // gets overriden if minigame loads
-        if (setting.value()) {
-          debug('Disabling minigames');
-          globalSet('mobile', true);
-        }
-        this.super();
-        if (setting.value()) globalSet('mobile', false);
-      });
+  eventManager.on(':loaded:Play', () => {
+    globalSet('onload', function onload() {
+      window.game = undefined; // gets overriden if minigame loads
+      window.saveBest = noop(); // gets overriden if minigame loads
+      if (setting.value()) {
+        debug('Disabling minigames');
+        globalSet('mobile', true);
+      }
+      this.super();
+      if (setting.value()) globalSet('mobile', false);
     });
   });
 });

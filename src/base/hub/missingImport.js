@@ -31,7 +31,5 @@ wrap(() => {
       .toggleClass('missing', missingCard);
   }
 
-  onPage('Hub', () => {
-    eventManager.on(':loaded', init);
-  });
+  eventManager.on(':loaded:Hub', init);
 });

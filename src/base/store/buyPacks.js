@@ -1,6 +1,4 @@
 wrap(() => {
-  if (!onPage('Packs')) return;
-
   // buy multiple packs
   function buyPacks({
     type, count, gold,
@@ -35,8 +33,10 @@ wrap(() => {
     return 1;
   }
 
-  eventManager.on(':loaded', () => {
-    ['', 'DR'].forEach((type) => {
+  eventManager.on(':loaded:Packs', () => {
+    const types = ['', 'DR'];
+
+    types.forEach((type) => {
       ['', 'Ucp'].forEach((cost) => {
         const el = document.querySelector(`#btn${cost}${type}Add`);
         el.onclick = null;
@@ -74,16 +74,15 @@ wrap(() => {
         hover.new(`CTRL: Buy MAX packs<br>ALT: Buy (up to) 10 packs${cost ? '<br>SHIFT: Bypass confirmation' : ''}`, el);
       });
     });
-  });
 
-  const types = ['', 'DR'];
-  api.register('buyPacks', (count, { type = '', gold = true } = {}) => {
-    if (!types.includes(type)) throw new Error(`Unsupported Pack: ${type}`);
-    if (Number.isNaN(count)) throw new Error(`Count(${count}) must be a number`);
-    buyPacks({
-      type,
-      count,
-      gold: !!gold,
+    api.register('buyPacks', (count, { type = '', gold = true } = {}) => {
+      if (!types.includes(type)) throw new Error(`Unsupported Pack: ${type}`);
+      if (Number.isNaN(count)) throw new Error(`Count(${count}) must be a number`);
+      buyPacks({
+        type,
+        count,
+        gold: !!gold,
+      });
     });
   });
 });
