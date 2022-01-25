@@ -1,6 +1,6 @@
 onPage('Spectate', () => {
   debug('Spectating Game');
-  eventManager.emit('GameStart');
+  eventManager.singleton.emit('GameStart');
 
   eventManager.on(':loaded', () => {
     function callGameHooks(data, original) {
