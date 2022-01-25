@@ -3,7 +3,7 @@ wrap(() => {
   const setting = settings.register({
     name: 'Disable Quick Opening Packs',
     key: 'underscript.disable.packOpening',
-    refresh: () => onPage('Packs'),
+    refresh: onPage('Packs'),
   });
 
   onPage('Packs', function quickOpenPack() {
@@ -96,7 +96,7 @@ wrap(() => {
 
       if (status.state === 'processing') {
         if (status.remaining > 0 && status.pending <= 0) {
-          const count = Math.min(status.remaining, 10);
+          const count = Math.min(status.remaining, 5);
           status.remaining -= count;
           open(status.pack, count);
         }
