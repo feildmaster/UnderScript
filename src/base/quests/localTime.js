@@ -1,5 +1,5 @@
-onPage('Quests', function localTime() {
-  eventManager.on(':load', () => {
+wrap(function localTime() {
+  eventManager.on(':load:Quests', () => {
     sleep().then(updateTime);
   });
 

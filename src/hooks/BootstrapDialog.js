@@ -35,7 +35,7 @@ wrap(() => {
     return Reflect.get(target, prop, R);
   }
 
-  eventManager.on(':load', () => {
+  eventManager.on(':loaded', () => {
     if (window.BootstrapDialog) {
       window.BootstrapDialog = new Proxy(window.BootstrapDialog, { construct, get });
     }

@@ -413,7 +413,7 @@ const settings = wrap(() => {
   }
 
   function close() {
-    if (dialog) {
+    if (isOpen()) {
       dialog.close();
       dialog = null;
     }

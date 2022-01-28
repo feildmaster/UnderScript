@@ -1,13 +1,13 @@
-settings.register({
-  name: 'Disable Game List Resizing',
-  key: 'underscript.disable.adjustSpectateView',
-  refresh: () => onPage(''),
-  category: 'Home',
-});
+wrap(function adjustSpectateView() {
+  const setting = settings.register({
+    name: 'Disable Game List Resizing',
+    key: 'underscript.disable.adjustSpectateView',
+    refresh: () => onPage(''),
+    category: 'Home',
+  });
 
-onPage('', function adjustSpectateView() {
-  if (settings.value('underscript.disable.adjustSpectateView')) return;
-  eventManager.on(':load', () => {
+  eventManager.on(':load:', () => {
+    if (setting.value()) return;
     const spectate = $('#liste');
     const tbody = spectate.find('tbody');
     const footer = $('.mainContent footer');

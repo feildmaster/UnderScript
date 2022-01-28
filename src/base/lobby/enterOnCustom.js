@@ -1,5 +1,5 @@
-onPage('GamesList', function fixEnter() {
-  eventManager.on(':load', () => {
+wrap(function fixEnter() {
+  eventManager.on(':load:GamesList', () => {
     let toast = fn.infoToast({
       text: 'You can now press enter on the Create Game window.',
       onClose: (reason) => {
