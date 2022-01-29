@@ -266,7 +266,7 @@ const settings = wrap(() => {
   }
 
   function add(data) {
-    if (!data) return false;
+    if (!data && !data.key) return false;
     const page = data.page || 'main';
     const setting = {
       page,
