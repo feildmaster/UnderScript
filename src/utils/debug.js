@@ -1,11 +1,14 @@
-function debug(message, permission = 'debugging', ...extras) {
-  if (!settings.value(permission) && !settings.value('debugging.*')) return;
+import { toast } from './2.toasts';
+import merge from './merge';
+
+export function debug(message, permission = 'debugging', ...extras) {
+  if (!value(permission) && !value('debugging.*')) return;
   // message.stack = new Error().stack.split('\n').slice(2);
   console.log(`[${permission}]`, message, ...extras);
 }
 
-fn.debug = (arg, permission = 'debugging') => {
-  if (!settings.value(permission) && !settings.value('debugging.*')) return false;
+export function debugToast(arg, permission = 'debugging') {
+  if (!value(permission) && !value('debugging.*')) return false;
   if (typeof arg === 'string') {
     arg = {
       text: arg,
@@ -21,5 +24,10 @@ fn.debug = (arg, permission = 'debugging') => {
       textShadow: '#46231f 0px 0px 3px',
     },
   };
-  return fn.toast(fn.merge(defaults, arg));
-};
+  return toast(merge(defaults, arg));
+}
+
+function value(key) {
+  const val = localStorage.getItem(key);
+  return val === '1' || val === 'true';
+}

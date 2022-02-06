@@ -1,10 +1,14 @@
+import wrap from '../../utils/2.pokemon';
+import { newStyle } from '../../utils/style';
+import { registerModule } from '../../utils/plugin';
+
 wrap(() => {
   const name = 'addStyle';
   let style;
 
   function getStyle(plugin) { // Lazy initialize style, so as to not clutter the dom
     if (!style) {
-      style = fn.style(plugin);
+      style = newStyle(plugin);
     }
     return style;
   }

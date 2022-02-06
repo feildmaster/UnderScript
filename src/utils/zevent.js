@@ -1,1 +1,0 @@
-eventManager.singleton.emit(':utils');

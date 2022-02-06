@@ -1,3 +1,7 @@
+import eventManager from '../../utils/eventManager';
+import * as settings from '../../utils/settings';
+import { global } from '../../utils/global';
+
 // Restore sound on refresh
 eventManager.on('getReconnection connect', () => {
   if (settings.value('gameMusicDisabled')) return;

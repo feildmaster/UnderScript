@@ -1,4 +1,11 @@
 /* eslint-disable consistent-return */
+import eventManager from '../../utils/eventManager';
+import * as settings from '../../utils/settings';
+import { global } from '../../utils/global';
+import * as fnUser from '../../utils/user';
+import pendingIgnore from '../../utils/pendingIgnore';
+import { debug } from '../../utils/debug';
+
 settings.register({
   name: 'Disable',
   key: 'underscript.disable.ignorechat',
@@ -16,7 +23,7 @@ settings.register({
 });
 
 // This isn't really the best name to call this function
-function shouldIgnore(message, self = false) {
+export default function shouldIgnore(message, self = false) {
   // Ignoring is disabled?
   if (settings.value('underscript.disable.ignorechat')) return false;
   const user = message.user;
@@ -24,7 +31,7 @@ function shouldIgnore(message, self = false) {
   // Is it your own message?
   if (id === global('selfId')) return self;
   // Is user mod?
-  if (fn.user.isMod(user)) return false;
+  if (fnUser.isMod(user)) return false;
   // Ignoring user?
   return !!settings.value(`underscript.ignore.${id}`);
 }
@@ -49,7 +56,7 @@ eventManager.on('ChatDetected', function ignoreChat() {
       msg.find(`.chat-message`).html('<span class="gray">Message Ignored</span>')
         .removeClass().addClass('chat-message');
     } else if (type === 'remove') {
-      debug(`removed ${fn.user.name(message.user)}`, 'debugging.chat');
+      debug(`removed ${fnUser.name(message.user)}`, 'debugging.chat');
       let container = $(`#${room}`).data('container');
       if (!container) {
         count = 1;

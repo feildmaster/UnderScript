@@ -1,40 +1,42 @@
-wrap(function disableEmotes() {
-  const baseSetting = {
-    key: 'underscript.emotes.disable',
-    page: 'Chat',
-    category: 'Emotes',
-  };
-  const originalEmotes = [{
-    id: 0,
-    image: '',
-    name: '',
-    ucpCost: 0,
-    code: '::',
-  }];
-  originalEmotes.shift();
+import eventManager from '../../utils/eventManager';
+import * as settings from '../../utils/settings';
+import { global, globalSet } from '../../utils/global';
 
-  function init() {
-    originalEmotes.push(...global('chatEmotes'));
-    makeSettings();
-    updateEmotes();
-  }
+const baseSetting = {
+  key: 'underscript.emotes.disable',
+  page: 'Chat',
+  category: 'Emotes',
+};
+const originalEmotes = [{
+  id: 0,
+  image: '',
+  name: '',
+  ucpCost: 0,
+  code: '::',
+}];
+originalEmotes.shift();
 
-  function makeSettings() {
-    originalEmotes.forEach((emote) => {
-      const setting = {
-        ...baseSetting,
-        name: `<img height="32px" src="images/emotes/${emote.image}.png"/> Disable ${emote.name}`,
-        onChange: updateEmotes,
-      };
-      setting.key += `.${emote.id}`;
-      settings.register(setting);
-    });
-  }
+function init() {
+  originalEmotes.push(...global('chatEmotes'));
+  makeSettings();
+  updateEmotes();
+}
 
-  function updateEmotes() {
-    const filtered = originalEmotes.filter(({ id }) => !settings.value(`${baseSetting.key}.${id}`));
-    globalSet('chatEmotes', filtered);
-  }
+function makeSettings() {
+  originalEmotes.forEach((emote) => {
+    const setting = {
+      ...baseSetting,
+      name: `<img height="32px" src="images/emotes/${emote.image}.png"/> Disable ${emote.name}`,
+      onChange: updateEmotes,
+    };
+    setting.key += `.${emote.id}`;
+    settings.register(setting);
+  });
+}
 
-  eventManager.on('Chat:Connected', init);
-});
+function updateEmotes() {
+  const filtered = originalEmotes.filter(({ id }) => !settings.value(`${baseSetting.key}.${id}`));
+  globalSet('chatEmotes', filtered);
+}
+
+eventManager.on('Chat:Connected', init);

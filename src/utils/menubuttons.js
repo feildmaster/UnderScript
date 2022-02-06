@@ -1,36 +1,37 @@
-wrap(() => {
-  eventManager.on(':loaded', () => {
-    const menu = document.querySelector('ul.dropdown-menu[role="menu"]');
-    if (!menu) {
-      fn.addMenuButton = noop;
-      return;
-    }
-    style.add('.click {cursor: pointer;}');
+import eventManager from './eventManager';
+import style from './style';
 
-    const divider = document.createElement('li');
-    divider.classList.add('divider');
+let menu;
 
-    const header = document.createElement('li');
-    header.classList.add('dropdown-header');
-    header.textContent = 'UnderScript';
+export default function addMenuButton(name, url) {
+  if (!menu) return false;
+  if (!name) throw new Error('Menu button must have a name');
+  const el = document.createElement('li');
 
-    menu.append(divider, header);
+  const a = document.createElement('a');
+  a.classList.add('click');
+  a.innerHTML = name;
+  if (url) {
+    a.rel = 'noreferrer';
+    a.href = url;
+  }
+  el.append(a);
 
-    fn.addMenuButton = (name, url) => {
-      if (!name) throw new Error('Menu button must have a name');
-      const el = document.createElement('li');
+  menu.append(el);
+  return el;
+}
 
-      const a = document.createElement('a');
-      a.classList.add('click');
-      a.innerHTML = name;
-      if (url) {
-        a.rel = 'noreferrer';
-        a.href = url;
-      }
-      el.append(a);
+eventManager.on(':loaded', () => {
+  menu = document.querySelector('ul.dropdown-menu[role="menu"]');
+  if (!menu) return;
+  style.add('.click {cursor: pointer;}');
 
-      menu.append(el);
-      return el;
-    };
-  });
+  const divider = document.createElement('li');
+  divider.classList.add('divider');
+
+  const header = document.createElement('li');
+  header.classList.add('dropdown-header');
+  header.textContent = 'UnderScript';
+
+  menu.append(divider, header);
 });

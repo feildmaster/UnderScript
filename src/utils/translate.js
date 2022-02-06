@@ -1,4 +1,6 @@
-fn.translate = (element) => {
+import { global } from './global';
+
+export default (element) => {
   element = element instanceof $ ? element : $(element);
   if ($.i18n) {
     global('translateElement')(element);
@@ -6,9 +8,9 @@ fn.translate = (element) => {
   return element;
 };
 
-fn.translateText = (text) => {
+export function translateText(text) {
   if ($.i18n) {
     return $.i18n(text);
   }
   return text;
-};
+}

@@ -1,9 +1,12 @@
+import * as settings from '../utils/settings';
+import { scriptVersion } from '../utils/1.variables';
+
 // This setting doesn't do anything, nor does the detection work.
 settings.register({
   name: 'Send anonymous statistics',
   key: 'underscript.analytics',
-  default: window.GoogleAnalyticsObject !== undefined,
-  enabled: window.GoogleAnalyticsObject !== undefined,
+  default: () => window.GoogleAnalyticsObject !== undefined,
+  enabled: () => window.GoogleAnalyticsObject !== undefined,
   hidden: true,
   note: () => {
     if (window.GoogleAnalyticsObject === undefined) {
@@ -13,36 +16,34 @@ settings.register({
   },
 });
 
-const analytics = wrap(() => { // eslint-disable-line no-unused-vars
-  const config = {
-    app_name: 'underscript',
-    app_version: scriptVersion,
-    version: scriptVersion,
-    handler: GM_info.scriptHandler,
-    anonymize_ip: true, // I don't care about IP addresses, don't track this
-    custom_map: {
-      dimension1: 'version',
-    },
-  };
-  if (sessionStorage.getItem('UserID')) {
-    // This gives me a truer user count, by joining all hits from the same user together
-    config.user_id = sessionStorage.getItem('UserID');
-  }
-  window.dataLayer = window.dataLayer || [];
-  gtag('js', new Date());
-  gtag('config', 'UA-38424623-4', config);
+const config = {
+  app_name: 'underscript',
+  app_version: scriptVersion,
+  version: scriptVersion,
+  // eslint-disable-next-line camelcase -- This shouldn't be needed???
+  handler: GM_info.scriptHandler,
+  anonymize_ip: true, // I don't care about IP addresses, don't track this
+  custom_map: {
+    dimension1: 'version',
+  },
+};
+if (sessionStorage.getItem('UserID')) {
+  // This gives me a truer user count, by joining all hits from the same user together
+  config.user_id = sessionStorage.getItem('UserID');
+}
+window.dataLayer = window.dataLayer || [];
+gtag('js', new Date());
+gtag('config', 'UA-38424623-4', config);
 
-  function gtag() {
-    dataLayer.push(arguments); // eslint-disable-line no-undef, prefer-rest-params
-  }
-  function send(...args) {
-    if (!args.length) return;
-    gtag('event', ...args);
-  }
-  function error(description, fatal = false) {
-    send('exception', { description, fatal });
-  }
-  return {
-    send, error,
-  };
-});
+function gtag() {
+  dataLayer.push(arguments); // eslint-disable-line no-undef, prefer-rest-params
+}
+
+export function send(...args) {
+  if (!args.length) return;
+  gtag('event', ...args);
+}
+
+export function error(description, fatal = false) {
+  send('exception', { description, fatal });
+}

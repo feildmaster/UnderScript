@@ -1,4 +1,4 @@
-fn.toLocale = ({
+export default ({
   locale = 'en',
   id,
   data = [],

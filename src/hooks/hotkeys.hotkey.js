@@ -1,3 +1,6 @@
+import eventManager from '../utils/eventManager';
+import { hotkeys } from '../utils/1.variables';
+
 eventManager.on(':loaded', function always() {
   // Bind hotkey listeners
   document.addEventListener('mouseup', (event) => {

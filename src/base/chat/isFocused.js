@@ -1,17 +1,17 @@
-wrap(() => {
-  let focused = false;
+import eventManager from '../../utils/eventManager';
 
-  fn.chatTyping = () => focused;
+let focused = false;
 
-  eventManager.on('Chat:getHistory', (data) => {
-    $(`#${data.room} input[type="text"]`)
-      .on('focusin.script', () => {
-        focused = true;
-        eventManager.emit('Chat:focused', data);
-      })
-      .on('focusout.script', () => {
-        focused = false;
-        eventManager.emit('Chat:unfocused', data);
-      });
-  });
+export default focused;
+
+eventManager.on('Chat:getHistory', (data) => {
+  $(`#${data.room} input[type="text"]`)
+    .on('focusin.script', () => {
+      focused = true;
+      eventManager.emit('Chat:focused', data);
+    })
+    .on('focusout.script', () => {
+      focused = false;
+      eventManager.emit('Chat:unfocused', data);
+    });
 });

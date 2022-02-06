@@ -1,5 +1,5 @@
-function sleep(ms = 0, ...args) {
+export default function sleep(ms = 0, ...args) {
   return new Promise((res) => setTimeout(res, ms, ...args));
 }
 
-api.module.utils.sleep = sleep;
+// TODO: api.mod.utils.sleep = sleep;

@@ -1,68 +1,70 @@
-wrap(() => {
-  const disable = settings.register({
-    name: 'Disable Page Select',
-    key: 'underscript.disable.pageselect',
-  });
+import eventManager from '../../utils/eventManager';
+import * as settings from '../../utils/settings';
+import { global, globalSet } from '../../utils/global';
+import onPage from '../../utils/onPage';
+import sleep from '../../utils/sleep';
 
-  const select = document.createElement('select');
-  select.value = 0;
-  select.id = 'selectPage';
-  select.onchange = () => {
-    changePage(select.value);
-    if (onPage('leaderboard')) {
-      eventManager.emit('Rankings:selectPage', select.value);
-    }
-  };
+const disable = settings.register({
+  name: 'Disable Page Select',
+  key: 'underscript.disable.pageselect',
+});
 
-  function init() {
-    const maxPage = global('getMaxPage')();
-    if (maxPage - 1 === select.length) return;
-    const local = $(select).empty();
-    for (let i = 0; i <= maxPage; i++) {
-      local.append(`<option value="${i}">${i + 1}</option>`);
-    }
-    select.value = global('currentPage');
+const select = document.createElement('select');
+select.value = 0;
+select.id = 'selectPage';
+select.onchange = () => {
+  changePage(select.value);
+  if (onPage('leaderboard')) {
+    eventManager.emit('Rankings:selectPage', select.value);
   }
+};
 
-  function changePage(page) {
-    select.value = page;
-    if (typeof page !== 'number') page = parseInt(page, 10);
-    globalSet('currentPage', page);
-    global('showPage')(page);
-    $('#btnNext').prop('disabled', page === global('getMaxPage')());
-    $('#btnPrevious').prop('disabled', page === 0);
+function init() {
+  const maxPage = global('getMaxPage')();
+  if (maxPage - 1 === select.length) return;
+  const local = $(select).empty();
+  for (let i = 0; i <= maxPage; i++) {
+    local.append(`<option value="${i}">${i + 1}</option>`);
   }
+  select.value = global('currentPage');
+}
 
-  eventManager.on(':loaded', () => {
-    globalSet('showPage', function showPage(page) {
-      if (!eventManager.cancelable.emit('preShowPage', page).canceled) {
-        this.super(page);
-      }
-      eventManager.emit('ShowPage', page);
-    }, { throws: false });
+export default function changePage(page) {
+  select.value = page;
+  if (typeof page !== 'number') page = parseInt(page, 10);
+  globalSet('currentPage', page);
+  global('showPage')(page);
+  $('#btnNext').prop('disabled', page === global('getMaxPage')());
+  $('#btnPrevious').prop('disabled', page === 0);
+}
 
-    if (disable.value() || !global('getMaxPage', { throws: false })) return;
-    // Add select dropdown
-    $('#currentPage').after(select).hide();
+eventManager.on(':loaded', () => {
+  globalSet('showPage', function showPage(page) {
+    if (!eventManager.cancelable.emit('preShowPage', page).canceled) {
+      this.super(page);
+    }
+    eventManager.emit('ShowPage', page);
+  }, { throws: false });
 
-    // Initialization
-    globalSet('applyFilters', function applyFilters(...args) {
-      this.super(...args);
-      sleep().then(init);
-    }, { throws: false });
-    globalSet('setupLeaderboard', function setupLeaderboard(...args) {
-      this.super(...args);
-      sleep().then(() => {
-        init();
-        eventManager.emit('Rankings:init');
-      });
-    }, { throws: false });
+  if (disable.value() || !global('getMaxPage', { throws: false })) return;
+  // Add select dropdown
+  $('#currentPage').after(select).hide();
 
-    // Update
-    eventManager.on('ShowPage', (page) => {
-      select.value = page;
+  // Initialization
+  globalSet('applyFilters', function applyFilters(...args) {
+    this.super(...args);
+    sleep().then(init);
+  }, { throws: false });
+  globalSet('setupLeaderboard', function setupLeaderboard(...args) {
+    this.super(...args);
+    sleep().then(() => {
+      init();
+      eventManager.emit('Rankings:init');
     });
+  }, { throws: false });
 
-    fn.changePage = changePage;
+  // Update
+  eventManager.on('ShowPage', (page) => {
+    select.value = page;
   });
 });

@@ -1,8 +1,10 @@
+import eventManager from '../../utils/eventManager';
+import { global, globalSet } from '../../utils/global';
+
 eventManager.on('ChatDetected', function override() {
   // eslint-disable-next-line consistent-return
   globalSet('scroll', function scroll(room, force = false) {
     if (!force) return this.super(room);
-    debug('Forcing scroll');
     const container = $(`#${room} .chat-messages`);
     container.scrollTop(container.prop('scrollHeight'));
   });
@@ -12,7 +14,7 @@ eventManager.on('ChatDetected', function override() {
   }
 
   // Force scrolling to bottom after loading history -- do last
-  eventManager.on(':ready', eventManager.on('Chat:getHistory', ({ room }) => scrollToBottom(room)));
+  eventManager.on('Chat:getHistory', ({ room }) => scrollToBottom(room));
 
   // See if we should scroll this message
   let force = false;

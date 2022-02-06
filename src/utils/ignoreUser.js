@@ -1,4 +1,6 @@
-fn.ignoreUser = (name, key, set = false) => {
+import * as settings from './settings';
+
+export default function ignoreUser(name, key, set = false) {
   const setting = settings.register({
     key,
     name,
@@ -9,4 +11,4 @@ fn.ignoreUser = (name, key, set = false) => {
   if (set) {
     setting.set(name);
   }
-};
+}

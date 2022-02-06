@@ -1,24 +1,27 @@
-wrap(() => {
-  style.add(
-    '.navbar.navbar-default.sticky { position: sticky; top: 0; z-index: 10; -webkit-transform: translateZ(0); transform: translateZ(0); }',
-  );
+import eventManager from '../../utils/eventManager';
+import * as settings from '../../utils/settings';
+import style from '../../utils/style';
+import onPage from '../../utils/onPage';
 
-  const setting = settings.register({
-    name: 'Disable header scrolling',
-    key: 'underscript.disable.header.scrolling',
-    onChange: (to) => {
-      toggle(!to);
-    },
-  });
+style.add(
+  '.navbar.navbar-default.sticky { position: sticky; top: 0; z-index: 10; -webkit-transform: translateZ(0); transform: translateZ(0); }',
+);
 
-  eventManager.on(':loaded', () => {
-    toggle(!setting.value());
-  });
-
-  function toggle(val) {
-    if (onPage('Decks')) return;
-    const el = document.querySelector('.navbar.navbar-default');
-    if (!el) return;
-    el.classList.toggle('sticky', val);
-  }
+const setting = settings.register({
+  name: 'Disable header scrolling',
+  key: 'underscript.disable.header.scrolling',
+  onChange: (to) => {
+    toggle(!to);
+  },
 });
+
+eventManager.on(':loaded', () => {
+  toggle(!setting.value());
+});
+
+function toggle(val) {
+  if (onPage('Decks')) return;
+  const el = document.querySelector('.navbar.navbar-default');
+  if (!el) return;
+  el.classList.toggle('sticky', val);
+}

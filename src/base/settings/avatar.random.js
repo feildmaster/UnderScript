@@ -1,3 +1,7 @@
+import wrap from '../../utils/2.pokemon';
+import eventManager from '../../utils/eventManager';
+import style from '../../utils/style';
+
 wrap(() => {
   function random() {
     $('input[name="changeAvatar"]').random().click();

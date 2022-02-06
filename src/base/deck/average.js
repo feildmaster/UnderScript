@@ -1,28 +1,32 @@
-wrap(() => {
-  const setting = settings.register({
-    name: 'Disable deck average counter',
-    key: 'underscript.disable.deck.average',
-    refresh: onPage('Decks'),
-    page: 'Library',
-  });
+import eventManager from '../../utils/eventManager';
+import * as settings from '../../utils/settings';
+import { global } from '../../utils/global';
+import onPage from '../../utils/onPage';
+import * as hover from '../../utils/hover';
 
-  // Calculate average
-  eventManager.on(':loaded:Decks', () => {
-    if (setting.value()) return;
-    const avg = $('<span>').hover(hover.show('Average gold cost'));
-    $('#soulInfo span').after('<span>Passive</span> ', avg).remove();
+const setting = settings.register({
+  name: 'Disable deck average counter',
+  key: 'underscript.disable.deck.average',
+  refresh: onPage('Decks'),
+  page: 'Library',
+});
 
-    function round(amt, dec = 2) {
-      return Number.parseFloat(amt).toFixed(dec);
-    }
+// Calculate average
+eventManager.on(':loaded:Decks', () => {
+  if (setting.value()) return;
+  const avg = $('<span>').hover(hover.show('Average gold cost'));
+  $('#soulInfo span').after('<span>Passive</span> ', avg).remove();
 
-    function count() {
-      let val = 0;
-      const list = global('decks')[global('soul')];
-      list.forEach(({ cost }) => val += cost); // eslint-disable-line no-return-assign
-      avg.text(`(${round(list.length ? val / list.length : val)})`);
-    }
+  function round(amt, dec = 2) {
+    return Number.parseFloat(amt).toFixed(dec);
+  }
 
-    eventManager.on('Deck:Soul Deck:Change Deck:Loaded', count);
-  });
+  function count() {
+    let val = 0;
+    const list = global('decks')[global('soul')];
+    list.forEach(({ cost }) => val += cost); // eslint-disable-line no-return-assign
+    avg.text(`(${round(list.length ? val / list.length : val)})`);
+  }
+
+  eventManager.on('Deck:Soul Deck:Change Deck:Loaded', count);
 });

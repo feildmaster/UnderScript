@@ -1,32 +1,31 @@
-fn.pingRegex = wrap(() => {
-  const filter = /(\||\\|\(|\)|\*|\+|\?|\.|\^|\$|\[|\{|\})/g;
-  const atReplace = 'atSign<@>';
+import * as settings from './settings';
 
-  class AtSafeRegExp extends RegExp {
-    test(string) {
-      return super.test(string.replace('@', atReplace));
-    }
+const filter = /(\||\\|\(|\)|\*|\+|\?|\.|\^|\$|\[|\{|\})/g;
+const atReplace = 'atSign<@>';
 
-    replace(text, mask) {
-      return text.replace('@', atReplace).replace(this, mask).replace(atReplace, '@');
-    }
+export class AtSafeRegExp extends RegExp {
+  test(string) {
+    return super.test(string.replace('@', atReplace));
   }
 
-  function filterMeta(text) {
-    return text.replace(filter, '\\$1').replace('@', atReplace);
+  replace(text, mask) {
+    return text.replace('@', atReplace).replace(this, mask).replace(atReplace, '@');
   }
-  function build() {
-    const extras = settings.value('underscript.ping.extras');
-    if (!extras.length) {
-      return {
-        test() {
-          return false;
-        },
-      };
-    }
-    const exp = `\\b((?:${extras.map(filterMeta).join(')|(?:')}))(?!.*">)\\b`;
-    return new AtSafeRegExp(exp, 'gi');
-  }
+}
 
-  return build;
-});
+function filterMeta(text) {
+  return text.replace(filter, '\\$1').replace('@', atReplace);
+}
+
+export default function pingRegex() {
+  const extras = settings.value('underscript.ping.extras');
+  if (!extras.length) {
+    return {
+      test() {
+        return false;
+      },
+    };
+  }
+  const exp = `\\b((?:${extras.map(filterMeta).join(')|(?:')}))(?!.*">)\\b`;
+  return new AtSafeRegExp(exp, 'gi');
+}

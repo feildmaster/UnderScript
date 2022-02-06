@@ -1,3 +1,6 @@
+import eventManager from '../../utils/eventManager';
+import onPage from '../../utils/onPage';
+
 onPage('Play', () => {
   const title = document.title;
   eventManager.on('getWaitingQueue', function updateTitle() {
@@ -8,5 +11,5 @@ onPage('Play', () => {
   eventManager.on('getLeaveQueue', function restoreTitle() {
     document.title = title;
   });
-  // fn.infoToast('The page title now changes when a match is found.', 'underscript.notice.play.title', '1');
+  // infoToast('The page title now changes when a match is found.', 'underscript.notice.play.title', '1');
 });

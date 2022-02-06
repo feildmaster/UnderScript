@@ -1,3 +1,6 @@
+import * as settings from '../../utils/settings';
+import onPage from '../../utils/onPage';
+
 [
   {
     name: 'Disable rainbow chat',
@@ -56,11 +59,10 @@
   // { key: 'language' },
   // { key: '' },
 ].forEach((setting) => {
-  const { name, key, category } = setting;
+  const { name, category } = setting;
   const refresh = category === 'Game' ? () => onPage('Game') || onPage('gameSpectating') : undefined;
   settings.register({
-    name,
-    key,
+    ...setting,
     category,
     refresh,
     page: 'game',

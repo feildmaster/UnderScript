@@ -1,3 +1,7 @@
+import eventManager from '../utils/eventManager';
+import { debug } from '../utils/debug';
+import { global, globalSet } from '../utils/global';
+
 eventManager.on(':loaded', () => {
   if (typeof socketChat !== 'undefined') {
     debug('Chat detected');

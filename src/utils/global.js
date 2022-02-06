@@ -1,4 +1,7 @@
-function global(...key) {
+import { debug } from './debug';
+import * as api from './4.api';
+
+export function global(...key) {
   const {
     throws = true,
   } = typeof key[key.length - 1] === 'object' ? key.pop() : {};
@@ -11,7 +14,7 @@ function global(...key) {
   return window[found];
 }
 
-function globalSet(key, value, {
+export function globalSet(key, value, {
   throws = true,
 } = {}) {
   if (!Object.prototype.hasOwnProperty.call(window, key)) {
@@ -31,5 +34,7 @@ function globalSet(key, value, {
   return original;
 }
 
-api.module.utils.global = global;
-api.module.utils.globalSet = globalSet;
+export default global;
+
+api.mod.utils.global = global;
+api.mod.utils.globalSet = globalSet;

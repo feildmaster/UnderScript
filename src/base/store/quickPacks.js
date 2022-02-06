@@ -1,4 +1,16 @@
 /* eslint-disable no-multi-assign, no-nested-ternary */
+import SimpleToast from '../../bundle/SimpleToast';
+import eventManager from '../../utils/eventManager';
+import eventEmitter from '../../utils/eventEmitter';
+import * as settings from '../../utils/settings';
+import { global, globalSet } from '../../utils/global';
+import onPage from '../../utils/onPage';
+import * as hover from '../../utils/hover';
+import wrap from '../../utils/2.pokemon';
+import { toast as basicToast } from '../../utils/2.toasts';
+import * as api from '../../utils/4.api';
+import formatNumber from '../../utils/formatNumber';
+
 wrap(() => {
   const setting = settings.register({
     name: 'Disable Quick Opening Packs',
@@ -23,7 +35,7 @@ wrap(() => {
       pingTimeout: 0,
       errors: 0,
     };
-    const events = fn.eventEmitter();
+    const events = eventEmitter();
 
     let timeoutID;
 
@@ -116,8 +128,8 @@ wrap(() => {
       if (toast.exists()) {
         toast.setText(`<progress value="${results.packs}" max="${status.total}"></progress>`);
       } else {
-        toast = fn.toast({
-          title: `Opening ${fn.formatNumber(status.total)} packs`,
+        toast = basicToast({
+          title: `Opening ${formatNumber(status.total)} packs`,
           text: `<progress value="${results.packs}" max="${status.total}"></progress>`,
           className: 'dismissable',
           buttons: {
@@ -193,7 +205,7 @@ wrap(() => {
             shiny += card.shiny;
             if (limit) {
               limit -= 1;
-              buffer.push(`${card.shiny ? '<span class="yellow">S</span> ' : ''}${name}${card.total > 1 ? ` (${fn.formatNumber(card.total)}${card.shiny ? `, ${card.shiny}` : ''})` : ''}${limit ? '' : '...'}`);
+              buffer.push(`${card.shiny ? '<span class="yellow">S</span> ' : ''}${name}${card.total > 1 ? ` (${formatNumber(card.total)}${card.shiny ? `, ${card.shiny}` : ''})` : ''}${limit ? '' : '...'}`);
             }
           });
           text += `${key} (${count}${shiny ? `, ${shiny} shiny` : ''}):${buffer.length ? `\n- ${buffer.join('\n- ')}` : ' ...'}\n`;
@@ -201,8 +213,8 @@ wrap(() => {
 
         // Create result toast
         const total = results.cards.length;
-        fn.toast({
-          title: `Results: ${fn.formatNumber(results.packs)} Packs${cardResults.shiny ? ` (${total % 4 ? `${fn.formatNumber(total)}, ` : ''}${fn.formatNumber(cardResults.shiny)} shiny)` : total % 4 ? ` (${fn.formatNumber(total)})` : ''}`,
+        basicToast({
+          title: `Results: ${formatNumber(results.packs)} Packs${cardResults.shiny ? ` (${total % 4 ? `${formatNumber(total)}, ` : ''}${formatNumber(cardResults.shiny)} shiny)` : total % 4 ? ` (${formatNumber(total)})` : ''}`,
           text,
           css: { 'font-family': 'inherit' },
         });
@@ -245,8 +257,8 @@ wrap(() => {
         }
       });
 
-      $(document).ajaxComplete((event, xhr, settings) => {
-        if (settings.url !== 'PacksConfig' || !settings.data) return;
+      $(document).ajaxComplete((event, xhr, s) => {
+        if (s.url !== 'PacksConfig' || !s.data) return;
         const data = xhr.responseJSON;
         const error = data.action === 'getError';
         if (data.action !== 'getCards' && !error) return;

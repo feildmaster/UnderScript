@@ -1,3 +1,6 @@
+import eventManager from '../../utils/eventManager';
+import addMenuButton from '../../utils/menubuttons';
+
 eventManager.on('jQuery', () => {
   const text = `<li class="computerLink">
     <a href="https://undercard.feildmaster.com" target="_blank" rel="noreferrer" title="Card Editor">
@@ -12,5 +15,5 @@ eventManager.on('jQuery', () => {
 });
 eventManager.on(':load', () => {
   const img = '<img src="./images/cardBacks/BASECardDETERMINATION.png" style="height: 16px;">';
-  fn.addMenuButton(`${img} Card Editor`, 'https://undercard.feildmaster.com');
+  addMenuButton(`${img} Card Editor`, 'https://undercard.feildmaster.com');
 });

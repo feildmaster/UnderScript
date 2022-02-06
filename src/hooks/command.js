@@ -1,3 +1,5 @@
+import eventManager from '../utils/eventManager';
+
 eventManager.on('Chat:send', function chatCommand({ input, room }) {
   const raw = input.value;
   if (this.canceled || !raw.startsWith('/')) return;

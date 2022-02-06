@@ -1,4 +1,7 @@
-fn.each(localStorage, (name, key) => {
+import each from '../utils/each';
+import ignoreUser from '../utils/ignoreUser';
+
+each(localStorage, (name, key) => {
   if (!key.startsWith('underscript.ignore.')) return;
-  fn.ignoreUser(name, key);
+  ignoreUser(name, key);
 });

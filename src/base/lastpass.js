@@ -1,3 +1,6 @@
+import eventManager from '../utils/eventManager';
+import onPage from '../utils/onPage';
+
 eventManager.on(':loaded', () => {
   if (onPage('Settings') || onPage('SignUp') || onPage('SignIn')) return;
   const type = 'input[type="text"]';

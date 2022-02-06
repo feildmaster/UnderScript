@@ -1,18 +1,45 @@
-wrap(() => {
-  if (!onPage('leaderboard')) return;
-  const data = getData();
-  const skip = new VarStore(true);
-  let replacePage;
+import eventManager from '../../utils/eventManager';
+import { globalSet } from '../../utils/global';
+import { debug } from '../../utils/debug';
+import onPage from '../../utils/onPage';
+import VarStore from '../../utils/VarStore';
+import changePage from '../vanilla/pageSelect';
 
-  function set(type, value, replace = true) {
-    if (history.state &&
-      Object.prototype.hasOwnProperty.call(history.state, type) &&
-      history.state[type] === value) return;
-    const func = replace && !userLast() ? history.replaceState : history.pushState;
-    const o = {};
-    o[type] = value;
-    func.call(history, o, document.title, `?${type}=${value}`);
+function set(type, value, replace = true) {
+  if (history.state &&
+    Object.prototype.hasOwnProperty.call(history.state, type) &&
+    history.state[type] === value) return;
+  const func = replace && !userLast() ? history.replaceState : history.pushState;
+  const o = {};
+  o[type] = value;
+  func.call(history, o, document.title, `?${type}=${value}`);
+}
+
+function load({ page, user } = {}) {
+  if (user) {
+    $('#searchInput').val(user).submit();
+  } else if (page !== undefined) {
+    changePage(page);
   }
+}
+
+function getData() {
+  const o = {};
+  const d = decodeURIComponent;
+  location.search.substring(1).replace(/([^=&]+)=([^&]*)/g, (m, k, v) => {
+    o[d(k)] = d(v);
+  });
+  return o;
+}
+
+function userLast() {
+  return history.state && history.state.user;
+}
+
+if (onPage('leaderboard')) {
+  const data = getData();
+  const skip = VarStore(true);
+  let replacePage;
 
   window.addEventListener('popstate', () => {
     if (!history.state) return;
@@ -43,25 +70,4 @@ wrap(() => {
   eventManager.on('Rankings:selectPage', () => {
     replacePage = false;
   });
-
-  function load({ page, user } = {}) {
-    if (user) {
-      $('#searchInput').val(user).submit();
-    } else if (page !== undefined) {
-      fn.changePage(page);
-    }
-  }
-
-  function getData() {
-    const o = {};
-    const d = decodeURIComponent;
-    location.search.substring(1).replace(/([^=&]+)=([^&]*)/g, (m, k, v) => {
-      o[d(k)] = d(v);
-    });
-    return o;
-  }
-
-  function userLast() {
-    return history.state && history.state.user;
-  }
-});
+}

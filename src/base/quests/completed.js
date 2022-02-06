@@ -1,3 +1,6 @@
+import wrap from '../../utils/2.pokemon';
+import eventManager from '../../utils/eventManager';
+
 wrap(() => {
   const questSelector = 'input[type="submit"][value="Claim"]:not(:disabled)';
 

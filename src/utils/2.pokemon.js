@@ -1,4 +1,4 @@
-function wrap(callback, prefix = '') {
+export default function wrap(callback, prefix = '') {
   try {
     return callback();
   } catch (e) {

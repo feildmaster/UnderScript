@@ -1,3 +1,9 @@
+import eventManager from '../../utils/eventManager';
+import * as settings from '../../utils/settings';
+import { global, globalSet } from '../../utils/global';
+import pendingIgnore from '../../utils/pendingIgnore';
+import pingRegex from '../../utils/pingRegex';
+
 settings.register({
   name: 'Disable Chat Ping <span style="color: yellow;">(highlighting)</span>',
   key: 'underscript.disable.ping',
@@ -20,7 +26,7 @@ eventManager.on('ChatDetected', () => {
     if (!settings.value('underscript.disable.ping') && !pendingIgnore.get()) { // TODO
       const text = this.super(original);
 
-      const regex = fn.pingRegex();
+      const regex = pingRegex();
       if (regex.test(text)) {
         if (global('soundsEnabled') && original === text) {
           (new Audio('sounds/highlight.wav')).play();

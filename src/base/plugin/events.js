@@ -1,3 +1,7 @@
+import eventManager from '../../utils/eventManager';
+import wrap from '../../utils/2.pokemon';
+import { registerModule } from '../../utils/plugin';
+
 wrap(() => {
   const options = ['cancelable', 'canceled', 'singleton', 'async'];
 

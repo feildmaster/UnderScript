@@ -1,3 +1,14 @@
+import axios from 'axios';
+import eventManager from '../../utils/eventManager';
+import * as settings from '../../utils/settings';
+import wrap from '../../utils/2.pokemon';
+import { toast } from '../../utils/2.toasts';
+import onPage from '../../utils/onPage';
+import translate from '../../utils/translate';
+import style from '../../utils/style';
+import $el from '../../utils/elementHelper';
+import { noop } from '../../utils/1.variables';
+
 wrap(() => {
   const setting = settings.register({
     name: 'Disable Quest Completed Notifications',
@@ -29,9 +40,9 @@ wrap(() => {
         if (onPage('Game')) {
           let questsCleared = '';
           quests.each((i, e) => {
-            questsCleared += `- ${fn.translate($(e).parentsUntil('tbody', 'tr').find('span[data-i18n-custom]:first')).text()}\n`;
+            questsCleared += `- ${translate($(e).parentsUntil('tbody', 'tr').find('span[data-i18n-custom]:first')).text()}\n`;
           });
-          fn.toast({
+          toast({
             title: 'Quest Completed!',
             text: `${questsCleared}Click to go to Quests page`,
             onClose: () => {

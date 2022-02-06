@@ -1,3 +1,8 @@
+import eventManager from '../../utils/eventManager';
+import { global } from '../../utils/global';
+import sleep from '../../utils/sleep';
+import updateTip from './online';
+
 eventManager.on('ChatDetected', () => {
   eventManager.on('preChat:getFriends', function updateFriends(data) {
     this.canceled = true;
@@ -16,7 +21,7 @@ eventManager.on('ChatDetected', () => {
       }
     });
     $('.nbFriends').text(selfFriends.filter((friend) => friend.online).length);
-    script.updateTip && script.updateTip();
+    updateTip();
   });
   function refresh() {
     const socketChat = global('socketChat');

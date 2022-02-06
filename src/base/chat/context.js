@@ -1,3 +1,13 @@
+import eventManager from '../../utils/eventManager';
+import * as settings from '../../utils/settings';
+import { global } from '../../utils/global';
+import style from '../../utils/style';
+import { toast as simpleToast, infoToast } from '../../utils/2.toasts';
+import each from '../../utils/each';
+import * as fnUser from '../../utils/user';
+import ignoreUser from '../../utils/ignoreUser';
+import decode from '../../utils/decode';
+
 settings.register({
   name: 'Disable Chat Context (right click)',
   key: 'underscript.disable.chatContext',
@@ -38,7 +48,7 @@ eventManager.on('ChatDetected', () => {
       43200: '12h',
       86400: '1d',
     };
-    fn.each(times, (item, key) => {
+    each(times, (item, key) => {
       muteTime.append($(`<option value="${key}"${key === '3600' ? ' selected' : ''}>${item}</option>`));
     });
     mute.append(' ', muteTime);
@@ -92,13 +102,13 @@ eventManager.on('ChatDetected', () => {
           if (text.length !== 0 && text[text.length - 1] !== ' ') {
             text += ' ';
           }
-          text += `@${fn.decode(name)} `;
+          text += `@${decode(name)} `;
           input.val(text).focus();
         } else if (e.target === ignore[0]) {
           if (disabled) return; // If it's disabled it's disabled...
           const key = `${ignorePrefix}${id}`;
           if (!settings.value(key)) {
-            fn.toast({
+            simpleToast({
               text: `You've ignored ${name}`,
               css: {
                 'background-color': 'rgba(208, 0, 0, 0.6)',
@@ -121,7 +131,7 @@ eventManager.on('ChatDetected', () => {
               }],
               className: 'dismissable',
             });
-            fn.ignoreUser(name, key, true);
+            ignoreUser(name, key, true);
           } else {
             settings.remove(key);
           }
@@ -180,7 +190,7 @@ eventManager.on('ChatDetected', () => {
       info = $(`#${room} #message-${id} #info-${id}`);
     }
     info.on('contextmenu.script.chatContext', {
-      name: fn.user.name(user),
+      name: fnUser.name(user),
       staff: user.mainGroup.priority <= 6,
       mod: user.mainGroup.priority <= 4,
       id: user.id,
@@ -198,7 +208,7 @@ eventManager.on('ChatDetected', () => {
     processMessage(JSON.parse(data.chatMessage), data.room);
   });
 
-  toast = fn.infoToast({
+  toast = infoToast({
     text: 'You can right click users in chat to display user options!',
     onClose: (reason) => {
       toast = null; // Remove from memory

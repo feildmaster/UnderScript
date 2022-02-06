@@ -1,3 +1,6 @@
+import eventManager from '../../utils/eventManager';
+import { global } from '../../utils/global';
+
 eventManager.on('ChatDetected', () => {
   const socketChat = global('socketChat');
   const oClose = socketChat.onclose;

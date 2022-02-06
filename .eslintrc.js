@@ -1,6 +1,6 @@
 module.exports = {
-    extends: 'airbnb-base',
-    env: {
-        node: true,
-    },
+  extends: 'airbnb-base',
+  env: {
+    node: true,
+  },
 };

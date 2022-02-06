@@ -1,12 +1,12 @@
-wrap(() => {
-  eventManager.on(':loaded:Decks', () => {
-    const collection = $('#collection');
-    collection.css({
-      width: '717px',
-      padding: '0',
-    });
-    collection.parent().css({
-      width: '717px',
-    });
+import eventManager from '../../utils/eventManager';
+
+eventManager.on(':loaded:Decks', () => {
+  const collection = $('#collection');
+  collection.css({
+    width: '717px',
+    padding: '0',
+  });
+  collection.parent().css({
+    width: '717px',
   });
 });

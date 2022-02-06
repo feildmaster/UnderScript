@@ -1,5 +1,7 @@
+import eventManager from './eventManager';
+
 // Custom CSS classes are great.
-fn.style = () => {
+export function newStyle() {
   const el = document.createElement('style');
   function appendStyle() {
     if (el.parentElement) return;
@@ -13,15 +15,15 @@ fn.style = () => {
   }
 
   function append(styles = [], nodes = []) {
-    styles.forEach((style) => {
-      const node = document.createTextNode(style);
+    styles.forEach((s) => {
+      const node = document.createTextNode(s);
       nodes.push(node);
       el.appendChild(node);
     });
     return nodes;
   }
 
-  function wrapper(nodes) {
+  function wrapper(nodes = []) {
     return {
       remove() {
         nodes.splice(0)
@@ -41,12 +43,6 @@ fn.style = () => {
   return {
     add,
   };
-};
-
-const style = fn.style();
-function safeStyle() {
-  if (!safeStyle.style) {
-    safeStyle.style = fn.style();
-  }
-  return safeStyle.style;
 }
+
+export default newStyle();

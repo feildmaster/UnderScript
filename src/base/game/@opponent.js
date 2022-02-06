@@ -1,6 +1,10 @@
+import eventManager from '../../utils/eventManager';
+import { infoToast } from '../../utils/2.toasts';
+import onPage from '../../utils/onPage';
+
 onPage('Game', () => {
   const regex = /(^| )@o\b/gi;
-  let toast = fn.infoToast('You can mention opponents with @o', 'underscript.notice.mention', '1');
+  let toast = infoToast('You can mention opponents with @o', 'underscript.notice.mention', '1');
 
   function convert({ input }) {
     if (toast) {

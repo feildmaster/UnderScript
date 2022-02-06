@@ -1,4 +1,7 @@
-fn.toast = (arg) => {
+import SimpleToast from '../bundle/SimpleToast';
+import merge from './merge';
+
+export function toast(arg) {
   // Why do I even check for SimpleToast? It *has* to be loaded at this point...
   if (!window.SimpleToast || !arg) return false;
   if (typeof arg === 'string') {
@@ -17,10 +20,10 @@ fn.toast = (arg) => {
       },
     },
   };
-  return new SimpleToast(fn.merge(defaults, arg));
-};
+  return new SimpleToast(merge(defaults, arg));
+}
 
-fn.errorToast = (error) => {
+export function errorToast(error) {
   function getStack(err = {}) {
     const stack = err.stack;
     if (stack) {
@@ -29,7 +32,7 @@ fn.errorToast = (error) => {
     return null;
   }
 
-  const toast = {
+  const lToast = {
     title: error.name || error.title || 'Error',
     text: error.message || error.text || getStack(error.error || error) || error,
     css: {
@@ -37,12 +40,12 @@ fn.errorToast = (error) => {
     },
   };
   if (error.footer) {
-    toast.footer = error.footer;
+    lToast.footer = error.footer;
   }
-  return fn.toast(toast);
-};
+  return toast(lToast);
+}
 
-fn.infoToast = (arg, key, val) => {
+export function infoToast(arg, key, val) {
   if (localStorage.getItem(key) === val) return null;
   if (typeof arg === 'string') {
     arg = {
@@ -65,10 +68,10 @@ fn.infoToast = (arg, key, val) => {
       'font-family': 'inherit',
     },
   };
-  return fn.toast(fn.merge(defaults, arg, override));
-};
+  return toast(merge(defaults, arg, override));
+}
 
-fn.dismissable = ({ title, text, key, value = true, css = {} }) => {
+export function dismissable({ title, text, key, value = true, css = {} }) {
   const buttons = {
     text: 'Dismiss',
     className: 'dismiss',
@@ -84,11 +87,11 @@ fn.dismissable = ({ title, text, key, value = true, css = {} }) => {
       localStorage.setItem(key, value);
     },
   };
-  return fn.toast({
+  return toast({
     title,
     text,
     buttons,
     className: 'dismissable',
     css,
   });
-};
+}

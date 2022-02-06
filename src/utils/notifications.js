@@ -1,68 +1,71 @@
-wrap(() => {
-  const setting = settings.register({
-    key: 'underscript.notification.dismissPrompt',
-    hidden: true,
+import * as settings from './settings';
+import sleep from './sleep';
+import eventManager from './eventManager';
+import * as api from './4.api';
+import { toast } from './2.toasts';
+
+const setting = settings.register({
+  key: 'underscript.notification.dismissPrompt',
+  hidden: true,
+});
+
+function requestPermission() {
+  if (window.Notification) {
+    if (isType()) {
+      return Notification.requestPermission();
+    }
+  }
+  return Promise.resolve(false);
+}
+
+function isType(type = 'default') {
+  return window.Notification && Notification.permission === type;
+}
+
+export default function notify(text, title = 'Undercards') {
+  const n = new Notification(title, {
+    body: text,
+    icon: 'images/favicon.ico',
   });
 
-  function requestPermission() {
-    if (window.Notification) {
-      if (isType()) {
-        return Notification.requestPermission();
-      }
-    }
-    return Promise.resolve(false);
-  }
+  sleep(5000).then(() => n.close());
+}
 
-  function isType(type = 'default') {
-    return window.Notification && Notification.permission === type;
-  }
+api.mod.utils.notify = notify;
 
-  function notify(text, title = 'Undercards') {
-    const n = new Notification(title, {
-      body: text,
-      icon: 'images/favicon.ico',
-    });
+if (isType() && !setting.value()) {
+  eventManager.on(':load:Play', () => show('UnderScript would like to notify you when a game is found.'));
+}
 
-    sleep(5000).then(() => n.close());
-  }
-
-  fn.notify = notify;
-  api.module.utils.notify = notify;
-
-  if (isType() && !setting.value()) {
-    eventManager.on(':load:Play', () => toast('UnderScript would like to notify you when a game is found.'));
-  }
-
-  function toast(text = 'UnderScript would like to send notifications.') {
-    const css = {
-      border: '',
-      height: '',
-      background: '',
-      'font-size': '',
-      margin: '',
-      'border-radius': '',
-    };
-    const buttons = [{
-      css,
-      text: 'Request Permission',
-      className: 'dismiss',
-      onclick() {
-        requestPermission().then((result) => {
-          fn.toast(`Notifications ${result === 'granted' ? 'allowed' : 'denied'}`);
-        });
-      },
-    }, {
-      css,
-      text: 'Dismiss',
-      className: 'dismiss',
-      onclick() {
-        setting.set(true);
-      },
-    }];
-    fn.toast({
-      buttons,
-      text,
-      className: 'dismissable',
-    });
-  }
-});
+function show(text = 'UnderScript would like to send notifications.') {
+  const css = {
+    border: '',
+    height: '',
+    background: '',
+    'font-size': '',
+    margin: '',
+    'border-radius': '',
+  };
+  const buttons = [{
+    css,
+    text: 'Request Permission',
+    className: 'dismiss',
+    onclick() {
+      requestPermission().then((result) => {
+        toast(`Notifications ${result === 'granted' ? 'allowed' : 'denied'}`);
+      });
+    },
+  }, {
+    css,
+    text: 'Dismiss',
+    className: 'dismiss',
+    onclick() {
+      setting.set(true);
+    },
+  }];
+  toast({
+    buttons,
+    text,
+    className: 'dismissable',
+  });
+}

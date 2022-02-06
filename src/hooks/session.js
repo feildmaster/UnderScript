@@ -1,3 +1,6 @@
+import eventManager from '../utils/eventManager';
+import { global } from '../utils/global';
+
 eventManager.on('Chat:getSelfInfos', () => {
   const sessID = sessionStorage.getItem('UserID');
   const selfId = global('selfId');

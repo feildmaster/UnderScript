@@ -1,29 +1,33 @@
-wrap(() => {
-  function gameHook() {
-    debug('Playing Game');
-    eventManager.singleton.emit('GameStart');
-    eventManager.singleton.emit('PlayingGame');
-    eventManager.on(':loaded', () => {
-      function callGameHooks(data, original) {
-        const run = !eventManager.cancelable.emit('PreGameEvent', data).canceled;
-        if (run) {
-          wrap(() => original(data));
-        }
-        eventManager.emit('GameEvent', data);
-      }
+import eventManager from '../utils/eventManager';
+import onPage from '../utils/onPage';
+import { debug } from '../utils/debug';
+import wrap from '../utils/2.pokemon';
+import { globalSet } from '../utils/global';
 
-      function hookEvent(event) {
-        callGameHooks(event, this.super);
+function gameHook() {
+  debug('Playing Game');
+  eventManager.singleton.emit('GameStart');
+  eventManager.singleton.emit('PlayingGame');
+  eventManager.on(':loaded', () => {
+    function callGameHooks(data, original) {
+      const run = !eventManager.cancelable.emit('PreGameEvent', data).canceled;
+      if (run) {
+        wrap(() => original(data));
       }
+      eventManager.emit('GameEvent', data);
+    }
 
-      if (undefined !== window.bypassQueueEvents) {
-        globalSet('runEvent', hookEvent);
-        globalSet('bypassQueueEvent', hookEvent);
-      } else {
-        debug('Update your code yo');
-      }
-    });
-  }
+    function hookEvent(event) {
+      callGameHooks(event, this.super);
+    }
 
-  onPage('Game', gameHook);
-});
+    if (undefined !== window.bypassQueueEvents) {
+      globalSet('runEvent', hookEvent);
+      globalSet('bypassQueueEvent', hookEvent);
+    } else {
+      debug('Update your code yo');
+    }
+  });
+}
+
+onPage('Game', gameHook);

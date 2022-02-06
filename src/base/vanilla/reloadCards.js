@@ -1,3 +1,7 @@
+import eventManager from '../../utils/eventManager';
+import { global } from '../../utils/global';
+import * as menu from '../../utils/menu';
+
 eventManager.on(':loaded', () => {
   const fetchAllCards = global('fetchAllCards', { throws: false });
   if (!fetchAllCards) return;

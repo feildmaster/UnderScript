@@ -1,4 +1,12 @@
-settings.register({
+import axios from 'axios';
+import eventManager from '../../utils/eventManager';
+import * as settings from '../../utils/settings';
+import { toast } from '../../utils/2.toasts';
+import onPage from '../../utils/onPage';
+import { decrypt } from '../../utils/decrypt.emails';
+import * as $el from '../../utils/elementHelper';
+
+const setting = settings.register({
   name: 'Add friends without refreshing',
   key: 'underscript.friend.add',
   default: true,
@@ -10,7 +18,7 @@ onPage('Friends', function addFriend() {
   const input = document.querySelector('input[name="username"]');
 
   function submit() {
-    if (typeof URLSearchParams === 'undefined' || !settings.value('underscript.friend.add')) return undefined;
+    if (typeof URLSearchParams === 'undefined' || !setting.value()) return undefined;
     const name = input.value.trim();
     if (name) {
       input.value = '';
@@ -23,8 +31,7 @@ onPage('Friends', function addFriend() {
         const result = page.querySelector('form[action="Friends"] + p');
         if (result) {
           const success = result.classList.contains('green');
-          debug(result);
-          fn.toast({
+          toast({
             text: `<p style="color: ${success ? 'green' : 'red'}">${success ? 'Sent' : 'Failed to send'} friend request to ${name}<p>`,
           });
           if (success) {

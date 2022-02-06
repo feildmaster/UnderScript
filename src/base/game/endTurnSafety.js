@@ -1,3 +1,6 @@
+import eventManager from '../../utils/eventManager';
+import { global, globalSet } from '../../utils/global';
+
 eventManager.on('PlayingGame', function fixEndTurn() {
   eventManager.on(':load', () => {
     let endedTurn = false;

@@ -1,3 +1,8 @@
+import eventManager from '../../utils/eventManager';
+import { global } from '../../utils/global';
+import onPage from '../../utils/onPage';
+import * as menu from '../../utils/menu';
+
 onPage('Game', () => {
   // Unbind the "surrender" hotkey
   eventManager.on('jQuery', () => {

@@ -1,1 +1,1 @@
-fn.active = () => document.visibilityState === 'visible';
+export default () => document.visibilityState === 'visible';

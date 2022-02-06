@@ -1,3 +1,15 @@
+import axios from 'axios';
+import luxon from 'luxon';
+import * as settings from '../utils/settings';
+import style from '../utils/style';
+import wrap from '../utils/2.pokemon';
+import { debugToast } from '../utils/debug';
+import { toast as BasicToast } from '../utils/2.toasts';
+import sleep from '../utils/sleep';
+import * as menu from '../utils/menu';
+import semver from '../utils/version';
+import { scriptVersion } from '../utils/1.variables';
+
 // Check for script updates
 wrap(() => {
   const disabled = settings.register({
@@ -48,7 +60,7 @@ wrap(() => {
       return response;
     }).catch((error) => {
       sessionStorage.removeItem(CHECKING);
-      fn.debug(error);
+      debugToast(error);
       if (toast) {
         toast.setText('Failed to connect to server.');
       }
@@ -65,7 +77,7 @@ wrap(() => {
     const version = scriptVersion;
     if (version === 'L' && !localStorage.getItem(DEBUG)) return false;
     if (data.time && data.time < GM_info.script.lastModified) return false; // Check if stored version is newer than script date
-    if (version.includes('-')) return fn.semver(data.version, version); // Allow test scripts to update to release
+    if (version.includes('-')) return semver(data.version, version); // Allow test scripts to update to release
     return data.version !== version; // Always assume that the marked version is better
   }
   function compareAndToast(data) {
@@ -75,7 +87,7 @@ wrap(() => {
     }
     latest.set(data);
     const path = `underscript@${data.version}/${data.unpkg}`;
-    updateToast = fn.toast({
+    updateToast = BasicToast({
       title: '[UnderScript] Update Available!',
       text: `Version ${data.version}.`,
       className: 'dismissable',
@@ -131,7 +143,7 @@ wrap(() => {
     action() {
       if (updateToast && updateToast.exists()) return;
       if (toast) toast.close();
-      toast = fn.toast({
+      toast = BasicToast({
         title: 'UnderScript updater',
         text: 'Checking for updates. Please wait.',
       });

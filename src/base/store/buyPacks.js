@@ -1,3 +1,10 @@
+import eventManager from '../../utils/eventManager';
+import { global, globalSet } from '../../utils/global';
+import * as hover from '../../utils/hover';
+import wrap from '../../utils/2.pokemon';
+import sleep from '../../utils/sleep';
+import * as api from '../../utils/4.api';
+
 wrap(() => {
   // buy multiple packs
   function buyPacks({
@@ -71,7 +78,7 @@ wrap(() => {
             buyPacks(data);
           }
         });
-        hover.new(`CTRL: Buy MAX packs<br>ALT: Buy (up to) 10 packs${cost ? '<br>SHIFT: Bypass confirmation' : ''}`, el);
+        hover.tip(`CTRL: Buy MAX packs<br>ALT: Buy (up to) 10 packs${cost ? '<br>SHIFT: Bypass confirmation' : ''}`, el);
       });
     });
 

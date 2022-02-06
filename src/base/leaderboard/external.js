@@ -1,3 +1,6 @@
+import eventManager from '../../utils/eventManager';
+import addMenuButton from '../../utils/menubuttons';
+
 eventManager.on(':load', () => {
-  fn.addMenuButton(`Leaderboard+`, 'https://ucprojects.github.io/Leaderboard/');
+  addMenuButton(`Leaderboard+`, 'https://ucprojects.github.io/Leaderboard/');
 });

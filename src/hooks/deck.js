@@ -1,5 +1,8 @@
+import eventManager from '../utils/eventManager';
+import { globalSet } from '../utils/global';
+import onPage from '../utils/onPage';
+
 onPage('Decks', function deckPage() {
-  debug('Deck editor');
   eventManager.on('jQuery', () => {
     $(document).ajaxSuccess((event, xhr, options) => {
       if (options.url !== 'DecksConfig' || !options.data) return;

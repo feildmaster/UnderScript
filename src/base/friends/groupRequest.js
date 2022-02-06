@@ -1,3 +1,8 @@
+import eventManager from '../../utils/eventManager';
+import * as settings from '../../utils/settings';
+import onPage from '../../utils/onPage';
+import * as hover from '../../utils/hover';
+
 settings.register({
   name: 'Disable decline all button',
   key: 'underscript.disable.declineAll',

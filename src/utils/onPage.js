@@ -1,4 +1,6 @@
-function getPageName() {
+import * as api from './4.api';
+
+export function getPageName() {
   const { pathname } = location;
   const length = pathname.length;
   let temp = pathname.indexOf('.');
@@ -9,7 +11,7 @@ function getPageName() {
   return pathname.substring(1, temp || length);
 }
 
-function onPage(name, callback) {
+export default function onPage(name, callback) {
   const r = getPageName() === name;
   if (typeof callback === 'function' && r) {
     callback();
@@ -18,4 +20,3 @@ function onPage(name, callback) {
 }
 
 api.register('onPage', onPage);
-fn.getPageName = getPageName;

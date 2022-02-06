@@ -1,3 +1,5 @@
+import style from '../../utils/style';
+
 style.add(
   '#AlertToast { height: 0; }',
   '#AlertToast .dismissable > span { display: block; text-align: center; }',

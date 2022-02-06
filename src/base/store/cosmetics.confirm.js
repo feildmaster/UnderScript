@@ -1,3 +1,8 @@
+import eventManager from '../../utils/eventManager';
+import { global } from '../../utils/global';
+import * as hover from '../../utils/hover';
+import wrap from '../../utils/2.pokemon';
+
 wrap(() => {
   eventManager.on(':loaded:CosmeticsShop', () => {
     $('form[action=CosmeticsShop] button')

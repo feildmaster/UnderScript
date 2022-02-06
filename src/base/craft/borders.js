@@ -1,4 +1,12 @@
-settings.register({
+import eventManager from '../../utils/eventManager';
+import * as settings from '../../utils/settings';
+import sleep from '../../utils/sleep';
+import { infoToast } from '../../utils/2.toasts';
+import onPage from '../../utils/onPage';
+import style from '../../utils/style';
+import * as cardHelper from '../../utils/cardHelper';
+
+const setting = settings.register({
   name: 'Disable Crafting Highlight',
   key: 'underscript.disable.craftingborder',
   onChange: () => {
@@ -18,26 +26,23 @@ onPage('Crafting', function craftableCards() {
 
   function highlight(el) {
     const rarity = cardHelper.rarity(el);
-    const set = !settings.value('underscript.disable.craftingborder') &&
+    const set = !setting.value() &&
         rarity !== 'DETERMINATION' &&
-        cardHelper.craft.quantity(el) < cardHelper.craft.max(rarity) &&
-        cardHelper.craft.cost(el) <= cardHelper.craft.totalDust();
+        cardHelper.quantity(el) < cardHelper.max(rarity) &&
+        cardHelper.cost(el) <= cardHelper.totalDust();
     el.classList.toggle('craftable', set);
   }
 
   function update({ id, shiny, dust }) {
-    if (dust >= cardHelper.craft.cost('LEGENDARY', true)) {
-      debug('updating');
+    if (dust >= cardHelper.cost('LEGENDARY', true)) {
       const el = cardHelper.find(id, shiny);
       if (el) highlight(el);
-      else debug({ id, shiny }, 'underscript.debugging.borders');
     } else {
       highlightCards();
     }
   }
 
   function highlightCards() {
-    debug('highlighting');
     document.querySelectorAll('div.card, table.cardBoard, table.card').forEach(highlight);
   }
 
@@ -45,5 +50,5 @@ onPage('Crafting', function craftableCards() {
   eventManager.on('refreshhighlight', highlightCards);
   eventManager.on('Craft:RefreshPage', () => eventManager.emit('refreshhighlight'));
 
-  fn.infoToast('Craftable cards are highlighted in <span class="highlight-green">green</span>', 'underscript.notice.craftingborder', '1');
+  infoToast('Craftable cards are highlighted in <span class="highlight-green">green</span>', 'underscript.notice.craftingborder', '1');
 });

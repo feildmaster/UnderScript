@@ -1,11 +1,16 @@
-settings.register({
+import eventManager from '../../utils/eventManager';
+import * as settings from '../../utils/settings';
+import { toast as basicToast } from '../../utils/2.toasts';
+import { globalSet } from '../../utils/global';
+
+const setting = settings.register({
   name: 'Disable Result Toast',
   key: 'underscript.disable.resultToast',
   page: 'Game',
 });
 
 eventManager.on('getResult:before', function resultToast() {
-  if (settings.value('underscript.disable.resultToast')) return;
+  if (setting.value()) return;
   // We need to mark the game as finished (like the source does)
   globalSet('finish', true);
   this.canceled = true;
@@ -24,5 +29,5 @@ eventManager.on('getResult:before', function resultToast() {
       document.location.href = '/';
     },
   };
-  fn.toast(toast);
+  basicToast(toast);
 });

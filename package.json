@@ -13,9 +13,9 @@
     "Austin Peterson <austin@akpwebdesign.com> (https://blog.akpwebdesign.com)"
   ],
   "scripts": {
-    "local": "rollup -c && gulp",
-    "build": "gulp --deploy && rollup -c",
-    "prepack": "gulp --deploy && rollup -c",
+    "start": "rollup -c --watch --configDebug",
+    "build": "rollup -c",
+    "prepack": "rollup -c",
     "update": "npm version minor --m=\"chore(update): Release v%s\"",
     "patch": "npm version patch --m=\"chore(patch): Release v%s\"",
     "nextpatch": "npm version prepatch --m=\"chore(next): Build patch v%s\"",
@@ -29,7 +29,9 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.1.0",
     "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-multi-entry": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.2.1",
+    "@rollup/plugin-replace": "^3.0.1",
     "eslint": "^8.8.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.25.4",

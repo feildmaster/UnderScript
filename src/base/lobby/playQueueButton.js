@@ -1,3 +1,7 @@
+import eventManager from '../../utils/eventManager';
+import onPage from '../../utils/onPage';
+import * as hover from '../../utils/hover';
+
 onPage('Play', () => {
   let queues;
   let disable = true;

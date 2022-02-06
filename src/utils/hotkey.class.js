@@ -1,4 +1,6 @@
-class Hotkey {
+import * as api from './4.api';
+
+export default class Hotkey {
   constructor(name) {
     this.name = name;
     this.keys = [];
@@ -70,4 +72,4 @@ class Hotkey {
   }
 }
 
-api.module.utils.Hotkey = Hotkey;
+api.mod.utils.Hotkey = Hotkey;

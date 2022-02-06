@@ -1,3 +1,15 @@
+import eventManager from '../../utils/eventManager';
+import * as settings from '../../utils/settings';
+import { global } from '../../utils/global';
+import style from '../../utils/style';
+import { debug } from '../../utils/debug';
+import onPage from '../../utils/onPage';
+import * as hover from '../../utils/hover';
+import each from '../../utils/each';
+import * as userInfo from '../../utils/user';
+import find from '../../utils/find';
+import merge from '../../utils/merge';
+
 /* eslint-disable no-use-before-define */
 settings.register({
   name: 'Disable Battle Log',
@@ -78,7 +90,7 @@ eventManager.on('GameStart', function battleLogger() {
   const make = {
     player: function makePlayer(player, title = false) {
       const c = $('<span>');
-      c.append(`<img src="images/souls/${player.class}.png">`, ' ', fn.user.name(player));
+      c.append(`<img src="images/souls/${player.class}.png">`, ' ', userInfo.name(player));
       c.addClass(player.class);
       if (!title) {
         c.css('text-decoration', 'underline');
@@ -261,7 +273,7 @@ eventManager.on('GameStart', function battleLogger() {
     data.monster = JSON.parse(data.monster || data.card);
     debug(data, 'debugging.raw.updateMonster');
     const card = data.monster;
-    monsters[card.id] = fn.merge(monsters[card.id], card);
+    monsters[card.id] = merge(monsters[card.id], card);
   });
   eventManager.on('getMonsterDestroyed', function monsterKilled(data) {
     debug(data, 'debugging.raw.kill');
@@ -318,7 +330,7 @@ eventManager.on('GameStart', function battleLogger() {
     // data.artifacts
     if (data.artifacts) {
       temp = JSON.parse(data.artifacts);
-      fn.each(temp, (array = [], user = 0) => {
+      each(temp, (array = [], user = 0) => {
         players[user].overwhelmed = array.some((art) => art.id === 34 && art.custom === 0);
       });
     }
@@ -391,7 +403,7 @@ eventManager.on('GameStart', function battleLogger() {
   }
 
   function lookupPlayer(name) { // This is undefined
-    return fn.find(players, (player) => fn.user.name(player) === name);
+    return find(players, (player) => userInfo.name(player) === name);
   }
 
   style.add(

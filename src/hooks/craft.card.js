@@ -1,3 +1,7 @@
+import eventManager from '../utils/eventManager';
+import { global, globalSet } from '../utils/global';
+import onPage from '../utils/onPage';
+
 onPage('Crafting', () => {
   eventManager.on('jQuery', () => {
     $(document).ajaxComplete((event, xhr, options) => {

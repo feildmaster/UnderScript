@@ -1,4 +1,6 @@
-function VarStore(def) {
+import * as api from './4.api';
+
+export default function VarStore(def) {
   let v = def;
 
   function get() {
@@ -31,4 +33,4 @@ function VarStore(def) {
   return ret;
 }
 
-api.module.utils.VarStore = Object.freeze(VarStore);
+api.mod.utils.VarStore = Object.freeze(VarStore);

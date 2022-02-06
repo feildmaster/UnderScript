@@ -1,11 +1,19 @@
-settings.register({
+import eventManager from '../../utils/eventManager';
+import * as settings from '../../utils/settings';
+import { global } from '../../utils/global';
+import onPage from '../../utils/onPage';
+import * as hover from '../../utils/hover';
+import style from '../../utils/style';
+import * as deckLoader from '../../utils/loadDeck';
+
+const setting = settings.register({
   name: 'Disable Deck Storage',
   key: 'underscript.storage.disable',
   refresh: () => onPage('Decks'),
   page: 'Library',
 });
 
-settings.register({
+const rows = settings.register({
   name: 'Deck Storage Rows',
   key: 'underscript.storage.rows',
   type: 'select',
@@ -16,7 +24,7 @@ settings.register({
 });
 
 onPage('Decks', function deckStorage() {
-  if (settings.value('underscript.storage.disable')) return;
+  if (setting.value()) return;
   style.add('.btn-storage { margin-top: 5px; margin-right: 6px; width: 30px; padding: 5px 0; }');
 
   function getFromLibrary(id, library, shiny) {
@@ -40,7 +48,7 @@ onPage('Decks', function deckStorage() {
     const container = $('<p>');
     const buttons = [];
 
-    for (let i = 1, x = Math.max(parseInt(settings.value('underscript.storage.rows'), 10), 1) * 5; i <= x; i++) {
+    for (let i = 1, x = Math.max(parseInt(rows.value(), 10), 1) * 5; i <= x; i++) {
       buttons.push($('<button>')
         .text(i)
         .addClass('btn btn-sm btn-danger btn-storage'));
@@ -88,7 +96,7 @@ onPage('Decks', function deckStorage() {
 
     function loadDeck(i) {
       if (i === null) return;
-      fn.deckLoader.load({
+      deckLoader.load({
         cards: getDeck(i, true),
         artifacts: getArtifacts(i),
       });
@@ -258,7 +266,7 @@ onPage('Decks', function deckStorage() {
       loadStorage();
     });
     $('#yourCardList > button[onclick="removeAllCards();"]').on('click', () => {
-      fn.deckLoader.clear();
+      deckLoader.clear();
     });
   });
 });
