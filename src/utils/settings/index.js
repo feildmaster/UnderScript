@@ -1,11 +1,11 @@
-import eventManager from './eventManager';
-import eventEmitter from './eventEmitter';
-import style from './style';
-import * as menu from './menu';
-import tabManager from './tabbedView';
-import * as hover from './hover';
-import each from './each';
-import wrap from './2.pokemon';
+import eventManager from '../eventManager';
+import eventEmitter from '../eventEmitter';
+import style from '../style';
+import * as menu from '../menu';
+import tabManager from '../tabbedView';
+import * as hover from '../hover';
+import each from '../each';
+import wrap from '../2.pokemon';
 
 style.add(
   '.flex-start { display: flex; align-items: flex-start; }',
