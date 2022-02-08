@@ -46,17 +46,17 @@ function emptyString(...args) {
   return args.some((arg) => typeof arg !== 'string' || !arg.trim());
 }
 api.register('semver', {
-  isNewer: (ver) => {
+  isNewer: (ver, current) => {
     if (emptyString(ver)) throw new Error('Expected non-empty string');
-    return compare(ver.trim()) === true;
+    return compare(ver.trim(), current) === true;
   },
-  atLeast: (ver) => {
+  atLeast: (ver, current) => {
     if (emptyString(ver)) throw new Error('Expected non-empty string');
-    return compare(ver.trim()) !== false;
+    return compare(ver.trim(), current) !== false;
   },
-  isOlder: (ver) => {
+  isOlder: (ver, current) => {
     if (emptyString(ver)) throw new Error('Expected non-empty string');
-    return compare(ver.trim()) !== true;
+    return compare(ver.trim(), current) !== true;
   },
   compare: (newer, current) => {
     if (emptyString(newer, current)) throw new Error('Expected non-empty strings');
