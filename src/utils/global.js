@@ -1,5 +1,4 @@
 import { debug } from './debug';
-import * as api from './4.api';
 
 export function global(...key) {
   const {
@@ -35,6 +34,3 @@ export function globalSet(key, value, {
 }
 
 export default global;
-
-api.mod.utils.global = global;
-api.mod.utils.globalSet = globalSet;

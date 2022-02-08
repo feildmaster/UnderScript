@@ -1,7 +1,6 @@
 import * as settings from './settings';
 import sleep from './sleep';
 import eventManager from './eventManager';
-import * as api from './4.api';
 import { toast } from './2.toasts';
 
 const setting = settings.register({
@@ -30,8 +29,6 @@ export default function notify(text, title = 'Undercards') {
 
   sleep(5000).then(() => n.close());
 }
-
-api.mod.utils.notify = notify;
 
 if (isType() && !setting.value()) {
   eventManager.on(':load:Play', () => show('UnderScript would like to notify you when a game is found.'));

@@ -1,5 +1,3 @@
-import * as api from './4.api';
-
 export default class Hotkey {
   constructor(name) {
     this.name = name;
@@ -71,5 +69,3 @@ export default class Hotkey {
     return `${this.name || 'Hotkey'}: Bind{Keys:${JSON.stringify(this.keys)}, Clicks:${JSON.stringify(this.clicks)}}, FN:${this.fn !== null}`;
   }
 }
-
-api.mod.utils.Hotkey = Hotkey;

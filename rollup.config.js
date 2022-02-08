@@ -41,8 +41,8 @@ module.exports = [{
     include: [
       'src/utils/0.publicist.js',
       'src/base/index.js',
-      'src/base/**/**.js',
-      'src/hooks/**.js',
+      'src/base/**/*.js',
+      'src/hooks/**/*.js',
     ],
     exclude,
   },
@@ -53,7 +53,7 @@ module.exports = [{
     banner: meta,
     format: 'iife', // module, iife
     esModule: false,
-    // exports: 'none',
+    exports: 'none',
     preferConst: true,
     globals: {
       luxon: 'luxon',
@@ -65,8 +65,9 @@ module.exports = [{
   },
   external: ['luxon', 'showdown', 'axios', 'tippy.js', SimpleToast],
   plugins: [
+    nodeResolve({ browser: true }),
     multi({
-      // exports: false,
+      exports: false,
     }),
     cleanup(),
     {
@@ -77,6 +78,14 @@ module.exports = [{
           fileName: 'undercards.meta.js',
           source: meta,
         });
+      },
+    },
+    {
+      name: 'Watch src',
+      buildStart() {
+        // Look for new files in base/hooks
+        this.addWatchFile('src/base');
+        this.addWatchFile('src/hooks');
       },
     },
   ],

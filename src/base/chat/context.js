@@ -203,7 +203,7 @@ eventManager.on('ChatDetected', () => {
     });
   });
 
-  eventManager.on('Chat:getMessage', (data) => {
+  eventManager.on('Chat:getMessage', function parse(data) {
     if (this.canceled) return;
     processMessage(JSON.parse(data.chatMessage), data.room);
   });

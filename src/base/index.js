@@ -1,5 +1,1 @@
-import eventManager from '../utils/eventManager';
-
-export { eventManager };
-
-eventManager.emit(':test');
+export { default as eventManager } from '../utils/eventManager';

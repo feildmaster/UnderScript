@@ -1,5 +1,3 @@
-import * as api from './4.api';
-
 export default function VarStore(def) {
   let v = def;
 
@@ -32,5 +30,3 @@ export default function VarStore(def) {
 
   return ret;
 }
-
-api.mod.utils.VarStore = Object.freeze(VarStore);

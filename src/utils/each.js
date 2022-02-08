@@ -4,5 +4,3 @@ export default function each(o, f, t) {
     f.call(t, o[x], x, o); // "this", value, key, object
   });
 }
-
-// TODO: api.mod.utils.each = each;

@@ -1,4 +1,3 @@
-import * as api from './4.api';
 import style from './style';
 
 style.add(
@@ -156,5 +155,3 @@ function newTab(id = 0, group = 0) {
 
   return [button, label, content];
 }
-
-api.mod.utils.tabManager = TabManager;

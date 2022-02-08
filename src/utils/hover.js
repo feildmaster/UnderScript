@@ -102,9 +102,3 @@ export function tip(text, target, {
   }
   tippy(target, options);
 }
-
-api.mod.utils.hover = {
-  hide,
-  show,
-  new: tip,
-};

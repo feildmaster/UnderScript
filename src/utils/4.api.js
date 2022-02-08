@@ -1,5 +1,4 @@
 import { scriptVersion } from './1.variables';
-import each from './each';
 import eventManager from './eventManager';
 
 const underscript = {
@@ -8,33 +7,38 @@ const underscript = {
 
 const modules = {};
 
-export function register(name, val) {
-  if (underscript.ready) throw new Error('Registering module too late!');
-  if (Object.prototype.hasOwnProperty.call(underscript, name)) throw new Error('Variable already exposed');
+export function register(name, val, module = false) {
+  // if (underscript.ready) throw new Error(`Registering module (${name}) too late!`);
+  if (underscript[name]) {
+    if (!module) throw new Error(`${name} already exists`);
+    console.error(`Module [${name}] skipped, variable exists`);
+    return;
+  }
 
   underscript[name] = val;
 }
 
-function finalize() {
+function publish() {
   if (underscript.ready) return;
-  each(modules, (module, key) => {
-    if (underscript[key]) {
-      console.error(`Module [${key}] skipped, variable exists`);
-      return;
-    }
-    register(key, Object.freeze(module));
-  });
   register('ready', true);
-  window.underscript = Object.freeze(underscript);
+  window.underscript = new Proxy(underscript, {
+    get(...args) {
+      return Reflect.get(...args);
+    },
+    set() {},
+  });
 }
 
 export const mod = new Proxy(modules, {
   get(o, key, r) {
     if (!(key in o)) {
-      Reflect.set(o, key, {}, r);
+      const ob = {};
+      Reflect.set(o, key, ob, r);
+      register(key, ob, true);
     }
     return Reflect.get(o, key, r);
   },
+  set() {},
 });
 
-eventManager.on(':ready', finalize);
+eventManager.on(':ready', publish);

@@ -141,17 +141,17 @@ export function addButton(button = {}) {
   dirty();
 }
 
-toast = infoToast({
-  text: 'UnderScript has a menu, press ESC to open it!',
-  onClose: (reason) => {
-    toast = null;
-    // return reason !== 'opened';
-  },
-}, 'underscript.notice.menu', '1');
-
 eventManager.on(':load', () => {
   const btn = addMenuButton('Menu');
   if (btn) btn.addEventListener('click', () => open());
+
+  toast = infoToast({
+    text: 'UnderScript has a menu, press ESC to open it!',
+    onClose: (reason) => {
+      toast = null;
+      // return reason !== 'opened';
+    },
+  }, 'underscript.notice.menu', '1');
 });
 
 export function dirty() {

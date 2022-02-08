@@ -12,7 +12,7 @@ const setting = settings.register({
   category: 'Commands',
 });
 
-eventManager.on('Chat:command', (data) => {
+eventManager.on('Chat:command', function process(data) {
   debug(data);
   if (this.canceled || data.command !== command || setting.value()) return;
   debug('Scroll command');

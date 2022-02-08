@@ -150,5 +150,3 @@ export default function eventEmitter() {
 
   return Object.freeze(emitter);
 }
-
-// TODO: api.mod.utils.eventEmitter = eventEmitter;
