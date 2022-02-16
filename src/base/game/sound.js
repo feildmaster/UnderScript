@@ -69,34 +69,42 @@ function pauseMusic() {
 }
 
 function overrideResult(name) {
+  const data = { name };
+  eventManager.emit('playMusic', data);
   if (!resultEnabled.value()) return;
   pauseMusic();
-  createAudio(`/musics/${name}.ogg`, {
+  createAudio(`/musics/${data.name}.ogg`, {
     volume: resultVolume.value(),
     repeat: true,
     set: 'music',
   });
 }
 function overrideMusic(name) {
+  const data = { name };
+  eventManager.emit('playBackgroundMusic', data);
   if (!bgmEnabled.value()) return;
   pauseMusic();
-  createAudio(`/musics/themes/${name}.ogg`, {
+  createAudio(`/musics/themes/${data.name}.ogg`, {
     volume: bgmVolume.value(),
     repeat: true,
     set: 'music',
   });
 }
 function overrideSound(name) {
+  const data = { name };
+  eventManager.emit('playSound', data);
   if (!soundEnabled.value()) return;
-  createAudio(`/sounds/${name}.wav`, {
+  createAudio(`/sounds/${data.name}.wav`, {
     volume: soundVolume.value(),
     set: 'audio',
   });
 }
 function overrideJingle(name = '') {
+  const data = { name };
+  eventManager.emit('playJingle', data);
   if (!jingleEnabled.value()) return;
   pauseMusic();
-  createAudio(`/musics/cards/${name.replace(/ /g, '_')}.ogg`, {
+  createAudio(`/musics/cards/${data.name.replace(/ /g, '_')}.ogg`, {
     volume: jingleVolume.value(),
     set: 'jingle',
     listener: global('jingleEnd'),
