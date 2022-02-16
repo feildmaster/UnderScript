@@ -286,9 +286,9 @@ export function register(data) {
     disabled: data.disabled,
     default: data.default,
     options: data.options,
-    hidden: !!data.hidden,
-    pseudo: !!data.pseudo,
-    remove: !!data.remove,
+    hidden: data.hidden === true,
+    pseudo: data.pseudo === true, // TODO: What does this do...?
+    remove: data.remove === true,
     exportable: data.export !== false,
     extraPrefix: data.extraPrefix,
     reset: data.reset === true,

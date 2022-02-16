@@ -4,26 +4,26 @@ import { global, globalSet } from '../../utils/global';
 import pendingIgnore from '../../utils/pendingIgnore';
 import pingRegex from '../../utils/pingRegex';
 
-settings.register({
+const setting = settings.register({
   name: 'Disable Chat Ping <span style="color: yellow;">(highlighting)</span>',
   key: 'underscript.disable.ping',
   page: 'Chat',
 });
 
+const mask = '<span style="color: yellow;">$1</span>';
+
+let disabled = false;
+
+eventManager.on('preChat:getHistory Chat:getHistory', function enable(data) {
+  if (disabled || global('soundsEnabled')) {
+    globalSet('soundsEnabled', this.event === 'Chat:getHistory');
+    disabled = !disabled;
+  }
+});
+
 eventManager.on('ChatDetected', () => {
-  const mask = '<span style="color: yellow;">$1</span>';
-
-  let disabled = false;
-
-  eventManager.on('preChat:getHistory Chat:getHistory', function enable(data) {
-    if (disabled || global('soundsEnabled')) {
-      globalSet('soundsEnabled', this.event === 'Chat:getHistory');
-      disabled = !disabled;
-    }
-  });
-
   globalSet('notif', function newNotify(original) {
-    if (!settings.value('underscript.disable.ping') && !pendingIgnore.get()) { // TODO
+    if (!setting.value() && !pendingIgnore.get()) { // TODO
       const text = this.super(original);
 
       const regex = pingRegex();
