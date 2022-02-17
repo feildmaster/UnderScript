@@ -71,7 +71,8 @@ export function infoToast(arg, key, val) {
   return toast(merge(defaults, arg, override));
 }
 
-export function dismissable({ title, text, key, value = true, css = {} }) {
+export function dismissable({ title, text, key, value = 'true', css = {} }) {
+  if (localStorage.getItem(key) === value) return undefined;
   const buttons = {
     text: 'Dismiss',
     className: 'dismiss',
