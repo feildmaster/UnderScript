@@ -1,5 +1,13 @@
 # UnderScript Changelog
 
+## Version 0.49.0 ()
+### New Features
+1. Mark hub decks missing DT(s)
+### Fixes
+1. Fixed chat events not registering sometimes
+1. Fixed dismissable toasts appearing when dismissed.
+1. Fixed bug with spectating events
+
 ## Version 0.48.0 (2022-01-23)
 ### New Features
 1. Added settings to disable/hide individual emotes you own
