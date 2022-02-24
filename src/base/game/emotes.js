@@ -29,7 +29,7 @@ const enemy = settings.register({
 
 eventManager.on('GameStart', () => {
   eventManager.on(':loaded', () => {
-    self = global('selfId');
+    self = global('selfId', { throws: false });
     // live = true;
     if (disableSpectating()) {
       globalSet('gameEmotesEnabled', false);
@@ -59,5 +59,5 @@ function disableSpectating() {
 }
 
 function friendsOnly(id) {
-  return friends.value() && id !== self && !global('isFriend')(id);
+  return self && friends.value() && id !== self && !global('isFriend')(id);
 }
