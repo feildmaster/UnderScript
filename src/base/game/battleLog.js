@@ -67,6 +67,7 @@ eventManager.on('GameStart', function battleLogger() {
     clearSpell: '',
     getPlaySound: '',
     getAnimation: '',
+    getArtifactDoingEffect: 'artifact activates, handled by getBattleLog',
   });
   const turnText = '>>> Turn';
   const surrendered = 'surrendered';
@@ -90,7 +91,7 @@ eventManager.on('GameStart', function battleLogger() {
   const make = {
     player: function makePlayer(player, title = false) {
       const c = $('<span>');
-      c.append(`<img src="images/souls/${player.class}.png">`, ' ', userInfo.name(player));
+      c.append(`<img src="images/souls/${player.class}.png">`, userInfo.name(player));
       c.addClass(player.class);
       if (!title) {
         c.css('text-decoration', 'underline');
@@ -113,6 +114,14 @@ eventManager.on('GameStart', function battleLogger() {
         appendCard(d, card);
       }
       c.hover(hover.show(d));
+      return c;
+    },
+    artifact(art, appendName) {
+      const c = $('<span>');
+      c.append(`<img src="images/artifacts/${art.image}.png">`);
+      if (appendName) {
+        c.append(art.name);
+      }
       return c;
     },
   };
@@ -220,11 +229,20 @@ eventManager.on('GameStart', function battleLogger() {
     lastEffect = `m${data.monsterId}`;
     log.add(make.card(monsters[data.monsterId]), '\'s effect activated');
   });
-  eventManager.on('getArtifactDoingEffect', function doEffect(data) {
-    debug(data, 'debugging.raw.effectArtifact');
-    if (lastEffect === `a${data.playerId}`) return;
-    lastEffect = `a${data.playerId}`;
-    log.add(make.player(players[data.playerId]), '\'s artifact activated');
+  eventManager.on('Log:ARTIFACT_EFFECT', ({ artifactActor: artifact, playerId, targetCards = [], targetPlayers = [] }) => {
+    const bits = [make.player(players[playerId]), `'s `, make.artifact(artifact, true), ' activated'];
+    if (targetCards.length || targetPlayers.length) {
+      bits.push(' on ');
+    }
+    targetCards.forEach((card, i) => {
+      if (i) bits.push(', ');
+      bits.push(make.card(card));
+    });
+    targetPlayers.forEach((player, i) => {
+      if (i) bits.push(', ');
+      bits.push(make.player(players[player.id]));
+    });
+    log.add(...bits);
   });
   eventManager.on('getSoulDoingEffect', function soulEffect(data) {
     debug(data, 'debugging.raw.effectSoul');
@@ -410,6 +428,7 @@ eventManager.on('GameStart', function battleLogger() {
     '#history { border: 2px solid white; background-color: rgba(0,0,0,0.9); position: absolute; right: 10px; top: 10px; z-index: 20; user-select: text; }',
     '#history .handle { border-bottom: 1px solid white; text-align: center; }',
     '#history #log { display: flex; flex-direction: column-reverse; align-items: flex-start; overflow-y: auto; max-height: 600px; }',
+    '#history img { height: 16px; padding-right: 4px; }',
   );
 
   const log = {
@@ -432,7 +451,7 @@ eventManager.on('GameStart', function battleLogger() {
     add(...args) {
       const div = $('<div>');
       args.forEach((a) => {
-        div.append(a);
+        if (a) div.append(a);
       });
       if (!div.html()) return;
       $('div#history div#log').prepend(div);

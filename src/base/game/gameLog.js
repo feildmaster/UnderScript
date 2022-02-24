@@ -37,10 +37,6 @@ eventManager.on('GameStart', () => {
     toggle(!to, 'left');
     timer(!to);
   });
-
-  eventManager.on('getBattleLog', (data) => {
-    // appendBattleLog
-  });
 });
 
 function toggle(to, clazz = 'hidden') {

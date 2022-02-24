@@ -25,4 +25,11 @@ eventManager.on('GameStart', function gameEvents() {
   eventManager.on('getVictory getDefeat getResult', function finish() {
     finished = true;
   });
+  eventManager.on('getBattleLog', (data) => {
+    const log = JSON.parse(data.battleLog);
+    const { ran } = eventManager.emit(`Log:${log.battleLogType}`, log);
+    if (!ran) {
+      debugToast(`Unknown action: Log:${data.battleLogType}`);
+    }
+  });
 });
