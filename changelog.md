@@ -10,6 +10,11 @@
 1. Fixed persistent arena background
 1. Fixed in-game emotes not being disabled
 1. Fixed some spectate events not working
+1. Fixed a bug when spectating as a guest
+### Misc
+1. Battle log now shows artifact details
+### Plugins
+1. Added `pre:appendCard()` event
 
 ## Version 0.48.0 (2022-01-23)
 ### New Features
