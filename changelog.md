@@ -7,6 +7,8 @@
 1. Fixed chat events not registering sometimes
 1. Fixed dismissable toasts appearing when dismissed.
 1. Fixed bug with spectating events
+1. Fixed persistent arena background
+1. Fixed in-game emotes not being disabled
 
 ## Version 0.48.0 (2022-01-23)
 ### New Features
