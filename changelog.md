@@ -9,6 +9,7 @@
 1. Fixed bug with spectating events
 1. Fixed persistent arena background
 1. Fixed in-game emotes not being disabled
+1. Fixed some spectate events not working
 
 ## Version 0.48.0 (2022-01-23)
 ### New Features

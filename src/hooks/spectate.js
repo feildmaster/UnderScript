@@ -9,7 +9,7 @@ onPage('Spectate', () => {
 
   eventManager.on(':loaded', () => {
     function callGameHooks(data, original) {
-      const run = !eventManager.emit('PreGameEvent', data, data.action === 'getResult').canceled;
+      const run = !eventManager.cancelable.emit('PreGameEvent', data).canceled;
       if (run) {
         wrap(() => original(data));
       }
