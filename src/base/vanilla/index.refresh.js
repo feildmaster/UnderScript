@@ -3,7 +3,7 @@ import * as settings from '../../utils/settings';
 import { infoToast } from '../../utils/2.toasts';
 import { debugToast } from '../../utils/debug';
 import onPage from '../../utils/onPage';
-import { decrypt } from '../../utils/decrypt.emails';
+import decrypt from '../../utils/decrypt.emails';
 import translate from '../../utils/translate';
 
 const setting = settings.register({
@@ -15,7 +15,7 @@ const setting = settings.register({
     onPage('', setup);
   },
   onChange(val) {
-    if (onPage('') && val) setup();
+    onPage('', setup);
   },
 });
 

@@ -1,11 +1,11 @@
 const selector = 'a[href="/cdn-cgi/l/email-protection"]';
 
-function hexAt(str, index) {
+function hexAt(str = '', index) {
   const r = str.substr(index, 2);
   return parseInt(r, 16);
 }
 
-export function decrypt(ciphertext) {
+function decrypt(ciphertext) {
   let output = '';
   const key = hexAt(ciphertext, 0);
   for (let i = 2; i < ciphertext.length; i += 2) {

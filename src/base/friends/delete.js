@@ -3,7 +3,7 @@ import eventManager from '../../utils/eventManager';
 import * as settings from '../../utils/settings';
 import { globalSet } from '../../utils/global';
 import { toast, errorToast } from '../../utils/2.toasts';
-import { decrypt } from '../../utils/decrypt.emails';
+import decrypt from '../../utils/decrypt.emails';
 import style from '../../utils/style';
 
 const setting = settings.register({

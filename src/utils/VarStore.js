@@ -20,7 +20,7 @@ export default function VarStore(def) {
   }
 
   const ret = {
-    get, set, peak, isSet,
+    get, set, peak, isSet, value: v,
   };
 
   Object.defineProperty(ret, 'value', {

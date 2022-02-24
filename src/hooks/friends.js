@@ -1,6 +1,6 @@
 import axios from 'axios';
 import eventManager from '../utils/eventManager';
-import { decrypt } from '../utils/decrypt.emails';
+import decrypt from '../utils/decrypt.emails';
 import { debugToast as debug } from '../utils/debug';
 import sleep from '../utils/sleep';
 

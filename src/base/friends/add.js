@@ -3,7 +3,7 @@ import eventManager from '../../utils/eventManager';
 import * as settings from '../../utils/settings';
 import { toast } from '../../utils/2.toasts';
 import onPage from '../../utils/onPage';
-import { decrypt } from '../../utils/decrypt.emails';
+import decrypt from '../../utils/decrypt.emails';
 import * as $el from '../../utils/elementHelper';
 
 const setting = settings.register({
