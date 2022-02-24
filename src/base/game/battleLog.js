@@ -239,7 +239,7 @@ eventManager.on('GameStart', function battleLogger() {
       bits.push(make.card(card));
     });
     targetPlayers.forEach((player, i) => {
-      if (i) bits.push(', ');
+      if (i || targetCards.length) bits.push(', ');
       bits.push(make.player(players[player.id]));
     });
     log.add(...bits);
@@ -429,6 +429,8 @@ eventManager.on('GameStart', function battleLogger() {
     '#history .handle { border-bottom: 1px solid white; text-align: center; }',
     '#history #log { display: flex; flex-direction: column-reverse; align-items: flex-start; overflow-y: auto; max-height: 600px; }',
     '#history img { height: 16px; padding-right: 4px; }',
+    '#history #log div { position: relative; width: 100% }',
+    '#history #log div:after { content: ""; border-bottom: 1px dashed rgb(133,133,133); position: absolute; left: 0; right: 0; bottom: -1px; }',
   );
 
   const log = {
