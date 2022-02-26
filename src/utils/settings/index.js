@@ -338,7 +338,7 @@ export function register(data) {
     const current = localStorage.getItem(setting.key);
     if (typeof current === 'string') {
       const converted = data.converter(current);
-      if (converted === false) {
+      if (converted === null) {
         localStorage.removeItem(setting.key);
       } else if (converted) {
         localStorage.setItem(setting.key, converted);
