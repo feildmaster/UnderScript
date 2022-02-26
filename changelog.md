@@ -4,6 +4,7 @@
 ### New Features
 1. Mark hub decks missing DT(s)
 1. Mark missed quest days
+1. Large Icon mode
 ### Fixes
 1. Fixed chat events not registering sometimes
 1. Fixed dismissable toasts appearing when dismissed.
