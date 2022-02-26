@@ -3,6 +3,7 @@
 ## Version 0.49.0 ()
 ### New Features
 1. Mark hub decks missing DT(s)
+1. Mark missed quest days
 ### Fixes
 1. Fixed chat events not registering sometimes
 1. Fixed dismissable toasts appearing when dismissed.
@@ -11,6 +12,7 @@
 1. Fixed in-game emotes not being disabled
 1. Fixed some spectate events not working
 1. Fixed a bug when spectating as a guest
+1. Fixed hub display issues
 ### Misc
 1. Battle log now shows artifact details
 ### Plugins
