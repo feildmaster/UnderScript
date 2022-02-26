@@ -5,7 +5,7 @@ import { global, globalSet } from '../utils/global';
 eventManager.on(':loaded', () => {
   if (typeof socketChat !== 'undefined') {
     debug('Chat detected');
-    eventManager.emit('ChatDetected');
+    eventManager.singleton.emit('ChatDetected');
 
     const socketChat = global('socketChat');
     const oHandler = socketChat.onmessage;
