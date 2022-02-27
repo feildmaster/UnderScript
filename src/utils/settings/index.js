@@ -275,12 +275,13 @@ function getMessage(page) {
 }
 
 export function register(data) {
-  if (!data && !data.key) return false;
+  if (typeof data !== 'string' && !data.key) return false;
   const page = data.page || 'main';
+  const key = data.key || data;
   const setting = {
     page,
-    key: data.key || data,
-    name: data.name || data.key,
+    key,
+    name: data.name || key,
     type: data.type || 'boolean',
     category: data.category,
     disabled: data.disabled,
