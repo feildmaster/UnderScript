@@ -41,7 +41,7 @@ function register(host) {
 }
 
 eventManager.on('BootstrapDialog:show', (dialog) => {
-  if (dialog.getTitle() !== 'Leaving Warning') return;
+  if (dialog.getTitle() !== 'Leaving Warning' || !setting.value()) return;
   const host = cache.value;
   dialog.options.buttons.unshift({
     label: `Trust ${host}`,
