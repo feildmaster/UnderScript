@@ -6,7 +6,7 @@ eventManager.on(':loaded:Friendship', () => {
   $(document).ajaxComplete((event, xhr, settings) => {
     if (settings.url !== 'FriendshipConfig') return;
     if (settings.type === 'GET') {
-      eventManager.emit('Friendship:loaded');
+      eventManager.singleton.emit('Friendship:loaded');
     } else if (xhr.responseJSON) {
       const data = xhr.responseJSON;
       if (data.status === 'success') {
