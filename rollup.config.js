@@ -48,7 +48,7 @@ module.exports = [{
     exclude,
   },
   context: 'this',
-  output: {
+  output: [{
     name: 'ucs',
     file: 'dist/undercards.user.js',
     banner: meta,
@@ -56,7 +56,14 @@ module.exports = [{
     esModule: false,
     exports: 'none',
     preferConst: true,
-  },
+  }, {
+    name: 'ucs',
+    file: 'dist/underscript.js',
+    format: 'iife', // module, iife
+    esModule: false,
+    exports: 'none',
+    preferConst: true,
+  }],
   external: ['luxon', 'showdown', 'axios', 'tippy.js'],
   plugins: [
     nodeResolve({ browser: true }),
