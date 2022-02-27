@@ -33,7 +33,7 @@ function check({ code, id }) {
   const missingCards = getMissingCards(deck.cardIds);
 
   const missingDT = missingCards.some((i) => allCards[i].rarity === 'DETERMINATION');
-  const missingCard = missingCards.length;
+  const missingCard = missingCards.length > 0;
   const missingArt = deck.artifactIds.filter((art) => !checkArt(art));
 
   $(`#hub-deck-${id} .show-button`)

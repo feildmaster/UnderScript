@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.49.2 (2022-02-27)
+1. Fixed hub showing missing cards when you have the full deck
+
 ## Version 0.49.1 (2022-02-26)
 ### New Features
 1. Mark hub decks missing DT(s)
