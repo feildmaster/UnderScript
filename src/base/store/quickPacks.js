@@ -1,5 +1,4 @@
 /* eslint-disable no-multi-assign, no-nested-ternary */
-import SimpleToast from '../../bundle/SimpleToast';
 import eventManager from '../../utils/eventManager';
 import eventEmitter from '../../utils/eventEmitter';
 import * as settings from '../../utils/settings';
@@ -7,7 +6,7 @@ import { global, globalSet } from '../../utils/global';
 import onPage from '../../utils/onPage';
 import * as hover from '../../utils/hover';
 import wrap from '../../utils/2.pokemon';
-import { toast as basicToast } from '../../utils/2.toasts';
+import { blankToast, toast as basicToast } from '../../utils/2.toasts';
 import * as api from '../../utils/4.api';
 import formatNumber from '../../utils/formatNumber';
 
@@ -94,7 +93,7 @@ wrap(() => {
       setupPing();
     });
 
-    let toast = new SimpleToast();
+    let toast = blankToast();
     events.on('pack', (cards) => {
       status.pending -= 1;
       results.packs += 1;

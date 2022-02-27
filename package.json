@@ -37,7 +37,8 @@
     "eslint-plugin-import": "^2.25.4",
     "replace": "^1.2.1",
     "rollup": "^2.66.1",
-    "rollup-plugin-cleanup": "^3.2.1"
+    "rollup-plugin-cleanup": "^3.2.1",
+    "rollup-plugin-external-globals": "^0.6.1"
   },
   "dependencies": {
     "axios": "^0.21.4",

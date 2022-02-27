@@ -4,6 +4,7 @@ const json = require('@rollup/plugin-json');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const cleanup = require('rollup-plugin-cleanup');
 const multi = require('@rollup/plugin-multi-entry');
+const externals = require('rollup-plugin-external-globals');
 const path = require('path');
 const { version } = require('./package.json');
 
@@ -51,25 +52,24 @@ module.exports = [{
     name: 'ucs',
     file: 'dist/undercards.user.js',
     banner: meta,
-    format: 'iife', // module, iife
+    format: 'module', // module, iife
     esModule: false,
     exports: 'none',
     preferConst: true,
-    globals: {
-      luxon: 'luxon',
-      showdown: 'showdown',
-      axios: 'axios',
-      'tippy.js': 'tippy',
-      [SimpleToast]: 'SimpleToast',
-    },
   },
-  external: ['luxon', 'showdown', 'axios', 'tippy.js', SimpleToast],
+  external: ['luxon', 'showdown', 'axios', 'tippy.js'],
   plugins: [
     nodeResolve({ browser: true }),
     multi({
       exports: false,
     }),
     cleanup(),
+    externals({
+      luxon: 'luxon',
+      showdown: 'showdown',
+      axios: 'axios',
+      'tippy.js': 'tippy',
+    }),
     {
       name: 'Meta saver',
       generateBundle() {

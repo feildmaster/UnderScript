@@ -7,7 +7,12 @@
 // @match        https://*.undercards.net/*
 // @match        https://feildmaster.github.io/UnderScript/*
 // @exclude      https://*.undercards.net/*/*
-// @require      https://unpkg.com/underscript@{{ version }}/dist/dependencies.js
+// @require      https://unpkg.com/showdown@2.0.0/dist/showdown.min.js
+// @require      https://unpkg.com/popper.js@1.16.1/dist/umd/popper.min.js
+// @require      https://unpkg.com/tippy.js@4.3.5/umd/index.all.min.js
+// @require      https://unpkg.com/axios@0.21.4/dist/axios.min.js
+// @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/2.0.0/simpletoast.js
+// @require      https://unpkg.com/luxon@1.28.0/build/global/luxon.min.js
 // @require      https://www.googletagmanager.com/gtag/js?id=UA-38424623-4
 // @homepage     https://feildmaster.github.io/UnderScript/
 // @source       https://github.com/UCProjects/UnderScript

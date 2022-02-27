@@ -1,6 +1,6 @@
 # UnderScript Changelog
 
-## Version 0.49.0 (2022-02-26)
+## Version 0.49.1 (2022-02-26)
 ### New Features
 1. Mark hub decks missing DT(s)
 1. Mark missed quest days

@@ -1,5 +1,8 @@
-import SimpleToast from '../bundle/SimpleToast';
 import merge from './merge';
+
+export function blankToast() {
+  return new SimpleToast();
+}
 
 export function toast(arg) {
   // Why do I even check for SimpleToast? It *has* to be loaded at this point...
