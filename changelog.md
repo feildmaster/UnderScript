@@ -2,6 +2,8 @@
 
 ## Version 0.49.2 (2022-02-27)
 1. Fixed hub showing missing cards when you have the full deck
+1. Fixed in-game emotes not being disabled (again)
+1. Fixed "gaining -HP"
 
 ## Version 0.49.1 (2022-02-26)
 ### New Features
