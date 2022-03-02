@@ -1,5 +1,4 @@
 import { scriptVersion } from './1.variables';
-import eventManager from './eventManager';
 
 const underscript = {
   version: scriptVersion,
@@ -18,17 +17,6 @@ export function register(name, val, module = false) {
   underscript[name] = val;
 }
 
-function publish() {
-  if (underscript.ready) return;
-  register('ready', true);
-  window.underscript = new Proxy(underscript, {
-    get(...args) {
-      return Reflect.get(...args);
-    },
-    set() {},
-  });
-}
-
 export const mod = new Proxy(modules, {
   get(o, key, r) {
     if (!(key in o)) {
@@ -41,4 +29,9 @@ export const mod = new Proxy(modules, {
   set() {},
 });
 
-eventManager.on(':ready', publish);
+window.underscript = new Proxy(underscript, {
+  get(...args) {
+    return Reflect.get(...args);
+  },
+  set() {},
+});
