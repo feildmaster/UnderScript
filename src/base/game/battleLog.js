@@ -230,10 +230,20 @@ eventManager.on('GameStart', function battleLogger() {
     log.add(make.card(monsters[data.monsterId]), '\'s effect activated');
   });
   eventManager.on('Log:ARTIFACT_EFFECT', ({ artifactActor: artifact, playerId, targetCards = [], targetPlayers = [] }) => {
-    const bits = [make.player(players[playerId]), `'s `, make.artifact(artifact, true), ' activated'];
-    if (targetCards.length || targetPlayers.length) {
-      bits.push(' on ');
-    }
+    const bits = [make.player(players[playerId]), `'s `, make.artifact(artifact, true), ' activated', ...targets(targetCards, targetPlayers)];
+    log.add(...bits);
+  });
+  eventManager.on('Log:SOUL_EFFECT', ({ playerActor, playerId, targetCards = [], targetPlayers = [] }) => {
+    const bits = [
+      make.player(players[playerId]),
+      `'s soul activated`,
+      ...targets(targetCards, targetPlayers),
+    ];
+    log.add(...bits);
+  });
+  function targets(targetCards = [], targetPlayers = []) {
+    if (!targetCards.length && !targetPlayers.length) return [];
+    const bits = [' on '];
     targetCards.forEach((card, i) => {
       if (i) bits.push(', ');
       bits.push(make.card(card));
@@ -242,17 +252,11 @@ eventManager.on('GameStart', function battleLogger() {
       if (i || targetCards.length) bits.push(', ');
       bits.push(make.player(players[player.id]));
     });
-    log.add(...bits);
-  });
-  eventManager.on('getSoulDoingEffect', function soulEffect(data) {
-    debug(data, 'debugging.raw.effectSoul');
-    if (lastEffect === `s${data.playerId}`) return;
-    lastEffect = `s${data.playerId}`;
-    log.add(make.player(players[data.playerId]), '\'s soul activated');
-    // affecteds
-    // playerAffected1
-    // playerAffected2
-  });
+    if (bits.length > 2) { // Convert , to and
+      bits[bits.length - 2] = ' and ';
+    }
+    return bits;
+  }
   eventManager.on('getTurnStart', function turnStart(data) {
     debug(data, 'debugging.raw.turnStart');
     lastEffect = 0;
