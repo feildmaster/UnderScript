@@ -1,3 +1,4 @@
+import wrap from './2.pokemon';
 import * as api from './4.api';
 
 export function getPageName() {
@@ -14,7 +15,7 @@ export function getPageName() {
 export default function onPage(name, callback) {
   const r = getPageName() === name;
   if (typeof callback === 'function' && r) {
-    callback();
+    wrap(callback);
   }
   return r;
 }
