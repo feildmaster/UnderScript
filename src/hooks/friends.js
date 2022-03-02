@@ -18,13 +18,10 @@ function loadFriends(validate) {
   if (typeof window.jQuery === 'undefined') return undefined;
   return axios.get('/Friends').then((response) => {
     const data = decrypt($(response.data));
-    /*
-    if (data.find(`p:contains(You can't access)`)) {
-      // TODO: stop processing?
-      debug("Can't access friends");
-      return;
+    if (data.find(`span[data-i18n="[html]error-not-allowed"]`)) {
+      eventManager.singleton.emit(':GuestMode');
+      return true;
     }
-    */
     const requests = {};
     // const pending = {};
     data.find('p:contains(Friend requests)').parent().children('li').each(function fR() {
@@ -33,7 +30,7 @@ function loadFriends(validate) {
     });
     const count = Object.keys(requests).length;
     if (count !== validated && count > 3 && !validate) {
-      return loadFriends(validate);
+      return loadFriends(count);
     }
     if (validate) {
       validated = count;
@@ -43,10 +40,11 @@ function loadFriends(validate) {
     // eventManager.emit('Friends:pending', pending);
     eventManager.emit('preFriends:requests', requests);
     eventManager.emit('Friends:requests', requests);
-    return undefined;
+    return false;
   }).catch((e) => {
     debug(`Friends: ${e.message}`);
-  }).then(() => {
+  }).then((error) => {
+    if (error) return;
     sleep(10000).then(loadFriends);
   });
 }
