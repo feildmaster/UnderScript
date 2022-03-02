@@ -1,9 +1,10 @@
 # UnderScript Changelog
 
-## Version 0.49.2 (2022-02-27)
+## Version 0.49.2 (2022-03-02)
 1. Fixed hub showing missing cards when you have the full deck
 1. Fixed in-game emotes not being disabled (again)
 1. Fixed "gaining -HP"
+1. Fixed loading deck after switching souls
 
 ## Version 0.49.1 (2022-02-26)
 ### New Features

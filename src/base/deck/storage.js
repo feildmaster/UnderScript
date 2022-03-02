@@ -268,5 +268,6 @@ onPage('Decks', function deckStorage() {
     $('#yourCardList > button[onclick="removeAllCards();"]').on('click', () => {
       deckLoader.clear();
     });
+    eventManager.on('Deck:Soul', () => deckLoader.clear());
   });
 });
