@@ -24,11 +24,12 @@ eventManager.on('preChat:getFriends', function updateFriends(data) {
 });
 
 eventManager.on('ChatDetected', () => {
+  const timeout = 5000;
   function refresh() {
     const socketChat = global('socketChat');
     if (socketChat.readyState !== 1) return;
     socketChat.send(JSON.stringify({ action: 'getFriends' }));
-    sleep(2000).then(refresh);
+    sleep(timeout).then(refresh);
   }
-  sleep(2000).then(refresh);
+  sleep(timeout).then(refresh);
 });
