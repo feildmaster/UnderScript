@@ -35,6 +35,7 @@ function makeSettings() {
 }
 
 function updateEmotes() {
+  if (!originalEmotes.length) return;
   const filtered = originalEmotes.filter(({ id }) => !settings.value(`${baseSetting.key}.${id}`));
   globalSet('chatEmotes', filtered);
   globalSet('gameEmotes', filtered, {
@@ -43,3 +44,4 @@ function updateEmotes() {
 }
 
 eventManager.on('Chat:Connected', init);
+eventManager.on('connect', updateEmotes);
