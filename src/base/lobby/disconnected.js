@@ -1,5 +1,5 @@
 import eventManager from '../../utils/eventManager';
-import { global, globalSet } from '../../utils/global';
+import { globalSet } from '../../utils/global';
 import { errorToast } from '../../utils/2.toasts';
 import onPage from '../../utils/onPage';
 
@@ -8,8 +8,7 @@ onPage('Play', setup);
 let waiting = true;
 
 function setup() {
-  eventManager.on('socketOpen', () => {
-    const socket = global('socketQueue');
+  eventManager.on('socketOpen', (socket) => {
     socket.addEventListener('close', announce);
     globalSet('onbeforeunload', function onbeforeunload() {
       socket.removeEventListener('close', announce);

@@ -7,12 +7,12 @@ eventManager.on(':loaded:Play', function hook() {
     location.href = '/Game';
     return;
   }
-  function opened() {
-    eventManager.emit('socketOpen');
+  function opened(socket) {
+    eventManager.emit('socketOpen', socket);
   }
   globalSet('onOpen', function onOpen(event) {
     this.super(event);
-    opened();
+    opened(global('socketQueue'));
   });
   globalSet('onMessage', function onMessage(event) {
     const data = JSON.parse(event.data);
@@ -25,7 +25,7 @@ eventManager.on(':loaded:Play', function hook() {
   const socketQueue = global('socketQueue', { throws: false });
   if (socketQueue) {
     if (socketQueue.readyState === WebSocket.OPEN) {
-      opened();
+      opened(socketQueue);
     }
     socketQueue.onopen = global('onOpen');
     socketQueue.onmessage = global('onMessage');
