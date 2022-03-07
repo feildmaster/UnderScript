@@ -1,5 +1,12 @@
 # UnderScript Changelog
 
+## Version 0.49.3 (2022-03-06)
+1. Fixed craft border highlighting when not enough dust
+1. Fixed max crafting without enough dust
+1. Fixed CSS not loading at correct time
+1. Fixed "trusted link" not opening the link
+1. Fixed a small bug with chat
+
 ## Version 0.49.2 (2022-03-02)
 1. Fixed hub showing missing cards when you have the full deck
 1. Fixed in-game emotes not being disabled (again)
