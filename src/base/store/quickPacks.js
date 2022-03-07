@@ -232,11 +232,13 @@ wrap(() => {
 
     events.on('error', (err) => {
       status.pending -= 1;
+      if (status.state !== 'processing') return; // Invalid state
       status.errors += 1;
       // Retry once for every pack
       if (status.errors <= status.total) {
         status.remaining += 1;
       }
+      setupPing(); // We got a result, just not what we wanted
     });
 
     let autoOpen = false;
