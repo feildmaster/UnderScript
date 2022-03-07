@@ -10,7 +10,6 @@ export function newStyle() {
   eventManager.on(':loaded', appendStyle);
 
   function add(...styles) {
-    appendStyle();
     return wrapper(append(styles));
   }
 
