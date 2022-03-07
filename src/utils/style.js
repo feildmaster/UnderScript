@@ -2,14 +2,19 @@ import eventManager from './eventManager';
 
 // Custom CSS classes are great.
 export function newStyle() {
+  let loaded = false;
   const el = document.createElement('style');
   function appendStyle() {
     if (el.parentElement) return;
     document.head.append(el);
   }
-  eventManager.on(':loaded', appendStyle);
+  eventManager.on(':loaded', () => {
+    appendStyle();
+    loaded = true;
+  });
 
   function add(...styles) {
+    if (loaded) appendStyle();
     return wrapper(append(styles));
   }
 
