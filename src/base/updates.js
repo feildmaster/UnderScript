@@ -86,6 +86,7 @@ wrap(() => {
       return false;
     }
     latest.set(data);
+    if (updateToast) updateToast.close('stale');
     const path = `underscript@${data.version}/${data.unpkg}`;
     updateToast = BasicToast({
       title: '[UnderScript] Update Available!',
