@@ -39,5 +39,5 @@ eventManager.on(':loaded', () => {
     placement: 'top-start',
     onShow: () => setting.value(),
   });
-  eventManager.on('Chat:getSelfInfos', updateTip);
+  eventManager.on('Chat:Connected', updateTip);
 });

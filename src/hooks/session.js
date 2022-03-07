@@ -1,7 +1,7 @@
 import eventManager from '../utils/eventManager';
 import { global } from '../utils/global';
 
-eventManager.on('Chat:getSelfInfos', () => {
+eventManager.on('Chat:Connected', () => {
   const sessID = sessionStorage.getItem('UserID');
   const selfId = global('selfId');
   if (sessID && sessID === selfId) return;
