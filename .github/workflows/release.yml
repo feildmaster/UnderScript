@@ -44,13 +44,12 @@ jobs:
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     - name: Tag and Release
-      uses: avakar/tag-and-release@v1
+      uses: softprops/action-gh-release@v1
       with:
         tag_name: ${{ needs.check.outputs.version }}
-        commit: ${{ needs.check.outputs.commit }}
+        target_commitish: ${{ needs.check.outputs.commit }}
         body: ${{ steps.changelog.outputs.changes }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        files: dist/*
   beta:
     name: Publish Beta
     runs-on: ubuntu-latest
