@@ -57,7 +57,12 @@ function getMissingCards(ids = []) {
 
 function toObject(cards = []) {
   return cards.reduce((o, card) => {
-    o[card.id] = { ...card };
+    const exists = o[card.id];
+    if (exists) {
+      exists.quantity += card.quantity;
+    } else {
+      o[card.id] = { ...card };
+    }
     return o;
   }, {});
 }
