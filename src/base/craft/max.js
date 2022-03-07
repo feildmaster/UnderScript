@@ -33,7 +33,7 @@ onPage('Crafting', function craftMax() {
     const max = cardHelper.max(rarity);
     const limit = max - cardHelper.quantity(el);
     if (limit <= 0) return;
-    const cost = cardHelper.cost(el);
+    const cost = cardHelper.dustCost(el);
     const total = cardHelper.totalDust();
     if (cost > total) return;
     card.hover(hover.show(`CTRL Click: Craft up to max(${max})`))

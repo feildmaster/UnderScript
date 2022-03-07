@@ -8,9 +8,6 @@ eventManager.on('jQuery', () => {
     </a>
   </li>`;
   const $text = $(text);
-  $text.find('img').on('error', function imgError() {
-    $(this).attr('src', './images/cardsBack/BASECardDETERMINATION.png');
-  });
   $('a[data-i18n-title="footer-wiki"]').parent().after($text);
 });
 eventManager.on(':load', () => {

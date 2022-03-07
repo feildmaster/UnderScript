@@ -29,12 +29,12 @@ onPage('Crafting', function craftableCards() {
     const set = !setting.value() &&
         rarity !== 'DETERMINATION' &&
         cardHelper.quantity(el) < cardHelper.max(rarity) &&
-        cardHelper.cost(el) <= cardHelper.totalDust();
+        cardHelper.dustCost(el) <= cardHelper.totalDust();
     el.classList.toggle('craftable', set);
   }
 
   function update({ id, shiny, dust }) {
-    if (dust >= cardHelper.cost('LEGENDARY', true)) {
+    if (dust >= cardHelper.dustCost('LEGENDARY', true)) {
       const el = cardHelper.find(id, shiny);
       if (el) highlight(el);
     } else {
