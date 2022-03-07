@@ -234,7 +234,7 @@ wrap(() => {
       status.pending -= 1;
       status.errors += 1;
       // Retry once for every pack
-      if (status.errors <= status.total - results.packs) {
+      if (status.errors <= status.total) {
         status.remaining += 1;
       }
     });
