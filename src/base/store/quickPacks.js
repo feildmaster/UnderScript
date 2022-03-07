@@ -225,20 +225,21 @@ wrap(() => {
     });
 
     events.on('cancel', () => { // Sets the canceled flag
-      if (openingPacks()) {
+      if (status.state === 'processing') {
         status.state = 'canceled';
+        clearPing();
       }
     });
 
     events.on('error', (err) => {
       status.pending -= 1;
+      setupPing(); // We got a result, just not what we wanted
       if (status.state !== 'processing') return; // Invalid state
       status.errors += 1;
       // Retry once for every pack
       if (status.errors <= status.total) {
         status.remaining += 1;
       }
-      setupPing(); // We got a result, just not what we wanted
     });
 
     let autoOpen = false;
