@@ -17,5 +17,5 @@ eventManager.on('Chat:command', function process(data) {
   if (this.canceled || data.command !== command || setting.value()) return;
   debug('Scroll command');
   this.canceled = true;
-  global('scroll')(data.room, true);
+  global('scroll')($(`#${data.room}`), true);
 });

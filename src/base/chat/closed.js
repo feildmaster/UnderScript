@@ -7,7 +7,7 @@ eventManager.on('ChatDetected', () => {
   socketChat.onclose = () => {
     oClose();
     $('.chat-box').each((i, e) => {
-      global('scroll')($(e).attr('id'), true);
+      global('scroll')($(e), true);
     });
   };
 });
