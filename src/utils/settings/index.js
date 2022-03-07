@@ -129,8 +129,9 @@ function createSetting(setting) {
   } else if (setting.type === 'select') {
     el = $(`<select>`);
     lf = true;
-    setting.options.forEach((v) => {
-      el.append(`<option value="${v}"${current === v ? ' selected' : ''}>${v}</option>`);
+    setting.options.forEach((o) => {
+      const [l, v = l] = Array.isArray(o) ? o : [o];
+      el.append(`<option value="${v}"${current === v ? ' selected' : ''}>${l}</option>`);
     });
   } else if (setting.type === 'remove') {
     lf = false;

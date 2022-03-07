@@ -20,7 +20,6 @@ function init() {
   if (typeof jQuery === 'undefined') return initialized = false;
   style.add(
     '.menu-backdrop { display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: #000; background-color: rgba(0,0,0,0.4); z-index: 1010; }',
-    '.menu-backdrop { display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: #000; background-color: rgba(0,0,0,0.4); z-index: 1010; }',
     '.menu-close { float: right; color: #aaa; font-size: 28px; font-weight: bold; margin: -5px; }',
     '.menu-close:hover, .menu-close:focus { color: #FFF; text-decoration: none; cursor: pointer; }',
     '.menu-content { color: #fff; margin: 4% auto; padding: 0; border: 2px solid #888; width: 280px; background: #000 url(../images/backgrounds/2.png) center 632px; }',
