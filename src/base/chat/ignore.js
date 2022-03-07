@@ -66,7 +66,7 @@ function processMessage(message, room, history = false) {
       } else {
         const messages = $(`#${room} .chat-messages`);
         messages.append(container);
-        global('scroll')(room, true);
+        global('scroll')($(`#${room}`), true);
       }
       $(`#${room}`).data('container', container);
     } else if (history) {
