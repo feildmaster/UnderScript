@@ -9,7 +9,6 @@ const base = {
   page: 'Chat',
   category: 'Trusted Domains',
 };
-const prefix = 'underscript.safelink.';
 const setting = settings.register({
   ...base,
   name: 'Enabled',
@@ -23,7 +22,7 @@ const cache = VarStore(false);
 
 // Load blocked users
 each(localStorage, (host, key) => {
-  if (!key.startsWith(prefix)) return;
+  if (!key.startsWith(base.key)) return;
   register(host);
 });
 
@@ -43,12 +42,13 @@ function register(host) {
 eventManager.on('BootstrapDialog:show', (dialog) => {
   if (dialog.getTitle() !== 'Leaving Warning' || !setting.value()) return;
   const host = cache.value;
+  const after = dialog.options.buttons[0];
   dialog.options.buttons.unshift({
     label: `Trust ${host}`,
     cssClass: 'btn-danger',
     action(ref) {
       register(host);
-      ref.close();
+      after.action(ref);
     },
   });
   dialog.updateButtons();
