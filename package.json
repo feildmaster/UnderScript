@@ -16,11 +16,11 @@
     "start": "rollup -c --watch --configDebug",
     "build": "rollup -c",
     "prepack": "rollup -c",
-    "update": "npm version minor --m=\"chore(update): Release v%s\"",
-    "patch": "npm version patch --m=\"chore(patch): Release v%s\"",
-    "nextpatch": "npm version prepatch --m=\"chore(next): Build patch v%s\"",
-    "prep": "npm version preminor --preid= --m=\"chore(%s): Prep next version\"",
-    "next": "npm version prerelease --m=\"chore(next): Build script v%s\"",
+    "update": "npm version minor --m=\"chore(update): Release v%s\" --git-tag-version=false",
+    "patch": "npm version patch --m=\"chore(patch): Release v%s\" --git-tag-version=false",
+    "nextpatch": "npm version prepatch --m=\"chore(next): Build patch v%s\" --git-tag-version=false",
+    "prep": "npm version preminor --preid= --m=\"chore(%s): Prep next version\" --git-tag-version=false",
+    "next": "npm version prerelease --m=\"chore(next): Build script v%s\" --git-tag-version=false",
     "gpr-setup": "node scripts/gpr.js"
   },
   "files": [
