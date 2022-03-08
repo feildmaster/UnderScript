@@ -4,6 +4,7 @@
 1. Fixed some pack opening bugs
 1. Fix import showing missing cards when you have a shiny to replace it
 1. Fix /scroll bug
+1. Fix multiple update notifications
 
 ## Version 0.49.3 (2022-03-06)
 1. Fixed craft border highlighting when not enough dust
