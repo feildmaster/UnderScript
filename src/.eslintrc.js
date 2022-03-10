@@ -14,6 +14,7 @@ module.exports = {
   },
   globals: {
     BootstrapDialog: readonly,
+    SimpleToast: readonly,
   },
   parserOptions: {
     sourceType: 'module',

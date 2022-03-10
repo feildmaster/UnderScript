@@ -41,10 +41,11 @@ export function errorToast(error) {
     css: {
       'background-color': 'rgba(200,0,0,0.6)',
     },
+    className: error.className,
+    onClose: error.onClose,
+    footer: error.footer,
+    buttons: error.buttons,
   };
-  if (error.footer) {
-    lToast.footer = error.footer;
-  }
   return toast(lToast);
 }
 
