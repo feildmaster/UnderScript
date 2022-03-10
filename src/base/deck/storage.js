@@ -148,7 +148,7 @@ onPage('Decks', function deckStorage() {
       const names = [];
       list.forEach((card) => {
         let data = getCardData(card.id, card.shiny) || {};
-        const name = data.name || `<span style="color: red;">${(data = getFromLibrary(card.id, global('allCards')) && data && data.name) || 'Disenchanted/Missing'}</span>`;
+        const name = data.name && `<span class="${data.rarity}">${data.name}</span>` || `<span style="color: orange;">${(data = getFromLibrary(card.id, global('allCards'))) && data.name || 'Deleted'} (Missing)</span>`;
         names.push(`- ${card.shiny ? '<span style="color: yellow;">S</span> ' : ''}${name}`);
       });
       return names.join('<br />');
