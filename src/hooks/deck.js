@@ -16,7 +16,7 @@ onPage('Decks', function deckPage() {
       if (options.url !== 'DecksConfig') return;
       const data = xhr.responseJSON;
       if (options.type === 'GET') {
-        eventManager.emit('Deck:Loaded', data);
+        eventManager.singleton.emit('Deck:Loaded', data);
         return;
       }
       const { action } = JSON.parse(options.data);
