@@ -5,6 +5,7 @@ import onPage from '../../utils/onPage';
 import * as hover from '../../utils/hover';
 import style from '../../utils/style';
 import * as deckLoader from '../../utils/loadDeck';
+import compound from '../../utils/compoundEvent';
 
 const setting = settings.register({
   name: 'Disable Deck Storage',
@@ -27,7 +28,7 @@ onPage('Decks', function deckStorage() {
   if (setting.value()) return;
   style.add('.btn-storage { margin-top: 5px; margin-right: 6px; width: 30px; padding: 5px 0; }');
 
-  function getFromLibrary(id, library, shiny) {
+  function getFromLibrary(id, library = [], shiny = undefined) {
     return library.find((card) => card.id === id && (shiny === undefined || card.shiny === shiny));
   }
   function getCardData(id, shiny, deep) {
@@ -181,13 +182,18 @@ onPage('Decks', function deckStorage() {
       }
       function saveButton() {
         saveDeck(i);
-        loadButton(i); // I should be able to reset data without doing all this again...
         refreshHover();
+      }
+      function fixClass(loaded = true) {
+        return button
+          .toggleClass('btn-danger', !loaded)
+          .toggleClass('btn-primary', loaded);
       }
       function hoverButton(e) {
         let text = '';
         if (e.type === 'mouseenter') {
           const deck = getDeck(i);
+          fixClass(!!deck);
           if (deck) {
             text = `
               <div id="deckName">${localStorage.getItem(nameKey) || (`${soul}-${i + 1}`)}</div>
@@ -209,62 +215,53 @@ onPage('Decks', function deckStorage() {
         }
         hover.show(text)(e);
       }
-      if (!localStorage.getItem(deckKey)) {
-        button.addClass('btn-danger')
-          .removeClass('btn-primary')
-          .hover(hoverButton)
-          .one('click.script.deckStorage', saveButton);
-      } else {
-        button.removeClass('btn-danger')
-          .addClass('btn-primary')
-          .hover(hoverButton)
-          .on('click.script.deckStorage', (e) => {
-            if (e.ctrlKey && e.shiftKey) { // Crazy people...
-              return;
-            }
-            if (e.ctrlKey) { // ERASE
-              localStorage.removeItem(nameKey);
-              localStorage.removeItem(deckKey);
-              loadButton(i); // Reload :(
-              refreshHover(); // Update
-            } else if (e.shiftKey) { // Re-save
-              saveDeck(i); // Save
-              refreshHover(); // Update
-            } else { // Load
-              loadDeck(i);
-            }
-          })
-          .on('contextmenu.script.deckStorage', (e) => {
-            e.preventDefault();
-            const input = $('#deckNameInput');
-            const display = $('#deckName');
-            function storeInput() {
-              localStorage.setItem(nameKey, input.val());
-              display.text(input.val()).show();
-              loadButton(i); // I really hate this
-              refreshHover();
-            }
-            display.hide();
-            input.show()
-              .focus()
-              .select()
-              // eslint-disable-next-line no-shadow
-              .on('keydown.script.deckStorage', (e) => {
-                if (e.which === 27 || e.which === 13) {
-                  e.preventDefault();
-                  storeInput();
-                }
-              })
-              .on('focusout.script.deckStorage', () => {
+      fixClass(!!localStorage.getItem(deckKey))
+        .hover(hoverButton)
+        .on('click.script.deckStorage', (e) => {
+          if (!localStorage.getItem(deckKey)) {
+            saveButton();
+            return;
+          }
+          if (e.ctrlKey && e.shiftKey) { // Crazy people...
+            return;
+          }
+          if (e.ctrlKey) { // ERASE
+            localStorage.removeItem(nameKey);
+            localStorage.removeItem(deckKey);
+            refreshHover(); // Update
+          } else if (e.shiftKey) { // Re-save
+            saveButton();
+          } else { // Load
+            loadDeck(i);
+          }
+        })
+        .on('contextmenu.script.deckStorage', (e) => {
+          e.preventDefault();
+          const input = $('#deckNameInput');
+          const display = $('#deckName');
+          function storeInput() {
+            localStorage.setItem(nameKey, input.val());
+            display.text(input.val()).show();
+            refreshHover();
+          }
+          display.hide();
+          input.show()
+            .focus()
+            .select()
+            // eslint-disable-next-line no-shadow
+            .on('keydown.script.deckStorage', (e) => {
+              if (e.which === 27 || e.which === 13) {
+                e.preventDefault();
                 storeInput();
-              });
-          });
-      }
+              }
+            })
+            .on('focusout.script.deckStorage', () => {
+              storeInput();
+            });
+        });
     }
 
-    eventManager.on('Deck:Loaded', () => {
-      loadStorage();
-    });
+    compound('Deck:Loaded', 'Chat:Connected', loadStorage);
     $('#yourCardList > button[onclick="removeAllCards();"]').on('click', () => {
       deckLoader.clear();
     });
