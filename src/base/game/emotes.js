@@ -3,6 +3,7 @@ import * as settings from '../../utils/settings';
 import { global, globalSet } from '../../utils/global';
 import { debug } from '../../utils/debug';
 import onPage from '../../utils/onPage';
+import compound from '../../utils/compoundEvent';
 
 // let live = false;
 let self;
@@ -27,22 +28,20 @@ const enemy = settings.register({
   category: 'Emotes',
 });
 
-eventManager.on('GameStart', () => {
-  eventManager.on(':loaded', () => {
-    self = global('selfId', { throws: false });
-    // live = true;
-    if (disableSpectating()) {
-      globalSet('gameEmotesEnabled', false);
-      debug('Hiding emotes (spectator)');
-    } else {
-      const muteEnemy = enemy.value();
-      globalSet('enemyMute', muteEnemy);
-      if (muteEnemy) {
-        debug('Hiding emotes (enemy)');
-        $('#enemyMute').toggle(!spectating);
-      }
+compound('GameStart', ':loaded', () => {
+  self = global('selfId', { throws: false });
+  // live = true;
+  if (disableSpectating()) {
+    globalSet('gameEmotesEnabled', false);
+    debug('Hiding emotes (spectator)');
+  } else {
+    const muteEnemy = enemy.value();
+    globalSet('enemyMute', muteEnemy);
+    if (muteEnemy) {
+      debug('Hiding emotes (enemy)');
+      $('#enemyMute').toggle(!spectating);
     }
-  });
+  }
 });
 
 eventManager.on('getEmote:before', function hideEmotes(data) {
