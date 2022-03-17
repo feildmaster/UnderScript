@@ -35,6 +35,9 @@ const events = eventEmitter();
 const configs = new Map();
 let dialog = null;
 
+/**
+ * @returns {tabManager}
+ */
 function getScreen() {
   if (getScreen.screen) {
     return getScreen.screen;
@@ -278,7 +281,7 @@ function getMessage(page) {
 export function register(data) {
   if (typeof data !== 'string' && !data.key) return false;
   const page = data.page || 'main';
-  const key = data.key || data;
+  const key = (data.key || data); // .replace(/ /g, '_'); // This is a breaking change (but possibly necessary)
   const setting = {
     page,
     key,
@@ -342,7 +345,7 @@ export function register(data) {
       const converted = data.converter(current);
       if (converted === null) {
         localStorage.removeItem(setting.key);
-      } else if (converted) {
+      } else if (converted !== undefined) {
         localStorage.setItem(setting.key, converted);
       }
     }
@@ -372,9 +375,7 @@ export function register(data) {
     update(val);
   };
   conf.settings[setting.key] = setting;
-  if (!Object.prototype.hasOwnProperty.call(settingReg, setting.key)) {
-    settingReg[setting.key] = setting;
-  }
+  settingReg[setting.key] = setting;
   return {
     key: setting.key,
     value: () => value(setting.key),

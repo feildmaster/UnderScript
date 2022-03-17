@@ -202,8 +202,8 @@ eventManager.on('GameStart', function battleLogger() {
   });
   eventManager.on('getUpdatePlayerHp', function updateHP(data) {
     debug(data, 'debugging.raw.updateHP');
-    players[data.playerId].hp = data.hp;
     const oHp = players[data.playerId].hp;
+    players[data.playerId].hp = data.hp;
     if (oHp !== data.hp) { // If the player isn't at 0 hp already
       const hp = data.hp - oHp;
       log.add(make.player(players[data.playerId]), ` ${hp < 0 ? 'lost' : 'gained'} ${Math.abs(hp)} hp`);
