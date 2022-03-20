@@ -60,7 +60,7 @@ wrap(() => {
   }
 
   if (!localStorage.getItem('underscript.quest.clear')) {
-    if (!localStorage.getItem('underscript.quest.skip')) {
+    if (!localStorage.getItem('underscript.quest.skip')) { // TODO: If logged in
       onPage('', checkHighlight);
     }
     eventManager.on('getVictory getDefeat', checkHighlight);
