@@ -56,7 +56,7 @@ wrap(() => {
         // Perhaps another tab found a quest at some point...?
         clearHighlight();
       }
-    }).catch(noop());
+    }).catch(noop);
   }
 
   if (!localStorage.getItem('underscript.quest.clear')) {

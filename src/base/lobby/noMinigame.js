@@ -16,7 +16,7 @@ const setting = settings.register({
 eventManager.on(':loaded:Play', () => {
   globalSet('onload', function onload() {
     window.game = undefined; // gets overriden if minigame loads
-    window.saveBest = noop(); // gets overriden if minigame loads
+    window.saveBest = noop; // gets overriden if minigame loads
     if (setting.value()) {
       debug('Disabling minigames');
       globalSet('mobile', true);
