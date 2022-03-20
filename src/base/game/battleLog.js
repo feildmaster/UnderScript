@@ -202,16 +202,17 @@ eventManager.on('GameStart', function battleLogger() {
   });
   eventManager.on('getUpdatePlayerHp', function updateHP(data) {
     debug(data, 'debugging.raw.updateHP');
-    const oHp = players[data.playerId].hp;
-    players[data.playerId].hp = data.hp;
+    const player = players[data.playerId];
+    const oHp = player.hp;
+    player.hp = data.hp;
     if (oHp !== data.hp) { // If the player isn't at 0 hp already
       const hp = data.hp - oHp;
-      log.add(make.player(players[data.playerId]), ` ${hp < 0 ? 'lost' : 'gained'} ${Math.abs(hp)} hp`);
+      log.add(make.player(player), ` ${hp < 0 ? 'lost' : 'gained'} ${Math.abs(hp)} hp`);
     }
     // eslint-disable-next-line no-prototype-builtins
-    if (data.hp === 0 && players[data.playerId].lives > baseLives && !players[data.playerId].hasOwnProperty('lostLife')) { // If they have extra lives, and they didn't lose a life already
-      log.add(make.player(players[data.playerId]), ' lost a life');
-      players[data.playerId].lostLife = true;
+    if (data.hp === 0 && player.lives > baseLives && player.lostLife !== true) { // If they have extra lives, and they didn't lose a life already
+      log.add(make.player(player), ' lost a life');
+      player.lostLife = true;
     }
   });
   eventManager.on('getDoingEffect', function doEffect(data) {
