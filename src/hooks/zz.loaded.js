@@ -13,7 +13,7 @@ function done() {
   eventManager.singleton.emit(`:load:${getPageName()}`);
 }
 
-if (location.host.includes('undercards.net')) {
+if (location.host.includes('undercards.net') && document.title.includes('Undercards')) {
   console.log(`UnderScript(v${scriptVersion}): Loaded`); // eslint-disable-line no-console
   document.addEventListener('DOMContentLoaded', loaded);
   window.addEventListener('load', done);
