@@ -1,0 +1,16 @@
+import eventManager from '../utils/eventManager';
+import { global } from '../utils/global';
+
+eventManager.on(':loaded', () => {
+  function call(cards = global('allCards')) {
+    eventManager.singleton.emit('allCardsReady', cards);
+  }
+  const allCards = global('allCards', {
+    throws: false,
+  });
+  if (!allCards || !allCards.length) {
+    document.addEventListener('allCardsReady', call);
+  } else {
+    call(allCards);
+  }
+});
