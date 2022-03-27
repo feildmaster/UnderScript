@@ -32,5 +32,3 @@ export function globalSet(key, value, {
   }
   return original;
 }
-
-export default global;
