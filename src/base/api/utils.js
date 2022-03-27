@@ -12,6 +12,7 @@ import some from '../../utils/some';
 import TabManager from '../../utils/tabbedView';
 import rand from '../../utils/rand';
 import SettingType from '../../utils/settings/setting';
+import compound from '../../utils/compoundEvent';
 
 const utils = api.mod.utils;
 
@@ -37,3 +38,4 @@ utils.tabManager = TabManager;
 utils.VarStore = VarStore;
 utils.rand = rand;
 utils.SettingType = SettingType;
+utils.compoundEvent = compound;
