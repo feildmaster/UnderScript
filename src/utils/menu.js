@@ -27,7 +27,7 @@ function init() {
     '.menu-content a { color: #fff; }',
     '.menu-header { text-align: center; font-size: 30px; }',
     '.menu-footer img { height: 16px; vertical-align: middle; }',
-    '.menu-body { background-color: rgba(0,0,0,0.6); min-height: 250px; }',
+    '.menu-body { background-color: rgba(0,0,0,0.6); min-height: 250px; max-height: 600px; overflow-y: auto; }',
     '.menu-body ul { list-style: none; padding: 0; }',
     '.menu-body li { list-style-type: none; border: 1px solid #fff; width: 80%; text-align: center; margin: 5px auto; opacity: 1; }',
     '.menu-body li:hover, .menu-body li:focus { text-decoration: underline; opacity: 0.4; }',
