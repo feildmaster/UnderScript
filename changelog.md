@@ -1,10 +1,17 @@
 # UnderScript Changelog
 
-## Version 0.49.5 (2022-03-17)
+## Version 0.50.0 (2022-03-17)
+### New Features
 1. Colorized cards in deck storage
+### Fixes
 1. Fixed error toasts (red) ignoring their close events
 1. Fixed storage not coloring correctly sometimes
 1. Fixed player damage/healing not showing
+1. Fixed a bug when hiding minigames
+1. Fixed bug when chat is not loaded
+### Misc
+1. Pack opener tries a bit harder to open all packs
+1. Check pending friend requests quicker
 
 ## Version 0.49.4 (2022-03-07)
 1. Fixed some pack opening bugs
