@@ -60,7 +60,7 @@ const setting = settigs.register({
 });
 
 eventManager.on('connect', (data) => {
-  if (global('spectate') || data.gameType !== 'RANKED') return;
+  if (global('spectate')) return;
   const { oldDivision = '' } = JSON.parse(data.you);
 
   const rank = getLevel(oldDivision);
