@@ -236,8 +236,8 @@ wrap(() => {
       setupPing(); // We got a result, just not what we wanted
       if (status.state !== 'processing') return; // Invalid state
       status.errors += 1;
-      // Retry once for every pack
-      if (status.errors <= status.total) {
+      // Retry for every pack 3 times (this should act as if you're pushing the button 3 times... which usually opens all packs)
+      if (status.errors <= status.total * 3) {
         status.remaining += 1;
       }
     });
