@@ -49,4 +49,4 @@ function loadFriends(validate) {
   });
 }
 
-sleep(10000).then(loadFriends);
+sleep().then(loadFriends);
