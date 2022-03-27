@@ -12,6 +12,8 @@
 ### Misc
 1. Pack opener tries a bit harder to open all packs
 1. Check pending friend requests quicker
+### Plugins
+1. Added `plugin.settings().addType(new YourSettingType())`
 
 ## Version 0.49.4 (2022-03-07)
 1. Fixed some pack opening bugs

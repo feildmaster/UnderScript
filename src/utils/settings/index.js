@@ -426,12 +426,12 @@ export function on(...args) {
   events.on(...args);
 }
 
-export function registerType(type) {
-  if (!(type instanceof SettingType)) throw new Error(`Tried to register non-setting of type: ${typeof type}`);
+export function registerType(type, addStyle = style.add) {
+  if (!(type instanceof SettingType)) throw new Error(`SettingType: Tried to register object of: ${typeof type}`);
   const name = type.name;
-  if (!name || registry.has(name)) throw new Error(`SettingType "${name}" already exists`);
+  if (!name || registry.has(name)) throw new Error(`SettingType: "${name}" already exists`);
   registry.set(name, type);
-  style.add(...type.styles().map((s) => `.underscript-dialog ${s}`));
+  addStyle(...type.styles().map((s) => `.underscript-dialog ${s}`));
 }
 
 Object.values(types).forEach((Type) => registerType(new Type()));

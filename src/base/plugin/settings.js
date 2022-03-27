@@ -1,6 +1,7 @@
 import * as settings from '../../utils/settings';
 import wrap from '../../utils/2.pokemon';
 import { registerModule } from '../../utils/plugin';
+import SettingType from '../../utils/settings/setting';
 
 wrap(() => {
   const name = 'settings';
@@ -25,6 +26,16 @@ wrap(() => {
       add: add(plugin),
       on: (...args) => settings.on(...args),
       isOpen: () => settings.isOpen(),
+      addType(type) {
+        if (!(type instanceof SettingType)) {
+          plugin.logger.error('SettingType: Attempted to register object of:', typeof type);
+          return;
+        }
+        if (!type.name.startsWith(`${plugin.name}:`)) {
+          type.name = `${plugin.name}:${type.name}`;
+        }
+        settings.registerType(type, plugin.addStyle);
+      },
     };
     return () => obj;
   }

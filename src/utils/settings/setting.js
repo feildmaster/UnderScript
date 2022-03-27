@@ -4,8 +4,11 @@
 export default class SettingType {
   constructor(name) {
     const isString = typeof name === 'string';
-    this.name = name && isString ? name.trim().toLowerCase() : name;
-    if (!this.name || !isString) throw new Error('Name not provided');
+    /**
+     * @type {String}
+     */
+    this.name = name && isString ? name.trim() : name;
+    if (!isString || !this.name) throw new Error('Name not provided');
   }
 
   /**
