@@ -25,7 +25,7 @@ style.add(
 );
 let toast;
 
-eventManager.on(':loaded', () => {
+eventManager.on('jQuery', () => {
   const ignorePrefix = 'underscript.ignore.';
   const context = (() => {
     const container = $('<div class="chatContext">');
