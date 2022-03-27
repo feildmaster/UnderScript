@@ -21,7 +21,7 @@ const setting = settings.register({
 });
 
 onPage('Crafting', function disenchantWrapper() {
-  if (setting.disabled() || setting.value()) return;
+  if (setting.disabled || setting.value()) return;
   eventManager.on('jQuery', () => {
     const button = $('<button class="btn btn-info">Smart Disenchant</button>');
     button.click(onclick);
