@@ -8,12 +8,12 @@ const externals = require('rollup-plugin-external-globals');
 const { version } = require('./package.json');
 
 const debug = process.argv.includes('--configDebug');
-const exclude = ['**/*.ignore*/*', '**/*.ignore*'];
+const exclude = ['**/*.ignore/*', '**/*.ignore*'];
 
 if (!debug) {
   exclude.push(
-    '**/**.local*',
-    '**/**.test*',
+    '**/*.local/*',
+    '**/*.local*',
   );
 }
 
