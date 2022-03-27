@@ -1,11 +1,13 @@
 import eventManager from './eventManager';
 
 // Custom CSS classes are great.
-export function newStyle() {
+export function newStyle(plugin = false) {
   let loaded = false;
   const el = document.createElement('style');
   function appendStyle() {
     if (el.parentElement) return;
+    if (plugin) el.dataset.underscriptPlugin = plugin;
+    else el.dataset.underscript = '';
     document.head.append(el);
   }
   eventManager.on(':loaded', () => {

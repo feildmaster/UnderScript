@@ -5,10 +5,7 @@ const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const cleanup = require('rollup-plugin-cleanup');
 const multi = require('@rollup/plugin-multi-entry');
 const externals = require('rollup-plugin-external-globals');
-const path = require('path');
 const { version } = require('./package.json');
-
-const SimpleToast = path.resolve(__dirname, 'src/bundle/SimpleToast.js');
 
 const debug = process.argv.includes('--configDebug');
 const exclude = ['**/*.ignore*/*', '**/*.ignore*'];
