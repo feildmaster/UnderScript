@@ -113,9 +113,10 @@ function createSetting(setting = {
       cursor: 'not-allowed',
     });
   }
-  if (type.labelFirst()) {
+  const labelPlacement = type.labelFirst();
+  if (labelPlacement) {
     ret.append(label, ' ', el);
-  } else {
+  } else if (labelPlacement !== null) {
     ret.append(el, ' ', label);
   }
   if (setting.note) {

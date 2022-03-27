@@ -70,7 +70,11 @@ export default class SettingType {
 
   /**
    * Controls if element label is prepended or appended
-   * @returns {Boolean} True (default) if label is prepended to element
+   * @returns {Boolean | null} True (default) to prepend label.
+   *
+   * False to append label.
+   *
+   * Null to not add the label at all.
    */
   labelFirst() {
     return true;
