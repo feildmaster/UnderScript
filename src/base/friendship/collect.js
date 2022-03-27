@@ -57,7 +57,7 @@ eventManager.on('Friendship:loaded', () => {
   button.prop('disabled', setting.value() || !canCollect());
 });
 
-setting.on(({ val: disabled }) => {
+setting.on((disabled) => {
   if (disabled) {
     button.addClass('hidden');
   } else {
