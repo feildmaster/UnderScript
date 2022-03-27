@@ -6,14 +6,20 @@ export default function compound(...events) {
   if (typeof callback !== 'function') throw new Error('Callback not provided');
   const cache = {};
   let triggered = 0;
+  // TODO: cache data
   function trigger(event, ...data) {
     if (cache[event].triggered) return;
-    cache[event].triggered = true;
+    cache[event].triggered = this.singleton ? 'singleton' : true;
     triggered += 1;
 
     if (triggered === events.length) {
-      events.forEach((ev) => cache[ev].triggered = false);
-      triggered = 0;
+      events.forEach((ev) => {
+        const e = cache[ev];
+        // Only reset if not singleton
+        if (e.triggered !== true) return;
+        e.triggered = false;
+        triggered -= 1;
+      });
       wrap(callback);
     }
   }
@@ -22,8 +28,8 @@ export default function compound(...events) {
     cache[ev] = {
       triggered: false,
     };
-    eventManager.on(ev, (...data) => {
-      trigger(ev, ...data);
+    eventManager.on(ev, function wrapper(...data) {
+      trigger.call(this, ev, ...data);
     });
   });
 }

@@ -60,7 +60,7 @@ export default function eventEmitter() {
       [...e].forEach((ev) => {
         // Should we stop processing on cancel? Maybe.
         try {
-          const meta = { event, cancelable, canceled, async, delayed };
+          const meta = { event, cancelable, canceled, async, delayed, singleton };
           const ret = ev.call(meta, ...data);
           if (async && ret !== undefined) {
             promises.push(Promise.resolve(ret)
