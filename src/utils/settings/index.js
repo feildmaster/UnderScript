@@ -94,12 +94,12 @@ function createSetting(setting = {
   const { key, type } = setting;
   const current = value(key);
   const container = $(`<div>`).addClass('flex-stretch');
-  const el = type.element(current, setting.update, {
+  const el = $(type.element(current, setting.update, {
     data: setting.data,
     remove: setting.remove,
     container,
     key,
-  });
+  }));
   el.attr({
     id: key,
   });
@@ -118,6 +118,8 @@ function createSetting(setting = {
     ret.append(label, ' ', el);
   } else if (labelPlacement !== null) {
     ret.append(el, ' ', label);
+  } else {
+    ret.append(el);
   }
   if (setting.note) {
     ret.hover(() => {
@@ -133,8 +135,7 @@ function createSetting(setting = {
       .click(() => {
         const def = getDefault(setting);
         el.val(def === null ? '' : def); // Manually change
-        // callChange({ target: el }); // Trigger change
-        localStorage.removeItem(key); // Remove
+        setting.update(undefined); // Remove and trigger events
       });
     ret.append(' ', reset);
   }
