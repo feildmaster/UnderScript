@@ -11,6 +11,7 @@ import shuffle from '../../utils/shuffle';
 import some from '../../utils/some';
 import TabManager from '../../utils/tabbedView';
 import rand from '../../utils/rand';
+import SettingType from '../../utils/settings/setting';
 
 const utils = api.mod.utils;
 
@@ -35,3 +36,4 @@ utils.some = some;
 utils.tabManager = TabManager;
 utils.VarStore = VarStore;
 utils.rand = rand;
+utils.SettingType = SettingType;

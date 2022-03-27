@@ -6,31 +6,31 @@ import tabManager from '../tabbedView';
 import * as hover from '../hover';
 import each from '../each';
 import wrap from '../2.pokemon';
+import SettingType from './setting';
+import * as types from './types';
+
+const defaultType = new SettingType('generic');
 
 style.add(
-  '.flex-start { display: flex; align-items: flex-start; }',
-  '.flex-start input[type="range"] { flex-grow: 1; }',
+  '.flex-stretch { flex-basis: 100%; }',
+  '.flex-start { display: flex; align-items: flex-start; flex-wrap: wrap; }',
   '.flex-start > label + * { margin-left: 7px; }',
   '.flex-start > input { margin-right: 4px; }',
   '.mono .modal-body { font-family: monospace; max-height: 500px; overflow-y: auto; }',
   '.underscript-dialog .bootstrap-dialog-message { display: flex; }',
-  '.underscript-dialog .remove { display: none; }',
-  '.underscript-dialog .remove:checked + label:before { content: "× "; color: red; }',
   // '.underscript-dialog .modal-content { background: #000 url(../images/backgrounds/2.png) -380px -135px; }',
   // '.underscript-dialog .modal-content .modal-header, .underscript-dialog .modal-body { background-color: transparent; }',
   '.underscript-dialog .modal-footer button.btn { margin-bottom: 5px; }',
-  '.underscript-dialog input[type="color"] { width: 16px; height: 18px; padding: 0 1px; }',
-  '.underscript-dialog input[type="color"]:hover { border-color: #00b8ff; cursor: pointer; }',
+  // TODO: convert reset to a type? for convenience
   '.underscript-dialog .reset:hover { cursor: pointer; font-weight: bold; }',
   '.underscript-dialog .reset:before { content: "["; }',
   '.underscript-dialog .reset:after { content: "]"; }',
-  '.underscript-dialog input[type="range"] { display: inline; width: 200px; vertical-align: middle; }',
-  // '.underscript-dialog input[type="range"]:after { content: attr(value); }',
 );
 
 const settingReg = {
   // key: setting
 };
+const registry = new Map();
 const events = eventEmitter();
 const configs = new Map();
 let dialog = null;
@@ -85,118 +85,26 @@ function init(page) {
   return configs.get(page);
 }
 
-function createArrayItem(text, skey) {
-  const key = `${skey}.${text}`;
-  const ret = $('<div>')
-    .on('change.script', () => {
-      const v = value(skey);
-      const i = v.indexOf(text);
-      if (i > -1) {
-        v.splice(i, 1);
-        localStorage.setItem(skey, JSON.stringify(v));
-        // TODO: Call event. Value changed
-      }
-      ret.remove();
-    });
-  const el = $('<input>')
-    .addClass('remove')
-    .attr({
-      type: 'checkbox',
-      id: key,
-    }).prop('checked', '1');
-  const label = $(`<label>`).html(text)
-    .attr({
-      for: key,
-    });
-  ret.append(el, ' ', label);
-  return ret;
-}
-
-function createSetting(setting) {
+function createSetting(setting = {
+  key: '',
+  type: defaultType,
+}) {
   if (setting.hidden) return null;
   const ret = $('<div>').addClass('flex-start');
-  const key = setting.key;
+  const { key, type } = setting;
   const current = value(key);
-  let el;
-  let lf = true;
-  if (setting.type === 'boolean') {
-    lf = false;
-    el = $(`<input type="checkbox" >`)
-      .prop('checked', current);
-  } else if (setting.type === 'text') {
-    el = $('<input type="text">')
-      .val(current);
-  } else if (setting.type === 'password') {
-    el = $('<input type="password">')
-      .val(current);
-  } else if (setting.type === 'select') {
-    el = $(`<select>`);
-    lf = true;
-    setting.options.forEach((o) => {
-      const [l, v = l] = Array.isArray(o) ? o : [o];
-      el.append(`<option value="${v}"${current === v ? ' selected' : ''}>${l}</option>`);
-    });
-  } else if (setting.type === 'remove') {
-    lf = false;
-    el = $(`<input type="checkbox">`)
-      .addClass('remove')
-      .prop('checked', true);
-  } else if (setting.type === 'array') {
-    lf = true;
-    el = $('<input type="text">');
-  } else if (setting.type === 'slider') {
-    lf = true;
-    el = $('<input>').attr({
-      type: 'range',
-      min: setting.min,
-      max: setting.max,
-      step: setting.step,
-    }).val(current);
-  } else if (setting.type === 'color') {
-    // lf = true;
-    lf = false;
-    el = $('<input>').attr({
-      type: 'color',
-      value: current,
-    });
-  } else { // How to handle.
-    return null;
-  }
-  if (['array', 'text', 'password'].includes(setting.type)) {
-    el.css({
-      'background-color': 'transparent',
-    });
-  }
+  const container = $(`<div>`).addClass('flex-stretch');
+  const el = type.element(current, setting.update, {
+    data: setting.data,
+    remove: setting.remove,
+    container,
+    key,
+  });
   el.attr({
     id: key,
   });
-  function callChange(e) {
-    setting.onChange($(e.target));
-  }
-  switch (setting.type) {
-    default: break;
-    case 'boolean':
-    case 'select':
-    case 'remove':
-    case 'color':
-    case 'slider':
-      el.on('change.script', callChange);
-      break;
-    case 'text':
-    case 'password':
-      el.on('blur.script', callChange);
-      break;
-    case 'input': // This type doesn't exist
-    case 'array':
-      el.on('keydown.script', (e) => {
-        if (e.which !== 13) return;
-        e.preventDefault();
-        callChange(e);
-        el.val('');
-      });
-      break;
-  }
   const label = $(`<label for="${key}">`).html(setting.name);
+  // TODO: Allow disabling progmatically, not just on setting load
   const disabled = (typeof setting.disabled === 'function' ? setting.disabled() : setting.disabled) === true;
   if (disabled) {
     el.prop('disabled', true);
@@ -205,25 +113,17 @@ function createSetting(setting) {
       cursor: 'not-allowed',
     });
   }
-  if (lf) {
+  if (type.labelFirst()) {
     ret.append(label, ' ', el);
   } else {
     ret.append(el, ' ', label);
   }
-  if (!disabled && setting.note) {
-    const note = setting.note();
-    if (note) { // Functions can return null
-      ret.hover(hover.show(note));
-    }
-  }
-  if (setting.type === 'array') { // This is basically a fieldset, but not
-    const values = $('<div>').attr({
-      id: `${key}.values`,
-    });
-    value(setting.key).forEach((val) => {
-      values.append(createArrayItem(val, setting.key));
-    });
-    ret.append(values);
+  if (setting.note) {
+    ret.hover(() => {
+      const note = setting.note();
+      if (!note || disabled) return undefined;
+      return hover.show(note);
+    }, hover.hide);
   }
   if (setting.reset) {
     const reset = $('<span>')
@@ -232,12 +132,12 @@ function createSetting(setting) {
       .click(() => {
         const def = getDefault(setting);
         el.val(def === null ? '' : def); // Manually change
-        callChange({ target: el }); // Trigger change
-        localStorage.removeItem(setting.key); // Remove
+        // callChange({ target: el }); // Trigger change
+        localStorage.removeItem(key); // Remove
       });
     ret.append(' ', reset);
   }
-  // TODO: show password button
+  ret.append(container);
   return ret;
 }
 
@@ -286,11 +186,11 @@ export function register(data) {
     page,
     key,
     name: data.name || key,
-    type: data.type || 'boolean',
+    type: data.type || registry.get('boolean'),
     category: data.category,
-    disabled: data.disabled,
+    disabled: data.disabled === true,
     default: data.default,
-    options: data.options,
+    data: data.data,
     hidden: data.hidden === true,
     pseudo: data.pseudo === true, // TODO: What does this do...?
     remove: data.remove === true,
@@ -298,18 +198,33 @@ export function register(data) {
     extraPrefix: data.extraPrefix,
     reset: data.reset === true,
   };
-  if (Object.prototype.hasOwnProperty.call(settingReg, setting.key)) {
-    // debug(`settings.add: ${setting.name} already registered`);
+  if (settingReg[key]) {
+    // debug(`settings.add: ${setting.name}[${key}] already registered`);
     return false;
   }
-  if (!data.type && data.options) {
-    setting.type = 'select';
+  const slider = data.min || data.max || data.step;
+  if (!data.type) {
+    if (data.options) {
+      setting.type = 'select';
+      setting.data = data.data || data.options; // This is a fallback for when things don't get updated correctly, or just relying on the text type
+    } else if (slider) {
+      setting.type = 'slider';
+    }
   }
-  if (setting.type === 'slider') {
-    setting.min = data.min || '0';
-    setting.max = data.max || '100';
-    setting.step = data.step || '1';
+  if (slider) {
+    setting.data = {
+      min: data.min,
+      max: data.max,
+      step: data.step,
+      ...setting.data, // Override any values, if any were provided by lazy developers
+    };
+  } else if (setting.type === 'select' && !setting.data && data.options) {
+    setting.data = data.options;
   }
+  if (typeof setting.type === 'string') {
+    setting.type = registry.get(setting.type);
+  }
+  if (!(setting.type instanceof SettingType)) return false; // TODO: Throw error?
   if (data.refresh || data.note) {
     setting.note = () => {
       const notes = [];
@@ -325,66 +240,41 @@ export function register(data) {
   }
   const conf = init(page);
   function update(val) {
-    const prev = value(setting.key);
+    const prev = value(key);
     if (val === undefined) {
-      localStorage.removeItem(setting.key);
+      localStorage.removeItem(key);
     } else {
-      localStorage.setItem(setting.key, val);
+      localStorage.setItem(key, setting.type.encode(val));
     }
     if (typeof data.onChange === 'function') {
-      data.onChange(value(setting.key), prev);
+      data.onChange(value(key), prev);
     }
-    events.emit(setting.key, { val, prev });
-    events.emit('setting:change', {
-      key: setting.key, val, prev,
-    });
+    events.emit(key, val, prev);
+    events.emit('setting:change', key, val, prev);
   }
   if (typeof data.converter === 'function') {
-    const current = localStorage.getItem(setting.key);
+    const current = localStorage.getItem(key);
     if (typeof current === 'string') {
       const converted = data.converter(current);
       if (converted === null) {
-        localStorage.removeItem(setting.key);
+        localStorage.removeItem(key);
       } else if (converted !== undefined) {
-        localStorage.setItem(setting.key, converted);
+        localStorage.setItem(key, converted);
       }
     }
   }
-  setting.onChange = (el) => {
-    let val = '';
-    if (setting.type === 'boolean') {
-      if (el.is(':checked')) val = 1;
-      else if (setting.remove) val = undefined; // Only remove if it's expected
-      else val = 0;
-    } else if (['select', 'color', 'slider', 'text', 'password'].includes(setting.type)) {
-      val = el.val();
-    } else if (setting.type === 'remove') {
-      val = undefined;
-      removeSetting(setting, el);
-    } else if (setting.type === 'array') {
-      const v = value(setting.key);
-      const i = el.val().trim();
-      if (!i || v.includes(i)) return;
-      v.push(i);
-      $(document.getElementById(`${setting.key}.values`)).append(createArrayItem(i, setting.key));
-      val = JSON.stringify(v); // TODO: better handling of val storage
-    } else {
-      // debug(`Unknown Setting Type: ${setting.type}`);
-      return;
-    }
-    update(val);
-  };
-  conf.settings[setting.key] = setting;
-  settingReg[setting.key] = setting;
+  setting.update = update;
+  conf.settings[key] = setting;
+  settingReg[key] = setting;
   return {
-    key: setting.key,
-    value: () => value(setting.key),
-    set: update,
+    get key() { return key; },
+    value: () => value(key),
+    set: update, // TODO: This ruins dynamic values such as arrays
     on: (func) => {
-      events.on(setting.key, func);
+      events.on(key, func);
     },
-    disabled: () => !!setting.disabled,
-    show: () => open(page, setting.key),
+    get disabled() { return setting.disabled; },
+    show: () => open(page, key),
   };
 }
 
@@ -439,29 +329,18 @@ export function value(key) {
   const setting = settingReg[key];
   const val = localStorage.getItem(key);
   if (!val) return getDefault(setting);
-  if (!setting || setting.type === 'boolean') return val === '1' || val === 'true';
-  if (setting.type === 'array') return JSON.parse(val);
+  if (setting) return setting.type.value(val);
   return val;
 }
 
-function getDefault(setting = {}) {
+function getDefault(setting = {
+  type: defaultType,
+}) {
   if (setting.default) {
     const val = typeof setting.default === 'function' ? setting.default() : setting.default;
-    if (setting.type === 'boolean') {
-      return val !== 'false' && val !== '0' && Boolean(val);
-    }
-    return val;
+    return setting.type.value(val);
   }
-  if (setting.type === 'boolean') {
-    return false;
-  }
-  if (setting.type === 'select') {
-    return setting.options[0];
-  }
-  if (setting.type === 'array') {
-    return [];
-  }
-  return null;
+  return setting.type.default(setting.data);
 }
 
 export function remove(key) {
@@ -546,3 +425,13 @@ eventManager.on(':ready', () => {
 export function on(...args) {
   events.on(...args);
 }
+
+export function registerType(type) {
+  if (!(type instanceof SettingType)) throw new Error(`Tried to register non-setting of type: ${typeof type}`);
+  const name = type.name;
+  if (!name || registry.has(name)) throw new Error(`SettingType "${name}" already exists`);
+  registry.set(name, type);
+  style.add(...type.styles().map((s) => `.underscript-dialog ${s}`));
+}
+
+Object.values(types).forEach((Type) => registerType(new Type()));
