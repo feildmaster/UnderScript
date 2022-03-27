@@ -3,6 +3,7 @@
 ## Version 0.50.0 (2022-03-17)
 ### New Features
 1. Colorized cards in deck storage
+1. Added setting to show your preferred board background (Settings -> Game)
 ### Fixes
 1. Fixed error toasts (red) ignoring their close events
 1. Fixed storage not coloring correctly sometimes
@@ -12,8 +13,11 @@
 ### Misc
 1. Pack opener tries a bit harder to open all packs
 1. Check pending friend requests quicker
+1. Settings code is much cleaner
 ### Plugins
 1. Added `plugin.settings().addType(new YourSettingType())`
+1. Added `underscript.utils.compoundEvent(...events, callback)`
+1. Added `allCardsReady` event
 
 ## Version 0.49.4 (2022-03-07)
 1. Fixed some pack opening bugs
