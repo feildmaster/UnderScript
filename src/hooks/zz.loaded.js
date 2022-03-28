@@ -1,6 +1,7 @@
 import eventManager from '../utils/eventManager';
 import { scriptVersion } from '../utils/1.variables';
 import { getPageName } from '../utils/onPage';
+import sleep from '../utils/sleep';
 
 function loaded() {
   eventManager.singleton.emit(':loaded');
@@ -18,8 +19,8 @@ if (location.host.includes('undercards.net')) {
   }
 }
 function register() {
-  document.addEventListener('DOMContentLoaded', loaded);
-  window.addEventListener('load', done);
+  document.addEventListener('DOMContentLoaded', () => sleep().then(loaded));
+  window.addEventListener('load', () => sleep().then(done));
   const COMPLETE = document.readyState === 'complete';
   if (document.readyState === 'interactive' || COMPLETE) {
     loaded();

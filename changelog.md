@@ -1,6 +1,6 @@
 # UnderScript Changelog
 
-## Version 0.50.0 (2022-03-27)
+## Version 0.50.0 (2022-03-28)
 ### New Features
 1. Colorized cards in deck storage
 1. Added setting to show your preferred board background (Settings -> Game)
