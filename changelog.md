@@ -1,5 +1,10 @@
 # UnderScript Changelog
 
+## Version 0.50.1 (2022-03-28)
+1. Fixed boolean setting errors
+1. Fixed board background setting not applying your background
+  1. NOTE: If you changed this setting, Legend is now at the bottom of your list due to a bug.
+
 ## Version 0.50.0 (2022-03-28)
 ### New Features
 1. Colorized cards in deck storage

@@ -5,6 +5,11 @@ export default class List extends ArraySetting {
     super(name);
   }
 
+  value(val, data = []) {
+    // TODO: convert to data mapping
+    return super.value(val);
+  }
+
   default(data = []) {
     return data.map(getValue);
   }
@@ -88,7 +93,9 @@ export default class List extends ArraySetting {
 
 function getValue(item) {
   if (typeof item === 'object') {
-    return item.val || item.value || getLabel(item); // Fallback to label should technically be an invalid state... but whatever
+    if (item.val !== undefined) return item.val;
+    if (item.value !== undefined) return item.value;
+    return getLabel(item); // Fallback to label should technically be an invalid state... but whatever
   }
   return item;
 }
