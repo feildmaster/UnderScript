@@ -74,7 +74,7 @@ eventManager.on('connect', (data) => {
 
   // Set new division
   const division = levels.find(({ val: v }) => v === value).text.toUpperCase();
-  $('#yourSide').addClass(`OLD_${division}}`);
+  $('#yourSide').addClass(`OLD_${division}`);
 });
 
 function getLevel(rank = '') {
