@@ -49,7 +49,9 @@ jobs:
         tag_name: ${{ needs.check.outputs.version }}
         target_commitish: ${{ needs.check.outputs.commit }}
         body: ${{ steps.changelog.outputs.changes }}
-        files: dist/*
+        files: |
+          dist/*
+          changelog.md
   beta:
     name: Publish Beta
     runs-on: ubuntu-latest
