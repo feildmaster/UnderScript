@@ -28,7 +28,7 @@ export default class Boolean extends SettingType {
 }
 
 function getValue(el, remove = false) {
-  if (el.checked || el.prop('checked')) {
+  if (el.checked) {
     return 1;
   }
   return remove ? undefined : 0;
