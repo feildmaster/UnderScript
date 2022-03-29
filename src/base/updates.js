@@ -46,6 +46,7 @@ wrap(() => {
       if (stored) {
         return compareAndToast(stored);
       }
+      return false;
     },
   };
   let toast;
@@ -104,7 +105,22 @@ wrap(() => {
           'border-radius': '',
         },
       }, {
-        text: 'Update (Alt)',
+        text: 'Update (unpkg)',
+        className: 'dismiss',
+        css: {
+          border: '',
+          height: '',
+          background: '',
+          'font-size': '',
+          margin: '',
+          'border-radius': '',
+        },
+        onclick(e) {
+          location.href = `${baseURL}/${path}`;
+          this.close('update');
+        },
+      }, {
+        text: 'Update (jsdelivr)',
         className: 'dismiss',
         css: {
           border: '',
@@ -121,7 +137,7 @@ wrap(() => {
       }],
       onClose(reason) {
         if (reason !== 'dismissed') return;
-        location.href = `${baseURL}/${path}`;
+        location.href = `https://github.com/UCProjects/UnderScript/releases/download/${data.version}/undercards.user.js`;
       },
     });
     return true;
