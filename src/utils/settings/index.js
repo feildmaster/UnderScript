@@ -122,10 +122,10 @@ function createSetting(setting = {
     ret.append(el);
   }
   if (setting.note) {
-    ret.hover(() => {
+    ret.hover((e) => {
       const note = setting.note();
       if (!note || disabled) return undefined;
-      return hover.show(note);
+      return hover.show(note)(e);
     }, hover.hide);
   }
   if (setting.reset) {
