@@ -54,6 +54,7 @@ function init() {
 }
 export function open() {
   if (menuOpen || !init()) return;
+  eventManager.emit(':menu:opening');
   // Generate buttons
   if (!cooked) {
     body.html(''); // Clear current buttons

@@ -406,7 +406,7 @@ export function importSettings(string) {
 init('main');
 
 // Add our button last
-eventManager.on(':load', () => {
+eventManager.once(':menu:opening', () => {
   menu.addButton({
     text: 'Settings',
     action: () => {
