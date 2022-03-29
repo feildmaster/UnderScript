@@ -89,32 +89,26 @@ wrap(() => {
     latest.set(data);
     if (updateToast) updateToast.close('stale');
     const path = `underscript@${data.version}/${data.unpkg}`;
+    const css = {
+      border: '',
+      height: '',
+      background: '',
+      'font-size': '',
+      margin: '',
+      'border-radius': '',
+    };
     updateToast = BasicToast({
       title: '[UnderScript] Update Available!',
       text: `Version ${data.version}.`,
       className: 'dismissable',
       buttons: [{
-        text: 'Update',
+        text: 'Update (github)',
         className: 'dismiss',
-        css: {
-          border: '',
-          height: '',
-          background: '',
-          'font-size': '',
-          margin: '',
-          'border-radius': '',
-        },
+        css,
       }, {
         text: 'Update (unpkg)',
         className: 'dismiss',
-        css: {
-          border: '',
-          height: '',
-          background: '',
-          'font-size': '',
-          margin: '',
-          'border-radius': '',
-        },
+        css,
         onclick(e) {
           location.href = `${baseURL}/${path}`;
           this.close('update');
@@ -122,14 +116,7 @@ wrap(() => {
       }, {
         text: 'Update (jsdelivr)',
         className: 'dismiss',
-        css: {
-          border: '',
-          height: '',
-          background: '',
-          'font-size': '',
-          margin: '',
-          'border-radius': '',
-        },
+        css,
         onclick: (e) => {
           location.href = `https://cdn.jsdelivr.net/npm/${path}`;
           this.close('update');

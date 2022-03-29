@@ -1,5 +1,10 @@
 # UnderScript Changelog
 
+## Version 0.50.2 (2022-03-29)
+1. Fixed settings not showing sometimes
+1. Fixed setting notes not showing
+1. Added another alternate update link
+
 ## Version 0.50.1 (2022-03-28)
 1. Fixed boolean setting errors
 1. Fixed board background setting not applying your background
