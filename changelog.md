@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.50.3 (2022-03-29)
+1. Fixed UnderScript being too fast for its own good
+
 ## Version 0.50.2 (2022-03-29)
 1. Fixed settings not showing sometimes
 1. Fixed setting notes not showing
