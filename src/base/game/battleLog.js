@@ -82,10 +82,9 @@ eventManager.on('GameStart', function battleLogger() {
   let yourDust;
   let enemyDust;
   let lastSP;
-  function addDust(player) {
+  function addDust(player, dust = global('dustpile').filter(({ ownerId }) => ownerId === player).length) {
     if (!player || !players[player]) return;
     const display = player === global('userId') ? yourDust : enemyDust;
-    const dust = typeof players[player].dust === 'undefined' ? players[player].dust = 0 : players[player].dust += 1;
     display.html(dust);
   }
   const make = {
@@ -154,14 +153,12 @@ eventManager.on('GameStart', function battleLogger() {
     players[enemy.id] = enemy;
     // Display Dust
     const disableDust = settings.value('underscript.disable.dust');
-    yourDust = $('<span>');
-    enemyDust = $('<span>');
+    yourDust = $('<span class="stats-value dust-counter">');
+    enemyDust = $('<span class="stats-value dust-counter">');
     if (disableDust === 'never' || (disableDust !== 'always' && disableDust !== (this.event === 'getAllGameInfos' ? 'spectating' : 'playing'))) {
-      const dustImg = $('<img style="width: 20px; height: 16px;" title="Number of cards turned to dust." src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAAZElEQVQ4jb2UUQ7AIAhDqfH+V95+NDEdrMSg/UQqr5hoFugZytanWnSwq+4RZIyzDwDW+jnCLBmLSSUhD+KIH8JdsmiwJGQiBVD+KOU7vE9YukMv3vXIMPNjKBLpUd/S38Wr7wVZPk/6kF1cXAAAAABJRU5ErkJggg==">');
-      $('.rightPart').append(dustImg, ' ');
-      $(`#user${global('opponentId')} .rightPart`).append(enemyDust, ' ');
-      const userId = global('userId');
-      $(`#user${userId} .rightPart`).append(yourDust, ' ', $(`#user${userId} .rightPart > button:last`));
+      $('.btn-dustpile').wrap('<span class="stats-group">');
+      $(`#user${global('opponentId')} .btn-dustpile`).after(enemyDust);
+      $(`#user${global('userId')} .btn-dustpile`).after(yourDust);
     }
     // Set lives
     if (data.lives) {
@@ -179,11 +176,10 @@ eventManager.on('GameStart', function battleLogger() {
         soul: enemy.soul,
       });
     }
-    addDust(you.id);
-    addDust(enemy.id);
     // Test changing ID's at endTurn instead of startTurn
     other[you.id] = enemy.id;
     other[enemy.id] = you.id;
+    updateDust(data, you.id);
     // Initialize the log
     log.init();
     if (settings.value('underscript.disable.logger')) {
@@ -196,6 +192,13 @@ eventManager.on('GameStart', function battleLogger() {
       log.add(make.player(players[data.userTurn]), '\'s turn');
     }
   });
+  eventManager.on('getUpdateDustpile', updateDust);
+  function updateDust({ dustpile }, player = global('userId')) {
+    const dust = JSON.parse(dustpile);
+    const count = dust.filter(({ ownerId }) => ownerId === player).length;
+    addDust(player, count);
+    addDust(other[player], dust.length - count);
+  }
   eventManager.on('getFight getFightPlayer', function fight(data) {
     const target = this.event === 'getFightPlayer' ? make.player(players[data.defendPlayer]) : make.card(monsters[data.defendMonster]);
     log.add(make.card(monsters[data.attackMonster]), ' attacked ', target);
@@ -302,7 +305,6 @@ eventManager.on('GameStart', function battleLogger() {
     debug(data, 'debugging.raw.kill');
     // monsterId: #
     log.add(make.card(monsters[data.monsterId]), ' was killed');
-    addDust(monsters[data.monsterId].owner);
     delete monsters[data.monsterId];
   });
   eventManager.on('getCardBoard getMonsterPlayed', function playCard(data) { // Adds card to X, Y (0(enemy), 1(you))
@@ -436,6 +438,7 @@ eventManager.on('GameStart', function battleLogger() {
     '#history img { height: 16px; padding-right: 4px; }',
     '#history #log div { position: relative; width: 100% }',
     '#history #log div:after { content: ""; border-bottom: 1px dashed rgb(133,133,133); position: absolute; left: 0; right: 0; bottom: -1px; }',
+    '.dust-counter { pointer-events: none; }', // Don't let the counter cover the button
   );
 
   const log = {
