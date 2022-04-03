@@ -1,3 +1,4 @@
+import { infoToast } from '../../utils/2.toasts';
 import eventManager from '../../utils/eventManager';
 import { global } from '../../utils/global';
 import * as settigs from '../../utils/settings';
@@ -49,7 +50,14 @@ style.add(
   '.sortedList .PRIORITY { padding-left: 5px; margin-bottom: 5px; box-shadow: inset 0px 0px 20px 1px var(--color); }',
 );
 
-// Have a load priority for rank board outlines - requires new setting type
+const notify = settigs.register({
+  name: 'Notify',
+  key: 'underscript.board.priority.notify',
+  default: true,
+  page: 'Game',
+  category: 'Board Background',
+});
+
 const setting = settigs.register({
   name: 'Priority',
   key: 'underscript.board.priority',
@@ -66,7 +74,8 @@ eventManager.on('connect', (data) => {
   const rank = getLevel(oldDivision);
   if (rank === -1) return; // Invalid rank
   // Remove old rank
-  $('#yourSide').removeClass(`OLD_${getRank(oldDivision)}`);
+  const oldRank = getRank(oldDivision);
+  $('#yourSide').removeClass(`OLD_${oldRank}`);
 
   // Get preferred board value
   const value = setting.value().find((v) => v >= rank);
@@ -75,6 +84,9 @@ eventManager.on('connect', (data) => {
   // Set new division
   const division = levels.find(({ val: v }) => v === value).text.toUpperCase();
   $('#yourSide').addClass(`OLD_${division}`);
+  if (notify.setting() && oldRank !== division) {
+    infoToast(`Your board background has been set to "${division}"`);
+  }
 });
 
 function getLevel(rank = '') {
