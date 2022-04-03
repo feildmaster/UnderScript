@@ -366,10 +366,14 @@ function removeSetting(setting, el) {
 export function exportSettings() {
   const localSet = {};
   const extras = ['underscript.notice.', 'underscript.plugin.'];
+  const skip = [];
   let used = false;
   each(settingReg, (setting) => {
-    if (!setting.exportable) return;
-    const { key, extraPrefix } = setting;
+    const { key, extraPrefix, exportable } = setting;
+    if (!exportable) {
+      skip.push(key);
+      return;
+    }
     const val = localStorage.getItem(key);
     if (val !== null) {
       used = true;
@@ -380,8 +384,8 @@ export function exportSettings() {
       extras.push(extraPrefix);
     }
   });
-  Object.entries(localStorage).forEach(([key, val]) => {
-    if (Object.prototype.hasOwnProperty.call(localSet, key)) return;
+  each(localStorage, (val, key) => {
+    if (localSet[key] !== undefined || skip.includes(key)) return;
     used |= extras.some((prefix) => {
       if (key.startsWith(prefix)) {
         localSet[key] = val;
@@ -436,4 +440,4 @@ export function registerType(type, addStyle = style.add) {
   addStyle(...type.styles().map((s) => `.underscript-dialog ${s}`));
 }
 
-Object.values(types).forEach((Type) => registerType(new Type()));
+each(types, (Type) => registerType(new Type()));
