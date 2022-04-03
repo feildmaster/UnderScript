@@ -78,7 +78,7 @@ wrap(() => {
             buyPacks(data);
           }
         });
-        hover.tip(`CTRL: Buy MAX packs<br>ALT: Buy (up to) 10 packs${cost ? '<br>SHIFT: Bypass confirmation' : ''}`, el);
+        $(el).hover(hover.show(`CTRL: Buy MAX packs<br>ALT: Buy (up to) 10 packs${cost ? '<br>SHIFT: Bypass confirmation' : ''}`));
       });
     });
 
