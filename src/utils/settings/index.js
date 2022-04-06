@@ -99,6 +99,9 @@ function createSetting(setting = {
     remove: setting.remove,
     container,
     key,
+    removeSetting() {
+      removeSetting(setting, el);
+    },
   }));
   el.attr({
     id: key,
