@@ -1,5 +1,14 @@
 # UnderScript Changelog
 
+## Version 0.50.4 (20222-04-06)
+1. Fixed "ignore user" setting
+1. Fixed "trust link" setting
+1. Fixed "auto decline" setting
+1. Changed icon for dragging list items
+1. Added notification (with setting) when background is overridden
+1. Fixed dust pile counter
+1. Fixed note for buying packs
+
 ## Version 0.50.3 (2022-03-29)
 1. Fixed UnderScript being too fast for its own good
 

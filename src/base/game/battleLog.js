@@ -29,18 +29,8 @@ settings.register({
   name: 'Hide Dust Counter',
   key: 'underscript.disable.dust',
   type: 'select',
-  default: 'always',
+  default: 'spectating',
   options: ['never', 'playing', 'spectating', 'always'],
-  page: 'Game',
-});
-
-settings.register({
-  name: 'Dust Counter Location',
-  key: 'underscript.dust.location',
-  type: 'select',
-  options: [],
-  disabled: true,
-  hidden: true,
   page: 'Game',
 });
 
