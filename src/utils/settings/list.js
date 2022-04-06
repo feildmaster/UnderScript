@@ -22,6 +22,7 @@ export default class List extends ArraySetting {
     let dragged;
     function dragging(e) {
       dragged = e.target;
+      e.dataTransfer.effectAllowed = 'move';
     }
     function draggedOver(e) {
       // Only allow same list elements
@@ -86,7 +87,7 @@ export default class List extends ArraySetting {
   styles() {
     return [
       '.sortedList { flex-basis: 100%; padding: 0; list-style-position: inside; }',
-      '.sortedList li { cursor: pointer; }',
+      '.sortedList li { cursor: grab; }',
     ];
   }
 }
