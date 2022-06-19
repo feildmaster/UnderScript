@@ -20,5 +20,6 @@
 // @updateURL    https://github.com/UCProjects/UnderScript/releases/latest/download/undercards.meta.js
 // @downloadURL  https://github.com/UCProjects/UnderScript/releases/latest/download/undercards.user.js
 // @namespace    https://feildmaster.com/
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=undercards.net
 // @grant        none
 // ==/UserScript==
