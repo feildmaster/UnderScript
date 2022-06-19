@@ -1,9 +1,7 @@
-import eventManager from '../../utils/eventManager';
 import * as settings from '../../utils/settings';
-import { globalSet } from '../../utils/global';
-import { debug } from '../../utils/debug';
+import { global, globalSet } from '../../utils/global';
 import onPage from '../../utils/onPage';
-import { noop } from '../../utils/1.variables';
+import compound from '../../utils/compoundEvent';
 
 const setting = settings.register({
   name: 'Disable',
@@ -13,15 +11,6 @@ const setting = settings.register({
   category: 'Minigames',
 });
 
-eventManager.on(':loaded:Play', () => {
-  globalSet('onload', function onload() {
-    window.game = undefined; // gets overriden if minigame loads
-    window.saveBest = noop; // gets overriden if minigame loads
-    if (setting.value()) {
-      debug('Disabling minigames');
-      globalSet('mobile', true);
-    }
-    this.super();
-    if (setting.value()) globalSet('mobile', false);
-  });
+compound(':loaded:Play', 'pre:getJoinedQueue', () => {
+  if (setting.value() && global('miniGameLoaded')) globalSet('miniGameLoaded', false);
 });
