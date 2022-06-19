@@ -18,6 +18,9 @@ style.add(
   '.flex-start > input { margin-right: 4px; }',
   '.mono .modal-body { font-family: monospace; max-height: 500px; overflow-y: auto; }',
   '.underscript-dialog .bootstrap-dialog-message { display: flex; }',
+  '.underscript-dialog fieldset { padding: .35em .625em .75em; margin: 0 2px; border: 1px solid silver; }',
+  '.underscript-dialog legend { padding: 0; border: 0; width: auto; margin: 0; font-family: DTM-Mono; color: white; }',
+  '.underscript-dialog label.disabled { color: #666; cursor: not-allowed; }',
   // '.underscript-dialog .modal-content { background: #000 url(../images/backgrounds/2.png) -380px -135px; }',
   // '.underscript-dialog .modal-content .modal-header, .underscript-dialog .modal-body { background-color: transparent; }',
   '.underscript-dialog .modal-footer button.btn { margin-bottom: 5px; }',
@@ -38,7 +41,7 @@ let dialog = null;
 /**
  * @returns {tabManager}
  */
-function getScreen() {
+export function getScreen() {
   if (getScreen.screen) {
     return getScreen.screen;
   }
@@ -111,10 +114,7 @@ function createSetting(setting = {
   const disabled = (typeof setting.disabled === 'function' ? setting.disabled() : setting.disabled) === true;
   if (disabled) {
     el.prop('disabled', true);
-    label.css({
-      color: '#666',
-      cursor: 'not-allowed',
-    });
+    label.addClass('disabled');
   }
   const labelPlacement = type.labelFirst();
   if (labelPlacement) {
@@ -151,21 +151,10 @@ function getMessage(page) {
   const pageSettings = configs.get(page).settings;
   const categories = {};
   function createCategory(name) {
-    const set = $('<fieldset>').css({
-      padding: '.35em .625em .75em',
-      margin: '0 2px',
-      border: '1px solid silver',
-    });
+    const set = $('<fieldset>');
     categories[name] = set;
     if (name !== 'N/A') {
-      set.append($('<legend>').css({
-        padding: 0,
-        border: 0,
-        width: 'auto',
-        margin: 0,
-        'font-family': 'DTM-Mono',
-        color: 'white',
-      }).html(name));
+      set.append($('<legend>').html(name));
     }
     container.append(set);
     return set;
@@ -368,7 +357,7 @@ function removeSetting(setting, el) {
 
 export function exportSettings() {
   const localSet = {};
-  const extras = ['underscript.notice.', 'underscript.plugin.'];
+  const extras = ['underscript.notice.'];
   const skip = [];
   let used = false;
   each(settingReg, (setting) => {
