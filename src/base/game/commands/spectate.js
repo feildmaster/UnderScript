@@ -24,7 +24,7 @@ eventManager.on('Chat:command', function spectateCommand(data) {
 
 eventManager.on('GameStart', () => {
   toast = infoToast({
-    text: 'You can send a spectate URL in chat by typing /specate',
+    text: 'You can send a spectate URL in chat by typing /spectate',
     onClose() {
       toast = null;
     },

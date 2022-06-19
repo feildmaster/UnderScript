@@ -1,6 +1,10 @@
 # UnderScript Changelog
 
-## Version 0.50.4 (20222-04-06)
+## Version 0.50.5 (2022-06-)
+1. Fix undefined dust
+1. Spectate*
+
+## Version 0.50.4 (2022-04-06)
 1. Fixed "ignore user" setting
 1. Fixed "trust link" setting
 1. Fixed "auto decline" setting
