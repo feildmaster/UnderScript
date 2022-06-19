@@ -84,7 +84,7 @@ eventManager.on('connect', (data) => {
   // Set new division
   const division = levels.find(({ val: v }) => v === value).text.toUpperCase();
   $('#yourSide').addClass(`OLD_${division}`);
-  if (notify.setting() && oldRank !== division) {
+  if (notify.value() && oldRank !== division) {
     infoToast(`Your board background has been set to "${division}"`);
   }
 });
