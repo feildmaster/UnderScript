@@ -8,7 +8,7 @@ import sleep from '../utils/sleep';
 function getFromEl(el) {
   const link = el.find('a:first').attr('href');
   const id = link.substring(link.indexOf('=') + 1);
-  const name = el.text().substring(0, el.text().lastIndexOf(' LV '));
+  const name = el.contents()[0].nodeValue.trim();
   return { id, name };
 }
 
@@ -25,6 +25,7 @@ function loadFriends(validate) {
     const requests = {};
     // const pending = {};
     data.find('p:contains(Friend requests)').parent().children('li').each(function fR() {
+      // console.log(this);
       const f = getFromEl($(this));
       requests[f.id] = f.name;
     });
