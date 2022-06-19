@@ -3,6 +3,7 @@
 ## Version 0.50.5 (2022-06-)
 1. Fix undefined dust
 1. Spectate*
+1. Fix special map bg music
 
 ## Version 0.50.4 (2022-04-06)
 1. Fixed "ignore user" setting

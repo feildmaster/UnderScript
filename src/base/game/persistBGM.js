@@ -15,6 +15,10 @@ eventManager.on('GameStart', () => {
     const val = sessionStorage.getItem(`underscript.bgm.${data.gameId}`);
     if (setting.value() && val) {
       $('body').css('background-image', `url('images/backgrounds/${val}.png')`);
+      // Check special skins
+      if (data.gameType !== 'BOSS' && global('profileSkinsEnabled')) {
+        global('checkSpecialProfileSkin')(JSON.parse(data.yourProfileSkin));
+      }
     }
   });
 
