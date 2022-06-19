@@ -72,7 +72,10 @@ eventManager.on('GameStart', function battleLogger() {
   let yourDust;
   let enemyDust;
   let lastSP;
-  function addDust(player, dust = global('dustpile').filter(({ ownerId }) => ownerId === player).length) {
+  function getDust(id) {
+    return global('dustpile').filter(({ ownerId }) => ownerId === id).length;
+  }
+  function addDust(player, dust = getDust(player)) {
     if (!player || !players[player]) return;
     const display = player === global('userId') ? yourDust : enemyDust;
     display.html(dust);
@@ -85,7 +88,7 @@ eventManager.on('GameStart', function battleLogger() {
       if (!title) {
         c.css('text-decoration', 'underline');
         // show lives, show health, show gold, show hand, possibly deck size as well
-        const data = `${player.hp} hp, ${player.gold} gold<br />${player.dust} dust`;
+        const data = `${player.hp} hp, ${player.gold} gold<br />${getDust(player.id)} dust`;
         c.hover(hover.show(data, '2px solid white'));
       }
       return c;
