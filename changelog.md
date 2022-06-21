@@ -1,13 +1,13 @@
 # UnderScript Changelog
 
-## Version 0.50.5 (2022-06-)
+## Version 0.50.5 (2022-06-21)
 1. Fix `undefined dust`
 1. Spectate*
 1. Fix persist bgm breaking skin themes
 1. Allow music played by underscript to be cancelable
 1. Fixed minigame playing when disabled
 1. Possibly fixed friends list errors
-1. `:loaded` event can't be delayed1
+1. `:loaded` event can't be delayed
 1. Fixed a few issues with settings display
 
 ## Version 0.50.4 (2022-04-06)
