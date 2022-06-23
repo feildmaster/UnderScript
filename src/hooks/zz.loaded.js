@@ -19,7 +19,7 @@ if (location.host.includes('undercards.net')) {
   }
 }
 function register() {
-  document.addEventListener('DOMContentLoaded', () => loaded);
+  document.addEventListener('DOMContentLoaded', loaded);
   window.addEventListener('load', () => sleep().then(done));
   const COMPLETE = document.readyState === 'complete';
   if (document.readyState === 'interactive' || COMPLETE) {

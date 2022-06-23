@@ -1,6 +1,7 @@
 # UnderScript Changelog
 
-## Version 0.50.5 (2022-06-21)
+## Version 0.50.6 (2022-06-22)
+1. Fixed error with script loading
 1. Fix `undefined dust`
 1. Spectate*
 1. Fix persist bgm breaking skin themes
