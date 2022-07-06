@@ -23,6 +23,8 @@ onPage('Crafting', () => {
             dust: r.dust,
             shiny: data.isShiny || r.shiny || false,
           });
+        } else {
+          eventManager.emit('crafterrror', data.message, data.status);
         }
       } else if (data.action === 'disenchant') {
         // TODO
