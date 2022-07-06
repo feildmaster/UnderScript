@@ -127,6 +127,7 @@ export default function eventEmitter() {
       }
       return emitter.on(event, wrapper);
     },
+    one: (event, fn) => emitter.once(event, fn),
     until: (event, fn) => {
       if (typeof fn !== 'function') return emitter;
       function wrapper(...args) {
