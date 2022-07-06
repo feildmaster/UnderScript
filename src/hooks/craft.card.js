@@ -15,11 +15,13 @@ onPage('Crafting', () => {
       const success = r.status === 'success';
       if (data.action === 'craft') {
         if (success) {
+          const card = r.card ? JSON.parse(r.card) : {};
+          const id = card.id || r.cardId;
           eventManager.emit('craftcard', {
-            id: r.cardId,
-            name: r.cardName,
+            id,
+            name: card.name || $.i18n(`card-name-${id}`) || r.cardName,
             dust: r.dust,
-            shiny: r.shiny,
+            shiny: data.isShiny || r.shiny || false,
           });
         }
       } else if (data.action === 'disenchant') {
