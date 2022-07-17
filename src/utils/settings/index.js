@@ -173,7 +173,7 @@ function getMessage(page) {
 }
 
 export function register(data) {
-  if (typeof data !== 'string' && !data.key) return false;
+  if (typeof data !== 'string' && !data.key) return undefined;
   const page = data.page || 'main';
   const key = (data.key || data); // .replace(/ /g, '_'); // This is a breaking change (but possibly necessary)
   const setting = {
@@ -194,7 +194,7 @@ export function register(data) {
   };
   if (settingReg[key]) {
     // debug(`settings.add: ${setting.name}[${key}] already registered`);
-    return false;
+    return undefined;
   }
   const slider = data.min || data.max || data.step;
   if (!data.type) {
@@ -218,7 +218,7 @@ export function register(data) {
   if (typeof setting.type === 'string') {
     setting.type = registry.get(setting.type);
   }
-  if (!(setting.type instanceof SettingType)) return false; // TODO: Throw error?
+  if (!(setting.type instanceof SettingType)) return undefined; // TODO: Throw error?
   if (data.refresh || data.note) {
     setting.note = () => {
       const notes = [];
