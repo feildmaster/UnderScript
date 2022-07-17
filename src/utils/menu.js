@@ -122,7 +122,10 @@ export function isOpen() {
   return menuOpen;
 }
 export function addButton(button = {}) {
-  if (!button || !button.text) return debug('Menu: Missing button information');
+  if (!button || !button.text) {
+    debug('Menu: Missing button information');
+    return;
+  }
   const { text, action, url, note, enabled, hidden } = button;
   const safeButton = {
     action,
