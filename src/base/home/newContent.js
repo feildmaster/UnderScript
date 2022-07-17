@@ -53,10 +53,12 @@ function toast(type) {
   const names = [];
   const links = [];
   const sType = selector(type);
-  [...document.querySelectorAll(`p a[href="${sType}"] img, p img[class*="${sType}"]`)].forEach((el) => {
+  [...document.querySelectorAll(`td a[href="${sType}"] img, p a[href="${sType}"] img, p img[class*="${sType}"]`)].forEach((el) => {
     names.push(imageName(el.src));
-    links.push(el.parentElement.outerHTML);
-    el.parentElement.remove();
+    let a = el.parentElement;
+    while (a.parentElement !== a && a.nodeName !== 'TD' && a.nodeName !== 'P') a = a.parentElement;
+    links.push(a.innerHTML);
+    a.remove();
   });
   const prefix = `underscript.dismiss.${type}.`;
   const key = `${prefix}${names.join(',')}`;
@@ -64,7 +66,7 @@ function toast(type) {
   if (settings.value(key)) return;
   dismissable({
     key,
-    text: links.join('<br>').replace(/\n/g, ''),
+    text: links.join('').replace(/\n/g, ''),
     title: title(type, links.length > 1),
   });
 }
