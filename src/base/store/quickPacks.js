@@ -9,6 +9,7 @@ import wrap from '../../utils/2.pokemon';
 import { blankToast, toast as basicToast } from '../../utils/2.toasts';
 import * as api from '../../utils/4.api';
 import formatNumber from '../../utils/formatNumber';
+import { getCollection } from '../../utils/user';
 
 wrap(() => {
   const setting = settings.register({
@@ -17,9 +18,10 @@ wrap(() => {
     refresh: onPage('Packs'),
   });
 
-  onPage('Packs', function quickOpenPack() {
+  onPage('Packs', async function quickOpenPack() {
     if (setting.value()) return;
 
+    const collection = await getCollection();
     const results = {
       packs: 0,
       cards: [],
@@ -94,9 +96,22 @@ wrap(() => {
     });
 
     let toast = blankToast();
-    events.on('pack', (cards) => {
+    events.on('pack', (cards = []) => {
       status.pending -= 1;
       results.packs += 1;
+      cards.forEach((card) => {
+        const cCard = collection.find((c) => c.id === card.id && c.shiny === card.shiny);
+        // Don't have one yet?
+        if (!cCard) {
+          // Add to collection
+          collection.push({
+            ...card,
+            quantity: 1,
+          });
+          // Mark as new
+          card.new = true;
+        }
+      });
       results.cards.push(...cards);
       events.emit('next');
       setupPing();
@@ -170,8 +185,9 @@ wrap(() => {
         });
         results.cards.forEach((card) => { // Convert each card
           const r = cardResults[card.rarity];
-          const c = r[card.name] = r[card.name] || { total: 0, shiny: 0 };
+          const c = r[card.name] = r[card.name] || { total: 0, shiny: 0, new: false };
           c.total += 1;
+          if (card.new) c.new = true;
           if (card.shiny) {
             if (status.pack !== 'openShinyPack') {
               cardResults.shiny += 1;
@@ -185,26 +201,27 @@ wrap(() => {
         // Increase the limit if we don't have a specific rarity
         rarity.forEach((key) => {
           if (!Object.keys(cardResults[key]).length) {
-            return this + 1;
+            limit += 1;
           }
-          return this;
         });
 
         let text = '';
         // Build visual results
         rarity.forEach((key) => {
-          const keys = Object.keys(cardResults[key]);
+          const cards = cardResults[key];
+          const keys = Object.keys(cards);
           if (!keys.length) return;
           const buffer = [];
           let count = 0;
           let shiny = 0;
+          if (keys.length > limit) keys.sort((a, b) => cards[b].new - cards[a].new); // Push new cards to top of list if we have cards that'll get cut off
           keys.forEach((name) => {
-            const card = cardResults[key][name];
+            const card = cards[name];
             count += card.total;
             shiny += card.shiny;
             if (limit) {
               limit -= 1;
-              buffer.push(`${card.shiny ? '<span class="yellow">S</span> ' : ''}${name}${card.total > 1 ? ` (${formatNumber(card.total)}${card.shiny ? `, ${card.shiny}` : ''})` : ''}${limit ? '' : '...'}`);
+              buffer.push(`${card.new ? `<span class="yellow">{${$.i18n('cosmetics-new')}}</span>` : ''}${card.shiny ? '<span class="yellow">S</span> ' : ''}${name}${card.total > 1 ? ` (${formatNumber(card.total)}${card.shiny ? `, ${card.shiny}` : ''})` : ''}${limit ? '' : '...'}`);
             }
           });
           text += `${key} (${count}${shiny ? `, ${shiny} shiny` : ''}):${buffer.length ? `\n- ${buffer.join('\n- ')}` : ' ...'}\n`;
@@ -264,10 +281,11 @@ wrap(() => {
         const data = xhr.responseJSON;
         const error = data.action === 'getError';
         if (data.action !== 'getCards' && !error) return;
+        if (data.cards) { // This has to always be done, to update the collection
+          events.emit('pack', JSON.parse(data.cards));
+        }
         if (openingPacks()) {
-          if (data.cards) {
-            events.emit('pack', JSON.parse(data.cards));
-          } else if (data.status || error) {
+          if (data.status || error) {
             events.emit('error', data.message);
           }
         } else if (autoOpen && !data.status) {
