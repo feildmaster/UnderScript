@@ -66,6 +66,11 @@ function parse(data) {
   return typeof data === 'string' ? JSON.parse(data) : data;
 }
 
+export function getUCP() {
+  return axios.get(`/CardSkinsConfig?action=profile&time=${Date.now()}`)
+    .then(({ data: { ucp = 0 } }) => ucp);
+}
+
 const user = api.mod.user;
 user.isMod = isMod;
 user.isStaff = isStaff;
@@ -73,3 +78,4 @@ user.getCollection = getCollection;
 user.getDecks = getDecks;
 user.getArtifacts = getArtifacts;
 user.getAllArtifacts = getAllArtifacts;
+user.getUCP = getUCP;
