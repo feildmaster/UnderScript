@@ -47,7 +47,7 @@ wrap(() => {
       unregister(hotkey) {
         validate(hotkey);
         const wrapper = registry.get(hotkey);
-        if (!registry.has(wrapper)) return;
+        if (!wrapper) return;
         registry.delete(hotkey);
         hotkeys.splice(hotkeys.indexOf(wrapper), 1);
       },

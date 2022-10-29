@@ -2,7 +2,7 @@ import eventManager from '../utils/eventManager';
 import { hotkeys } from '../utils/1.variables';
 
 function handle(event, click = false) {
-  hotkeys.forEach((v) => {
+  [...hotkeys].forEach((v) => {
     const key = click ? event.which : event.key;
     const {
       altKey: alt,
@@ -11,7 +11,7 @@ function handle(event, click = false) {
       target,
     } = event;
     if (click ? v.clickbound(key) : v.keybound(key)) {
-      v.run(event, { alt, ctrl, shift, target }));
+      v.run(event, { alt, ctrl, shift, target });
     }
   });
 }
