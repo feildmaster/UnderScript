@@ -15,7 +15,6 @@ const spaceDisable = settings.register({
   name: 'Disable End Turn with Space',
   key: 'underscript.disable.endTurn.space',
   disabled: () => fullDisable.value(),
-  refresh: () => typeof gameId !== 'undefined',
   page: 'Game',
   category: 'Hotkeys',
 });
@@ -23,23 +22,20 @@ const mouseDisable = settings.register({
   name: 'Disable End Turn with Middle Click',
   key: 'underscript.disable.endTurn.middleClick',
   disabled: () => fullDisable.value(),
-  refresh: () => typeof gameId !== 'undefined',
   page: 'Game',
   category: 'Hotkeys',
 });
 
 eventManager.on('PlayingGame', function bindHotkeys() {
-  // Binds to Space, Middle Click
-  const hotkey = new Hotkey('End turn').run((e) => {
+  const hotkey = new Hotkey('End turn', (e) => {
     if (fullDisable.value()) return;
+    const disabled = e instanceof KeyboardEvent ? spaceDisable.value() : mouseDisable.value();
+    if (disabled) return;
     if (!$(e.target).is('#endTurnBtn') && global('userTurn') === global('userId')) global('endTurn')();
+  }, {
+    keys: ' ',
+    clicks: 2, // Middle click
   });
-  if (!spaceDisable.value()) {
-    hotkey.bindKey(32);
-  }
-  if (!mouseDisable.value()) {
-    hotkey.bindClick(2);
-  }
   hotkeys.push(hotkey);
 
   if (!fullDisable.value() && !spaceDisable.value() && !mouseDisable.value()) {
