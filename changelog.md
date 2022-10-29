@@ -1,5 +1,25 @@
 # UnderScript Changelog
 
+## Version 0.51.0 (2022-10-29)
+### New Features
+1. Added events for ALL `appendCard` functions
+1. Added `crafterror` event
+1. Added user deck functions `user.getDecks`, `user.getCollection`, `user.getArtifacts`
+1. Added `user.getUCP` function
+1. Cards get marked as `new` if you don't currently have them in your collection
+1. Translate various setting names/values
+1. Added `user.getCardSkins`
+### Fixes
+1. Fixed plugin modules not loading properly when they depend on another module
+1. Fixed `craftcard` event
+1. Fixed some content toasts
+1. Fixed delayed singleton data emittion
+### Misc.
+1. `emitter.one` alias for `emitter.once`
+### Plugins
+1. Added `plugin.settings.open`
+1. Added plugin hotkey registration
+
 ## Version 0.50.6 (2022-06-22)
 1. Fixed error with script loading
 1. Fix `undefined dust`
