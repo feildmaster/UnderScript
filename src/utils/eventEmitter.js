@@ -108,7 +108,7 @@ export default function eventEmitter() {
           sleep().then(() => {
             reset(); // Make sure nothing is set!
             options.async = singleton.async;
-            emit(e, [fn], singleton.data);
+            emit(e, [fn], ...singleton.data);
           });
         } else {
           if (!Object.hasOwnProperty.call(events, e)) {
