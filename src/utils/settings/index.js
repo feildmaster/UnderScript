@@ -8,6 +8,7 @@ import each from '../each';
 import wrap from '../2.pokemon';
 import SettingType from './setting';
 import * as types from './types';
+import { translateText } from '../translate';
 
 const defaultType = new SettingType('generic');
 
@@ -109,7 +110,7 @@ function createSetting(setting = {
   el.attr({
     id: key,
   });
-  const label = $(`<label for="${key}">`).html(setting.name);
+  const label = $(`<label for="${key}">`).html(translateText(setting.name));
   // TODO: Allow disabling progmatically, not just on setting load
   const disabled = (typeof setting.disabled === 'function' ? setting.disabled() : setting.disabled) === true;
   if (disabled) {
@@ -154,7 +155,7 @@ function getMessage(page) {
     const set = $('<fieldset>');
     categories[name] = set;
     if (name !== 'N/A') {
-      set.append($('<legend>').html(name));
+      set.append($('<legend>').html(translateText(name)));
     }
     container.append(set);
     return set;

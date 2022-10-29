@@ -1,3 +1,4 @@
+import { translateText } from '../translate';
 import Text from './text';
 
 export default class Select extends Text {
@@ -22,6 +23,6 @@ export default class Select extends Text {
 function options(data = [], current = '') {
   return data.map((o) => {
     const [l, v = l] = Array.isArray(o) ? o : [o];
-    return `<option value="${v}"${current === v ? ' selected' : ''}>${l}</option>`;
+    return `<option value="${v}"${current === v ? ' selected' : ''}>${translateText(l)}</option>`;
   });
 }

@@ -1,3 +1,4 @@
+import { translateText } from '../translate';
 import ArraySetting from './array';
 
 export default class List extends ArraySetting {
@@ -49,7 +50,7 @@ export default class List extends ArraySetting {
     function addItem(o) {
       // Create element
       const node = document.createElement('li');
-      node.innerText = getLabel(o);
+      node.innerText = translateText(getLabel(o));
       node.draggable = true;
       if (typeof o.class === 'string') {
         node.classList.add(...o.class.trim().split(/\s+/));
@@ -96,7 +97,7 @@ function getValue(item) {
   if (typeof item === 'object') {
     if (item.val !== undefined) return item.val;
     if (item.value !== undefined) return item.value;
-    return getLabel(item); // Fallback to label should technically be an invalid state... but whatever
+    return translateText(getLabel(item)); // Fallback to label should technically be an invalid state... but whatever
   }
   return item;
 }
