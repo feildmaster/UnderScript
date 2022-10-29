@@ -25,6 +25,7 @@ wrap(() => {
     const obj = {
       add: add(plugin),
       on: (...args) => settings.on(...args),
+      open: () => settings.open(plugin),
       isOpen: () => settings.isOpen(),
       addType(type) {
         if (!(type instanceof SettingType)) {
@@ -37,7 +38,7 @@ wrap(() => {
         settings.registerType(type, plugin.addStyle);
       },
     };
-    return () => obj;
+    return () => Object.freeze(obj);
   }
 
   registerModule(name, mod);
