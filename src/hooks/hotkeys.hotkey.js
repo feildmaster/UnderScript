@@ -1,17 +1,12 @@
 import eventManager from '../utils/eventManager';
 import { hotkeys } from '../utils/1.variables';
 
-function handle(event, click = false) {
+function handle(event) {
+  const click = event instanceof MouseEvent;
   [...hotkeys].forEach((v) => {
-    const key = click ? event.which : event.key;
-    const {
-      altKey: alt,
-      ctrlKey: ctrl,
-      shiftKey: shift,
-      target,
-    } = event;
+    const key = click ? event.button : event.key;
     if (click ? v.clickbound(key) : v.keybound(key)) {
-      v.run(event, { alt, ctrl, shift, target });
+      v.run(event);
     }
   });
 }

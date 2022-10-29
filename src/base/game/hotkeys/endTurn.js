@@ -4,6 +4,7 @@ import { global } from '../../../utils/global';
 import { infoToast } from '../../../utils/2.toasts';
 import Hotkey from '../../../utils/hotkey.class';
 import { hotkeys } from '../../../utils/1.variables';
+import { BUTTON as MOUSE_BUTTON } from '../../../utils/mouse';
 
 const fullDisable = settings.register({
   name: 'Disable End Turn Hotkey',
@@ -34,7 +35,7 @@ eventManager.on('PlayingGame', function bindHotkeys() {
     if (!$(e.target).is('#endTurnBtn') && global('userTurn') === global('userId')) global('endTurn')();
   }, {
     keys: ' ',
-    clicks: 2, // Middle click
+    clicks: MOUSE_BUTTON.Middle,
   });
   hotkeys.push(hotkey);
 
@@ -53,7 +54,7 @@ eventManager.on('PlayingGame', function bindHotkeys() {
           margin: '',
           'border-radius': '',
         },
-        onclick: (e) => {
+        onclick: (_) => {
           settings.open('Game');
         },
       },
