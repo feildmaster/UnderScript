@@ -38,14 +38,18 @@ export function getCollection() {
 }
 
 export function getDecks() {
-  return getDeckConfig().then(({ decks: data }) => parse(data));
+  return getDeckConfig().then(({ decks: data }) => parse(data))
+    .then((decks) => decks.reduce((val, { soul: { name: soul }, cardsList: cards, artifacts }) => {
+      val[soul] = { artifacts, cards };
+      return val;
+    }, {}));
 }
 
 export function getArtifacts() {
   return getDeckConfig().then(({ artifacts: data }) => parse(data));
 }
 
-export function getAllArtifacts() {
+export function getAllArtifacts() { // TODO: This isn't really a "user" function
   return getDeckConfig().then(({ allArtifacts: data }) => parse(data));
 }
 
@@ -67,8 +71,13 @@ function parse(data) {
 }
 
 export function getUCP() {
-  return axios.get(`/CardSkinsConfig?action=profile&time=${Date.now()}`)
+  return axios.get(`CardSkinsConfig?action=profile&time=${Date.now()}`)
     .then(({ data: { ucp = 0 } }) => ucp);
+}
+
+export function getCardSkins() {
+  return axios.get('CardSkinsConfig?action=profile')
+    .then(({ data: { cardSkins = '' } }) => JSON.parse(cardSkins));
 }
 
 const user = api.mod.user;
@@ -79,3 +88,4 @@ user.getDecks = getDecks;
 user.getArtifacts = getArtifacts;
 user.getAllArtifacts = getAllArtifacts;
 user.getUCP = getUCP;
+user.getCardSkins = getCardSkins;
