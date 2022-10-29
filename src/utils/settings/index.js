@@ -280,6 +280,7 @@ export function open(page = 'main') {
   if (page.name) {
     getPage('Plugins').setActive();
   }
+  if (isOpen()) return;
   BootstrapDialog.show({
     title: `UnderScript Configuration`,
     // size: 'size-wide',
