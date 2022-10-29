@@ -1,16 +1,32 @@
 export default class Hotkey {
-  constructor(name) {
-    this.name = name;
-    this.keys = [];
-    this.clicks = [];
-    this.fn = null;
+  constructor(name, func, {
+    keys = [],
+    clicks = [],
+  } = {}) {
+    try {
+      this.name = name;
+      this.fn = func;
+      this.keys = [];
+      this.clicks = [];
+
+      if (Array.isArray(keys)) {
+        keys.forEach((k) => this.bindKey(k));
+      } else if (typeof keys === 'string') {
+        this.bindKey(keys);
+      }
+
+      if (Array.isArray(clicks)) {
+        clicks.forEach((c) => this.bindClick(c));
+      } else if (clicks) {
+        this.bindClick(clicks);
+      }
+    } catch (_) {
+      // Ignore
+    }
   }
 
-  has(x, a) {
-    let h = false;
-    // if (v === x) h = i;
-    a.some((v, i) => h = v === x);
-    return h;
+  has(x, a = []) {
+    return a.some((v) => v === x);
   }
 
   del(x, a) {
@@ -55,14 +71,15 @@ export default class Hotkey {
     return this.has(x, this.clicks);
   }
 
-  run(x) {
+  run(x, ...rest) {
     if (typeof x === 'function') { // Set the function
       this.fn = x;
       return this; // Allow inline constructing
     }
-    if (this.fn) { // All clear (x is the event)
-      this.fn(x);
+    if (typeof this.fn === 'function') { // All clear (x is the event)
+      return this.fn(x, ...rest);
     }
+    return undefined;
   }
 
   toString() {
