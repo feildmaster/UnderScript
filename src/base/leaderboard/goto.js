@@ -24,12 +24,8 @@ function load({ page, user } = {}) {
 }
 
 function getData() {
-  const o = {};
-  const d = decodeURIComponent;
-  location.search.substring(1).replace(/([^=&]+)=([^&]*)/g, (m, k, v) => {
-    o[d(k)] = d(v);
-  });
-  return o;
+  const params = new URLSearchParams(location.search);
+  return Object.fromEntries(params.entries());
 }
 
 function userLast() {
