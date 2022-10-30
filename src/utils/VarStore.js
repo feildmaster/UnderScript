@@ -28,5 +28,5 @@ export default function VarStore(def) {
     set,
   });
 
-  return ret;
+  return Object.freeze(ret);
 }

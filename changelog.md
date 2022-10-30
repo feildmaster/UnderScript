@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.51.1 (2022-10-30)
+1. Fix issue where PrettyCards would break descriptions
+
 ## Version 0.51.0 (2022-10-29)
 ### New Features
 1. Added events for ALL `appendCard` functions
