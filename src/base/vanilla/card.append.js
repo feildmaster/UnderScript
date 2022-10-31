@@ -17,18 +17,17 @@ internal.on('set', (e = PREFIX) => {
   eventManager.emit(`pre:func:${event}`, ...args);
 }).on('post', (...args) => {
   if (event === PREFIX || !args.length) {
-    const eventData = data || args;
-    if (eventData.length) eventManager.emit(`func:${event}`, ...eventData);
+    const eventData = data || args; // If no data then the event was canceled somehow, and we need to clear the event
+    if (eventData.length) {
+      eventManager.emit(`func:${event}`, ...eventData);
+      if (event !== PREFIX) eventManager.emit(`func:${PREFIX}`, ...eventData); // Always call func:appendCard?
+    }
     data = null;
     event = PREFIX; // Reset
   } else {
     data = args;
     if (extras.isSet()) data.push(...extras.value);
-    eventManager.emit(`${PREFIX}()`, { // Support old events
-      card: args[0],
-      element: args[1],
-    });
-    eventManager.emit(`func:${PREFIX}`, ...data); // Should always call `appendCard`?
+    eventManager.emit(`func:${PREFIX}`, ...data); // Always call func:appendCard?
   }
 });
 
@@ -36,6 +35,7 @@ eventManager.on(':loaded', () => {
   const set = globalSet(PREFIX, function appendCard(card, container) {
     internal.emit('pre', card);
     const element = this.super(card, container);
+    eventManager.emit(`${PREFIX}()`, { card, element, container }); // Support old listeners
     internal.emit('post', card, element);
     return element;
   }, {

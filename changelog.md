@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.51.2 (2022-10-30)
+1. Actually fix issue in all cases
+
 ## Version 0.51.1 (2022-10-30)
 1. Fix issue where PrettyCards would break descriptions
 
