@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.51.3 (2022-12-13)
+1. Fix appendCard data
+
 ## Version 0.51.2 (2022-10-30)
 1. Actually fix issue in all cases
 

@@ -1,5 +1,6 @@
 import eventManager from '../../utils/eventManager';
 
+// TODO: Is this used?
 let focused = false;
 
 export default focused;

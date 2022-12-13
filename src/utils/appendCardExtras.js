@@ -6,6 +6,6 @@ const argExtractor = {
 
 export default function getExtras(key, args = []) {
   const extractor = argExtractor[key];
-  if (!extractor) return null;
+  if (!extractor) return undefined;
   return extractor(...args);
 }

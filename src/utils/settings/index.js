@@ -324,8 +324,10 @@ export function isOpen() {
 export function value(key) {
   const setting = settingReg[key];
   const val = localStorage.getItem(key);
-  if (!val) return getDefault(setting);
-  if (setting) return setting.type.value(val);
+  if (setting) {
+    if (!val) return getDefault(setting);
+    return setting.type.value(val);
+  }
   return val;
 }
 

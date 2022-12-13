@@ -5,7 +5,6 @@ const registry = new Map();
 const modules = [];
 
 // TODO: RegisteredPlugin
-
 export default function Plugin(name = '') {
   // eslint-disable-next-line no-param-reassign
   name = name.trim();
