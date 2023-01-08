@@ -174,7 +174,8 @@ function getMessage(page) {
 }
 
 export function register(data) {
-  if (typeof data !== 'string' && !data.key) return undefined;
+  if (typeof data !== 'string' && !data.key) throw new Error('No key provided');
+
   const page = data.page || 'main';
   const key = (data.key || data); // .replace(/ /g, '_'); // This is a breaking change (but possibly necessary)
   const setting = {
@@ -193,10 +194,9 @@ export function register(data) {
     extraPrefix: data.extraPrefix,
     reset: data.reset === true,
   };
-  if (settingReg[key]) {
-    // debug(`settings.add: ${setting.name}[${key}] already registered`);
-    return undefined;
-  }
+
+  if (settingReg[key]) throw new Error(`${setting.name}[${key}] already registered`);
+
   const slider = data.min || data.max || data.step;
   if (!data.type) {
     if (data.options) {
