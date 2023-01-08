@@ -16,12 +16,13 @@ wrap(() => {
           try {
             fn.call(this, ...args);
           } catch (e) {
-            plugin.logger.error(`Event error (${event}):\n`, e, '\n', {
+            plugin.logger.error(`Event error (${event}):\n`, e, '\n', JSON.stringify({
               args,
               event: this,
-            });
+            }));
           }
         }
+        pluginListener.plugin = plugin;
 
         eventManager.on.call(obj, event, pluginListener);
       },
