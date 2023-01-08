@@ -35,7 +35,9 @@ eventManager.on(':loaded', () => {
   const set = globalSet(PREFIX, function appendCard(card, container) {
     internal.emit('pre', card);
     const element = this.super(card, container);
-    eventManager.emit(`${PREFIX}()`, { card, element, container }); // Support old listeners
+    if (eventManager.emit(`${PREFIX}()`, { card, element, container }).ran) { // Support old listeners
+      console.warn(`'${PREFIX}()' is deprecated, please use 'func:${PREFIX}' instead`);
+    }
     internal.emit('post', card, element);
     return element;
   }, {
