@@ -1,7 +1,7 @@
 import tippy from 'tippy.js';
-import eventManager from '../../utils/eventManager';
-import style from '../../utils/style';
-import each from '../../utils/each';
+import eventManager from '../../utils/eventManager.js';
+import style from '../../utils/style.js';
+import each from '../../utils/each.js';
 
 const icons = {
   gold: 'Gold',

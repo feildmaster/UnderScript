@@ -1,4 +1,4 @@
-import * as api from './4.api';
+import * as api from './4.api.js';
 
 export const BUTTON = Object.freeze({
   Left: 0,

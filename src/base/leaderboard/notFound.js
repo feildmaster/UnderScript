@@ -1,6 +1,6 @@
-import eventManager from '../../utils/eventManager';
-import { globalSet } from '../../utils/global';
-import { toast } from '../../utils/2.toasts';
+import eventManager from '../../utils/eventManager.js';
+import { globalSet } from '../../utils/global.js';
+import { toast } from '../../utils/2.toasts.js';
 
 const toasts = {};
 eventManager.on(':loaded:leaderboard', () => {

@@ -1,7 +1,7 @@
-import eventManager from '../../utils/eventManager';
-import { globalSet } from '../../utils/global';
-import { errorToast } from '../../utils/2.toasts';
-import onPage from '../../utils/onPage';
+import eventManager from '../../utils/eventManager.js';
+import { globalSet } from '../../utils/global.js';
+import { errorToast } from '../../utils/2.toasts.js';
+import onPage from '../../utils/onPage.js';
 
 onPage('Play', setup);
 

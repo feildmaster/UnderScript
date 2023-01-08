@@ -1,7 +1,7 @@
-import * as settings from '../../utils/settings';
-import { global, globalSet } from '../../utils/global';
-import onPage from '../../utils/onPage';
-import compound from '../../utils/compoundEvent';
+import * as settings from '../../utils/settings/index.js';
+import { global, globalSet } from '../../utils/global.js';
+import onPage from '../../utils/onPage.js';
+import compound from '../../utils/compoundEvent.js';
 
 const setting = settings.register({
   name: 'Disable',

@@ -1,5 +1,5 @@
-import eventManager from '../../utils/eventManager';
-import onPage from '../../utils/onPage';
+import eventManager from '../../utils/eventManager.js';
+import onPage from '../../utils/onPage.js';
 
 onPage('Play', () => {
   const title = document.title;

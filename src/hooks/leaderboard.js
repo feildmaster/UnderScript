@@ -1,5 +1,5 @@
-import eventManager from '../utils/eventManager';
-import { globalSet } from '../utils/global';
+import eventManager from '../utils/eventManager.js';
+import { globalSet } from '../utils/global.js';
 
 eventManager.on(':loaded:leaderboard', () => {
   globalSet('pageName', location.pathname.substr(1));

@@ -1,10 +1,10 @@
 import axios from 'axios';
-import * as settings from '../../utils/settings';
-import { infoToast } from '../../utils/2.toasts';
-import { debugToast } from '../../utils/debug';
-import onPage from '../../utils/onPage';
-import decrypt from '../../utils/decrypt.emails';
-import translate from '../../utils/translate';
+import * as settings from '../../utils/settings/index.js';
+import { infoToast } from '../../utils/2.toasts.js';
+import { debugToast } from '../../utils/debug.js';
+import onPage from '../../utils/onPage.js';
+import decrypt from '../../utils/decrypt.emails.js';
+import translate from '../../utils/translate.js';
 
 const setting = settings.register({
   name: 'Disable Game List Refresh',

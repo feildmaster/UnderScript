@@ -1,5 +1,5 @@
-import eventManager from '../../utils/eventManager';
-import addMenuButton from '../../utils/menubuttons';
+import eventManager from '../../utils/eventManager.js';
+import addMenuButton from '../../utils/menubuttons.js';
 
 eventManager.on('jQuery', () => {
   const text = `<li class="computerLink">

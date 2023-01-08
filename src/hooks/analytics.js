@@ -1,5 +1,5 @@
-import * as settings from '../utils/settings';
-import { scriptVersion } from '../utils/1.variables';
+import * as settings from '../utils/settings/index.js';
+import { scriptVersion } from '../utils/1.variables.js';
 
 // This setting doesn't do anything, nor does the detection work.
 settings.register({

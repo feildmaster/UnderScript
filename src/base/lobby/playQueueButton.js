@@ -1,6 +1,6 @@
-import eventManager from '../../utils/eventManager';
-import onPage from '../../utils/onPage';
-import * as hover from '../../utils/hover';
+import eventManager from '../../utils/eventManager.js';
+import onPage from '../../utils/onPage.js';
+import * as hover from '../../utils/hover.js';
 
 onPage('Play', () => {
   let queues;

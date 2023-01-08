@@ -1,5 +1,5 @@
-import * as settings from '../../utils/settings';
-import onPage from '../../utils/onPage';
+import * as settings from '../../utils/settings/index.js';
+import onPage from '../../utils/onPage.js';
 
 [
   {

@@ -1,4 +1,4 @@
-import * as settings from './settings';
+import * as settings from './settings/index.js';
 
 export default function ignoreUser(name, key, set = false) {
   const setting = settings.register({

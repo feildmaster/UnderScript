@@ -1,6 +1,6 @@
-import * as api from './4.api';
-import { debug } from './debug';
-import { global } from './global';
+import * as api from './4.api.js';
+import { debug } from './debug.js';
+import { global } from './global.js';
 
 const unset = [undefined, null];
 export function max(rarity) { // eslint-disable-line no-shadow

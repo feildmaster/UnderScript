@@ -1,7 +1,7 @@
-import eventManager from '../../utils/eventManager';
-import * as settings from '../../utils/settings';
-import VarStore from '../../utils/VarStore';
-import style from '../../utils/style';
+import eventManager from '../../utils/eventManager.js';
+import * as settings from '../../utils/settings/index.js';
+import VarStore from '../../utils/VarStore.js';
+import style from '../../utils/style.js';
 
 const setting = settings.register({
   name: 'Add Tribe Outline',

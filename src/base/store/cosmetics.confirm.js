@@ -1,7 +1,7 @@
-import eventManager from '../../utils/eventManager';
-import { global } from '../../utils/global';
-import * as hover from '../../utils/hover';
-import wrap from '../../utils/2.pokemon';
+import eventManager from '../../utils/eventManager.js';
+import { global } from '../../utils/global.js';
+import * as hover from '../../utils/hover.js';
+import wrap from '../../utils/2.pokemon.js';
 
 wrap(() => {
   eventManager.on(':loaded:CosmeticsShop', () => {

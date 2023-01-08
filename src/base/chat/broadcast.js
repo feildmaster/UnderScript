@@ -1,6 +1,6 @@
-import eventManager from '../../utils/eventManager';
-import * as settings from '../../utils/settings';
-import { infoToast } from '../../utils/2.toasts';
+import eventManager from '../../utils/eventManager.js';
+import * as settings from '../../utils/settings/index.js';
+import { infoToast } from '../../utils/2.toasts.js';
 
 const setting = settings.register({
   name: 'Disable Broadcast Toast',

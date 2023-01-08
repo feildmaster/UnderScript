@@ -1,5 +1,5 @@
-import wrap from './2.pokemon';
-import * as api from './4.api';
+import wrap from './2.pokemon.js';
+import * as api from './4.api.js';
 
 export function getPageName() {
   const { pathname } = location;

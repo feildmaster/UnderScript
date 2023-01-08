@@ -1,9 +1,9 @@
-import eventManager from '../../utils/eventManager';
-import * as settings from '../../utils/settings';
-import { global } from '../../utils/global';
-import { dismissable } from '../../utils/2.toasts';
-import onPage from '../../utils/onPage';
-import cleanData from '../../utils/cleanData';
+import eventManager from '../../utils/eventManager.js';
+import * as settings from '../../utils/settings/index.js';
+import { global } from '../../utils/global.js';
+import { dismissable } from '../../utils/2.toasts.js';
+import onPage from '../../utils/onPage.js';
+import cleanData from '../../utils/cleanData.js';
 
 const setting = settings.register({
   name: 'Disable version toast',

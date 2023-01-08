@@ -1,5 +1,5 @@
-import Base from './base';
-import User from './user';
+import Base from './base.js';
+import User from './user.js';
 
 export default class Message extends Base {
   constructor(data, channel) {

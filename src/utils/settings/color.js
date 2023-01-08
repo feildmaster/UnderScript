@@ -1,4 +1,4 @@
-import Text from './text';
+import Text from './text.js';
 
 export default class Color extends Text {
   constructor(name = 'color') {

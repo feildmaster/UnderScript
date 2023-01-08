@@ -1,7 +1,7 @@
-import eventManager from '../../utils/eventManager';
-import * as settings from '../../utils/settings';
-import { global } from '../../utils/global';
-import { errorToast } from '../../utils/2.toasts';
+import eventManager from '../../utils/eventManager.js';
+import * as settings from '../../utils/settings/index.js';
+import { global } from '../../utils/global.js';
+import { errorToast } from '../../utils/2.toasts.js';
 
 const setting = settings.register({
   name: 'Disable Error Toast',

@@ -1,6 +1,6 @@
-import eventManager from '../../utils/eventManager';
-import VarStore from '../../utils/VarStore';
-import { global } from '../../utils/global';
+import eventManager from '../../utils/eventManager.js';
+import VarStore from '../../utils/VarStore.js';
+import { global } from '../../utils/global.js';
 
 const unpause = VarStore(false);
 

@@ -1,6 +1,6 @@
-import eventManager from '../utils/eventManager';
-import { global, globalSet } from '../utils/global';
-import wrap from '../utils/2.pokemon';
+import eventManager from '../utils/eventManager.js';
+import { global, globalSet } from '../utils/global.js';
+import wrap from '../utils/2.pokemon.js';
 
 eventManager.on(':loaded:Play', function hook() {
   if (undefined !== window.bypassQueueEvents) {

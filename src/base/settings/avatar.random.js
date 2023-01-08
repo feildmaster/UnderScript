@@ -1,6 +1,6 @@
-import wrap from '../../utils/2.pokemon';
-import eventManager from '../../utils/eventManager';
-import style from '../../utils/style';
+import wrap from '../../utils/2.pokemon.js';
+import eventManager from '../../utils/eventManager.js';
+import style from '../../utils/style.js';
 
 wrap(() => {
   function random() {

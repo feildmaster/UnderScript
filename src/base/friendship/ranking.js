@@ -1,10 +1,10 @@
 /* eslint-disable no-multi-assign */
 import axios from 'axios';
-import eventManager from '../../utils/eventManager';
-import * as settings from '../../utils/settings';
-import { global, globalSet } from '../../utils/global';
-import style from '../../utils/style';
-import each from '../../utils/each';
+import eventManager from '../../utils/eventManager.js';
+import * as settings from '../../utils/settings/index.js';
+import { global, globalSet } from '../../utils/global.js';
+import style from '../../utils/style.js';
+import each from '../../utils/each.js';
 
 // Add setting to disable, or use top 500 (simple mode)
 const disabled = 'No';

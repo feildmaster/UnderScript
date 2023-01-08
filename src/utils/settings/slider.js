@@ -1,4 +1,4 @@
-import Text from './text';
+import Text from './text.js';
 
 // Extend text for basic "value" return
 export default class Slider extends Text {

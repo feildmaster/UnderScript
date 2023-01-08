@@ -1,5 +1,5 @@
-import eventManager from './eventManager';
-import style from './style';
+import eventManager from './eventManager.js';
+import style from './style.js';
 
 let menu;
 

@@ -1,5 +1,5 @@
-import eventManager from '../utils/eventManager';
-import onPage from '../utils/onPage';
+import eventManager from '../utils/eventManager.js';
+import onPage from '../utils/onPage.js';
 
 eventManager.on(':loaded', () => {
   if (onPage('Settings') || onPage('SignUp') || onPage('SignIn')) return;

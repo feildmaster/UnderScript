@@ -1,7 +1,7 @@
-import eventManager from '../../utils/eventManager';
-import * as settings from '../../utils/settings';
-import { global, globalSet } from '../../utils/global';
-import onPage from '../../utils/onPage';
+import eventManager from '../../utils/eventManager.js';
+import * as settings from '../../utils/settings/index.js';
+import { global, globalSet } from '../../utils/global.js';
+import onPage from '../../utils/onPage.js';
 
 const setting = settings.register({
   name: 'Use WASD',

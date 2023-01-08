@@ -1,5 +1,5 @@
-import eventManager from '../utils/eventManager';
-import { global } from '../utils/global';
+import eventManager from '../utils/eventManager.js';
+import { global } from '../utils/global.js';
 
 eventManager.on(':loaded:Friendship', () => {
   eventManager.emit('Friendship:load');

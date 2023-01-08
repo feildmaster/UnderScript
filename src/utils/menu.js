@@ -1,10 +1,10 @@
-import style from './style';
-import { scriptVersion } from './1.variables';
-import * as hover from './hover';
-import eventManager from './eventManager';
-import { infoToast } from './2.toasts';
-import { debug } from './debug';
-import addMenuButton from './menubuttons';
+import style from './style.js';
+import { scriptVersion } from './1.variables.js';
+import * as hover from './hover.js';
+import eventManager from './eventManager.js';
+import { infoToast } from './2.toasts.js';
+import { debug } from './debug.js';
+import addMenuButton from './menubuttons.js';
 
 let initialized;
 let menuOpen;

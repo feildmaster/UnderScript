@@ -1,8 +1,8 @@
-import eventManager from '../../utils/eventManager';
-import * as settings from '../../utils/settings';
-import { global } from '../../utils/global';
-import { debug } from '../../utils/debug';
-import sleep from '../../utils/sleep';
+import eventManager from '../../utils/eventManager.js';
+import * as settings from '../../utils/settings/index.js';
+import { global } from '../../utils/global.js';
+import { debug } from '../../utils/debug.js';
+import sleep from '../../utils/sleep.js';
 
 const setting = settings.register({
   name: 'Disable End Turn Waiting',

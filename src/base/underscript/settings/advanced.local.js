@@ -1,4 +1,4 @@
-import * as settings from '../../../utils/settings';
+import * as settings from '../../../utils/settings/index.js';
 
 const page = document.createElement('div');
 

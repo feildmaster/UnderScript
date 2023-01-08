@@ -1,11 +1,11 @@
-import eventManager from '../../utils/eventManager';
-import * as settings from '../../utils/settings';
-import { global } from '../../utils/global';
-import onPage from '../../utils/onPage';
-import * as hover from '../../utils/hover';
-import style from '../../utils/style';
-import * as deckLoader from '../../utils/loadDeck';
-import compound from '../../utils/compoundEvent';
+import eventManager from '../../utils/eventManager.js';
+import * as settings from '../../utils/settings/index.js';
+import { global } from '../../utils/global.js';
+import onPage from '../../utils/onPage.js';
+import * as hover from '../../utils/hover.js';
+import style from '../../utils/style.js';
+import * as deckLoader from '../../utils/loadDeck.js';
+import compound from '../../utils/compoundEvent.js';
 
 const setting = settings.register({
   name: 'Disable Deck Storage',

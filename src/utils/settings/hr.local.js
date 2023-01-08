@@ -1,4 +1,4 @@
-import SettingType from './setting';
+import SettingType from './setting.js';
 
 export default class HR extends SettingType {
   constructor() {

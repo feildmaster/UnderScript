@@ -1,14 +1,14 @@
-import eventManager from '../eventManager';
-import eventEmitter from '../eventEmitter';
-import style from '../style';
-import * as menu from '../menu';
-import tabManager from '../tabbedView';
-import * as hover from '../hover';
-import each from '../each';
-import wrap from '../2.pokemon';
-import SettingType from './setting';
-import * as types from './types';
-import { translateText } from '../translate';
+import eventManager from '../eventManager.js';
+import eventEmitter from '../eventEmitter.js';
+import style from '../style.js';
+import * as menu from '../menu.js';
+import tabManager from '../tabbedView.js';
+import * as hover from '../hover.js';
+import each from '../each.js';
+import wrap from '../2.pokemon.js';
+import SettingType from './setting.js';
+import * as types from './types.js';
+import { translateText } from '../translate.js';
 
 const defaultType = new SettingType('generic');
 

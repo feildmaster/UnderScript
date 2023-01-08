@@ -1,7 +1,7 @@
-import eventManager from '../utils/eventManager';
-import { scriptVersion } from '../utils/1.variables';
-import { getPageName } from '../utils/onPage';
-import sleep from '../utils/sleep';
+import eventManager from '../utils/eventManager.js';
+import { scriptVersion } from '../utils/1.variables.js';
+import { getPageName } from '../utils/onPage.js';
+import sleep from '../utils/sleep.js';
 
 function loaded() {
   eventManager.singleton.emit(':loaded');

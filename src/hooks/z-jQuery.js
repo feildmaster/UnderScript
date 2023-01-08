@@ -1,4 +1,4 @@
-import eventManager from '../utils/eventManager';
+import eventManager from '../utils/eventManager.js';
 
 // Attempt to detect jQuery
 eventManager.on(':loaded', () => {

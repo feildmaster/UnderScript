@@ -1,4 +1,4 @@
-import eventManager from './eventManager';
+import eventManager from './eventManager.js';
 
 // Custom CSS classes are great.
 export function newStyle(plugin = false) {

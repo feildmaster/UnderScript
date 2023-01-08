@@ -1,4 +1,4 @@
-import eventManager from '../../utils/eventManager';
+import eventManager from '../../utils/eventManager.js';
 
 // TODO: Is this used?
 let focused = false;

@@ -1,7 +1,7 @@
-import eventManager from '../../utils/eventManager';
-import { global } from '../../utils/global';
-import onPage from '../../utils/onPage';
-import * as menu from '../../utils/menu';
+import eventManager from '../../utils/eventManager.js';
+import { global } from '../../utils/global.js';
+import onPage from '../../utils/onPage.js';
+import * as menu from '../../utils/menu.js';
 
 onPage('Game', () => {
   // Unbind the "surrender" hotkey

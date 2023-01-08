@@ -1,7 +1,7 @@
-import eventManager from '../../utils/eventManager';
-import onPage from '../../utils/onPage';
-import active from '../../utils/active';
-import notify from '../../utils/notifications';
+import eventManager from '../../utils/eventManager.js';
+import onPage from '../../utils/onPage.js';
+import active from '../../utils/active.js';
+import notify from '../../utils/notifications.js';
 
 onPage('Play', () => {
   eventManager.on('getWaitingQueue', function gameFound() {

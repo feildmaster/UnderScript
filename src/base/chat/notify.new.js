@@ -1,8 +1,8 @@
-import eventManager from '../../utils/eventManager';
-import * as settings from '../../utils/settings';
-import { global, globalSet } from '../../utils/global';
-import pendingIgnore from '../../utils/pendingIgnore';
-import pingRegex from '../../utils/pingRegex';
+import eventManager from '../../utils/eventManager.js';
+import * as settings from '../../utils/settings/index.js';
+import { global, globalSet } from '../../utils/global.js';
+import pendingIgnore from '../../utils/pendingIgnore.js';
+import pingRegex from '../../utils/pingRegex.js';
 
 const setting = settings.register({
   name: 'Disable Chat Ping <span style="color: yellow;">(highlighting)</span>',

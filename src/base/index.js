@@ -1,1 +1,1 @@
-export { default as eventManager } from '../utils/eventManager';
+export { default as eventManager } from '../utils/eventManager.js';

@@ -1,4 +1,4 @@
-import merge from './merge';
+import merge from './merge.js';
 
 export function blankToast() {
   return new SimpleToast();

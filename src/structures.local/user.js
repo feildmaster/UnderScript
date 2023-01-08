@@ -1,4 +1,4 @@
-import Base from './base';
+import Base from './base.js';
 
 export default class User extends Base {
   constructor(data) {

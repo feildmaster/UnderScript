@@ -1,15 +1,15 @@
 /* eslint-disable no-multi-assign, no-nested-ternary */
-import eventManager from '../../utils/eventManager';
-import eventEmitter from '../../utils/eventEmitter';
-import * as settings from '../../utils/settings';
-import { global, globalSet } from '../../utils/global';
-import onPage from '../../utils/onPage';
-import * as hover from '../../utils/hover';
-import wrap from '../../utils/2.pokemon';
-import { blankToast, toast as basicToast } from '../../utils/2.toasts';
-import * as api from '../../utils/4.api';
-import formatNumber from '../../utils/formatNumber';
-import { getCollection } from '../../utils/user';
+import eventManager from '../../utils/eventManager.js';
+import eventEmitter from '../../utils/eventEmitter.js';
+import * as settings from '../../utils/settings/index.js';
+import { global, globalSet } from '../../utils/global.js';
+import onPage from '../../utils/onPage.js';
+import * as hover from '../../utils/hover.js';
+import wrap from '../../utils/2.pokemon.js';
+import { blankToast, toast as basicToast } from '../../utils/2.toasts.js';
+import * as api from '../../utils/4.api.js';
+import formatNumber from '../../utils/formatNumber.js';
+import { getCollection } from '../../utils/user.js';
 
 wrap(() => {
   const setting = settings.register({

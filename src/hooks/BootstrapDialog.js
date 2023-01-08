@@ -1,5 +1,5 @@
-import eventManager from '../utils/eventManager';
-import wrap from '../utils/2.pokemon';
+import eventManager from '../utils/eventManager.js';
+import wrap from '../utils/2.pokemon.js';
 
 function setter(key, args) {
   const original = args[`on${key}`];

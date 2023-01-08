@@ -1,4 +1,4 @@
-import Text from './text';
+import Text from './text.js';
 
 export default class Remove extends Text {
   constructor(name = 'remove') {

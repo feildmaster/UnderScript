@@ -1,4 +1,4 @@
-import * as settings from './settings';
+import * as settings from './settings/index.js';
 
 const filter = /(\||\\|\(|\)|\*|\+|\?|\.|\^|\$|\[|\{|\})/g;
 const atReplace = 'atSign<@>';

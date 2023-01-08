@@ -1,5 +1,5 @@
-import eventManager from '../utils/eventManager';
-import { hotkeys } from '../utils/1.variables';
+import eventManager from '../utils/eventManager.js';
+import { hotkeys } from '../utils/1.variables.js';
 
 function handle(event) {
   const click = event instanceof MouseEvent;

@@ -1,5 +1,5 @@
-import eventManager from '../../utils/eventManager';
-import { global, globalSet } from '../../utils/global';
+import eventManager from '../../utils/eventManager.js';
+import { global, globalSet } from '../../utils/global.js';
 
 eventManager.on('PlayingGame', function fixEndTurn() {
   eventManager.on(':load', () => {

@@ -1,4 +1,4 @@
-import eventManager from '../../utils/eventManager';
+import eventManager from '../../utils/eventManager.js';
 
 eventManager.on(':loaded:Decks', () => {
   const collection = $('#collection');

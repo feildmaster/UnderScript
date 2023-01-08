@@ -1,10 +1,10 @@
 import axios from 'axios';
-import eventManager from '../../utils/eventManager';
-import * as settings from '../../utils/settings';
-import { toast } from '../../utils/2.toasts';
-import onPage from '../../utils/onPage';
-import decrypt from '../../utils/decrypt.emails';
-import * as $el from '../../utils/elementHelper';
+import eventManager from '../../utils/eventManager.js';
+import * as settings from '../../utils/settings/index.js';
+import { toast } from '../../utils/2.toasts.js';
+import onPage from '../../utils/onPage.js';
+import decrypt from '../../utils/decrypt.emails.js';
+import * as $el from '../../utils/elementHelper.js';
 
 const setting = settings.register({
   name: 'Add friends without refreshing',

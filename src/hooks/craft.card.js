@@ -1,6 +1,6 @@
-import eventManager from '../utils/eventManager';
-import { global, globalSet } from '../utils/global';
-import onPage from '../utils/onPage';
+import eventManager from '../utils/eventManager.js';
+import { global, globalSet } from '../utils/global.js';
+import onPage from '../utils/onPage.js';
 
 onPage('Crafting', () => {
   eventManager.on('jQuery', () => {

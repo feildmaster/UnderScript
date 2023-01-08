@@ -1,9 +1,9 @@
-import eventManager from '../../utils/eventManager';
-import * as settings from '../../utils/settings';
-import { global, globalSet } from '../../utils/global';
-import { debug } from '../../utils/debug';
-import onPage from '../../utils/onPage';
-import compound from '../../utils/compoundEvent';
+import eventManager from '../../utils/eventManager.js';
+import * as settings from '../../utils/settings/index.js';
+import { global, globalSet } from '../../utils/global.js';
+import { debug } from '../../utils/debug.js';
+import onPage from '../../utils/onPage.js';
+import compound from '../../utils/compoundEvent.js';
 
 // let live = false;
 let self;

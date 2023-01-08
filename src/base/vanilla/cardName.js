@@ -1,7 +1,7 @@
-import eventManager from '../../utils/eventManager';
-import * as settings from '../../utils/settings';
-import { globalSet } from '../../utils/global';
-import toLocale from '../../utils/toLocale';
+import eventManager from '../../utils/eventManager.js';
+import * as settings from '../../utils/settings/index.js';
+import { globalSet } from '../../utils/global.js';
+import toLocale from '../../utils/toLocale.js';
 
 const setting = settings.register({
   name: 'Force English for card names',

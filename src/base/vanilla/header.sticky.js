@@ -1,7 +1,7 @@
-import eventManager from '../../utils/eventManager';
-import * as settings from '../../utils/settings';
-import style from '../../utils/style';
-import onPage from '../../utils/onPage';
+import eventManager from '../../utils/eventManager.js';
+import * as settings from '../../utils/settings/index.js';
+import style from '../../utils/style.js';
+import onPage from '../../utils/onPage.js';
 
 style.add(
   '.navbar.navbar-default.sticky { position: sticky; top: 0; z-index: 10; -webkit-transform: translateZ(0); transform: translateZ(0); }',

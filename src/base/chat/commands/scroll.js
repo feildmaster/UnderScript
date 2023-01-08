@@ -1,7 +1,7 @@
-import eventManager from '../../../utils/eventManager';
-import * as settings from '../../../utils/settings';
-import { global } from '../../../utils/global';
-import { debug } from '../../../utils/debug';
+import eventManager from '../../../utils/eventManager.js';
+import * as settings from '../../../utils/settings/index.js';
+import { global } from '../../../utils/global.js';
+import { debug } from '../../../utils/debug.js';
 
 const command = 'scroll';
 const setting = settings.register({

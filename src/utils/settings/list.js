@@ -1,5 +1,5 @@
-import { translateText } from '../translate';
-import ArraySetting from './array';
+import { translateText } from '../translate.js';
+import ArraySetting from './array.js';
 
 export default class List extends ArraySetting {
   constructor(name = 'list') {

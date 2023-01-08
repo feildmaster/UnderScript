@@ -1,13 +1,13 @@
 import axios from 'axios';
-import eventManager from '../../utils/eventManager';
-import * as settings from '../../utils/settings';
-import { global } from '../../utils/global';
-import { toast as fnToast } from '../../utils/2.toasts';
-import { debug, debugToast } from '../../utils/debug';
-import * as cardHelper from '../../utils/cardHelper';
-import onPage from '../../utils/onPage';
-import * as hover from '../../utils/hover';
-import each from '../../utils/each';
+import eventManager from '../../utils/eventManager.js';
+import * as settings from '../../utils/settings/index.js';
+import { global } from '../../utils/global.js';
+import { toast as fnToast } from '../../utils/2.toasts.js';
+import { debug, debugToast } from '../../utils/debug.js';
+import * as cardHelper from '../../utils/cardHelper.js';
+import onPage from '../../utils/onPage.js';
+import * as hover from '../../utils/hover.js';
+import each from '../../utils/each.js';
 
 const setting = settings.register({
   name: 'Disable Smart Disenchanting',

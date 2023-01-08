@@ -1,5 +1,5 @@
-import { translateText } from '../translate';
-import Text from './text';
+import { translateText } from '../translate.js';
+import Text from './text.js';
 
 export default class Select extends Text {
   constructor(name = 'select') {

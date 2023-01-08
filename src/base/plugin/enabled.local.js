@@ -1,6 +1,6 @@
-import wrap from '../../utils/2.pokemon';
-import { registerModule } from '../../utils/plugin';
-import * as settings from '../../utils/settings';
+import wrap from '../../utils/2.pokemon.js';
+import { registerModule } from '../../utils/plugin.js';
+import * as settings from '../../utils/settings/index.js';
 
 const enable = ['Enable with toast', 'Enable silently'];
 

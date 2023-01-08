@@ -1,5 +1,5 @@
-import { toast } from './2.toasts';
-import merge from './merge';
+import { toast } from './2.toasts.js';
+import merge from './merge.js';
 
 export function debug(message, permission = 'debugging', ...extras) {
   if (!value(permission) && !value('debugging.*')) return;

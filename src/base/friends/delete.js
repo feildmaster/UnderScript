@@ -1,10 +1,10 @@
 import axios from 'axios';
-import eventManager from '../../utils/eventManager';
-import * as settings from '../../utils/settings';
-import { globalSet } from '../../utils/global';
-import { toast, errorToast } from '../../utils/2.toasts';
-import decrypt from '../../utils/decrypt.emails';
-import style from '../../utils/style';
+import eventManager from '../../utils/eventManager.js';
+import * as settings from '../../utils/settings/index.js';
+import { globalSet } from '../../utils/global.js';
+import { toast, errorToast } from '../../utils/2.toasts.js';
+import decrypt from '../../utils/decrypt.emails.js';
+import style from '../../utils/style.js';
 
 const setting = settings.register({
   name: 'Remove friends without refreshing',

@@ -1,5 +1,5 @@
-import eventManager from '../utils/eventManager';
-import { debug, debugToast } from '../utils/debug';
+import eventManager from '../utils/eventManager.js';
+import { debug, debugToast } from '../utils/debug.js';
 
 eventManager.on('GameStart', function gameEvents() {
   let finished = false;

@@ -1,8 +1,8 @@
 import tippy from 'tippy.js';
-import * as api from './4.api';
-import eventManager from './eventManager';
-import { footer, footer2 } from './1.variables';
-import { debug } from './debug';
+import * as api from './4.api.js';
+import eventManager from './eventManager.js';
+import { footer, footer2 } from './1.variables.js';
+import { debug } from './debug.js';
 
 let e;
 let x;

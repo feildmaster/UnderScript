@@ -1,10 +1,10 @@
-import eventManager from '../../utils/eventManager';
-import * as settings from '../../utils/settings';
-import sleep from '../../utils/sleep';
-import { infoToast } from '../../utils/2.toasts';
-import onPage from '../../utils/onPage';
-import style from '../../utils/style';
-import * as cardHelper from '../../utils/cardHelper';
+import eventManager from '../../utils/eventManager.js';
+import * as settings from '../../utils/settings/index.js';
+import sleep from '../../utils/sleep.js';
+import { infoToast } from '../../utils/2.toasts.js';
+import onPage from '../../utils/onPage.js';
+import style from '../../utils/style.js';
+import * as cardHelper from '../../utils/cardHelper.js';
 
 const setting = settings.register({
   name: 'Disable Crafting Highlight',

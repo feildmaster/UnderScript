@@ -1,10 +1,10 @@
-import eventManager from '../../utils/eventManager';
-import * as settings from '../../utils/settings';
-import { global } from '../../utils/global';
-import sleep from '../../utils/sleep';
-import onPage from '../../utils/onPage';
-import * as hover from '../../utils/hover';
-import * as cardHelper from '../../utils/cardHelper';
+import eventManager from '../../utils/eventManager.js';
+import * as settings from '../../utils/settings/index.js';
+import { global } from '../../utils/global.js';
+import sleep from '../../utils/sleep.js';
+import onPage from '../../utils/onPage.js';
+import * as hover from '../../utils/hover.js';
+import * as cardHelper from '../../utils/cardHelper.js';
 
 const setting = settings.register({
   name: 'Disable craft max hotkey',

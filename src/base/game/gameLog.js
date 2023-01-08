@@ -1,6 +1,6 @@
-import eventManager from '../../utils/eventManager';
-import * as settings from '../../utils/settings';
-import style from '../../utils/style';
+import eventManager from '../../utils/eventManager.js';
+import * as settings from '../../utils/settings/index.js';
+import style from '../../utils/style.js';
 
 style.add(
   '#game-history.left { width: 75px; left: -66px; top: 70px; overflow-y: auto; right: initial; height: 426px; }',

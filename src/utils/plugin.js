@@ -1,4 +1,4 @@
-import * as api from './4.api';
+import * as api from './4.api.js';
 
 const nameRegex = /^[a-z0-9 ]+$/i;
 const registry = new Map();

@@ -1,7 +1,7 @@
-import { global, globalSet } from './global';
-import eventManager from './eventManager';
-import { debug } from './debug';
-import onPage from './onPage';
+import { global, globalSet } from './global.js';
+import eventManager from './eventManager.js';
+import { debug } from './debug.js';
+import onPage from './onPage.js';
 
 const actions = ['addCard', 'removeCard', 'removeAllCards', 'clearArtifacts', 'addArtifact'];
 const mockLastOpenedDialog = { close() {} };

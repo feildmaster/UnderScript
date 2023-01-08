@@ -1,8 +1,8 @@
-import eventManager from '../../utils/eventManager';
-import * as settings from '../../utils/settings';
-import { global } from '../../utils/global';
-import { infoToast } from '../../utils/2.toasts';
-import style from '../../utils/style';
+import eventManager from '../../utils/eventManager.js';
+import * as settings from '../../utils/settings/index.js';
+import { global } from '../../utils/global.js';
+import { infoToast } from '../../utils/2.toasts.js';
+import style from '../../utils/style.js';
 
 const tag = settings.register({
   name: 'Highlight <span class="friend">friends</span> in chat',

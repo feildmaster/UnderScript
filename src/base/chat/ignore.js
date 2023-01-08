@@ -1,10 +1,10 @@
 /* eslint-disable consistent-return */
-import eventManager from '../../utils/eventManager';
-import * as settings from '../../utils/settings';
-import { global } from '../../utils/global';
-import * as fnUser from '../../utils/user';
-import pendingIgnore from '../../utils/pendingIgnore';
-import { debug } from '../../utils/debug';
+import eventManager from '../../utils/eventManager.js';
+import * as settings from '../../utils/settings/index.js';
+import { global } from '../../utils/global.js';
+import * as fnUser from '../../utils/user.js';
+import pendingIgnore from '../../utils/pendingIgnore.js';
+import { debug } from '../../utils/debug.js';
 
 const setting = settings.register({
   name: 'Disable',

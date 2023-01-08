@@ -1,5 +1,5 @@
-import eventManager from '../../utils/eventManager';
-import { globalSet } from '../../utils/global';
+import eventManager from '../../utils/eventManager.js';
+import { globalSet } from '../../utils/global.js';
 
 function wrapper(...rest) {
   this.super(...rest);

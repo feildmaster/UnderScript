@@ -1,9 +1,9 @@
-import eventManager from '../../utils/eventManager';
-import { globalSet } from '../../utils/global';
-import { debug } from '../../utils/debug';
-import onPage from '../../utils/onPage';
-import VarStore from '../../utils/VarStore';
-import changePage from '../vanilla/pageSelect';
+import eventManager from '../../utils/eventManager.js';
+import { globalSet } from '../../utils/global.js';
+import { debug } from '../../utils/debug.js';
+import onPage from '../../utils/onPage.js';
+import VarStore from '../../utils/VarStore.js';
+import changePage from '../vanilla/pageSelect.js';
 
 function set(type, value, replace = true) {
   if (history.state &&

@@ -1,8 +1,8 @@
 import axios from 'axios';
-import eventManager from '../../utils/eventManager';
-import * as settings from '../../utils/settings';
-import { toast } from '../../utils/2.toasts';
-import getLevel from '../../utils/getFriendshipLevel';
+import eventManager from '../../utils/eventManager.js';
+import * as settings from '../../utils/settings/index.js';
+import { toast } from '../../utils/2.toasts.js';
+import getLevel from '../../utils/getFriendshipLevel.js';
 
 const setting = settings.register({
   name: 'Disable Friendship Notification',

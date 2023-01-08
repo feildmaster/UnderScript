@@ -1,7 +1,7 @@
-import eventManager from '../../utils/eventManager';
-import { global } from '../../utils/global';
-import sleep from '../../utils/sleep';
-import updateTip from './online';
+import eventManager from '../../utils/eventManager.js';
+import { global } from '../../utils/global.js';
+import sleep from '../../utils/sleep.js';
+import updateTip from './online.js';
 
 eventManager.on('preChat:getFriends', function updateFriends(data) {
   this.canceled = true;

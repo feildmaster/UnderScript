@@ -1,14 +1,14 @@
-import eventManager from '../../utils/eventManager';
-import * as settings from '../../utils/settings';
-import { global } from '../../utils/global';
-import style from '../../utils/style';
-import { debug } from '../../utils/debug';
-import onPage from '../../utils/onPage';
-import * as hover from '../../utils/hover';
-import each from '../../utils/each';
-import * as userInfo from '../../utils/user';
-import find from '../../utils/find';
-import merge from '../../utils/merge';
+import eventManager from '../../utils/eventManager.js';
+import * as settings from '../../utils/settings/index.js';
+import { global } from '../../utils/global.js';
+import style from '../../utils/style.js';
+import { debug } from '../../utils/debug.js';
+import onPage from '../../utils/onPage.js';
+import * as hover from '../../utils/hover.js';
+import each from '../../utils/each.js';
+import * as userInfo from '../../utils/user.js';
+import find from '../../utils/find.js';
+import merge from '../../utils/merge.js';
 
 /* eslint-disable no-use-before-define */
 settings.register({

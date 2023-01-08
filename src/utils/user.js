@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { global } from './global';
-import * as api from './4.api';
-import eventManager from './eventManager';
-import sleep from './sleep';
+import { global } from './global.js';
+import * as api from './4.api.js';
+import eventManager from './eventManager.js';
+import sleep from './sleep.js';
 
 let selfData;
 export function self() {

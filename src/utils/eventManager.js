@@ -1,3 +1,3 @@
-import eventEmitter from './eventEmitter';
+import eventEmitter from './eventEmitter.js';
 
 export default eventEmitter();

@@ -1,8 +1,8 @@
-import { infoToast } from '../../utils/2.toasts';
-import eventManager from '../../utils/eventManager';
-import { global } from '../../utils/global';
-import * as settigs from '../../utils/settings';
-import style from '../../utils/style';
+import { infoToast } from '../../utils/2.toasts.js';
+import eventManager from '../../utils/eventManager.js';
+import { global } from '../../utils/global.js';
+import * as settigs from '../../utils/settings/index.js';
+import style from '../../utils/style.js';
 
 const levels = [{
   text: 'Legend',

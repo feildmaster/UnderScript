@@ -1,13 +1,13 @@
 import axios from 'axios';
-import eventManager from '../../utils/eventManager';
-import * as settings from '../../utils/settings';
-import wrap from '../../utils/2.pokemon';
-import { toast } from '../../utils/2.toasts';
-import onPage from '../../utils/onPage';
-import translate from '../../utils/translate';
-import style from '../../utils/style';
-import $el from '../../utils/elementHelper';
-import { noop } from '../../utils/1.variables';
+import eventManager from '../../utils/eventManager.js';
+import * as settings from '../../utils/settings/index.js';
+import wrap from '../../utils/2.pokemon.js';
+import { toast } from '../../utils/2.toasts.js';
+import onPage from '../../utils/onPage.js';
+import translate from '../../utils/translate.js';
+import style from '../../utils/style.js';
+import $el from '../../utils/elementHelper.js';
+import { noop } from '../../utils/1.variables.js';
 
 wrap(() => {
   const setting = settings.register({

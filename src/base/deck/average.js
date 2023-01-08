@@ -1,8 +1,8 @@
-import eventManager from '../../utils/eventManager';
-import * as settings from '../../utils/settings';
-import { global } from '../../utils/global';
-import onPage from '../../utils/onPage';
-import * as hover from '../../utils/hover';
+import eventManager from '../../utils/eventManager.js';
+import * as settings from '../../utils/settings/index.js';
+import { global } from '../../utils/global.js';
+import onPage from '../../utils/onPage.js';
+import * as hover from '../../utils/hover.js';
 
 const setting = settings.register({
   name: 'Disable deck average counter',

@@ -1,5 +1,5 @@
-import eventManager from '../utils/eventManager';
-import { getPageName } from '../utils/onPage';
+import eventManager from '../utils/eventManager.js';
+import { getPageName } from '../utils/onPage.js';
 
 eventManager.on(':loaded', () => {
   function unload() {

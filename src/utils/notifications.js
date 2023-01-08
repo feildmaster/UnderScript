@@ -1,7 +1,7 @@
-import * as settings from './settings';
-import sleep from './sleep';
-import eventManager from './eventManager';
-import { toast } from './2.toasts';
+import * as settings from './settings/index.js';
+import sleep from './sleep.js';
+import eventManager from './eventManager.js';
+import { toast } from './2.toasts.js';
 
 const setting = settings.register({
   key: 'underscript.notification.dismissPrompt',

@@ -1,6 +1,6 @@
-import eventManager from '../../utils/eventManager';
-import { global, globalSet } from '../../utils/global';
-import toLocale from '../../utils/toLocale';
+import eventManager from '../../utils/eventManager.js';
+import { global, globalSet } from '../../utils/global.js';
+import toLocale from '../../utils/toLocale.js';
 
 eventManager.on(':loaded:Translate', () => {
   loadLanguages();
