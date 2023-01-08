@@ -99,9 +99,9 @@ export default function eventEmitter() {
   }
 
   const emitter = {
-    on: (event, fn) => {
+    on(event, fn) {
       reset();
-      if (typeof fn !== 'function') return emitter;
+      if (typeof fn !== 'function') return this;
       event.split(' ').forEach((e) => {
         const singleton = singletonEvents[e];
         if (singleton) {
@@ -111,40 +111,42 @@ export default function eventEmitter() {
             emit(e, [fn], ...singleton.data);
           });
         } else {
-          if (!Object.hasOwnProperty.call(events, e)) {
+          if (!Array.isArray(events[e])) {
             events[e] = [];
           }
           events[e].push(fn);
         }
       });
-      return emitter;
+      return this;
     },
-    once: (event, fn) => {
-      if (typeof fn !== 'function') return emitter;
+    once(event, fn) {
+      if (typeof fn !== 'function') return this;
       function wrapper(...args) {
         off(event, wrapper);
         fn(...args);
       }
-      return emitter.on(event, wrapper);
+      return this.on(event, wrapper);
     },
-    one: (event, fn) => emitter.once(event, fn),
-    until: (event, fn) => {
-      if (typeof fn !== 'function') return emitter;
+    one(event, fn) {
+      return this.once(event, fn);
+    },
+    until(event, fn) {
+      if (typeof fn !== 'function') return this;
       function wrapper(...args) {
         if (fn(...args)) {
           off(event, wrapper);
         }
       }
-      return emitter.on(event, wrapper);
+      return this.on(event, wrapper);
     },
     emit: (event, ...data) => emit(event, singletonEvents[event] || events[event], ...data),
   };
 
   Object.keys(options).forEach((key) => {
     Object.defineProperty(emitter, key, {
-      get: () => {
+      get() {
         options[key] = true;
-        return emitter;
+        return this;
       },
     });
   });
