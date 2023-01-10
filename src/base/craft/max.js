@@ -57,10 +57,13 @@ onPage('Crafting', function craftMax() {
     if (crafting) return;
     crafting = true;
     const craft = global('craft');
+    let dust = total;
+    let remaining = count;
     do {
-      total -= cost;
+      dust -= cost;
       craft(id, shiny);
-    } while (--count && total >= cost); // eslint-disable-line no-plusplus
+      remaining -= 1;
+    } while (remaining && dust >= cost);
     sleep(1000).then(() => { // Wait a second before allowing crafting again
       calculate(); // Re-calculate after crafting
       crafting = false;

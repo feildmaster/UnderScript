@@ -55,7 +55,7 @@ export function get(version = 'latest', short = false) {
     if (!~first) throw new Error('Invalid Changelog');
     if (short) {
       const index = text.indexOf('\n## ', first + 1);
-      if (!!~index) end = index;
+      if (index !== -1) end = index;
     }
     const parsedHTML = getMarkdown().makeHtml(text.substring(first, end).trim()).replace(/\r?\n/g, '');
     // Cache results
@@ -68,6 +68,7 @@ export function load(version = 'latest', short = false) {
   const container = $('<div>').text('Please wait');
   open(container);
   get(version, short).catch((e) => {
+    /* eslint-disable-next-line no-console */
     console.error(e);
     return 'Unavailable at this time';
   }).then((m) => container.html(m));
@@ -86,5 +87,6 @@ menu.addButton({
     if (!this.enabled()) {
       return 'Unavailable on this page';
     }
+    return undefined;
   },
 });

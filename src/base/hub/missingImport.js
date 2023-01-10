@@ -51,7 +51,12 @@ function getMissingCards(ids = []) {
   const collection = toObject(global('collection').filter(({ id }) => ids.includes(id)));
   return ids.filter((id) => {
     const card = collection[id];
-    return !card || card.quantity-- <= 0;
+    if (!card) {
+      return true;
+    }
+    const ret = card.quantity <= 0;
+    card.quantity -= 1;
+    return ret;
   });
 }
 

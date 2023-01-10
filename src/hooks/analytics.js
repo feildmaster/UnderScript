@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import * as settings from '../utils/settings/index.js';
 import { scriptVersion } from '../utils/1.variables.js';
 

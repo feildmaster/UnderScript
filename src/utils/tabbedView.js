@@ -21,7 +21,8 @@ style.add(
 let groupID = 0;
 
 export default function TabManager() {
-  const group = groupID++;
+  const group = groupID;
+  groupID += 1;
   const tabs = [];
   const tabSettings = {
     left: false,

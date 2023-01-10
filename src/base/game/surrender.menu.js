@@ -20,6 +20,7 @@ onPage('Game', () => {
       if (!canSurrender()) {
         return `You can't surrender before turn 5.`;
       }
+      return undefined;
     },
     action: () => {
       const socket = global('socketGame');
