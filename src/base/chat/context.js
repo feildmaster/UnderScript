@@ -7,6 +7,7 @@ import each from '../../utils/each.js';
 import * as fnUser from '../../utils/user.js';
 import ignoreUser from '../../utils/ignoreUser.js';
 import decode from '../../utils/decode.js';
+import css from '../../utils/css.js';
 
 const setting = settings.register({
   name: 'Disable Chat Context (right click)',
@@ -14,15 +15,44 @@ const setting = settings.register({
   page: 'Chat',
 });
 
-style.add(
-  '.chatContext { background-color: #F4F4F4; margin: 10px; color: #333; border: 1px dashed #000; position: absolute; z-index: 20; text-align: center; border-radius: 10px; }',
-  '.chatContext header { padding: 0px 5px; height: auto; }',
-  '.chatContext select { background-color: transparent !important; }',
-  '.chatContext li {  list-style: none; margin: 0; padding: 3px; border-top: 1px solid #CCC; cursor: pointer; }',
-  '.chatContext .disabled { background-color: #ccc; cursor: not-allowed; }',
-  '.chatContext li:not(.disabled):hover { background-color: #003366; color: #F2F2F2; }',
-  '.chatContext > :last-child { border-radius: 0 0 10px 10px; }',
-);
+style.add(css`
+  .chatContext {
+    background-color: #F4F4F4;
+    margin: 10px;
+    color: #333;
+    border: 1px dashed #000;
+    position: absolute;
+    z-index: 20;
+    text-align: center;
+    border-radius: 10px;
+  }
+  .chatContext header {
+    padding: 0 5px;
+    height: auto;
+  }
+  /* TODO: Why is this !important? */
+  .chatContext select {
+    background-color: transparent !important;
+  }
+  .chatContext li {
+    list-style: none;
+    margin: 0;
+    padding: 3px;
+    border-top: 1px solid #CCC;
+    cursor: pointer;
+  }
+  .chatContext .disabled {
+    background-color: #CCC;
+    cursor: not-allowed;
+  }
+  .chatContext li:not(.disabled):hover {
+    background-color: #036;
+    color: #F2F2F2;
+  }
+  .chatContext > :last-child {
+    border-radius: 0 0 10px 10px;
+  }
+`);
 let toast;
 
 eventManager.on('jQuery', () => {

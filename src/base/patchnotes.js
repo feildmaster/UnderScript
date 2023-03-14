@@ -5,6 +5,7 @@ import { scriptVersion } from '../utils/1.variables.js';
 import * as changelog from './changelog.js';
 import style from '../utils/style.js';
 import { toast } from '../utils/2.toasts.js';
+import css from '../utils/css.js';
 
 wrap(function patchNotes() {
   const setting = settings.register({
@@ -13,10 +14,17 @@ wrap(function patchNotes() {
   });
 
   cleanData('underscript.update.', scriptVersion, 'last', 'checking', 'latest');
-  style.add(
-    '#AlertToast div.uschangelog span:nth-of-type(2) { max-height: 300px; overflow-y: auto; display: block; }',
-    '#AlertToast div.uschangelog extended { display: none; }',
-  );
+  style.add(css`
+    #AlertToast div.uschangelog span:nth-of-type(2) {
+      max-height: 300px;
+      overflow-y: auto;
+      display: block;
+    }
+
+    #AlertToast div.uschangelog extended {
+      display: none;
+    }
+  `);
   if (setting.value() || !scriptVersion.includes('.')) return;
   const versionKey = `underscript.update.${scriptVersion}`;
   if (localStorage.getItem(versionKey)) return;

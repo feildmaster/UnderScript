@@ -4,6 +4,7 @@ import { global, globalSet } from '../../utils/global.js';
 import style from '../../utils/style.js';
 import * as fnUser from '../../utils/user.js';
 import { debug } from '../../utils/debug.js';
+import css from '../../utils/css.js';
 
 const setting = settings.register({
   name: 'Visual Autocomplete',
@@ -16,10 +17,31 @@ let current = false;
 const lists = {};
 style.add(
   // '.chat-footer { position: relative; }', // this bugs the chat
-  '.autobox { position: absolute; border: 1px solid #d4d4d4; border-bottom: none; border-top: none; bottom: 100%; left: 0; right: 0; }',
-  '.autobox div { padding: 10px; cursor: pointer; background-color: rgba(0,0,0,0.9); border-top: 1px solid #d4d4d4; border-bottom: 1px solid #d4d4d4; }',
-  '.autobox div:hover { background-color: #666; }',
-  'div.autobox-active { background-color: #333; color: #fff }',
+  css`
+  .autobox {
+    position: absolute;
+    border: 1px solid #D4D4D4;
+    border-bottom: none;
+    border-top: none;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+  }
+  .autobox div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: rgba(0 0 0 90%);
+    border-top: 1px solid #D4D4D4;
+    border-bottom: 1px solid #D4D4D4;
+  }
+  .autobox div:hover {
+    background-color: #666;
+  }
+  div.autobox-active {
+    background-color: #333;
+    color: #FFF;
+  }
+  `,
 );
 
 function autocomplete(input, room) {

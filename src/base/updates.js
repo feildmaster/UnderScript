@@ -9,6 +9,7 @@ import sleep from '../utils/sleep.js';
 import * as menu from '../utils/menu.js';
 import semver from '../utils/version.js';
 import { scriptVersion } from '../utils/1.variables.js';
+import css from '../utils/css.js';
 
 // Check for script updates
 wrap(() => {
@@ -17,10 +18,17 @@ wrap(() => {
     key: 'underscript.disable.updates',
   });
 
-  style.add(
-    '#AlertToast h2, #AlertToast h3 { margin: 0; font-size: 20px; }',
-    '#AlertToast h3 {font-size: 17px; }',
-  );
+  style.add(css`
+    #AlertToast h2,
+    #AlertToast h3 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    #AlertToast h3 {
+      font-size: 17px;
+    }
+  `);
   const baseURL = 'https://unpkg.com/';
   const MINUTE = 60 * 1000;
   const HOUR = 60 * MINUTE;

@@ -21,7 +21,7 @@ export function newStyle(plugin = false) {
   }
 
   function append(styles = [], nodes = []) {
-    styles.forEach((s) => {
+    styles.flat().forEach((s) => {
       const node = document.createTextNode(s);
       nodes.push(node);
       el.appendChild(node);

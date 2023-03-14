@@ -9,27 +9,74 @@ import wrap from '../2.pokemon.js';
 import SettingType from './setting.js';
 import * as types from './types.js';
 import { translateText } from '../translate.js';
+import css from '../css.js';
 
 const defaultType = new SettingType('generic');
 
-style.add(
-  '.flex-stretch { flex-basis: 100%; }',
-  '.flex-start { display: flex; align-items: flex-start; flex-wrap: wrap; }',
-  '.flex-start > label + * { margin-left: 7px; }',
-  '.flex-start > input { margin-right: 4px; }',
-  '.mono .modal-body { font-family: monospace; max-height: 500px; overflow-y: auto; }',
-  '.underscript-dialog .bootstrap-dialog-message { display: flex; }',
-  '.underscript-dialog fieldset { padding: .35em .625em .75em; margin: 0 2px; border: 1px solid silver; }',
-  '.underscript-dialog legend { padding: 0; border: 0; width: auto; margin: 0; font-family: DTM-Mono; color: white; }',
-  '.underscript-dialog label.disabled { color: #666; cursor: not-allowed; }',
-  // '.underscript-dialog .modal-content { background: #000 url(../images/backgrounds/2.png) -380px -135px; }',
-  // '.underscript-dialog .modal-content .modal-header, .underscript-dialog .modal-body { background-color: transparent; }',
-  '.underscript-dialog .modal-footer button.btn { margin-bottom: 5px; }',
-  // TODO: convert reset to a type? for convenience
-  '.underscript-dialog .reset:hover { cursor: pointer; font-weight: bold; }',
-  '.underscript-dialog .reset:before { content: "["; }',
-  '.underscript-dialog .reset:after { content: "]"; }',
-);
+style.add(css`
+  .flex-stretch {
+    flex-basis: 100%;
+  }
+  .flex-start {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .flex-start > label + * {
+    margin-left: 7px;
+  }
+  .flex-start > input {
+    margin-right: 4px;
+  }
+  .mono .modal-body {
+    font-family: monospace;
+    max-height: 500px;
+    overflow-y: auto;
+  }
+  .underscript-dialog .bootstrap-dialog-message {
+    display: flex;
+  }
+  .underscript-dialog fieldset {
+    padding: 0.35em 0.625em 0.75em;
+    margin: 0 2px;
+    border: 1px solid silver;
+  }
+  .underscript-dialog legend {
+    padding: 0;
+    border: 0;
+    width: auto;
+    margin: 0;
+    font-family: DTM-Mono, sans-serif;
+    color: white;
+  }
+  .underscript-dialog label.disabled {
+    color: #666;
+    cursor: not-allowed;
+  }
+  /*
+  .underscript-dialog .modal-content {
+    background: #000 url(../images/backgrounds/2.png) -380px -135px;
+  }
+  .underscript-dialog .modal-content .modal-header,
+  .underscript-dialog .modal-body {
+    background-color: transparent;
+  }
+  */
+  .underscript-dialog .modal-footer button.btn {
+    margin-bottom: 5px;
+  }
+  // TODO: convert reset to a type? for convenience {}
+  .underscript-dialog .reset:hover {
+    cursor: pointer;
+    font-weight: bold;
+  }
+  .underscript-dialog .reset::before {
+    content: '[';
+  }
+  .underscript-dialog .reset::after {
+    content: ']';
+  }
+`);
 
 const settingReg = {
   // key: setting
