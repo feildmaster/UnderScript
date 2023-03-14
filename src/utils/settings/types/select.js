@@ -1,4 +1,4 @@
-import { translateText } from '../translate.js';
+import { translateText } from '../../translate.js';
 import Text from './text.js';
 
 export default class Select extends Text {

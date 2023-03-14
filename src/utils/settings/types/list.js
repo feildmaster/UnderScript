@@ -1,4 +1,4 @@
-import { translateText } from '../translate.js';
+import { translateText } from '../../translate.js';
 import ArraySetting from './array.js';
 
 export default class List extends ArraySetting {

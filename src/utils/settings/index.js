@@ -6,8 +6,8 @@ import tabManager from '../tabbedView.js';
 import * as hover from '../hover.js';
 import each from '../each.js';
 import wrap from '../2.pokemon.js';
-import SettingType from './setting.js';
-import * as types from './types.js';
+import SettingType from './types/setting.js';
+import * as types from './types/index.js';
 import { translateText } from '../translate.js';
 import css from '../css.js';
 

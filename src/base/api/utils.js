@@ -11,7 +11,7 @@ import shuffle from '../../utils/shuffle.js';
 import some from '../../utils/some.js';
 import TabManager from '../../utils/tabbedView.js';
 import rand from '../../utils/rand.js';
-import SettingType from '../../utils/settings/setting.js';
+import SettingType from '../../utils/settings/types/setting.js';
 import compound from '../../utils/compoundEvent.js';
 
 const utils = api.mod.utils;
