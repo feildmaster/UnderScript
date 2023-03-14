@@ -14,7 +14,8 @@ const setting = settings.register({
   page: 'Chat',
 });
 
-const globalPing = settings.register({
+// eslint-disable-next-line import/prefer-default-export
+export const globalPing = settings.register({
   name: 'Only open chats',
   key: 'underscript.enable.ping.global',
   category: 'Ping Me',

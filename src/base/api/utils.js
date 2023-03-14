@@ -27,7 +27,7 @@ utils.hover = {
   show,
   tip,
   new: (...args) => {
-    /* eslint-disable-next-line no-console */
+    // eslint-disable-next-line no-console
     console.error('Deprecation warning: Use `tip` instead!');
     return tip(...args);
   },

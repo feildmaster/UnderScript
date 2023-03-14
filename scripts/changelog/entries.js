@@ -1,4 +1,3 @@
-/* eslint-env node */
 const versionSeparator = '\n## ';
 const regex = /^Version/;
 const unreleased = /\[unreleased\]/i;

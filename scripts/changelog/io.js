@@ -1,4 +1,3 @@
-/* eslint-env node */
 const os = require('os');
 
 exports.getInput = (key = '') => {

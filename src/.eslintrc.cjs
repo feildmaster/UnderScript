@@ -17,5 +17,4 @@ module.exports = {
       globalReturn: true,
     },
   },
-  ignorePatterns: ['**/*.ignore.js', '**.ignore/*'],
 };
