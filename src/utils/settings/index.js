@@ -10,6 +10,7 @@ import SettingType from './types/setting.js';
 import * as types from './types/index.js';
 import { translateText } from '../translate.js';
 import css from '../css.js';
+import RegisteredSetting from './RegisteredSetting.js';
 
 const defaultType = new SettingType('generic');
 
@@ -145,7 +146,7 @@ function createSetting(setting = {
   const { key, type } = setting;
   const current = value(key);
   const container = $(`<div>`).addClass('flex-stretch');
-  const el = $(type.element(current, setting.update, {
+  const el = $(type.element(current, (...args) => setting.update(...args), {
     data: setting.data,
     remove: setting.remove,
     container,
@@ -157,10 +158,10 @@ function createSetting(setting = {
   el.attr({
     id: key,
   });
+
   const label = $(`<label for="${key}">`).html(translateText(setting.name));
   // TODO: Allow disabling progmatically, not just on setting load
-  const disabled = (typeof setting.disabled === 'function' ? setting.disabled() : setting.disabled) === true;
-  if (disabled) {
+  if (setting.disabled) {
     el.prop('disabled', true);
     label.addClass('disabled');
   }
@@ -172,20 +173,20 @@ function createSetting(setting = {
   } else {
     ret.append(el);
   }
-  if (setting.note) {
-    ret.hover((e) => {
-      const note = setting.note();
-      if (!note || disabled) return undefined;
-      return hover.show(note)(e);
-    }, hover.hide);
-  }
+
+  ret.hover((e) => {
+    const note = setting.note;
+    if (!note || setting.disabled) return undefined;
+    return hover.show(note)(e);
+  }, hover.hide);
+
   if (setting.reset) {
     const reset = $('<span>')
       .text('x')
       .addClass('reset')
       .click(() => {
-        const def = getDefault(setting);
-        el.val(def === null ? '' : def); // Manually change
+        const def = setting.default || '';
+        el.val(def); // Manually change
         setting.update(undefined); // Remove and trigger events
       });
     ret.append(' ', reset);
@@ -226,29 +227,20 @@ export function register(data) {
   const page = data.page || 'main';
   const key = (data.key || data); // .replace(/ /g, '_'); // This is a breaking change (but possibly necessary)
   const setting = {
-    page,
+    ...(typeof data === 'object' && data),
+    events,
     key,
-    name: data.name || key,
+    page,
     type: data.type || registry.get('boolean'),
-    category: data.category,
-    disabled: data.disabled === true,
-    default: data.default,
-    data: data.data,
-    hidden: data.hidden === true,
-    pseudo: data.pseudo === true, // TODO: What does this do...?
-    remove: data.remove === true,
-    exportable: data.export !== false,
-    extraPrefix: data.extraPrefix,
-    reset: data.reset === true,
   };
 
   if (settingReg[key]) throw new Error(`${setting.name}[${key}] already registered`);
 
-  const slider = data.min || data.max || data.step;
+  const slider = (data.min || data.max || data.step) !== undefined;
   if (!data.type) {
     if (data.options) {
       setting.type = 'select';
-      setting.data = data.data || data.options; // This is a fallback for when things don't get updated correctly, or just relying on the text type
+      setting.data ??= data.options; // This is a fallback for when things don't get updated correctly, or just relying on the text type
     } else if (slider) {
       setting.type = 'slider';
     }
@@ -267,55 +259,21 @@ export function register(data) {
     setting.type = registry.get(setting.type);
   }
   if (!(setting.type instanceof SettingType)) return undefined; // TODO: Throw error?
-  if (data.refresh || data.note) {
-    setting.note = () => {
-      const notes = [];
-      const note = typeof data.note === 'function' ? data.note() : data.note;
-      if (note) notes.push(note);
-      if (data.refresh) {
-        if (typeof data.refresh === 'function' ? data.refresh() : data.refresh) {
-          notes.push('Will require you to refresh the page');
-        }
-      }
-      return notes.join('<br>');
-    };
-  }
+
   const conf = init(page);
-  function update(val) {
-    const prev = value(key);
-    if (val === undefined) {
-      localStorage.removeItem(key);
-    } else {
-      localStorage.setItem(key, setting.type.encode(val));
-    }
-    if (typeof data.onChange === 'function') {
-      data.onChange(value(key), prev);
-    }
-    events.emit(key, val, prev);
-    events.emit('setting:change', key, val, prev);
-  }
-  if (typeof data.converter === 'function') {
-    const current = localStorage.getItem(key);
-    if (typeof current === 'string') {
-      const converted = data.converter(current);
-      if (converted === null) {
-        localStorage.removeItem(key);
-      } else if (converted !== undefined) {
-        localStorage.setItem(key, converted);
-      }
-    }
-  }
-  setting.update = update;
-  conf.settings[key] = setting;
-  settingReg[key] = setting;
+
+  const registeredSetting = new RegisteredSetting(setting);
+  conf.settings[key] = registeredSetting;
+  settingReg[key] = registeredSetting;
   return {
     get key() { return key; },
-    value: () => value(key),
-    set: update, // TODO: This ruins dynamic values such as arrays
+    value: () => registeredSetting.value,
+    // TODO: This ruins dynamic values such as arrays
+    set: (val) => registeredSetting.update(val),
     on: (func) => {
       events.on(key, func);
     },
-    get disabled() { return setting.disabled; },
+    get disabled() { return registeredSetting.disabled; },
     show: () => open(page, key),
   };
 }
@@ -370,22 +328,10 @@ export function isOpen() {
 
 export function value(key) {
   const setting = settingReg[key];
-  const val = localStorage.getItem(key);
   if (setting) {
-    if (!val) return getDefault(setting);
-    return setting.type.value(val);
+    return setting.value;
   }
-  return val;
-}
-
-function getDefault(setting = {
-  type: defaultType,
-}) {
-  if (setting.default) {
-    const val = typeof setting.default === 'function' ? setting.default() : setting.default;
-    return setting.type.value(val);
-  }
-  return setting.type.default(setting.data);
+  return localStorage.getItem(key);
 }
 
 export function remove(key) {

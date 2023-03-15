@@ -12,6 +12,9 @@
   "contributors": [
     "Austin Peterson <austin@akpwebdesign.com> (https://blog.akpwebdesign.com)"
   ],
+  "engines": {
+    "node": ">= 18"
+  },
   "type": "module",
   "scripts": {
     "build": "rollup -c",

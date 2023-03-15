@@ -3,11 +3,18 @@ module.exports = {
   extends: 'airbnb-base',
   env: {
     node: true,
+    es6: true,
+  },
+  parserOptions: {
+    ecmaVersion: 'latest',
   },
   rules: {
     camelcase: ['warn', { ignoreGlobals: true }],
     // Allow this behavior, but want to be aware of any possible issues
     'consistent-return': 'warn',
+    'lines-between-class-members': ['error', 'always', {
+      exceptAfterSingleLine: true,
+    }],
     // Allow modification of properties
     'no-param-reassign': ['warn', { props: false }],
     // Allow short circuits: test && action
