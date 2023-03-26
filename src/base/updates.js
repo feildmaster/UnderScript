@@ -97,7 +97,7 @@ wrap(() => {
     latest.set(data);
     if (updateToast) updateToast.close('stale');
     const path = `underscript@${data.version}/${data.unpkg}`;
-    const css = {
+    const baseStyle = {
       border: '',
       height: '',
       background: '',
@@ -112,11 +112,11 @@ wrap(() => {
       buttons: [{
         text: 'Update (github)',
         className: 'dismiss',
-        css,
+        css: baseStyle,
       }, {
         text: 'Update (unpkg)',
         className: 'dismiss',
-        css,
+        css: baseStyle,
         onclick(e) {
           location.href = `${baseURL}/${path}`;
           this.close('update');
@@ -124,7 +124,7 @@ wrap(() => {
       }, {
         text: 'Update (jsdelivr)',
         className: 'dismiss',
-        css,
+        css: baseStyle,
         onclick: (e) => {
           location.href = `https://cdn.jsdelivr.net/npm/${path}`;
           this.close('update');

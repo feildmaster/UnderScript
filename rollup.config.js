@@ -5,6 +5,8 @@ const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const cleanup = require('rollup-plugin-cleanup');
 const multi = require('@rollup/plugin-multi-entry');
 const externals = require('rollup-plugin-external-globals');
+const css = require('rollup-plugin-import-css');
+
 const { version } = require('./package.json');
 
 const debug = process.argv.includes('--configDebug');
@@ -64,6 +66,7 @@ module.exports = [{
   external: ['luxon', 'showdown', 'axios', 'tippy.js'],
   plugins: [
     nodeResolve({ browser: true }),
+    css(),
     multi({
       exports: false,
     }),

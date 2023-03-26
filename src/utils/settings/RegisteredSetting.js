@@ -4,7 +4,7 @@ import SettingType from './types/setting.js';
 export default class RegisteredSetting {
   /** @type {string} */
   #key;
-  /** @type {string} */
+  /** @type {string | function(): string} */
   #name;
   /** @type {SettingType} */
   #type;
@@ -12,26 +12,25 @@ export default class RegisteredSetting {
   #page;
   /** @type {string} */
   #category;
-  /** @type {any} */
   #default;
-  /** @type {boolean | Function} */
+  /** @type {boolean | null | function(): boolean?} */
   #disabled;
-  /** @type {boolean | Function} */
+  /** @type {boolean | null | function(): boolean?} */
   #hidden;
-  /** @type {boolean | Function} */
+  /** @type {boolean | null | function(): boolean?} */
   #remove;
-  /** @type {boolean | Function} */
+  /** @type {boolean | null | function(): boolean?} */
   #export;
-  /** @type {string} */
+  /** @type {string?} */
   #prefix;
-  /** @type {boolean | Function} */
+  /** @type {boolean | null | function(): boolean?} */
   #reset;
   #data;
-  /** @type {string | Function} */
+  /** @type {string | null | function(): string?} */
   #note;
-  /** @type {boolean | Function} */
+  /** @type {boolean | null | function(): boolean?} */
   #refresh;
-  /** @type {Function} */
+  /** @type {function(any, any): never} */
   #onChange;
   /** @type {EventEmitter} */
   #events;
@@ -83,8 +82,11 @@ export default class RegisteredSetting {
     return this.#key;
   }
 
+  /**
+   * @returns {string}
+   */
   get name() {
-    return this.#name;
+    return this.#value(this.#name);
   }
 
   get type() {
@@ -123,15 +125,18 @@ export default class RegisteredSetting {
     return this.#value(this.#reset) === true;
   }
 
+  /**
+   * @returns {unknown}
+   */
   get data() {
-    return this.#data;
+    return this.#value(this.#data);
   }
 
   get note() {
     const notes = [];
 
     const note = this.#value(this.#note);
-    if (note) {
+    if (typeof note === 'string') {
       notes.push(note);
     }
 
@@ -161,6 +166,10 @@ export default class RegisteredSetting {
     this.#events.emit('setting:change', key, val, prev);
   }
 
+  set value(val) {
+    this.update(val);
+  }
+
   get value() {
     const val = localStorage.getItem(this.key);
     if (!val) {
@@ -169,6 +178,9 @@ export default class RegisteredSetting {
     return this.type.value(val);
   }
 
+  /**
+   * @returns {unknown}
+   */
   get default() {
     const val = this.#default;
     if (val !== undefined) {
