@@ -2,10 +2,10 @@
 title: BootstrapDialog Events
 date: 2021-07-19
 version: 0.46.0
+deprecated: false
 banner: 
-credit: 
+credit: CMD_God
 notice: 
-requested-by: CMD_God
 ---
 UnderScript wraps BootstrapDialog in a way that all of their dialog events call an event in the EventManager.
 
@@ -21,11 +21,11 @@ All events have access to the `dialog` instance.
 
 ## Examples
 ```javascript
-plugin.events.on('BootstrapDialog:create', (dialog) => {
+plugin.events().on('BootstrapDialog:create', (dialog) => {
   // Do stuff here, `dialog` was created.
 });
 
-plugin.events.on('BootstrapDialog:preshow', function (dialog) {
+plugin.events().on('BootstrapDialog:preshow', function (dialog) {
   // Do stuff here, `dialog` is being shown.
   this.canceled = true; // Now it wont show.
 });
