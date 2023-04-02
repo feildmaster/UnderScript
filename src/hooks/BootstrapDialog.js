@@ -4,10 +4,12 @@ import wrap from '../utils/2.pokemon.js';
 function setter(key, args) {
   const original = args[`on${key}`];
   function wrapper(dialog) {
+    let ret;
     if (typeof original === 'function') {
-      wrap(() => original(dialog), `BootstrapDialog:on${key}`);
+      ret = wrap(() => original(dialog), `BootstrapDialog:on${key}`);
     }
     eventManager.emit(`BootstrapDialog:${key}`, dialog);
+    return ret;
   }
   return wrapper;
 }
