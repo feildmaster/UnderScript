@@ -1,4 +1,4 @@
-import Base from './base.js';
+import Base from '../base.js';
 import User from './user.js';
 
 export default class Message extends Base {
