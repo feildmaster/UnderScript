@@ -39,7 +39,7 @@ module.exports = {
     'no-continue': 'off',
     'object-curly-newline': ['error', { multiline: true, consistent: true }],
     'operator-linebreak': ['error', 'after'],
-    quotes: ['error', 'single', { allowTemplateLiterals: true }],
+    quotes: ['error', 'single', { allowTemplateLiterals: true, avoidEscape: true }],
     'no-extra-boolean-cast': 'warn',
     'import/extensions': ['error', 'ignorePackages'],
     'max-len': ['error', {
