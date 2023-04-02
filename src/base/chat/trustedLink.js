@@ -55,10 +55,13 @@ eventManager.on('BootstrapDialog:show', (dialog) => {
 });
 
 eventManager.on('ChatDetected', () => {
+  // Add current domain to safe links
+  safeLinks.add(location.hostname);
+
   globalSet('link', function link(l) {
     const url = new URL(l).hostname;
-    // Undercards is a safe link :D
-    if (setting.value() && (url === location.hostname || safeLinks.has(url))) return true;
+    // Allow going to page instantly if it's marked as a safe link
+    if (setting.value() && safeLinks.has(url)) return true;
     // Cache the url for later
     cache.value = url;
     return this.super(l);
