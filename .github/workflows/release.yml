@@ -32,7 +32,7 @@ jobs:
       id: changelog
       env:
         INPUT_VERSION: ${{ needs.check.outputs.version }}
-      run: node ./scripts/changelog
+      run: node ./scripts/changelog/index.cjs
     - name: Set up Node.js
       uses: actions/setup-node@v1
       with:

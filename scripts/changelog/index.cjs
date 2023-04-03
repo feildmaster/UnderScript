@@ -1,6 +1,6 @@
 const fs = require('fs');
-const { getInput, setOutput } = require('./io');
-const { getVersionById } = require('./entries');
+const { getInput, setOutput } = require('./io.cjs');
+const { getVersionById } = require('./entries.cjs');
 
 const changelog = getInput('path') || './changelog.md';
 const target = getInput('version');
