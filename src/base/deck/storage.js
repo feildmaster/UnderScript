@@ -69,7 +69,7 @@ onPage('Decks', function deckStorage() {
       const key = getKey(id);
       const deck = JSON.parse(localStorage.getItem(key));
       if (!deck) return;
-      if (!Object.prototype.hasOwnProperty.call(deck, 'cards')) {
+      if (!Object.hasOwn(deck, 'cards')) {
         localStorage.setItem(key, JSON.stringify({
           cards: deck,
           artifacts: [],
