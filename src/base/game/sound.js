@@ -1,9 +1,26 @@
 import eventManager from '../../utils/eventManager.js';
 import * as settings from '../../utils/settings/index.js';
 import { global, globalSet } from '../../utils/global.js';
+import { getSeasonMonth } from '../../utils/season.js';
 
 const baseVolumeSettings = { type: 'slider', page: 'Audio', max: 0.5, step: 0.01, default: 0.2, reset: true };
 let active = false;
+
+const enable = settings.register({
+  name: 'Enable Audio Override',
+  key: 'underscript.audio.override',
+  default: true,
+  page: 'Audio',
+  note: 'Disabling this disables all other Audio settings!',
+});
+
+const aprilFoolsMusic = settings.register({
+  name: 'Enable April Fools Music',
+  key: 'underscript.audio.override.aprilFools',
+  default: true,
+  hidden: () => !isApril(),
+  page: 'Audio',
+});
 
 const bgmEnabled = settings.register({
   name: 'Enable BGM',
@@ -68,12 +85,25 @@ function pauseMusic() {
     .forEach((audio) => audio.pause());
 }
 
+function isApril() {
+  return getSeasonMonth() === 4;
+}
+
+function enableAprilFools() {
+  return isApril() && aprilFoolsMusic.value;
+}
+
 function overrideResult(name) {
   const data = { name, origin: name };
   const event = eventManager.cancelable.emit('playMusic', data);
   if (!resultEnabled.value() || !data.name || event.canceled) return;
   pauseMusic();
-  createAudio(`/musics/${data.name}.ogg`, {
+  if (!enable.value) {
+    this.super(data.name);
+    return;
+  }
+  const path = enableAprilFools() ? 'afm' : 'musics';
+  createAudio(`/${path}/${data.name}.ogg`, {
     volume: resultVolume.value(),
     repeat: true,
     set: 'music',
@@ -84,7 +114,12 @@ function overrideMusic(name) {
   const event = eventManager.cancelable.emit('playBackgroundMusic', data);
   if (!bgmEnabled.value() || !data.name || event.canceled) return;
   pauseMusic();
-  createAudio(`/musics/themes/${data.name}.ogg`, {
+  if (!enable.value) {
+    this.super(data.name);
+    return;
+  }
+  const path = enableAprilFools() ? 'afm' : 'musics/themes';
+  createAudio(`/${path}/${data.name}.ogg`, {
     volume: bgmVolume.value(),
     repeat: true,
     set: 'music',
@@ -94,6 +129,10 @@ function overrideSound(name) {
   const data = { name, origin: name };
   const event = eventManager.cancelable.emit('playSound', data);
   if (!soundEnabled.value() || !data.name || event.canceled) return;
+  if (!enable.value) {
+    this.super(data.name);
+    return;
+  }
   createAudio(`/sounds/${data.name}.wav`, {
     volume: soundVolume.value(),
     set: 'audio',
@@ -104,7 +143,12 @@ function overrideJingle(name = '') {
   const event = eventManager.cancelable.emit('playJingle', data);
   if (!jingleEnabled.value() || !data.name || event.canceled) return;
   pauseMusic();
-  createAudio(`/musics/cards/${data.name.replace(/ /g, '_')}.ogg`, {
+  if (!enable.value) {
+    this.super(data.name);
+    return;
+  }
+  const path = enableAprilFools() ? 'afm' : 'musics';
+  createAudio(`/${path}/cards/${data.name.replace(/ /g, '_')}.ogg`, {
     volume: jingleVolume.value(),
     set: 'jingle',
     listener: global('jingleEnd'),
