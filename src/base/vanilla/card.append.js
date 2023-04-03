@@ -15,19 +15,23 @@ internal.on('set', (e = PREFIX) => {
   event = e;
 }).on('pre', (...args) => {
   eventManager.emit(`pre:func:${event}`, ...args);
+  if (event !== PREFIX) eventManager.emit(`pre:func:${PREFIX}`, ...args);
 }).on('post', (...args) => {
   if (event === PREFIX || !args.length) {
-    const eventData = data || args; // If no data then the event was canceled somehow, and we need to clear the event
+    const eventData = [
+      ...data,
+      ...args,
+    ];
+    // If no data then the event was canceled somehow, and we need to clear the event
     if (eventData.length) {
       eventManager.emit(`func:${event}`, ...eventData);
-      if (event !== PREFIX) eventManager.emit(`func:${PREFIX}`, ...eventData); // Always call func:appendCard?
+      if (event !== PREFIX) eventManager.emit(`func:${PREFIX}`, ...eventData);
     }
     data = null;
     event = PREFIX; // Reset
   } else {
     data = args;
     if (extras.isSet()) data.push(...extras.value);
-    eventManager.emit(`func:${PREFIX}`, ...data); // Always call func:appendCard?
   }
 });
 
@@ -36,6 +40,7 @@ eventManager.on(':loaded', () => {
     internal.emit('pre', card);
     const element = this.super(card, container);
     if (eventManager.emit(`${PREFIX}()`, { card, element, container }).ran) { // Support old listeners
+      // eslint-disable-next-line no-console -- Warn developers to not use this
       console.warn(`'${PREFIX}()' is deprecated, please use 'func:${PREFIX}' instead`);
     }
     internal.emit('post', card, element);
