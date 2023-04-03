@@ -1,5 +1,22 @@
 # UnderScript Changelog
 
+## Version 0.52.0 (2023-04-03)
+### New Features
+1. Added setting to disable `Audio Override` (disables undercards Audio fixes)
+1. Added setting to disable `April Fools Music` (if you get tired of it)
+### Fixes
+1. Fixed april fools music not working with underscript
+1. Fixed translations thinking they weren't loaded when they were
+### Misc.
+1. BootstrapDialog `onhide()` return value is no longer ignored
+### Plugins
+1. EventEmitter is now extendable
+1. Throw errors when failing to register settings
+1. `appendCard()` is deprecated
+1. Settings now have more dynamic values
+1. Added [`checkUnderscript(pluginName)`](https://raw.githubusercontent.com/UCProjects/UnderScript/master/src/checker.js) for plugins to utilize in their code
+1. `appendCard` events are now all called correctly
+
 ## Version 0.51.3 (2022-12-13)
 1. Fix appendCard data
 

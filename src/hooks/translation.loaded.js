@@ -14,7 +14,7 @@ eventManager.on(':loaded', () => {
     // Fallback for if translation function breaks
     eventManager.on(':load', () => {
       const translationReady = global(READY, { throws: false });
-      if (translationReady !== false) return;
+      if (translationReady !== false || !$.i18n.messageStore.messages.en) return;
       globalSet(READY, true);
       document.dispatchEvent(global('translationEvent'));
     });
