@@ -14,9 +14,9 @@ jobs:
       beta: ${{ startsWith(steps.check.outputs.type, 'pre') }}
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Check version changes
-      uses: EndBug/version-check@v1
+      uses: EndBug/version-check@v2
       id: check
   latest:
     name: Publish Latest
@@ -25,7 +25,7 @@ jobs:
     if: contains(github.ref, 'master') && needs.check.outputs.changed == 'true' && needs.check.outputs.beta != 'true'
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         ref: ${{ needs.check.outputs.commit }}
     - name: Parse Changelog # Exits if changelog not found
@@ -34,7 +34,7 @@ jobs:
         INPUT_VERSION: ${{ needs.check.outputs.version }}
       run: node ./scripts/changelog/index.cjs
     - name: Set up Node.js
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
         registry-url: "https://registry.npmjs.org"
     - name: Install dependencies
@@ -59,11 +59,11 @@ jobs:
     if: contains(github.ref, 'next') && needs.check.outputs.changed == 'true' && needs.check.outputs.beta == 'true'
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         ref: ${{ needs.check.outputs.commit }}
     - name: Set up Node.js
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
         registry-url: "https://registry.npmjs.org"
     - name: Install dependencies
