@@ -118,8 +118,8 @@ function overrideMusic(name) {
     this.super(data.name);
     return;
   }
-  const path = enableAprilFools() ? 'afm' : 'musics/themes';
-  createAudio(`/${path}/${data.name}.ogg`, {
+  const path = enableAprilFools() ? 'afm' : 'musics';
+  createAudio(`/${path}/themes/${data.name}.ogg`, {
     volume: bgmVolume.value(),
     repeat: true,
     set: 'music',
