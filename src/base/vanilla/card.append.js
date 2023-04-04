@@ -8,7 +8,7 @@ import VarStore from '../../utils/VarStore.js';
 const PREFIX = 'appendCard';
 const internal = eventEmitter();
 let event = PREFIX;
-let data;
+let data = [];
 const extras = VarStore();
 
 internal.on('set', (e = PREFIX) => {
@@ -22,12 +22,11 @@ internal.on('set', (e = PREFIX) => {
       ...data,
       ...args,
     ];
-    // If no data then the event was canceled somehow, and we need to clear the event
     if (eventData.length) {
       eventManager.emit(`func:${event}`, ...eventData);
       if (event !== PREFIX) eventManager.emit(`func:${PREFIX}`, ...eventData);
     }
-    data = null;
+    data = [];
     event = PREFIX; // Reset
   } else {
     data = args;
