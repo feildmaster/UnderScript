@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.52.1 (2023-04-05)
+1. Fixed issue breaking sound in games
+
 ## Version 0.52.0 (2023-04-03)
 ### New Features
 1. Added setting to disable `Audio Override` (disables undercards Audio fixes)
