@@ -1,7 +1,7 @@
-import eventManager from '../../utils/eventManager.js';
-import * as settings from '../../utils/settings/index.js';
-import { globalSet } from '../../utils/global.js';
-import onPage from '../../utils/onPage.js';
+import eventManager from '../../../utils/eventManager.js';
+import * as settings from '../../../utils/settings/index.js';
+import { globalSet } from '../../../utils/global.js';
+import onPage from '../../../utils/onPage.js';
 
 const setting = settings.register({
   name: 'Disable Deck Preview',

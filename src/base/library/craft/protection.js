@@ -1,6 +1,6 @@
-import * as api from '../../utils/4.api.js';
-import eventManager from '../../utils/eventManager.js';
-import { globalSet } from '../../utils/global.js';
+import * as api from '../../../utils/4.api.js';
+import eventManager from '../../../utils/eventManager.js';
+import { globalSet } from '../../../utils/global.js';
 
 let locked = false;
 let bypass = false;
