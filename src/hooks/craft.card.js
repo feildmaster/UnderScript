@@ -11,25 +11,23 @@ onPage('Crafting', () => {
         return;
       }
       const data = JSON.parse(options.data);
-      const r = xhr.responseJSON;
-      const success = r.status === 'success';
+      const response = xhr.responseJSON;
+      const success = response.status === 'success';
       if (data.action === 'craft') {
         if (success) {
-          const card = r.card ? JSON.parse(r.card) : {};
-          const id = card.id || r.cardId;
+          const card = response.card ? JSON.parse(response.card) : {};
+          const id = card.id || response.cardId;
           eventManager.emit('craftcard', {
             id,
-            name: card.name || $.i18n(`card-name-${id}`) || r.cardName,
-            dust: r.dust,
-            shiny: data.isShiny || r.shiny || false,
+            name: card.name || $.i18n(`card-name-${id}`) || response.cardName,
+            dust: response.dust,
+            shiny: data.isShiny || response.shiny || false,
           });
         } else {
-          eventManager.emit('crafterrror', data.message, data.status);
+          eventManager.emit('crafterrror', response.message, response.status);
         }
-      } else if (data.action === 'disenchant') {
-        // TODO
-      } else if (data.action === 'auto') {
-        // TODO
+      } else {
+        eventManager.emit(`Craft:${data.action}`, success, response, data);
       }
     });
   });
