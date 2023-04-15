@@ -30,7 +30,7 @@ style.add(
   .autobox div {
     padding: 10px;
     cursor: pointer;
-    background-color: rgba(0 0 0 90%);
+    background-color: rgba(0, 0, 0, 90%);
     border-top: 1px solid #D4D4D4;
     border-bottom: 1px solid #D4D4D4;
   }

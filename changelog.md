@@ -1,5 +1,9 @@
 # UnderScript Changelog
 
+## Version 0.52.2 (2023-04-15)
+1. Added craft/disenchant protection when double clicking
+1. Fix background of `@autocomplete`
+
 ## Version 0.52.1 (2023-04-05)
 1. Fixed issue breaking sound in games
 

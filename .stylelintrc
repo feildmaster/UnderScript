@@ -8,6 +8,7 @@
     "block-closing-brace-newline-after": "always",
     "block-closing-brace-newline-before": "always",
     "block-opening-brace-newline-after": "always",
+    "color-function-notation": "legacy",
     "color-hex-case": "upper",
     "comment-empty-line-before": null,
     "declaration-block-semicolon-newline-after": "always",
