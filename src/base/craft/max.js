@@ -5,6 +5,7 @@ import sleep from '../../utils/sleep.js';
 import onPage from '../../utils/onPage.js';
 import * as hover from '../../utils/hover.js';
 import * as cardHelper from '../../utils/cardHelper.js';
+import setBypass from './protection.js';
 
 const setting = settings.register({
   name: 'Disable craft max hotkey',
@@ -56,6 +57,7 @@ onPage('Crafting', function craftMax() {
   function craftCards(id, shiny, count, cost, total) {
     if (crafting) return;
     crafting = true;
+    setBypass(true);
     const craft = global('craft');
     let dust = total;
     let remaining = count;
@@ -67,6 +69,7 @@ onPage('Crafting', function craftMax() {
     sleep(1000).then(() => { // Wait a second before allowing crafting again
       calculate(); // Re-calculate after crafting
       crafting = false;
+      setBypass(false);
     });
   }
 });
