@@ -1,15 +1,15 @@
 import axios from 'axios';
 import luxon from 'luxon';
-import * as settings from '../utils/settings/index.js';
-import style from '../utils/style.js';
-import wrap from '../utils/2.pokemon.js';
-import { debugToast } from '../utils/debug.js';
-import { toast as BasicToast } from '../utils/2.toasts.js';
-import sleep from '../utils/sleep.js';
-import * as menu from '../utils/menu.js';
-import semver from '../utils/version.js';
-import { scriptVersion } from '../utils/1.variables.js';
-import css from '../utils/css.js';
+import * as settings from '../../utils/settings/index.js';
+import style from '../../utils/style.js';
+import wrap from '../../utils/2.pokemon.js';
+import { debugToast } from '../../utils/debug.js';
+import { toast as BasicToast } from '../../utils/2.toasts.js';
+import sleep from '../../utils/sleep.js';
+import * as menu from '../../utils/menu.js';
+import semver from '../../utils/version.js';
+import { scriptVersion } from '../../utils/1.variables.js';
+import css from '../../utils/css.js';
 
 // Check for script updates
 wrap(() => {
