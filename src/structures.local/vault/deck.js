@@ -1,15 +1,24 @@
 import { global } from '../../utils/global.js';
+import Base from '../base.js';
 
-export default class Deck {
+export default class Deck extends Base {
+  /**
+   * @type {import("./storage.js").default}
+   */
+  #owner;
+  #soul;
+
   constructor(owner, soul = '', index = 0) {
-    this.owner = owner;
-    this.soul = soul;
-    this.index = index;
+    super({
+      id: index,
+    });
+    this.#owner = owner;
+    this.#soul = soul;
   }
 
   get key() {
-    this.checkLocal();
-    return `${this.owner.key}.${this.soul}.${this.index}`;
+    this.#checkLocal();
+    return `${this.#owner.key}.${this.#soul}.${this.id}`;
   }
 
   get raw() {
@@ -22,7 +31,7 @@ export default class Deck {
     cards.shift();
     artifacts.shift();
 
-    const data = JSON.parse(this.getRaw());
+    const data = JSON.parse(this.#getRaw());
     if (Array.isArray(data.cards)) {
       cards.concat(data.cards);
     }
@@ -33,15 +42,24 @@ export default class Deck {
       artifacts,
       cards,
       name: this.name,
+      description: this.description,
     };
   }
 
   get name() {
-    return this.getRaw('name') || '';
+    return this.#getRaw('name');
   }
 
   set name(to) {
-    this.setRaw('name', to);
+    this.#setRaw('name', to);
+  }
+
+  get description() {
+    return this.#getRaw('description');
+  }
+
+  set description(to) {
+    this.#setRaw('description', to);
   }
 
   get cards() {
@@ -89,13 +107,13 @@ export default class Deck {
     // this.setRaw(`meta.${key}`, value);
   }
 
-  getRaw(key) {
-    this.checkLocal();
-    return localStorage.getItem(key ? `${this.key}.${key}` : this.key) || '';
+  #getRaw(key) {
+    this.#checkLocal();
+    return localStorage.getItem(key ? `${this.key}.${key}` : this.key) ?? '';
   }
 
-  setRaw(key, value = null) {
-    this.checkLocal();
+  #setRaw(key, value = null) {
+    this.#checkLocal();
     const storageKey = key ? `${this.key}.${key}` : this.key;
     if (value === null) {
       localStorage.removeItem(storageKey);
@@ -104,7 +122,7 @@ export default class Deck {
     }
   }
 
-  checkLocal() {
-    if (!this.owner || !this.soul || !this.index) throw new Error('Not a local deck');
+  #checkLocal() {
+    if (!this.#owner || !this.#soul || !this.index) throw new Error('Not a local deck');
   }
 }

@@ -1,9 +1,13 @@
-export default class Storage {
+import Base from '../base.js';
+
+export default class Storage extends Base {
   constructor(userId) {
-    this.owner = userId;
+    super({
+      id: userId,
+    });
   }
 
   get key() {
-    return `underscript.deck.${this.owner}`;
+    return `underscript.deck.${this.id}`;
   }
 }
