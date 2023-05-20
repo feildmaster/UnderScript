@@ -14,9 +14,10 @@ export default class SettingType {
   /**
    * Convert data into processed value. Can be the `default` value, or the encoded string
    * @param {*} val Raw data to convert
+   * @param {*} data Optional data of the setting
    * @returns {*} value
    */
-  value(val) {
+  value(val, data = undefined) {
     throw new Error('Value not implemented');
   }
 

@@ -1,3 +1,4 @@
+import clone from '../../clone.js';
 import { translateText } from '../../translate.js';
 import ArraySetting from './array.js';
 
@@ -7,17 +8,31 @@ export default class List extends ArraySetting {
   }
 
   value(val, data = []) {
-    // TODO: convert to data mapping
-    return super.value(val);
+    const value = super.value(val)
+      .map((o) => data.find((i) => getValue(i) === o)) // Convert value to parent data
+      .filter((_) => _); // Remove invalid data
+
+    // For new additions, add to the end of value list
+    if (value.length !== data.length) {
+      data.forEach((o) => {
+        if (value.includes(o)) return;
+        value.push(o);
+      });
+    }
+
+    // Don't ever expose the raw data refs to others. Only the owner of the data should have/edit the references... child data is OK by design though
+    return value.map(clone);
   }
 
   default(data = []) {
-    return data.map(getValue);
+    return data;
   }
 
-  element(value = [], update, {
-    data = [],
-  }) {
+  encode(value = []) {
+    return super.encode(value.map(getValue));
+  }
+
+  element(value = [], update) {
     // Sortable list
     const list = $('<ol>').addClass('sortedList');
     let dragged;
@@ -37,6 +52,7 @@ export default class List extends ArraySetting {
       const target = list.children();
       const from = target.index(dragged);
       const to = target.index(e.target);
+      // FIXME: This only works if you never externally update the value while the screen is open
       value.splice(to, 0, ...value.splice(from, 1));
       update(value);
 
@@ -62,26 +78,7 @@ export default class List extends ArraySetting {
       // Add to container
       list.append(node);
     }
-    let dirty = false;
-    value
-      .map((o) => data.find((i) => getValue(i) === o)) // Convert value to parent data
-      .filter((o, i) => { // Filter out invalid values
-        if (!o) {
-          value.splice(i, 1); // Remove invalid value from array
-          dirty = true; // Mark dirty
-        }
-        return o;
-      })
-      .forEach(addItem);
-    if (dirty) update(value); // If we have invalid values, clean the stored data
-    if (value.length !== data.length) {
-      // TODO: This should actually be done on "this.value()", so you don't end up with missing data when doing `setting.value()`
-      // For new additions, add to the end of value list
-      data.filter((o) => !value.includes(getValue(o))).forEach((o) => {
-        value.push(getValue(o));
-        addItem(o);
-      });
-    }
+    value.forEach(addItem);
     return list;
   }
 

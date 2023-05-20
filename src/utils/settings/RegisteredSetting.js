@@ -175,7 +175,7 @@ export default class RegisteredSetting {
     if (!val) {
       return this.default;
     }
-    return this.type.value(val);
+    return this.type.value(val, this.data);
   }
 
   /**
@@ -184,7 +184,7 @@ export default class RegisteredSetting {
   get default() {
     const val = this.#default;
     if (val !== undefined) {
-      return this.type.value(this.#value(val));
+      return this.type.value(this.#value(val), this.data);
     }
     return this.type.default(this.data);
   }
@@ -192,13 +192,13 @@ export default class RegisteredSetting {
   #convert(converter) {
     const { key } = this;
     const current = localStorage.getItem(key);
-    if (typeof current === 'string') {
-      const converted = converter(current);
-      if (converted === null) {
-        localStorage.removeItem(key);
-      } else if (converted !== undefined) {
-        localStorage.setItem(key, converted);
-      }
+    if (current === null) return;
+
+    const converted = converter(current);
+    if (converted === null) {
+      localStorage.removeItem(key);
+    } else if (converted !== undefined) {
+      localStorage.setItem(key, converted);
     }
   }
 
