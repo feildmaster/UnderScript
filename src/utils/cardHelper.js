@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import * as api from './4.api.js';
 import { debug } from './debug.js';
 import { global } from './global.js';
