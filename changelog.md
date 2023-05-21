@@ -1,7 +1,10 @@
 # UnderScript Changelog
 
-## Version 0.52.2 (2023-04-15)
-1. Added craft/disenchant protection when double clicking
+## Version 0.53.0 (2023-05-21)
+### New Features
+1. Added craft/disenchant protection to prevent double clicking
+1. Added new ranks to board background priority
+### Fixes
 1. Fix background of `@autocomplete`
 
 ## Version 0.52.1 (2023-04-05)

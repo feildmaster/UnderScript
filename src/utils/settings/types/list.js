@@ -99,9 +99,16 @@ function getValue(item) {
   return item;
 }
 
-function getLabel(item) {
-  if (typeof item === 'object') {
-    return item.label || item.text;
+function getLabel(item,
+  // allow only one level of function calls
+  allowed = true) {
+  if (allowed && typeof item === 'function') {
+    return getLabel(item(), false);
   }
+  if (typeof item === 'object') {
+    return getLabel(item.label || item.text, allowed);
+  }
+  if (!item) throw new Error('Label not provided');
+  if (typeof item !== 'string') throw new Error(`Unknown label: ${typeof item}`);
   return item;
 }
