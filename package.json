@@ -32,7 +32,8 @@
     "next": "npm version prerelease --m=\"chore(next): Build script v%s\""
   },
   "files": [
-    "dist/*.js"
+    "dist/*.js",
+    "changelog.md"
   ],
   "devDependencies": {
     "@linaria/postcss-linaria": "^4.1.5",
