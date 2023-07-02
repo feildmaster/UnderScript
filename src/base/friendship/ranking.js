@@ -132,7 +132,7 @@ function displayRank(card, rank) {
 // TODO: This needs to be hooked into leaderboard
 // eventManager.on('updateFriendship', (data) => updateCache({ ...data, save: true }));
 
-eventManager.on('Friendship:load', () => {
+eventManager.on(':loaded:Friendship', () => {
   style.add(
     `.rank {
       position: relative;
@@ -188,30 +188,27 @@ eventManager.on('Friendship:load', () => {
     loaded = true;
   });
 
-  eventManager.on(':loaded', () => {
-    globalSet('appendCardFriendship', function func(card, ...args) {
-      const ret = this.super(card, ...args);
-      if (setting.value() !== disabled) {
-        const id = card.idCard || card.fixedId || card.id;
-        pending.push(pendingUpdate(id, card.xp)
-          .then(({ rank, cached }) => {
-            displayRank(id, rank);
-            return cached;
-          }));
-      }
-      return ret;
-    });
+  eventManager.on('Friendship:page', () => {
+    if (!pending.length) return;
+    Promise.all(pending.splice(0))
+      .then((vals = []) => {
+        const notAllCached = vals.some((val) => !val);
+        if (notAllCached) {
+          saveCache();
+        }
+      });
   });
 
-  eventManager.on('Friendship:page', () => {
-    if (pending.length) {
-      Promise.all(pending.splice(0))
-        .then((vals = []) => {
-          const notAllCached = vals.some((val) => !val);
-          if (notAllCached) {
-            saveCache();
-          }
-        });
+  globalSet('appendCardFriendship', function func(card, ...args) {
+    const ret = this.super(card, ...args);
+    if (setting.value() !== disabled) {
+      const id = card.idCard || card.fixedId || card.id;
+      pending.push(pendingUpdate(id, card.xp)
+        .then(({ rank, cached }) => {
+          displayRank(id, rank);
+          return cached;
+        }));
     }
+    return ret;
   });
 });

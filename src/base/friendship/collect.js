@@ -53,7 +53,7 @@ function getLabel(type = '') {
   }
 }
 
-eventManager.on('Friendship:loaded', () => {
+eventManager.on(':loaded:Friendship', () => {
   button.prop('disabled', setting.value() || !canCollect());
 });
 

@@ -2,7 +2,7 @@ import eventManager from '../utils/eventManager.js';
 import { global } from '../utils/global.js';
 
 eventManager.on(':loaded:Friendship', () => {
-  eventManager.emit('Friendship:load');
+  eventManager.singleton.emit('Friendship:load');
   $(document).ajaxComplete((event, xhr, settings) => {
     if (settings.url !== 'FriendshipConfig') return;
     if (settings.type === 'GET') {

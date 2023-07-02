@@ -1,5 +1,9 @@
 # UnderScript Changelog
 
+## Version 0.53.1 (2023-07-02)
+1. Fixed changelog
+1. Fixed friendship ranking not loading sometimes
+
 ## Version 0.53.0 (2023-05-23)
 ### New Features
 1. Added craft/disenchant protection to prevent double clicking
