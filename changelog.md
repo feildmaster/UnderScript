@@ -1,5 +1,9 @@
 # UnderScript Changelog
 
+## Version 0.54.0 (2023-07-08)
+### New Features
+1. Import deck via URL
+
 ## Version 0.53.1 (2023-07-02)
 1. Fixed changelog
 1. Fixed friendship ranking not loading sometimes
