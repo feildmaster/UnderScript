@@ -53,18 +53,19 @@ function getLabel(type = '') {
   }
 }
 
-eventManager.on(':loaded:Friendship', () => {
-  button.prop('disabled', setting.value() || !canCollect());
-});
+function updateButton(enabled = canCollect()) {
+  button.prop('disabled', !enabled);
+}
 
-setting.on((disabled) => {
+function setupButton(disabled) {
   if (disabled) {
     button.addClass('hidden');
+    updateButton(false);
   } else {
-    button.removeClass('hidden')
-      .prop('disabled', setting.value() || !canCollect());
+    button.removeClass('hidden');
+    updateButton();
   }
-});
+}
 
 eventManager.on('Friendship:claim', ({
   data, reward, quantity, error,
@@ -94,16 +95,14 @@ eventManager.on('Friendship:results', (error) => {
     title: 'Claimed Friendship Rewards',
     text: lines.join('<br>'),
   });
-  button.prop('disabled', !canCollect());
+  updateButton();
   collecting = false;
 });
 
 eventManager.on(':loaded:Friendship', () => {
   button = $('<button class="btn btn-info">Collect All</button>');
-  if (setting.value()) {
-    button.addClass('hidden');
-  }
-  button.prop('disabled', true);
+  setting.on(setupButton);
+  setupButton(setting.value());
   button.on('click.script', collect);
   button.hover(hover.show('Collect all rewards'));
   $('p[data-i18n="[html]crafting-all-cards"]').css('display', 'inline-block').after(' ', button);
