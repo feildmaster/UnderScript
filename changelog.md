@@ -4,7 +4,9 @@
 ### New Features
 1. Import deck via URL
 ### Fixes
-1. Fix "Collect All" frienship reward button
+1. Fixed `Collect All` frienship button
+### Misc.
+1. Removed `Disable Quick Opening Packs` setting
 
 ## Version 0.53.1 (2023-07-02)
 1. Fixed changelog

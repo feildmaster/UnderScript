@@ -12,10 +12,10 @@ export function getPageName() {
   return pathname.substring(1, temp || length);
 }
 
-export default function onPage(name, callback) {
+export default function onPage(name, callback, prefix) {
   const r = getPageName() === name;
   if (typeof callback === 'function' && r) {
-    wrap(callback);
+    wrap(callback, prefix);
   }
   return r;
 }
