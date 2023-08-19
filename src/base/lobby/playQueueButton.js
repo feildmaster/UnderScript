@@ -15,19 +15,31 @@ onPage('Play', () => {
     }
   });
 
-  eventManager.on('socketOpen', function checkButton() {
+  eventManager.on('socketOpen', checkButton);
+
+  eventManager.on('closeQueues', closeQueues);
+
+  const timeout = setTimeout(() => {
+    checkButton();
+    applyMessage('Auto enabled buttons, connection was not detected.');
+  }, 10000);
+
+  function checkButton() {
     disable = false;
+    clearTimeout(timeout);
     if (queues && !restarting) {
       queues.off('.script');
       queues.toggleClass('closed', false);
       hover.hide();
     }
-  });
-
-  eventManager.on('closeQueues', closeQueues);
+  }
 
   function closeQueues(message) {
     queues.toggleClass('closed', true);
+    applyMessage(message);
+  }
+
+  function applyMessage(message) {
     queues
       .on('mouseenter.script', hover.show(message))
       .on('mouseleave.script', () => hover.hide());

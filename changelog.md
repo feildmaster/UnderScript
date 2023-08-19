@@ -1,5 +1,9 @@
 # UnderScript Changelog
 
+## Version 0.54.1 (2023-08-19)
+1. (Really) Fixed `Collect All` frienship button
+1. Re-enable play queue after 10 seconds
+
 ## Version 0.54.0 (2023-07-08)
 ### New Features
 1. Import deck via URL
