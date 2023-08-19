@@ -99,10 +99,13 @@ eventManager.on('Friendship:results', (error) => {
   collecting = false;
 });
 
+eventManager.on('Friendship:loaded', () => {
+  setupButton(setting.value());
+});
+
 eventManager.on(':loaded:Friendship', () => {
   button = $('<button class="btn btn-info">Collect All</button>');
   setting.on(setupButton);
-  setupButton(setting.value());
   button.on('click.script', collect);
   button.hover(hover.show('Collect all rewards'));
   $('p[data-i18n="[html]crafting-all-cards"]').css('display', 'inline-block').after(' ', button);
