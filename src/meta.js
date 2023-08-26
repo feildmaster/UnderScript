@@ -14,6 +14,7 @@
 // @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/2.0.0/simpletoast.js
 // @require      https://unpkg.com/luxon@1.28.0/build/global/luxon.min.js
 // @require      https://www.googletagmanager.com/gtag/js?id=G-32N9M5BWMR
+// @require      https://js.sentry-cdn.com/15436307be8e32073988a7d1d8603ef9.min.js
 // @homepage     https://feildmaster.github.io/UnderScript/
 // @source       https://github.com/UCProjects/UnderScript
 // @supportURL   https://github.com/UCProjects/UnderScript/issues
