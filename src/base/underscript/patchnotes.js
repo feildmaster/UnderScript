@@ -1,7 +1,7 @@
 import * as settings from '../../utils/settings/index.js';
 import wrap from '../../utils/2.pokemon.js';
 import cleanData from '../../utils/cleanData.js';
-import { scriptVersion } from '../../utils/1.variables.js';
+import { noop, scriptVersion } from '../../utils/1.variables.js';
 import * as changelog from './changelog.js';
 import style from '../../utils/style.js';
 import { toast } from '../../utils/2.toasts.js';
@@ -31,7 +31,7 @@ wrap(function patchNotes() {
 
   changelog.get(scriptVersion, true)
     .then(notify)
-    .catch();
+    .catch(noop);
 
   function notify(text) {
     localStorage.setItem(versionKey, true);

@@ -8,6 +8,7 @@ import * as cardHelper from '../../../utils/cardHelper.js';
 import onPage from '../../../utils/onPage.js';
 import * as hover from '../../../utils/hover.js';
 import each from '../../../utils/each.js';
+import { captureError } from '../../../utils/sentry.js';
 
 const setting = settings.register({
   name: 'Disable Smart Disenchanting',
@@ -108,6 +109,7 @@ onPage('Crafting', function disenchantWrapper() {
         global('showPage')(global('currentPage'));
         updateOrToast(toast, `Finished disenchanting.\n+${gained} dust`);
       }).catch((e) => {
+        captureError(e);
         console.error(e); // eslint-disable-line no-console
         updateOrToast(toast, 'Could not complete disenchanting.');
       });

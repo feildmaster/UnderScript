@@ -10,6 +10,7 @@ import * as menu from '../../utils/menu.js';
 import semver from '../../utils/version.js';
 import { scriptVersion } from '../../utils/1.variables.js';
 import css from '../../utils/css.js';
+import { captureError } from '../../utils/sentry.js';
 
 // Check for script updates
 wrap(() => {
@@ -68,6 +69,7 @@ wrap(() => {
       localStorage.setItem(LAST, Date.now());
       return response;
     }).catch((error) => {
+      captureError(error);
       sessionStorage.removeItem(CHECKING);
       debugToast(error);
       if (toast) {

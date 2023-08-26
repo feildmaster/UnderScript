@@ -260,7 +260,7 @@ onPage('Packs', async function quickOpenPack() {
     globalSet('translateFromServerJson', function override(message) {
       try {
         return this.super(message);
-      } catch (_) {
+      } catch {
         return message;
       }
     });

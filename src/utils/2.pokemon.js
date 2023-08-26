@@ -1,8 +1,15 @@
+import { captureError } from './sentry.js';
+
 export default function wrap(callback, prefix = '') {
   try {
     return callback();
   } catch (e) {
-    console.error(`[${prefix || callback && callback.name || 'Undefined'}] Error occured`, e); // eslint-disable-line no-mixed-operators
+    const name = prefix || callback && callback.name || 'Undefined';
+    captureError(e, {
+      name,
+      function: 'wrap',
+    });
+    console.error(`[${name}] Error occured`, e); // eslint-disable-line no-mixed-operators
   }
   return undefined;
 }

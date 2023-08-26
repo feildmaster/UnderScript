@@ -6,6 +6,7 @@ import { debug } from '../../utils/debug.js';
 import onPage from '../../utils/onPage.js';
 import * as hover from '../../utils/hover.js';
 import each from '../../utils/each.js';
+import { captureError } from '../../utils/sentry.js';
 
 const disabled = settings.register({
   name: 'Disable',
@@ -57,7 +58,7 @@ function post(id, name) {
     if (!silent.value()) {
       toast(message);
     }
-  }).catch(console.error);
+  }).catch(captureError);
 }
 
 function isBlocked(id) {

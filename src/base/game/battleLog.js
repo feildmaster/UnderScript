@@ -102,7 +102,7 @@ eventManager.on('GameStart', function battleLogger() {
       const appendCard = global('appendCard');
       try {
         appendCard(card, d);
-      } catch (e) { // if he ever decides to switch it again.......
+      } catch { // if he ever decides to switch it again.......
         appendCard(d, card);
       }
       c.hover(hover.show(d));

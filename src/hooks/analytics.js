@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import * as settings from '../utils/settings/index.js';
 import { scriptVersion } from '../utils/1.variables.js';
+import eventManager from '../utils/eventManager.js';
 
 // This setting doesn't do anything, nor does the detection work.
 settings.register({
@@ -28,10 +29,10 @@ const config = {
     dimension1: 'version',
   },
 };
-if (sessionStorage.getItem('UserID')) {
+eventManager.on('login', (id) => {
   // This gives me a truer user count, by joining all hits from the same user together
-  config.user_id = sessionStorage.getItem('UserID');
-}
+  config.user_id = id;
+});
 window.dataLayer = window.dataLayer || [];
 gtag('js', new Date());
 gtag('config', 'G-32N9M5BWMR', config);

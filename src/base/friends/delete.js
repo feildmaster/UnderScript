@@ -5,6 +5,7 @@ import { globalSet } from '../../utils/global.js';
 import { toast, errorToast } from '../../utils/2.toasts.js';
 import decrypt from '../../utils/decrypt.emails.js';
 import style from '../../utils/style.js';
+import { captureError } from '../../utils/sentry.js';
 
 const setting = settings.register({
   name: 'Remove friends without refreshing',
@@ -45,7 +46,7 @@ function process(btn) {
       }
       parent.addClass('deleted');
     }
-  }).catch(console.error);
+  }).catch(captureError);
 }
 
 eventManager.on(':loaded:Friends', () => {

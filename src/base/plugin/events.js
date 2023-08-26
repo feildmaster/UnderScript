@@ -1,6 +1,7 @@
 import eventManager from '../../utils/eventManager.js';
 import wrap from '../../utils/2.pokemon.js';
 import { registerModule } from '../../utils/plugin.js';
+import { capturePluginError } from '../../utils/sentry.js';
 
 wrap(() => {
   const options = ['cancelable', 'canceled', 'singleton', 'async'];
@@ -16,6 +17,10 @@ wrap(() => {
           try {
             fn.call(this, ...args);
           } catch (e) {
+            capturePluginError(plugin, e, {
+              args,
+              ...this,
+            });
             plugin.logger.error(`Event error (${event}):\n`, e, '\n', JSON.stringify({
               args,
               event: this,
