@@ -1,13 +1,17 @@
-const { readFileSync } = require('fs');
-const commonjs = require('@rollup/plugin-commonjs');
-const json = require('@rollup/plugin-json');
-const { nodeResolve } = require('@rollup/plugin-node-resolve');
-const cleanup = require('rollup-plugin-cleanup');
-const multi = require('@rollup/plugin-multi-entry');
-const externals = require('rollup-plugin-external-globals');
-const css = require('rollup-plugin-import-css');
+import { config } from 'dotenv';
+import { readFileSync } from 'fs';
+import commonjs from '@rollup/plugin-commonjs';
+import json from '@rollup/plugin-json';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import cleanup from 'rollup-plugin-cleanup';
+import multi from '@rollup/plugin-multi-entry';
+import externals from 'rollup-plugin-external-globals';
+import css from 'rollup-plugin-import-css';
+import replace from '@rollup/plugin-replace';
 
-const { version } = require('./package.json');
+import { version } from './package.json';
+
+config();
 
 const debug = process.argv.includes('--configDebug');
 const exclude = ['**/*.ignore/*', '**/*.ignore*'];
@@ -21,7 +25,7 @@ if (!debug) {
 
 const meta = readFileSync('./src/meta.js').toString().replace(/{{ version }}/g, version);
 
-module.exports = [{
+export default [{
   input: 'src/bundle/bundle.js',
   treeshake: false,
   watch: false,
@@ -65,6 +69,14 @@ module.exports = [{
   }],
   external: ['luxon', 'showdown', 'axios', 'tippy.js'],
   plugins: [
+    replace({
+      preventAssignment: true,
+      values: {
+        SENTRY_DSN: `'${process.env.SENTRY_DSN ?? ''}'`,
+        VERSION: `'${version}'`,
+        '{{ version }}': version,
+      },
+    }),
     nodeResolve({ browser: true }),
     css(),
     multi({

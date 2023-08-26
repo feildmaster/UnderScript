@@ -10,6 +10,8 @@ module.exports = {
   globals: {
     BootstrapDialog: 'readonly',
     SimpleToast: 'readonly',
+    SENTRY_DSN: 'readonly',
+    VERSION: 'readonly',
   },
   parserOptions: {
     sourceType: 'module',
