@@ -34,7 +34,7 @@ if (sessionStorage.getItem('UserID')) {
 }
 window.dataLayer = window.dataLayer || [];
 gtag('js', new Date());
-gtag('config', 'UA-38424623-4', config);
+gtag('config', 'G-32N9M5BWMR', config);
 
 function gtag() {
   dataLayer.push(arguments); // eslint-disable-line no-undef, prefer-rest-params
