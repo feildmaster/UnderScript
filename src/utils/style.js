@@ -11,12 +11,12 @@ export function newStyle(plugin = false) {
     document.head.append(el);
   }
   eventManager.on(':loaded', () => {
-    appendStyle();
     loaded = true;
   });
 
   function add(...styles) {
-    if (loaded) appendStyle();
+    const hasChildren = styles.length || el.children.length;
+    if (loaded && hasChildren) appendStyle();
     return wrapper(append(styles));
   }
 
