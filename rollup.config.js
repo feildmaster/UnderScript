@@ -24,6 +24,9 @@ if (!debug) {
 }
 
 const meta = readFileSync('./src/meta.js').toString().replace(/{{ version }}/g, version);
+const {
+  SENTRY_DSN = '',
+} = process.env;
 
 export default [{
   input: 'src/bundle/bundle.js',
@@ -72,9 +75,9 @@ export default [{
     replace({
       preventAssignment: true,
       values: {
-        SENTRY_DSN: `'${process.env.SENTRY_DSN ?? ''}'`,
         VERSION: `'${version}'`,
-        '{{ version }}': version,
+        __SENTRY__: SENTRY_DSN,
+        __VERSION__: version,
       },
     }),
     nodeResolve({ browser: true }),
