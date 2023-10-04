@@ -8,9 +8,15 @@ export default (element) => {
   return element;
 };
 
-export function translateText(text) {
-  if ($.i18n) {
-    return $.i18n(text);
+/**
+ * @param {string} text text to translate
+ * @param {string} fallback value to return when missing or translation not loaded
+ * @returns {string} either translated text or fallback value
+ */
+export function translateText(text, fallback = text) {
+  if (window.$?.i18n) {
+    const val = $.i18n(text);
+    if (val !== text) return val;
   }
-  return text;
+  return fallback;
 }
