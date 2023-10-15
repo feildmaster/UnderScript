@@ -1,3 +1,5 @@
+import { getPluginNames } from './plugin.js';
+
 const GUEST = {
   id: 0,
   username: 'Guest',
@@ -14,6 +16,7 @@ export function init() {
     release: 'underscript@__VERSION__',
     replaysSessionSampleRate: 0.1,
     replaysOnErrorSampleRate: 1.0,
+    environment: '__ENVIRONMENT__',
     initialScope: {
       tags: {
         underscript: true,
@@ -41,6 +44,10 @@ function capture(error, event, plugin) {
     }
     if (event) {
       scope.setContext('event', event);
+    }
+    const plugins = getPluginNames();
+    if (plugins.length) {
+      scope.setContext('plugins', plugins);
     }
     if (error instanceof Error) {
       Sentry.captureException(error);

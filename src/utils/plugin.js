@@ -1,6 +1,9 @@
 import * as api from './4.api.js';
 
 const nameRegex = /^[a-z0-9 ]+$/i;
+/**
+ * @type Map<string, any>
+ */
 const registry = new Map();
 const modules = [];
 
@@ -54,4 +57,8 @@ api.register('plugin', Plugin);
 export function registerModule(name, mod, dependencies) {
   if (!name) throw new Error('Module has no name');
   modules.push({ name, mod, dependencies });
+}
+
+export function getPluginNames() {
+  return [...registry.keys()];
 }

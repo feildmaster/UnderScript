@@ -46,10 +46,10 @@ export default class SettingType {
    * Create element
    * @param {*} value current value to generate document element
    * @param {Function} update set the value of the setting. Pass `undefined` to delete the value from storage
-   * @param {*} data Optional data attached to setting
-   * @param {Boolean} remove true if expects "undefined" on removal
-   * @param {HTMLElement | JQuery} container child container you can manipulate, placed after main setting
-   * @param {String} key setting key, for use in `container`
+   * @param {object} data Optional data attached to setting
+   * @param {Boolean} data.remove true if expects "undefined" on removal
+   * @param {HTMLElement | JQuery} data.container child container you can manipulate, placed after main setting
+   * @param {String} data.key setting key, for use in `container`
    * @returns {HTMLElement | JQueryElement} element that controls the setting
    */
   element(value, update, {

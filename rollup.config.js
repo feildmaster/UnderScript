@@ -78,6 +78,7 @@ export default [{
         VERSION: `'${version}'`,
         __SENTRY__: SENTRY_DSN,
         __VERSION__: version,
+        __ENVIRONMENT__: process.env.GITHUB_ACTIONS ? 'production' : 'development',
       },
     }),
     nodeResolve({ browser: true }),
