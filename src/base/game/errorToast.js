@@ -7,6 +7,7 @@ const setting = settings.register({
   name: 'Disable Error Toast',
   key: 'underscript.disable.errorToast',
   page: 'Game',
+  category: 'Notifications',
 });
 
 eventManager.on('getError:before getGameError:before', function toast(data) {

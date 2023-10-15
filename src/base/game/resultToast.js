@@ -7,6 +7,7 @@ const setting = settings.register({
   name: 'Disable Result Toast',
   key: 'underscript.disable.resultToast',
   page: 'Game',
+  category: 'Notifications',
 });
 
 eventManager.on('getResult:before', function resultToast() {
