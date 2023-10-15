@@ -10,12 +10,17 @@ export default (element) => {
 
 /**
  * @param {string} text text to translate
- * @param {string} fallback value to return when missing or translation not loaded
+ * @param {object} options
+ * @param {string[]} options.args argument array to pass to translation function
+ * @param {string} options.fallback value to return when missing or translation not loaded
  * @returns {string} either translated text or fallback value
  */
-export function translateText(text, fallback = text) {
+export function translateText(text, {
+  args = [],
+  fallback = text,
+} = {}) {
   if (window.$?.i18n) {
-    const val = $.i18n(text);
+    const val = $.i18n(text, ...args);
     if (val !== text) return val;
   }
   return fallback;
