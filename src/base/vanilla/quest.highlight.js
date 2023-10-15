@@ -1,70 +1,48 @@
-import axios from 'axios';
 import eventManager from '../../utils/eventManager.js';
 import * as settings from '../../utils/settings/index.js';
 import wrap from '../../utils/2.pokemon.js';
-import { toast } from '../../utils/2.toasts.js';
 import onPage from '../../utils/onPage.js';
-import translate from '../../utils/translate.js';
 import style from '../../utils/style.js';
 import $el from '../../utils/elementHelper.js';
-import { noop } from '../../utils/1.variables.js';
+import { fetch } from '../../utils/quests.js';
 
 wrap(() => {
   const setting = settings.register({
-    name: 'Disable Quest Completed Notifications',
+    name: 'Disable Quest Highlight',
     key: 'underscript.disable.questHighlight',
   });
 
-  if (setting.value()) return; // TODO: Split into a setting to disable just the toast and a setting to disable highlighting.
+  if (setting.value()) return;
   const questSelector = 'input[type="submit"][value="Claim"]:not(:disabled)';
 
   eventManager.on(':loaded', () => $el.removeClass(document.querySelectorAll('.yellowLink[href="Quests"]'), 'yellowLink'));
   style.add('a.highlightQuest {color: gold !important;}');
 
   function highlightQuest() {
-    if (localStorage.getItem('underscript.quest.clear')) {
-      $('a[href="Quests"]').addClass('highlightQuest');
-    }
+    $('a[href="Quests"]').toggleClass('highlightQuest', localStorage.getItem('underscript.quest.clear') !== null);
   }
 
   function clearHighlight() {
     localStorage.removeItem('underscript.quest.clear');
   }
 
-  function checkHighlight() {
-    axios.get('/Quests').then((response) => {
-      const data = $(response.data);
-      const quests = data.find(questSelector);
-      if (quests.length) {
-        localStorage.setItem('underscript.quest.clear', true);
-        if (onPage('Game')) {
-          let questsCleared = '';
-          quests.each((i, e) => {
-            questsCleared += `- ${translate($(e).parentsUntil('tbody', 'tr').find('span[data-i18n-custom]:first')).text()}\n`;
-          });
-          toast({
-            title: 'Quest Completed!',
-            text: `${questsCleared}Click to go to Quests page`,
-            onClose: () => {
-              location.href = '/Quests';
-            },
-          });
-        } else {
-          highlightQuest();
-        }
-      } else {
-        // Perhaps another tab found a quest at some point...?
-        clearHighlight();
-      }
-    }).catch(noop);
+  function updateQuests(quests) {
+    const completed = quests.filter((q) => q.claimable);
+    if (completed.length) {
+      localStorage.setItem('underscript.quest.clear', true);
+    } else {
+      clearHighlight();
+    }
+    highlightQuest();
   }
 
   if (!localStorage.getItem('underscript.quest.clear')) {
     if (!localStorage.getItem('underscript.quest.skip')) { // TODO: If logged in
-      onPage('', checkHighlight);
+      onPage('', () => fetch(({ quests }) => quests && updateQuests(quests), false));
     }
-    eventManager.on('getVictory getDefeat', checkHighlight);
   }
+
+  eventManager.on('questProgress', updateQuests);
 
   eventManager.on('logout', clearHighlight);
 
