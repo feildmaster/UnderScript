@@ -54,7 +54,7 @@ onPage('Game', () => {
 
       toast({
         title: 'Quest Progress!',
-        text: `${message}Click to go to Quests page`,
+        text: `${message}\nClick to go to Quests page`,
         onClose: () => {
           location.href = '/Quests';
         },

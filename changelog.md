@@ -1,6 +1,6 @@
 # UnderScript Changelog
 
-## Version 0.55.2 (2023-10-16)
+## Version 0.55.3 (2023-10-16)
 1. Fixed another quest bug
 
 ## Version 0.55.1 (2023-10-16)
