@@ -28,7 +28,7 @@ export default class Quest extends Base {
   update(data) {
     if (data instanceof Element) {
       this.#claimable = data.querySelector('input[type="submit"][value="Claim"]:not(:disabled)') !== null;
-      this.#progress = new Progress(data.querySelector('progress.xpBar'));
+      this.#progress = new Progress(data.querySelector('progress'));
       this.#reward = new Reward(data.querySelector('td:nth-last-child(2)'));
     } else if (isQuest(data)) {
       this.#claimable = data.claimable;
