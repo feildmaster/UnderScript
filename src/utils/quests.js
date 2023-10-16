@@ -1,7 +1,6 @@
 import axios from 'axios';
 import eventManager from './eventManager.js';
 import Quest, { getId } from '../structures/quests/Quest.js';
-import onPage from './onPage.js';
 
 /**
  * @type {Map<number, Quest>}
@@ -15,7 +14,7 @@ export function getQuests() {
 
 function update(data, { callback, event = true }) {
   const previous = getQuests().map((q) => q.clone());
-  $(data).find('progress.xpBar').parentsUntil('tbody', 'tr').each((_, el) => {
+  $(data).find('.questTable progress').parentsUntil('tbody', 'tr').each((_, el) => {
     const id = getId(el);
     if (!id) return; // Pass quest or malformed data
     if (quests.has(id)) {

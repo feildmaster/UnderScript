@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.55.1 (2023-10-16)
+1. Fixed quest detection
+
 ## Version 0.55.0 (2023-10-15)
 ### New Features
 1. Implement Bug Tracker (Sentry.io)
@@ -8,7 +11,7 @@
 1. Update google analytics
 ### Plugins
 1. `player:endTurn` event (cancelable)
-1. `plugin.quests.update()`: Updates quests, returns `Promise.then({ quests, previous }).catch(error)``
+1. `plugin.quests.update()`: Updates quests, returns `Promise.then({ quests, previous }).catch(error)`
 1. `plugin.quests.getQuests()`: Gets currently cached quests (empty if update is not called)
 
 ## Version 0.54.1 (2023-08-19)
