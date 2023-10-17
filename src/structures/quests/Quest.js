@@ -15,7 +15,7 @@ export default class Quest extends Base {
     super({ id });
     if (isQuest(data)) {
       this.#args = data.#args;
-      this.#key = data.key;
+      this.#key = data.#key;
     } else if (data instanceof Element) {
       const el = data.querySelector('[data-i18n-custom^="quest"]');
       if (!el) throw new Error('Malformed quest');
@@ -38,13 +38,9 @@ export default class Quest extends Base {
   }
 
   get name() {
-    return translateText(this.key, {
+    return translateText(this.#key, {
       args: this.#args,
     });
-  }
-
-  get key() {
-    return this.#key;
   }
 
   get reward() {
@@ -70,7 +66,6 @@ export default class Quest extends Base {
   toJSON() {
     return {
       id: this.id,
-      key: this.key,
       name: this.name,
       reward: this.reward,
       progress: this.progress,
