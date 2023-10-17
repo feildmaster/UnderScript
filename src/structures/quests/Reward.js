@@ -1,5 +1,3 @@
-import { translateText } from '../../utils/translate.js';
-
 export default class Reward {
   #reward;
   #type;
@@ -37,7 +35,7 @@ function rewardType(el) {
   let temp = el.querySelector('[data-i18n-tips]');
   if (temp) { // Generic reward
     return {
-      type: translateText(temp.dataset.i18nTips),
+      type: getRewardType(temp.dataset.i18nTips),
       value: temp.parentElement.textContent.trim().substring(1),
     };
   }
@@ -73,22 +71,6 @@ function rewardType(el) {
     };
   }
 
-  temp = el.querySelector('.standard-skin');
-  if (temp) {
-    return {
-      type: 'card skin',
-      value: getStyleUrl(temp),
-    };
-  }
-
-  temp = el.querySelector('.full-skin');
-  if (temp) {
-    return {
-      type: 'card skin full',
-      value: getStyleUrl(temp),
-    };
-  }
-
   temp = el.querySelector('.avatar');
   if (temp) {
     return {
@@ -105,6 +87,22 @@ function rewardType(el) {
     };
   }
 
+  temp = el.querySelector('.standard-skin');
+  if (temp) {
+    return {
+      type: 'card skin',
+      value: getStyleUrl(temp),
+    };
+  }
+
+  temp = el.querySelector('.full-skin');
+  if (temp) {
+    return {
+      type: 'card skin full',
+      value: getStyleUrl(temp),
+    };
+  }
+
   throw new Error('unknown reward type');
 }
 
@@ -112,4 +110,18 @@ function getStyleUrl(el) {
   const img = el.querySelector('cardImage');
   const style = img.currentStyle || window.getComputedStyle(img, true) || img.style;
   return style.backgroundImage.slice(4, -1).replace(/"/g, '');
+}
+
+function getRewardType(string) {
+  switch (string) {
+    // TODO: Convert to constants
+    case 'reward-gold': return 'Gold';
+    case 'reward-shiny-pack': return 'Shiny Pack';
+    case 'reward-pack': return 'Pack';
+    case 'reward-dr-pack': return 'DR Pack';
+    case 'reward-dust': return 'Dust';
+    case 'reward-dt-fragment': return 'DT Fragment';
+    // If anything new comes through
+    default: return string;
+  }
 }
