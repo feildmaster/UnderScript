@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.55.5 (2023-10-17)
+1. More quest stuff (Thank CMD_God)
+
 ## Version 0.55.4 (2023-10-17)
 1. Fix quest reward bug
 
