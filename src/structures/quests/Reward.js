@@ -71,7 +71,10 @@ function rewardType(el) {
   if (temp) {
     return {
       type: 'avatar',
-      value: temp.src,
+      value: {
+        image: temp.src,
+        rarity: temp.classList[1],
+      },
     };
   }
 
