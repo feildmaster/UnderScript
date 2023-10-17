@@ -8,7 +8,7 @@ export default ({
   let text;
   try {
     text = $.i18n(id, ...data);
-  } catch (_) {
+  } catch {
     text = 'ERROR';
   }
   $.i18n().locale = l;

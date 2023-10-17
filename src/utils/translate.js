@@ -1,4 +1,5 @@
 import { global } from './global.js';
+import toLocale from './toLocale.js';
 
 export default (element) => {
   element = element instanceof $ ? element : $(element);
@@ -18,9 +19,23 @@ export default (element) => {
 export function translateText(text, {
   args = [],
   fallback = text,
+  locale,
 } = {}) {
   if (window.$?.i18n) {
-    const val = $.i18n(text, ...args);
+    const val = (() => {
+      if (locale && $.i18n().locale !== locale) {
+        const temp = toLocale({
+          id: text,
+          data: args,
+          locale,
+        });
+        if (temp === 'ERROR') {
+          return text;
+        }
+        return temp;
+      }
+      return $.i18n(text, ...args);
+    })();
     if (val !== text) return val;
   }
   return fallback;
