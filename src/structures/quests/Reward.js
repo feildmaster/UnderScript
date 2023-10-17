@@ -1,3 +1,5 @@
+import Skin from '../card/skin.js';
+
 export default class Reward {
   #reward;
   #type;
@@ -59,15 +61,9 @@ function rewardType(el) {
 
   temp = el.querySelector('[data-skin-type]');
   if (temp) {
-    const { card, skinAuthor, skinImage, skinName, skinType } = temp.dataset;
     return {
-      type: skinType === '0' ? 'card skin' : 'card skin full',
-      value: {
-        author: skinAuthor,
-        card,
-        image: `${location.origin}/images/cards/${skinImage}.png`,
-        name: skinName,
-      },
+      type: 'card skin',
+      value: new Skin(temp.dataset),
     };
   }
 
