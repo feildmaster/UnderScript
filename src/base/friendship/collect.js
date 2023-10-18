@@ -6,6 +6,7 @@ import * as hover from '../../utils/hover.js';
 import each from '../../utils/each.js';
 import some from '../../utils/some.js';
 import clear from '../../utils/clear.js';
+import Item from '../../structures/constants/item.js';
 
 const setting = settings.register({
   name: 'Disable Collect All',
@@ -45,11 +46,11 @@ function collect() {
 
 function getLabel(type = '') {
   switch (type) {
-    case 'GOLD': return '<img src="/images/icons/gold.png" class="height-16">';
-    case 'DUST': return '<img src="/images/icons/dust.png" class="height-16">';
-    case 'PACK': return '<img src="/images/icons/pack.png" class="height-16">';
-    case 'DR_PACK': return '<img src="/images/icons/drPack.png" class="height-16">';
-    default: return type.toLowerCase();
+    case Item.GOLD: return '<img src="/images/icons/gold.png" class="height-16">';
+    case Item.DUST: return '<img src="/images/icons/dust.png" class="height-16">';
+    case Item.UT_PACK: return '<img src="/images/icons/pack.png" class="height-16">';
+    case Item.DR_PACK: return '<img src="/images/icons/drPack.png" class="height-16">';
+    default: return type.valueOf().toLowerCase();
   }
 }
 
