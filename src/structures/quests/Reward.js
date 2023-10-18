@@ -1,4 +1,5 @@
 import Skin from '../card/skin.js';
+import Item from '../constants/item.js';
 
 export default class Reward {
   #reward;
@@ -36,8 +37,9 @@ export default class Reward {
 function rewardType(el) {
   let temp = el.querySelector('[data-i18n-tips]');
   if (temp) { // Generic reward
+    const type = temp.dataset.i18nTips;
     return {
-      type: getRewardType(temp.dataset.i18nTips),
+      type: Item.find(type) || type,
       value: temp.parentElement.textContent.trim().substring(1),
     };
   }
@@ -45,7 +47,7 @@ function rewardType(el) {
   temp = el.querySelector('[data-i18n-custom="quests-ucp"]');
   if (temp) {
     return {
-      type: 'UCP',
+      type: Item.UCP,
       value: temp.dataset.i18nArgs,
     };
   }
@@ -87,18 +89,4 @@ function rewardType(el) {
   }
 
   throw new Error('unknown reward type');
-}
-
-function getRewardType(string) {
-  switch (string) {
-    // TODO: Convert to constants
-    case 'reward-gold': return 'Gold';
-    case 'reward-shiny-pack': return 'Shiny Pack';
-    case 'reward-pack': return 'Pack';
-    case 'reward-dr-pack': return 'DR Pack';
-    case 'reward-dust': return 'Dust';
-    case 'reward-dt-fragment': return 'DT Fragment';
-    // If anything new comes through
-    default: return string;
-  }
 }
