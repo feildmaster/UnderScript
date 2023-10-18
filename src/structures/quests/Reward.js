@@ -86,29 +86,7 @@ function rewardType(el) {
     };
   }
 
-  temp = el.querySelector('.standard-skin');
-  if (temp) {
-    return {
-      type: 'card skin',
-      value: getStyleUrl(temp),
-    };
-  }
-
-  temp = el.querySelector('.full-skin');
-  if (temp) {
-    return {
-      type: 'card skin full',
-      value: getStyleUrl(temp),
-    };
-  }
-
   throw new Error('unknown reward type');
-}
-
-function getStyleUrl(el) {
-  const img = el.querySelector('cardImage');
-  const style = img.currentStyle || window.getComputedStyle(img, true) || img.style;
-  return style.backgroundImage.slice(4, -1).replace(/"/g, '');
 }
 
 function getRewardType(string) {
