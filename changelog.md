@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.55.6 (2023-10-19)
+1. Breaking quest stuff, CMD_God will need to update :sad:
+
 ## Version 0.55.5 (2023-10-17)
 1. More quest stuff (Thank CMD_God)
 

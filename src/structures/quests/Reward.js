@@ -56,7 +56,7 @@ function rewardType(el) {
   if (temp) {
     const { textContent: text } = temp.attributes.onmouseover;
     return {
-      type: 'card',
+      type: Item.CARD,
       value: text.substring(text.indexOf(',') + 1, text.indexOf(')')).trim(),
     };
   }
@@ -64,7 +64,7 @@ function rewardType(el) {
   temp = el.querySelector('[data-skin-type]');
   if (temp) {
     return {
-      type: 'card skin',
+      type: Item.SKIN,
       value: new Skin(temp.dataset),
     };
   }
@@ -72,7 +72,7 @@ function rewardType(el) {
   temp = el.querySelector('.avatar');
   if (temp) {
     return {
-      type: 'avatar',
+      type: Item.AVATAR,
       value: {
         image: temp.src,
         rarity: temp.classList[1],
@@ -80,10 +80,18 @@ function rewardType(el) {
     };
   }
 
+  temp = el.querySelector('[src*="/emotes/"]');
+  if (temp) {
+    return {
+      type: Item.EMOTE,
+      value: temp.src,
+    };
+  }
+
   temp = el.querySelector('[src*="/profiles/"]');
   if (temp) {
     return {
-      type: 'profile',
+      type: Item.PROFILE,
       value: temp.src,
     };
   }
