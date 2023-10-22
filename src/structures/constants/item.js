@@ -4,6 +4,8 @@ export default class Item extends Constant {
   static GOLD = new Item('Gold', 'gold', 'GOLD', 'reward-gold');
   static UCP = new Item('UCP', 'ucp', 'reward-ucp');
   static DUST = new Item('Dust', 'dust', 'DUST', 'reward-dust');
+  static EXP = new Item('XP', 'xp', 'exp', 'experience', 'stat-xp');
+  static ELO = new Item('elo');
   static DT_FRAGMENT = new Item('DT Fragment', 'ragment', 'dt fragment', 'reward-dt-fragment');
 
   static UT_PACK = new Item('Pack', 'pack', 'PACK', 'reward-pack');
