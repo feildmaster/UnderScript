@@ -37,6 +37,10 @@ wrap(() => {
         }
         settings.registerType(type, plugin.addStyle);
       },
+      value(key) {
+        if (!settings.exists(key)) return undefined;
+        return settings.value(key);
+      },
     };
     return () => Object.freeze(obj);
   }

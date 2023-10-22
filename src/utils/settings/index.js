@@ -292,6 +292,10 @@ function removeSetting(setting, el) {
   }
 }
 
+export function exists(key) {
+  return key in settingReg;
+}
+
 export function exportSettings() {
   const localSet = {};
   const extras = ['underscript.notice.'];
