@@ -31,7 +31,7 @@ export const mod = new Proxy(modules, {
 
 window.underscript = new Proxy(underscript, {
   get(...args) {
-    return Reflect.get(...args);
+    return new Proxy(Reflect.get(...args), { set() {} });
   },
   set() {},
 });
