@@ -1,5 +1,10 @@
 # UnderScript Changelog
 
+## Version 0.56.0 (2023-10-22)
+### Plugins
+1. Added a few more Constants
+1. Added `plugin.settings().value(key)` lookup
+
 ## Version 0.55.6 (2023-10-19)
 1. Breaking quest stuff, CMD_God will need to update :sad:
 
