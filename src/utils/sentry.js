@@ -4,15 +4,15 @@ const GUEST = {
   id: 0,
   username: 'Guest',
 };
-const dsn = '__SENTRY__';
 
 function invalid() {
-  return !window.Sentry;
+  return typeof Sentry === 'undefined';
 }
 
 export function init() {
   if (invalid()) return;
   const config = {
+    dsn: '__SENTRY__',
     release: 'underscript@__VERSION__',
     replaysSessionSampleRate: 0.1,
     replaysOnErrorSampleRate: 1.0,
@@ -24,7 +24,6 @@ export function init() {
       user: GUEST,
     },
   };
-  if (dsn) config.dsn = dsn;
   Sentry.init(config);
 }
 

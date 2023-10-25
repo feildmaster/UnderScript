@@ -43,6 +43,7 @@ jobs:
       run: npm publish # Publish builds automatically
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        SENTRY_DSN: ${{ vars.SENTRY_DSN }}
     - name: Tag and Release
       uses: softprops/action-gh-release@v1
       with:
