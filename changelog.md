@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.56.1 (2024-01-21)
+1. Add support for older browsers
+
 ## Version 0.56.0 (2023-10-22)
 ### Plugins
 1. Added a few more Constants

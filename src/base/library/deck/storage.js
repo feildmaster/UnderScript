@@ -6,6 +6,7 @@ import * as hover from '../../../utils/hover.js';
 import style from '../../../utils/style.js';
 import * as deckLoader from '../../../utils/loadDeck.js';
 import compound from '../../../utils/compoundEvent.js';
+import hasOwn from '../../../utils/hasOwn.js';
 
 const setting = settings.register({
   name: 'Disable Deck Storage',
@@ -69,7 +70,7 @@ onPage('Decks', function deckStorage() {
       const key = getKey(id);
       const deck = JSON.parse(localStorage.getItem(key));
       if (!deck) return;
-      if (!Object.hasOwn(deck, 'cards')) {
+      if (!hasOwn(deck, 'cards')) {
         localStorage.setItem(key, JSON.stringify({
           cards: deck,
           artifacts: [],

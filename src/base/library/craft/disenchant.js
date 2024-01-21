@@ -9,6 +9,7 @@ import onPage from '../../../utils/onPage.js';
 import * as hover from '../../../utils/hover.js';
 import each from '../../../utils/each.js';
 import { captureError } from '../../../utils/sentry.js';
+import hasOwn from '../../../utils/hasOwn.js';
 
 const setting = settings.register({
   name: 'Disable Smart Disenchanting',
@@ -180,8 +181,7 @@ onPage('Crafting', function disenchantWrapper() {
     global('collection').filter((card) => cardFilter(card, shiny, priority, deltarune))
       .forEach(({ id, name, shiny: isShiny, rarity, quantity }) => {
         if (priority) {
-          // eslint-disable-next-line no-prototype-builtins
-          if (!cards.hasOwnProperty(id)) {
+          if (!hasOwn(cards, id)) {
             const max = cardHelper.max(rarity);
             if (!max) return;
             cards[id] = {

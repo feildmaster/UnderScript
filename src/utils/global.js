@@ -1,10 +1,11 @@
 import { debug } from './debug.js';
+import hasOwn from './hasOwn.js';
 
 export function global(...key) {
   const {
     throws = true,
   } = typeof key[key.length - 1] === 'object' ? key.pop() : {};
-  const found = key.find((e) => Object.hasOwn(window, e));
+  const found = key.find((e) => hasOwn(window, e));
   if (found === undefined) {
     const msg = `[${key.join(',')}] does not exist`;
     if (throws) throw new Error(msg);
@@ -16,7 +17,7 @@ export function global(...key) {
 export function globalSet(key, value, {
   throws = true,
 } = {}) {
-  if (!Object.hasOwn(window, key)) {
+  if (!hasOwn(window, key)) {
     const msg = `[${key}] does not exist`;
     if (throws) throw new Error(msg);
     return debug(msg);

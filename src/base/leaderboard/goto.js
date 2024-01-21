@@ -4,10 +4,11 @@ import { debug } from '../../utils/debug.js';
 import onPage from '../../utils/onPage.js';
 import VarStore from '../../utils/VarStore.js';
 import changePage from '../vanilla/pageSelect.js';
+import hasOwn from '../../utils/hasOwn.js';
 
 function set(type, value, replace = true) {
   if (history.state &&
-    Object.hasOwn(history.state, type) &&
+    hasOwn(history.state, type) &&
     history.state[type] === value) return;
   const func = replace && !userLast() ? history.replaceState : history.pushState;
   const o = {};
