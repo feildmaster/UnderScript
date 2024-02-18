@@ -107,7 +107,7 @@ export default class Deck extends Base {
     // this.setRaw(`meta.${key}`, value);
   }
 
-  #getRaw(key) {
+  #getRaw(key) { // TODO: Store all data in `${this.key}.meta`?
     this.#checkLocal();
     return localStorage.getItem(key ? `${this.key}.${key}` : this.key) ?? '';
   }
@@ -123,6 +123,6 @@ export default class Deck extends Base {
   }
 
   #checkLocal() {
-    if (!this.#owner || !this.#soul || !this.index) throw new Error('Not a local deck');
+    if (!this.#owner || !this.#soul || !this.id) throw new Error('Not a local deck');
   }
 }
