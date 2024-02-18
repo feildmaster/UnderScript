@@ -1,6 +1,6 @@
 import SettingType from './setting.js';
 
-export default class Boolean extends SettingType {
+export default class extends SettingType {
   constructor(name = 'boolean') { // Allows extension
     super(name);
   }
