@@ -1,7 +1,7 @@
 import eventManager from '../../utils/eventManager.js';
 import * as settings from '../../utils/settings/index.js';
 import { global, globalSet } from '../../utils/global.js';
-import { getSeasonMonth } from '../../utils/season.js';
+import { isApril, AUDIO } from '../../utils/isApril.js';
 
 const baseVolumeSettings = { type: 'slider', page: 'Audio', max: 0.5, step: 0.01, default: 0.2, reset: true };
 let active = false;
@@ -85,12 +85,12 @@ function pauseMusic() {
     .forEach((audio) => audio.pause());
 }
 
-function isApril() {
-  return getSeasonMonth() === 4;
-}
-
 function enableAprilFools() {
   return isApril() && aprilFoolsMusic.value;
+}
+
+function musicPath() {
+  return enableAprilFools() ? AUDIO : 'musics';
 }
 
 function overrideResult(name) {
@@ -102,8 +102,7 @@ function overrideResult(name) {
     this.super(data.name);
     return;
   }
-  const path = enableAprilFools() ? 'afm' : 'musics';
-  createAudio(`/${path}/${data.name}.ogg`, {
+  createAudio(`/${musicPath()}/${data.name}.ogg`, {
     volume: resultVolume.value(),
     repeat: true,
     set: 'music',
@@ -118,8 +117,7 @@ function overrideMusic(name) {
     this.super(data.name);
     return;
   }
-  const path = enableAprilFools() ? 'afm' : 'musics';
-  createAudio(`/${path}/themes/${data.name}.ogg`, {
+  createAudio(`/${musicPath()}/themes/${data.name}.ogg`, {
     volume: bgmVolume.value(),
     repeat: true,
     set: 'music',
@@ -147,8 +145,7 @@ function overrideJingle(name = '') {
     this.super(data.name);
     return;
   }
-  const path = enableAprilFools() ? 'afm' : 'musics';
-  createAudio(`/${path}/cards/${data.name.replace(/ /g, '_')}.ogg`, {
+  createAudio(`/${musicPath()}/cards/${data.name.replace(/ /g, '_')}.ogg`, {
     volume: jingleVolume.value(),
     set: 'jingle',
     listener: global('jingleEnd'),
