@@ -3,16 +3,14 @@ import * as settings from '../../utils/settings/index.js';
 import { global } from '../../utils/global.js';
 
 // Restore sound on refresh
-eventManager.on('getReconnection connect', () => {
-  if (settings.value('gameMusicDisabled')) return;
+eventManager.once('getReconnection connect', () => {
   let playing = false;
-  const music = global('music');
-  music.addEventListener('play', () => {
+  global('music').addEventListener('play', () => {
     playing = true;
   });
   function restoreSound() {
-    if (playing) return;
-    music.play();
+    if (playing || settings.value('gameMusicDisabled')) return;
+    global('music').play();
   }
   document.addEventListener('click', restoreSound, { once: true, passive: true });
 });

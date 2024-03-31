@@ -1,5 +1,9 @@
 # UnderScript Changelog
 
+## Version 0.56.2 (2024-03-31)
+1. Fixed broken sound code
+1. Fixed broken backgrounds
+
 ## Version 0.56.1 (2024-01-21)
 1. Add support for older browsers
 
