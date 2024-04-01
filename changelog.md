@@ -1,6 +1,7 @@
 # UnderScript Changelog
 
-## Version 0.56.2 (2024-03-31)
+## Version 0.56.3 (2024-03-31)
+1. Removed broken googletagmanager
 1. Fixed broken sound code
 1. Fixed broken backgrounds
 

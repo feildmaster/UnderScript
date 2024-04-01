@@ -8,7 +8,6 @@
 // @match        https://feildmaster.github.io/UnderScript/*
 // @exclude      https://*.undercards.net/*/*
 // @require      https://browser.sentry-cdn.com/7.73.0/bundle.tracing.replay.min.js
-// @require      https://www.googletagmanager.com/gtag/js?id=G-32N9M5BWMR
 // @require      https://unpkg.com/showdown@2.0.0/dist/showdown.min.js
 // @require      https://unpkg.com/popper.js@1.16.1/dist/umd/popper.min.js
 // @require      https://unpkg.com/tippy.js@4.3.5/umd/index.all.min.js
