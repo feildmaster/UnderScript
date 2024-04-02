@@ -20,6 +20,13 @@ export default class Slider extends Text {
       .on('change.script', (e) => update(e.target.value));
   }
 
+  value(val) {
+    if (Number.isNaN(val)) {
+      return parseFloat(val);
+    }
+    return val;
+  }
+
   styles() {
     return [
       '.flex-start input[type="range"] { flex-grow: 1; }',

@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.57.0 (2024-04-01)
+1. Adjust music volume while in settings
+
 ## Version 0.56.3 (2024-03-31)
 1. Removed broken googletagmanager
 1. Fixed broken sound code

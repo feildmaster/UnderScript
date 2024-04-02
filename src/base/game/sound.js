@@ -6,6 +6,12 @@ import { isApril, AUDIO } from '../../utils/isApril.js';
 const baseVolumeSettings = { type: 'slider', page: 'Audio', max: 0.5, step: 0.01, default: 0.2, reset: true };
 let active = false;
 
+function updateVolume(key, volume) {
+  const audio = global(key, { throws: false });
+  if (!(audio instanceof Audio)) return;
+  audio.volume = volume;
+}
+
 const enable = settings.register({
   name: 'Enable Audio Override',
   key: 'underscript.audio.override',
@@ -42,6 +48,9 @@ const bgmVolume = settings.register({
   name: 'BGM volume',
   key: 'underscript.audio.bgm.volume',
   default: 0.1,
+  onChange(val) {
+    updateVolume('music', val);
+  },
 });
 const resultEnabled = settings.register({
   name: 'Enable result music',
@@ -78,6 +87,9 @@ const jingleVolume = settings.register({
   ...baseVolumeSettings,
   name: 'Card jingle volume',
   key: 'underscript.audio.jingle.volume',
+  onChange(val) {
+    updateVolume('jingle', val);
+  },
 });
 
 function pauseMusic() {
