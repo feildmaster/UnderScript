@@ -2,6 +2,7 @@
 
 ## Version 0.57.0 (2024-04-01)
 1. Adjust music volume while in settings
+1. Added filter for tribes
 
 ## Version 0.56.3 (2024-03-31)
 1. Removed broken googletagmanager

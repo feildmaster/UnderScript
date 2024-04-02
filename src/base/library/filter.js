@@ -8,7 +8,7 @@ const crafting = onPage('Crafting');
 const decks = onPage('Decks');
 
 const base = {
-  onChange: applyLook,
+  onChange: () => applyLook(),
   category: 'Filter',
   page: 'Library',
 };
@@ -18,11 +18,18 @@ const setting = settings.register({
   name: 'Disable filter',
   key: 'underscript.deck.filter.disable',
 });
+
 const splitBaseGen = settings.register({
   ...base,
   name: 'Split Based and Token',
   key: 'underscript.deck.filter.split',
   default: true,
+});
+
+const tribe = settings.register({
+  ...base,
+  name: 'Tribe button',
+  key: 'underscript.deck.filter.tribe',
 });
 
 const shiny = settings.register({
@@ -33,19 +40,10 @@ const shiny = settings.register({
   default: 'Deck',
 });
 
-// eslint-disable-next-line no-unused-vars
-const tribe = settings.register({
-  ...base,
-  name: 'Tribe button',
-  key: 'underscript.deck.filter.tribe',
-  hidden: true,
-});
-
 style.add(
   '.filter input+* {  opacity: 0.4; }',
   '.filter input:checked+* {  opacity: 1; }',
-  '.filter #baseGenInput:disabled, .filter #baseGenInput:disabled+* { display: none; }',
-  '.filter #shinyInput:disabled, .filter #shinyInput:disabled+* { display: none; }',
+  '.filter input:disabled, .filter input:disabled+* { display: none; }',
 );
 
 function applyLook(refresh = decks || crafting) {
@@ -58,9 +56,15 @@ function applyLook(refresh = decks || crafting) {
         .after(createButton('TOKEN'));
     } else if (setting.value() || !splitBaseGen.value()) {
       $('#baseGenInput').prop('checked', false).prop('disabled', false);
-      $('.customRarityInput').parent().remove();
+      $('.customInput.rarityInput').parent().remove();
     }
   }
+
+  // Tribe filter
+  if (tribe.value() && !$('#allTribeInput').length) {
+    $('#monsterInput').parent().before(createTribeButton(), ' ');
+  }
+  $('#allTribeInput').prop('disabled', !tribe.value());
 
   $('#shinyInput').prop('disabled', mergeShiny());
   if (refresh) {
@@ -92,7 +96,12 @@ eventManager.on(':loaded:Decks :loaded:Crafting', () => {
     }
     // Rarity
     // Type
-    // Family
+    // Tribe
+    if (!removed && tribe.value()) {
+      if ($('#allTribeInput').prop('checked')) {
+        return !card.tribes.length;
+      }
+    }
     // Search
     // Owned/Unowned
     // fall back for now
@@ -109,9 +118,17 @@ function splitGenerated() {
 }
 
 function createButton(type) {
-  return $(`<label>
-    <input type="checkbox" id="${type.toLowerCase()}RarityInput" class="rarityInput customRarityInput"
-    rarity="${type}" onchange="applyFilters(); showPage(0);">
+  return $(`
+  <label>
+    <input type="checkbox" id="${type.toLowerCase()}RarityInput" class="rarityInput customInput" rarity="${type}" onchange="applyFilters(); showPage(0);">
     <img src="images/rarity/BASE_${type}.png">
+  </label>`);
+}
+
+function createTribeButton(type = 'ALL') {
+  return $(`
+  <label>
+    <input type="checkbox" id="${type.toLowerCase()}TribeInput" class="tribeInput customInput" onchange="applyFilters(); showPage(0);">
+    <img src="images/tribes/${type}.png">
   </label>`);
 }
