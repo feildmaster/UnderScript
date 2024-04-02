@@ -3,14 +3,23 @@ import * as settings from '../../utils/settings/index.js';
 import { global, globalSet } from '../../utils/global.js';
 import style from '../../utils/style.js';
 import onPage from '../../utils/onPage.js';
+import { translateText } from '../../utils/translate.js';
+import { max } from '../../utils/cardHelper.js';
 
 export const crafting = onPage('Crafting');
 export const decks = onPage('Decks');
 export const filters = [
-  function templateFilter(card, removed = false) {
+  /**
+   * @param {Card} card
+   * @param {boolean} removed
+   * @returns {boolean | undefined}
+   */
+  function templateFilter(card, removed) {
     return removed;
   },
 ];
+
+filters.shift(); // Remove template
 
 const base = {
   onChange: () => applyLook(),
@@ -38,6 +47,12 @@ const tribe = settings.register({
   key: 'underscript.deck.filter.tribe',
 });
 
+const owned = settings.register({
+  ...base,
+  name: 'Collection dropdown',
+  key: 'underscript.deck.filter.collection',
+});
+
 const shiny = settings.register({
   ...base,
   name: 'Merge Shiny Cards',
@@ -47,6 +62,7 @@ const shiny = settings.register({
 });
 
 style.add(
+  '#ownedType { margin-bottom: 10px; }',
   '.filter input+* {  opacity: 0.4; }',
   '.filter input:checked+* {  opacity: 1; }',
   '.filter input:disabled, .filter input:disabled+* { display: none; }',
@@ -73,6 +89,15 @@ function applyLook(refresh = decks || crafting) {
     $('#allTribeInput').parent().remove();
   }
   $('#allTribeInput').prop('disabled', !tribe.value());
+
+  const allCardsElement = $('[data-i18n="[html]crafting-all-cards"]');
+  if (setting.value() || !owned.value()) {
+    $('#collectionType').remove();
+    allCardsElement.toggleClass('invisible', false);
+  } else if (!$('#collectionType').length) {
+    allCardsElement.toggleClass('invisible', true)
+      .after(ownSelect());
+  }
 
   $('#shinyInput').prop('disabled', mergeShiny());
   if (refresh) {
@@ -116,6 +141,19 @@ function allTribeButton() {
   </label>`);
 }
 
+function ownSelect() {
+  return $(`
+  <select id="collectionType" onchange="applyFilters(); showPage(0);">
+    <option value="all">${translateText('crafting-all-cards')}</option>
+    <option value="owned">Owned cards</option>
+    <option value="unowned">Unowned cards</option>
+    <option value="maxed">Maxed cards</option>
+    <option value="surplus">Surplus cards</option>
+    <option value="craftable">Craftable cards</option>
+  </select>
+  `);
+}
+
 filters.push(
   function basicFilter(card) {
     // Rarity, Type, Extension, Search
@@ -150,7 +188,18 @@ filters.push(
   function searchFilter(card, removed) { // Custom keywords
     return removed;
   },
-  function unownedFilter(card, removed) { // Crafting only
+  function ownedFilter(card, removed) {
+    if (!removed && crafting && owned.value()) {
+      switch ($('#collectionType').val()) {
+        case 'owned': return !card.quantity;
+        case 'unowned': return card.quantity > 0;
+        case 'maxed': return card.quantity < max(card.rarity);
+        case 'surplus': return card.quantity <= max(card.rarity);
+        case 'craftable': return card.quantity >= max(card.rarity) || card.rarity === 'DETERMINATION';
+        case 'all': // fall-through
+        default: break;
+      }
+    }
     return removed;
   },
 );

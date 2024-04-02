@@ -1,8 +1,13 @@
 # UnderScript Changelog
 
 ## Version 0.57.0 (2024-04-01)
-1. Adjust music volume while in settings
+### New Features
 1. Added filter for tribes
+1. Added filters for crafting collection
+### Misc.
+1. Adjust music volume while in settings
+### Plugin
+1. Added method for plugins to add own collection filters `plugin.addFilter()`
 
 ## Version 0.56.3 (2024-03-31)
 1. Removed broken googletagmanager
