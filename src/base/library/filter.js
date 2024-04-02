@@ -4,17 +4,24 @@ import { global, globalSet } from '../../utils/global.js';
 import style from '../../utils/style.js';
 import onPage from '../../utils/onPage.js';
 
-const crafting = onPage('Crafting');
-const decks = onPage('Decks');
+export const crafting = onPage('Crafting');
+export const decks = onPage('Decks');
+export const filters = [
+  function templateFilter(card, removed = false) {
+    return removed;
+  },
+];
 
 const base = {
   onChange: () => applyLook(),
   category: 'Filter',
   page: 'Library',
+  default: true,
 };
 
 const setting = settings.register({
   ...base,
+  default: false,
   name: 'Disable filter',
   key: 'underscript.deck.filter.disable',
 });
@@ -23,7 +30,6 @@ const splitBaseGen = settings.register({
   ...base,
   name: 'Split Based and Token',
   key: 'underscript.deck.filter.split',
-  default: true,
 });
 
 const tribe = settings.register({
@@ -61,8 +67,10 @@ function applyLook(refresh = decks || crafting) {
   }
 
   // Tribe filter
-  if (tribe.value() && !$('#allTribeInput').length) {
+  if (!setting.value() && tribe.value() && !$('#allTribeInput').length) {
     $('#monsterInput').parent().before(createTribeButton(), ' ');
+  } else if (setting.value()) {
+    $('#allTribeInput').parent().remove();
   }
   $('#allTribeInput').prop('disabled', !tribe.value());
 
@@ -77,35 +85,14 @@ eventManager.on(':loaded:Decks :loaded:Crafting', () => {
   // Update filter visuals
   applyLook(false);
   globalSet('isRemoved', function newFilter(card) {
-    let removed = this.super(card);
-    if (setting.value()) return removed;
-    // Shiny - This works, is ugly
-    if (removed && mergeShiny()) {
-      card.shiny = !card.shiny;
-      removed = this.super(card); // If it would still hide, fine.
-      card.shiny = !card.shiny;
-    }
-    // Show base/gen if relevant
-    if (!removed && splitGenerated()) {
-      if (card.rarity === 'BASE' && !card.shiny && !$('#baseRarityInput').prop('checked')) {
-        return true;
+    if (setting.value()) return this.super(card);
+    return filters.reduce((removed, func) => {
+      const val = func.call(this, card, removed);
+      if (typeof val === 'boolean') {
+        return val;
       }
-      if (card.rarity === 'TOKEN' && !$('#tokenRarityInput').prop('checked')) {
-        return true;
-      }
-    }
-    // Rarity
-    // Type
-    // Tribe
-    if (!removed && tribe.value()) {
-      if ($('#allTribeInput').prop('checked')) {
-        return !card.tribes.length;
-      }
-    }
-    // Search
-    // Owned/Unowned
-    // fall back for now
-    return removed;
+      return removed;
+    }, false);
   });
 });
 
@@ -132,3 +119,42 @@ function createTribeButton(type = 'ALL') {
     <img src="images/tribes/${type}.png">
   </label>`);
 }
+
+filters.push(
+  function basicFilter(card) {
+    // Rarity, Type, Extension, Search
+    return this.super(card);
+  },
+  function shinyFilter(card, removed) {
+    if (removed && mergeShiny()) {
+      return this.super({
+        ...card,
+        shiny: !card.shiny,
+      });
+    }
+    return removed;
+  },
+  function baseGenFilter(card, removed) {
+    if (!removed && splitGenerated()) {
+      if (card.rarity === 'BASE' && !card.shiny && !$('#baseRarityInput').prop('checked')) {
+        return true;
+      }
+      if (card.rarity === 'TOKEN' && !$('#tokenRarityInput').prop('checked')) {
+        return true;
+      }
+    }
+    return removed;
+  },
+  function tribeFilter(card, removed) {
+    if (!removed && tribe.value() && $('#allTribeInput').prop('checked')) {
+      return !card.tribes.length;
+    }
+    return removed;
+  },
+  function searchFilter(card, removed) { // Custom keywords
+    return removed;
+  },
+  function unownedFilter(card, removed) { // Crafting only
+    return removed;
+  },
+);
