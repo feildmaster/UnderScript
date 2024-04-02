@@ -62,7 +62,7 @@ const shiny = settings.register({
 });
 
 style.add(
-  '#ownedType { margin-bottom: 10px; }',
+  '#collectionType { margin-bottom: 10px; }',
   '.filter input+* {  opacity: 0.4; }',
   '.filter input:checked+* {  opacity: 1; }',
   '.filter input:disabled, .filter input:disabled+* { display: none; }',
@@ -71,22 +71,22 @@ style.add(
 function applyLook(refresh = decks || crafting) {
   $('input[onchange^="applyFilters();"]').parent().parent().toggleClass('filter', !setting.value());
   if (crafting) {
-    if (!setting.value() && splitBaseGen.value() && !$('#baseRarityInput').length) {
+    if (setting.value() || !splitBaseGen.value()) {
+      $('#baseGenInput').prop('checked', false).prop('disabled', false);
+      $('.rarityInput.custom').parent().remove();
+    } else if (!$('#baseRarityInput').length) {
       // Add BASE
       $('#commonRarityInput').parent().before(createButton('BASE'), ' ');
       $('#baseGenInput').prop('checked', true).prop('disabled', true).parent()
         .after(createButton('TOKEN'));
-    } else if (setting.value() || !splitBaseGen.value()) {
-      $('#baseGenInput').prop('checked', false).prop('disabled', false);
-      $('.rarityInput.custom').parent().remove();
     }
   }
 
   // Tribe filter
-  if (!setting.value() && tribe.value() && !$('#allTribeInput').length) {
-    $('#monsterInput').parent().before(allTribeButton(), ' ');
-  } else if (setting.value()) {
+  if (setting.value()) {
     $('#allTribeInput').parent().remove();
+  } else if (!$('#allTribeInput').length) {
+    $('#monsterInput').parent().before(allTribeButton(), ' ');
   }
   $('#allTribeInput').prop('disabled', !tribe.value());
 
