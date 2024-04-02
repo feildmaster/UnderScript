@@ -62,13 +62,13 @@ function applyLook(refresh = decks || crafting) {
         .after(createButton('TOKEN'));
     } else if (setting.value() || !splitBaseGen.value()) {
       $('#baseGenInput').prop('checked', false).prop('disabled', false);
-      $('.customInput.rarityInput').parent().remove();
+      $('.rarityInput.custom').parent().remove();
     }
   }
 
   // Tribe filter
   if (!setting.value() && tribe.value() && !$('#allTribeInput').length) {
-    $('#monsterInput').parent().before(createTribeButton(), ' ');
+    $('#monsterInput').parent().before(allTribeButton(), ' ');
   } else if (setting.value()) {
     $('#allTribeInput').parent().remove();
   }
@@ -100,23 +100,19 @@ function mergeShiny() {
   return shiny.value() === 'Always' || (decks && shiny.value() === 'Deck');
 }
 
-function splitGenerated() {
-  return crafting && splitBaseGen.value();
-}
-
 function createButton(type) {
   return $(`
   <label>
-    <input type="checkbox" id="${type.toLowerCase()}RarityInput" class="rarityInput customInput" rarity="${type}" onchange="applyFilters(); showPage(0);">
+    <input type="checkbox" id="${type.toLowerCase()}RarityInput" class="rarityInput custom" rarity="${type}" onchange="applyFilters(); showPage(0);">
     <img src="images/rarity/BASE_${type}.png">
   </label>`);
 }
 
-function createTribeButton(type = 'ALL') {
+function allTribeButton() {
   return $(`
   <label>
-    <input type="checkbox" id="${type.toLowerCase()}TribeInput" class="tribeInput customInput" onchange="applyFilters(); showPage(0);">
-    <img src="images/tribes/${type}.png">
+    <input type="checkbox" id="allTribeInput" onchange="applyFilters(); showPage(0);">
+    <img src="images/tribes/ALL.png">
   </label>`);
 }
 
@@ -135,7 +131,7 @@ filters.push(
     return removed;
   },
   function baseGenFilter(card, removed) {
-    if (!removed && splitGenerated()) {
+    if (!removed && crafting && splitBaseGen.value()) {
       if (card.rarity === 'BASE' && !card.shiny && !$('#baseRarityInput').prop('checked')) {
         return true;
       }
