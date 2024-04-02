@@ -4,6 +4,7 @@
 ### New Features
 1. Added filter for tribes
 1. Added filters for crafting collection
+1. Cleaned the filter buttons so it looks less cluttered
 ### Misc.
 1. Adjust music volume while in settings
 ### Plugin
