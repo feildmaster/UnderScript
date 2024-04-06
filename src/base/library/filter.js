@@ -142,6 +142,10 @@ function allTribeButton() {
 }
 
 function ownSelect() {
+  if (!global('translationReady', { throws: false })) {
+    eventManager.once('translation:loaded', () => applyLook(false));
+    return '';
+  }
   return $(`
   <select id="collectionType" onchange="applyFilters(); showPage(0);">
     <option value="all">${translateText('crafting-all-cards')}</option>
@@ -196,7 +200,7 @@ filters.push(
         case 'maxed': return card.quantity < max(card.rarity);
         case 'surplus': return card.quantity <= max(card.rarity);
         case 'craftable': return card.quantity >= max(card.rarity) || card.rarity === 'DETERMINATION';
-        case 'all': // fall-through
+        case 'all':
         default: break;
       }
     }
