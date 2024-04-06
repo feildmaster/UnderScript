@@ -1,6 +1,7 @@
 # UnderScript Changelog
 
-## Version 0.57.1 (2024-04-05)
+## Version 0.57.1 (2024-04-06)
+1. Made filtered buttons dimmer
 1. Made Shiny filtered button bigger
 1. Fixed collection dropdown filter translation error
 

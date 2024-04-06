@@ -28,6 +28,7 @@ function refresh() {
   if (apply()) {
     styles.replace(
       '.filter input { display: none; }',
+      '.filter input+* { margin: 0 2px; opacity: 0.2; }',
       '.filter .rainbowText { padding: 0px 5px; font-size: 22px; }',
     );
   } else {
