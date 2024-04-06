@@ -1,6 +1,7 @@
 # UnderScript Changelog
 
 ## Version 0.57.1 (2024-04-05)
+1. Made Shiny filtered button bigger
 1. Fixed collection dropdown filter translation error
 
 ## Version 0.57.0 (2024-04-01)
