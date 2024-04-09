@@ -11,8 +11,8 @@ wrap(() => {
         if (e.shiftKey) return;
         e.preventDefault();
         const form = $(e.currentTarget).parent();
-        const parent = $(form.parents('table.table-condensed, div')[0]);
-        const image = parent.find('img')[0].outerHTML;
+        const parent = getParent(form);
+        const image = parent.find('img')[0]?.outerHTML || '[Failed to detect image]';
         const cost = parent.find('span[class=ucp]:first').text();
         global('BootstrapDialog').show({
           title: 'Buy with UCP?',
@@ -35,3 +35,11 @@ wrap(() => {
       });
   });
 });
+
+function getParent(form) {
+  const table = $(form.parents('table, div')[0]);
+  if (table.find('img').length) {
+    return table;
+  }
+  return table.parent().parent();
+}
