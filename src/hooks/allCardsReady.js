@@ -2,14 +2,14 @@ import eventManager from '../utils/eventManager.js';
 import { global } from '../utils/global.js';
 
 eventManager.on(':loaded', () => {
-  function call(cards = global('allCards')) {
+  function call(cards) {
     eventManager.singleton.emit('allCardsReady', cards);
   }
   const allCards = global('allCards', {
     throws: false,
   });
   if (!allCards || !allCards.length) {
-    document.addEventListener('allCardsReady', call);
+    document.addEventListener('allCardsReady', () => call(global('allCards')));
   } else {
     call(allCards);
   }
