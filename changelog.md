@@ -1,7 +1,9 @@
 # UnderScript Changelog
 
-## Version 0.57.2 (2024-04-06)
+## Version 0.57.2 (2024-04-10)
 1. Fixed display bug with cosmetic confirmation purchases
+1. Fixed bug loading all cards
+1. Fixed bug loading plugin styles
 
 ## Version 0.57.1 (2024-04-06)
 1. Made filtered buttons dimmer

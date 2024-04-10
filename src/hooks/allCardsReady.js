@@ -8,7 +8,13 @@ eventManager.on(':loaded', () => {
   const allCards = global('allCards', {
     throws: false,
   });
-  if (!allCards || !allCards.length) {
+  if (!allCards) {
+    const cached = localStorage.getItem('allCards');
+    if (!cached) return;
+    const parsed = JSON.parse(cached);
+    window.allCards = parsed;
+    call(parsed);
+  } else if (!allCards.length) {
     document.addEventListener('allCardsReady', () => call(global('allCards')));
   } else {
     call(allCards);
