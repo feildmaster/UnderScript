@@ -17,6 +17,7 @@ export function newStyle(plugin = false) {
   function add(...styles) {
     const hasChildren = styles.length || el.children.length;
     if (loaded && hasChildren) appendStyle();
+    else if (!loaded) eventManager.once(':loaded', () => appendStyle());
     return wrapper(append(styles));
   }
 
