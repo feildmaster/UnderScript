@@ -1,3 +1,4 @@
+import { SOCKET_SCRIPT_CLOSED } from '../utils/1.variables.js';
 import eventManager from '../utils/eventManager.js';
 import { debug } from '../utils/debug.js';
 import { global, globalSet } from '../utils/global.js';
@@ -18,7 +19,6 @@ function handleClose(event) {
 
 function bind(socketChat) {
   const oHandler = socketChat.onmessage;
-  let closed = false;
   socketChat.onmessage = (event) => {
     const data = JSON.parse(event.data);
     const { action } = data;
@@ -46,9 +46,7 @@ function bind(socketChat) {
   };
   const oClose = socketChat.onclose;
   socketChat.onclose = (e) => {
-    if (closed) return;
-    closed = true;
-    oClose();
+    if (e.code !== SOCKET_SCRIPT_CLOSED) oClose();
     eventManager.emit('Chat:Disconnected');
     handleClose(e);
   };
@@ -85,7 +83,7 @@ function reconnect() {
       default: {
         console.debug('Message:', action);
         // Need to stop connecting?
-        socket.close(3500, 'reconnect');
+        socket.close(SOCKET_SCRIPT_CLOSED, 'reconnect');
       }
     }
   };
@@ -101,6 +99,16 @@ function getMessages({ discussionHistory, otherHistory }) {
   return history;
 }
 
+function sendMessageWrapper(...args) {
+  if (global('socketChat').readyState !== WebSocket.OPEN) {
+    updateIfActive(); // TODO: Have a way to detect activity other than manually resetting it
+    reconnect();
+    eventManager.once('Chat:Reconnected', () => this.super(...args));
+  } else {
+    this.super(...args);
+  }
+}
+
 document.addEventListener('visibilitychange', () => {
   if (global('socketChat', { throws: false })?.readyState !== WebSocket.CLOSED) return;
   reconnect();
@@ -111,8 +119,12 @@ eventManager.on(':loaded', () => {
     debug('Chat detected');
     eventManager.singleton.emit('ChatDetected');
 
-    const socketChat = global('socketChat');
-    bind(socketChat);
+    bind(global('socketChat'));
+
+    // Attempt to reconnect when sending messages
+    globalSet('sendMessage', sendMessageWrapper);
+    globalSet('sendPrivateMessage', sendMessageWrapper);
+
     // Simulate old getHistory
     globalSet('appendChat', function appendChat(idRoom = '', chatMessages = [], isPrivate = true) {
       const room = `chat-${isPrivate ? 'private' : 'public'}-${idRoom}`;
