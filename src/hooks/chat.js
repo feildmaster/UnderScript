@@ -1,6 +1,110 @@
 import eventManager from '../utils/eventManager.js';
 import { debug } from '../utils/debug.js';
 import { global, globalSet } from '../utils/global.js';
+import VarStore from '../utils/VarStore.js';
+import { isActive, updateIfActive } from './session.js';
+
+// TODO: Use Message object
+// TODO: Better history management
+let reconnectAttempts = 0;
+const guestMode = VarStore(false);
+const historyIds = new Set();
+
+function handleClose(event) {
+  console.debug('Disconnected', event);
+  if (event.code !== 1000) return;
+  setTimeout(reconnect, 1000 * reconnectAttempts);
+}
+
+function bind(socketChat) {
+  const oHandler = socketChat.onmessage;
+  let closed = false;
+  socketChat.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    const { action } = data;
+    debug(data, `debugging.rawchat.${action}`);
+
+    if (action === 'getMessage' && data.idRoom) { // For new chat.
+      data.room = `chat-public-${data.idRoom}`;
+      data.open = global('openPublicChats').includes(data.idRoom);
+    } else if (action === 'getPrivateMessage' && data.idFriend) {
+      data.idRoom = data.idFriend;
+      data.room = `chat-private-${data.idRoom}`;
+      data.open = Array.isArray(global('privateChats')[data.idRoom]);
+    }
+
+    eventManager.emit('preChatMessage', data);
+    if (eventManager.cancelable.emit(`preChat:${action}`, data).canceled) return;
+    oHandler(event);
+    eventManager.emit('ChatMessage', data);
+    eventManager.emit(`Chat:${action}`, data);
+
+    if (action === 'getSelfInfos') {
+      eventManager.singleton.emit('Chat:Connected');
+      getMessages(data);
+    }
+  };
+  const oClose = socketChat.onclose;
+  socketChat.onclose = (e) => {
+    if (closed) return;
+    closed = true;
+    oClose();
+    eventManager.emit('Chat:Disconnected');
+    handleClose(e);
+  };
+}
+
+function reconnect() {
+  if (!isActive() || guestMode.isSet() || reconnectAttempts > 3 || global('socketChat').readyState !== WebSocket.CLOSED) return;
+  reconnectAttempts += 1;
+  const socket = new WebSocket(`wss://${location.hostname}/chat`);
+  globalSet('socketChat', socket);
+  socket.onmessage = (event) => {
+    if (global('socketChat') !== socket) return;
+    const data = JSON.parse(event.data);
+    const { action } = data;
+    switch (action) {
+      case 'getSelfInfos': { // We're only connected if we get self info
+        // Reconnected
+        socket.onmessage = global('onMessageChat');
+        socket.onclose = global('onCloseChat');
+        bind(socket);
+
+        // Process Messages
+        const history = getMessages(data);
+        const append = global('appendMessage');
+        history.forEach((message) => {
+          if ($(`#message-${message.id}`).length) return;
+          append(message, message.idRoom, false);
+        });
+
+        eventManager.emit('Chat:Reconnected');
+        reconnectAttempts = 0;
+        break;
+      }
+      default: {
+        console.debug('Message:', action);
+        // Need to stop connecting?
+        socket.close(3500, 'reconnect');
+      }
+    }
+  };
+  socket.onclose = handleClose;
+}
+
+function getMessages({ discussionHistory, otherHistory }) {
+  const history = [
+    ...JSON.parse(discussionHistory),
+    ...JSON.parse(otherHistory),
+  ].filter(({ id }) => !historyIds.has(id));
+  history.forEach(({ id }) => historyIds.add(id));
+  return history;
+}
+
+document.addEventListener('visibilitychange', () => {
+  if (global('socketChat', { throws: false })?.readyState !== WebSocket.CLOSED) return;
+  reconnect();
+});
 
 eventManager.on(':loaded', () => {
   if (typeof socketChat !== 'undefined') {
@@ -8,31 +112,7 @@ eventManager.on(':loaded', () => {
     eventManager.singleton.emit('ChatDetected');
 
     const socketChat = global('socketChat');
-    const oHandler = socketChat.onmessage;
-    socketChat.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      const { action } = data;
-      debug(data, `debugging.rawchat.${action}`);
-
-      if (action === 'getMessage' && data.idRoom) { // For new chat.
-        data.room = `chat-public-${data.idRoom}`;
-        data.open = global('openPublicChats').includes(data.idRoom);
-      } else if (action === 'getPrivateMessage' && data.idFriend) {
-        data.idRoom = data.idFriend;
-        data.room = `chat-private-${data.idRoom}`;
-        data.open = Array.isArray(global('privateChats')[data.idRoom]);
-      }
-
-      eventManager.emit('preChatMessage', data);
-      if (eventManager.cancelable.emit(`preChat:${action}`, data).canceled) return;
-      oHandler(event);
-      eventManager.emit('ChatMessage', data);
-      eventManager.emit(`Chat:${action}`, data);
-
-      if (action === 'getSelfInfos') {
-        eventManager.singleton.emit('Chat:Connected');
-      }
-    };
+    bind(socketChat);
     // Simulate old getHistory
     globalSet('appendChat', function appendChat(idRoom = '', chatMessages = [], isPrivate = true) {
       const room = `chat-${isPrivate ? 'private' : 'public'}-${idRoom}`;
@@ -74,4 +154,14 @@ eventManager.on(':loaded', () => {
       });
     });
   }
+
+  eventManager.on('GuestMode', () => {
+    console.debug('Guest Mode');
+    guestMode.set(true);
+  });
+
+  eventManager.on('Chat:Reconnected', () => {
+    console.debug('Reconnected');
+    $('.chat-messages').find('.red:last').remove();
+  });
 });
