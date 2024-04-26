@@ -5,8 +5,7 @@
   if (!sessionStorage.getItem(key)) {
     sessionStorage.setItem(key, '1'); // Set instantly to prevent multiple alerts happening
     const message = "Looks like you don't have UnderScript installed, or you deactivated it! In order for plugins to work, you need to have it up and running. Until then, the features of this userscript will simply not work. Thank you for your understanding.";
-  
-    let alerted = true;
+
     if (window.SimpleToast) {
       SimpleToast({
         title: 'Missing Requirements',
@@ -27,10 +26,8 @@
         }],
       });
     } else {
-      alerted = false;
+      sessionStorage.removeItem(key)
     }
-  
-    if (!alerted) sessionStorage.removeItem(key);
   }
 
   throw new Error(`${pluginName}: UnderScript required`);
