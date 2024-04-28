@@ -2,8 +2,9 @@ import eventManager from '../../utils/eventManager.js';
 import * as settings from '../../utils/settings/index.js';
 import { global } from '../../utils/global.js';
 import { toast as SimpleToast } from '../../utils/2.toasts.js';
+import { self, name } from '../../utils/user.js';
 
-settings.register({
+const setting = settings.register({
   name: 'Announcement',
   key: 'underscript.announcement.draws',
   type: 'select',
@@ -13,37 +14,41 @@ settings.register({
   category: 'Legendary Card',
 });
 
+const ignoreSelf = settings.register({
+  name: 'Ignore Self',
+  key: 'underscript.announcement.draws.notSelf',
+  page: 'Chat',
+  category: 'Legendary Card',
+  default: true,
+});
+
 const toasts = [];
 let toastIndex = 0;
-function getToast(owner) {
+function getToast(user) {
   const now = Date.now();
-  for (let i = 0; i < toasts.length; i++) {
-    const toast = toasts[i];
-    if (toast && toast.exists() && owner === toast.owner && toast.time + 1000 > now) {
-      return toast;
-    }
-  }
-  return null;
+  return toasts.find(({ exists, owner, time }) => exists() && owner === user && time + 1000 > now);
 }
 
+// test method: plugin.events.emit.cancelable('preChat:getMessageAuto', { message: JSON.stringify({ args: JSON.stringify(['chat-legendary-notification', 'user', 'card']) }) })
 const events = ['chat-legendary-notification', 'chat-legendary-shiny-notification'];
 eventManager.on('preChat:getMessageAuto', function drawAnnouncement(data) {
-  const message = JSON.parse(JSON.parse(data.message).args);
-  if (this.canceled || !events.includes(message[0])) return;
-  const setting = settings.value('underscript.announcement.draws');
-  if (setting === 'chat') return;
-  const both = setting === 'both';
+  const [event, user, card] = JSON.parse(JSON.parse(data.message).args);
+  if (this.canceled || !events.includes(event)) return;
+  if (ignoreSelf.value() && name(self()) === user) {
+    this.canceled = true;
+    return;
+  }
+  const type = setting.value();
+  if (type === 'chat') return;
+  const both = type === 'both';
   this.canceled = !both;
-  if (both || setting === 'toast') {
-    const owner = message[1];
-    const card = message[2];
-
+  if (both || type === 'toast') {
     const translateFromServerJson = global('translateFromServerJson');
-    const last = getToast(owner);
+    const last = getToast(user);
     if (last) {
       last.cards.unshift(card);
-      message[2] = last.cards.join(', ');
-      last.setText(translateFromServerJson(JSON.stringify({ args: JSON.stringify(message) })));
+      const newText = last.cards.join(', ');
+      last.setText(translateFromServerJson(JSON.stringify({ args: JSON.stringify([event, user, newText]) })));
       last.time = Date.now(); // This toast is still relevant!
       return;
     }
@@ -61,7 +66,7 @@ eventManager.on('preChat:getMessageAuto', function drawAnnouncement(data) {
       },
     });
     toast.cards = [card];
-    toast.owner = owner;
+    toast.owner = user;
     toast.time = Date.now();
     toasts[toastIndex] = toast;
     toastIndex = (toastIndex + 1) % 3;
