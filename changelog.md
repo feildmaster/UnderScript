@@ -1,5 +1,13 @@
 # UnderScript Changelog
 
+## Version 0.58.0 (2024-04-27)
+### New Features
+1. Automatically attempt to reconnect to chat
+1. Ignore self legend messages
+### Plugin
+1. Added [script](https://raw.githubusercontent.com/UCProjects/UnderScript/master/src/checkerV2.js) to validate underscript for plugins to utilize in their code
+  - This is easier to use than the [old one](https://raw.githubusercontent.com/UCProjects/UnderScript/master/src/checker.js)
+
 ## Version 0.57.2 (2024-04-10)
 1. Fixed display bug with cosmetic confirmation purchases
 1. Fixed bug loading all cards
