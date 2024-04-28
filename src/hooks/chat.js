@@ -53,7 +53,7 @@ function bind(socketChat) {
 }
 
 function reconnect() {
-  if (!isActive() || guestMode.isSet() || reconnectAttempts > 3 || global('socketChat').readyState !== WebSocket.CLOSED) return;
+  if (!isActive() || guestMode.isSet() || reconnectAttempts > 3 || global('socketChat', { throws: false })?.readyState !== WebSocket.CLOSED) return;
   reconnectAttempts += 1;
   const socket = new WebSocket(`wss://${location.hostname}/chat`);
   globalSet('socketChat', socket);
@@ -109,11 +109,6 @@ function sendMessageWrapper(...args) {
   }
 }
 
-document.addEventListener('visibilitychange', () => {
-  if (global('socketChat', { throws: false })?.readyState !== WebSocket.CLOSED) return;
-  reconnect();
-});
-
 eventManager.on(':loaded', () => {
   if (typeof socketChat !== 'undefined') {
     debug('Chat detected');
@@ -124,6 +119,8 @@ eventManager.on(':loaded', () => {
     // Attempt to reconnect when sending messages
     globalSet('sendMessage', sendMessageWrapper);
     globalSet('sendPrivateMessage', sendMessageWrapper);
+    // Attempt to reconnect when coming back to this window
+    document.addEventListener('visibilitychange', () => reconnect());
 
     // Simulate old getHistory
     globalSet('appendChat', function appendChat(idRoom = '', chatMessages = [], isPrivate = true) {
@@ -145,27 +142,28 @@ eventManager.on(':loaded', () => {
     }, {
       throws: false,
     });
-    eventManager.on('Chat:getHistory', ({ room, roomName: name }) => {
-      // Send text hook
-      const messages = $(`#${room} .chat-messages`);
-      $(`#${room} input[type="text"]`).keydown(function sending(e) {
-        if (e.which !== 13) return;
-
-        const data = {
-          room,
-          name,
-          messages,
-          input: this,
-        };
-        if (eventManager.cancelable.emit('Chat:send', data).canceled) {
-          debug('Canceled send');
-          $(this).val('');
-          e.preventDefault();
-          e.stopPropagation();
-        }
-      });
-    });
   }
+
+  eventManager.on('Chat:getHistory', ({ room, roomName: name }) => {
+    // Send text hook
+    const messages = $(`#${room} .chat-messages`);
+    $(`#${room} input[type="text"]`).keydown(function sending(e) {
+      if (e.which !== 13) return;
+
+      const data = {
+        room,
+        name,
+        messages,
+        input: this,
+      };
+      if (eventManager.cancelable.emit('Chat:send', data).canceled) {
+        debug('Canceled send');
+        $(this).val('');
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    });
+  });
 
   eventManager.on('GuestMode', () => {
     console.debug('Guest Mode');

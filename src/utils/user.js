@@ -29,7 +29,7 @@ export function isStaff(user) {
 }
 
 function isPriority(user, priority) {
-  if (!user || !user.mainGroup || typeof user.mainGroup.priority !== 'number') throw new Error('Invalid user');
+  if (typeof user?.mainGroup?.priority !== 'number') throw new Error('Invalid user');
   return user.mainGroup.priority <= priority;
 }
 
@@ -50,7 +50,7 @@ export function getArtifacts() {
 }
 
 export function getAllArtifacts() { // TODO: This isn't really a "user" function
-  return getDeckConfig().then(({ allArtifacts: data }) => parse(data));
+  return getDeckConfig().then(({ allArtifacts: data = [] }) => parse(data));
 }
 
 function getDeckConfig() {

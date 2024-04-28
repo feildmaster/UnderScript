@@ -4,4 +4,6 @@ export const footer2 = '<div style="width:100%;text-align:center;font-size:12px;
 export const hotkeys = [];
 export const scriptVersion = GM_info.script.version;
 
+export const SOCKET_SCRIPT_CLOSED = 3500;
+
 export function noop() {}

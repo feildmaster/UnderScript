@@ -10,9 +10,10 @@ export default class Chat {
   update(data) {
     switch (data.action) {
       case 'getMessage':
-      case 'getPrivateMessage':
+      case 'getPrivateMessage': {
         // TODO: Add new message
         break;
+      }
       default: break;
     }
   }
