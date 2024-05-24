@@ -315,7 +315,7 @@ onPage('Packs', async function quickOpenPack() {
     });
   }
 
-  const types = ['', 'DR', 'Shiny', 'Super', 'Final'];
+  const types = ['', 'DR', 'UTY', 'Shiny', 'Super', 'Final'];
   api.register('openPacks', (count, type = '') => {
     if (openingPacks()) throw new Error('Currently opening packs');
     if (!types.includes(type)) throw new Error(`Unsupported Pack: ${type}`);

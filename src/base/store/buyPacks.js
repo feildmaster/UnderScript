@@ -11,13 +11,15 @@ wrap(() => {
     type, count, gold,
   }) {
     if (gold) { // Gold error checking
+      const goldCost = type === 'UTY' ? 200 : 100;
       const g = parseInt($('#golds').text(), 10);
-      if (g < 100 * count) {
+      if (g < goldCost * count) {
         throw new Error('Not enough Gold');
       }
     } else { // UCP error checking
+      const ucpCost = type === 'UTY' ? 20 : 10;
       const ucp = parseInt($('#ucp').text(), 10);
-      if (ucp < 10 * count) {
+      if (ucp < ucpCost * count) {
         throw new Error('Not enough UCP');
       }
     }
@@ -34,21 +36,22 @@ wrap(() => {
     });
   }
 
-  function getCount(e, cost) {
-    if (e.ctrlKey) return Math.floor(parseInt($(cost ? '#ucp' : '#golds').text(), 10) / (cost ? 10 : 100));
+  function getCount(e, cost, baseCost) {
+    if (e.ctrlKey) return Math.floor(parseInt($(cost ? '#ucp' : '#golds').text(), 10) / (cost ? baseCost / 10 : baseCost));
     if (e.altKey) return 10;
     return 1;
   }
 
   eventManager.on(':loaded:Packs', () => {
-    const types = ['', 'DR'];
+    const types = ['', 'DR', 'UTY'];
 
     types.forEach((type) => {
       ['', 'Ucp'].forEach((cost) => {
         const el = document.querySelector(`#btn${cost}${type}Add`);
         el.onclick = null;
         el.addEventListener('click', (e) => {
-          const count = getCount(e, cost);
+          const price = type === 'UTY' ? 200 : 100;
+          const count = getCount(e, cost, price);
           if (!count) return;
           const data = {
             count,
@@ -58,7 +61,7 @@ wrap(() => {
           if (cost && !e.shiftKey) {
             global('BootstrapDialog').show({
               title: 'Buy packs with UCP?',
-              message: $.i18n(`Buy ${count} pack${count > 1 ? 's' : ''} for {{UCP:${count * 10}}} UCP?`),
+              message: $.i18n(`Buy ${count} pack${count > 1 ? 's' : ''} for {{UCP:${count * (price / 10)}}} UCP?`),
               buttons: [{
                 label: $.i18n('dialog-continue'),
                 cssClass: 'btn-success',
@@ -84,7 +87,7 @@ wrap(() => {
 
     api.register('buyPacks', (count, { type = '', gold = true } = {}) => {
       if (!types.includes(type)) throw new Error(`Unsupported Pack: ${type}`);
-      if (Number.isNaN(count)) throw new Error(`Count(${count}) must be a number`);
+      if (!Number.isInteger(count) || count < 1) throw new Error(`Count(${count}) must be a number`);
       buyPacks({
         type,
         count,
