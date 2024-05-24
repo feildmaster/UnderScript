@@ -16,14 +16,15 @@ const setting = settings.register({
   key: 'underscript.disable.disenchant',
   default: true,
   refresh: onPage('Crafting'),
-  note: 'Disabled until remade.',
+  note: 'Enable at own risk',
   category: 'Crafting',
   page: 'Library',
-  disabled: true,
 });
 
 onPage('Crafting', function disenchantWrapper() {
   if (setting.disabled || setting.value()) return;
+  let processing = false;
+
   eventManager.on('jQuery', () => {
     const button = $('<button class="btn btn-info">Smart Disenchant</button>');
     button.click(onclick);
@@ -82,6 +83,7 @@ onPage('Crafting', function disenchantWrapper() {
   }
 
   function updateOrToast(toast, message) {
+    processing = false;
     if (toast.exists()) {
       toast.setText(message);
     } else {
@@ -90,9 +92,10 @@ onPage('Crafting', function disenchantWrapper() {
   }
 
   function disenchant(cards) {
-    if (!cards.length) return;
+    if (!cards.length || processing) return;
+    processing = true;
     const toast = fnToast('Please wait while disenchanting.<br />(this may take a while)');
-    axios.all(build(cards))
+    axios.all(build(cards.splice(0)))
       .then(process)
       .then((response) => {
         if (!response) throw new Error('All errored out');
