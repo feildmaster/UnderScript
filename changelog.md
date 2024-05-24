@@ -1,5 +1,9 @@
 # UnderScript Changelog
 
+## Version 0.58.1 (2024-05-24)
+1. Re-enabled smart disenchant
+  - This is still at your own risk, and you must manually enable it in settings.
+
 ## Version 0.58.0 (2024-04-27)
 ### New Features
 1. Automatically attempt to reconnect to chat
