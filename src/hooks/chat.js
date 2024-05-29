@@ -13,7 +13,7 @@ const historyIds = new Set();
 
 function handleClose(event) {
   console.debug('Disconnected', event);
-  if (event.code !== 1000) return;
+  if (![1000, 1006].includes(event.code)) return;
   setTimeout(reconnect, 1000 * reconnectAttempts);
 }
 
@@ -52,7 +52,7 @@ function bind(socketChat) {
   };
 }
 
-function reconnect() {
+export default function reconnect() {
   if (!isActive() || guestMode.isSet() || reconnectAttempts > 3 || global('socketChat', { throws: false })?.readyState !== WebSocket.CLOSED) return;
   reconnectAttempts += 1;
   const socket = new WebSocket(`wss://${location.hostname}/chat`);
