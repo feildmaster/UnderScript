@@ -48,6 +48,7 @@ wrap(() => {
     types.forEach((type) => {
       ['', 'Ucp'].forEach((cost) => {
         const el = document.querySelector(`#btn${cost}${type}Add`);
+        if (!el) return;
         el.onclick = null;
         el.addEventListener('click', (e) => {
           const price = type === 'UTY' ? 200 : 100;

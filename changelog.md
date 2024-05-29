@@ -1,5 +1,9 @@
 # UnderScript Changelog
 
+## Version 0.58.2 (2024-05-29)
+1. Fixed broken pack buying API
+1. Added more cases where chat will reconnect
+
 ## Version 0.58.1 (2024-05-24)
 1. Re-enabled smart disenchant
   - This is still at your own risk, and you must manually enable it in settings.
