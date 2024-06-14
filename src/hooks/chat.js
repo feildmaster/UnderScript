@@ -52,8 +52,8 @@ function bind(socketChat) {
   };
 }
 
-export default function reconnect() {
-  if (!isActive() || guestMode.isSet() || reconnectAttempts > 3 || global('socketChat', { throws: false })?.readyState !== WebSocket.CLOSED) return;
+export default function reconnect(force = false) {
+  if (!force && (!isActive() || guestMode.isSet() || reconnectAttempts > 3 || global('socketChat', { throws: false })?.readyState !== WebSocket.CLOSED)) return;
   reconnectAttempts += 1;
   const socket = new WebSocket(`wss://${location.hostname}/chat`);
   globalSet('socketChat', socket);
