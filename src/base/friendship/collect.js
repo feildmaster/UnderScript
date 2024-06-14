@@ -50,6 +50,8 @@ function getLabel(type = '') {
     case Item.DUST: return '<img src="/images/icons/dust.png" class="height-16">';
     case Item.UT_PACK: return '<img src="/images/icons/pack.png" class="height-16">';
     case Item.DR_PACK: return '<img src="/images/icons/drPack.png" class="height-16">';
+    case Item.UTY_PACK: return '<img src="/images/icons/utyPack.png" class="height-16">';
+    case Item.SHINY_PACK: return '<img src="/images/icons/shinyPack.png" class="height-16">';
     default: return type.valueOf().toLowerCase();
   }
 }
