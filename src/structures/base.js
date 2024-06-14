@@ -10,4 +10,10 @@ export default class Base {
   }
 
   update(data) {}
+
+  toJSON() {
+    return {
+      id: this.id,
+    };
+  }
 }

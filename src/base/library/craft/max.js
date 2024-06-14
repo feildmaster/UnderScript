@@ -32,11 +32,14 @@ onPage('Crafting', function craftMax() {
     const rarity = cardHelper.rarity(el);
     if (rarity === 'DETERMINATION') return;
     const max = cardHelper.max(rarity);
-    const limit = max - cardHelper.quantity(el);
-    if (limit <= 0) return;
+    const amount = cardHelper.quantity(el);
+    if (amount >= max) return;
     const cost = cardHelper.dustCost(el);
     const total = cardHelper.totalDust();
-    if (cost > total) return;
+    if (cost > total) {
+      card.hover(hover.show('CTRL Click: insufficient dust'));
+      return;
+    }
     card.hover(hover.show(`CTRL Click: Craft up to max(${max})`))
       .off('click')
       .on('click.script', (e) => {
@@ -44,9 +47,9 @@ onPage('Crafting', function craftMax() {
         const shiny = card.hasClass('shiny');
         if (e.ctrlKey) {
           hover.hide();
-          const l = max - cardHelper.quantity(el);
-          if (l <= 0) return;
-          craftCards(id, shiny, l, cost, total);
+          const count = max - cardHelper.quantity(el);
+          if (count <= 0) return;
+          craftCards(id, shiny, count, cost, total);
         } else {
           global('action')(id, shiny);
         }
