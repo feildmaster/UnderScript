@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.58.3 (2024-06-19)
+1. Fixed friendship shiny packs
+
 ## Version 0.58.2 (2024-05-29)
 1. Fixed broken pack buying API
 1. Added more cases where chat will reconnect
