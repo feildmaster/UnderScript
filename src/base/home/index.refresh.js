@@ -5,6 +5,7 @@ import { debugToast } from '../../utils/debug.js';
 import onPage from '../../utils/onPage.js';
 import decrypt from '../../utils/decrypt.emails.js';
 import translate from '../../utils/translate.js';
+import eventManager from '../../utils/eventManager.js';
 
 const setting = settings.register({
   name: 'Disable Game List Refresh',
@@ -39,6 +40,7 @@ function refresh() {
     const live = $('#liste');
     live.find('tbody').html(translate(list.find('tbody')).html());
     live.prev('p').html(translate(list.prev()).html());
+    eventManager.emit('Home:Refresh');
   }).catch((e) => {
     debugToast(`Index: ${e.message}`);
   }).then(() => {
