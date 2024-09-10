@@ -1,15 +1,11 @@
 export default class Constant {
   #value;
   constructor(value, ...rest) {
-    if (rest.length) {
-      this.#value = [value, ...rest];
-    } else {
-      this.#value = value;
-    }
+    this.#value = [value, ...rest];
   }
 
   equals(other) {
-    return this === other || valueEquals(this.#value, other);
+    return this === other || this.#value.includes(other?.valueOf());
   }
 
   toString() {
@@ -17,18 +13,6 @@ export default class Constant {
   }
 
   valueOf() {
-    const value = this.#value;
-    if (Array.isArray(value)) {
-      return value[0];
-    }
-    return value;
+    return this.#value[0];
   }
-}
-
-function valueEquals(value, other) {
-  const otherValue = other?.valueOf();
-  if (Array.isArray(value)) {
-    return value.includes(otherValue);
-  }
-  return value === otherValue;
 }
