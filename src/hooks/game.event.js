@@ -29,7 +29,7 @@ eventManager.on('GameStart', function gameEvents() {
     const log = JSON.parse(data.battleLog);
     const { ran } = eventManager.emit(`Log:${log.battleLogType}`, log);
     if (!ran) {
-      debugToast(`Unknown action: Log:${data.battleLogType}`);
+      debugToast(`Unknown action: Log:${log.battleLogType}`);
     }
   });
 });
