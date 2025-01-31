@@ -61,8 +61,6 @@ onPage('Decks', function deckStorage() {
     });
 
     $('#deckCardsCanvas').before(container);
-    $('#yourCardList > br').remove();
-    $('#yourCardList').css('margin-bottom', '35px');
 
     eventManager.on('Deck:Soul', loadStorage);
 
