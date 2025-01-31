@@ -10,16 +10,16 @@ wrap(() => {
   function buyPacks({
     type, count, gold,
   }) {
+    const rawCost = document.querySelector(`#btn${gold ? '' : 'Ucp'}${type}Add`).nextElementSibling.textContent;
+    const cost = Number(rawCost);
     if (gold) { // Gold error checking
-      const goldCost = type === 'UTY' ? 200 : 100;
       const g = parseInt($('#golds').text(), 10);
-      if (g < goldCost * count) {
+      if (g < cost * count) {
         throw new Error('Not enough Gold');
       }
     } else { // UCP error checking
-      const ucpCost = type === 'UTY' ? 20 : 10;
       const ucp = parseInt($('#ucp').text(), 10);
-      if (ucp < ucpCost * count) {
+      if (ucp < cost * count) {
         throw new Error('Not enough UCP');
       }
     }
@@ -37,7 +37,7 @@ wrap(() => {
   }
 
   function getCount(e, cost, baseCost) {
-    if (e.ctrlKey) return Math.floor(parseInt($(cost ? '#ucp' : '#golds').text(), 10) / (cost ? baseCost / 10 : baseCost));
+    if (e.ctrlKey) return Math.floor(parseInt($(cost ? '#ucp' : '#golds').text(), 10) / baseCost);
     if (e.altKey) return 10;
     return 1;
   }
@@ -51,7 +51,7 @@ wrap(() => {
         if (!el) return;
         el.onclick = null;
         el.addEventListener('click', (e) => {
-          const price = type === 'UTY' ? 200 : 100;
+          const price = Number(el.nextElementSibling.textContent);
           const count = getCount(e, cost, price);
           if (!count) return;
           const data = {
@@ -62,7 +62,7 @@ wrap(() => {
           if (cost && !e.shiftKey) {
             global('BootstrapDialog').show({
               title: 'Buy packs with UCP?',
-              message: $.i18n(`Buy ${count} pack${count > 1 ? 's' : ''} for {{UCP:${count * (price / 10)}}} UCP?`),
+              message: $.i18n(`Buy ${count} pack${count > 1 ? 's' : ''} for {{UCP:${count * price}}} UCP?`),
               buttons: [{
                 label: $.i18n('dialog-continue'),
                 cssClass: 'btn-success',
