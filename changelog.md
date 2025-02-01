@@ -1,5 +1,15 @@
 # UnderScript Changelog
 
+## Version 0.59.0 (2025-01-31)
+New release for a new year. Enjoy~
+### Fixes
+1. Find pack prices smartly
+1. Fixed some debug messages
+### Plugins
+1. Added `Home:Refresh` event
+1. Added new `Item` keywords
+
+
 ## Version 0.58.3 (2024-06-19)
 1. Fixed friendship shiny packs
 
