@@ -2,6 +2,7 @@
 title: underscript.addStyle()
 categories: underscript
 method: true
+hidden: true
 ---
 Add CSS to the document.
 
