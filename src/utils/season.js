@@ -3,7 +3,7 @@ import eventManager from './eventManager.js';
 
 const startsWith = 'quest-s';
 
-let season = -1;
+let season = Number(sessionStorage.getItem('undercards.season')) || -1;
 
 export function getSeason() {
   return season;
@@ -21,4 +21,5 @@ eventManager.on('translation:loaded', () => {
   if (!seasonKey) return; // Just a fail-safe
 
   season = Number(seasonKey.substring(startsWith.length, seasonKey.indexOf('-', startsWith.length)));
+  sessionStorage.setItem('undercards.season', season);
 });
