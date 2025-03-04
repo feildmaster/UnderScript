@@ -84,6 +84,7 @@ function createSetting(setting = defaultSetting) {
   if (setting.hidden) return null;
   const ret = $('<div>').addClass('flex-start');
   const { key, type } = setting;
+  ret.addClass(getCSSName(type.name));
   const current = value(key);
   const container = $(`<div>`).addClass('flex-stretch');
   const el = $(type.element(current, (...args) => setting.update(...args), {
@@ -370,7 +371,11 @@ export function registerType(type, addStyle = style.add) {
   const name = type.name;
   if (!name || registry.has(name)) throw new Error(`SettingType: "${name}" already exists`);
   registry.set(name, type);
-  addStyle(...type.styles().map((s) => `.underscript-dialog ${s}`));
+  addStyle(...type.styles().map((s) => `.underscript-dialog .${getCSSName(name)} ${s}`));
 }
 
 each(types, (Type) => registerType(new Type()));
+
+function getCSSName(name = '', prefix = 'setting-') {
+  return `${prefix}${name.replaceAll(/[^_a-zA-Z0-9-]/g, '-')}`;
+}
