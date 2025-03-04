@@ -126,7 +126,7 @@ function createSetting(setting = defaultSetting) {
       .text('x')
       .addClass('reset')
       .click(() => {
-        const def = setting.default || '';
+        const def = setting.default ?? '';
         el.val(def); // Manually change
         setting.update(undefined); // Remove and trigger events
       });
