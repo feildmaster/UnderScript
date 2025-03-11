@@ -198,7 +198,7 @@ export default class RegisteredSetting {
     if (converted === null) {
       localStorage.removeItem(key);
     } else if (converted !== undefined) {
-      localStorage.setItem(key, converted);
+      localStorage.setItem(key, this.type.encode(converted));
     }
   }
 
