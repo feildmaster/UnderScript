@@ -64,7 +64,7 @@ export default function eventEmitter() {
           const ret = ev.call(meta, ...data);
           if (async && ret !== undefined) {
             promises.push(Promise.resolve(ret)
-              .then(() => canceled = !!meta.canceled)
+              .then(() => canceled = !!meta.canceled) // This is so broken, should process these one at a time
               .catch((err) => {
                 console.error(`Error occurred while parsing (async) event: ${ev.displayName || ev.name || 'unnamed'}(${event})`, err, ...data);
               }));
@@ -76,17 +76,18 @@ export default function eventEmitter() {
       });
     }
 
-    if (async) {
-      return Promise.all(promises).then(() => ({
+    function results() {
+      return {
         ran,
         canceled: cancelable && canceled,
-      }));
+      };
     }
 
-    return {
-      ran,
-      canceled: cancelable && canceled,
-    };
+    if (async) {
+      return Promise.all(promises).then(results);
+    }
+
+    return results();
   }
 
   function off(event, fn) {
