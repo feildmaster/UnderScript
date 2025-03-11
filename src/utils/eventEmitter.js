@@ -140,6 +140,10 @@ export default function eventEmitter() {
       return this.on(event, wrapper);
     },
     emit: (event, ...data) => emit(event, singletonEvents[event] || events[event], ...data),
+    off(event, fn) {
+      off(event, fn);
+      return this;
+    },
   };
 
   Object.keys(options).forEach((key) => {
