@@ -240,9 +240,11 @@ export function open(page = 'main') {
     }],
     onshown: (diag) => {
       dialog = diag;
+      events.emit('open');
     },
     onhidden: () => {
       dialog = null;
+      events.emit('close');
     },
   });
 }
