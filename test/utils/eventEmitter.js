@@ -10,7 +10,7 @@ const expect = chai.expect;
 describe('EventEmitter', () => {
   let emitter = eventEmitter();
 
-  afterEach(() => {
+  afterEach('Reset state', () => {
     // TODO: Better way to clear events
     emitter = eventEmitter();
   });
@@ -256,6 +256,20 @@ describe('EventEmitter', () => {
         }
         // Event is called 5 times, callback is only 3
         assertInc(3);
+      });
+    });
+
+    describe('off', () => {
+      it('should be called until turned off', () => {
+        function callback() {
+          expect().inc();
+        }
+        emitter.on('test', callback);
+        emitter.emit('test');
+        assertInc(1);
+        emitter.off('test', callback);
+        emitter.emit('test');
+        assertInc(0);
       });
     });
   });
