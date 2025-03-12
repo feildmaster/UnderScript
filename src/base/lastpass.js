@@ -1,7 +1,7 @@
 import eventManager from '../utils/eventManager.js';
 import onPage from '../utils/onPage.js';
 
-eventManager.on(':loaded', () => {
+eventManager.on(':preload', () => {
   if (onPage('Settings') || onPage('SignUp') || onPage('SignIn')) return;
   const type = 'input[type="text"]';
   [...document.querySelectorAll(type)].forEach((el) => {

@@ -39,6 +39,6 @@ function update(value) {
   ));
 }
 
-eventManager.on(':loaded', () => {
+eventManager.on(':preload', () => {
   update(setting.value());
 });

@@ -34,7 +34,7 @@ internal.on('set', (e = PREFIX) => {
   }
 });
 
-eventManager.on(':loaded', () => {
+eventManager.on(':preload', () => {
   const set = globalSet(PREFIX, function appendCard(card, container) {
     internal.emit('pre', card);
     const element = this.super(card, container);

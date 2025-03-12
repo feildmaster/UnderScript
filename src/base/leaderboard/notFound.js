@@ -3,7 +3,7 @@ import { globalSet } from '../../utils/global.js';
 import { toast } from '../../utils/2.toasts.js';
 
 const toasts = {};
-eventManager.on(':loaded:leaderboard', () => {
+eventManager.on(':preload:leaderboard', () => {
   globalSet('findUserRow', function findUserRow(user) {
     const row = this.super(user);
     if (row === -1) {

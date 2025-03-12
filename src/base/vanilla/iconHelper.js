@@ -15,7 +15,7 @@ const icons = {
   'finalPack.gif': 'Final Pack<hr>Contains: <ul><li>Rare x1</li><li>Epic x1</li><li>Legendary x1</li><li>Determination x1</li></ul>',
 };
 
-eventManager.on(':loaded', () => {
+eventManager.on(':preload', () => {
   each(icons, (text, type) => {
     makeTip(`img[src="images/icons/${type}${!~type.indexOf('.') ? '.png' : ''}"]`, text);
   });

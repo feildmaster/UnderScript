@@ -5,7 +5,7 @@ import each from '../utils/each.js';
 const prefix = 'underscript.history.';
 const history = {};
 
-eventManager.on(':loaded', () => {
+eventManager.on(':preload', () => {
   each(localStorage, (data, key = '') => {
     if (!key.startsWith(prefix)) return;
     const id = key.substring(prefix.length);

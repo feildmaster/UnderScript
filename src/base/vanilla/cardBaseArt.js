@@ -19,7 +19,7 @@ function createCard(card) {
   return this.super(card);
 }
 
-eventManager.on(':loaded', () => {
+eventManager.on(':preload', () => {
   if (!window.createCard) return;
   globalSet('createCard', createCard);
 });

@@ -15,7 +15,7 @@ const setting = settings.register({
   },
 });
 
-eventManager.on(':loaded', () => {
+eventManager.on(':preload', () => {
   toggle(!setting.value());
 });
 

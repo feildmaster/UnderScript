@@ -49,7 +49,7 @@ function process(btn) {
   }).catch(captureError);
 }
 
-eventManager.on(':loaded:Friends', () => {
+eventManager.on(':preload:Friends', () => {
   style.add('.deleted { text-decoration: line-through; }');
   $('a[href^="Friends?"]').click(remove);
   globalSet('updateFriends', function updateFriends() {

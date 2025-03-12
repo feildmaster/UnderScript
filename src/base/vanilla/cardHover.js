@@ -8,7 +8,7 @@ function wrapper(...rest) {
   });
 }
 
-eventManager.on(':loaded', () => {
+eventManager.on(':preload', () => {
   const options = {
     throws: false,
   };

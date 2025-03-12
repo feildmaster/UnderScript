@@ -106,7 +106,7 @@ function applyLook(refresh = decks || crafting) {
   }
 }
 
-eventManager.on(':loaded:Decks :loaded:Crafting', () => {
+eventManager.on(':preload:Decks :preload:Crafting', () => {
   // Update filter visuals
   applyLook(false);
   globalSet('isRemoved', function newFilter(card) {

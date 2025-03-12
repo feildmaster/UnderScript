@@ -2,7 +2,7 @@ import Item from '../structures/constants/item.js';
 import eventManager from '../utils/eventManager.js';
 import { global } from '../utils/global.js';
 
-eventManager.on(':loaded:Friendship', () => {
+eventManager.on(':preload:Friendship', () => {
   eventManager.singleton.emit('Friendship:load');
   $(document).ajaxComplete((event, xhr, settings) => {
     if (settings.url !== 'FriendshipConfig') return;

@@ -83,7 +83,7 @@ function fillDeck(e) {
   });
 }
 
-eventManager.on(':loaded:Decks', () => {
+eventManager.on(':preload:Decks', () => {
   style.add('.btn { padding: 5px 6px; }');
   const button = $('<button>');
   const inner = $('<span>');

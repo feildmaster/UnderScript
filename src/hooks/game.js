@@ -8,7 +8,7 @@ function gameHook() {
   debug('Playing Game');
   eventManager.singleton.emit('GameStart');
   eventManager.singleton.emit('PlayingGame');
-  eventManager.on(':loaded', () => {
+  eventManager.on(':preload', () => {
     function callGameHooks(data, original) {
       const run = !eventManager.cancelable.emit('PreGameEvent', data).canceled;
       if (run) {

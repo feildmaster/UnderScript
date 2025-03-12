@@ -19,7 +19,7 @@ function override(...args) {
   this.super(...args);
 }
 
-eventManager.on(':loaded:Crafting', () => {
+eventManager.on(':preload:Crafting', () => {
   globalSet('auto', override);
   globalSet('craft', override);
   globalSet('disenchant', override);

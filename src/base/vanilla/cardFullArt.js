@@ -22,6 +22,6 @@ function toggle() {
   }
 }
 
-eventManager.on(':loaded', () => {
+eventManager.on(':preload', () => {
   if (setting.value()) toggle();
 });

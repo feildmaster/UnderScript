@@ -38,7 +38,7 @@ export default function changePage(page) {
   $('#btnPrevious').prop('disabled', page === 0);
 }
 
-eventManager.on(':loaded', () => {
+eventManager.on(':preload', () => {
   globalSet('showPage', function showPage(page) {
     if (!eventManager.cancelable.emit('preShowPage', page).canceled) {
       this.super(page);

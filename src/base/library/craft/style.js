@@ -1,6 +1,6 @@
 import eventManager from '../../../utils/eventManager.js';
 
-eventManager.on(':loaded:Decks', () => {
+eventManager.on(':preload:Decks', () => {
   const collection = $('#collection');
   collection.css({
     width: '717px',

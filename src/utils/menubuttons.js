@@ -21,7 +21,7 @@ export default function addMenuButton(name, url) {
   return el;
 }
 
-eventManager.on(':loaded', () => {
+eventManager.on(':preload', () => {
   menu = document.querySelector('ul.dropdown-menu[role="menu"]');
   if (!menu) return;
   style.add('.click {cursor: pointer;}');

@@ -42,7 +42,7 @@ wrap(() => {
     return 1;
   }
 
-  eventManager.on(':loaded:Packs', () => {
+  eventManager.on(':preload:Packs', () => {
     const types = ['', 'DR', 'UTY'];
 
     types.forEach((type) => {

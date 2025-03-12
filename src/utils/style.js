@@ -10,14 +10,14 @@ export function newStyle(plugin = false) {
     else el.dataset.underscript = '';
     document.head.append(el);
   }
-  eventManager.on(':loaded', () => {
+  eventManager.on(':preload', () => {
     loaded = true;
   });
 
   function add(...styles) {
     const hasChildren = styles.length || el.children.length;
     if (loaded && hasChildren) appendStyle();
-    else if (!loaded) eventManager.once(':loaded', () => appendStyle());
+    else if (!loaded) eventManager.once(':preload', () => appendStyle());
     return wrapper(append(styles));
   }
 

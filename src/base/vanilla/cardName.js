@@ -22,7 +22,7 @@ function toEnglish(id, ...data) {
   return toLocale({ id, data });
 }
 
-eventManager.on(':loaded', () => {
+eventManager.on(':preload', () => {
   if (!window.createCard || !$.i18n) return;
   globalSet('createCard', createCard);
 });

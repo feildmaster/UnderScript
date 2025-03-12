@@ -15,6 +15,7 @@ const art = VarStore();
 
 function toggle(add = setting.value()) {
   if (art.isSet()) {
+    if (add) return;
     art.get().remove();
   }
   if (add) {
@@ -24,4 +25,4 @@ function toggle(add = setting.value()) {
   }
 }
 
-eventManager.on(':loaded', toggle);
+eventManager.on(':preload', toggle);

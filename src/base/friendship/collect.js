@@ -106,7 +106,7 @@ eventManager.on('Friendship:loaded', () => {
   setupButton(setting.value());
 });
 
-eventManager.on(':loaded:Friendship', () => {
+eventManager.on(':preload:Friendship', () => {
   button = $('<button class="btn btn-info">Collect All</button>');
   setting.on(setupButton);
   button.on('click.script', collect);

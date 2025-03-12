@@ -11,7 +11,7 @@ const setting = settings.register({
   page: 'Game',
 });
 
-compound('GameStart', ':loaded', function rumble() {
+compound('GameStart', ':preload', function rumble() {
   const spectating = onPage('Spectate');
   globalSet('shakeScreen', function shakeScreen(...args) {
     if (!disabled()) this.super(...args);

@@ -17,7 +17,7 @@ export default function updateTip() {
   // eslint-disable-next-line no-underscore-dangle
   target._tippy.popper.querySelector('.onlineFriends').innerHTML = global('selfFriends').filter(({ online }) => online).map((user) => name(user)).join('<br>') || 'None';
 }
-eventManager.on(':loaded', () => {
+eventManager.on(':preload', () => {
   const px = 12;
   style.add(
     '.tippy-tooltip.undercards-theme { background-color: rgba(0,0,0,0.9); font-size: 13px; border: 1px solid #fff; }',

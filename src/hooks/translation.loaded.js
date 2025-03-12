@@ -4,7 +4,7 @@ import { global, globalSet } from '../utils/global.js';
 const READY = 'translationReady';
 let fallback;
 
-eventManager.on(':loaded', () => {
+eventManager.on(':preload', () => {
   if (global(READY, { throws: false })) {
     eventManager.singleton.emit('translation:loaded');
   } else {

@@ -10,5 +10,5 @@ const setting = settings.register({
   refresh: true,
 });
 if (setting.value()) {
-  eventManager.on(':loaded', () => globalSet('fish', false, { throws: false }));
+  eventManager.on(':preload', () => globalSet('fish', false, { throws: false }));
 }

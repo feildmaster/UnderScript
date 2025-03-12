@@ -34,7 +34,7 @@ function setPage(page, max = global('getMaxPage')()) {
   $('#btnPrevious').prop('disabled', page === 0);
 }
 
-eventManager.on(':loaded', () => {
+eventManager.on(':preload', () => {
   if (!global('getMaxPage', { throws: false })) return;
   $('#btnNext').on('click.script', lastPage).hover(hover.show('CTRL Click: Go to last page'));
   $('#btnPrevious').on('click.script', firstPage).hover(hover.show('CTRL Click: Go to first page'));

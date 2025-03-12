@@ -1,7 +1,7 @@
 import eventManager from '../utils/eventManager.js';
 import { global } from '../utils/global.js';
 
-eventManager.on(':loaded', () => {
+eventManager.on(':preload', () => {
   function call(cards) {
     eventManager.singleton.emit('allCardsReady', cards);
   }

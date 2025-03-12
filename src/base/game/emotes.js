@@ -28,7 +28,7 @@ const enemy = settings.register({
   category: 'Emotes',
 });
 
-compound('GameStart', ':loaded', () => {
+compound('GameStart', ':preload', () => {
   self = global('selfId', { throws: false });
   // live = true;
   if (disableSpectating()) {

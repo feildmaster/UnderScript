@@ -109,7 +109,7 @@ function sendMessageWrapper(...args) {
   }
 }
 
-eventManager.on(':loaded', () => {
+eventManager.on(':preload', () => {
   if (typeof socketChat !== 'undefined') {
     debug('Chat detected');
     eventManager.singleton.emit('ChatDetected');

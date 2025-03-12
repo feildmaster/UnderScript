@@ -32,7 +32,7 @@ menu.addButton({
   hidden: () => mode.value() === disabled,
   action: () => update(!streaming()),
 });
-eventManager.on(':loaded', alert);
+eventManager.on(':preload', alert);
 
 function alert() {
   if (!streaming() || mode.value() === silent) return;

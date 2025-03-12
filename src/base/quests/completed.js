@@ -20,7 +20,7 @@ wrap(() => {
     }
   }
 
-  eventManager.on(':loaded:Quests', collectQuests);
+  eventManager.on(':preload:Quests', collectQuests);
   // style.add('progress::before { content: attr(value) " / " attr(max); float: right; color: white; }');
 
   function getBlock() {

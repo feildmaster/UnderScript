@@ -36,4 +36,4 @@ function refresh() {
   }
 }
 
-eventManager.on(':loaded:Decks :loaded:Crafting', refresh);
+eventManager.on(':preload:Decks :preload:Crafting', refresh);

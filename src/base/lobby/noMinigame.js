@@ -11,6 +11,6 @@ const setting = settings.register({
   category: 'Minigames',
 });
 
-compound(':loaded:Play', 'pre:getJoinedQueue', () => {
+compound(':preload:Play', 'pre:getJoinedQueue', () => {
   if (setting.value() && global('miniGameLoaded')) globalSet('miniGameLoaded', false);
 });

@@ -39,7 +39,7 @@ function get(target, prop, R) {
   return Reflect.get(target, prop, R);
 }
 
-eventManager.on(':loaded', () => {
+eventManager.on(':preload', () => {
   if (window.BootstrapDialog) {
     window.BootstrapDialog = new Proxy(window.BootstrapDialog, { construct, get });
   }

@@ -7,7 +7,7 @@ wrap(() => {
     $('input[name="changeAvatar"]').random().click();
   }
 
-  eventManager.on(':loaded:Avatars', () => {
+  eventManager.on(':preload:Avatars', () => {
     $('.avatarsList').prepend(buildButton());
     $('.avatarsList button').click(random);
   });

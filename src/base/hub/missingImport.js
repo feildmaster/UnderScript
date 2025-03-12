@@ -72,4 +72,4 @@ function toObject(cards = []) {
   }, {});
 }
 
-eventManager.on(':loaded:Hub', init);
+eventManager.on(':preload:Hub', init);

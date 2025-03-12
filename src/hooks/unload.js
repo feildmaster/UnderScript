@@ -2,7 +2,7 @@ import { SOCKET_SCRIPT_CLOSED } from '../utils/1.variables.js';
 import eventManager from '../utils/eventManager.js';
 import { getPageName } from '../utils/onPage.js';
 
-eventManager.on(':loaded', () => {
+eventManager.on(':preload', () => {
   function unload() {
     eventManager.emit(':unload');
     eventManager.emit(`:unload:${getPageName()}`);

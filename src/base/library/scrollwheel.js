@@ -10,7 +10,7 @@ const setting = settings.register({
   page: 'Library',
 });
 
-eventManager.on(':loaded:Decks :loaded:Crafting', function scrollwheelLoaded() {
+eventManager.on(':preload:Decks :preload:Crafting', function scrollwheelLoaded() {
   globalSet('onload', function onload() {
     this.super && this.super();
     if (setting.value()) $('#collection').off('mousewheel DOMMouseScroll');

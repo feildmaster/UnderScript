@@ -1,7 +1,7 @@
 import eventManager from '../utils/eventManager.js';
 import { global } from '../utils/global.js';
 
-eventManager.on(':loaded:GamesList', () => {
+eventManager.on(':preload:GamesList', () => {
   eventManager.singleton.emit('enterCustom');
   const socket = global('socket');
   const oHandler = socket.onmessage;

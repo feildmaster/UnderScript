@@ -17,6 +17,6 @@ function override(idCard, list = []) {
   return this.super(idCard, list);
 }
 
-eventManager.on(':loaded:Decks', () => {
+eventManager.on(':preload:Decks', () => {
   globalSet('getCardInList', override);
 });

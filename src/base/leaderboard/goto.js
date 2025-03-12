@@ -41,7 +41,7 @@ if (onPage('leaderboard')) {
   window.addEventListener('popstate', () => {
     if (!history.state) return;
     if (document.readyState === 'complete') load(history.state);
-    else eventManager.on(':loaded', () => debug('!!!pop unready'), load(history.state));
+    else eventManager.on(':preload', () => debug('!!!pop unready'), load(history.state));
   });
 
   eventManager.on('Rankings:selectPage', () => {
@@ -49,7 +49,7 @@ if (onPage('leaderboard')) {
   });
   eventManager.on('Rankings:init', () => load(data));
 
-  eventManager.on(':loaded', () => {
+  eventManager.on(':preload', () => {
     eventManager.on('ShowPage', function showPage(page) {
       if (skip.get()) return;
       set('page', page, replacePage);

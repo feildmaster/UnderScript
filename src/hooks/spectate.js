@@ -7,7 +7,7 @@ import wrap from '../utils/2.pokemon.js';
 onPage('Spectate', () => {
   eventManager.singleton.emit('GameStart');
 
-  eventManager.on(':loaded', () => {
+  eventManager.on(':preload', () => {
     function callGameHooks(data, original) {
       const run = !eventManager.cancelable.emit('PreGameEvent', data).canceled;
       if (run) {

@@ -2,7 +2,7 @@ import eventManager from '../utils/eventManager.js';
 import { global, globalSet } from '../utils/global.js';
 import wrap from '../utils/2.pokemon.js';
 
-eventManager.on(':loaded:Play', function hook() {
+eventManager.on(':preload:Play', function hook() {
   if (undefined !== window.bypassQueueEvents) {
     location.href = '/Game';
     return;

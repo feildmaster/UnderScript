@@ -32,7 +32,7 @@ onPage('Crafting', () => {
     });
   });
 
-  eventManager.on(':loaded', () => {
+  eventManager.on(':preload', () => {
     globalSet('showPage', function showPage(...args) {
       const prevPage = global('currentPage');
       this.super(...args);

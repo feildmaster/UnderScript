@@ -12,7 +12,7 @@ const setting = settings.register({
 });
 
 // Calculate average
-eventManager.on(':loaded:Decks', () => {
+eventManager.on(':preload:Decks', () => {
   if (setting.value()) return;
   const avg = $('<span>').hover(hover.show('Average gold cost'));
   $('#soulInfo span').after('<span>Passive</span> ', avg).remove();

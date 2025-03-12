@@ -132,7 +132,7 @@ function displayRank(card, rank) {
 // TODO: This needs to be hooked into leaderboard
 // eventManager.on('updateFriendship', (data) => updateCache({ ...data, save: true }));
 
-eventManager.on(':loaded:Friendship', () => {
+eventManager.on(':preload:Friendship', () => {
   style.add(
     `.rank {
       position: relative;

@@ -11,7 +11,7 @@ function handle(event) {
   });
 }
 
-eventManager.on(':loaded', function always() {
+eventManager.on(':preload', function always() {
   // Bind hotkey listeners
   document.addEventListener('mouseup', (event) => {
     // if (false) return; // TODO: Check for clicking in chat

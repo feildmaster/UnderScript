@@ -4,7 +4,7 @@ import * as hover from '../../utils/hover.js';
 import wrap from '../../utils/2.pokemon.js';
 
 wrap(() => {
-  eventManager.on(':loaded:CosmeticsShop', () => {
+  eventManager.on(':preload:CosmeticsShop', () => {
     $('form[action=CosmeticsShop] button')
       .hover(hover.show('Shift: Bypass confirmation'), hover.hide)
       .click(function click(e) {

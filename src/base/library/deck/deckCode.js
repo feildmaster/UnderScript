@@ -2,7 +2,7 @@ import eventManager from '../../../utils/eventManager.js';
 import { global, globalSet } from '../../../utils/global.js';
 
 // TODO: Remove this when fixed
-eventManager.on(':loaded:Decks', () => {
+eventManager.on(':preload:Decks', () => {
   globalSet('ajaxUrl', 'DecksConfig');
 });
 

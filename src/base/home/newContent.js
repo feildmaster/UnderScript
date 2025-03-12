@@ -41,7 +41,7 @@ const card = settings.register({
   category: 'Home',
 });
 
-eventManager.on(':loaded:', function toasts() {
+eventManager.on(':preload:', function toasts() {
   if (bundle.value()) toast('bundle');
   if (skin.value()) toast('skins');
   if (emotes.value()) toast('emotes');
