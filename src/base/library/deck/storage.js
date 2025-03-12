@@ -7,6 +7,7 @@ import style from '../../../utils/style.js';
 import * as deckLoader from '../../../utils/loadDeck.js';
 import compound from '../../../utils/compoundEvent.js';
 import hasOwn from '../../../utils/hasOwn.js';
+import { cardName } from '../../../utils/cardHelper.js';
 
 const setting = settings.register({
   name: 'Disable Deck Storage',
@@ -114,7 +115,7 @@ onPage('Decks', function deckStorage() {
       if (trim) {
         return deck.cards.filter(({ id, shiny }) => {
           const data = getCardData(id, shiny);
-          return data && data.name;
+          return data && cardName(data);
         });
       }
       return deck.cards;
@@ -146,8 +147,10 @@ onPage('Decks', function deckStorage() {
     function cards(list) {
       const names = [];
       list.forEach((card) => {
-        let data = getCardData(card.id, card.shiny) || {};
-        const name = data.name && `<span class="${data.rarity}">${data.name}</span>` || `<span style="color: orange;">${(data = getFromLibrary(card.id, global('allCards'))) && data.name || 'Deleted'} (Missing)</span>`;
+        let data = getCardData(card.id, card.shiny);
+        const name = data ?
+          `<span class="${data.rarity}">${cardName(data)}</span>` :
+          `<span style="color: orange;">${(data = getFromLibrary(card.id, global('allCards'))) && cardName(data) || 'Deleted'} (Missing)</span>`;
         names.push(`- ${card.shiny ? '<span style="color: yellow;">S</span> ' : ''}${name}`);
       });
       return names.join('<br />');
@@ -195,7 +198,7 @@ onPage('Decks', function deckStorage() {
           fixClass(!!deck);
           if (deck) {
             text = `
-              <div id="deckName">${localStorage.getItem(nameKey) || (`${soul}-${i + 1}`)}</div>
+              <div id="deckName">${localStorage.getItem(nameKey) || `${soul}-${i + 1}`}</div>
               <div><input id="deckNameInput" maxlength="28" style="border: 0; border-bottom: 2px solid #00617c; background: #000; width: 100%; display: none;" type="text" placeholder="${soul}-${i + 1}" value="${localStorage.getItem(nameKey) || ''}"></div>
               <div style="font-size: 13px;">${artifacts(i)}</div>
               <div>Click to load (${deck.length})</div>
