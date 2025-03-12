@@ -3,13 +3,21 @@ import { scriptVersion } from '../utils/1.variables.js';
 import { getPageName } from '../utils/onPage.js';
 import sleep from '../utils/sleep.js';
 
+const page = getPageName();
+
 function loaded() {
-  eventManager.singleton.emit(':loaded');
-  eventManager.singleton.emit(`:loaded:${getPageName()}`);
+  if (eventManager.singleton.emit(':loaded').ran) {
+    console.warn('`:loaded` event is depricated, please migrate to `:preload`.');
+  }
+  eventManager.singleton.emit(':preload');
+  if (eventManager.singleton.emit(`:loaded:${page}`).ran) {
+    console.warn(`\`:loaded:${page}\` event is depricated, please migrate to \`:preload:${page}\``);
+  }
+  eventManager.singleton.emit(`:preload:${page}`);
 }
 function done() {
   eventManager.singleton.emit(':load');
-  eventManager.singleton.emit(`:load:${getPageName()}`);
+  eventManager.singleton.emit(`:load:${page}`);
 }
 
 if (location.host.includes('undercards.net')) {
