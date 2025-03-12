@@ -2,6 +2,7 @@
 import * as api from './4.api.js';
 import { debug } from './debug.js';
 import { global } from './global.js';
+import { translateText } from './translate.js';
 
 const unset = [undefined, null];
 export function max(rarity) { // eslint-disable-line no-shadow
@@ -99,6 +100,13 @@ export function getCardData(id) {
   const cards = global('allCards').filter((card) => card.id === parseInt(id, 10));
   if (cards.length) return cards[0];
   throw new Error(`Unknown card ${id}`);
+}
+
+export function cardName(card, fallback = card.name) {
+  return translateText(`card-name-${card.id}`, {
+    args: [1],
+    fallback,
+  });
 }
 
 api.mod.utils.rarity = Object.freeze({
