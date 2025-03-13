@@ -7,6 +7,7 @@ import Quest, { getId } from '../structures/quests/Quest.js';
  */
 const quests = new Map();
 let fetching = false;
+let offline = true; // TODO: have underscript cache the user state
 
 export function getQuests() {
   return [...quests.values()];
@@ -35,7 +36,7 @@ function update(data, { callback, event = true }) {
 }
 
 export function fetch(callback, event = true) {
-  if (fetching) return;
+  if (fetching || offline || !window.$) return;
   fetching = true;
   axios.get('/Quests').then((response) => {
     fetching = false;
@@ -49,6 +50,10 @@ export function fetch(callback, event = true) {
 
 eventManager.on(':load:Quests', () => {
   update(document, { event: false });
+});
+
+eventManager.on('login', () => {
+  offline = false;
 });
 
 eventManager.on('getVictory getDefeat', fetch);
