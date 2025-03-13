@@ -236,6 +236,9 @@ export function register(data) {
     },
     get disabled() { return registeredSetting.disabled; },
     show: () => open(page, key),
+    refresh: () => {
+      events.emit(`refresh:${key}`);
+    },
   };
 }
 
