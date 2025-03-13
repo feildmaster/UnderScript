@@ -29,6 +29,7 @@ const registry = new Map();
 const events = eventEmitter();
 const configs = new Map();
 let dialog = null;
+let updateLock = false;
 
 /**
  * @returns {tabManager}
@@ -81,13 +82,18 @@ function init(page) {
 }
 
 function createSetting(setting = defaultSetting) {
+  // TODO: hidden creates a hidden setting?
   if (setting.hidden) return null;
   const ret = $('<div>').addClass('flex-start');
   const { key, type } = setting;
+  events.emit(`create:${key}`);
   ret.addClass(getCSSName(type.name));
-  const current = value(key);
   const container = $(`<div>`).addClass('flex-stretch');
-  const el = $(type.element(current, (...args) => setting.update(...args), {
+  const el = $(type.element(setting.value, (...args) => {
+    if (!updateLock) updateLock = setting;
+    setting.update(...args);
+    if (updateLock === setting) updateLock = false;
+  }, {
     data: setting.data,
     remove: setting.remove,
     container,
@@ -101,11 +107,6 @@ function createSetting(setting = defaultSetting) {
   });
 
   const label = $(`<label for="${key}">`).html(translateText(setting.name));
-  // TODO: Allow disabling progmatically, not just on setting load
-  if (setting.disabled) {
-    el.prop('disabled', true);
-    label.addClass('disabled');
-  }
   const labelPlacement = type.labelFirst();
   if (labelPlacement) {
     ret.append(label, ' ', el);
@@ -133,6 +134,16 @@ function createSetting(setting = defaultSetting) {
     ret.append(' ', reset);
   }
   ret.append(container);
+
+  function refresh() {
+    // TODO: hidden is technically dynamic
+    // TODO: reset is technically dynamic
+    el.prop('disabled', setting.disabled);
+    label.toggleClass('disabled', setting.disabled);
+  }
+  refresh();
+  untilClose(`refresh:${key}`, refresh, `create:${key}`);
+
   return ret;
 }
 
@@ -153,8 +164,17 @@ function getMessage(page) {
     return categories[name] || createCategory(name);
   }
   category();
-  each(pageSettings, (data) => {
-    category(data.category).append(createSetting(data));
+  each(pageSettings, (data = defaultSetting) => {
+    let element = createSetting(data);
+    category(data.category).append(element);
+
+    function refresh() {
+      if (updateLock === data) return; // Setting is updating itself
+      const newElement = createSetting(data);
+      element.replaceWith(newElement);
+      element = newElement;
+    }
+    untilClose(data.key, refresh);
   });
   if (!category('N/A').html()) {
     category('N/A').remove();
@@ -380,4 +400,11 @@ each(types, (Type) => registerType(new Type()));
 
 function getCSSName(name = '', prefix = 'setting-') {
   return `${prefix}${name.replaceAll(/[^_a-zA-Z0-9-]/g, '-')}`;
+}
+
+function untilClose(key, callback, extra = '') {
+  events.on(key, callback);
+  events.once(['close', extra].join(' ').trim(), () => {
+    events.off(key, callback);
+  });
 }
