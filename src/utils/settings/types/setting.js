@@ -22,7 +22,7 @@ export default class SettingType {
   }
 
   /**
-   * Encode value to make it safe for storage. By default it stringifies Objects, otherwise it returns itself.
+   * Encode value to make it safe for storage. By default it stringifies Objects, otherwise it returns the original value.
    *
    * Override this function to encode differently
    * @param {*} value object to encode
