@@ -6,8 +6,8 @@ export default class ArrayType extends Text {
   }
 
   value(data) {
-    if (Array.isArray(data)) return data;
-    return JSON.parse(data);
+    if (typeof data === 'string') return JSON.parse(data);
+    return data;
   }
 
   default() {
@@ -18,8 +18,10 @@ export default class ArrayType extends Text {
     key,
     container,
   }) {
+    let index = 0;
     function add(text) {
-      $(container).append(createArrayItem(text, key, value, update));
+      $(container).append(createArrayItem(text, `${key}.${index}`, value, update));
+      index += 1;
     }
     value.forEach(add);
     return $('<input type="text">').css({
@@ -42,8 +44,7 @@ export default class ArrayType extends Text {
   }
 }
 
-function createArrayItem(text, skey, value, update) {
-  const key = `${skey}.${text}`;
+function createArrayItem(text, key, value, update) {
   const ret = $('<div>')
     .on('change.script', () => {
       const i = value.indexOf(text);
