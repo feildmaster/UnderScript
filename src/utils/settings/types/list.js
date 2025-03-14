@@ -25,7 +25,7 @@ export default class List extends ArraySetting {
   }
 
   default(data = []) {
-    return data;
+    return [...data];
   }
 
   encode(value = []) {
