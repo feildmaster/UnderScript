@@ -164,7 +164,7 @@ function getMessage(page) {
     return categories[name] || createCategory(name);
   }
   category();
-  each(pageSettings, (data = defaultSetting) => {
+  each(pageSettings, (data = defaultSetting) => wrap(() => {
     let element = createSetting(data);
     category(data.category).append(element);
 
@@ -175,7 +175,7 @@ function getMessage(page) {
       element = newElement;
     }
     untilClose(data.key, refresh);
-  });
+  }, data.key, getLogger(data)));
   if (!category('N/A').html()) {
     category('N/A').remove();
   }
@@ -410,4 +410,8 @@ function untilClose(key, callback, extra = '') {
   events.once(['close', extra].join(' ').trim(), () => {
     events.off(key, callback);
   });
+}
+
+function getLogger({ page } = defaultSetting) {
+  return page.logger || console;
 }
