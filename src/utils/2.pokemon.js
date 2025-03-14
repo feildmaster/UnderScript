@@ -1,6 +1,6 @@
 import { captureError } from './sentry.js';
 
-export default function wrap(callback, prefix = '') {
+export default function wrap(callback, prefix = '', logger = console) {
   try {
     return callback();
   } catch (e) {
@@ -9,7 +9,7 @@ export default function wrap(callback, prefix = '') {
       name,
       function: 'wrap',
     });
-    console.error(`[${name}] Error occured`, e); // eslint-disable-line no-mixed-operators
+    logger.error(`[${name}] Error occured`, e); // eslint-disable-line no-mixed-operators
   }
   return undefined;
 }
