@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.60.2 (2025-03-16)
+1. Fixed quest progress noification (probably)
+
 ## Version 0.60.1 (2025-03-15)
 The great plugin (& bug fix) update
 ### Fixes
