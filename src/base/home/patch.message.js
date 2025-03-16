@@ -11,7 +11,7 @@ const setting = settings.register({
   refresh: () => onPage(''),
   category: 'Home',
 });
-eventManager.on(':loaded:', () => {
+eventManager.on(':preload:', () => {
   if (setting.value()) return;
   document.querySelectorAll('.infoIndex').forEach((el) => {
     const patch = el.querySelector('[data-i18n-custom="home-patch-message"]');
