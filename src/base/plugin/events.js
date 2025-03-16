@@ -10,7 +10,7 @@ wrap(() => {
   function mod(plugin) {
     const obj = {
       ...eventManager,
-      on(event, fn) {
+      on(event = '', fn) {
         if (typeof fn !== 'function') throw new Error('Must pass a function');
 
         function pluginListener(...args) {
@@ -28,6 +28,10 @@ wrap(() => {
           }
         }
         pluginListener.plugin = plugin;
+
+        if (event.split(' ').includes(':loaded')) {
+          plugin.logger.warn('Event manager: `:loaded` is deprecated, ask author to update to `:preload`!');
+        }
 
         eventManager.on.call(obj, event, pluginListener);
       },
