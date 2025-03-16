@@ -14,7 +14,7 @@ The great plugin (& bug fix) update
 1. Added `map` setting type
 1. Allow event listeners to be turned off
 1. Renamed event `:loaded` to `:preload`
-s
+
 ## Version 0.59.0 (2025-01-31)
 New release for a new year. Enjoy~
 ### Fixes
