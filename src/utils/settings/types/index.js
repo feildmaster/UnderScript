@@ -7,3 +7,4 @@ export { default as Remove } from './remove.js';
 export { default as Select } from './select.js';
 export { default as Slider } from './slider.js';
 export { default as Text } from './text.js';
+export { default as MapType } from './map.js';
