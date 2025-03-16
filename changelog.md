@@ -1,6 +1,6 @@
 # UnderScript Changelog
 
-## Version 0.60.0 (2025-03-15)
+## Version 0.60.1 (2025-03-15)
 The great plugin (& bug fix) update
 ### Fixes
 1. Deck Storage now translates card names
@@ -14,6 +14,10 @@ The great plugin (& bug fix) update
 1. Added `map` setting type
 1. Allow event listeners to be turned off
 1. Renamed event `:loaded` to `:preload`
+1. Added `name` to setting creation
+
+## Version 0.60.0 (2025-03-15)
+- See v0.60.1
 
 ## Version 0.59.0 (2025-01-31)
 New release for a new year. Enjoy~
