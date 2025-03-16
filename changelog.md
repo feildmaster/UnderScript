@@ -1,5 +1,20 @@
 # UnderScript Changelog
 
+## Version 0.60.0 (2025-03-15)
+The great plugin (& bug fix) update
+### Fixes
+1. Deck Storage now translates card names
+1. The CSS for settings no longer do silly things
+1. Setting "reset" now allows a default value of 0
+1. Settings now always properly encode before saving
+1. Stopped an error from happening when logged out
+1. Broken settings no longer completely break the setting window
+### Plugins
+1. You can now edit settings while the setting window is open
+1. Added `map` setting type
+1. Allow event listeners to be turned off
+1. Renamed event `:loaded` to `:preload`
+s
 ## Version 0.59.0 (2025-01-31)
 New release for a new year. Enjoy~
 ### Fixes
@@ -8,7 +23,6 @@ New release for a new year. Enjoy~
 ### Plugins
 1. Added `Home:Refresh` event
 1. Added new `Item` keywords
-
 
 ## Version 0.58.3 (2024-06-19)
 1. Fixed friendship shiny packs
