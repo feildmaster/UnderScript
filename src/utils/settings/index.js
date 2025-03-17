@@ -88,6 +88,11 @@ function createSetting(setting = defaultSetting) {
   const { key, type } = setting;
   events.emit(`create:${key}`);
   ret.addClass(getCSSName(type.name));
+  events.on(`scroll:${key}`, () => {
+    $('.target-setting').removeClass('target-setting');
+    ret.addClass('target-setting')
+      .get(0).scrollIntoView();
+  });
   const container = $(`<div>`).addClass('flex-stretch');
   const name = translateText(setting.name);
   const el = $(type.element(setting.value, (...args) => {
@@ -232,13 +237,17 @@ export function register(data) {
   return {
     get key() { return key; },
     value: () => registeredSetting.value,
-    // TODO: This ruins dynamic values such as arrays
     set: (val) => registeredSetting.update(val),
     on: (func) => {
       events.on(key, func);
     },
     get disabled() { return registeredSetting.disabled; },
-    show: () => open(page, key),
+    show(scroll) {
+      open(page, key);
+      if (scroll) {
+        events.once('open', () => events.emit(`scroll:${key}`));
+      }
+    },
     refresh: () => {
       events.emit(`refresh:${key}`);
     },

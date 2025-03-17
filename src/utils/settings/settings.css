@@ -46,6 +46,10 @@
   cursor: not-allowed;
 }
 
+.underscript-dialog .target-setting {
+  border: 2px solid yellow;
+}
+
 /*
 .underscript-dialog .modal-content {
   background: #000 url(../images/backgrounds/2.png) -380px -135px;
