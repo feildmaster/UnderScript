@@ -121,7 +121,7 @@ wrap(() => {
         css: baseStyle,
         onclick(e) {
           location.href = `${baseURL}/${path}`;
-          this.close('update');
+          updateToast.close('update');
         },
       }, {
         text: 'Update (jsdelivr)',
@@ -129,7 +129,7 @@ wrap(() => {
         css: baseStyle,
         onclick: (e) => {
           location.href = `https://cdn.jsdelivr.net/npm/${path}`;
-          this.close('update');
+          updateToast.close('update');
         },
       }],
       onClose(reason) {
