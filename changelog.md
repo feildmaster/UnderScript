@@ -2,6 +2,7 @@
 
 ## Version 0.60.3 (2025-03-17)
 1. Due to popular demand, you are now prompted to keep `@underscript`
+1. Fixes some bugs with toasts
 
 ## Version 0.60.2 (2025-03-16)
 1. Fixed quest progress noification (probably)
