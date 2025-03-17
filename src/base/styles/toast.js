@@ -1,8 +1,26 @@
+import css from '../../utils/css.js';
 import style from '../../utils/style.js';
 
-style.add(
-  '#AlertToast { height: 0; }',
-  '#AlertToast .dismissable > span { display: block; text-align: center; }',
-  '#AlertToast .dismissable .dismiss { width: 160px; text-transform: capitalize; display: block; font-family: DTM-Mono; border: 1px solid #fff; font-size: 14px; margin: 5px auto; background-color: transparent; }',
-  '#AlertToast .dismissable .dismiss:hover { opacity: 0.6; }',
-);
+style.add(css`
+  #AlertToast {
+    height: 0;
+  }
+  #AlertToast .dismissable > span {
+    display: block;
+    text-align: center;
+  }
+  #AlertToast .dismissable .dismiss {
+    background-color: transparent;
+    border: 1px solid #fff;
+    display: block;
+    font-family: DTM-Mono;
+    font-size: 14px;
+    margin: 5px auto;
+    max-width: 80%;
+    min-width: 160px;
+    text-transform: capitalize;
+  }
+  #AlertToast .dismissable .dismiss:hover {
+    opacity: 0.6;
+  }
+`);

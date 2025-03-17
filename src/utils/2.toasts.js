@@ -49,7 +49,7 @@ export function errorToast(error) {
   return toast(lToast);
 }
 
-export function infoToast(arg, key, val) {
+export function infoToast(arg, key, val = '1') {
   if (localStorage.getItem(key) === val) return null;
   if (typeof arg === 'string') {
     arg = {

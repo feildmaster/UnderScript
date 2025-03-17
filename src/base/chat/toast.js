@@ -22,7 +22,7 @@ export const globalPing = settings.register({
   page: 'Chat',
 });
 
-settings.register({
+export const pingExtras = settings.register({
   name: 'On',
   key: 'underscript.ping.extras',
   type: 'array',
