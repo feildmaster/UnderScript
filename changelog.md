@@ -1,11 +1,14 @@
 # UnderScript Changelog
 
+## Version 0.60.4 (2025-03-18)
+1. Fixed notification sound turning off permanently
+
 ## Version 0.60.3 (2025-03-17)
 1. Due to popular demand, you are now prompted to keep `@underscript`
 1. Fixes some bugs with toasts
 
 ## Version 0.60.2 (2025-03-16)
-1. Fixed quest progress noification (probably)
+1. Fixed quest progress notification (probably)
 
 ## Version 0.60.1 (2025-03-15)
 The great plugin (& bug fix) update

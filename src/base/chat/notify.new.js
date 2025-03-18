@@ -19,7 +19,7 @@ let notified = false;
 
 eventManager.on('preChat:getHistory Chat:getHistory', function enable(data) {
   if (disabled || global('soundsEnabled')) {
-    if (disabled === false) {
+    if (disabled !== 'history') {
       globalSet('soundsEnabled', this.event === 'Chat:getHistory');
     }
     disabled = !disabled;
