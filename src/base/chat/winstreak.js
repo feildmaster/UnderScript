@@ -4,7 +4,7 @@ import { global } from '../../utils/global.js';
 import { toast as SimpleToast } from '../../utils/2.toasts.js';
 import isFriend from '../../utils/isFriend.js';
 
-settings.register({
+const setting = settings.register({
   name: 'Announcement',
   key: 'underscript.winstreak',
   options: ['Chat', 'Toast', 'Both', 'Hidden'],
@@ -14,29 +14,25 @@ settings.register({
   category: 'Winstreak',
 });
 
-settings.register({
+const friends = settings.register({
   name: 'Friends Only',
   key: 'underscript.winstreak.friendsOnly',
   page: 'Chat',
   category: 'Winstreak',
 });
 
-const empty = { close() {} };
 const toasts = {
   v: [],
   i: 0,
   add(toast) {
-    (this.v[this.i] || empty).close();
+    this.v[this.i]?.close();
     this.v[this.i] = toast;
     this.i = (this.i + 1) % 3;
     return toast;
   },
 };
-function friendsOnly() {
-  return settings.value('underscript.winstreak.friendsOnly');
-}
 function checkFriend(name) {
-  return !friendsOnly() || isFriend(name);
+  return !friends.value() || isFriend(name);
 }
 function checkCount(amt) {
   // return parseInt(amt, 10) >= settings.value('underscript.winstreak.count');
@@ -46,8 +42,8 @@ const events = ['chat-user-ws', 'chat-user-ws-stop'];
 eventManager.on('preChat:getMessageAuto', function winstreaks(data) {
   const message = JSON.parse(JSON.parse(data.message).args);
   if (this.canceled || !events.includes(message[0])) return;
-  const handling = settings.value('underscript.winstreak');
-  if (handling === 'Chat' && !friendsOnly()) return; // All default
+  const handling = setting.value();
+  if (handling === 'Chat' && !friends.value()) return; // All default
   this.canceled = handling !== 'Chat' && handling !== 'Both';
   if (handling === 'Hidden') return;
   const username = message[message.length - 2];
