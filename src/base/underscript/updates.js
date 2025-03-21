@@ -38,7 +38,7 @@ wrap(() => {
   const DEBUG = 'underscript.debug.update';
   const LATEST = 'underscript.update.latest';
   const base = axios.create({ baseURL });
-  const latest = {
+  const latest = { // TODO: can I get away with storing this in sessionStorage?
     set({ version, unpkg }) {
       if (!version || !unpkg) return;
       localStorage.setItem(LATEST, JSON.stringify({
@@ -161,6 +161,7 @@ wrap(() => {
         title: 'UnderScript updater',
         text: 'Checking for updates. Please wait.',
       });
+      latest.del(); // Clear latest cache on manual check
       check().then(({ data } = {}) => {
         setupAuto(); // Setup a new auto check (wait another hour)
         if (!data) return;

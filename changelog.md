@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.60.5 (2025-03-20)
+1. Manual updates now fix broken update announcements
+
 ## Version 0.60.4 (2025-03-18)
 1. Fixed notification sound turning off permanently
 
@@ -117,7 +120,7 @@ New release for a new year. Enjoy~
 1. `plugin.quests.getQuests()`: Gets currently cached quests (empty if update is not called)
 
 ## Version 0.54.1 (2023-08-19)
-1. (Really) Fixed `Collect All` frienship button
+1. (Really) Fixed `Collect All` friendship button
 1. Re-enable play queue after 10 seconds
 
 ## Version 0.54.0 (2023-07-08)
