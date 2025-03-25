@@ -1,7 +1,10 @@
 # UnderScript Changelog
 
-## Version 0.60.5 (2025-03-20)
+## Version 0.61.0 (2025-)
+### Fixes
 1. Manual updates now fix broken update announcements
+### Plugins
+1. Added support for plugins to provide their version
 
 ## Version 0.60.4 (2025-03-18)
 1. Fixed notification sound turning off permanently

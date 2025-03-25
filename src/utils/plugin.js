@@ -28,7 +28,7 @@ function load({ name, mod, dependencies = [], runs = 0 }, methods, local) {
 }
 
 // TODO: RegisteredPlugin
-export default function Plugin(name = '') {
+export default function Plugin(name = '', version = '') {
   if (name.length > 20) throw new Error(`Plugin name too long (${name.length}/20)`);
   if (!nameRegex.test(name)) throw new Error('Name contains illegal characters');
   if (registry.has(name)) throw new Error('Name already registered');
@@ -36,6 +36,10 @@ export default function Plugin(name = '') {
   const methods = {
     name,
   };
+
+  if (version) {
+    methods.version = version;
+  }
 
   const local = [...modules];
   for (let i = 0; i < local.length; i++) {
@@ -49,9 +53,10 @@ export default function Plugin(name = '') {
   return plugin;
 }
 
-api.register('plugin', (name) => {
+api.register('plugin', (name, version) => {
   if (typeof name !== 'string' || !name.trim()) throw new Error('Plugin must have a name');
-  return Plugin(name.trim());
+  if (version && !['string', 'number'].includes(typeof version)) throw new Error(`Version must be a string or number, not ${typeof version}`);
+  return Plugin(name.trim(), version);
 });
 
 export function registerModule(name, mod, dependencies) {
