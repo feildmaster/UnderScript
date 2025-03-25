@@ -59,9 +59,10 @@ api.register('plugin', (name, version) => {
   return Plugin(name.trim(), version);
 });
 
-export function registerModule(name, mod, dependencies) {
+export function registerModule(name, mod, ...dependencies) {
   if (!name) throw new Error('Module has no name');
-  modules.push({ name, mod, dependencies });
+  if (typeof mod !== 'function') throw new Error('Module must be a function');
+  modules.push({ name, mod, dependencies: dependencies.flat() });
 }
 
 export function getPluginNames() {
