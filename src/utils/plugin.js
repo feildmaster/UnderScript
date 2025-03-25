@@ -12,7 +12,7 @@ function load({ name, mod, dependencies = [], runs = 0 }, methods, local) {
     console.error(`Skipping "${name}": Already exists`);
     return;
   }
-  const required = dependencies.filter((module) => methods[module] === undefined);
+  const required = dependencies.filter((module) => methods[module.replace('!', '')] === undefined);
   if (required.length) {
     if (runs < 5) local.push({ name, mod, dependencies: required, runs: runs + 1 });
     return;
@@ -45,7 +45,7 @@ export default function Plugin(name = '', version = '') {
   for (let i = 0; i < local.length; i++) {
     load(local[i], methods, local);
   }
-  local.filter(({ runs = 0, dependencies = [] }) => runs === 5 && dependencies.length)
+  local.filter(({ runs = 0, dependencies = [] }) => runs === 5 && dependencies.some((module) => !module.includes('!')))
     .forEach(({ name: prop, dependencies }) => console.log(`Failed to load module: ${prop} [${dependencies.join(', ')}]`));
 
   const plugin = Object.freeze(methods);
