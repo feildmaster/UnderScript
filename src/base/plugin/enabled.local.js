@@ -56,6 +56,7 @@ wrap(() => {
           text: 'Dismiss',
           css: buttonCSS,
           onclick() {
+            enabled.set(isEnabled);
             registered.set(true);
           },
         }],
