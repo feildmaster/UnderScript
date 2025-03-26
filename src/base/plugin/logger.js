@@ -9,7 +9,8 @@ wrap(() => {
       obj[key] = (...args) => console[key]( // eslint-disable-line no-console
         `[%c${plugin.name}%c/${key}]`,
         'color: #436ad6;',
-        'color: inherit;', ...args,
+        'color: inherit;',
+        ...args,
       );
     });
     return Object.freeze(obj);
