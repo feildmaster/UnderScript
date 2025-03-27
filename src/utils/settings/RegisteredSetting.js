@@ -162,8 +162,8 @@ export default class RegisteredSetting {
     if (typeof this.#onChange === 'function') {
       this.#onChange(this.value, prev);
     }
-    this.#events.emit(key, val, prev);
-    this.#events.emit('setting:change', key, val, prev);
+    this.#events.emit(key, this.value, prev);
+    this.#events.emit('setting:change', key, this.value, prev);
   }
 
   set value(val) {
@@ -172,7 +172,7 @@ export default class RegisteredSetting {
 
   get value() {
     const val = localStorage.getItem(this.key);
-    if (!val) {
+    if (val === null) {
       return this.default;
     }
     return this.type.value(val, this.data);
@@ -206,7 +206,6 @@ export default class RegisteredSetting {
     if (typeof input === 'function') {
       return input();
     }
-
     return input;
   }
 }
