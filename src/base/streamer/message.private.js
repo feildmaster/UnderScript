@@ -5,6 +5,7 @@ import { toast } from '../../utils/2.toasts.js';
 import { debug } from '../../utils/debug.js';
 import each from '../../utils/each.js';
 import streaming from './0.streamer.js';
+import { buttonCSS as css } from '../../utils/1.variables.js';
 
 /* eslint-disable no-multi-assign */
 // Toast for private messages while streaming mode is on
@@ -50,14 +51,7 @@ eventManager.on('preChat:getPrivateMessage', function streamerMode(data) {
   toasts[userId] = toast({
     text: `Message from ${user.name(user)}`,
     buttons: [{
-      css: {
-        border: '',
-        height: '',
-        background: '',
-        'font-size': '',
-        margin: '',
-        'border-radius': '',
-      },
+      css,
       text: 'Open',
       className: 'dismiss',
       onclick: () => {

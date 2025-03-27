@@ -1,4 +1,4 @@
-import { buttonCSS } from '../../utils/1.variables.js';
+import { buttonCSS as css } from '../../utils/1.variables.js';
 import wrap from '../../utils/2.pokemon.js';
 import { registerModule } from '../../utils/plugin.js';
 import * as settings from '../../utils/settings/index.js';
@@ -47,14 +47,14 @@ wrap(() => {
         },
         buttons: [{
           text: isEnabled ? 'Disable' : 'Enable',
-          css: buttonCSS,
+          css,
           onclick() {
             enabled.set(!isEnabled);
             registered.set(true);
           },
         }, {
           text: 'Dismiss',
-          css: buttonCSS,
+          css,
           onclick() {
             enabled.set(isEnabled);
             registered.set(true);

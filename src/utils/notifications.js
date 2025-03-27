@@ -2,6 +2,7 @@ import * as settings from './settings/index.js';
 import sleep from './sleep.js';
 import eventManager from './eventManager.js';
 import { toast } from './2.toasts.js';
+import { buttonCSS as css } from './1.variables.js';
 
 const setting = settings.register({
   key: 'underscript.notification.dismissPrompt',
@@ -35,14 +36,6 @@ if (isType() && !setting.value()) {
 }
 
 function show(text = 'UnderScript would like to send notifications.') {
-  const css = {
-    border: '',
-    height: '',
-    background: '',
-    'font-size': '',
-    margin: '',
-    'border-radius': '',
-  };
   const buttons = [{
     css,
     text: 'Request Permission',

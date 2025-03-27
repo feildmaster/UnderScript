@@ -5,6 +5,7 @@ import pendingIgnore from '../../utils/pendingIgnore.js';
 import pingRegex from '../../utils/pingRegex.js';
 import { pingExtras } from './toast.js';
 import { infoToast } from '../../utils/2.toasts.js';
+import { buttonCSS } from '../../utils/1.variables.js';
 
 const setting = settings.register({
   name: 'Disable Chat Ping <span style="color: yellow;">(highlighting)</span>',
@@ -74,12 +75,7 @@ function notify() {
     className: 'dismissable',
     css: {
       button: {
-        border: '',
-        height: '',
-        background: '',
-        'font-size': '',
-        margin: '',
-        'border-radius': '',
+        ...buttonCSS,
         'white-space': 'normal',
       },
     },

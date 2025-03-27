@@ -8,6 +8,7 @@ import { blankToast, toast as basicToast } from '../../utils/2.toasts.js';
 import * as api from '../../utils/4.api.js';
 import formatNumber from '../../utils/formatNumber.js';
 import { getCollection } from '../../utils/user.js';
+import { buttonCSS as css } from '../../utils/1.variables.js';
 
 onPage('Packs', async function quickOpenPack() {
   const collection = await getCollection();
@@ -138,14 +139,7 @@ onPage('Packs', async function quickOpenPack() {
         buttons: {
           text: 'Stop',
           className: 'dismiss',
-          css: {
-            border: '',
-            height: '',
-            background: '',
-            'font-size': '',
-            margin: '',
-            'border-radius': '',
-          },
+          css,
           onclick: (e) => {
             events.emit('cancel');
           },

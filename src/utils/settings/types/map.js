@@ -9,7 +9,10 @@ export default class MapList extends Setting {
     return new Map();
   }
 
-  element(val = new Map(), update, { container }) {
+  /**
+   * @param {Map<string, string>} val
+   */
+  element(val, update, { container }) {
     const data = [...val.entries()];
     function invalid(text) {
       return data.some(([value]) => value === text);

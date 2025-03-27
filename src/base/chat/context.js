@@ -8,6 +8,7 @@ import * as fnUser from '../../utils/user.js';
 import ignoreUser from '../../utils/ignoreUser.js';
 import decode from '../../utils/decode.js';
 import css from '../../utils/css.js';
+import { buttonCSS } from '../../utils/1.variables.js';
 
 const setting = settings.register({
   name: 'Disable Chat Context (right click)',
@@ -144,14 +145,7 @@ eventManager.on('jQuery', () => {
                 'background-color': 'rgba(208, 0, 0, 0.6)',
               },
               buttons: [{
-                css: {
-                  border: '',
-                  height: '',
-                  background: '',
-                  'font-size': '',
-                  margin: '',
-                  'border-radius': '',
-                },
+                css: buttonCSS,
                 text: 'Undo',
                 className: 'dismiss',
                 onclick: () => {

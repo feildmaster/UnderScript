@@ -3,7 +3,7 @@ import * as settings from '../../../utils/settings/index.js';
 import { global } from '../../../utils/global.js';
 import { infoToast } from '../../../utils/2.toasts.js';
 import Hotkey from '../../../utils/hotkey.class.js';
-import { hotkeys } from '../../../utils/1.variables.js';
+import { buttonCSS as css, hotkeys } from '../../../utils/1.variables.js';
 import { BUTTON as MOUSE_BUTTON } from '../../../utils/mouse.js';
 
 const fullDisable = settings.register({
@@ -46,14 +46,7 @@ eventManager.on('PlayingGame', function bindHotkeys() {
       buttons: {
         text: 'Open Settings',
         className: 'dismiss',
-        css: {
-          border: '',
-          height: '',
-          background: '',
-          'font-size': '',
-          margin: '',
-          'border-radius': '',
-        },
+        css,
         onclick: (_) => {
           settings.open('Game');
         },

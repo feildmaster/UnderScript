@@ -1,3 +1,4 @@
+import { buttonCSS as css } from '../../utils/1.variables.js';
 import { infoToast } from '../../utils/2.toasts.js';
 import eventManager from '../../utils/eventManager.js';
 import * as settings from '../../utils/settings/index.js';
@@ -34,14 +35,7 @@ eventManager.on('ChatDetected', () => {
   const buttons = {
     text: value ? 'Revert it!' : 'Enable it!',
     className: 'dismiss',
-    css: {
-      border: '',
-      height: '',
-      background: '',
-      'font-size': '',
-      margin: '',
-      'border-radius': '',
-    },
+    css,
     onclick: (e) => {
       setting.set(!value);
     },

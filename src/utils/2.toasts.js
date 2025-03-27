@@ -1,3 +1,4 @@
+import { buttonCSS } from './1.variables.js';
 import merge from './merge.js';
 
 export function blankToast() {
@@ -80,14 +81,7 @@ export function dismissable({ title, text, key, value = 'true', css = {} }) {
   const buttons = {
     text: 'Dismiss',
     className: 'dismiss',
-    css: {
-      border: '',
-      height: '',
-      background: '',
-      'font-size': '',
-      margin: '',
-      'border-radius': '',
-    },
+    css: buttonCSS,
     onclick: (e) => {
       localStorage.setItem(key, value);
     },

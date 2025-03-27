@@ -8,7 +8,7 @@ import { toast as BasicToast } from '../../utils/2.toasts.js';
 import sleep from '../../utils/sleep.js';
 import * as menu from '../../utils/menu.js';
 import semver from '../../utils/version.js';
-import { scriptVersion } from '../../utils/1.variables.js';
+import { buttonCSS, scriptVersion } from '../../utils/1.variables.js';
 import css from '../../utils/css.js';
 import { captureError } from '../../utils/sentry.js';
 
@@ -99,14 +99,6 @@ wrap(() => {
     latest.set(data);
     if (updateToast) updateToast.close('stale');
     const path = `underscript@${data.version}/${data.unpkg}`;
-    const baseStyle = {
-      border: '',
-      height: '',
-      background: '',
-      'font-size': '',
-      margin: '',
-      'border-radius': '',
-    };
     updateToast = BasicToast({
       title: '[UnderScript] Update Available!',
       text: `Version ${data.version}.`,
@@ -114,11 +106,11 @@ wrap(() => {
       buttons: [{
         text: 'Update (github)',
         className: 'dismiss',
-        css: baseStyle,
+        css: buttonCSS,
       }, {
         text: 'Update (unpkg)',
         className: 'dismiss',
-        css: baseStyle,
+        css: buttonCSS,
         onclick(e) {
           location.href = `${baseURL}/${path}`;
           updateToast.close('update');
@@ -126,7 +118,7 @@ wrap(() => {
       }, {
         text: 'Update (jsdelivr)',
         className: 'dismiss',
-        css: baseStyle,
+        css: buttonCSS,
         onclick: (e) => {
           location.href = `https://cdn.jsdelivr.net/npm/${path}`;
           updateToast.close('update');
