@@ -29,9 +29,9 @@ function load({ name, mod, dependencies = [], runs = 0 }, methods, local) {
 
 // TODO: RegisteredPlugin
 export default function Plugin(name = '', version = '') {
-  if (name.length > 20) throw new Error(`Plugin name too long (${name.length}/20)`);
-  if (!nameRegex.test(name)) throw new Error('Name contains illegal characters');
-  if (registry.has(name)) throw new Error('Name already registered');
+  if (name.length > 20) throw new Error(`Plugin name too long (${name}[${name.length}/20])`);
+  if (!nameRegex.test(name)) throw new Error(`Name contains illegal characters (${name})`);
+  if (registry.has(name)) throw new Error(`Name already registered (${name})`);
 
   const methods = {
     name,
