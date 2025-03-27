@@ -8,11 +8,13 @@ export default function compound(...events) {
   let triggered = 0;
   // TODO: cache data
   function trigger(event, ...data) {
-    if (cache[event].triggered) return;
-    cache[event].triggered = this.singleton ? 'singleton' : true;
-    triggered += 1;
+    if (!cache[event].triggered) {
+      cache[event].triggered = this.singleton ? 'singleton' : true;
+      triggered += 1;
+    }
 
-    if (triggered === events.length) {
+    if (triggered >= events.length) {
+      console.log('triggered');
       events.forEach((ev) => {
         const e = cache[ev];
         // Only reset if not singleton
