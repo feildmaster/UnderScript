@@ -11,6 +11,7 @@ import * as types from './types/index.js';
 import { translateText } from '../translate.js';
 import RegisteredSetting from './RegisteredSetting.js';
 import styles from './settings.css';
+import { registry } from './settingRegistry.js';
 
 const defaultSetting = new RegisteredSetting();
 
@@ -22,10 +23,6 @@ style.add(styles.split('\n\n'));
 const settingReg = {
   // key: setting
 };
-/**
- * @type {Map<string, SettingType>}
- */
-const registry = new Map();
 const events = eventEmitter();
 const configs = new Map();
 let dialog = null;
