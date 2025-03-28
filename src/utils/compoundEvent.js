@@ -14,7 +14,6 @@ export default function compound(...events) {
     }
 
     if (triggered >= events.length) {
-      console.log('triggered');
       events.forEach((ev) => {
         const e = cache[ev];
         // Only reset if not singleton
