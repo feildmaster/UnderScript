@@ -26,9 +26,9 @@
         }],
       });
     } else {
-      sessionStorage.removeItem(key)
+      sessionStorage.removeItem(key);
     }
   }
 
   throw new Error(`${pluginName}: UnderScript required`);
-})(this.GM_info?.script?.name);
+}(this.GM_info?.script?.name));
