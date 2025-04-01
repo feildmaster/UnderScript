@@ -273,6 +273,7 @@ export function open(page = 'main') {
     onshown: (diag) => {
       dialog = diag;
       events.emit('open');
+      eventManager.emit('Settings:open', diag.getModalBody());
     },
     onhidden: () => {
       dialog = null;
@@ -414,9 +415,9 @@ function getCSSName(name = '', prefix = 'setting-') {
   return `${prefix}${name.replaceAll(/[^_a-zA-Z0-9-]/g, '-')}`;
 }
 
-function untilClose(key, callback, extra = '') {
+function untilClose(key, callback, ...extra) {
   events.on(key, callback);
-  events.once(['close', extra].join(' ').trim(), () => {
+  events.once(['close', ...extra].join(' ').trim(), () => {
     events.off(key, callback);
   });
 }

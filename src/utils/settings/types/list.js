@@ -32,7 +32,7 @@ export default class List extends ArraySetting {
     return super.encode(value.map(getValue));
   }
 
-  element(value = [], update) {
+  element(value, update) {
     // Sortable list
     const list = $('<ol>').addClass('sortedList');
     let dragged;
@@ -99,9 +99,11 @@ function getValue(item) {
   return item;
 }
 
-function getLabel(item,
+function getLabel(
+  item,
   // allow only one level of function calls
-  allowed = true) {
+  allowed = true,
+) {
   if (allowed && typeof item === 'function') {
     return getLabel(item(), false);
   }

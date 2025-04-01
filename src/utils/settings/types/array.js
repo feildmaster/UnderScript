@@ -14,7 +14,7 @@ export default class ArrayType extends Text {
     return [];
   }
 
-  element(value = [], update, {
+  element(value, update, {
     key,
     container,
   }) {

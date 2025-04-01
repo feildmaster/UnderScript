@@ -12,9 +12,9 @@ export default class Slider extends Text {
     return $('<input>')
       .attr({
         type: 'range',
-        min: data.min || '0',
-        max: data.max || '100',
-        step: data.step || '1',
+        min: data.min ?? '0',
+        max: data.max ?? '100',
+        step: data.step ?? '1',
       })
       .val(value)
       .on('change.script', (e) => update(e.target.value));
