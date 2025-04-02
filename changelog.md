@@ -1,10 +1,16 @@
 # UnderScript Changelog
 
-## Version 0.61.0 (2025-)
+## Version 0.61.0 (2025-04-01)
+Surprise! April fools update.
 ### Fixes
 1. Manual updates now fix broken update announcements
+1. Updated April fools settings to work for this year
 ### Plugins
 1. Added support for plugins to provide their version
+1. Added `Settings:open` event
+1. Added `plugin.events.compound(...events, callback)`
+1. Added `plugin.version`
+1. Added `disabled` to setting creation
 
 ## Version 0.60.4 (2025-03-18)
 1. Fixed notification sound turning off permanently

@@ -98,6 +98,7 @@ function createSetting(setting = defaultSetting) {
     if (updateLock === setting) updateLock = false;
   }, {
     data: setting.data,
+    disabled: setting.disabled,
     remove: setting.remove,
     container,
     name,
