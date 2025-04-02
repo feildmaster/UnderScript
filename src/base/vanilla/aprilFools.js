@@ -41,4 +41,7 @@ if (isApril()) {
   eventManager.on('Chat:getHistory', ({ room }) => {
     toggleFish($(`#${room}`));
   });
+  eventManager.on('Home:Refresh', () => {
+    toggleFish($('table.spectateTable'));
+  });
 }
