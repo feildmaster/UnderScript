@@ -27,7 +27,7 @@ export default class ArrayType extends Setting {
     return $('<input type="text">').css({
       'background-color': 'transparent',
     }).on('keydown.script', function keydown(e) {
-      if (e.which !== 13) return; // If not "enter"
+      if (e.key !== 'Enter') return;
       e.preventDefault();
       value.push(this.value);
       add(this.value);
