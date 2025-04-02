@@ -122,8 +122,8 @@ function createSetting(setting = defaultSetting) {
   }
 
   ret.hover((e) => {
-    const note = setting.note;
-    if (!note || setting.disabled) return undefined;
+    const { note } = setting;
+    if (!note) return undefined;
     return hover.show(note)(e);
   }, hover.hide);
 
