@@ -1,7 +1,7 @@
-import Text from './text.js';
+import Setting from './text.js';
 
 // TODO: show password button
-export default class Password extends Text {
+export default class Password extends Setting {
   constructor(name = 'password') {
     super(name);
   }

@@ -1,7 +1,7 @@
 import { translateText } from '../../translate.js';
-import Text from './text.js';
+import Setting from './text.js';
 
-export default class Select extends Text {
+export default class Select extends Setting {
   constructor(name = 'select') {
     super(name);
   }

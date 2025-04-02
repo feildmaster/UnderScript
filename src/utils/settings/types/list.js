@@ -1,8 +1,8 @@
 import clone from '../../clone.js';
 import { translateText } from '../../translate.js';
-import ArraySetting from './array.js';
+import Setting from './array.js';
 
-export default class List extends ArraySetting {
+export default class List extends Setting {
   constructor(name = 'list') {
     super(name);
   }

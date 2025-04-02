@@ -1,6 +1,6 @@
-import Text from './text.js';
+import Setting from './text.js';
 
-export default class Color extends Text {
+export default class Color extends Setting {
   constructor(name = 'color') {
     super(name);
   }

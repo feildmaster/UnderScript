@@ -1,6 +1,6 @@
-import SettingType from './setting.js';
+import Setting from './setting.js';
 
-export default class Text extends SettingType {
+export default class Text extends Setting {
   constructor(name = 'text') { // Allow extending
     super(name);
   }

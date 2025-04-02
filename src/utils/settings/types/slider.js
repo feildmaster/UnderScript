@@ -1,7 +1,7 @@
-import Text from './text.js';
+import Setting from './text.js';
 
 // Extend text for basic "value" return
-export default class Slider extends Text {
+export default class Slider extends Setting {
   constructor(name = 'slider') {
     super(name);
   }

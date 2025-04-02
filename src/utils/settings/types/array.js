@@ -1,6 +1,6 @@
-import Text from './text.js';
+import Setting from './setting.js';
 
-export default class ArrayType extends Text {
+export default class ArrayType extends Setting {
   constructor(name = 'array') {
     super(name);
   }

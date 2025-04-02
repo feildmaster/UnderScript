@@ -1,6 +1,6 @@
-import Text from './text.js';
+import Setting from './text.js';
 
-export default class Remove extends Text {
+export default class Remove extends Setting {
   constructor(name = 'remove') {
     super(name);
   }
