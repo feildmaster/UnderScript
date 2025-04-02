@@ -19,7 +19,7 @@ function toggleFish($el) {
   const search = disabled ? IMAGES : basePath;
   const replace = disabled ? [IMAGES, basePath] : [basePath, IMAGES];
 
-  $el.find(`img[src*="/${search}/"],img[src^="${search}/"]`).each((index, img) => {
+  $el.find(`img[src*="undercards.net/${search}/"],img[src^="/${search}/"],img[src^="${search}/"]`).each((_, img) => {
     img.src = img.src.replace(...replace);
   });
   $el.find(`[style*="url(\\"${search}/"]`).each((i, img) => {
