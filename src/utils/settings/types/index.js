@@ -8,6 +8,4 @@ export { default as Select } from './select.js';
 export { default as Slider } from './slider.js';
 export { default as Text } from './text.js';
 export { default as MapType } from './map.js';
-
-// Must always be last
-export { default as AdvancedMap } from './map2.js';
+export { default as Keybind } from './keybind.js';
