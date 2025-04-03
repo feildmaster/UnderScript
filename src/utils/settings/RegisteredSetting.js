@@ -31,7 +31,7 @@ export default class RegisteredSetting {
   #note;
   /** @type {boolean | null | function(): boolean?} */
   #refresh;
-  /** @type {function(any, any): never} */
+  /** @type {function(any, any): void} */
   #onChange;
   /** @type {EventEmitter} */
   #events;
@@ -71,8 +71,10 @@ export default class RegisteredSetting {
     this.#data = data;
     this.#note = note;
     this.#refresh = refresh;
-    this.#onChange = onChange;
     this.#events = events;
+    if (typeof onChange === 'function') {
+      this.#onChange = onChange;
+    }
 
     if (typeof converter === 'function') {
       this.#convert(converter);
@@ -160,9 +162,7 @@ export default class RegisteredSetting {
     } else {
       localStorage.setItem(key, type.encode(val));
     }
-    if (typeof this.#onChange === 'function') {
-      this.#onChange(this.value, prev);
-    }
+    this.#onChange?.(this.value, prev);
     this.#events.emit(key, this.value, prev);
     this.#events.emit('setting:change', key, this.value, prev);
   }

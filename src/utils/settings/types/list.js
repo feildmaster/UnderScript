@@ -52,7 +52,6 @@ export default class List extends Setting {
       const target = list.children();
       const from = target.index(dragged);
       const to = target.index(e.target);
-      // FIXME: This only works if you never externally update the value while the screen is open
       value.splice(to, 0, ...value.splice(from, 1));
       update(value);
 
