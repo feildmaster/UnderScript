@@ -95,9 +95,9 @@ function createSetting(setting = defaultSetting) {
     if (!updateLock) updateLock = setting;
     setting.update(...args);
   }, {
-    data: setting.data,
-    disabled: setting.disabled,
-    remove: setting.remove,
+    get data() { return setting.data; },
+    get disabled() { return setting.disabled; },
+    get remove() { return setting.remove; },
     container,
     get name() { return setting.name; },
     key,
