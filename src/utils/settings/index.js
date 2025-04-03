@@ -94,7 +94,6 @@ function createSetting(setting = defaultSetting) {
   const el = $(type.element(setting.value, (...args) => {
     if (!updateLock) updateLock = setting;
     setting.update(...args);
-    if (updateLock === setting) updateLock = false;
   }, {
     data: setting.data,
     disabled: setting.disabled,
@@ -174,7 +173,10 @@ function getMessage(page) {
     category(data.category).append(element);
 
     function refresh() {
-      if (updateLock === data) return; // Setting is updating itself
+      if (updateLock === data) { // Setting is updating itself
+        updateLock = false; // Only block the first update
+        return;
+      }
       const newElement = createSetting(data);
       element.replaceWith(newElement);
       element = newElement;
