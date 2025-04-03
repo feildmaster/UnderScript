@@ -91,7 +91,6 @@ function createSetting(setting = defaultSetting) {
       .get(0).scrollIntoView();
   });
   const container = $(`<div>`).addClass('flex-stretch');
-  const name = translateText(setting.name);
   const el = $(type.element(setting.value, (...args) => {
     if (!updateLock) updateLock = setting;
     setting.update(...args);
@@ -101,7 +100,7 @@ function createSetting(setting = defaultSetting) {
     disabled: setting.disabled,
     remove: setting.remove,
     container,
-    name,
+    get name() { return setting.name; },
     key,
     removeSetting() {
       removeSetting(setting, el);
@@ -111,7 +110,7 @@ function createSetting(setting = defaultSetting) {
     id: key,
   });
 
-  const label = $(`<label for="${key}">`).html(name);
+  const label = $(`<label for="${key}">`).html(setting.name);
   const labelPlacement = type.labelFirst();
   if (labelPlacement) {
     ret.append(label, ' ', el);
@@ -145,7 +144,7 @@ function createSetting(setting = defaultSetting) {
     // TODO: reset is technically dynamic
     el.prop('disabled', setting.disabled);
     label.toggleClass('disabled', setting.disabled);
-    label.html(translateText(setting.name)); // Name is dynamic...
+    label.html(setting.name);
   }
   refresh();
   untilClose(`refresh:${key}`, refresh, `create:${key}`);

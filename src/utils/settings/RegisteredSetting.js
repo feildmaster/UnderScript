@@ -1,4 +1,5 @@
 import EventEmitter from '../eventEmitter.js';
+import { translateText } from '../translate.js';
 import SettingType from './types/setting.js';
 
 export default class RegisteredSetting {
@@ -86,7 +87,7 @@ export default class RegisteredSetting {
    * @returns {string}
    */
   get name() {
-    return this.#value(this.#name);
+    return translateText(this.#value(this.#name));
   }
 
   get type() {
