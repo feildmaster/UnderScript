@@ -89,6 +89,10 @@ function createSetting(setting = defaultSetting) {
     $('.target-setting').removeClass('target-setting');
     ret.addClass('target-setting')
       .get(0).scrollIntoView();
+    ret.delay(2000).queue((next) => {
+      ret.removeClass('target-setting');
+      next();
+    });
   });
   const container = $(`<div>`).addClass('flex-stretch');
   const el = $(type.element(setting.value, (...args) => {
@@ -244,9 +248,13 @@ export function register(data) {
     },
     get disabled() { return registeredSetting.disabled; },
     show(scroll) {
+      const opening = !isOpen();
       open(page, key);
-      if (scroll) {
+      if (!scroll) return;
+      if (opening) {
         events.once('open', () => events.emit(`scroll:${key}`));
+      } else {
+        events.emit(`scroll:${key}`);
       }
     },
     refresh: () => {
@@ -262,7 +270,10 @@ export function open(page = 'main') {
   if (page.name) {
     getPage('Plugins').setActive();
   }
-  if (isOpen()) return;
+  if (isOpen()) {
+    getScreen().render(true);
+    return;
+  }
   BootstrapDialog.show({
     title: `UnderScript Configuration`,
     // size: 'size-wide',
