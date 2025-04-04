@@ -12,6 +12,7 @@ import some from '../../utils/some.js';
 import TabManager from '../../utils/tabbedView.js';
 import rand from '../../utils/rand.js';
 import SettingType from '../../utils/settings/types/setting.js';
+import { translateText } from '../../utils/translate.js';
 
 const utils = api.mod.utils;
 
@@ -35,6 +36,7 @@ utils.notify = notify;
 utils.shuffle = shuffle;
 utils.some = some;
 utils.tabManager = TabManager;
+utils.translateText = translateText;
 utils.VarStore = VarStore;
 utils.rand = rand;
 utils.SettingType = SettingType;
