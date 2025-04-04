@@ -1,5 +1,26 @@
 # UnderScript Changelog
 
+## Version 0.62.0 (2025-04-03)
+### Fixes
+1. April fools setting is no longer so greedy
+1. April fools setting properly applies when home page refreshes
+1. Minor bug fixes related to settings
+### Plugins
+1. Added `keybind` setting type
+1. Added `advancedMap` setting type
+  <extended>
+  1. `type: { key?: SettingType, value?: SettingType },`
+  </extended>
+1. Added `underscript.utils.translateText()`<extended>
+```ts
+  translateText(text: string, {
+    args: string[],
+    fallback?: string,
+    locale?: string, // translate as a specific language
+  });
+```
+</extended>
+
 ## Version 0.61.0 (2025-04-01)
 Surprise! April fools update.
 ### Fixes
