@@ -34,9 +34,9 @@ export function translateText(text, {
         }
         return temp;
       }
-      return $.i18n(text, ...args);
+      return $.i18n(`${text}`, ...args);
     })();
-    if (val !== text && typeof val === 'string') return val;
+    if (val !== text) return val;
   }
   return fallback;
 }

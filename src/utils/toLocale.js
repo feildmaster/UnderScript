@@ -6,8 +6,7 @@ export default ({
   const l = $.i18n().locale;
   $.i18n().locale = locale;
   try {
-    const text = $.i18n(id, ...data);
-    return text;
+    return $.i18n(`${id}`, ...data);
   } catch {
     return 'ERROR';
   } finally {
