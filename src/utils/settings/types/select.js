@@ -1,3 +1,4 @@
+import toArray from '../../toArray.js';
 import { translateText } from '../../translate.js';
 import Setting from './text.js';
 
@@ -7,8 +8,8 @@ export default class Select extends Setting {
   }
 
   default([data] = []) {
-    const [l, v = l] = Array.isArray(data) ? data : [data];
-    return v;
+    const [l, v = l] = toArray(data);
+    return `${v}`;
   }
 
   element(value, update, {
@@ -22,7 +23,7 @@ export default class Select extends Setting {
 
 function options(data = [], current = '') {
   return data.map((o) => {
-    const [l, v = l] = Array.isArray(o) ? o : [o];
-    return `<option value="${v}"${current === v ? ' selected' : ''}>${translateText(l)}</option>`;
+    const [l, v = l] = toArray(o);
+    return `<option value="${v}"${current === `${v}` ? ' selected' : ''}>${translateText(l)}</option>`;
   });
 }
