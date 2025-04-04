@@ -231,20 +231,26 @@ export function register(data) {
   } else if (setting.type === 'select' && !setting.data && data.options) {
     setting.data = data.options;
   }
-  if (typeof setting.type === 'string') {
-    setting.type = registry.get(setting.type);
-  }
-  if (typeof data.type === 'object') {
-    try {
-      const left = data.type.key || data.type.left || data.type[0];
-      const right = data.type.value || data.type.right || data.type[1];
-      const type = new AdvancedMap(left, right);
-      setting.type = type;
-      registerTypeStyle(type);
-    } catch (e) {
-      const logger = data.page?.logger || console;
-      logger.error('Error setting up AdvancedMap', e);
-      setting.type = undefined;
+
+  if (!(setting.type instanceof SettingType)) {
+    switch (typeof setting.type) {
+      case 'string':
+        setting.type = registry.get(setting.type);
+        break;
+      case 'object':
+        try {
+          const left = data.type.key || data.type.left || data.type[0];
+          const right = data.type.value || data.type.right || data.type[1];
+          const type = new AdvancedMap(left, right);
+          setting.type = type;
+          registerTypeStyle(type);
+        } catch (e) {
+          const logger = data.page?.logger || console;
+          logger.error('Error setting up AdvancedMap', e);
+          setting.type = undefined;
+        }
+        break;
+      default: break;
     }
   }
   if (!(setting.type instanceof SettingType)) return undefined; // TODO: Throw error?

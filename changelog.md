@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.62.1 (2025-04-04)
+1. Fixed plugins breaking when providing custom settings
+
 ## Version 0.62.0 (2025-04-03)
 ### Fixes
 1. April fools setting is no longer so greedy
