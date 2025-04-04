@@ -36,7 +36,7 @@ export function translateText(text, {
       }
       return $.i18n(text, ...args);
     })();
-    if (val !== text) return val;
+    if (val !== text && typeof val === 'string') return val;
   }
   return fallback;
 }
