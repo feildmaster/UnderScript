@@ -12,6 +12,7 @@ export default class extends Text {
 
   element(value, update, {
     data = {},
+    key: id,
   }) {
     const labels = {
       ...baseLabels,
@@ -23,7 +24,7 @@ export default class extends Text {
     let val = value !== 'Escape' ? value : '';
     let temp = getLabel(val);
     const ret = $('<div class="keybind-wrapper">');
-    const input = $('<input type="text">')
+    const input = $(`<input type="text" id="${id}">`)
       .val(temp)
       .on('focus', () => {
         input.val('').prop('placeholder', 'Press Any Key...');

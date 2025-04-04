@@ -105,9 +105,11 @@ function createSetting(setting = defaultSetting) {
       removeSetting(setting, el);
     },
   }));
-  el.attr({
-    id: key,
-  });
+  if (!el.find(`#${key.replaceAll('.', '\\.')}`).length) {
+    el.attr({
+      id: key,
+    });
+  }
 
   const label = $(`<label for="${key}">`).html(setting.name);
   const labelPlacement = type.labelFirst();
