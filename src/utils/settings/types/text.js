@@ -6,7 +6,7 @@ export default class Text extends Setting {
   }
 
   value(val) {
-    return val;
+    return `${val}`;
   }
 
   element(value, update) {

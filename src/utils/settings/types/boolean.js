@@ -7,7 +7,7 @@ export default class extends Setting {
 
   value(val) {
     if (typeof val === 'boolean') return val;
-    return val === '1' || val === 'true';
+    return ['1', 'true', 1].includes(val);
   }
 
   element(value, update, {
