@@ -17,4 +17,8 @@ export default class Text extends Setting {
         'background-color': 'transparent',
       });
   }
+
+  get isBasic() {
+    return true;
+  }
 }

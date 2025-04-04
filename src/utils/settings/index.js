@@ -7,6 +7,7 @@ import * as hover from '../hover.js';
 import each from '../each.js';
 import wrap from '../2.pokemon.js';
 import SettingType from './types/setting.js';
+import AdvancedMap from './types/map2.js';
 import * as types from './types/index.js';
 import { translateText } from '../translate.js';
 import RegisteredSetting from './RegisteredSetting.js';
@@ -108,6 +109,7 @@ function createSetting(setting = defaultSetting) {
     removeSetting() {
       removeSetting(setting, el);
     },
+    untilClose,
   }));
   if (!el.find(`#${key.replaceAll('.', '\\.')}`).length) {
     el.attr({
@@ -231,6 +233,19 @@ export function register(data) {
   }
   if (typeof setting.type === 'string') {
     setting.type = registry.get(setting.type);
+  }
+  if (typeof data.type === 'object') {
+    try {
+      const left = data.type.key || data.type.left || data.type[0];
+      const right = data.type.value || data.type.right || data.type[1];
+      const type = new AdvancedMap(left, right);
+      setting.type = type;
+      registerTypeStyle(type);
+    } catch (e) {
+      const logger = data.page?.logger || console;
+      logger.error('Error setting up AdvancedMap', e);
+      setting.type = undefined;
+    }
   }
   if (!(setting.type instanceof SettingType)) return undefined; // TODO: Throw error?
 
@@ -421,7 +436,12 @@ export function registerType(type, addStyle = style.add) {
   const name = type.name;
   if (!name || registry.has(name)) throw new Error(`SettingType: "${name}" already exists`);
   registry.set(name, type);
-  addStyle(...type.styles().map((s) => `.underscript-dialog .${getCSSName(name)} ${s}`));
+  registerTypeStyle(type, addStyle);
+}
+
+function registerTypeStyle(type, addStyle = style.add) {
+  if (type instanceof AdvancedMap && type.isRegistered) return;
+  addStyle(...type.styles().map((s) => `.underscript-dialog .${getCSSName(type.name)} ${s}`));
 }
 
 each(types, (Type) => registerType(new Type()));

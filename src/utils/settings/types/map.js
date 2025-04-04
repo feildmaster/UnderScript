@@ -44,9 +44,9 @@ export default class MapList extends Setting {
       '{ border-top: 1px solid white; border-bottom: 1px solid white; padding: 5px 0; }',
       'label { align-self: flex-end; }',
       '.btn { padding: 3px 6px; }',
-      '.item { display: inline-flex; flex-wrap: wrap; align-items: center; padding-top: 5px; }',
-      '.item > input { margin: 0 5px; }',
-      '.error input:first-child { border-color: red; }',
+      '.item { display: inline-flex; flex-wrap: wrap; align-items: center; padding-top: 5px; width: 100%; }',
+      '.item > * { margin: 0 5px; }',
+      '.error *:first-child { border-color: red; }',
       '.warning { display: none; color: red; flex-basis: 100%; user-select: none; }',
       '.error .warning { display: block; }',
     ];

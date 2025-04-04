@@ -25,6 +25,10 @@ export default class extends Setting {
   labelFirst() {
     return false;
   }
+
+  get isBasic() {
+    return true;
+  }
 }
 
 function getValue(el, remove = false) {

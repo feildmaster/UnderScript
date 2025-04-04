@@ -80,4 +80,13 @@ export default class SettingType {
   labelFirst() {
     return true;
   }
+
+  get isBasic() {
+    // return typeof this.default() === 'string';
+    return false;
+  }
+
+  toString() {
+    return this.name;
+  }
 }
