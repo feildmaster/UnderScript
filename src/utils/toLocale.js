@@ -5,12 +5,12 @@ export default ({
 }) => {
   const l = $.i18n().locale;
   $.i18n().locale = locale;
-  let text;
   try {
-    text = $.i18n(id, ...data);
+    const text = $.i18n(id, ...data);
+    return text;
   } catch {
-    text = 'ERROR';
+    return 'ERROR';
+  } finally {
+    $.i18n().locale = l;
   }
-  $.i18n().locale = l;
-  return text;
 };
