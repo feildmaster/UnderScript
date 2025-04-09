@@ -2,32 +2,38 @@ import eventManager from '../../utils/eventManager.js';
 import * as settings from '../../utils/settings/index.js';
 import { isApril, IMAGES } from '../../utils/isApril.js';
 
+const year = `${new Date().getFullYear()}`;
 const aprilFools = settings.register({
   name: 'Disable April Fools Jokes',
   key: 'underscript.disable.fishday',
   note: 'Disables *almost* everything.',
-  hidden: () => !isApril(),
+  data: { extraValue: year },
+  hidden: () => !isApril() || isSoftDisabled(),
   onChange() {
     toggleFish($('body'));
   },
 });
+function isSoftDisabled() {
+  return localStorage.getItem(aprilFools.key) === year;
+}
 
 const basePath = 'images';
 
 function toggleFish($el) {
   const disabled = aprilFools.value();
   const search = disabled ? IMAGES : basePath;
-  const replace = disabled ? [IMAGES, basePath] : [basePath, IMAGES];
+  const replace = disabled ? basePath : IMAGES;
 
   $el.find(`img[src*="undercards.net/${search}/"],img[src^="/${search}/"],img[src^="${search}/"]`).each((_, img) => {
-    img.src = img.src.replace(...replace);
-  });
+    img.src = img.src.replace(search, replace);
+  }).on('error', () => aprilFools.set(year));
   $el.find(`[style*="url(\\"${search}/"]`).each((i, img) => {
-    img.style.background = img.style.background.replace(...replace);
-  });
+    img.style.background = img.style.background.replace(search, replace);
+  }).on('error', () => aprilFools.set(year));
 }
 
-if (isApril()) {
+eventManager.on('undercards:season', () => {
+  if (!isApril() || isSoftDisabled()) return;
   eventManager.on(':load', () => {
     toggleFish($('body'));
   });
@@ -44,4 +50,4 @@ if (isApril()) {
   eventManager.on('Home:Refresh', () => {
     toggleFish($('table.spectateTable'));
   });
-}
+});

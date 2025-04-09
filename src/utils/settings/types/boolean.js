@@ -5,9 +5,9 @@ export default class extends Setting {
     super(name);
   }
 
-  value(val) {
+  value(val, { extraValue } = {}) {
     if (typeof val === 'boolean') return val;
-    return ['1', 'true', 1].includes(val);
+    return ['1', 'true', 1, `${extraValue}`].includes(val);
   }
 
   element(value, update, {

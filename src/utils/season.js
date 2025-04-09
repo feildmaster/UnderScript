@@ -22,4 +22,5 @@ eventManager.on('translation:loaded', () => {
 
   season = Number(seasonKey.substring(startsWith.length, seasonKey.indexOf('-', startsWith.length)));
   sessionStorage.setItem('undercards.season', season);
+  eventManager.singleton.emit('undercards:season', season);
 });
