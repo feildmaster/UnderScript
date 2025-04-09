@@ -3,7 +3,7 @@ import * as settings from '../../utils/settings/index.js';
 import { isApril, IMAGES } from '../../utils/isApril.js';
 
 const year = `${new Date().getFullYear()}`;
-const aprilFools = settings.register({
+export const aprilFools = settings.register({
   name: 'Disable April Fools Jokes',
   key: 'underscript.disable.fishday',
   note: 'Disables *almost* everything.',
@@ -13,7 +13,8 @@ const aprilFools = settings.register({
     toggleFish($('body'));
   },
 });
-function isSoftDisabled() {
+
+export function isSoftDisabled() {
   return localStorage.getItem(aprilFools.key) === year;
 }
 
@@ -26,10 +27,10 @@ function toggleFish($el) {
 
   $el.find(`img[src*="undercards.net/${search}/"],img[src^="/${search}/"],img[src^="${search}/"]`).each((_, img) => {
     img.src = img.src.replace(search, replace);
-  }).on('error', () => aprilFools.set(year));
+  }).one('error', () => aprilFools.set(year));
   $el.find(`[style*="url(\\"${search}/"]`).each((i, img) => {
     img.style.background = img.style.background.replace(search, replace);
-  }).on('error', () => aprilFools.set(year));
+  }).one('error', () => aprilFools.set(year));
 }
 
 eventManager.on('undercards:season', () => {

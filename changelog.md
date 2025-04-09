@@ -2,6 +2,7 @@
 
 ## Version 0.62.2 (2025-04-09)
 1. Fixed April Fools setting being too aggressive
+1. Fixed April Fools messing up persistent background
 
 ## Version 0.62.1 (2025-04-04)
 1. Fixed plugins breaking when providing custom settings

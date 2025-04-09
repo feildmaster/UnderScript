@@ -2,6 +2,7 @@ import eventManager from '../../utils/eventManager.js';
 import * as settings from '../../utils/settings/index.js';
 import { global } from '../../utils/global.js';
 import { isApril, IMAGES } from '../../utils/isApril.js';
+import { aprilFools } from '../vanilla/aprilFools.js';
 
 const setting = settings.register({
   name: 'Persist Arena (Background and Music)',
@@ -15,7 +16,7 @@ eventManager.on('GameStart', () => {
   eventManager.on('connect', (data) => {
     const val = sessionStorage.getItem(`underscript.bgm.${data.gameId}`);
     if (setting.value() && val) {
-      const path = isApril() ? IMAGES : 'images';
+      const path = isApril() && !aprilFools.value() ? IMAGES : 'images';
       $('body').css('background-image', `url('${path}/backgrounds/${val}.png')`);
       // Check special skins
       if (data.gameType !== 'BOSS' && global('profileSkinsEnabled')) {
