@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.62.3 (2025-04-09)
+1. Fixed bugs with game sounds (including April fools)
+
 ## Version 0.62.2 (2025-04-09)
 1. Fixed April Fools setting being too aggressive
 1. Fixed April Fools messing up persistent background

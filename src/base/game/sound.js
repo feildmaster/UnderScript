@@ -2,6 +2,7 @@ import eventManager from '../../utils/eventManager.js';
 import * as settings from '../../utils/settings/index.js';
 import { global, globalSet } from '../../utils/global.js';
 import { isApril, AUDIO } from '../../utils/isApril.js';
+import { isSoftDisabled } from '../vanilla/aprilFools.js';
 
 const baseVolumeSettings = { type: 'slider', page: 'Audio', max: 0.5, step: 0.01, default: 0.2, reset: true };
 let active = false;
@@ -24,7 +25,7 @@ const aprilFoolsMusic = settings.register({
   name: 'Enable April Fools Music',
   key: 'underscript.audio.override.aprilFools',
   default: true,
-  hidden: () => !isApril(),
+  hidden: () => !isApril() || isSoftDisabled(),
   page: 'Audio',
 });
 
@@ -98,7 +99,7 @@ function pauseMusic() {
 }
 
 function enableAprilFools() {
-  return isApril() && aprilFoolsMusic.value;
+  return isApril() && aprilFoolsMusic.value() && !isSoftDisabled();
 }
 
 function musicPath() {
@@ -110,7 +111,7 @@ function overrideResult(name) {
   const event = eventManager.cancelable.emit('playMusic', data);
   if (!resultEnabled.value() || !data.name || event.canceled) return;
   pauseMusic();
-  if (!enable.value) {
+  if (!enable.value()) {
     this.super(data.name);
     return;
   }
@@ -125,7 +126,7 @@ function overrideMusic(name) {
   const event = eventManager.cancelable.emit('playBackgroundMusic', data);
   if (!bgmEnabled.value() || !data.name || event.canceled) return;
   pauseMusic();
-  if (!enable.value) {
+  if (!enable.value()) {
     this.super(data.name);
     return;
   }
@@ -139,7 +140,7 @@ function overrideSound(name) {
   const data = { name, origin: name };
   const event = eventManager.cancelable.emit('playSound', data);
   if (!soundEnabled.value() || !data.name || event.canceled) return;
-  if (!enable.value) {
+  if (!enable.value()) {
     this.super(data.name);
     return;
   }
@@ -153,7 +154,7 @@ function overrideJingle(name = '') {
   const event = eventManager.cancelable.emit('playJingle', data);
   if (!jingleEnabled.value() || !data.name || event.canceled) return;
   pauseMusic();
-  if (!enable.value) {
+  if (!enable.value()) {
     this.super(data.name);
     return;
   }
