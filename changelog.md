@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.62.4 (2025-04-14)
+1. Fixed bug with advanced map
+
 ## Version 0.62.3 (2025-04-09)
 1. Fixed bugs with game sounds (including April fools)
 
