@@ -50,10 +50,10 @@ export default class AdvancedMap extends Setting {
       const line = $('<div class="item">');
       const options = { container: $('<div>'), name, disabled, remove: false, removeSetting() {}, key: `${key}.${id}`, child: true };
       const left = $(this.#keyType.element(this.#keyValue(lineValue[0], dataKey), (newValue) => {
-        // TODO: validate this is how it's supposed to work
-        const isInvalid = newValue !== lineValue[0] && data.some(([keyValue]) => keyValue === newValue);
+        const [keyValue] = lineValue;
+        const isInvalid = this.#isInvalid(data, keyValue, newValue);
         line.toggleClass('error', isInvalid);
-        if (isInvalid || newValue === lineValue[0]) return;
+        if (isInvalid || newValue === keyValue) return;
         lineValue[0] = newValue;
         save();
       }, {
@@ -125,6 +125,14 @@ export default class AdvancedMap extends Setting {
       this.#keyType.encode(key),
       this.#valueType.encode(val),
     ]));
+  }
+
+  #isInvalid(data, oldValue, newValue) {
+    if (newValue === oldValue) return false;
+    const encodedKeyValue = this.#keyType.encode(newValue);
+    return data.some(
+      ([keyValue]) => this.#keyType.encode(keyValue) === encodedKeyValue,
+    );
   }
 
   get isRegistered() {

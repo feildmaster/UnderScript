@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.62.5 (2025-05-20)
+1. Fixed (another) bug with advanced map
+
 ## Version 0.62.4 (2025-04-14)
 1. Fixed bug with advanced map
 
