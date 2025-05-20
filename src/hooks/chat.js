@@ -91,6 +91,9 @@ export default function reconnect(force = false) {
 }
 
 function getMessages({ discussionHistory, otherHistory }) {
+  if (!discussionHistory || !otherHistory) {
+    return [];
+  }
   const history = [
     ...JSON.parse(discussionHistory),
     ...JSON.parse(otherHistory),
