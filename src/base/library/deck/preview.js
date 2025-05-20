@@ -14,7 +14,7 @@ const setting = settings.register({
   page: 'Library',
 });
 
-eventManager.on(':loaded:Decks', function previewLoaded() {
+eventManager.on(':preload:Decks', function previewLoaded() {
   if (typeof displayCardDeck === 'function') {
     globalSet('cardHoverEnabled', !setting.value());
   }
