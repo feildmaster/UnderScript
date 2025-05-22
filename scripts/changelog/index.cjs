@@ -1,5 +1,6 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { getInput, setOutput } = require('@actions/core');
 const fs = require('fs');
-const { getInput, setOutput } = require('./io.cjs');
 const { getVersionById } = require('./entries.cjs');
 
 const changelog = getInput('path') || './changelog.md';

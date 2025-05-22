@@ -37,6 +37,7 @@
     "changelog.md"
   ],
   "devDependencies": {
+    "@actions/core": "^1.11.1",
     "@linaria/postcss-linaria": "^4.1.5",
     "@rollup/plugin-commonjs": "^17.1.0",
     "@rollup/plugin-json": "^4.1.0",
