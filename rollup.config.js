@@ -10,6 +10,7 @@ import css from 'rollup-plugin-import-css';
 import replace from '@rollup/plugin-replace';
 
 import { version } from './package.json';
+import importString from './scripts/import-string.js';
 
 config();
 
@@ -83,6 +84,9 @@ export default [{
     }),
     nodeResolve({ browser: true }),
     css(),
+    importString({
+      include: ['**/*.html'],
+    }),
     multi({
       exports: false,
     }),

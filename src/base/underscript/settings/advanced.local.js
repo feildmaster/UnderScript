@@ -1,19 +1,9 @@
 import * as settings from '../../../utils/settings/index.js';
+import html from './advanced.html';
 
 const page = document.createElement('div');
 
-page.innerHTML = `
-  <fieldset>
-    <div class="flex-start">
-      <button id="underscriptExportButton" class="btn btn-default">Export</button>
-    </div>
-  </fieldset>
-  <fieldset>
-    <div class="flex-start">
-      Import
-    </div>
-  </fieldset>
-`;
+page.innerHTML = html;
 
 settings.getScreen().addTab('Advanced', page).setEnd(true);
 
