@@ -1,6 +1,6 @@
 import { infoToast } from '../../utils/2.toasts.js';
 import eventManager from '../../utils/eventManager.js';
-import * as settigs from '../../utils/settings/index.js';
+import * as settings from '../../utils/settings/index.js';
 import style from '../../utils/style.js';
 
 const NONE = 'None';
@@ -72,7 +72,7 @@ style.add(
   '.OLD_ONYX { -webkit-box-shadow: inset 0 0 20px 2px #3d1f8d; box-shadow: inset 0 0 20px 1px #3d1f8d; }',
 );
 
-const notify = settigs.register({
+const notify = settings.register({
   name: 'Notify',
   key: 'underscript.board.priority.notify',
   default: true,
@@ -80,7 +80,7 @@ const notify = settigs.register({
   category: 'Board Background',
 });
 
-const setting = settigs.register({
+const setting = settings.register({
   name: 'Priority',
   key: 'underscript.board.priority',
   type: 'list',
