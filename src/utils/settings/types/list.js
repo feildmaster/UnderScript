@@ -25,7 +25,7 @@ export default class List extends Setting {
   }
 
   default(data = []) {
-    return [...data];
+    return data.map(getValue);
   }
 
   encode(value = []) {
