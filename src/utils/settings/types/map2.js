@@ -55,6 +55,7 @@ export default class AdvancedMap extends Setting {
         line.toggleClass('error', isInvalid);
         if (isInvalid || newValue === keyValue) return;
         lineValue[0] = newValue;
+        cacheLeftValue();
         save();
       }, {
         ...options,
@@ -67,20 +68,33 @@ export default class AdvancedMap extends Setting {
       }, {
         ...options,
         data: dataValue,
+        key: `${options.key}.value`,
       }));
       const button = $('<button class="btn btn-danger glyphicon glyphicon-trash">').on('click', () => {
         save(true);
         line.remove();
       });
+      let leftValue;
       const warning = $('<div class="warning clickable">')
         .text('Duplicate value, not updated! Click here to reset.')
-        .on('click', () => left.val(this.#keyValue(lineValue[0], dataKey))
+        .on('click', () => left.val(leftValue)
           .parent().removeClass('error'));
       function refresh() {
         left.prop('disabled', disabled);
         right.prop('disabled', disabled);
         button.prop('disabled', disabled);
       }
+      let simpleLookup = false;
+      function cacheLeftValue() {
+        leftValue = simpleLookup ?
+          left.val() :
+          left.find(`#${options.key}`).val();
+      }
+      if (!left.find(`#${options.key}`).length) {
+        left.attr('id', options.key);
+        simpleLookup = true;
+      }
+      cacheLeftValue();
       refresh();
       untilClose(`refresh:${key}`, refresh, `create:${key}`);
       container.append(line.append(left, ' : ', right, button, warning));
