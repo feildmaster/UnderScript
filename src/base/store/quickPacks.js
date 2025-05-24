@@ -9,6 +9,7 @@ import * as api from '../../utils/4.api.js';
 import formatNumber from '../../utils/formatNumber.js';
 import { getCollection } from '../../utils/user.js';
 import { buttonCSS as css } from '../../utils/1.variables.js';
+import Item from '../../structures/constants/item.js';
 
 onPage('Packs', async function quickOpenPack() {
   const collection = await getCollection();
@@ -310,8 +311,15 @@ onPage('Packs', async function quickOpenPack() {
   }
 
   const types = ['', 'DR', 'UTY', 'Shiny', 'Super', 'Final'];
+  const packTypes = [Item.UT_PACK, Item.DR_PACK, Item.UTY_PACK, Item.SHINY_PACK, Item.SUPER_PACK, Item.FINAL_PACK];
   api.register('openPacks', (count, type = '') => {
     if (openingPacks()) throw new Error('Currently opening packs');
+    if (type instanceof Item) {
+      const index = packTypes.indexOf(type);
+      if (index === -1) throw new Error(`Unsupported Item: ${type}`);
+      openPacks(types[index], count);
+      return;
+    }
     if (!types.includes(type)) throw new Error(`Unsupported Pack: ${type}`);
     openPacks(type, count);
   });
