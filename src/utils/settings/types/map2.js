@@ -130,6 +130,7 @@ export default class AdvancedMap extends Setting {
   #isInvalid(data, oldValue, newValue) {
     if (newValue === oldValue) return false;
     const encodedKeyValue = this.#keyType.encode(newValue);
+    if (encodedKeyValue === this.#keyType.encode(oldValue)) return false;
     return data.some(
       ([keyValue]) => this.#keyType.encode(keyValue) === encodedKeyValue,
     );
