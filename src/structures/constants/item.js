@@ -6,7 +6,7 @@ export default class Item extends Constant {
   static DUST = new Item('Dust', 'dust', 'DUST', 'item-dust', 'reward-dust');
   static EXP = new Item('XP', 'xp', 'exp', 'experience', 'stat-xp', 'reward-xp');
   static ELO = new Item('elo');
-  static DT_FRAGMENT = new Item('DT Fragment', 'ragment', 'dt fragment', 'item-dt-fragment', 'reward-dt-fragment');
+  static DT_FRAGMENT = new Item('DT Fragment', 'fragment', 'dt fragment', 'dt frag', 'dtfrag', 'item-dt-fragment', 'reward-dt-fragment');
 
   static UT_PACK = new Item('Pack', 'pack', 'PACK', 'reward-pack');
   static DR_PACK = new Item('DR Pack', 'dr pack', 'DRPack', 'DR_PACK', 'reward-dr-pack');
