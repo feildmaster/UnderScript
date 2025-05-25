@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import * as settings from '../utils/settings/index.js';
-import { scriptVersion } from '../utils/1.variables.js';
+import { scriptVersion, window } from '../utils/1.variables.js';
 import eventManager from '../utils/eventManager.js';
 
 // This setting doesn't do anything, nor does the detection work.

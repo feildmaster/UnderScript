@@ -1,4 +1,4 @@
-import { buttonCSS } from './1.variables.js';
+import { buttonCSS, window } from './1.variables.js';
 import merge from './merge.js';
 
 export function blankToast() {

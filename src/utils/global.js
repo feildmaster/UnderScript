@@ -1,3 +1,4 @@
+import { window } from './1.variables.js';
 import { debug } from './debug.js';
 import hasOwn from './hasOwn.js';
 

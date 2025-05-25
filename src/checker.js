@@ -27,7 +27,7 @@ function checkUnderscript(pluginName) {
         }],
       });
     } else {
-      sessionStorage.removeItem(key)
+      sessionStorage.removeItem(key);
     }
   }
 

@@ -8,7 +8,7 @@ import * as fnUser from '../../utils/user.js';
 import ignoreUser from '../../utils/ignoreUser.js';
 import decode from '../../utils/decode.js';
 import css from '../../utils/css.js';
-import { buttonCSS } from '../../utils/1.variables.js';
+import { buttonCSS, window } from '../../utils/1.variables.js';
 
 const setting = settings.register({
   name: 'Disable Chat Context (right click)',

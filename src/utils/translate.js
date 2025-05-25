@@ -1,3 +1,4 @@
+import { window } from './1.variables.js';
 import { global } from './global.js';
 import toLocale from './toLocale.js';
 

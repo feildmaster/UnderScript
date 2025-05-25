@@ -3,6 +3,7 @@ import eventManager from '../utils/eventManager.js';
 import decrypt from '../utils/decrypt.emails.js';
 import { debugToast as debug } from '../utils/debug.js';
 import sleep from '../utils/sleep.js';
+import { window } from '../utils/1.variables.js';
 
 // Friends list hooks. TODO: only work if logged in
 function getFromEl(el) {

@@ -1,3 +1,4 @@
+import { window } from '../utils/1.variables.js';
 import eventManager from '../utils/eventManager.js';
 import { global } from '../utils/global.js';
 

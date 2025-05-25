@@ -12,6 +12,8 @@ module.exports = {
     SimpleToast: 'readonly',
     VERSION: 'readonly',
     Sentry: 'readonly',
+    globalThis: 'readonly',
+    window: 'off',
   },
   parserOptions: {
     sourceType: 'module',

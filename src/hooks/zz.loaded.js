@@ -1,5 +1,5 @@
 import eventManager from '../utils/eventManager.js';
-import { scriptVersion } from '../utils/1.variables.js';
+import { scriptVersion, window } from '../utils/1.variables.js';
 import { getPageName } from '../utils/onPage.js';
 import sleep from '../utils/sleep.js';
 

@@ -5,6 +5,7 @@ import onPage from '../../utils/onPage.js';
 import VarStore from '../../utils/VarStore.js';
 import changePage from '../vanilla/pageSelect.js';
 import hasOwn from '../../utils/hasOwn.js';
+import { window } from '../../utils/1.variables.js';
 
 function set(type, value, replace = true) {
   if (history.state &&

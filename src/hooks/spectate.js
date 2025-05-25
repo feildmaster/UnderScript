@@ -3,6 +3,7 @@ import { globalSet } from '../utils/global.js';
 import { debug } from '../utils/debug.js';
 import onPage from '../utils/onPage.js';
 import wrap from '../utils/2.pokemon.js';
+import { window } from '../utils/1.variables.js';
 
 onPage('Spectate', () => {
   eventManager.singleton.emit('GameStart');

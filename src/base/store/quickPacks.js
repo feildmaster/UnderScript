@@ -8,7 +8,7 @@ import { blankToast, toast as basicToast } from '../../utils/2.toasts.js';
 import * as api from '../../utils/4.api.js';
 import formatNumber from '../../utils/formatNumber.js';
 import { getCollection } from '../../utils/user.js';
-import { buttonCSS as css } from '../../utils/1.variables.js';
+import { buttonCSS as css, window } from '../../utils/1.variables.js';
 import Item from '../../structures/constants/item.js';
 
 onPage('Packs', async function quickOpenPack() {

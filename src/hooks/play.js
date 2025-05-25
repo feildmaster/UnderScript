@@ -1,6 +1,7 @@
 import eventManager from '../utils/eventManager.js';
 import { global, globalSet } from '../utils/global.js';
 import wrap from '../utils/2.pokemon.js';
+import { window } from '../utils/1.variables.js';
 
 eventManager.on(':preload:Play', function hook() {
   if (undefined !== window.bypassQueueEvents) {

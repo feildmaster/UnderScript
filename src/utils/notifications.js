@@ -2,7 +2,7 @@ import * as settings from './settings/index.js';
 import sleep from './sleep.js';
 import eventManager from './eventManager.js';
 import { toast } from './2.toasts.js';
-import { buttonCSS as css } from './1.variables.js';
+import { buttonCSS as css, window } from './1.variables.js';
 
 const setting = settings.register({
   key: 'underscript.notification.dismissPrompt',

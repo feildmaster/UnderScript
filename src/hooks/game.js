@@ -3,6 +3,7 @@ import onPage from '../utils/onPage.js';
 import { debug } from '../utils/debug.js';
 import wrap from '../utils/2.pokemon.js';
 import { globalSet } from '../utils/global.js';
+import { window } from '../utils/1.variables.js';
 
 function gameHook() {
   debug('Playing Game');

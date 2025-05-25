@@ -1,5 +1,6 @@
 import eventManager from '../utils/eventManager.js';
 import wrap from '../utils/2.pokemon.js';
+import { window } from '../utils/1.variables.js';
 
 function setter(key, args) {
   const original = args[`on${key}`];

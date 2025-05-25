@@ -11,6 +11,10 @@ export const buttonCSS = {
   margin: '',
   'border-radius': '',
 };
+/**
+ * @type {globalThis}
+ */
+export const window = typeof unsafeWindow === 'object' ? unsafeWindow : globalThis;
 
 export const SOCKET_SCRIPT_CLOSED = 3500;
 

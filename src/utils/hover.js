@@ -1,6 +1,6 @@
 import tippy from 'tippy.js';
 import eventManager from './eventManager.js';
-import { footer, footer2 } from './1.variables.js';
+import { footer, footer2, window } from './1.variables.js';
 import { debug } from './debug.js';
 
 let e;
@@ -49,11 +49,11 @@ export function show(data, border = null) {
 }
 function getFooter(type) {
   switch (type) {
-    default: return footer;
     case 'footer2':
     case 'short': return footer2;
     case 'none':
     case 'hidden': return '';
+    default: return footer;
   }
 }
 export function tip(text, target, {

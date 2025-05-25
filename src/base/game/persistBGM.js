@@ -3,6 +3,7 @@ import * as settings from '../../utils/settings/index.js';
 import { global } from '../../utils/global.js';
 import { isApril, IMAGES } from '../../utils/isApril.js';
 import { aprilFools } from '../vanilla/aprilFools.js';
+import { window } from '../../utils/1.variables.js';
 
 const setting = settings.register({
   name: 'Persist Arena (Background and Music)',

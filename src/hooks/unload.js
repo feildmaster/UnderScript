@@ -1,4 +1,4 @@
-import { SOCKET_SCRIPT_CLOSED } from '../utils/1.variables.js';
+import { SOCKET_SCRIPT_CLOSED, window } from '../utils/1.variables.js';
 import eventManager from '../utils/eventManager.js';
 import { getPageName } from '../utils/onPage.js';
 

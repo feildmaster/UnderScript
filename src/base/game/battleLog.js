@@ -9,6 +9,7 @@ import each from '../../utils/each.js';
 import * as userInfo from '../../utils/user.js';
 import find from '../../utils/find.js';
 import merge from '../../utils/merge.js';
+import { window } from '../../utils/1.variables.js';
 
 /* eslint-disable no-use-before-define */
 settings.register({
