@@ -254,7 +254,6 @@ onPage('Crafting', function disenchantWrapper() {
 
   function include(rarity) {
     switch (rarity) {
-      default: debugToast(`Unknown Rarity: ${rarity}`); // fallthrough
       case 'BASE':
       case 'GENERATED':
       case 'TOKEN':
@@ -263,6 +262,9 @@ onPage('Crafting', function disenchantWrapper() {
       case 'EPIC':
       case 'RARE':
       case 'COMMON': return true;
+      default:
+        debugToast(`Unknown Rarity: ${rarity}`);
+        return false;
     }
   }
 });

@@ -43,7 +43,7 @@ module.exports = {
     'no-extra-boolean-cast': 'warn',
     'import/extensions': ['error', 'ignorePackages'],
     'import/no-extraneous-dependencies': ['error', {
-      devDependencies: ['./scripts/**'],
+      devDependencies: ['./scripts/**', './test/**', '*'],
       optionalDependencies: false,
       peerDependencies: false,
       bundledDependencies: false,

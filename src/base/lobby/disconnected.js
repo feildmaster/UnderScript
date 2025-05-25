@@ -18,11 +18,11 @@ function setup() {
 
   eventManager.on('Play:Message', (data) => {
     switch (data.action) {
-      default:
-        waiting = false;
-        return;
       case 'getLeaveQueue':
         waiting = true;
+        break;
+      default:
+        waiting = false;
     }
   });
 }

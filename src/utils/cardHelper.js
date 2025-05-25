@@ -66,13 +66,13 @@ export function dustCost(r, s) {
     r = rarity(r);
   }
   switch (r) {
-    default:
     case 'DETERMINATION': return null;
     case 'LEGENDARY': return s ? 3200 : 1600;
     case 'EPIC': return s ? 1600 : 400;
     case 'RARE': return s ? 800 : 100;
     case 'COMMON': return s ? 400 : 40;
     case 'BASE': return s ? 400 : null;
+    default: return null;
   }
 }
 
@@ -84,7 +84,6 @@ export function dustGain(r, s) {
     r = rarity(r);
   }
   switch (r) {
-    default: debug(`Unknown Rarity: ${r}`); // fallthrough
     case 'TOKEN':
     case 'GENERATED': // You can't craft this, but I don't want an error
     case 'DETERMINATION': return undefined;
@@ -93,6 +92,10 @@ export function dustGain(r, s) {
     case 'RARE': return s ? 100 : 20;
     case 'COMMON': return s ? 40 : 5;
     case 'BASE': return s ? 40 : 0;
+    default: {
+      debug(`Unknown Rarity: ${r}`);
+      return undefined;
+    }
   }
 }
 

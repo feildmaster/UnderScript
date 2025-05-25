@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 function checkUnderscript(pluginName) {
+  const window = typeof unsafeWindow === 'object' ? unsafeWindow : globalThis;
   if (window.underscript) return;
 
   const key = 'underscript.required';

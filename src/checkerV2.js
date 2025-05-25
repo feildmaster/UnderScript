@@ -1,4 +1,4 @@
-((pluginName = 'UNKNOWN') => {
+((pluginName, window) => {
   if (window.underscript) return;
 
   const key = 'underscript.required';
@@ -31,4 +31,4 @@
   }
 
   throw new Error(`${pluginName}: UnderScript required`);
-})(this.GM_info?.script?.name);
+})(this.GM_info?.script?.name ?? 'UNKNOWN', typeof unsafeWindow === 'object' ? unsafeWindow : globalThis);

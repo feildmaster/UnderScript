@@ -1,3 +1,4 @@
+import { window } from '../../utils/1.variables.js';
 import getExtras from '../../utils/appendCardExtras.js';
 import each from '../../utils/each.js';
 import eventEmitter from '../../utils/eventEmitter.js';

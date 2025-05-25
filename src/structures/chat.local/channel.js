@@ -13,11 +13,11 @@ export default class Channel extends Base {
 
   update(data) {
     switch (data.action) {
-      default: break;
       case 'getMessage':
       case 'getPrivateMessage':
         // TODO: Add new message
         break;
+      default: break;
     }
   }
 

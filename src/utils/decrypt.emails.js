@@ -1,6 +1,6 @@
 const selector = 'a[href="/cdn-cgi/l/email-protection"]';
 
-function hexAt(str = '', index) {
+function hexAt(str = '', index = 0) {
   const r = str.substr(index, 2);
   return parseInt(r, 16);
 }
