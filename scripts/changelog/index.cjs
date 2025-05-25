@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const { getInput, setOutput } = require('@actions/core');
 const fs = require('fs');
 const { getVersionById } = require('./entries.cjs');

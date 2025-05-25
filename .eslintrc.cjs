@@ -42,6 +42,12 @@ module.exports = {
     quotes: ['error', 'single', { allowTemplateLiterals: true, avoidEscape: true }],
     'no-extra-boolean-cast': 'warn',
     'import/extensions': ['error', 'ignorePackages'],
+    'import/no-extraneous-dependencies': ['error', {
+      devDependencies: ['./scripts/**'],
+      optionalDependencies: false,
+      peerDependencies: false,
+      bundledDependencies: false,
+    }],
     'max-len': ['error', {
       code: 120,
       ignoreComments: true,
