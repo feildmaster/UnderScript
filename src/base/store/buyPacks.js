@@ -1,9 +1,9 @@
-import eventManager from '../../utils/eventManager.js';
-import { global, globalSet } from '../../utils/global.js';
-import * as hover from '../../utils/hover.js';
-import wrap from '../../utils/2.pokemon.js';
-import sleep from '../../utils/sleep.js';
-import * as api from '../../utils/4.api.js';
+import eventManager from 'src/utils/eventManager.js';
+import { global, globalSet } from 'src/utils/global.js';
+import * as hover from 'src/utils/hover.js';
+import wrap from 'src/utils/2.pokemon.js';
+import sleep from 'src/utils/sleep.js';
+import * as api from 'src/utils/4.api.js';
 
 wrap(() => {
   // buy multiple packs

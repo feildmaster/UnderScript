@@ -1,5 +1,5 @@
-import clone from '../../clone.js';
-import { translateText } from '../../translate.js';
+import clone from 'src/utils/clone.js';
+import { translateText } from 'src/utils/translate.js';
 import Setting from './array.js';
 
 export default class List extends Setting {

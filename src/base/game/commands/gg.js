@@ -1,8 +1,8 @@
-import eventManager from '../../../utils/eventManager.js';
-import * as settings from '../../../utils/settings/index.js';
-import onPage from '../../../utils/onPage.js';
-import rand from '../../../utils/rand.js';
-import * as $el from '../../../utils/elementHelper.js';
+import eventManager from 'src/utils/eventManager.js';
+import * as settings from 'src/utils/settings/index.js';
+import onPage from 'src/utils/onPage.js';
+import rand from 'src/utils/rand.js';
+import * as $el from 'src/utils/elementHelper.js';
 
 eventManager.on('ChatDetected', function goodGame() {
   const list = ['good game', 'gg', 'Good Game', 'Good game'];

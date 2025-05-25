@@ -1,5 +1,5 @@
-import eventManager from '../../utils/eventManager.js';
-import { debug } from '../../utils/debug.js';
+import eventManager from 'src/utils/eventManager.js';
+import { debug } from 'src/utils/debug.js';
 
 eventManager.on('getTurnEnd getTurnStart getPlayableCards', function hideSpells() {
   // Remove stale cards

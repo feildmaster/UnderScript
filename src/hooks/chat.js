@@ -1,8 +1,8 @@
-import { SOCKET_SCRIPT_CLOSED } from '../utils/1.variables.js';
-import eventManager from '../utils/eventManager.js';
-import { debug } from '../utils/debug.js';
-import { global, globalSet } from '../utils/global.js';
-import VarStore from '../utils/VarStore.js';
+import { SOCKET_SCRIPT_CLOSED } from 'src/utils/1.variables.js';
+import eventManager from 'src/utils/eventManager.js';
+import { debug } from 'src/utils/debug.js';
+import { global, globalSet } from 'src/utils/global.js';
+import VarStore from 'src/utils/VarStore.js';
 import { isActive, updateIfActive } from './session.js';
 
 // TODO: Use Message object

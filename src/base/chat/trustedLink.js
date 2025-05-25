@@ -1,8 +1,8 @@
-import each from '../../utils/each.js';
-import eventManager from '../../utils/eventManager.js';
-import { globalSet } from '../../utils/global.js';
-import * as settings from '../../utils/settings/index.js';
-import VarStore from '../../utils/VarStore.js';
+import each from 'src/utils/each.js';
+import eventManager from 'src/utils/eventManager.js';
+import { globalSet } from 'src/utils/global.js';
+import * as settings from 'src/utils/settings/index.js';
+import VarStore from 'src/utils/VarStore.js';
 
 const base = {
   key: 'underscript.safelink.',

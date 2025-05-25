@@ -1,6 +1,6 @@
-import wrap from '../../utils/2.pokemon.js';
-import { registerModule } from '../../utils/plugin.js';
-import { getQuests, fetch } from '../../utils/quests.js';
+import wrap from 'src/utils/2.pokemon.js';
+import { registerModule } from 'src/utils/plugin.js';
+import { getQuests, fetch } from 'src/utils/quests.js';
 
 wrap(() => {
   const name = 'quests';

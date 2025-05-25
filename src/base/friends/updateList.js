@@ -1,6 +1,6 @@
-import eventManager from '../../utils/eventManager.js';
-import { global } from '../../utils/global.js';
-import sleep from '../../utils/sleep.js';
+import eventManager from 'src/utils/eventManager.js';
+import { global } from 'src/utils/global.js';
+import sleep from 'src/utils/sleep.js';
 import updateTip from './online.js';
 
 eventManager.on('preChat:getFriends', function updateFriends(data) {

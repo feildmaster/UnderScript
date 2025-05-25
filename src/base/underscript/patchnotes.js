@@ -1,11 +1,11 @@
-import * as settings from '../../utils/settings/index.js';
-import wrap from '../../utils/2.pokemon.js';
-import cleanData from '../../utils/cleanData.js';
-import { noop, scriptVersion } from '../../utils/1.variables.js';
+import * as settings from 'src/utils/settings/index.js';
+import wrap from 'src/utils/2.pokemon.js';
+import cleanData from 'src/utils/cleanData.js';
+import { noop, scriptVersion } from 'src/utils/1.variables.js';
+import style from 'src/utils/style.js';
+import { toast } from 'src/utils/2.toasts.js';
+import css from 'src/utils/css.js';
 import * as changelog from './changelog.js';
-import style from '../../utils/style.js';
-import { toast } from '../../utils/2.toasts.js';
-import css from '../../utils/css.js';
 
 wrap(function patchNotes() {
   const setting = settings.register({

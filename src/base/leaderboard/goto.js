@@ -1,11 +1,11 @@
-import eventManager from '../../utils/eventManager.js';
-import { globalSet } from '../../utils/global.js';
-import { debug } from '../../utils/debug.js';
-import onPage from '../../utils/onPage.js';
-import VarStore from '../../utils/VarStore.js';
+import eventManager from 'src/utils/eventManager.js';
+import { globalSet } from 'src/utils/global.js';
+import { debug } from 'src/utils/debug.js';
+import onPage from 'src/utils/onPage.js';
+import VarStore from 'src/utils/VarStore.js';
+import hasOwn from 'src/utils/hasOwn.js';
+import { window } from 'src/utils/1.variables.js';
 import changePage from '../vanilla/pageSelect.js';
-import hasOwn from '../../utils/hasOwn.js';
-import { window } from '../../utils/1.variables.js';
 
 function set(type, value, replace = true) {
   if (history.state &&

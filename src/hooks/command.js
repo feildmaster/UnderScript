@@ -1,4 +1,4 @@
-import eventManager from '../utils/eventManager.js';
+import eventManager from 'src/utils/eventManager.js';
 
 eventManager.on('Chat:send', function chatCommand({ input, room }) {
   const raw = input.value;

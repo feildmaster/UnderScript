@@ -1,6 +1,6 @@
-import eventManager from '../../utils/eventManager.js';
+import eventManager from 'src/utils/eventManager.js';
+import * as $el from 'src/utils/elementHelper.js';
 import streaming from './0.streamer.js';
-import * as $el from '../../utils/elementHelper.js';
 
 eventManager.on(':preload:Settings', () => {
   if (!streaming()) return;

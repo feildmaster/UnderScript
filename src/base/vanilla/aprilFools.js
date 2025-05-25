@@ -1,6 +1,6 @@
-import eventManager from '../../utils/eventManager.js';
-import * as settings from '../../utils/settings/index.js';
-import { isApril, IMAGES } from '../../utils/isApril.js';
+import eventManager from 'src/utils/eventManager.js';
+import * as settings from 'src/utils/settings/index.js';
+import { isApril, IMAGES } from 'src/utils/isApril.js';
 
 const year = `${new Date().getFullYear()}`;
 export const aprilFools = settings.register({

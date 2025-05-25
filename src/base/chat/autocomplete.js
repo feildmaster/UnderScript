@@ -1,10 +1,10 @@
-import eventManager from '../../utils/eventManager.js';
-import * as settings from '../../utils/settings/index.js';
-import { global, globalSet } from '../../utils/global.js';
-import style from '../../utils/style.js';
-import * as fnUser from '../../utils/user.js';
-import { debug } from '../../utils/debug.js';
-import css from '../../utils/css.js';
+import eventManager from 'src/utils/eventManager.js';
+import * as settings from 'src/utils/settings/index.js';
+import { global, globalSet } from 'src/utils/global.js';
+import style from 'src/utils/style.js';
+import * as fnUser from 'src/utils/user.js';
+import { debug } from 'src/utils/debug.js';
+import css from 'src/utils/css.js';
 
 const setting = settings.register({
   name: 'Visual Autocomplete',

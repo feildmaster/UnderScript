@@ -1,10 +1,10 @@
-import eventManager from '../../utils/eventManager.js';
-import * as settings from '../../utils/settings/index.js';
-import wrap from '../../utils/2.pokemon.js';
-import onPage from '../../utils/onPage.js';
-import style from '../../utils/style.js';
-import $el from '../../utils/elementHelper.js';
-import { fetch } from '../../utils/quests.js';
+import eventManager from 'src/utils/eventManager.js';
+import * as settings from 'src/utils/settings/index.js';
+import wrap from 'src/utils/2.pokemon.js';
+import onPage from 'src/utils/onPage.js';
+import style from 'src/utils/style.js';
+import $el from 'src/utils/elementHelper.js';
+import { fetch } from 'src/utils/quests.js';
 
 wrap(() => {
   const setting = settings.register({

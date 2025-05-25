@@ -1,6 +1,6 @@
-import eventManager from '../../utils/eventManager.js';
-import { infoToast } from '../../utils/2.toasts.js';
-import { window } from '../../utils/1.variables.js';
+import eventManager from 'src/utils/eventManager.js';
+import { infoToast } from 'src/utils/2.toasts.js';
+import { window } from 'src/utils/1.variables.js';
 
 eventManager.on(':load:GamesList', () => {
   let toast = infoToast({

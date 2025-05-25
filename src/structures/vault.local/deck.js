@@ -1,4 +1,4 @@
-import { global } from '../../utils/global.js';
+import { global } from 'src/utils/global.js';
 import Base from '../base.js';
 
 export default class Deck extends Base {

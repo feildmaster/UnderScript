@@ -1,6 +1,6 @@
-import { window } from '../utils/1.variables.js';
-import eventManager from '../utils/eventManager.js';
-import { global } from '../utils/global.js';
+import { window } from 'src/utils/1.variables.js';
+import eventManager from 'src/utils/eventManager.js';
+import { global } from 'src/utils/global.js';
 
 export const sessionId = window.crypto?.randomUUID() || Math.random().toString();
 

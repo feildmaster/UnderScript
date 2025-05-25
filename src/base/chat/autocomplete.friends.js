@@ -1,7 +1,7 @@
-import eventManager from '../../utils/eventManager.js';
-import * as settings from '../../utils/settings/index.js';
-import { global } from '../../utils/global.js';
-import * as user from '../../utils/user.js';
+import eventManager from 'src/utils/eventManager.js';
+import * as settings from 'src/utils/settings/index.js';
+import { global } from 'src/utils/global.js';
+import * as user from 'src/utils/user.js';
 
 const setting = settings.register({
   name: 'Autocomplete: Online Friends Only',

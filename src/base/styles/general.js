@@ -1,4 +1,4 @@
-import style from '../../utils/style.js';
+import style from 'src/utils/style.js';
 
 style.add(
   '.clickable { cursor: pointer; }',

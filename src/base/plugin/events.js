@@ -1,8 +1,8 @@
-import eventManager from '../../utils/eventManager.js';
-import wrap from '../../utils/2.pokemon.js';
-import { registerModule } from '../../utils/plugin.js';
-import { capturePluginError } from '../../utils/sentry.js';
-import compoundEvent from '../../utils/compoundEvent.js';
+import eventManager from 'src/utils/eventManager.js';
+import wrap from 'src/utils/2.pokemon.js';
+import { registerModule } from 'src/utils/plugin.js';
+import { capturePluginError } from 'src/utils/sentry.js';
+import compoundEvent from 'src/utils/compoundEvent.js';
 
 wrap(() => {
   const options = ['cancelable', 'canceled', 'singleton', 'async'];

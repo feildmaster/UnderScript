@@ -1,9 +1,9 @@
-import eventManager from '../../utils/eventManager.js';
-import * as settings from '../../utils/settings/index.js';
-import { global } from '../../utils/global.js';
-import * as hover from '../../utils/hover.js';
-import style from '../../utils/style.js';
-import { name } from '../../utils/user.js';
+import eventManager from 'src/utils/eventManager.js';
+import * as settings from 'src/utils/settings/index.js';
+import { global } from 'src/utils/global.js';
+import * as hover from 'src/utils/hover.js';
+import style from 'src/utils/style.js';
+import { name } from 'src/utils/user.js';
 
 const setting = settings.register({
   name: 'Enable online friends',

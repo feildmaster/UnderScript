@@ -1,9 +1,9 @@
-import eventManager from '../../utils/eventManager.js';
-import * as settings from '../../utils/settings/index.js';
-import { global } from '../../utils/global.js';
-import { errorToast } from '../../utils/2.toasts.js';
-import { debug } from '../../utils/debug.js';
-import isFriend from '../../utils/isFriend.js';
+import eventManager from 'src/utils/eventManager.js';
+import * as settings from 'src/utils/settings/index.js';
+import { global } from 'src/utils/global.js';
+import { errorToast } from 'src/utils/2.toasts.js';
+import { debug } from 'src/utils/debug.js';
+import isFriend from 'src/utils/isFriend.js';
 
 const setting = settings.register({
   name: 'Friends only',

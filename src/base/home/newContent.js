@@ -1,8 +1,8 @@
-import eventManager from '../../utils/eventManager.js';
-import * as settings from '../../utils/settings/index.js';
-import { dismissable } from '../../utils/2.toasts.js';
-import onPage from '../../utils/onPage.js';
-import cleanData from '../../utils/cleanData.js';
+import eventManager from 'src/utils/eventManager.js';
+import * as settings from 'src/utils/settings/index.js';
+import { dismissable } from 'src/utils/2.toasts.js';
+import onPage from 'src/utils/onPage.js';
+import cleanData from 'src/utils/cleanData.js';
 
 const bundle = settings.register({
   name: 'Enable bundle toast',

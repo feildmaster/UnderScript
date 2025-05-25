@@ -1,7 +1,7 @@
-import { buttonCSS as css } from '../../utils/1.variables.js';
-import wrap from '../../utils/2.pokemon.js';
-import { registerModule } from '../../utils/plugin.js';
-import * as settings from '../../utils/settings/index.js';
+import { buttonCSS as css } from 'src/utils/1.variables.js';
+import wrap from 'src/utils/2.pokemon.js';
+import { registerModule } from 'src/utils/plugin.js';
+import * as settings from 'src/utils/settings/index.js';
 
 const enable = ['Enabled with toast', 'Enabled silently'];
 

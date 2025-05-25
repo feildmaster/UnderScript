@@ -1,9 +1,9 @@
 import axios from 'axios';
-import eventManager from '../../utils/eventManager.js';
-import * as settings from '../../utils/settings/index.js';
-import { toast } from '../../utils/2.toasts.js';
-import each from '../../utils/each.js';
-import { noop } from '../../utils/1.variables.js';
+import eventManager from 'src/utils/eventManager.js';
+import * as settings from 'src/utils/settings/index.js';
+import { toast } from 'src/utils/2.toasts.js';
+import each from 'src/utils/each.js';
+import { noop } from 'src/utils/1.variables.js';
 
 const setting = settings.register({
   name: 'Disable Friend Request Notifications',

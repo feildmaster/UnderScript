@@ -1,16 +1,16 @@
 import axios from 'axios';
 import luxon from 'luxon';
-import * as settings from '../../utils/settings/index.js';
-import style from '../../utils/style.js';
-import wrap from '../../utils/2.pokemon.js';
-import { debugToast } from '../../utils/debug.js';
-import { toast as BasicToast } from '../../utils/2.toasts.js';
-import sleep from '../../utils/sleep.js';
-import * as menu from '../../utils/menu.js';
-import semver from '../../utils/version.js';
-import { buttonCSS, scriptVersion } from '../../utils/1.variables.js';
-import css from '../../utils/css.js';
-import { captureError } from '../../utils/sentry.js';
+import * as settings from 'src/utils/settings/index.js';
+import style from 'src/utils/style.js';
+import wrap from 'src/utils/2.pokemon.js';
+import { debugToast } from 'src/utils/debug.js';
+import { toast as BasicToast } from 'src/utils/2.toasts.js';
+import sleep from 'src/utils/sleep.js';
+import * as menu from 'src/utils/menu.js';
+import semver from 'src/utils/version.js';
+import { buttonCSS, scriptVersion } from 'src/utils/1.variables.js';
+import css from 'src/utils/css.js';
+import { captureError } from 'src/utils/sentry.js';
 
 // Check for script updates
 wrap(() => {

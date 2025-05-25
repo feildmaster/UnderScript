@@ -1,5 +1,5 @@
-import eventManager from '../../utils/eventManager.js';
-import { global } from '../../utils/global.js';
+import eventManager from 'src/utils/eventManager.js';
+import { global } from 'src/utils/global.js';
 
 eventManager.on('Chat:getMessage', (data) => {
   if (!data.idRoom) return;

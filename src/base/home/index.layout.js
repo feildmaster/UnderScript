@@ -1,7 +1,7 @@
-import eventManager from '../../utils/eventManager.js';
-import * as settings from '../../utils/settings/index.js';
-import onPage from '../../utils/onPage.js';
-import { window } from '../../utils/1.variables.js';
+import eventManager from 'src/utils/eventManager.js';
+import * as settings from 'src/utils/settings/index.js';
+import onPage from 'src/utils/onPage.js';
+import { window } from 'src/utils/1.variables.js';
 
 const setting = settings.register({
   name: 'Disable Game List Resizing',

@@ -1,7 +1,7 @@
-import eventManager from '../../utils/eventManager.js';
-import * as settings from '../../utils/settings/index.js';
-import { global, globalSet } from '../../utils/global.js';
-import * as hover from '../../utils/hover.js';
+import eventManager from 'src/utils/eventManager.js';
+import * as settings from 'src/utils/settings/index.js';
+import { global, globalSet } from 'src/utils/global.js';
+import * as hover from 'src/utils/hover.js';
 
 const disable = settings.register({
   name: 'Disable First/Last Page Shortcut',

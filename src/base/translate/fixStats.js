@@ -1,4 +1,4 @@
-import eventManager from '../../utils/eventManager.js';
+import eventManager from 'src/utils/eventManager.js';
 
 eventManager.on('translation:loaded', () => {
   const CLASSES = ['cost-color', 'atk-color', 'hp-color'];

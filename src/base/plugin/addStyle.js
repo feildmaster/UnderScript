@@ -1,6 +1,6 @@
-import wrap from '../../utils/2.pokemon.js';
-import { newStyle } from '../../utils/style.js';
-import { registerModule } from '../../utils/plugin.js';
+import wrap from 'src/utils/2.pokemon.js';
+import { newStyle } from 'src/utils/style.js';
+import { registerModule } from 'src/utils/plugin.js';
 
 wrap(() => {
   const name = 'addStyle';

@@ -1,7 +1,7 @@
-import eventManager from '../../utils/eventManager.js';
-import * as settings from '../../utils/settings/index.js';
-import { toast as basicToast } from '../../utils/2.toasts.js';
-import { globalSet } from '../../utils/global.js';
+import eventManager from 'src/utils/eventManager.js';
+import * as settings from 'src/utils/settings/index.js';
+import { toast as basicToast } from 'src/utils/2.toasts.js';
+import { globalSet } from 'src/utils/global.js';
 
 const setting = settings.register({
   name: 'Disable Result Toast',

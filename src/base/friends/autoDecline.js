@@ -1,12 +1,12 @@
 import axios from 'axios';
-import eventManager from '../../utils/eventManager.js';
-import * as settings from '../../utils/settings/index.js';
-import { toast } from '../../utils/2.toasts.js';
-import { debug } from '../../utils/debug.js';
-import onPage from '../../utils/onPage.js';
-import * as hover from '../../utils/hover.js';
-import each from '../../utils/each.js';
-import { captureError } from '../../utils/sentry.js';
+import eventManager from 'src/utils/eventManager.js';
+import * as settings from 'src/utils/settings/index.js';
+import { toast } from 'src/utils/2.toasts.js';
+import { debug } from 'src/utils/debug.js';
+import onPage from 'src/utils/onPage.js';
+import * as hover from 'src/utils/hover.js';
+import each from 'src/utils/each.js';
+import { captureError } from 'src/utils/sentry.js';
 
 const disabled = settings.register({
   name: 'Disable',

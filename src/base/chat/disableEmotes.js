@@ -1,6 +1,6 @@
-import eventManager from '../../utils/eventManager.js';
-import * as settings from '../../utils/settings/index.js';
-import { global, globalSet } from '../../utils/global.js';
+import eventManager from 'src/utils/eventManager.js';
+import * as settings from 'src/utils/settings/index.js';
+import { global, globalSet } from 'src/utils/global.js';
 
 const baseSetting = {
   key: 'underscript.emotes.disable',

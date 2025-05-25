@@ -1,6 +1,6 @@
-import each from '../../../utils/each.js';
-import eventManager from '../../../utils/eventManager.js';
-import ignoreUser from '../../../utils/ignoreUser.js';
+import each from 'src/utils/each.js';
+import eventManager from 'src/utils/eventManager.js';
+import ignoreUser from 'src/utils/ignoreUser.js';
 
 eventManager.on(':load', () => {
   each(localStorage, (name, key) => {

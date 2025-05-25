@@ -1,6 +1,6 @@
-import * as settings from '../../utils/settings/index.js';
-import * as api from '../../utils/4.api.js';
-import ignoreUser from '../../utils/ignoreUser.js';
+import * as settings from 'src/utils/settings/index.js';
+import * as api from 'src/utils/4.api.js';
+import ignoreUser from 'src/utils/ignoreUser.js';
 
 const ignorePrefix = 'underscript.ignore.';
 

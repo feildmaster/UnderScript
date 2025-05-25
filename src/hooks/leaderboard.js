@@ -1,5 +1,5 @@
-import eventManager from '../utils/eventManager.js';
-import { globalSet } from '../utils/global.js';
+import eventManager from 'src/utils/eventManager.js';
+import { globalSet } from 'src/utils/global.js';
 
 eventManager.on(':preload:leaderboard', () => {
   globalSet('pageName', location.pathname.substr(1));

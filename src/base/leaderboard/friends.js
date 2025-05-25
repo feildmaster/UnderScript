@@ -1,8 +1,8 @@
-import eventManager from '../../utils/eventManager.js';
-import { global, globalSet } from '../../utils/global.js';
-import style from '../../utils/style.js';
-import onPage from '../../utils/onPage.js';
-import * as hover from '../../utils/hover.js';
+import eventManager from 'src/utils/eventManager.js';
+import { global, globalSet } from 'src/utils/global.js';
+import style from 'src/utils/style.js';
+import onPage from 'src/utils/onPage.js';
+import * as hover from 'src/utils/hover.js';
 
 let showFriends = false;
 let ready = 0;

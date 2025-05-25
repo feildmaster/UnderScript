@@ -1,11 +1,11 @@
-import eventManager from '../../utils/eventManager.js';
-import * as settings from '../../utils/settings/index.js';
-import { global } from '../../utils/global.js';
-import { toast } from '../../utils/2.toasts.js';
-import { debug } from '../../utils/debug.js';
-import each from '../../utils/each.js';
+import eventManager from 'src/utils/eventManager.js';
+import * as settings from 'src/utils/settings/index.js';
+import { global } from 'src/utils/global.js';
+import { toast } from 'src/utils/2.toasts.js';
+import { debug } from 'src/utils/debug.js';
+import each from 'src/utils/each.js';
+import { buttonCSS as css } from 'src/utils/1.variables.js';
 import streaming from './0.streamer.js';
-import { buttonCSS as css } from '../../utils/1.variables.js';
 
 /* eslint-disable no-multi-assign */
 // Toast for private messages while streaming mode is on

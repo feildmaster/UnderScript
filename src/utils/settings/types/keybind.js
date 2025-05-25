@@ -1,4 +1,4 @@
-import { translateText } from '../../translate.js';
+import { translateText } from 'src/utils/translate.js';
 import Text from './text.js';
 
 const baseLabels = {

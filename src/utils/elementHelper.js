@@ -7,7 +7,7 @@ function containsText(el, text, { mutex, single } = {}) {
     const ret = [];
     for (let i = 0; i < el.length; i++) {
       const element = mutex ? mutex(el[i]) : el[i];
-      if (!!~getText(element).indexOf(text)) {
+      if (~getText(element).indexOf(text)) {
         ret.push(element);
       }
     }
@@ -28,7 +28,7 @@ function containsHTML(el, text, { mutex, single } = {}) {
     const ret = [];
     for (let i = 0; i < el.length; i++) {
       const element = mutex ? mutex(el[i]) : el[i];
-      if (!!~element.innerHTML.indexOf(text)) {
+      if (~element.innerHTML.indexOf(text)) {
         ret.push(element);
       }
     }

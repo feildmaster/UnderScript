@@ -1,5 +1,5 @@
-import wrap from '../../utils/2.pokemon.js';
-import { registerModule } from '../../utils/plugin.js';
+import wrap from 'src/utils/2.pokemon.js';
+import { registerModule } from 'src/utils/plugin.js';
 import { crafting, decks, filters } from '../library/filter.js';
 
 wrap(() => {

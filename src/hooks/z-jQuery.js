@@ -1,4 +1,4 @@
-import eventManager from '../utils/eventManager.js';
+import eventManager from 'src/utils/eventManager.js';
 
 // Attempt to detect jQuery
 eventManager.on(':preload', () => {

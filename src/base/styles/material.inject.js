@@ -1,4 +1,4 @@
-import eventManager from '../../utils/eventManager.js';
+import eventManager from 'src/utils/eventManager.js';
 
 eventManager.on(':preload', () => {
   const el = document.createElement('link');

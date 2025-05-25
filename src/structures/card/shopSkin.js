@@ -1,5 +1,5 @@
+import isTruthish from 'src/utils/isTrue.js';
 import Skin from './skin.js';
-import isTruthish from '../../utils/isTrue.js';
 
 export default class ShopSkin extends Skin {
   #active = false;

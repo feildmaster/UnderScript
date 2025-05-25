@@ -1,5 +1,5 @@
-import css from '../../utils/css.js';
-import style from '../../utils/style.js';
+import css from 'src/utils/css.js';
+import style from 'src/utils/style.js';
 
 style.add(css`
   #AlertToast {

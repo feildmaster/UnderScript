@@ -1,7 +1,7 @@
-import eventManager from '../../../utils/eventManager.js';
-import * as settings from '../../../utils/settings/index.js';
-import { global } from '../../../utils/global.js';
-import { infoToast } from '../../../utils/2.toasts.js';
+import eventManager from 'src/utils/eventManager.js';
+import * as settings from 'src/utils/settings/index.js';
+import { global } from 'src/utils/global.js';
+import { infoToast } from 'src/utils/2.toasts.js';
 
 const setting = settings.register({
   name: 'Disable spectate command',

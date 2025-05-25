@@ -1,14 +1,14 @@
-import eventManager from '../../utils/eventManager.js';
-import * as settings from '../../utils/settings/index.js';
-import { global } from '../../utils/global.js';
-import style from '../../utils/style.js';
-import { toast as simpleToast, infoToast } from '../../utils/2.toasts.js';
-import each from '../../utils/each.js';
-import * as fnUser from '../../utils/user.js';
-import ignoreUser from '../../utils/ignoreUser.js';
-import decode from '../../utils/decode.js';
-import css from '../../utils/css.js';
-import { buttonCSS, window } from '../../utils/1.variables.js';
+import eventManager from 'src/utils/eventManager.js';
+import * as settings from 'src/utils/settings/index.js';
+import { global } from 'src/utils/global.js';
+import style from 'src/utils/style.js';
+import { toast as simpleToast, infoToast } from 'src/utils/2.toasts.js';
+import each from 'src/utils/each.js';
+import * as fnUser from 'src/utils/user.js';
+import ignoreUser from 'src/utils/ignoreUser.js';
+import decode from 'src/utils/decode.js';
+import css from 'src/utils/css.js';
+import { buttonCSS, window } from 'src/utils/1.variables.js';
 
 const setting = settings.register({
   name: 'Disable Chat Context (right click)',

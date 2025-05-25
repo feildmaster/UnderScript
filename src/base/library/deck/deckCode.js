@@ -1,5 +1,5 @@
-import eventManager from '../../../utils/eventManager.js';
-import { global, globalSet } from '../../../utils/global.js';
+import eventManager from 'src/utils/eventManager.js';
+import { global, globalSet } from 'src/utils/global.js';
 
 // TODO: Remove this when fixed
 eventManager.on(':preload:Decks', () => {

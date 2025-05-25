@@ -1,9 +1,9 @@
-import Quest from '../../structures/quests/Quest.js'; // eslint-disable-line no-unused-vars
-import { toast } from '../../utils/2.toasts.js';
-import * as settings from '../../utils/settings/index.js';
-import onPage from '../../utils/onPage.js';
-import eventManager from '../../utils/eventManager.js';
-import { fetch } from '../../utils/quests.js';
+import Quest from 'src/structures/quests/Quest.js'; // eslint-disable-line no-unused-vars
+import { toast } from 'src/utils/2.toasts.js';
+import * as settings from 'src/utils/settings/index.js';
+import onPage from 'src/utils/onPage.js';
+import eventManager from 'src/utils/eventManager.js';
+import { fetch } from 'src/utils/quests.js';
 
 const setting = settings.register({
   name: 'Disable Quest Toast',

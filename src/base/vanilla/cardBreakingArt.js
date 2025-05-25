@@ -1,7 +1,7 @@
-import eventManager from '../../utils/eventManager.js';
-import * as settings from '../../utils/settings/index.js';
-import style from '../../utils/style.js';
-import VarStore from '../../utils/VarStore.js';
+import eventManager from 'src/utils/eventManager.js';
+import * as settings from 'src/utils/settings/index.js';
+import style from 'src/utils/style.js';
+import VarStore from 'src/utils/VarStore.js';
 
 const def = 'Breaking (Default)';
 const tran = 'Covered (Transparent)';

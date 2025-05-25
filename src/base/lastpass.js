@@ -1,5 +1,5 @@
-import eventManager from '../utils/eventManager.js';
-import onPage from '../utils/onPage.js';
+import eventManager from 'src/utils/eventManager.js';
+import onPage from 'src/utils/onPage.js';
 
 eventManager.on(':preload', () => {
   if (onPage('Settings') || onPage('SignUp') || onPage('SignIn')) return;

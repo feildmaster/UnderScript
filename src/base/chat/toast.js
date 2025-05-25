@@ -1,10 +1,10 @@
-import eventManager from '../../utils/eventManager.js';
-import * as settings from '../../utils/settings/index.js';
-import { global } from '../../utils/global.js';
-import { toast } from '../../utils/2.toasts.js';
-import * as user from '../../utils/user.js';
+import eventManager from 'src/utils/eventManager.js';
+import * as settings from 'src/utils/settings/index.js';
+import { global } from 'src/utils/global.js';
+import { toast } from 'src/utils/2.toasts.js';
+import * as user from 'src/utils/user.js';
+import pingRegex from 'src/utils/pingRegex.js';
 import shouldIgnore from './ignore.js';
-import pingRegex from '../../utils/pingRegex.js';
 
 const setting = settings.register({
   name: 'Enable ping toasts',

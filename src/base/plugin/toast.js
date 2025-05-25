@@ -1,6 +1,6 @@
-import wrap from '../../utils/2.pokemon.js';
-import { registerModule } from '../../utils/plugin.js';
-import { toast as basicToast, errorToast } from '../../utils/2.toasts.js';
+import wrap from 'src/utils/2.pokemon.js';
+import { registerModule } from 'src/utils/plugin.js';
+import { toast as basicToast, errorToast } from 'src/utils/2.toasts.js';
 
 wrap(() => {
   const name = 'toast';

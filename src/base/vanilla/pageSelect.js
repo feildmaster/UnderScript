@@ -1,8 +1,8 @@
-import eventManager from '../../utils/eventManager.js';
-import * as settings from '../../utils/settings/index.js';
-import { global, globalSet } from '../../utils/global.js';
-import onPage from '../../utils/onPage.js';
-import sleep from '../../utils/sleep.js';
+import eventManager from 'src/utils/eventManager.js';
+import * as settings from 'src/utils/settings/index.js';
+import { global, globalSet } from 'src/utils/global.js';
+import onPage from 'src/utils/onPage.js';
+import sleep from 'src/utils/sleep.js';
 
 const disable = settings.register({
   name: 'Disable Page Select',

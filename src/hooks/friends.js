@@ -1,9 +1,9 @@
 import axios from 'axios';
-import eventManager from '../utils/eventManager.js';
-import decrypt from '../utils/decrypt.emails.js';
-import { debugToast as debug } from '../utils/debug.js';
-import sleep from '../utils/sleep.js';
-import { window } from '../utils/1.variables.js';
+import eventManager from 'src/utils/eventManager.js';
+import decrypt from 'src/utils/decrypt.emails.js';
+import { debugToast as debug } from 'src/utils/debug.js';
+import sleep from 'src/utils/sleep.js';
+import { window } from 'src/utils/1.variables.js';
 
 // Friends list hooks. TODO: only work if logged in
 function getFromEl(el) {

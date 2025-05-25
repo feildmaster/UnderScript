@@ -1,12 +1,12 @@
-import eventManager from '../../utils/eventManager.js';
-import * as settings from '../../utils/settings/index.js';
-import { global } from '../../utils/global.js';
-import { toast as basicToast, errorToast } from '../../utils/2.toasts.js';
-import * as hover from '../../utils/hover.js';
-import each from '../../utils/each.js';
-import some from '../../utils/some.js';
-import clear from '../../utils/clear.js';
-import Item from '../../structures/constants/item.js';
+import eventManager from 'src/utils/eventManager.js';
+import * as settings from 'src/utils/settings/index.js';
+import { global } from 'src/utils/global.js';
+import { toast as basicToast, errorToast } from 'src/utils/2.toasts.js';
+import * as hover from 'src/utils/hover.js';
+import each from 'src/utils/each.js';
+import some from 'src/utils/some.js';
+import clear from 'src/utils/clear.js';
+import Item from 'src/structures/constants/item.js';
 
 const setting = settings.register({
   name: 'Disable Collect All',

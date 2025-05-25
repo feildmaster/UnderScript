@@ -1,15 +1,15 @@
 /* eslint-disable no-multi-assign, no-nested-ternary */
-import eventManager from '../../utils/eventManager.js';
-import eventEmitter from '../../utils/eventEmitter.js';
-import { global, globalSet } from '../../utils/global.js';
-import onPage from '../../utils/onPage.js';
-import * as hover from '../../utils/hover.js';
-import { blankToast, toast as basicToast } from '../../utils/2.toasts.js';
-import * as api from '../../utils/4.api.js';
-import formatNumber from '../../utils/formatNumber.js';
-import { getCollection } from '../../utils/user.js';
-import { buttonCSS as css, window } from '../../utils/1.variables.js';
-import Item from '../../structures/constants/item.js';
+import eventManager from 'src/utils/eventManager.js';
+import eventEmitter from 'src/utils/eventEmitter.js';
+import { global, globalSet } from 'src/utils/global.js';
+import onPage from 'src/utils/onPage.js';
+import * as hover from 'src/utils/hover.js';
+import { blankToast, toast as basicToast } from 'src/utils/2.toasts.js';
+import * as api from 'src/utils/4.api.js';
+import formatNumber from 'src/utils/formatNumber.js';
+import { getCollection } from 'src/utils/user.js';
+import { buttonCSS as css, window } from 'src/utils/1.variables.js';
+import Item from 'src/structures/constants/item.js';
 
 onPage('Packs', async function quickOpenPack() {
   const collection = await getCollection();

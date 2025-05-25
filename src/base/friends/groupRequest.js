@@ -1,7 +1,7 @@
-import eventManager from '../../utils/eventManager.js';
-import * as settings from '../../utils/settings/index.js';
-import onPage from '../../utils/onPage.js';
-import * as hover from '../../utils/hover.js';
+import eventManager from 'src/utils/eventManager.js';
+import * as settings from 'src/utils/settings/index.js';
+import onPage from 'src/utils/onPage.js';
+import * as hover from 'src/utils/hover.js';
 
 settings.register({
   name: 'Disable decline all button',

@@ -1,10 +1,10 @@
-import eventManager from '../../utils/eventManager.js';
-import * as settings from '../../utils/settings/index.js';
-import { global, globalSet } from '../../utils/global.js';
-import style from '../../utils/style.js';
-import onPage from '../../utils/onPage.js';
-import { translateText } from '../../utils/translate.js';
-import { max } from '../../utils/cardHelper.js';
+import eventManager from 'src/utils/eventManager.js';
+import * as settings from 'src/utils/settings/index.js';
+import { global, globalSet } from 'src/utils/global.js';
+import style from 'src/utils/style.js';
+import onPage from 'src/utils/onPage.js';
+import { translateText } from 'src/utils/translate.js';
+import { max } from 'src/utils/cardHelper.js';
 
 export const crafting = onPage('Crafting');
 export const decks = onPage('Decks');

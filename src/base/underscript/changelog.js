@@ -1,9 +1,9 @@
 import showdown from 'showdown';
 import axios from 'axios';
-import { scriptVersion } from '../../utils/1.variables.js';
-import style from '../../utils/style.js';
-import * as menu from '../../utils/menu.js';
-import css from '../../utils/css.js';
+import { scriptVersion } from 'src/utils/1.variables.js';
+import style from 'src/utils/style.js';
+import * as menu from 'src/utils/menu.js';
+import css from 'src/utils/css.js';
 
 const changelog = {};
 

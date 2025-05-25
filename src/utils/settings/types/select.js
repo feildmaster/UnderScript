@@ -1,5 +1,5 @@
-import toArray from '../../toArray.js';
-import { translateText } from '../../translate.js';
+import toArray from 'src/utils/toArray.js';
+import { translateText } from 'src/utils/translate.js';
 import Setting from './text.js';
 
 export default class Select extends Setting {

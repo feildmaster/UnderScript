@@ -1,7 +1,7 @@
 import luxon from 'luxon';
-import wrap from '../../utils/2.pokemon.js';
-import eventManager from '../../utils/eventManager.js';
-import sleep from '../../utils/sleep.js';
+import wrap from 'src/utils/2.pokemon.js';
+import eventManager from 'src/utils/eventManager.js';
+import sleep from 'src/utils/sleep.js';
 
 wrap(function localTime() {
   eventManager.on(':load:Quests', () => {

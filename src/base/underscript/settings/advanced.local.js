@@ -1,4 +1,4 @@
-import * as settings from '../../../utils/settings/index.js';
+import * as settings from 'src/utils/settings/index.js';
 import html from './advanced.html';
 
 const page = document.createElement('div');

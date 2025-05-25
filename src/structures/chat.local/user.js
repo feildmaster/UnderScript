@@ -1,5 +1,5 @@
-import Base from '../base.js';
-import { DESIGNER, SUPPORTER } from '../constants/roles.js';
+import Base from 'src/base.js';
+import { DESIGNER, SUPPORTER } from 'src/constants/roles.js';
 
 export default class User extends Base {
   constructor(data) {

@@ -8,6 +8,8 @@ import multi from '@rollup/plugin-multi-entry';
 import externals from 'rollup-plugin-external-globals';
 import css from 'rollup-plugin-import-css';
 import replace from '@rollup/plugin-replace';
+import alias from '@rollup/plugin-alias';
+import path from 'path';
 
 import { version } from './package.json';
 import importString from './scripts/import-string.js';
@@ -73,6 +75,12 @@ export default [{
   }],
   external: ['luxon', 'showdown', 'axios', 'tippy.js'],
   plugins: [
+    alias({
+      entries: [{
+        find: 'src',
+        replacement: path.resolve('./src'),
+      }],
+    }),
     replace({
       preventAssignment: true,
       values: {

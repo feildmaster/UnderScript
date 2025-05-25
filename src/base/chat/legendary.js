@@ -1,8 +1,8 @@
-import eventManager from '../../utils/eventManager.js';
-import * as settings from '../../utils/settings/index.js';
-import { global } from '../../utils/global.js';
-import { toast as SimpleToast } from '../../utils/2.toasts.js';
-import { self, name } from '../../utils/user.js';
+import eventManager from 'src/utils/eventManager.js';
+import * as settings from 'src/utils/settings/index.js';
+import { global } from 'src/utils/global.js';
+import { toast as SimpleToast } from 'src/utils/2.toasts.js';
+import { self, name } from 'src/utils/user.js';
 
 const setting = settings.register({
   name: 'Announcement',

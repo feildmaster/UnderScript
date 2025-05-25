@@ -1,15 +1,15 @@
-import eventManager from '../../utils/eventManager.js';
-import * as settings from '../../utils/settings/index.js';
-import { global } from '../../utils/global.js';
-import style from '../../utils/style.js';
-import { debug } from '../../utils/debug.js';
-import onPage from '../../utils/onPage.js';
-import * as hover from '../../utils/hover.js';
-import each from '../../utils/each.js';
-import * as userInfo from '../../utils/user.js';
-import find from '../../utils/find.js';
-import merge from '../../utils/merge.js';
-import { window } from '../../utils/1.variables.js';
+import eventManager from 'src/utils/eventManager.js';
+import * as settings from 'src/utils/settings/index.js';
+import { global } from 'src/utils/global.js';
+import style from 'src/utils/style.js';
+import { debug } from 'src/utils/debug.js';
+import onPage from 'src/utils/onPage.js';
+import * as hover from 'src/utils/hover.js';
+import each from 'src/utils/each.js';
+import * as userInfo from 'src/utils/user.js';
+import find from 'src/utils/find.js';
+import merge from 'src/utils/merge.js';
+import { window } from 'src/utils/1.variables.js';
 
 /* eslint-disable no-use-before-define */
 settings.register({

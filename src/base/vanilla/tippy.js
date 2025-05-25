@@ -1,6 +1,6 @@
 import tippy from 'tippy.js';
-import eventManager from '../../utils/eventManager.js';
-import { global } from '../../utils/global.js';
+import eventManager from 'src/utils/eventManager.js';
+import { global } from 'src/utils/global.js';
 
 // todo: Setting?
 eventManager.on(':load', () => {

@@ -1,5 +1,5 @@
-import eventManager from '../utils/eventManager.js';
-import { init, login, logout } from '../utils/sentry.js';
+import eventManager from 'src/utils/eventManager.js';
+import { init, login, logout } from 'src/utils/sentry.js';
 
 if (typeof Sentry !== 'undefined') {
   init();

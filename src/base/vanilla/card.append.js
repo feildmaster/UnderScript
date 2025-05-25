@@ -1,10 +1,10 @@
-import { window } from '../../utils/1.variables.js';
-import getExtras from '../../utils/appendCardExtras.js';
-import each from '../../utils/each.js';
-import eventEmitter from '../../utils/eventEmitter.js';
-import eventManager from '../../utils/eventManager.js';
-import { globalSet } from '../../utils/global.js';
-import VarStore from '../../utils/VarStore.js';
+import { window } from 'src/utils/1.variables.js';
+import getExtras from 'src/utils/appendCardExtras.js';
+import each from 'src/utils/each.js';
+import eventEmitter from 'src/utils/eventEmitter.js';
+import eventManager from 'src/utils/eventManager.js';
+import { globalSet } from 'src/utils/global.js';
+import VarStore from 'src/utils/VarStore.js';
 
 const PREFIX = 'appendCard';
 const internal = eventEmitter();

@@ -1,10 +1,10 @@
-import eventManager from '../../../utils/eventManager.js';
-import { global } from '../../../utils/global.js';
-import * as hover from '../../../utils/hover.js';
-import shuffle from '../../../utils/shuffle.js';
-import style from '../../../utils/style.js';
-import rand from '../../../utils/rand.js';
-import * as deckLoader from '../../../utils/loadDeck.js';
+import eventManager from 'src/utils/eventManager.js';
+import { global } from 'src/utils/global.js';
+import * as hover from 'src/utils/hover.js';
+import shuffle from 'src/utils/shuffle.js';
+import style from 'src/utils/style.js';
+import rand from 'src/utils/rand.js';
+import * as deckLoader from 'src/utils/loadDeck.js';
 
 const limits = {
   BASE: 3,

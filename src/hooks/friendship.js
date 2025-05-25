@@ -1,6 +1,6 @@
-import Item from '../structures/constants/item.js';
-import eventManager from '../utils/eventManager.js';
-import { global } from '../utils/global.js';
+import Item from 'src/structures/constants/item.js';
+import eventManager from 'src/utils/eventManager.js';
+import { global } from 'src/utils/global.js';
 
 eventManager.on(':preload:Friendship', () => {
   eventManager.singleton.emit('Friendship:load');
