@@ -1,0 +1,11 @@
+{
+  "include": ["**/*.js"],
+
+  "compilerOptions": {
+    "allowJs": true,
+    "noEmit": true,
+    "paths": {
+      "src/*": ["./*"],
+    },
+  },
+}
