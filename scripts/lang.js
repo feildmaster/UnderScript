@@ -1,5 +1,5 @@
-import fs from 'node:fs/promises';
 import glob from 'fast-glob';
+import { assign, readJSON, sortKeys, writeFile } from './utils';
 
 async function main() {
   // Load base "en" first
@@ -27,16 +27,10 @@ async function main() {
     ),
   );
 
-  const file = JSON.stringify(sort(data), null, 2);
+  const file = JSON.stringify(sortKeys(data), null, 2);
   if (!file) return;
-  await fs.writeFile('lang/underscript.json', file);
-}
 
-function assign(obj = {}, lang = '', key = '', value = '') {
-  // Only add key if value exists
-  if (!value) return;
-  obj[lang] ??= {}; // Does lang exist?
-  obj[lang][key] = value;
+  await writeFile('lang/underscript.json', file);
 }
 
 /**
@@ -48,7 +42,7 @@ async function bundle(files = []) {
   await Promise.all(files.map(async (file) => {
     const [lang, name] = getFileParts(file);
 
-    Object.entries(await parse(file)).forEach(
+    Object.entries(await readJSON(file)).forEach(
       ([key, value]) => {
         assign(ret, lang, `underscript.${name}.${key}`, value);
       },
@@ -61,24 +55,6 @@ async function bundle(files = []) {
 function getFileParts(file = '') {
   const [/* dir */, lang, name] = file.split('/');
   return [lang, name.substring(0, name.lastIndexOf('.'))];
-}
-
-async function parse(file) {
-  const content = await fs.readFile(file);
-  return JSON.parse(content);
-}
-
-function sort(obj = {}) {
-  const keys = Object.keys(obj);
-  if (!keys.length) return undefined;
-  const sorted = {};
-  keys.sort().forEach(
-    (key) => {
-      const value = obj[key];
-      sorted[key] = typeof value === 'object' ? sort(value) : value;
-    },
-  );
-  return sorted;
 }
 
 main();
