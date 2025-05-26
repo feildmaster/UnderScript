@@ -9,9 +9,10 @@ import ignoreUser from 'src/utils/ignoreUser.js';
 import decode from 'src/utils/decode.js';
 import css from 'src/utils/css.js';
 import { buttonCSS, window } from 'src/utils/1.variables.js';
+import Translation from 'src/structures/constants/translation';
 
 const setting = settings.register({
-  name: 'Disable Chat Context (right click)',
+  name: Translation.Setting('disable.rightclick'),
   key: 'underscript.disable.chatContext',
   page: 'Chat',
 });
@@ -60,6 +61,7 @@ eventManager.on('jQuery', () => {
   const ignorePrefix = 'underscript.ignore.';
   const context = (() => {
     const container = $('<div class="chatContext">');
+    // TODO: Translate these buttons
     const profile = $('<li>Profile</li>');
     const message = $('<li>Message</li>');
     const ignore = $('<li>Ignore</li>');

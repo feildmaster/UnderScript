@@ -1,3 +1,4 @@
+import Translation from 'src/structures/constants/translation';
 import { buttonCSS as css } from 'src/utils/1.variables.js';
 import { infoToast } from 'src/utils/2.toasts.js';
 import eventManager from 'src/utils/eventManager.js';
@@ -5,7 +6,7 @@ import * as settings from 'src/utils/settings/index.js';
 import style from 'src/utils/style.js';
 
 const setting = settings.register({
-  name: 'Large Icon mode',
+  name: Translation.Setting('large.avatar'),
   key: 'underscript.chat.largeIcons',
   default: true,
   page: 'Chat',

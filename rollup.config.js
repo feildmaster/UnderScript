@@ -10,6 +10,7 @@ import css from 'rollup-plugin-import-css';
 import replace from '@rollup/plugin-replace';
 import alias from '@rollup/plugin-alias';
 import path from 'path';
+import typescript from '@rollup/plugin-typescript';
 
 import { version } from './package.json';
 import importString from './scripts/import-string.js';
@@ -50,7 +51,6 @@ export default [{
   input: {
     include: [
       'src/utils/0.publicist.js',
-      'src/base/index.js',
       'src/base/**/*.js',
       'src/hooks/**/*.js',
     ],
@@ -91,6 +91,11 @@ export default [{
       },
     }),
     nodeResolve({ browser: true }),
+    typescript({
+      outDir: './dist',
+      target: 'ES2023',
+      tsconfig: './src/tsconfig.json',
+    }),
     css(),
     importString({
       include: ['**/*.html'],

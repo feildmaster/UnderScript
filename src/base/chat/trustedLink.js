@@ -1,3 +1,4 @@
+import Translation from 'src/structures/constants/translation';
 import each from 'src/utils/each.js';
 import eventManager from 'src/utils/eventManager.js';
 import { globalSet } from 'src/utils/global.js';
@@ -7,11 +8,11 @@ import VarStore from 'src/utils/VarStore.js';
 const base = {
   key: 'underscript.safelink.',
   page: 'Chat',
-  category: 'Trusted Domains',
+  category: Translation.Setting('category.chat.links'),
 };
 const setting = settings.register({
   ...base,
-  name: 'Enabled',
+  name: Translation.Setting('safelink'),
   default: true,
   key: 'underscript.enabled.safelink',
 });
@@ -39,12 +40,14 @@ function register(host) {
   }
 }
 
+const TrustDomain = Translation.Setting('safelink.trust', 1);
+
 eventManager.on('BootstrapDialog:show', (dialog) => {
   if (dialog.getTitle() !== 'Leaving Warning' || !setting.value()) return;
   const host = cache.value;
   const after = dialog.options.buttons[0];
   dialog.options.buttons.unshift({
-    label: `Trust ${host}`,
+    label: TrustDomain.withArgs('safelink.trust'),
     cssClass: 'btn-danger',
     action(ref) {
       register(host);

@@ -1,4 +1,4 @@
-import { buttonCSS, window } from './1.variables.js';
+import { buttonCSS } from './1.variables.js';
 import merge from './merge.js';
 
 export function blankToast() {
@@ -6,8 +6,7 @@ export function blankToast() {
 }
 
 export function toast(arg) {
-  // Why do I even check for SimpleToast? It *has* to be loaded at this point...
-  if (!window.SimpleToast || !arg) return false;
+  if (!arg) return false;
   if (typeof arg === 'string') {
     arg = {
       text: arg,

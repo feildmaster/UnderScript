@@ -1,0 +1,29 @@
+name: Bundle Translations
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'lang/**'
+      - '!lang/undercards.json'
+jobs:
+  bundle:
+    name: Bundle
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        registry-url: "https://registry.npmjs.org"
+    - name: Install dependencies
+      run: npm install
+    - name: Bundle
+      run: npm run bundle
+    - name: Commit
+      uses: EndBug/add-and-commit@v9
+      with:
+        message: "chore: update translation file"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

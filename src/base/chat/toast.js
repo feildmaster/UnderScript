@@ -4,30 +4,33 @@ import { global } from 'src/utils/global.js';
 import { toast } from 'src/utils/2.toasts.js';
 import * as user from 'src/utils/user.js';
 import pingRegex from 'src/utils/pingRegex.js';
+import Translation from 'src/structures/constants/translation.js';
+
 import shouldIgnore from './ignore.js';
 
+const category = Translation.Setting('category.chat.ping');
+
 const setting = settings.register({
-  name: 'Enable ping toasts',
+  name: Translation.Setting('ping.toast'),
   key: 'underscript.enable.pingToast',
   default: true,
-  category: 'Ping Me',
+  category,
   page: 'Chat',
 });
 
-// eslint-disable-next-line import/prefer-default-export
 export const globalPing = settings.register({
-  name: 'Only open chats',
+  name: Translation.Setting('ping.toast'),
   key: 'underscript.enable.ping.global',
-  category: 'Ping Me',
+  category,
   page: 'Chat',
 });
 
 export const pingExtras = settings.register({
-  name: 'On',
+  name: Translation.Setting('ping.on'),
   key: 'underscript.ping.extras',
   type: 'array',
   default: ['@underscript'],
-  category: 'Ping Me',
+  category,
   page: 'Chat',
 });
 

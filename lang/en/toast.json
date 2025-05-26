@@ -1,0 +1,13 @@
+{
+  "broadcast": "[INFO] Undercards Broadcast Message",
+  "dismiss": "Dismiss",
+  "ignore": "You've ignored $1",
+  "ping": "UnderScript has custom notifications! You can change them however you like.",
+  "ping.remove": "Remove @underscript!",
+  "ping.settings": "Open settings",
+  "game.request": "Request Permission",
+  "game.request.allowed": "Notifications allowed",
+  "game.request.denied": "Notifications denied",
+  "game.request.message": "UnderScript would like to notify you when a game is found.",
+  "undo": "Undo"
+}

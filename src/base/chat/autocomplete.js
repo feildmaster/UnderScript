@@ -5,9 +5,10 @@ import style from 'src/utils/style.js';
 import * as fnUser from 'src/utils/user.js';
 import { debug } from 'src/utils/debug.js';
 import css from 'src/utils/css.js';
+import Translation from 'src/structures/constants/translation.js';
 
 const setting = settings.register({
-  name: 'Visual Autocomplete',
+  name: Translation.Setting('autocomplete'),
   key: 'underscript.autocomplete',
   default: true,
   page: 'Chat',

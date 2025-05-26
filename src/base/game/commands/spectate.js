@@ -2,18 +2,20 @@ import eventManager from 'src/utils/eventManager.js';
 import * as settings from 'src/utils/settings/index.js';
 import { global } from 'src/utils/global.js';
 import { infoToast } from 'src/utils/2.toasts.js';
+import Translation from 'src/structures/constants/translation';
 
+const command = 'spectate';
 const setting = settings.register({
-  name: 'Disable spectate command',
+  name: Translation.DISABLE_COMMAND_SETTING.withArgs(command),
   key: 'underscript.command.spectate',
   note: '/spectate [text (optional)]<br/>Output:<br/>You vs Enemy: url [text]',
   page: 'Chat',
-  category: 'Commands',
+  category: Translation.CATEGORY_CHAT_COMMAND,
 });
 
 let toast;
 eventManager.on('Chat:command', function spectateCommand(data) {
-  if (this.canceled || data.command !== 'spectate' || setting.value()) return;
+  if (this.canceled || data.command !== command || setting.value()) return;
   if (typeof gameId === 'undefined' || global('finish')) {
     this.canceled = true;
     return;

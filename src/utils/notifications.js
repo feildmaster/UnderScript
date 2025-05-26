@@ -1,3 +1,5 @@
+import Translation from 'src/structures/constants/translation.js';
+
 import * as settings from './settings/index.js';
 import sleep from './sleep.js';
 import eventManager from './eventManager.js';
@@ -32,22 +34,22 @@ export default function notify(text, title = 'Undercards') {
 }
 
 if (isType() && !setting.value()) {
-  eventManager.on(':load:Play', () => show('UnderScript would like to notify you when a game is found.'));
+  eventManager.on(':load:Play', () => show(Translation.Toast('game.request.message')));
 }
 
 function show(text = 'UnderScript would like to send notifications.') {
   const buttons = [{
     css,
-    text: 'Request Permission',
+    text: Translation.Toast('game.request'),
     className: 'dismiss',
     onclick() {
       requestPermission().then((result) => {
-        toast(`Notifications ${result === 'granted' ? 'allowed' : 'denied'}`);
+        toast(Translation.Toast(`game.request.${result === 'granted' ? 'allowed' : 'denied'}`));
       });
     },
   }, {
     css,
-    text: 'Dismiss',
+    text: Translation.DISMISS,
     className: 'dismiss',
     onclick() {
       setting.set(true);

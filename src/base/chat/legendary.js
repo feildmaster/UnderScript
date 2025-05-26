@@ -3,22 +3,25 @@ import * as settings from 'src/utils/settings/index.js';
 import { global } from 'src/utils/global.js';
 import { toast as SimpleToast } from 'src/utils/2.toasts.js';
 import { self, name } from 'src/utils/user.js';
+import Translation from 'src/structures/constants/translation';
+
+const category = Translation.Setting('category.announce.draw');
 
 const setting = settings.register({
-  name: 'Announcement',
+  name: Translation.Setting('announce'),
   key: 'underscript.announcement.draws',
   type: 'select',
   options: ['chat', 'toast', 'both', 'hidden'],
   default: 'toast',
   page: 'Chat',
-  category: 'Legendary Card',
+  category,
 });
 
 const ignoreSelf = settings.register({
-  name: 'Ignore Self',
+  name: Translation.Setting('announce.notSelf'),
   key: 'underscript.announcement.draws.notSelf',
   page: 'Chat',
-  category: 'Legendary Card',
+  category,
   default: true,
 });
 

@@ -1,3 +1,5 @@
+import Translation from 'src/structures/constants/translation.js';
+
 import style from './style.js';
 import { scriptVersion } from './1.variables.js';
 import * as hover from './hover.js';
@@ -5,6 +7,7 @@ import eventManager from './eventManager.js';
 import { infoToast } from './2.toasts.js';
 import { debug } from './debug.js';
 import addMenuButton from './menubuttons.js';
+import { translateText } from './translate.js';
 
 let initialized;
 let menuOpen;
@@ -39,7 +42,7 @@ function init() {
         role: 'Menu',
       })
       .append(
-        `<div class="menu-header"><span class="menu-close right">&times;</span>MENU</div>`,
+        `<div class="menu-header"><span class="menu-close right">&times;</span>${Translation.MENU_TITLE}</div>`,
         body,
         `<div class="menu-footer"><a href="https://git.io/fxysg" target="_blank">UnderScript</a> v${scriptVersion} <a href="https://discord.gg/D8DFvrU" target="_blank"><img id="usdiscord" src="images/social/discord.png" alt="discord"></a></div>`,
       ))
@@ -68,7 +71,7 @@ export function open() {
       if (data.url) {
         // Make text a url
       } else {
-        button.text(data.getText());
+        button.text(translateText(data.getText()));
       }
       if (typeof data.action === 'function') {
         const callable = (e) => {

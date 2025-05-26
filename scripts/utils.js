@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 
 export function assign(obj = {}, lang = '', key = '', value = '') {
   // Only add key if value exists
-  if (!value) return;
+  if (!value || value.startsWith('//')) return;
   obj[lang] ??= {}; // Does lang exist?
   obj[lang][key] = value;
 }

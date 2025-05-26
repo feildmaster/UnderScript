@@ -2,9 +2,10 @@ import eventManager from 'src/utils/eventManager.js';
 import * as settings from 'src/utils/settings/index.js';
 import { global } from 'src/utils/global.js';
 import * as user from 'src/utils/user.js';
+import Translation from 'src/structures/constants/translation.ts';
 
 const setting = settings.register({
-  name: 'Autocomplete: Online Friends Only',
+  name: Translation.Setting('autocomplete.friends'),
   key: 'underscript.autocomplete.friends.online',
   page: 'Chat',
 });

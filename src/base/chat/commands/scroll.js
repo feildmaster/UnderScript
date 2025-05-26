@@ -2,14 +2,15 @@ import eventManager from 'src/utils/eventManager.js';
 import * as settings from 'src/utils/settings/index.js';
 import { global } from 'src/utils/global.js';
 import { debug } from 'src/utils/debug.js';
+import Translation from 'src/structures/constants/translation.ts';
 
 const command = 'scroll';
 const setting = settings.register({
-  name: `Disable ${command} command`,
+  name: Translation.DISABLE_COMMAND_SETTING.withArgs(command),
   key: `underscript.command.${command}`,
   note: `/${command}`,
   page: 'Chat',
-  category: 'Commands',
+  category: Translation.CATEGORY_CHAT_COMMAND,
 });
 
 eventManager.on('Chat:command', function process(data) {

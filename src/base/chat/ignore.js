@@ -5,21 +5,22 @@ import { global } from 'src/utils/global.js';
 import * as fnUser from 'src/utils/user.js';
 import pendingIgnore from 'src/utils/pendingIgnore.js';
 import { debug } from 'src/utils/debug.js';
+import Translation from 'src/structures/constants/translation';
 
 const setting = settings.register({
-  name: 'Disable',
+  name: Translation.Setting('disable.ignoreChat'),
   key: 'underscript.disable.ignorechat',
   page: 'Chat',
-  category: 'Ignored Users',
+  category: Translation.CATEGORY_CHAT_IGNORED,
 });
 
 const how = settings.register({
-  name: 'Behavior',
+  name: Translation.Setting('ignoreChat'),
   key: 'underscript.ignorechat.how',
   type: 'select',
   options: ['remove', 'hide', 'none'],
   page: 'Chat',
-  category: 'Ignored Users',
+  category: Translation.CATEGORY_CHAT_IGNORED,
 });
 
 // This isn't really the best name to call this function

@@ -1,5 +1,5 @@
 import glob from 'fast-glob';
-import { assign, readJSON, sortKeys, writeFile } from './utils';
+import { assign, readJSON, sortKeys, writeFile } from './utils.js';
 
 async function main() {
   // Load base "en" first
@@ -18,7 +18,7 @@ async function main() {
       ([key, value]) => {
         // Check if key exists in "en"
         if (!Object.hasOwn(data.en, key)) {
-          console.warn(`${lang} has extra key "${key}"`);
+          console.warn(`${lang} has unknown key "${key}"`);
           // assign(data, lang, `???${key}`, value);
           // return;
         }

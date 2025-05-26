@@ -3,16 +3,17 @@ import * as settings from 'src/utils/settings/index.js';
 import onPage from 'src/utils/onPage.js';
 import rand from 'src/utils/rand.js';
 import * as $el from 'src/utils/elementHelper.js';
+import Translation from 'src/structures/constants/translation.js';
 
 eventManager.on('ChatDetected', function goodGame() {
   const list = ['good game', 'gg', 'Good Game', 'Good game'];
   const command = 'gg';
   const setting = settings.register({
-    name: `Disable ${command} command`,
+    name: Translation.DISABLE_COMMAND_SETTING.withArgs(command),
     key: `underscript.command.${command}`,
     note: `/${command}`,
     page: 'Chat',
-    category: 'Commands',
+    category: Translation.CATEGORY_CHAT_COMMAND,
   });
 
   if (!onPage('Game')) return;

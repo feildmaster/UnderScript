@@ -41,7 +41,11 @@ module.exports = {
     'operator-linebreak': ['error', 'after'],
     quotes: ['error', 'single', { allowTemplateLiterals: true, avoidEscape: true }],
     'no-extra-boolean-cast': 'warn',
-    'import/extensions': ['error', 'ignorePackages'],
+    'import/extensions': ['error', 'ignorePackages', {
+      ts: 'always',
+      js: 'always',
+      json: 'always',
+    }],
     'import/no-extraneous-dependencies': ['error', {
       devDependencies: ['./scripts/**', './test/**', '*'],
       optionalDependencies: false,

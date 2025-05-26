@@ -5,15 +5,20 @@ import pendingIgnore from 'src/utils/pendingIgnore.js';
 import pingRegex from 'src/utils/pingRegex.js';
 import { infoToast } from 'src/utils/2.toasts.js';
 import { buttonCSS } from 'src/utils/1.variables.js';
+import Translation from 'src/structures/constants/translation.js';
+import style from 'src/utils/style.js';
+
 import { pingExtras } from './toast.js';
 
+style.add('.highlight { color: yellow; }');
+
 const setting = settings.register({
-  name: 'Disable Chat Ping <span style="color: yellow;">(highlighting)</span>',
+  name: Translation.Setting('disable.ping'),
   key: 'underscript.disable.ping',
   page: 'Chat',
 });
 
-const mask = '<span style="color: yellow;">$1</span>';
+const mask = '<span class="highlight">$1</span>';
 
 let disabled = false;
 let notified = false;
@@ -52,24 +57,24 @@ eventManager.on('ChatDetected', () => {
 function notify() {
   if (disabled || notified) return;
   notified = true;
-  const words = pingExtras.value();
-  if (!words.includes('@underscript')) return;
+  if (!pingExtras.value().includes('@underscript')) return;
   infoToast({
-    text: 'UnderScript has custom notifications! You can change them however you like.',
+    text: Translation.Toast('ping'),
     buttons: [{
-      text: 'Open settings',
+      text: Translation.Toast('ping.settings'),
       className: 'dismiss',
       onclick() {
         pingExtras.show(true);
       },
     }, {
-      text: 'Remove @underscript!',
+      text: Translation.Toast('ping.remove'),
       className: 'dismiss',
       onclick() {
+        const words = pingExtras.value();
         pingExtras.set(words.filter((word) => word !== '@underscript'));
       },
     }, {
-      text: 'Dismiss',
+      text: Translation.DISMISS,
       className: 'dismiss',
     }],
     className: 'dismissable',

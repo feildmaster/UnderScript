@@ -13,8 +13,9 @@ export default (element) => {
 /**
  * @param {string} text text to translate
  * @param {object} options
- * @param {string[]} options.args argument array to pass to translation function
- * @param {string} options.fallback value to return when missing or translation not loaded
+ * @param {string[]} [options.args] argument array to pass to translation function
+ * @param {string} [options.fallback] value to return when missing or translation not loaded
+ * @param {string} [options.locale] locale to switch to
  * @returns {string} either translated text or fallback value
  */
 export function translateText(text, {

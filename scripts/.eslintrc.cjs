@@ -4,7 +4,7 @@ module.exports = {
   },
   rules: {
     'import/extensions': ['error', {
-      js: 'never',
+      js: 'always',
       json: 'always',
     }],
     'no-console': 'off',

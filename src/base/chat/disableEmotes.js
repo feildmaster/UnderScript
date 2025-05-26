@@ -1,6 +1,8 @@
 import eventManager from 'src/utils/eventManager.js';
 import * as settings from 'src/utils/settings/index.js';
 import { global, globalSet } from 'src/utils/global.js';
+import Translation from 'src/structures/constants/translation';
+import compound from 'src/utils/compoundEvent';
 
 const baseSetting = {
   key: 'underscript.emotes.disable',
@@ -22,11 +24,13 @@ function init() {
   updateEmotes();
 }
 
+const EmojiName = Translation.Setting('disable.emote', 1);
+
 function makeSettings() {
   originalEmotes.forEach((emote) => {
     const setting = {
       ...baseSetting,
-      name: `<img height="32px" src="images/emotes/${emote.image}.png"/> Disable ${emote.name}`,
+      name: `<img height="32px" src="images/emotes/${emote.image}.png"/> ${EmojiName.translate(emote.name)}`,
       onChange: updateEmotes,
     };
     setting.key += `.${emote.id}`;
@@ -43,5 +47,5 @@ function updateEmotes() {
   });
 }
 
-eventManager.on('Chat:Connected', init);
+compound('Chat:Connected', 'translation:loaded', init);
 eventManager.on('connect', updateEmotes);

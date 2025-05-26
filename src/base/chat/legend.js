@@ -4,30 +4,33 @@ import { global } from 'src/utils/global.js';
 import { toast } from 'src/utils/2.toasts.js';
 import isFriend from 'src/utils/isFriend.js';
 import { self, name } from 'src/utils/user.js';
+import Translation from 'src/structures/constants/translation';
+
+const category = Translation.Setting('category.announce.user');
 
 const setting = settings.register({
-  name: 'Announcement',
+  name: Translation.Setting('announce'),
   key: 'underscript.announcement.legend',
   options: ['Chat', 'Toast', 'Both', 'Hidden'],
   default: 'Toast',
   type: 'select',
   page: 'Chat',
-  category: 'Legendary User',
+  category,
 });
 
 const ignoreSelf = settings.register({
-  name: 'Ignore Self',
+  name: Translation.Setting('announce.notSelf'),
   key: 'underscript.announcement.legend.notSelf',
   page: 'Chat',
-  category: 'Legendary User',
+  category,
   default: true,
 });
 
 const friends = settings.register({
-  name: 'Friends Only',
+  name: Translation.Setting('announce.friendsOnly'),
   key: 'underscript.announcement.legend.friendsOnly',
   page: 'Chat',
-  category: 'Legendary User',
+  category,
 });
 
 // test method: plugin.events.emit.cancelable('preChat:getMessageAuto', { message: JSON.stringify({ args: JSON.stringify(['chat-new-legend', 'user']) }) })
