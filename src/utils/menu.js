@@ -42,7 +42,7 @@ function init() {
         role: 'Menu',
       })
       .append(
-        `<div class="menu-header"><span class="menu-close right">&times;</span>${Translation.MENU_TITLE}</div>`,
+        `<div class="menu-header"><span class="menu-close right">&times;</span>${Translation.Menu('menu.title')}</div>`,
         body,
         `<div class="menu-footer"><a href="https://git.io/fxysg" target="_blank">UnderScript</a> v${scriptVersion} <a href="https://discord.gg/D8DFvrU" target="_blank"><img id="usdiscord" src="images/social/discord.png" alt="discord"></a></div>`,
       ))
@@ -152,7 +152,7 @@ eventManager.on(':load', () => {
   if (btn) btn.addEventListener('click', () => open());
 
   toast = infoToast({
-    text: 'UnderScript has a menu, press ESC to open it!',
+    text: Translation.Toast('menu'),
     onClose: (reason) => {
       toast = null;
       // return reason !== 'opened';

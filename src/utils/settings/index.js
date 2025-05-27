@@ -1,3 +1,4 @@
+import Translation from 'src/structures/constants/translation.js';
 import eventManager from '../eventManager.js';
 import eventEmitter from '../eventEmitter.js';
 import style from '../style.js';
@@ -296,7 +297,7 @@ export function open(page = 'main') {
     return;
   }
   BootstrapDialog.show({
-    title: `UnderScript Configuration`,
+    title: Translation.Setting('title'),
     // size: 'size-wide',
     message() {
       return getScreen().render(true);
@@ -416,8 +417,9 @@ init('main');
 
 // Add our button last
 eventManager.once(':menu:opening', () => {
+  const note = Translation.Menu('settings.note');
   menu.addButton({
-    text: 'Settings',
+    text: Translation.Menu('settings'),
     action: () => {
       open('main');
     },
@@ -426,7 +428,7 @@ eventManager.once(':menu:opening', () => {
     },
     note() {
       if (!this.enabled()) {
-        return 'Settings temporarily unavailable';
+        return note;
       }
       return undefined;
     },

@@ -3,22 +3,25 @@ import * as settings from 'src/utils/settings/index.js';
 import { global } from 'src/utils/global.js';
 import { toast as SimpleToast } from 'src/utils/2.toasts.js';
 import isFriend from 'src/utils/isFriend.js';
+import Translation from 'src/structures/constants/translation';
+
+const category = Translation.Setting('category.announce.winstreak');
 
 const setting = settings.register({
-  name: 'Announcement',
+  name: Translation.Setting('announce'),
   key: 'underscript.winstreak',
   options: ['Chat', 'Toast', 'Both', 'Hidden'],
   default: 'Both',
   type: 'select',
   page: 'Chat',
-  category: 'Winstreak',
+  category,
 });
 
 const friends = settings.register({
-  name: 'Friends Only',
+  name: Translation.Setting('announce.friendsOnly'),
   key: 'underscript.winstreak.friendsOnly',
   page: 'Chat',
-  category: 'Winstreak',
+  category,
 });
 
 const toasts = {

@@ -3,14 +3,20 @@ import * as settings from 'src/utils/settings/index.js';
 import * as api from 'src/utils/4.api.js';
 import { toast } from 'src/utils/2.toasts.js';
 import * as menu from 'src/utils/menu.js';
+import Translation from 'src/structures/constants/translation';
 
 const silent = 'Yes (silent)';
 const disabled = 'No';
+const data = [
+  [Translation.Setting('streamer.option.1'), 'Yes'],
+  [Translation.Setting('streamer.option.2'), silent],
+  [Translation.Setting('streamer.option.3'), disabled],
+];
 const mode = settings.register({
-  name: 'Enable?',
+  name: Translation.Setting('streamer'),
   key: 'underscript.streamer',
-  note: 'Enables a button on the menu, streamer mode is "off" by default.',
-  options: ['Yes', silent, disabled],
+  note: Translation.Setting('streamer.note'),
+  data,
   default: disabled,
   onChange: (val) => {
     if (val === disabled) {

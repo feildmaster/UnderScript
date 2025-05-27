@@ -1,6 +1,9 @@
+import Translation from 'src/structures/constants/translation';
 import EventEmitter from '../eventEmitter.js';
 import { translateText } from '../translate.js';
 import SettingType from './types/setting.js';
+
+const refresh = Translation.Setting('note.refresh');
 
 export default class RegisteredSetting {
   /** @type {string} */
@@ -33,7 +36,7 @@ export default class RegisteredSetting {
   #refresh;
   /** @type {function(any, any): void} */
   #onChange;
-  /** @type {EventEmitter} */
+  /** @type {typeof EventEmitter} */
   #events;
 
   constructor({
@@ -51,7 +54,7 @@ export default class RegisteredSetting {
     note,
     onChange,
     page,
-    refresh,
+    refresh: refreshText,
     remove,
     reset,
     type,
@@ -70,7 +73,7 @@ export default class RegisteredSetting {
     this.#reset = reset;
     this.#data = data;
     this.#note = note;
-    this.#refresh = refresh;
+    this.#refresh = refreshText;
     this.#events = events;
     if (typeof onChange === 'function') {
       this.#onChange = onChange;
@@ -139,13 +142,12 @@ export default class RegisteredSetting {
     const notes = [];
 
     const note = this.#value(this.#note);
-    if (typeof note === 'string') {
-      notes.push(note);
+    if (note) {
+      notes.push(translateText(note));
     }
 
     if (this.#value(this.#refresh)) {
-      // TODO: Translation file
-      notes.push('Will require you to refresh the page.');
+      notes.push(refresh);
     }
 
     return notes.join('<br>');

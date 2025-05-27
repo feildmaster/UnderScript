@@ -45,11 +45,8 @@ export interface TranslationWithArgs<N extends number> extends TranslationBase {
 export default class Translation extends Constant implements TranslationBase {
   static RECONNECTING = this.Chat('reconnecting');
 
-  static MENU_TITLE = this.Menu('menu');
-
   static CATEGORY_CHAT_COMMAND = this.Setting('category.chat.commands');
   static CATEGORY_CHAT_IGNORED = this.Setting('category.chat.ignored');
-  static CATEGORY_LEGEND = this.Setting('category.chat.legend');
 
   static DISABLE_COMMAND_SETTING = this.Setting('disable.command', 1);
 
@@ -71,7 +68,7 @@ export default class Translation extends Constant implements TranslationBase {
     this.args = args;
   }
 
-  get key() {
+  get key(): string {
     return this.valueOf();
   }
 

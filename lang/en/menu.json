@@ -1,3 +1,14 @@
 {
-  "menu": "MENU"
+  "menu": "Menu",
+  "menu.title": "MENU",
+  "changelog": "UnderScript Change Log",
+  "updates": "Check for updates",
+  "gamelog": "Game Patch Notes",
+  "reload": "Reload Cards",
+  "settings": "Settings",
+  "settings.note": "Settings temporarily unavailable",
+  "streamer.on": "Streamer Mode: On",
+  "streamer.off": "Streamer Mode: Off",
+  "surrender": "Surrender",
+  "surrender.note": "You can't surrender before turn 5."
 }

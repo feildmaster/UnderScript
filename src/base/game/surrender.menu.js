@@ -2,6 +2,7 @@ import eventManager from 'src/utils/eventManager.js';
 import { global } from 'src/utils/global.js';
 import onPage from 'src/utils/onPage.js';
 import * as menu from 'src/utils/menu.js';
+import Translation from 'src/structures/constants/translation';
 
 onPage('Game', () => {
   // Unbind the "surrender" hotkey
@@ -13,12 +14,12 @@ onPage('Game', () => {
   }
   // Add the "surrender" menu button
   menu.addButton({
-    text: 'Surrender',
+    text: Translation.Menu('surrender'),
     enabled: canSurrender,
     top: true,
     note: () => {
       if (!canSurrender()) {
-        return `You can't surrender before turn 5.`;
+        return Translation.Menu('surrender.note');
       }
       return undefined;
     },
