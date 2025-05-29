@@ -25,11 +25,7 @@ onPage('Crafting', function craftableCards() {
   );
 
   function highlight(el) {
-    const rarity = cardHelper.rarity(el);
-    const set = !setting.value() &&
-        rarity !== 'DETERMINATION' &&
-        cardHelper.quantity(el) < cardHelper.max(rarity) &&
-        cardHelper.dustCost(el) <= cardHelper.totalDust();
+    const set = !setting.value() && cardHelper.craftable(el);
     el.classList.toggle('craftable', set);
   }
 

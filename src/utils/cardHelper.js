@@ -58,6 +58,61 @@ export function totalDust() {
   return parseInt(document.querySelector('span#dust').textContent, 10);
 }
 
+export function craftable(el) {
+  const r = rarity(el);
+  if (quantity(el) >= max(r)) {
+    return false;
+  }
+  const s = isShiny(el);
+  switch (r) {
+    case 'DETERMINATION': return fragCost(r, s) <= totalFrags();
+    case 'LEGENDARY':
+    case 'EPIC':
+    case 'RARE':
+    case 'COMMON':
+    case 'BASE': {
+      const dust = dustCost(r, s);
+      return dust !== null && dust <= totalDust();
+    }
+    case 'TOKEN':
+    case 'GENERATED': return false;
+    default: {
+      debug(`Unknown Rarity: ${r}`);
+      return false;
+    }
+  }
+}
+
+export function totalFrags() {
+  return Number(document.querySelector('span#nbDTFragments').textContent);
+}
+
+export function fragCost(r, s) {
+  if (typeof r === 'object') {
+    if (typeof s !== 'boolean') {
+      s = isShiny(r);
+    }
+    r = rarity(r);
+  }
+  switch (r) {
+    case 'DETERMINATION': return s ? 8 : 4;
+    default: return null;
+  }
+}
+
+export function fragGain(r, s) {
+  if (typeof r === 'object') {
+    if (typeof s !== 'boolean') {
+      s = isShiny(r);
+    }
+    r = rarity(r);
+  }
+  switch (r) {
+    case 'DETERMINATION': return s ? 4 : 2;
+    default: return null;
+  }
+}
+
 export function dustCost(r, s) {
   if (typeof r === 'object') {
     if (typeof s !== 'boolean') {
@@ -86,15 +141,15 @@ export function dustGain(r, s) {
   switch (r) {
     case 'TOKEN':
     case 'GENERATED': // You can't craft this, but I don't want an error
-    case 'DETERMINATION': return undefined;
+    case 'DETERMINATION': return null;
     case 'LEGENDARY': return s ? 1600 : 400;
     case 'EPIC': return s ? 400 : 100;
     case 'RARE': return s ? 100 : 20;
     case 'COMMON': return s ? 40 : 5;
-    case 'BASE': return s ? 40 : 0;
+    case 'BASE': return s ? 40 : null;
     default: {
       debug(`Unknown Rarity: ${r}`);
-      return undefined;
+      return null;
     }
   }
 }

@@ -199,7 +199,7 @@ filters.push(
         case 'unowned': return card.quantity > 0;
         case 'maxed': return card.quantity < max(card.rarity);
         case 'surplus': return card.quantity <= max(card.rarity);
-        case 'craftable': return card.quantity >= max(card.rarity) || card.rarity === 'DETERMINATION';
+        case 'craftable': return card.quantity >= max(card.rarity);
         case 'all':
         default: break;
       }
