@@ -3,7 +3,7 @@ import luxon from 'luxon';
 import * as settings from 'src/utils/settings/index.js';
 import style from 'src/utils/style.js';
 import wrap from 'src/utils/2.pokemon.js';
-import { debugToast } from 'src/utils/debug.js';
+import debugToast from 'src/utils/debugToast';
 import { toast as BasicToast } from 'src/utils/2.toasts.js';
 import sleep from 'src/utils/sleep.js';
 import * as menu from 'src/utils/menu.js';

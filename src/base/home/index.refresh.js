@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as settings from 'src/utils/settings/index.js';
 import { infoToast } from 'src/utils/2.toasts.js';
-import { debugToast } from 'src/utils/debug.js';
+import debugToast from 'src/utils/debugToast';
 import onPage from 'src/utils/onPage.js';
 import decrypt from 'src/utils/decrypt.emails.js';
 import translate from 'src/utils/translate.js';
