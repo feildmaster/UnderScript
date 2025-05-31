@@ -7,13 +7,12 @@ import tabManager from '../tabbedView.js';
 import * as hover from '../hover.js';
 import each from '../each.js';
 import wrap from '../2.pokemon.js';
-import SettingType from './types/setting.js';
 import AdvancedMap from './types/map2.js';
 import * as types from './types/index.js';
 import { translateText } from '../translate.js';
 import RegisteredSetting from './RegisteredSetting.js';
 import styles from './settings.css';
-import { registry } from './settingRegistry.js';
+import { isSettingType, registry } from './settingRegistry.js';
 
 const defaultSetting = new RegisteredSetting();
 
@@ -233,7 +232,7 @@ export function register(data) {
     setting.data = data.options;
   }
 
-  if (!(setting.type instanceof SettingType)) {
+  if (!isSettingType(setting.type)) {
     switch (typeof setting.type) {
       case 'string':
         setting.type = registry.get(setting.type);
@@ -254,7 +253,7 @@ export function register(data) {
       default: break;
     }
   }
-  if (!(setting.type instanceof SettingType)) return undefined; // TODO: Throw error?
+  if (!isSettingType(setting.type)) return undefined; // TODO: Throw error?
 
   const conf = init(page);
 
@@ -440,7 +439,7 @@ export function on(...args) {
 }
 
 export function registerType(type, addStyle = style.add) {
-  if (!(type instanceof SettingType)) throw new Error(`SettingType: Tried to register object of: ${typeof type}`);
+  if (!isSettingType(type)) throw new Error(`SettingType: Tried to register object of: ${typeof type}`);
   const name = type.name;
   if (!name || registry.has(name)) throw new Error(`SettingType: "${name}" already exists`);
   registry.set(name, type);
