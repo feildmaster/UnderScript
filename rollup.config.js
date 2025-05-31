@@ -14,6 +14,7 @@ import typescript from '@rollup/plugin-typescript';
 
 import { version } from './package.json';
 import importString from './scripts/import-string.js';
+import bundle from './scripts/lang.js';
 
 config();
 
@@ -75,6 +76,14 @@ export default [{
   }],
   external: ['luxon', 'showdown', 'axios', 'tippy.js'],
   plugins: [
+    {
+      name: 'bundle',
+      buildStart() {
+        if (!debug) return;
+        this.addWatchFile('lang/en');
+        bundle('lang/underscript.ignore.json');
+      },
+    },
     alias({
       entries: [{
         find: 'src',

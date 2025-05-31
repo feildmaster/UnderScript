@@ -1,7 +1,7 @@
 import glob from 'fast-glob';
-import { assign, readJSON, sortKeys, writeFile } from './utils.js';
+import { assign, isMain, readJSON, sortKeys, writeFile } from './utils.js';
 
-async function main() {
+export default async function main(filePath = 'lang/underscript.json') {
   // Load base "en" first
   const data = await bundle(
     await glob('lang/en/*.json'),
@@ -30,7 +30,7 @@ async function main() {
   const file = JSON.stringify(sortKeys(data), null, 2);
   if (!file) return;
 
-  await writeFile('lang/underscript.json', file);
+  await writeFile(filePath, file);
 }
 
 /**
@@ -57,4 +57,7 @@ function getFileParts(file = '') {
   return [lang, name.substring(0, name.lastIndexOf('.'))];
 }
 
-main();
+// Only automatically run if main script...
+if (isMain(import.meta)) {
+  main();
+}

@@ -1,4 +1,5 @@
 import fs from 'node:fs/promises';
+import nodePath from 'node:path';
 
 export function assign(obj = {}, lang = '', key = '', value = '') {
   // Only add key if value exists
@@ -27,4 +28,12 @@ export function sortKeys(obj = {}) {
     },
   );
   return sorted;
+}
+
+/**
+ * Checks if module is the main module
+ * @param {ImportMeta} meta
+ */
+export function isMain({ url }) {
+  return nodePath.normalize(url).endsWith(process.argv[1]);
 }
