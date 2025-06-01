@@ -38,6 +38,8 @@ export default class RegisteredSetting {
   #onChange;
   /** @type {typeof EventEmitter} */
   #events;
+  /** @type {function(value: any): any} */
+  #transformer;
 
   constructor({
     category,
@@ -57,6 +59,7 @@ export default class RegisteredSetting {
     refresh: refreshText,
     remove,
     reset,
+    transform,
     type,
   } = {}) {
     this.#key = key;
@@ -75,6 +78,7 @@ export default class RegisteredSetting {
     this.#note = note;
     this.#refresh = refreshText;
     this.#events = events;
+    this.#transformer = transform;
     if (typeof onChange === 'function') {
       this.#onChange = onChange;
     }
@@ -178,7 +182,7 @@ export default class RegisteredSetting {
     if (val === null) {
       return this.default;
     }
-    return this.type.value(val, this.data);
+    return this.#transform(this.type.value(val, this.data));
   }
 
   /**
@@ -187,9 +191,9 @@ export default class RegisteredSetting {
   get default() {
     const val = this.#default;
     if (val !== undefined) {
-      return this.type.value(this.#value(val), this.data);
+      return this.#transform(this.type.value(this.#value(val), this.data));
     }
-    return this.type.default(this.data);
+    return this.#transform(this.type.default(this.data));
   }
 
   #convert(converter) {
@@ -203,6 +207,13 @@ export default class RegisteredSetting {
     } else if (converted !== undefined) {
       localStorage.setItem(key, this.type.encode(converted));
     }
+  }
+
+  #transform(value) {
+    if (typeof this.#transformer === 'function') {
+      return this.#transformer(value);
+    }
+    return value;
   }
 
   #value(input) {
