@@ -124,7 +124,7 @@ export default function eventEmitter() {
       if (typeof fn !== 'function') return this;
       function wrapper(...args) {
         off(event, wrapper);
-        fn(...args);
+        fn.call(this, ...args);
       }
       return this.on(event, wrapper);
     },
@@ -134,7 +134,7 @@ export default function eventEmitter() {
     until(event, fn) {
       if (typeof fn !== 'function') return this;
       function wrapper(...args) {
-        const ret = fn(...args);
+        const ret = fn.call(this, ...args);
         if (ret instanceof Promise) {
           ret.then((val) => val && off(event, wrapper));
         } else if (ret) {
