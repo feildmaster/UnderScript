@@ -86,7 +86,7 @@ export function open() {
         };
         button.on('click', callable)
           .on('keydown', (e) => {
-            if (e.which !== 32 && e.which !== 13) return;
+            if (e.key !== ' ' && e.key !== 'Enter') return;
             e.preventDefault();
             callable(e);
           }).css({
@@ -140,7 +140,7 @@ export function addButton(button = {}) {
     hidden: () => typeof hidden === 'function' && hidden() || false,
   };
   if (button.top) {
-    buttons.splice(0, 0, safeButton);
+    buttons.unshift(safeButton);
   } else {
     buttons.push(safeButton);
   }

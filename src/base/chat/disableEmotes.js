@@ -47,5 +47,5 @@ function updateEmotes() {
   });
 }
 
-compound('Chat:Connected', 'translation:loaded', init);
+compound('Chat:Connected', 'translation:underscript', init);
 eventManager.on('connect', updateEmotes);

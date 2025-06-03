@@ -9,6 +9,7 @@ import compound from 'src/utils/compoundEvent.js';
 import hasOwn from 'src/utils/hasOwn.js';
 import { cardName } from 'src/utils/cardHelper.js';
 
+// TODO: translation
 const setting = settings.register({
   name: 'Disable Deck Storage',
   key: 'underscript.storage.disable',
@@ -33,17 +34,9 @@ onPage('Decks', function deckStorage() {
   function getFromLibrary(id, library = [], shiny = undefined) {
     return library.find((card) => card.id === id && (shiny === undefined || card.shiny === shiny));
   }
-  function getCardData(id, shiny, deep) {
+  function getCardData(id, shiny) {
+    // TODO: Filter out cards with insufficient quantity
     const library = global('deckCollections', 'collections');
-    if (deep) {
-      // Search all decks
-      const keys = Object.keys(library);
-      for (let i = 0; i < keys.length; i++) {
-        const card = getFromLibrary(id, library[keys[i]], shiny);
-        if (card) return card;
-      }
-      return null;
-    }
     return getFromLibrary(id, library[global('soul')], shiny);
   }
 
@@ -113,10 +106,8 @@ onPage('Decks', function deckStorage() {
       const deck = JSON.parse(localStorage.getItem(key));
       if (!deck) return null;
       if (trim) {
-        return deck.cards.filter(({ id, shiny }) => {
-          const data = getCardData(id, shiny);
-          return data && cardName(data);
-        });
+        // TODO: Filter out cards with insufficient quantity
+        return deck.cards.filter(({ id, shiny }) => getCardData(id, shiny));
       }
       return deck.cards;
     }
@@ -147,6 +138,7 @@ onPage('Decks', function deckStorage() {
     function cards(list) {
       const names = [];
       list.forEach((card) => {
+        // TODO: Filter out cards with insufficient quantity
         let data = getCardData(card.id, card.shiny);
         const name = data ?
           `<span class="${data.rarity}">${cardName(data)}</span>` :
@@ -196,6 +188,7 @@ onPage('Decks', function deckStorage() {
         if (e.type === 'mouseenter') {
           const deck = getDeck(i);
           fixClass(!!deck);
+          // TODO: translation
           if (deck) {
             text = `
               <div id="deckName">${localStorage.getItem(nameKey) || `${soul}-${i + 1}`}</div>

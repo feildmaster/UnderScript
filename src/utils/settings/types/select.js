@@ -24,6 +24,6 @@ export default class Select extends Setting {
 function options(data = [], current = '') {
   return data.map((o) => {
     const [l, v = l] = toArray(o);
-    return `<option value="${v}"${current === `${v}` ? ' selected' : ''}>${translateText(l)}</option>`;
+    return `<option value="${v}"${`${current}` === `${v}` ? ' selected' : ''}>${translateText(l)}</option>`;
   });
 }

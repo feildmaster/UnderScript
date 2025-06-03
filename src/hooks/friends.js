@@ -1,7 +1,7 @@
 import axios from 'axios';
 import eventManager from 'src/utils/eventManager.js';
 import decrypt from 'src/utils/decrypt.emails.js';
-import { debugToast as debug } from 'src/utils/debug.js';
+import debug from 'src/utils/debugToast';
 import sleep from 'src/utils/sleep.js';
 import { window } from 'src/utils/1.variables.js';
 

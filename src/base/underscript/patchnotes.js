@@ -13,7 +13,7 @@ wrap(function patchNotes() {
     key: 'underscript.disable.patches',
   });
 
-  cleanData('underscript.update.', scriptVersion, 'last', 'checking', 'latest');
+  cleanData('underscript.update.', scriptVersion, 'last', 'checking', 'debug');
   style.add(css`
     #AlertToast div.uschangelog span:nth-of-type(2) {
       max-height: 300px;
