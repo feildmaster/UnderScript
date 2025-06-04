@@ -133,8 +133,14 @@ async function check(auto = true) {
     autoTimeout = 0;
   }
 
+  const previousState = !pendingUpdates.size;
+
   if (!disabled.value()) {
     await eventManager.async.emit(':update', auto);
+  }
+
+  if (!pendingUpdates.size !== previousState) {
+    menu.dirty();
   }
 
   function finish() {
