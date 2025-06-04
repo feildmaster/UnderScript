@@ -30,7 +30,11 @@ export const disabled = settings.register({
   category: 'Updates',
 });
 
-const silent = settings.register();
+const silent = settings.register({
+  name: 'Run automatic updates in the background',
+  key: 'underscript.updates.silent',
+  category: 'Updates',
+});
 
 const frequency = settings.register({
   // TODO: translation
@@ -218,7 +222,7 @@ menu.addButton({
 
 eventManager.on(':update', (auto) => {
   toast?.close();
-  // if (auto) return;
+  if (auto && silent.value()) return;
   // TODO: translation
   notify('Checking for updates. Please wait.');
 });
