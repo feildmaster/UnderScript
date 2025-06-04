@@ -25,7 +25,7 @@ wrap(() => {
     });
     setting.on(() => update.refresh());
 
-    Object.assign(plugin, 'canUpdate', {
+    Object.defineProperty(plugin, 'canUpdate', {
       get: () => updater && !setting.value() && !update.value(),
     });
 
