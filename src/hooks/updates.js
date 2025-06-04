@@ -102,6 +102,7 @@ export function validate(plugin) {
 
 export function unregister(plugin) {
   const key = plugin.name || plugin;
+  localStorage.removeItem(`${PREFIX}${key}`);
   return pendingUpdates.delete(key);
 }
 
