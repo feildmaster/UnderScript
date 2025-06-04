@@ -104,7 +104,7 @@ export function validate(plugin) {
     if (existing.version !== plugin.version) {
       return existing;
     }
-    pendingUpdates.delete(key);
+    unregister(plugin);
   }
   return false;
 }
