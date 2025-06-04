@@ -155,7 +155,7 @@ async function check(auto = true) {
 
   function finish() {
     toast?.close();
-    eventManager.emit(':update:finished');
+    eventManager.emit(':update:finished', auto);
   }
 
   const updateFound = [...pendingUpdates.values()].find(({ announce = true }) => announce);
