@@ -13,6 +13,7 @@ import { translateText } from '../translate.js';
 import RegisteredSetting from './RegisteredSetting.js';
 import styles from './settings.css';
 import { isSettingType, registry } from './settingRegistry.js';
+import DialogHelper from '../DialogHelper.js';
 
 const defaultSetting = new RegisteredSetting();
 
@@ -26,7 +27,7 @@ const settingReg = {
 };
 const events = eventEmitter();
 const configs = new Map();
-let dialog = null;
+const dialog = new DialogHelper();
 let updateLock = false;
 
 /**
@@ -295,25 +296,11 @@ export function open(page = 'main') {
     getScreen().render(true);
     return;
   }
-  BootstrapDialog.show({
-    title: Translation.Setting('title'),
+  dialog.open({
+    title: Translation.Setting('title').translate(),
     // size: 'size-wide',
     message() {
       return getScreen().render(true);
-    },
-    cssClass: 'mono underscript-dialog',
-    buttons: [{
-      label: 'Close',
-      action: close,
-    }],
-    onshown: (diag) => {
-      dialog = diag;
-      events.emit('open');
-      eventManager.emit('Settings:open', diag.getModalBody());
-    },
-    onhidden: () => {
-      dialog = null;
-      events.emit('close');
     },
   });
 }
@@ -327,15 +314,8 @@ export function setDisplayName(name, page = 'main') {
   return false;
 }
 
-export function close() {
-  if (isOpen()) {
-    dialog.close();
-    dialog = null;
-  }
-}
-
 export function isOpen() {
-  return dialog !== null;
+  return dialog.isOpen();
 }
 
 export function value(key) {
@@ -467,3 +447,12 @@ function untilClose(key, callback, ...extra) {
 function getLogger({ page } = defaultSetting) {
   return page.logger || console;
 }
+
+dialog.onOpen((diag) => {
+  events.emit('open');
+  eventManager.emit('Settings:open', diag.getModalBody());
+});
+
+dialog.onClose(() => {
+  events.emit('close');
+});
