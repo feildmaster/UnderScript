@@ -1,3 +1,4 @@
+import Translation from 'src/structures/constants/translation';
 import eventEmitter from './eventEmitter.js';
 
 export default class DialogHelper {
@@ -25,8 +26,7 @@ export default class DialogHelper {
         ...buttons,
         {
           cssClass: 'btn-primary',
-          // TODO: Translate
-          label: 'Close',
+          label: Translation.CLOSE.translate(),
           action: () => this.close(),
         },
       ],

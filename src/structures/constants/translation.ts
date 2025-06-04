@@ -54,6 +54,8 @@ export default class Translation extends Constant implements TranslationBase {
   static IGNORE = this.Toast('ignore', 1);
   static UNDO = this.Toast('undo');
 
+  static CLOSE = this.Vanilla('dialog-close');
+
   private args: string[];
 
   constructor(key: string, {
@@ -119,5 +121,13 @@ export default class Translation extends Constant implements TranslationBase {
   static Toast<N extends number>(key: string, hasArgs?: string | N, ...rest: string[]): TranslationBase | TranslationWithArgs<N> {
     const args = typeof hasArgs === 'string' ? [hasArgs, ...rest] : rest;
     return new Translation(`toast.${key}`, { args });
+  }
+
+  static Vanilla(key: string): Translation;
+  static Vanilla<N extends number>(key: string, hasArgs: N): TranslationWithArgs<N>;
+  static Vanilla<N extends number>(key: string, ...args: Tuple<string, N>): TranslationWithArgs<N>;
+  static Vanilla<N extends number>(key: string, hasArgs?: string | N, ...rest: string[]): TranslationBase | TranslationWithArgs<N> {
+    const args = typeof hasArgs === 'string' ? [hasArgs, ...rest] : rest;
+    return new Translation(key, { args, prefix: null });
   }
 }
