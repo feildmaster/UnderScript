@@ -49,7 +49,8 @@ wrap(() => {
           className: 'dismiss',
           css: buttonCSS,
           onclick() {
-            location.href = data.url || `https://github.com/UCProjects/UnderScript/releases/download/${data.version}/undercards.user.js`;
+            const url = data.url || `https://github.com/UCProjects/UnderScript/releases/download/${data.version}/undercards.user.js`;
+            window.open(url, 'updateUserScript', 'noreferrer');
           },
         }],
       });
