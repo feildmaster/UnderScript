@@ -13,7 +13,7 @@ export default class FileParser {
     if (typeof data === 'string' && data.includes('// ==UserScript==')) {
       return extractMeta(data);
     }
-    return { data };
+    return data;
   }
 
   parseVersion({ version } = {}) {
