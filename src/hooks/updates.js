@@ -123,6 +123,7 @@ function notify(text, addButton = false) {
       // TODO: translation
       title: 'UnderScript updater',
       text,
+      className: 'dismissable',
       buttons: addButton ? {
         text: Translation.DISMISS.translate(),
         className: 'dismiss',
