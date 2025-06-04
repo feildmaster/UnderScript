@@ -1,0 +1,56 @@
+import eventEmitter from './eventEmitter.js';
+
+export default class DialogHelper {
+  #instance;
+
+  #events = eventEmitter();
+
+  isOpen() {
+    return !!this.#instance;
+  }
+
+  open({
+    buttons = [],
+    cssClass = 'underscript-dialog',
+    message,
+    title,
+    ...options
+  } = BootstrapDialog.defaultOptions) {
+    if (this.#instance || !message || !title) return;
+    BootstrapDialog.show({
+      ...options,
+      title,
+      message,
+      buttons: [
+        ...buttons,
+        {
+          cssClass: 'btn-primary',
+          // TODO: Translate
+          label: 'Close',
+          action: () => this.close(),
+        },
+      ],
+      cssClass: `mono ${cssClass}`,
+      onshown: (diag) => {
+        this.#instance = diag;
+        this.#events.emit('open', diag);
+      },
+      onhidden: () => {
+        this.#instance = null;
+        this.#events.emit('close');
+      },
+    });
+  }
+
+  close() {
+    this.#instance?.close();
+  }
+
+  onClose(callback) {
+    this.#events.on('close', callback);
+  }
+
+  onOpen(callback) {
+    this.#events.on('open', callback);
+  }
+}
