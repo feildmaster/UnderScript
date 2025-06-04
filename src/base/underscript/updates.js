@@ -40,6 +40,7 @@ wrap(() => {
     if (!data || !isNewer(data)) return false;
     eventManager.once(':update:finished :update:force', () => {
       updateToast?.close('stale');
+      if (data.announce) return;
       updateToast = Toast({
         title: '[UnderScript] Update Available!',
         text: `Version ${data.version}.`,
@@ -67,13 +68,11 @@ wrap(() => {
         url: await checker.getDownload(data),
         version: await checker.getVersion(data),
         time: data.assets.find(({ name }) => name.endsWith('.user.js')).updated_at,
+        announce: silent.value(),
+        plugin,
       };
       if (compareAndToast(update)) {
-        register({
-          ...update,
-          plugin,
-          announce: false,
-        });
+        register(update);
       }
     } catch (error) {
       debugToast(error);

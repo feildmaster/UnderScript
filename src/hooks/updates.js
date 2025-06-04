@@ -30,7 +30,7 @@ export const disabled = settings.register({
   category: 'Updates',
 });
 
-const silent = settings.register({
+export const silent = settings.register({
   name: 'Run automatic updates in the background',
   key: 'underscript.updates.silent',
   category: 'Updates',
