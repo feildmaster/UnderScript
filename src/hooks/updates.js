@@ -9,6 +9,7 @@ import wrap from 'src/utils/2.pokemon';
 import Translation from 'src/structures/constants/translation';
 import { buttonCSS } from 'src/utils/1.variables';
 import sleep from 'src/utils/sleep';
+import createParser from 'src/utils/parser';
 
 const HOUR = 60 * 60 * 1000;
 const DAY = 24 * HOUR;
@@ -57,6 +58,34 @@ export function register({
   const data = { version, ...rest };
   localStorage.setItem(`${PREFIX}${key}`, JSON.stringify(data));
   pendingUpdates.set(key, data);
+}
+
+// TODO: keep registry of update URL's being used? only allow one of any url
+export function registerPlugin(plugin, data = {}) {
+  validate(plugin);
+  /** @type {FileParser} */
+  const parser = createParser(data);
+  const { version } = plugin;
+  let finished = false;
+  plugin.events.until(':update', async () => {
+    if (finished || !plugin.canUpdate) return finished;
+    const info = await parser.getUpdateData();
+    const newVersion = await parser.getVersion(info);
+    if (finished || !plugin.canUpdate) return finished;
+    if (newVersion !== version) {
+      register({
+        plugin,
+        version: newVersion,
+        url: await parser.getDownload(info),
+      });
+    } else {
+      unregister(plugin);
+    }
+    return false;
+  });
+  return () => {
+    finished = true;
+  };
 }
 
 export function validate(plugin) {
