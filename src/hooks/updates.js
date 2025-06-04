@@ -125,7 +125,7 @@ function notify(text, addButton = false) {
       text,
       className: 'dismissable',
       buttons: addButton ? {
-        text: Translation.DISMISS.translate(),
+        text: 'Show Updates',
         className: 'dismiss',
         css: buttonCSS,
         onclick: open,
