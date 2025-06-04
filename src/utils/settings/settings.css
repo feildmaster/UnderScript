@@ -24,6 +24,7 @@
 
 .underscript-dialog .bootstrap-dialog-message {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .underscript-dialog fieldset {
