@@ -1,0 +1,194 @@
+// Detect pending updates, display message, open window... allow updating.
+import luxon from 'luxon';
+import eventManager from 'src/utils/eventManager';
+import { toast as Toast } from 'src/utils/2.toasts';
+import * as menu from 'src/utils/menu';
+import * as settings from 'src/utils/settings';
+import each from 'src/utils/each';
+import wrap from 'src/utils/2.pokemon';
+import Translation from 'src/structures/constants/translation';
+import { buttonCSS } from 'src/utils/1.variables';
+import sleep from 'src/utils/sleep';
+
+const HOUR = 60 * 60 * 1000;
+const DAY = 24 * HOUR;
+const CHECKING = 'underscript.update.checking'; // TODO: change to setting?
+const LAST = 'underscript.update.last'; // TODO: change to setting?
+const PREFIX = 'underscript.pending.';
+
+let autoTimeout;
+let toast;
+
+export const disabled = settings.register({
+  // TODO: translation
+  name: 'Disable Auto Updates',
+  key: 'underscript.disable.updates',
+  // TODO: translation
+  category: 'Updates',
+});
+
+const frequency = settings.register({
+  // TODO: translation
+  name: 'Update Frequency',
+  key: 'underscript.updates.frequency',
+  // TODO: translation
+  data: [
+    ['Page Load', 0],
+    ['Hourly', HOUR],
+    ['Daily', DAY],
+  ],
+  default: HOUR,
+  type: 'select',
+  // TODO: translation
+  category: 'Updates',
+  transform(value) {
+    return Number(value) || 0;
+  },
+});
+
+const pendingUpdates = new Map();
+
+export function register({
+  plugin,
+  version,
+  ...rest
+}) {
+  const key = plugin.name || plugin;
+  const data = { version, ...rest };
+  localStorage.setItem(`${PREFIX}${key}`, JSON.stringify(data));
+  pendingUpdates.set(key, data);
+}
+
+export function validate(plugin) {
+  const key = plugin.name || plugin;
+  const existing = pendingUpdates.get(key);
+  if (existing) {
+    if (existing.version !== plugin.version) {
+      return existing;
+    }
+    pendingUpdates.delete(key);
+  }
+  return false;
+}
+
+export function unregister(plugin) {
+  const key = plugin.name || plugin;
+  return pendingUpdates.delete(key);
+}
+
+function notify(text, addButton = false) {
+  if (toast?.exists()) {
+    toast.setText(text);
+  } else {
+    toast = Toast({
+      // TODO: translation
+      title: 'UnderScript updater',
+      text,
+      buttons: addButton ? {
+        text: Translation.DISMISS.translate(),
+        className: 'dismiss',
+        css: buttonCSS,
+        onclick: open,
+      } : undefined,
+    });
+  }
+}
+
+async function check(auto = true) {
+  if (sessionStorage.getItem(CHECKING)) return;
+  sessionStorage.setItem(CHECKING, true);
+
+  if (autoTimeout) {
+    clearTimeout(autoTimeout);
+    autoTimeout = 0;
+  }
+
+  if (!disabled.value()) {
+    await eventManager.async.emit(':update', auto);
+  }
+
+  function finish() {
+    toast?.close();
+    eventManager.emit(':update:finished');
+  }
+
+  const updateFound = [...pendingUpdates.values()].find(({ announce = true }) => announce);
+  if (updateFound) {
+    finish();
+    // TODO: translation
+    notify('Updates found.', true);
+  } else if (!auto && !pendingUpdates.size) {
+    // TODO: translation
+    notify('No updates available.');
+    sleep(3000).then(finish);
+  } else {
+    sleep(1000).then(finish);
+  }
+
+  // Setup next check, defaulting to an hour if "Page Load" is set
+  const timeout = frequency.value() || HOUR;
+  autoTimeout = setTimeout(check, timeout);
+
+  localStorage.setItem(LAST, Date.now());
+  sessionStorage.removeItem(CHECKING);
+}
+
+function setup() {
+  const last = Number(localStorage.getItem(LAST));
+  const now = Date.now();
+  const timeout = last - now + frequency.value();
+
+  if (!last || timeout <= 0) {
+    check();
+  } else {
+    autoTimeout = setTimeout(check, timeout);
+  }
+}
+
+function open() {
+  // TODO: window for showing pending updates
+}
+
+menu.addButton({
+  // TODO: translation
+  text: 'Check for updates',
+  action() {
+    check(false);
+  },
+  note() {
+    const last = Number(localStorage.getItem(LAST));
+    // TODO: translation
+    return `Last Checked: ${last ? luxon.DateTime.fromMillis(last).toLocaleString(luxon.DateTime.DATETIME_FULL) : 'never'}`;
+  },
+});
+
+menu.addButton({
+  // TODO: translation
+  text: 'Show Pending Updates',
+  action: open,
+  // note() {},
+  hidden() {
+    return !pendingUpdates.size;
+  },
+});
+
+eventManager.on(':update', (auto) => {
+  toast?.close();
+  // if (auto) return;
+  // TODO: translation
+  notify('Checking for updates. Please wait.');
+});
+
+// Load pending updates
+each(localStorage, (data, key) => wrap(() => {
+  if (!key.startsWith(PREFIX)) return;
+  if (disabled.value()) {
+    localStorage.removeItem(key);
+    return;
+  }
+  const name = key.substring(key.lastIndexOf('.') + 1);
+  pendingUpdates.set(name, JSON.parse(data));
+}, key));
+
+sessionStorage.removeItem(CHECKING);
+eventManager.on('underscript:ready', setup);
