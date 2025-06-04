@@ -200,8 +200,10 @@ function getMessage(page) {
 export function register(data) {
   if (typeof data !== 'string' && !data.key) throw new Error('No key provided');
 
-  const page = data.page || 'main';
   const key = (data.key || data); // .replace(/ /g, '_'); // This is a breaking change (but possibly necessary)
+  if (settingReg[key]) throw new Error(`${settingReg[key].name}[${key}] already registered`);
+
+  const page = data.page || 'main';
   const setting = {
     ...(typeof data === 'object' && data),
     events,
@@ -209,8 +211,6 @@ export function register(data) {
     page,
     type: data.type || registry.get('boolean'),
   };
-
-  if (settingReg[key]) throw new Error(`${settingReg[key].name}[${key}] already registered`);
 
   const slider = (data.min || data.max || data.step) !== undefined;
   if (!data.type) {
