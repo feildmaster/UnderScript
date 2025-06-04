@@ -7,9 +7,11 @@ import * as settings from 'src/utils/settings';
 import each from 'src/utils/each';
 import wrap from 'src/utils/2.pokemon';
 import Translation from 'src/structures/constants/translation';
-import { buttonCSS } from 'src/utils/1.variables';
+import { buttonCSS, scriptVersion } from 'src/utils/1.variables';
 import sleep from 'src/utils/sleep';
 import createParser from 'src/utils/parser';
+import DialogHelper from 'src/utils/DialogHelper';
+import { getVersion } from 'src/utils/plugin';
 
 const HOUR = 60 * 60 * 1000;
 const DAY = 24 * HOUR;
@@ -27,6 +29,8 @@ export const disabled = settings.register({
   // TODO: translation
   category: 'Updates',
 });
+
+const silent = settings.register();
 
 const frequency = settings.register({
   // TODO: translation
@@ -47,6 +51,7 @@ const frequency = settings.register({
   },
 });
 
+const dialog = new DialogHelper();
 const pendingUpdates = new Map();
 
 export function register({
@@ -152,7 +157,7 @@ async function check(auto = true) {
   if (updateFound) {
     finish();
     // TODO: translation
-    notify('Updates found.', true);
+    notify('Updates available.', true);
   } else if (!auto && !pendingUpdates.size) {
     // TODO: translation
     notify('No updates available.');
@@ -182,7 +187,10 @@ function setup() {
 }
 
 function open() {
-  // TODO: window for showing pending updates
+  dialog.open({
+    title: 'Pending Updates', // TODO: translation
+    message: build,
+  });
 }
 
 menu.addButton({
@@ -228,3 +236,62 @@ each(localStorage, (data, key) => wrap(() => {
 
 sessionStorage.removeItem(CHECKING);
 eventManager.on('underscript:ready', setup);
+
+function build() {
+  let addedRefresh = false;
+  const container = $('<div>');
+  function refreshButton() {
+    if (addedRefresh) return;
+    dialog.prependButton({
+      label: 'Refresh Page',
+      cssClass: 'btn-success',
+      action() {
+        location.reload();
+      },
+    });
+    addedRefresh = true;
+  }
+  function add({
+    currentVersion,
+    name,
+    url,
+    version,
+  }) {
+    const button = $(`<a>`)
+      .text(`Update to ${version}`) // TODO: translation
+      .attr({
+        href: url,
+        rel: 'noreferrer',
+        target: 'updateUserScript',
+      })
+      .addClass('btn btn-primary')
+      .on('click', () => {
+        refreshButton();
+        button.addClass('btn-success');
+      });
+    container.append($('<fieldset>').append(
+      $('<legend>').text(name),
+      $('<div>').text(`Current: ${currentVersion}`),
+      button,
+    ));
+  }
+  const underscript = pendingUpdates.get('UnderScript');
+  if (underscript) {
+    add({
+      ...underscript,
+      name: 'UnderScript',
+      currentVersion: scriptVersion,
+    });
+  }
+  [...pendingUpdates.entries()].forEach(
+    ([name, data]) => {
+      if (name === 'UnderScript') return;
+      add({
+        ...data,
+        name,
+        currentVersion: getVersion(name),
+      });
+    },
+  );
+  return container.children();
+}

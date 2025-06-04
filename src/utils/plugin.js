@@ -68,3 +68,7 @@ export function registerModule(name, mod, ...dependencies) {
 export function getPluginNames() {
   return [...registry.keys()];
 }
+
+export function getVersion(key) {
+  return registry.get(key)?.version ?? '';
+}

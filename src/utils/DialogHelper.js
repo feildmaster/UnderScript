@@ -17,7 +17,7 @@ export default class DialogHelper {
     title,
     ...options
   } = BootstrapDialog.defaultOptions) {
-    if (this.#instance || !message || !title) return;
+    if (this.isOpen() || !message || !title) return;
     BootstrapDialog.show({
       ...options,
       title,
@@ -52,5 +52,21 @@ export default class DialogHelper {
 
   onOpen(callback) {
     this.#events.on('open', callback);
+  }
+
+  appendButton(...buttons) {
+    const diag = this.#instance;
+    if (!diag) return;
+
+    diag.options.buttons.push(...buttons);
+    diag.updateButtons();
+  }
+
+  prependButton(...buttons) {
+    const diag = this.#instance;
+    if (!diag) return;
+
+    diag.options.buttons.unshift(...buttons);
+    diag.updateButtons();
   }
 }
