@@ -271,7 +271,7 @@ function build() {
       });
     container.append($('<fieldset>').append(
       $('<legend>').text(name),
-      $('<div>').text(`Current: ${currentVersion}`),
+      $('<div>').text(`Current: ${currentVersion || 'unknown'}`),
       button,
     ));
   }
