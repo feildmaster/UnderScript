@@ -158,7 +158,7 @@ async function check(auto = true) {
     eventManager.emit(':update:finished', auto);
   }
 
-  const updateFound = [...pendingUpdates.values()].find(({ announce = true }) => announce);
+  const updateFound = [...pendingUpdates.values()].filter(({ announce = true }) => announce).length;
   if (updateFound) {
     finish();
     // TODO: translation
@@ -188,6 +188,11 @@ function setup() {
     check();
   } else {
     autoTimeout = setTimeout(check, timeout);
+  }
+
+  const updateFound = [...pendingUpdates.values()].filter(({ announce = true }) => announce).length;
+  if (updateFound) {
+    notify('Updates available.', true);
   }
 }
 
