@@ -12,6 +12,7 @@ import sleep from 'src/utils/sleep';
 import createParser from 'src/utils/parser';
 import DialogHelper from 'src/utils/DialogHelper';
 import { getVersion } from 'src/utils/plugin';
+import compound from 'src/utils/compoundEvent';
 
 const HOUR = 60 * 60 * 1000;
 const DAY = 24 * HOUR;
@@ -245,7 +246,7 @@ each(localStorage, (data, key) => wrap(() => {
 }, key));
 
 sessionStorage.removeItem(CHECKING);
-eventManager.on('underscript:ready', setup);
+compound('underscript:ready', ':load', setup);
 
 function build() {
   let addedRefresh = false;
