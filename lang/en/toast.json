@@ -1,8 +1,15 @@
 {
   "broadcast": "[INFO] Undercards Broadcast Message",
+  "craftable": "Craftable cards are highlighted in {{STYLE:highlight-green|green}}",
   "dismiss": "Dismiss",
   "ignore": "You've ignored $1",
+  "info": "Did you know?",
   "menu": "UnderScript has a menu, press ESC to open it!",
+  "new.bundle": "New Bundle Available",
+  "new.card": "{{PLURAL:$1|New Card|New Cards}}",
+  "new.emotes": "New Emotes Available",
+  "new.pass": "New Quest Pass",
+  "new.skins": "New Skins or Avatars",
   "ping": "UnderScript has custom notifications! You can change them however you like.",
   "ping.remove": "Remove @underscript!",
   "ping.settings": "Open settings",
@@ -11,5 +18,6 @@
   "game.request.allowed": "Notifications allowed",
   "game.request.denied": "Notifications denied",
   "game.request.message": "UnderScript would like to notify you when a game is found.",
+  "game.update": "Undercards Update",
   "undo": "Undo"
 }

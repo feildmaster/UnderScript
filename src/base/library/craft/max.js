@@ -5,12 +5,13 @@ import sleep from 'src/utils/sleep.js';
 import onPage from 'src/utils/onPage.js';
 import * as hover from 'src/utils/hover.js';
 import * as cardHelper from 'src/utils/cardHelper.js';
+import Translation from 'src/structures/constants/translation.js';
 import setBypass from './protection.js';
 
 const setting = settings.register({
-  name: 'Disable craft max hotkey',
+  name: Translation.Setting('disable.craftHotkey'),
   key: 'underscript.disable.craftMax',
-  category: 'Crafting',
+  category: Translation.CATEGORY_LIBRARY_CRAFTING,
   onChange() {
     eventManager.emit('refreshhighlight');
   },
@@ -37,9 +38,11 @@ onPage('Crafting', function craftMax() {
     const cost = cardHelper.dustCost(el);
     const total = cardHelper.totalDust();
     if (cost > total) {
+      // TODO: translation
       card.hover(hover.show('CTRL Click: insufficient dust'));
       return;
     }
+    // TODO: translation
     card.hover(hover.show(`CTRL Click: Craft up to max(${max})`))
       .off('click')
       .on('click.script', (e) => {

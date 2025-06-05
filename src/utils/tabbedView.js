@@ -31,7 +31,7 @@ export default function TabManager() {
   const view = document.createElement('div');
   view.classList.add('tabbedView');
 
-  function addTab(name = '', content) {
+  function addTab(name = '', content = '') {
     const id = tabs.length ? tabs[tabs.length - 1].id + 1 : 0;
     const elements = newTab(`${group}-${id}`, group);
     const tab = {
@@ -45,7 +45,7 @@ export default function TabManager() {
     tabs.push(tab);
 
     function setName(value = name) {
-      elements[1].innerHTML = value;
+      elements[1].textContent = value;
     }
 
     function setContent(value = content) {

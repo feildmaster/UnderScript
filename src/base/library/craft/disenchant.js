@@ -11,17 +11,19 @@ import * as hover from 'src/utils/hover.js';
 import each from 'src/utils/each.js';
 import { captureError } from 'src/utils/sentry.js';
 import hasOwn from 'src/utils/hasOwn.js';
+import Translation from 'src/structures/constants/translation';
 
 const setting = settings.register({
-  name: 'Disable Smart Disenchanting',
+  name: Translation.Setting('disable.disenchant'),
   key: 'underscript.disable.disenchant',
   default: true,
   refresh: onPage('Crafting'),
-  note: 'Enable at own risk',
-  category: 'Crafting',
+  note: Translation.Setting('disable.disenchant.note'),
+  category: Translation.CATEGORY_LIBRARY_CRAFTING,
   page: 'Library',
 });
 
+// TODO: More translations
 onPage('Crafting', function disenchantWrapper() {
   if (setting.disabled || setting.value()) return;
   let processing = false;

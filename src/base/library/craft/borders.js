@@ -5,16 +5,17 @@ import { infoToast } from 'src/utils/2.toasts.js';
 import onPage from 'src/utils/onPage.js';
 import style from 'src/utils/style.js';
 import * as cardHelper from 'src/utils/cardHelper.js';
+import Translation from 'src/structures/constants/translation';
 
 const setting = settings.register({
-  name: 'Disable Crafting Highlight',
+  name: Translation.Setting('disable.border'),
   key: 'underscript.disable.craftingborder',
   onChange: () => {
     if (onPage('Crafting')) {
       sleep().then(() => eventManager.emit('refreshhighlight'));
     }
   },
-  category: 'Crafting',
+  category: Translation.CATEGORY_LIBRARY_CRAFTING,
   page: 'Library',
 });
 
@@ -46,5 +47,7 @@ onPage('Crafting', function craftableCards() {
   eventManager.on('refreshhighlight', highlightCards);
   eventManager.on('Craft:RefreshPage', () => eventManager.emit('refreshhighlight'));
 
-  infoToast('Craftable cards are highlighted in <span class="highlight-green">green</span>', 'underscript.notice.craftingborder', '1');
+  eventManager.on('underscript:ready', () => {
+    infoToast(Translation.Toast('craftable').translate(), 'underscript.notice.craftingborder', '1');
+  });
 });

@@ -3,49 +3,52 @@ import * as settings from 'src/utils/settings/index.js';
 import { dismissable } from 'src/utils/2.toasts.js';
 import onPage from 'src/utils/onPage.js';
 import cleanData from 'src/utils/cleanData.js';
+import Translation from 'src/structures/constants/translation';
+
+const category = Translation.CATEGORY_HOME;
 
 const bundle = settings.register({
-  name: 'Enable bundle toast',
+  name: Translation.Setting('toast.bundle'),
   key: 'underscript.toast.bundle',
   default: true,
   refresh: () => onPage(''),
-  category: 'Home',
+  category,
   // TODO: Always hide bundles?
 });
 const skin = settings.register({
-  name: 'Enable skin toast',
+  name: Translation.Setting('toast.skins'),
   key: 'underscript.toast.skins',
   default: true,
   refresh: () => onPage(''),
-  category: 'Home',
+  category,
 });
 const emotes = settings.register({
-  name: 'Enable emote toast',
+  name: Translation.Setting('toast.emotes'),
   key: 'underscript.toast.emotes',
   default: true,
   refresh: () => onPage(''),
-  category: 'Home',
+  category,
 });
 const quest = settings.register({
-  name: 'Enable quest pass toast',
+  name: Translation.Setting('toast.pass'),
   key: 'underscript.toast.quests',
   default: true,
   refresh: () => onPage(''),
-  category: 'Home',
+  category,
 });
 const card = settings.register({
-  name: 'Enable new Card toast',
+  name: Translation.Setting('toast.cards'),
   key: 'underscript.toast.cards',
   default: true,
   refresh: () => onPage(''),
-  category: 'Home',
+  category,
 });
 
 eventManager.on(':preload:', function toasts() {
   if (bundle.value()) toast('bundle');
   if (skin.value()) toast('skins');
   if (emotes.value()) toast('emotes');
-  if (quest.value()) toast('quest');
+  if (quest.value()) toast('pass');
   if (card.value()) toast('card');
 });
 
@@ -64,20 +67,22 @@ function toast(type) {
   const key = `${prefix}${names.join(',')}`;
   cleanData(prefix, key);
   if (settings.value(key)) return;
-  dismissable({
-    key,
-    text: links.join('').replace(/\n/g, ''),
-    title: title(type, links.length > 1),
+  eventManager.on('underscript:ready', () => {
+    dismissable({
+      key,
+      text: links.join('').replace(/\n/g, ''),
+      title: title(type, links.length > 1),
+    });
   });
 }
 
 function title(type, plural = false) {
   switch (type) {
-    case 'bundle': return 'New Bundle Available';
-    case 'skins': return 'New Skins or Avatars';
-    case 'emotes': return 'New Emotes Available';
-    case 'quest': return 'New Quest Pass';
-    case 'card': return `New Card${plural ? 's' : ''}`;
+    case 'bundle':
+    case 'skins':
+    case 'emotes':
+    case 'pass':
+    case 'card': return Translation.Toast(`new.${type}`).translate(plural + 1);
     default: throw new Error(`Unknown Type: ${type}`);
   }
 }
@@ -87,7 +92,7 @@ function selector(type) {
     case 'bundle': return 'Bundle';
     case 'skins': return 'CardSkinsShop';
     case 'emotes': return 'CosmeticsShop';
-    case 'quest': return 'Quests';
+    case 'pass': return 'Quests';
     case 'card': return 'card-preview';
     default: throw new Error(`Unknown Type: ${type}`);
   }

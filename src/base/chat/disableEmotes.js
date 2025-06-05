@@ -7,7 +7,7 @@ import compound from 'src/utils/compoundEvent';
 const baseSetting = {
   key: 'underscript.emotes.disable',
   page: 'Chat',
-  category: 'Emotes',
+  category: Translation.Setting('category.chat.emotes'),
 };
 const originalEmotes = [{
   id: 0,
@@ -47,5 +47,5 @@ function updateEmotes() {
   });
 }
 
-compound('Chat:Connected', 'translation:underscript', init);
+compound('Chat:Connected', 'underscript:ready', init);
 eventManager.on('connect', updateEmotes);

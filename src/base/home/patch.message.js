@@ -4,6 +4,7 @@ import { global } from 'src/utils/global.js';
 import { dismissable } from 'src/utils/2.toasts.js';
 import onPage from 'src/utils/onPage.js';
 import cleanData from 'src/utils/cleanData.js';
+import Translation from 'src/structures/constants/translation';
 
 const setting = settings.register({
   name: 'Disable version toast',
@@ -22,7 +23,7 @@ eventManager.on(':preload:', () => {
     const prefix = 'underscript.season.dismissed.';
     const key = `${prefix}${version}`;
     cleanData(prefix, key);
-    eventManager.on('translation:loaded', () => {
+    eventManager.on('underscript:ready', () => {
       const translateElement = global('translateElement');
       element.find('[data-i18n-custom],[data-i18n]').each((i, e) => translateElement($(e)));
       const value = element.text();
@@ -30,7 +31,7 @@ eventManager.on(':preload:', () => {
       dismissable({
         key,
         text: element.html(),
-        title: `Undercards Update`,
+        title: Translation.Toast('game.update').translate(),
         value,
       });
     });

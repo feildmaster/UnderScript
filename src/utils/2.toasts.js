@@ -1,3 +1,4 @@
+import Translation from 'src/structures/constants/translation.js';
 import { buttonCSS } from './1.variables.js';
 import merge from './merge.js';
 
@@ -67,6 +68,7 @@ export function infoToast(arg, key, val = '1') {
     },
   };
   const defaults = {
+    // TODO: translation
     title: 'Did you know?',
     css: {
       'font-family': 'inherit',
@@ -78,7 +80,7 @@ export function infoToast(arg, key, val = '1') {
 export function dismissable({ title, text, key, value = 'true', css = {} }) {
   if (localStorage.getItem(key) === value) return undefined;
   const buttons = {
-    text: 'Dismiss',
+    text: Translation.DISMISS.translate(),
     className: 'dismiss',
     css: buttonCSS,
     onclick: (e) => {
