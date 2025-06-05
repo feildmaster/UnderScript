@@ -3,12 +3,13 @@ import wrap from 'src/utils/2.pokemon.js';
 import debugToast from 'src/utils/debugToast';
 import { toast as Toast } from 'src/utils/2.toasts.js';
 import semver from 'src/utils/version.js';
-import { buttonCSS, scriptVersion } from 'src/utils/1.variables.js';
+import { buttonCSS, scriptVersion, window } from 'src/utils/1.variables.js';
 import css from 'src/utils/css.js';
 import createParser from 'src/utils/parser';
 import eventManager from 'src/utils/eventManager';
 import {
   register,
+  silent,
   unregister,
   validate,
 } from 'src/hooks/updates';
