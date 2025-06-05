@@ -274,10 +274,12 @@ function build() {
         rel: 'noreferrer',
         target: 'updateUserScript',
       })
-      .addClass('btn btn-primary')
-      .on('click', () => {
+      .addClass('btn btn-success')
+      .on('click auxclick', () => {
         refreshButton();
-        button.addClass('btn-success');
+        button
+          .removeClass('btn-success')
+          .addClass('btn-primary');
       });
     container.append($('<fieldset>').append(
       $('<legend>').text(name),
