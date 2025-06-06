@@ -5,11 +5,11 @@ import { toast } from 'src/utils/2.toasts.js';
 import { debug } from 'src/utils/debug.js';
 import each from 'src/utils/each.js';
 import { buttonCSS as css } from 'src/utils/1.variables.js';
+import { isMod, name as username } from 'src/utils/user';
 import streaming from './0.streamer.js';
 
-/* eslint-disable no-multi-assign */
 // Toast for private messages while streaming mode is on
-
+// TODO: translation
 const busyMessage = ':me:is in do not disturb mode'; // TODO: configurable?
 const allow = 'Allow';
 const hide = 'Hide';
@@ -34,7 +34,7 @@ eventManager.on('preChat:getPrivateMessage', function streamerMode(data) {
   const message = JSON.parse(data.chatMessage);
   const user = message.user;
 
-  if (user.isMod(user)) return; // Moderators are always allowed
+  if (isMod(user)) return; // Moderators are always allowed
 
   this.canceled = true; // Cancel the event from going through
 
@@ -49,7 +49,7 @@ eventManager.on('preChat:getPrivateMessage', function streamerMode(data) {
 
   if (val === silent || toasts[userId]) return; // Don't announce anymore
   toasts[userId] = toast({
-    text: `Message from ${user.name(user)}`,
+    text: `Message from ${username(user)}`,
     buttons: [{
       css,
       text: 'Open',
@@ -65,7 +65,7 @@ eventManager.on(':unload', closeAll);
 
 function open(user) {
   const { id } = user;
-  global('openPrivateRoom')(id, user.name(user).replace('\'', ''));
+  global('openPrivateRoom')(id, username(user).replace('\'', ''));
   delete toasts[id];
 }
 
