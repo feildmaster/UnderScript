@@ -38,7 +38,10 @@ wrap(() => {
     return data.version !== version; // Always assume that the marked version is better
   }
   function compareAndToast(data) {
-    if (!data || !isNewer(data)) return false;
+    if (!data || !isNewer(data)) {
+      updateToast?.close('invalid');
+      return false;
+    }
     eventManager.once(':update:finished :update:force', () => {
       updateToast?.close('stale');
       if (data.announce) return;
