@@ -8,7 +8,16 @@ const translations = (async () => {
       cache: 'default',
     },
   );
-  return response.json();
+  const text = await response.text();
+  return JSON.parse(text, function reviver(key, value) {
+    if (Array.isArray(value)) {
+      value.forEach((val, i) => {
+        this[`${key}.${i + 1}`] = val;
+      });
+      return undefined;
+    }
+    return value;
+  });
 })();
 
 eventManager.on('translation:loaded', async () => {
