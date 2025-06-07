@@ -26,15 +26,17 @@ const mode = settings.register({
     }
   },
   type: 'select',
-  category: 'Streamer Mode',
+  category: Translation.CATEGORY_STREAMER,
 });
 const setting = settings.register({
   key: 'underscript.streaming',
   hidden: true,
 });
 api.register('streamerMode', streaming);
+const ON = Translation.Menu('streamer.on');
+const OFF = Translation.Menu('streamer.off');
 menu.addButton({
-  text: () => `Streamer Mode: ${streaming() ? 'On' : 'Off'}`,
+  text: () => (streaming() ? ON : OFF),
   hidden: () => mode.value() === disabled,
   action: () => update(!streaming()),
 });
@@ -42,7 +44,7 @@ eventManager.on(':preload', alert);
 
 function alert() {
   if (!streaming() || mode.value() === silent) return;
-  toast('Streamer Mode Active');
+  toast(Translation.Toast('streamer'));
 }
 
 function update(value) {

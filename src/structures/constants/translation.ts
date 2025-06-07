@@ -9,6 +9,7 @@ export type TranslationWithArgsOptions<N extends number> = TranslationOptions & 
 
 export type TranslationOptions = {
   args?: string[];
+  fallback?: string;
   prefix?: string | null;
 };
 
@@ -43,25 +44,27 @@ export interface TranslationWithArgs<N extends number> extends TranslationBase {
 }
 
 export default class Translation extends Constant implements TranslationBase {
-  static RECONNECTING = this.Chat('reconnecting');
-
   static CATEGORY_CHAT_COMMAND = this.Setting('category.chat.commands');
   static CATEGORY_CHAT_IGNORED = this.Setting('category.chat.ignored');
+  static CATEGORY_CHAT_IMPORT = this.Setting('category.chat.import');
   static CATEGORY_HOME = this.Setting('category.home');
   static CATEGORY_LIBRARY_CRAFTING = this.Setting('category.library.crafting');
+  static CATEGORY_STREAMER = this.Setting('category.streamer');
 
   static DISABLE_COMMAND_SETTING = this.Setting('disable.command', 1);
 
   static DISMISS = this.Toast('dismiss');
   static IGNORE = this.Toast('ignore', 1);
-  static UNDO = this.Toast('undo');
+  static UNDO = new Translation('toast.undo', { fallback: 'Undo' });
 
   static CLOSE = this.Vanilla('dialog-close');
 
   private args: string[];
+  private fallback?: string;
 
   constructor(key: string, {
     args = [],
+    fallback,
     prefix = 'underscript',
   }: TranslationOptions = {}) {
     if (prefix) {
@@ -70,6 +73,7 @@ export default class Translation extends Constant implements TranslationBase {
       super(key);
     }
     this.args = args;
+    this.fallback = fallback;
   }
 
   get key(): string {
@@ -79,6 +83,7 @@ export default class Translation extends Constant implements TranslationBase {
   translate(...args: string[]): string {
     return translateText(this.key, {
       args: args.length ? args : this.args,
+      fallback: this.fallback,
     });
   }
 
@@ -93,12 +98,12 @@ export default class Translation extends Constant implements TranslationBase {
     return this.translate();
   }
 
-  static Chat(key: string): Translation;
-  static Chat<N extends number>(key: string, hasArgs: N): TranslationWithArgs<N>;
-  static Chat<N extends number>(key: string, ...args: Tuple<string, N>): TranslationWithArgs<N>;
-  static Chat<N extends number>(key: string, hasArgs?: string | N, ...rest: string[]): TranslationBase | TranslationWithArgs<N> {
+  static General(key: string): Translation;
+  static General<N extends number>(key: string, hasArgs: N): TranslationWithArgs<N>;
+  static General<N extends number>(key: string, ...args: Tuple<string, N>): TranslationWithArgs<N>;
+  static General<N extends number>(key: string, hasArgs?: string | N, ...rest: string[]): TranslationBase | TranslationWithArgs<N> {
     const args = typeof hasArgs === 'string' ? [hasArgs, ...rest] : rest;
-    return new Translation(`chat.${key}`, { args });
+    return new Translation(`general.${key}`, { args });
   }
 
   static Menu(key: string): Translation;

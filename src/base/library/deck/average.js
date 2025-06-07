@@ -3,9 +3,10 @@ import * as settings from 'src/utils/settings/index.js';
 import { global } from 'src/utils/global.js';
 import onPage from 'src/utils/onPage.js';
 import * as hover from 'src/utils/hover.js';
+import Translation from 'src/structures/constants/translation';
 
 const setting = settings.register({
-  name: 'Disable deck average counter',
+  name: Translation.Setting('disable.deck.average'),
   key: 'underscript.disable.deck.average',
   refresh: onPage('Decks'),
   page: 'Library',
@@ -14,8 +15,9 @@ const setting = settings.register({
 // Calculate average
 eventManager.on(':preload:Decks', () => {
   if (setting.value()) return;
-  const avg = $('<span>').hover(hover.show('Average gold cost'));
-  $('#soulInfo span').after('<span>Passive</span> ', avg).remove();
+  const label = $('<span>');
+  const avg = $('<span>');
+  $('#soulInfo span').after(label, ' ', avg).remove();
 
   function round(amt, dec = 2) {
     return Number.parseFloat(amt).toFixed(dec);
@@ -29,4 +31,8 @@ eventManager.on(':preload:Decks', () => {
   }
 
   eventManager.on('Deck:Soul Deck:Change Deck:Loaded', count);
+  eventManager.on('underscript:ready', () => {
+    label.text(Translation.General('passive').translate());
+    avg.hover(hover.show(Translation.General('deck.average').translate()));
+  });
 });
