@@ -3,7 +3,7 @@ import nodePath from 'node:path';
 
 export function assign(obj = {}, lang = '', key = '', value = '') {
   // Only add key if value exists
-  if (!value || value.startsWith('//')) return;
+  if (!value) return;
   obj[lang] ??= {}; // Does lang exist?
   obj[lang][key] = value;
 }
@@ -11,6 +11,15 @@ export function assign(obj = {}, lang = '', key = '', value = '') {
 export async function readJSON(file) {
   const content = await fs.readFile(file);
   return JSON.parse(content);
+}
+
+export async function fileExists(path) {
+  try {
+    await fs.access(path);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export function writeFile(path, data) {
