@@ -22,7 +22,9 @@ export async function fileExists(path) {
   }
 }
 
-export function writeFile(path, data) {
+export async function writeFile(path, data) {
+  const dir = nodePath.dirname(path);
+  await fs.mkdir(dir, { recursive: true });
   return fs.writeFile(path, data);
 }
 
