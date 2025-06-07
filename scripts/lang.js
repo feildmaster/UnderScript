@@ -44,6 +44,7 @@ async function bundle(files = []) {
 
     Object.entries(await readJSON(file)).forEach(
       ([key, value]) => {
+        if (key.startsWith('//')) return;
         assign(ret, lang, `underscript.${name}.${key}`, value);
       },
     );
