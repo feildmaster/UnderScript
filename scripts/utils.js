@@ -21,9 +21,18 @@ export function sortKeys(obj = {}) {
   const keys = Object.keys(obj);
   if (!keys.length) return undefined;
   const sorted = {};
-  keys.sort().forEach(
+  keys.sort(
+    (a, b) => uncomment(a).localeCompare(uncomment(b)),
+  ).forEach(
     (key) => {
       const value = obj[key];
+      if (Array.isArray(value)) {
+        sorted[key] = value;
+        // value.forEach((val, index) => {
+        //   sorted[`${key}.${index + 1}`] = val;
+        // });
+        return;
+      }
       sorted[key] = typeof value === 'object' ? sortKeys(value) : value;
     },
   );
@@ -36,4 +45,11 @@ export function sortKeys(obj = {}) {
  */
 export function isMain({ url }) {
   return nodePath.normalize(url).endsWith(process.argv[1]);
+}
+
+function uncomment(string = '') {
+  if (string.startsWith('//')) {
+    return string.substring(2);
+  }
+  return string;
 }
