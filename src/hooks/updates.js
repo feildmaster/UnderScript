@@ -7,15 +7,14 @@ import * as settings from 'src/utils/settings';
 import each from 'src/utils/each';
 import wrap from 'src/utils/2.pokemon';
 import Translation from 'src/structures/constants/translation';
-import { buttonCSS, scriptVersion } from 'src/utils/1.variables';
+import { buttonCSS, DAY, scriptVersion, HOUR, UNDERSCRIPT } from 'src/utils/1.variables';
 import sleep from 'src/utils/sleep';
 import createParser from 'src/utils/parser';
 import DialogHelper from 'src/utils/DialogHelper';
 import { getVersion } from 'src/utils/plugin';
 import compound from 'src/utils/compoundEvent';
+import { getTranslationArray } from 'src/base/underscript/translation';
 
-const HOUR = 60 * 60 * 1000;
-const DAY = 24 * HOUR;
 const CHECKING = 'underscript.update.checking'; // TODO: change to setting?
 const LAST = 'underscript.update.last'; // TODO: change to setting?
 const PREFIX = 'underscript.pending.';
@@ -24,33 +23,43 @@ let autoTimeout;
 let toast;
 
 export const disabled = settings.register({
-  // TODO: translation
-  name: 'Disable Auto Updates',
+  name: Translation.Setting('update'),
   key: 'underscript.disable.updates',
-  // TODO: translation
-  category: 'Updates',
+  category: Translation.CATEGORY_UPDATES,
 });
 
 export const silent = settings.register({
-  name: 'Run automatic updates in the background',
+  name: Translation.Setting('update.silent'),
   key: 'underscript.updates.silent',
-  category: 'Updates',
+  category: Translation.CATEGORY_UPDATES,
 });
 
+const keys = {
+  frequency: Translation.Setting('update.frequency.option').key,
+  toast: Translation.Toast('updater'),
+  button: Translation.General('updater.open'),
+  checking: Translation.Toast('update.checking'),
+  update: Translation.Menu('update'),
+  updateNote: Translation.Menu('update.note', 1),
+  available: Translation.Toast('update.available', 1),
+  title: Translation.General('updates'),
+  updateCurrent: Translation.General('update.current', 1),
+  updateNew: Translation.General('update.new', 1),
+};
+
 const frequency = settings.register({
-  // TODO: translation
-  name: 'Update Frequency',
+  name: Translation.Setting('update.frequency'),
   key: 'underscript.updates.frequency',
-  // TODO: translation
-  data: [
-    ['Page Load', 0],
-    ['Hourly', HOUR],
-    ['Daily', DAY],
-  ],
+  data: () => {
+    const tls = getTranslationArray(keys.frequency);
+    return [0, HOUR, DAY].map((val, i) => (tls ? [
+      tls[i],
+      val,
+    ] : val));
+  },
   default: HOUR,
   type: 'select',
-  // TODO: translation
-  category: 'Updates',
+  category: Translation.CATEGORY_UPDATES,
   transform(value) {
     return Number(value) || 0;
   },
@@ -121,12 +130,11 @@ function notify(text, addButton = false) {
     toast.setText(text);
   } else {
     toast = Toast({
-      // TODO: translation
-      title: 'UnderScript updater',
+      title: keys.toast.translate(),
       text,
       className: 'dismissable',
       buttons: addButton ? {
-        text: 'Show Updates',
+        text: keys.button.translate(),
         className: 'dismiss',
         css: buttonCSS,
         onclick: open,
@@ -162,11 +170,9 @@ async function check(auto = true) {
   const updateFound = [...pendingUpdates.values()].filter(({ announce = true }) => announce).length;
   if (updateFound) {
     finish();
-    // TODO: translation
-    notify('Updates available.', true);
+    notify(keys.available.translate(updateFound), true);
   } else if (!auto && !pendingUpdates.size) {
-    // TODO: translation
-    notify('No updates available.');
+    notify(keys.available.translate(0));
     sleep(3000).then(finish);
   } else {
     sleep(1000).then(finish);
@@ -193,33 +199,31 @@ function setup() {
 
   const updateFound = [...pendingUpdates.values()].filter(({ announce = true }) => announce).length;
   if (updateFound) {
-    notify('Updates available.', true);
+    notify(keys.available.translate(updateFound), true);
   }
 }
 
 function open() {
   dialog.open({
-    title: 'Pending Updates', // TODO: translation
+    title: keys.title,
     message: build,
   });
 }
 
 menu.addButton({
-  // TODO: translation
-  text: 'Check for updates',
+  text: Translation.Menu('update'),
   action() {
     check(false);
   },
   note() {
     const last = Number(localStorage.getItem(LAST));
-    // TODO: translation
-    return `Last Checked: ${last ? luxon.DateTime.fromMillis(last).toLocaleString(luxon.DateTime.DATETIME_FULL) : 'never'}`;
+    const when = last ? luxon.DateTime.fromMillis(last).toLocaleString(luxon.DateTime.DATETIME_FULL) : 'never';
+    return keys.updateNote.translate(when);
   },
 });
 
 menu.addButton({
-  // TODO: translation
-  text: 'Show Pending Updates',
+  text: Translation.Menu('update.pending'),
   action: open,
   // note() {},
   hidden() {
@@ -230,8 +234,7 @@ menu.addButton({
 eventManager.on(':update', (auto) => {
   toast?.close();
   if (auto && silent.value()) return;
-  // TODO: translation
-  notify('Checking for updates. Please wait.');
+  notify(keys.checking.translate());
 });
 
 // Load pending updates
@@ -254,7 +257,7 @@ function build() {
   function refreshButton() {
     if (addedRefresh) return;
     dialog.prependButton({
-      label: 'Refresh Page',
+      label: Translation.General('refresh').translate(),
       cssClass: 'btn-success',
       action() {
         location.reload();
@@ -269,7 +272,7 @@ function build() {
     version,
   }) {
     const button = $(`<a>`)
-      .text(`Update to ${version}`) // TODO: translation
+      .text(keys.updateNew.translate(version))
       .attr({
         href: url,
         rel: 'noreferrer',
@@ -284,21 +287,21 @@ function build() {
       });
     container.append($('<fieldset>').append(
       $('<legend>').text(name),
-      $('<div>').text(`Current: ${currentVersion || 'unknown'}`),
+      $('<div>').text(keys.updateCurrent.translate(currentVersion || Translation.UNKNOWN.translate())),
       button,
     ));
   }
-  const underscript = pendingUpdates.get('UnderScript');
+  const underscript = pendingUpdates.get(UNDERSCRIPT);
   if (underscript) {
     add({
       ...underscript,
-      name: 'UnderScript',
+      name: UNDERSCRIPT,
       currentVersion: scriptVersion,
     });
   }
   [...pendingUpdates.entries()].forEach(
     ([name, data]) => {
-      if (name === 'UnderScript') return;
+      if (name === UNDERSCRIPT) return;
       add({
         ...data,
         name,

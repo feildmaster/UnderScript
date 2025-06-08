@@ -1,5 +1,26 @@
 {
+  "changelog": "UnderScript Change Log",
+  "changelog.loading": "Please wait",
+  "changelog.unavailable": "Unavailable at this time",
+  "message.hidden": "Message Ignored",
+  "message.removed": "$1 {{PLURAL:$1|Message|Messages}} Ignored",
   "deck.average": "Average gold cost",
   "passive": "Passive",
-  "reconnecting": "Reconnecting..."
+  "reconnecting": "Reconnecting...",
+  "profile": "Profile",
+  "message": "Message",
+  "ignore": "Ignore",
+  "unignore": "Unignore",
+  "mention": "Mention",
+  "mute": "Mute",
+  "refresh": "Refresh Page",
+  "update.current": "Current: $1",
+  "update.new": "Update to $1",
+  "update.open": "Show Updates",
+  "updates": "Pending Updates",
+  "dismiss": "Dismiss",
+  "open": "Open",
+  "undo": "Undo",
+  "update": "Update",
+  "unknown": "Unknown"
 }

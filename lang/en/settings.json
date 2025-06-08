@@ -17,6 +17,8 @@
   "category.streamer": "Streamer Mode",
   "category.home": "Home",
   "category.library.crafting": "Crafting",
+  "category.plugins": "Plugins",
+  "category.updates": "Updates",
   "deck.average": "Disable deck average counter",
   "deck.preview": "Disable Deck Preview",
   "disable.border": "Disable Crafting Highlight",
@@ -26,11 +28,16 @@
   "disable.disenchant": "Disable Smart Disenchanting",
   "disable.disenchant.note": "Enable at own risk",
   "disable.emote": "Disable $1",
-  "disable.rightclick": "Disable Chat Context (right click)",
-  "disable.ignoreChat": "Disable",
+  "chat.rightclick": "Disable Chat Context (right click)",
   "disable.links": "Use Original Link Detection",
   "disable.ping": "Disable Chat Ping {{STYLE:highlight|(highlighting)}}",
-  "ignoreChat": "Behavior",
+  "ignore": "Disable",
+  "ignore.how": "Behavior",
+  "ignore.option": [
+    "remove",
+    "hide",
+    "none"
+  ],
   "import.shiny": "Prefer Shiny",
   "note.refresh": "Will require you to refresh the page.",
   "page.chat": "Chat",
@@ -44,13 +51,24 @@
   "safelink.trust": "Trust $1",
   "streamer": "Enable?",
   "streamer.note": "Enables a button on the menu, streamer mode is \"off\" by default.",
-  "streamer.option.1": "Yes",
-  "streamer.option.2": "Yes (silent)",
-  "streamer.option.3": "No",
+  "streamer.option": [
+    "Yes",
+    "Yes (silent)",
+    "No"
+  ],
   "title": "UnderScript Configuration",
   "toast.bundle": "Enable bundle toast",
   "toast.cards": "Enable new Card toast",
   "toast.emotes": "Enable emote toast",
   "toast.pass": "Enable quest pass toast",
-  "toast.skins": "Enable skin toast"
+  "toast.skins": "Enable skin toast",
+  "update": "Disable Auto Updates",
+  "update.frequency": "Update Frequency",
+  "update.frequency.option": [
+    "Page Load (Not recommended)",
+    "Hourly",
+    "Daily"
+  ],
+  "update.plugin": "Disable Auto Updates",
+  "update.silent": "Run automatic updates in the background"
 }

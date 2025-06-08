@@ -44,18 +44,24 @@ export interface TranslationWithArgs<N extends number> extends TranslationBase {
 }
 
 export default class Translation extends Constant implements TranslationBase {
+  static DISMISS = this.General('dismiss');
+  static OPEN = this.General('open');
+  static UNDO = new Translation('general.undo', { fallback: 'Undo' });
+  static UNKNOWN = this.General('unknown');
+  static UPDATE = this.General('update');
+
   static CATEGORY_CHAT_COMMAND = this.Setting('category.chat.commands');
   static CATEGORY_CHAT_IGNORED = this.Setting('category.chat.ignored');
   static CATEGORY_CHAT_IMPORT = this.Setting('category.chat.import');
   static CATEGORY_HOME = this.Setting('category.home');
   static CATEGORY_LIBRARY_CRAFTING = this.Setting('category.library.crafting');
+  static CATEGORY_PLUGINS = this.Setting('category.plugins');
   static CATEGORY_STREAMER = this.Setting('category.streamer');
+  static CATEGORY_UPDATES = this.Setting('category.updates');
 
   static DISABLE_COMMAND_SETTING = this.Setting('disable.command', 1);
 
-  static DISMISS = this.Toast('dismiss');
-  static IGNORE = this.Toast('ignore', 1);
-  static UNDO = new Translation('toast.undo', { fallback: 'Undo' });
+  static IGNORED = this.Toast('ignore', 1);
 
   static CLOSE = this.Vanilla('dialog-close');
 

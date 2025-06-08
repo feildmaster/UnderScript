@@ -4,6 +4,7 @@
   "dismiss": "Dismiss",
   "ignore": "You've ignored $1",
   "info": "Did you know?",
+  "ignore.info": "You can right click users in chat to display user options!",
   "menu": "UnderScript has a menu, press ESC to open it!",
   "new.bundle": "New Bundle Available",
   "new.card": "{{PLURAL:$1|New Card|New Cards}}",
@@ -20,5 +21,11 @@
   "game.request.denied": "Notifications denied",
   "game.request.message": "UnderScript would like to notify you when a game is found.",
   "game.update": "Undercards Update",
-  "undo": "Undo"
+  "undo": "Undo",
+  "update": "Update",
+  "update.available": "{{PLURAL:$1|Update|$1 updates|0=No updates}} available.",
+  "update.checking": "Checking for updates. Please wait.",
+  "update.title": "[UnderScript] Update Available!",
+  "update.text": "Version $1.",
+  "updater": "UnderScript updater"
 }
