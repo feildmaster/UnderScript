@@ -10,7 +10,11 @@ export default class FileParser {
   }
 
   parseData(data) {
-    if (typeof data === 'string' && data.includes('// ==UserScript==')) {
+    if (
+      typeof data === 'string' &&
+      data.includes('// ==UserScript==') &&
+      data.includes('// ==/UserScript==')
+    ) {
       return extractMeta(data);
     }
     return data;
@@ -31,6 +35,7 @@ export default class FileParser {
 
   async getVersion(data = this.getUpdateData()) {
     const resolvedData = await Promise.resolve(data);
+    if (!resolvedData) throw new Error('File not found', this.#updateURL);
     const version = this.parseVersion(resolvedData);
     if (!version || typeof version !== 'string') throw new Error('Version not found');
     return version;
