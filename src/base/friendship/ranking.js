@@ -5,19 +5,21 @@ import * as settings from 'src/utils/settings/index.js';
 import { global, globalSet } from 'src/utils/global.js';
 import style from 'src/utils/style.js';
 import each from 'src/utils/each.js';
+import { HOUR } from 'src/utils/1.variables';
 
 // Add setting to disable, or use top 500 (simple mode)
 const disabled = 'No';
 const setting = settings.register({
+  // TODO: translation
   name: 'Display Friendship Rankings',
   key: 'underscript.friendship.leaderboard',
+  // TODO: translation
   options: ['Yes', disabled],
   page: 'Library',
   category: 'Friendship',
 });
 
 const URI = 'Leaderboard?action=friendship&idCard=';
-const HOUR = 60 * 60 * 1000;
 
 const cache = {
   loaded: false,

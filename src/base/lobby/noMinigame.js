@@ -3,6 +3,7 @@ import { global, globalSet } from 'src/utils/global.js';
 import onPage from 'src/utils/onPage.js';
 import compound from 'src/utils/compoundEvent.js';
 
+// TODO: translation
 const setting = settings.register({
   name: 'Disable',
   key: 'underscript.minigames.disabled',

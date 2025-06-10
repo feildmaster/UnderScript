@@ -2,10 +2,11 @@ import wrap from 'src/utils/2.pokemon.js';
 import { registerModule } from 'src/utils/plugin.js';
 import { registerPlugin } from 'src/hooks/updates';
 import * as settings from 'src/utils/settings/index.js';
+import Translation from 'src/structures/constants/translation';
 
-// TODO: translation
+const text = Translation.Setting('update.plugin');
 const setting = settings.register({
-  name: 'Disable Auto Updates',
+  name: text,
   key: 'underscript.disable.plugins.update',
   category: 'Plugins',
 });
@@ -17,7 +18,7 @@ wrap(() => {
 
     let updater = false;
     const update = plugin.settings().add({
-      name: 'Disable Auto Updates',
+      name: text,
       key: 'plugin.update',
       default: () => setting.value(),
       disabled: () => setting.value(),

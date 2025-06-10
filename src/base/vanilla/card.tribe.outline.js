@@ -4,6 +4,7 @@ import VarStore from 'src/utils/VarStore.js';
 import style from 'src/utils/style.js';
 
 const setting = settings.register({
+  // TODO: translation
   name: 'Add Tribe Outline',
   key: 'underscript.card.tribe.outline',
   page: 'Library',

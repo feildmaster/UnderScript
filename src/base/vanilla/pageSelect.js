@@ -5,6 +5,7 @@ import onPage from 'src/utils/onPage.js';
 import sleep from 'src/utils/sleep.js';
 
 const disable = settings.register({
+  // TODO: translation
   name: 'Disable Page Select',
   key: 'underscript.disable.pageselect',
 });

@@ -14,6 +14,7 @@ wrap(() => {
 
   style.add('.avatar.glyphicon-random { width: 64px; text-align: center; margin: auto; height: 64px; padding-top: 24px; }');
 
+  // TODO: translation
   function buildButton() {
     const elements = `<div class="col-sm-2">
     <div class="avatarGroup"><span class="avatar MYTHIC glyphicon glyphicon-random"></span></div>

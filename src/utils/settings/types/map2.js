@@ -75,6 +75,7 @@ export default class AdvancedMap extends Setting {
         line.remove();
       });
       let leftValue;
+      // TODO: translation
       const warning = $('<div class="warning clickable">')
         .text('Duplicate value, not updated! Click here to reset.')
         .on('click', () => left.val(leftValue)

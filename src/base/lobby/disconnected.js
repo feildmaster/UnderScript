@@ -27,6 +27,7 @@ function setup() {
   });
 }
 
+// TODO: translation
 function announce() {
   if (waiting) {
     eventManager.emit('closeQueues', 'Disconnected from queue. Please refresh page.');

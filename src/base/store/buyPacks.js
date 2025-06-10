@@ -60,6 +60,7 @@ wrap(() => {
             gold: !cost,
           };
           if (cost && !e.shiftKey) {
+            // TODO: translation
             global('BootstrapDialog').show({
               title: 'Buy packs with UCP?',
               message: $.i18n(`Buy ${count} pack${count > 1 ? 's' : ''} for {{UCP:${count * price}}} UCP?`),
@@ -82,6 +83,7 @@ wrap(() => {
             buyPacks(data);
           }
         });
+        // TODO: translation
         $(el).hover(hover.show(`CTRL: Buy MAX packs<br>ALT: Buy (up to) 10 packs${cost ? '<br>SHIFT: Bypass confirmation' : ''}`));
       });
     });

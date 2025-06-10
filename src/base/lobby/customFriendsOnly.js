@@ -5,6 +5,7 @@ import { errorToast } from 'src/utils/2.toasts.js';
 import { debug } from 'src/utils/debug.js';
 import isFriend from 'src/utils/isFriend.js';
 
+// TODO: translation
 const setting = settings.register({
   name: 'Friends only',
   key: 'underscript.custom.friendsOnly',
@@ -20,6 +21,7 @@ function init() {
     .append($(`<input id="friends" type="checkbox">`).prop('checked', flag).on('change', () => {
       flag = !flag;
     }))
+    // TODO: translation
     .append(' ', $('<label for="friends">').text('Friends only'));
   // .hover(hover.show('Only allow friends to join'))
   $('#state2 span.opponent').parent().after(container);
@@ -29,6 +31,7 @@ function init() {
 function joined({ username }) {
   if (this.canceled || !flag || isFriend(username)) return;
   debug(`Kicked: ${username}`);
+  // TODO: translation
   errorToast({
     title: '[Match] Banned User',
     text: `'${username}' has been banned from custom match!`,

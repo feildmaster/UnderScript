@@ -3,6 +3,7 @@ import { global } from 'src/utils/global.js';
 import * as hover from 'src/utils/hover.js';
 import wrap from 'src/utils/2.pokemon.js';
 
+// TODO: translation
 wrap(() => {
   eventManager.on(':preload:CosmeticsShop', () => {
     $('form[action=CosmeticsShop] button')

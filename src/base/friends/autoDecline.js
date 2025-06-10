@@ -9,6 +9,7 @@ import each from 'src/utils/each.js';
 import { captureError } from 'src/utils/sentry.js';
 
 const disabled = settings.register({
+  // TODO: translation
   name: 'Disable',
   key: 'userscript.autodecline.disable',
   page: 'Friends',
@@ -16,6 +17,7 @@ const disabled = settings.register({
 });
 
 const silent = settings.register({
+  // TODO: translation
   name: 'Silent',
   key: 'underscript.autodecline.silent',
   default: true,
@@ -24,6 +26,7 @@ const silent = settings.register({
 });
 
 const chat = settings.register({
+  // TODO: translation
   name: 'Include ignored chat users',
   key: 'underscript.autodecline.ignored',
   default: true,
@@ -53,6 +56,7 @@ function register(key, name, set = false) {
 function post(id, name) {
   axios.get(`/Friends?delete=${id}`).then(() => {
     if (!name) return;
+    // TODO: translation
     const message = `Auto declined friend request from: ${name}`;
     debug(message);
     if (!silent.value()) {
@@ -99,6 +103,7 @@ onPage('Friends', function blockRequests() {
         el.find('a[href^="Friends?"]').remove();
         el.addClass('deleted');
         $(this).remove();
+      // TODO: translation
       }).hover(hover.show(`Block ${el.text().substring(0, name)}`)));
     });
   });

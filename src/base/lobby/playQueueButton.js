@@ -11,6 +11,7 @@ onPage('Play', () => {
     restarting = $('p.infoMessage[data-i18n-custom="header-info-restart"]').length !== 0;
     if (disable || restarting) {
       queues = $('#standard-mode, #ranked-mode, button.btn.btn-primary');
+      // TODO: translation
       closeQueues(restarting ? 'Joining is disabled due to server restart.' : 'Waiting for connection to be established.');
     }
   });
@@ -21,6 +22,7 @@ onPage('Play', () => {
 
   const timeout = setTimeout(() => {
     checkButton();
+    // TODO: translation
     applyMessage('Auto enabled buttons, connection was not detected.');
   }, 10000);
 

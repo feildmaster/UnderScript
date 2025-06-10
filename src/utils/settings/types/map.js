@@ -80,6 +80,7 @@ function createItem({
     save(true);
     button.parent().remove();
   });
+  // TODO: translation
   const warning = $('<div class="warning clickable">')
     .text('Duplicate value, not updated! Click here to reset.')
     .on('click', () => left.val(value[0])

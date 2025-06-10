@@ -1,14 +1,18 @@
+import Translation from 'src/structures/constants/translation';
 import { buttonCSS as css } from 'src/utils/1.variables.js';
 import wrap from 'src/utils/2.pokemon.js';
 import { registerModule } from 'src/utils/plugin.js';
 import * as settings from 'src/utils/settings/index.js';
 
+// TODO: translation
 const enable = ['Enabled with toast', 'Enabled silently'];
 
 const setting = settings.register({
+  // TODO: translation
   name: 'New plugin behavior',
   key: 'underscript.plugins.init',
   category: 'Plugins',
+  // TODO: translation
   data: [...enable, 'Disabled with toast', 'Disabled silently'],
   type: 'select',
 });
@@ -20,6 +24,7 @@ wrap(() => {
     if (!plugin.version) return;
     const enabled = plugin.settings().add({
       key: 'plugin.enabled',
+      // TODO: translation
       name: 'Enabled',
       default: enable.includes(setting.value()),
     });
@@ -38,6 +43,7 @@ wrap(() => {
     plugin.events.on(':load', () => {
       const isEnabled = enabled.value();
       plugin.toast({
+        // TODO: translation
         title: 'New Plugin Detected',
         text: `"${plugin.name}" has been <span class="${isEnabled ? 'green' : 'gray'}">${isEnabled ? 'enabled' : 'disabled'}</span> by default.`,
         error: true, // Make it red.
@@ -46,6 +52,7 @@ wrap(() => {
           button: 'dismiss',
         },
         buttons: [{
+          // TODO: translation
           text: isEnabled ? 'Disable' : 'Enable',
           css,
           onclick() {
@@ -53,7 +60,7 @@ wrap(() => {
             registered.set(true);
           },
         }, {
-          text: 'Dismiss',
+          text: Translation.DISMISS.translate(),
           css,
           onclick() {
             enabled.set(isEnabled);

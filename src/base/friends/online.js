@@ -6,6 +6,7 @@ import style from 'src/utils/style.js';
 import { name } from 'src/utils/user.js';
 
 const setting = settings.register({
+  // TODO: translation
   name: 'Enable online friends',
   key: 'underscript.enable.onlinefriends',
   default: true,
@@ -30,6 +31,7 @@ eventManager.on(':preload', () => {
   const el = document.querySelector('a span.nbFriends');
   if (!el) return;
   target = el.parentElement;
+  // TODO: translation
   hover.tip('<div class="onlineFriends">(Loading)</div>', target, {
     arrow: true,
     distance: 0,

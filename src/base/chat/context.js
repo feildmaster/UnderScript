@@ -12,7 +12,7 @@ import { buttonCSS, window } from 'src/utils/1.variables.js';
 import Translation from 'src/structures/constants/translation';
 
 const setting = settings.register({
-  name: Translation.Setting('disable.rightclick'),
+  name: Translation.Setting('chat.rightclick'),
   key: 'underscript.disable.chatContext',
   page: 'Chat',
 });
@@ -61,7 +61,6 @@ eventManager.on('jQuery', () => {
   const ignorePrefix = 'underscript.ignore.';
   const context = (() => {
     const container = $('<div class="chatContext">');
-    // TODO: Translate these buttons
     const profile = $('<li>Profile</li>');
     const message = $('<li>Message</li>');
     const ignore = $('<li>Ignore</li>');
@@ -69,6 +68,19 @@ eventManager.on('jQuery', () => {
     const mute = $('<li>Mute</li>');
     const muteTime = $('<select>');
     const header = $('<header>');
+
+    eventManager.on('underscript:ready', () => {
+      each({
+        profile,
+        message,
+        ignore,
+        mention,
+        mute,
+      }, (value, key) => {
+        value.text(Translation.General(key));
+      });
+    });
+
     container.append(header, profile, mention, ignore).hide();
     $('body').append(container);
 
@@ -142,13 +154,13 @@ eventManager.on('jQuery', () => {
           const key = `${ignorePrefix}${id}`;
           if (!settings.value(key)) {
             simpleToast({
-              text: `You've ignored ${name}`,
+              text: Translation.IGNORED.translate(name),
               css: {
                 'background-color': 'rgba(208, 0, 0, 0.6)',
               },
               buttons: [{
                 css: buttonCSS,
-                text: 'Undo',
+                text: Translation.UNDO.translate(),
                 className: 'dismiss',
                 onclick: () => {
                   settings.remove(key);
@@ -191,9 +203,9 @@ eventManager.on('jQuery', () => {
     }
     function updateIgnoreText(id) {
       if (settings.value(`${ignorePrefix}${id}`)) {
-        ignore.html('Unignore');
+        ignore.text(Translation.General('unignore'));
       } else {
-        ignore.html('Ignore');
+        ignore.text(Translation.General('ignore'));
       }
     }
     function close() {
@@ -237,7 +249,7 @@ eventManager.on('jQuery', () => {
 
 eventManager.on('ChatDetected', () => {
   toast = infoToast({
-    text: 'You can right click users in chat to display user options!',
+    text: Translation.Toast('ignore.info'),
     onClose: (reason) => {
       toast = null; // Remove from memory
       // return reason !== 'opened';

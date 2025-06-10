@@ -27,6 +27,7 @@ wrap(() => {
     const block = document.createElement('div');
     const h3 = document.createElement('h3');
     h3.classList.add('event-title');
+    // TODO: translation
     h3.textContent = 'Completed Quests';
     const table = document.createElement('table');
     table.classList.add('table', 'questTable');

@@ -4,6 +4,7 @@ import { scriptVersion, window } from 'src/utils/1.variables.js';
 import eventManager from 'src/utils/eventManager.js';
 
 // This setting doesn't do anything, nor does the detection work.
+// TODO: translation
 settings.register({
   name: 'Send anonymous statistics',
   key: 'underscript.analytics',

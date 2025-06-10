@@ -7,6 +7,7 @@ import cleanData from 'src/utils/cleanData.js';
 import Translation from 'src/structures/constants/translation';
 
 const setting = settings.register({
+  // TODO: translation
   name: 'Disable version toast',
   key: 'underscript.season.disable',
   refresh: () => onPage(''),

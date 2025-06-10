@@ -8,6 +8,7 @@ import { fetch } from 'src/utils/quests.js';
 
 wrap(() => {
   const setting = settings.register({
+    // TODO: translation
     name: 'Disable Quest Highlight',
     key: 'underscript.disable.questHighlight',
   });

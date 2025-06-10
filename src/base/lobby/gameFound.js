@@ -6,6 +6,7 @@ onPage('Play', () => {
   eventManager.on('getWaitingQueue', function updateTitle() {
     // Title has been modified
     if (title !== document.title) return;
+    // TODO: translation
     document.title = `Undercards - Match found!`;
   });
   eventManager.on('getLeaveQueue', function restoreTitle() {

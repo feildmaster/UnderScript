@@ -2,6 +2,7 @@ import eventManager from 'src/utils/eventManager.js';
 import * as settings from 'src/utils/settings/index.js';
 import { global } from 'src/utils/global.js';
 
+// TODO: translation
 const volume = settings.register({
   name: 'Game Found Volume',
   key: 'underscript.volume.gameFound',

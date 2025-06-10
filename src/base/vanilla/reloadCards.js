@@ -6,6 +6,7 @@ eventManager.on(':preload', () => {
   const fetchAllCards = global('fetchAllCards', { throws: false });
   if (!fetchAllCards) return;
   menu.addButton({
+    // TODO: translation
     text: 'Reload cards',
     action() {
       localStorage.removeItem('cardsVersion');

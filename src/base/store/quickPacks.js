@@ -10,6 +10,7 @@ import formatNumber from 'src/utils/formatNumber.js';
 import { getCollection } from 'src/utils/user.js';
 import { buttonCSS as css, window } from 'src/utils/1.variables.js';
 import Item from 'src/structures/constants/item.js';
+import length from 'src/utils/length';
 
 onPage('Packs', async function quickOpenPack() {
   const collection = await getCollection();
@@ -133,6 +134,7 @@ onPage('Packs', async function quickOpenPack() {
     if (toast.exists()) {
       toast.setText(`<progress value="${results.packs}" max="${status.total}"></progress>`);
     } else {
+      // TODO: translation
       toast = basicToast({
         title: `Opening ${formatNumber(status.total)} packs`,
         text: `<progress value="${results.packs}" max="${status.total}"></progress>`,
@@ -184,7 +186,7 @@ onPage('Packs', async function quickOpenPack() {
       let limit = Math.min(Math.max(Math.floor(window.innerHeight / 38), 6), 26);
       // Increase the limit if we don't have a specific rarity
       rarity.forEach((key) => {
-        if (!Object.keys(cardResults[key]).length) {
+        if (!length(cardResults[key])) {
           limit += 1;
         }
       });
@@ -214,6 +216,7 @@ onPage('Packs', async function quickOpenPack() {
       // Create result toast
       const total = results.cards.length;
       basicToast({
+        // TODO: translation?
         title: `Results: ${formatNumber(results.packs)} Packs${cardResults.shiny ? ` (${total % 4 ? `${formatNumber(total)}, ` : ''}${formatNumber(cardResults.shiny)} shiny)` : total % 4 ? ` (${formatNumber(total)})` : ''}`,
         text,
         css: { 'font-family': 'inherit' },
@@ -276,6 +279,7 @@ onPage('Packs', async function quickOpenPack() {
         showCards();
       }
     });
+    // TODO: translation
     $('[id^="btnOpen"]').on('click.script', (event) => {
       autoOpen = event.ctrlKey;
       const type = $(event.target).prop('id').substring(7);

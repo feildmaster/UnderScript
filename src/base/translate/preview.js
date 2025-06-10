@@ -19,6 +19,7 @@ function newShowPage() {
   const preview = $('#preview');
   textarea.on('input', () => {
     const text = textarea.val().trim();
+    // TODO: Wait if error?
     preview.html(text ? `${getPreview('decks-preview')}: ${getPreview(text)}` : '');
   });
 }

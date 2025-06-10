@@ -12,7 +12,9 @@ style.add(
 function init() {
   eventManager.on('ShowPage', (page) => thing(page * 10));
   dismissable({
+    // TODO: translation
     title: 'Did you know?',
+    // TODO: translation
     text: `The import arrow is colored to symbolize <span class="missingDT">missing DT(s)</span>, <span class="missing">missing card(s)</span>, and <span class="missingArt">missing artifact(s)</span>`,
     key: 'underscript.notice.hubImport',
     value: '2',
@@ -32,7 +34,7 @@ function check({ code, id }) {
   const allCards = toObject(global('allCards'));
   const missingCards = getMissingCards(deck.cardIds);
 
-  const missingDT = missingCards.some((i) => allCards[i].rarity === 'DETERMINATION');
+  const missingDT = missingCards.some((i) => allCards[i].rarity === ' ');
   const missingCard = missingCards.length > 0;
   const missingArt = deck.artifactIds.filter((art) => !checkArt(art));
 

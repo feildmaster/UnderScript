@@ -8,17 +8,21 @@ import { debug } from 'src/utils/debug.js';
 import Translation from 'src/structures/constants/translation';
 
 const setting = settings.register({
-  name: Translation.Setting('disable.ignoreChat'),
+  name: Translation.Setting('ignore'),
   key: 'underscript.disable.ignorechat',
   page: 'Chat',
   category: Translation.CATEGORY_CHAT_IGNORED,
 });
 
 const how = settings.register({
-  name: Translation.Setting('ignoreChat'),
+  name: Translation.Setting('ignore.how'),
   key: 'underscript.ignorechat.how',
   type: 'select',
-  options: ['remove', 'hide', 'none'],
+  options: [
+    [Translation.Setting('ignore.option.1'), 'remove'],
+    [Translation.Setting('ignore.option.2'), 'hide'],
+    [Translation.Setting('ignore.option.3'), 'none'],
+  ],
   page: 'Chat',
   category: Translation.CATEGORY_CHAT_IGNORED,
 });
@@ -53,6 +57,7 @@ function processMessage(message, room, history = false) {
       pendingIgnore.set(true);
       return;
     }
+    // TODO: translation
     msg.find(`.chat-message`).html('<span class="gray">Message Ignored</span>')
       .removeClass().addClass('chat-message');
   } else if (type === 'remove') {

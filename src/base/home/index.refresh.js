@@ -8,9 +8,11 @@ import translate from 'src/utils/translate.js';
 import eventManager from 'src/utils/eventManager.js';
 
 const setting = settings.register({
+  // TODO: translation
   name: 'Disable Game List Refresh',
   key: 'undercards.disable.lobbyRefresh',
   default: false,
+  // TODO: translation
   category: 'Home',
   init() {
     onPage('', setup);
@@ -59,5 +61,6 @@ onPage('', function refreshGameList() {
   document.addEventListener('visibilitychange', refresh);
   // Queue initial refresh
   setup();
+  // TODO: translation
   infoToast('The game list now refreshes automatically, every 10 seconds.', 'underscript.notice.refreshIndex', '1');
 });

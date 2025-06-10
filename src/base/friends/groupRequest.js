@@ -4,6 +4,7 @@ import onPage from 'src/utils/onPage.js';
 import * as hover from 'src/utils/hover.js';
 
 settings.register({
+  // TODO: translation
   name: 'Disable decline all button',
   key: 'underscript.disable.declineAll',
   refresh: true,
@@ -17,7 +18,7 @@ onPage('Friends', function groupButtons() {
     const container = $('p:contains("Friend requests")').append(' ', declineAll).parent();
     declineAll.text(' ').addClass('glyphicon glyphicon-remove red').css({
       cursor: 'pointer',
-    }).hover(hover.show('Decline all'))
+    }).hover(hover.show('Decline all')) // TODO: translation
       .click(() => {
         container.find('a[href^="Friends?delete="]').each(function declineFriend() {
           eventManager.emit('friendAction', $(this));

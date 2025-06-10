@@ -4,6 +4,7 @@ import onPage from 'src/utils/onPage.js';
 import { window } from 'src/utils/1.variables.js';
 
 const setting = settings.register({
+  // TODO: translation
   name: 'Disable Game List Resizing',
   key: 'underscript.disable.adjustSpectateView',
   refresh: () => onPage(''),

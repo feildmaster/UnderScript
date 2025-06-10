@@ -91,7 +91,14 @@ eventManager.on(':preload:Decks', () => {
   button.addClass('btn btn-sm btn-primary');
   button.append(inner);
   button.click(fillDeck);
-  button.hover(hover.show('Randomly fill deck<br>CTRL: Shiny mode<br>SHIFT: Non-shiny mode'), hover.hide);
+  eventManager.on('underscript:ready', () => {
+    // TODO: translation
+    button.hover(hover.show([
+      'Randomly fill deck',
+      'CTRL: Shiny mode',
+      'SHIFT: Non-shiny mode',
+    ].join('<br>')), hover.hide);
+  });
   const clearDeck = $('#yourCardList > button:last');
   clearDeck.after(' ', button);
 });

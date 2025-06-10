@@ -7,6 +7,7 @@ import decrypt from 'src/utils/decrypt.emails.js';
 import * as $el from 'src/utils/elementHelper.js';
 
 const setting = settings.register({
+  // TODO: translation
   name: 'Add friends without refreshing',
   key: 'underscript.friend.add',
   default: true,
@@ -32,7 +33,8 @@ onPage('Friends', function addFriend() {
         if (result) {
           const success = result.classList.contains('green');
           toast({
-            text: `<p style="color: ${success ? 'green' : 'red'}">${success ? 'Sent' : 'Failed to send'} friend request to ${name}<p>`,
+            // TODO: translation
+            text: `<p style="color: ${success ? 'green' : 'red'}">${success ? 'Sent' : 'Failed to send'} friend request to ${name}</p>`,
           });
           if (success) {
             const element = $el.text.contains(decrypt(page).querySelectorAll('a[href^="Friends?delete="]'), `${name} LV`, { mutex, single });
@@ -49,7 +51,7 @@ onPage('Friends', function addFriend() {
   }
 
   input.addEventListener('keydown', (e) => {
-    if ((e.keyCode || e.which) === 13 || [e.code, e.key].contains('Enter')) {
+    if ([e.code, e.key].contains('Enter')) {
       if (submit() === false) e.preventDefault();
     }
   });

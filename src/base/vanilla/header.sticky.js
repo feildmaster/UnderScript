@@ -8,6 +8,7 @@ style.add(
 );
 
 const setting = settings.register({
+  // TODO: translation
   name: 'Disable header scrolling',
   key: 'underscript.disable.header.scrolling',
   onChange: (to) => {

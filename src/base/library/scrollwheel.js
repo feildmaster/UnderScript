@@ -3,6 +3,7 @@ import * as settings from 'src/utils/settings/index.js';
 import { globalSet } from 'src/utils/global.js';
 import onPage from 'src/utils/onPage.js';
 
+// TODO: translation
 const setting = settings.register({
   name: 'Disable Scrolling Collection Pages Hotkey (mousewheel)',
   key: 'underscript.disable.scrolling',
@@ -12,7 +13,7 @@ const setting = settings.register({
 
 eventManager.on(':preload:Decks :preload:Crafting', function scrollwheelLoaded() {
   globalSet('onload', function onload() {
-    this.super && this.super();
+    this.super?.();
     if (setting.value()) $('#collection').off('mousewheel DOMMouseScroll');
   });
 });

@@ -8,6 +8,7 @@ import style from 'src/utils/style.js';
 import { captureError } from 'src/utils/sentry.js';
 
 const setting = settings.register({
+  // TODO: translation
   name: 'Remove friends without refreshing',
   key: 'underscript.removeFriend.background',
   default: true,
@@ -29,16 +30,19 @@ function process(btn) {
   axios.get(link).then((response) => {
     const onlineFriends = $(response.data).find(`#onlineFriends`);
     if (!onlineFriends.length) {
+      // TODO: translation
       errorToast('Try logging back in');
       return;
     }
     const found = decrypt(onlineFriends).find(`a[href="${link}"]`);
     if (found.length) {
+      // TODO: translation
       toast(`Failed to remove: ${found.parent().find('span:nth-child(3)').text()}`);
       btn.appendTo(parent);
     } else {
       if (!reminded) {
         toast({
+          // TODO: translation
           title: 'Please note:',
           text: 'Friends list will be updated upon refresh.',
         });

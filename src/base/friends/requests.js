@@ -6,6 +6,7 @@ import each from 'src/utils/each.js';
 import { noop } from 'src/utils/1.variables.js';
 
 const setting = settings.register({
+  // TODO: translation
   name: 'Disable Friend Request Notifications',
   key: 'underscript.disable.friend.notifications',
   page: 'Friends',
@@ -21,6 +22,7 @@ eventManager.on('Friends:requests', (friends) => {
       background: 'inherit',
     }; // I need to add a way to clear all styles
     toast({
+      // TODO: translation
       title: `Pending Friend Request`,
       text: friend,
       buttons: [{
@@ -52,6 +54,7 @@ function post(id, accept = true) {
     const key = `underscript.request.${id}`;
     const name = sessionStorage.getItem(key);
     sessionStorage.removeItem(key);
+    // TODO: translation
     toast(`${accept ? 'Accepted' : 'Declined'} friend request from: ${name}`);
   }).catch(noop);
 }

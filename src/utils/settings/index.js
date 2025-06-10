@@ -456,3 +456,5 @@ dialog.onOpen((diag) => {
 dialog.onClose(() => {
   events.emit('close');
 });
+
+// TODO: translate page titles on ready

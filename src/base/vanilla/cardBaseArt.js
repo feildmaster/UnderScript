@@ -4,6 +4,7 @@ import { globalSet } from 'src/utils/global.js';
 import { window } from 'src/utils/1.variables.js';
 
 const setting = settings.register({
+  // TODO: translation
   name: 'Force Basic Card Skins',
   key: 'underscript.hide.card-skins',
   page: 'Library',

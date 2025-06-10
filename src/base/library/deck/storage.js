@@ -18,9 +18,11 @@ const setting = settings.register({
 });
 
 const rows = settings.register({
+  // TODO: translation
   name: 'Deck Storage Rows',
   key: 'underscript.storage.rows',
   type: 'select',
+  // TODO: translation
   options: ['1', '2', '3', '4', '5', '6'],
   refresh: () => onPage('Decks'),
   extraPrefix: 'underscript.deck.',
@@ -142,6 +144,7 @@ onPage('Decks', function deckStorage() {
         let data = getCardData(card.id, card.shiny);
         const name = data ?
           `<span class="${data.rarity}">${cardName(data)}</span>` :
+          // TODO: translation
           `<span style="color: orange;">${(data = getFromLibrary(card.id, global('allCards'))) && cardName(data) || 'Deleted'} (Missing)</span>`;
         names.push(`- ${card.shiny ? '<span style="color: yellow;">S</span> ' : ''}${name}`);
       });
@@ -245,7 +248,7 @@ onPage('Decks', function deckStorage() {
             .select()
             // eslint-disable-next-line no-shadow
             .on('keydown.script.deckStorage', (e) => {
-              if (e.which === 27 || e.which === 13) {
+              if (e.key === 'Escape' || e.key === 'Enter') {
                 e.preventDefault();
                 storeInput();
               }

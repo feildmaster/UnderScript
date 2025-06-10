@@ -41,12 +41,14 @@ onPage('Crafting', function disenchantWrapper() {
     const pNormal = calcCards({ shiny: false, priority: true });
     const pShiny = calcCards({ shiny: true, priority: true });
     BootstrapDialog.show({
+      // TODO: translation
       title: 'Smart Disenchant',
       message: `Note: Smart Disenchant will not disenchant DETERMINATION or Shiny BASE cards.<br>
       Normal/Shiny will disenchant <b>ALL</b> normal/shiny cards until you have 0.<br>
       Prioritize will count normal/shiny together and disenchant extra non normal/shiny cards.`,
       onshow(dialog) {
         const window = dialog.getModalFooter();
+        // TODO: translation
         window.find('.us-normal').hover(hover.show('Disenchant all normal cards')).prop('disabled', !normals.length);
         window.find('.us-shiny').hover(hover.show('Disenchant all shiny cards')).prop('disabled', !shinies.length);
         window.find('.us-normal-p').hover(hover.show('Disenchant extra shiny cards<br />Note: Also disenchants normals > max')).prop('disabled', !pNormal.length);
@@ -54,6 +56,7 @@ onPage('Crafting', function disenchantWrapper() {
       },
       onhide: hover.hide,
       buttons: [{
+        // TODO: translation
         label: `All Normal (+${calcDust(normals)})`,
         cssClass: 'btn-danger us-normal',
         action(dialog) {
@@ -61,6 +64,7 @@ onPage('Crafting', function disenchantWrapper() {
           dialog.close();
         },
       }, {
+        // TODO: translation
         label: `All Shiny (+${calcDust(shinies)})`,
         cssClass: 'btn-danger us-shiny',
         action(dialog) {
@@ -68,6 +72,7 @@ onPage('Crafting', function disenchantWrapper() {
           dialog.close();
         },
       }, {
+        // TODO: translation
         label: `Prioritize Normal (+${calcDust(pNormal)})`,
         cssClass: 'btn-danger us-normal-p',
         action(dialog) {
@@ -75,6 +80,7 @@ onPage('Crafting', function disenchantWrapper() {
           dialog.close();
         },
       }, {
+        // TODO: translation
         label: `Prioritize Shiny (+${calcDust(pShiny)})`,
         cssClass: 'btn-danger us-shiny-p',
         action(dialog) {
@@ -97,6 +103,7 @@ onPage('Crafting', function disenchantWrapper() {
   function disenchant(cards) {
     if (!cards.length || processing) return;
     processing = true;
+    // TODO: translation
     const toast = fnToast('Please wait while disenchanting.<br />(this may take a while)');
     axios.all(build(cards.splice(0)))
       .then(process)
@@ -114,10 +121,12 @@ onPage('Crafting', function disenchantWrapper() {
         }
         global('applyFilters')();
         global('showPage')(global('currentPage'));
+        // TODO: translation
         updateOrToast(toast, `Finished disenchanting.\n+${gained} dust`);
       }).catch((e) => {
         captureError(e);
         console.error(e); // eslint-disable-line no-console
+        // TODO: translation
         updateOrToast(toast, 'Could not complete disenchanting.');
       });
   }

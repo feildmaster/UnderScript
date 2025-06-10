@@ -6,6 +6,7 @@ import getLevel from 'src/utils/getFriendshipLevel.js';
 import { buttonCSS as css } from 'src/utils/1.variables.js';
 
 const setting = settings.register({
+  // TODO: translation
   name: 'Disable Friendship Notification',
   key: 'underscript.disable.friendship.notification',
   page: 'Library',
@@ -26,10 +27,12 @@ function getFriendship() {
     if (!items.length) return;
 
     toast({
+      // TODO: translation
       title: 'Pending Friendship Rewards',
       text: `- ${items.join('\n- ')}`,
       className: 'dismissable',
       buttons: {
+        // TODO: translation
         text: 'Go now!',
         className: 'dismiss',
         css,

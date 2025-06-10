@@ -6,7 +6,7 @@ import * as hover from 'src/utils/hover.js';
 import Translation from 'src/structures/constants/translation';
 
 const setting = settings.register({
-  name: Translation.Setting('disable.deck.average'),
+  name: Translation.Setting('deck.average'),
   key: 'underscript.disable.deck.average',
   refresh: onPage('Decks'),
   page: 'Library',

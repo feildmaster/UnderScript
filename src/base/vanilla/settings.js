@@ -1,6 +1,7 @@
 import * as settings from 'src/utils/settings/index.js';
 import onPage from 'src/utils/onPage.js';
 
+// TODO: translation
 [
   {
     name: 'Disable rainbow chat',
@@ -58,6 +59,7 @@ import onPage from 'src/utils/onPage.js';
   // { key: 'chat' },
   // { key: 'language' },
   // { key: '' },
+  // TODO: Add missing keys
 ].forEach((setting) => {
   const { name, category } = setting;
   const refresh = category === 'Game' ? () => onPage('Game') || onPage('gameSpectating') : undefined;

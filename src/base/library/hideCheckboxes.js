@@ -3,6 +3,7 @@ import * as settings from 'src/utils/settings/index.js';
 import style from 'src/utils/style.js';
 import { crafting, decks } from './filter.js';
 
+// TODO: translation
 const setting = settings.register({
   key: 'underscript.library.hidebuttons',
   name: 'Trim filter buttons',

@@ -5,7 +5,7 @@ import onPage from 'src/utils/onPage.js';
 import Translation from 'src/structures/constants/translation';
 
 const setting = settings.register({
-  name: Translation.Setting('disable.deck.preview'),
+  name: Translation.Setting('deck.preview'),
   key: 'underscript.disable.deckPreview',
   // hidden: typeof displayCardDeck === 'function',
   onChange(val, val2) {

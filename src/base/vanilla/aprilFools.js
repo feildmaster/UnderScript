@@ -2,6 +2,7 @@ import eventManager from 'src/utils/eventManager.js';
 import * as settings from 'src/utils/settings/index.js';
 import { isApril, IMAGES } from 'src/utils/isApril.js';
 
+// TODO: translation
 const year = `${new Date().getFullYear()}`;
 export const aprilFools = settings.register({
   name: 'Disable April Fools Jokes',

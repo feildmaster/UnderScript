@@ -9,6 +9,7 @@ import clear from 'src/utils/clear.js';
 import Item from 'src/structures/constants/item.js';
 
 const setting = settings.register({
+  // TODO: translation
   name: 'Disable Collect All',
   key: 'underscript.disable.friendship.collect',
   page: 'Library',
@@ -95,6 +96,7 @@ eventManager.on('Friendship:results', (error) => {
   });
   const toast = error ? errorToast : basicToast;
   toast({
+    // TODO: translation
     title: 'Claimed Friendship Rewards',
     text: lines.join('<br>'),
   });
@@ -107,9 +109,11 @@ eventManager.on('Friendship:loaded', () => {
 });
 
 eventManager.on(':preload:Friendship', () => {
+  // TODO: translation
   button = $('<button class="btn btn-info">Collect All</button>');
   setting.on(setupButton);
   button.on('click.script', collect);
+  // TODO: translation
   button.hover(hover.show('Collect all rewards'));
   $('p[data-i18n="[html]crafting-all-cards"]').css('display', 'inline-block').after(' ', button);
 });

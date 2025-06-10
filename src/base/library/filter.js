@@ -31,32 +31,38 @@ const base = {
 const setting = settings.register({
   ...base,
   default: false,
+  // TODO: translation
   name: 'Disable filter',
   key: 'underscript.deck.filter.disable',
 });
 
 const splitBaseGen = settings.register({
   ...base,
+  // TODO: translation
   name: 'Split Based and Token',
   key: 'underscript.deck.filter.split',
 });
 
 const tribe = settings.register({
   ...base,
+  // TODO: translation
   name: 'Tribe button',
   key: 'underscript.deck.filter.tribe',
 });
 
 const owned = settings.register({
   ...base,
+  // TODO: translation
   name: 'Collection dropdown',
   key: 'underscript.deck.filter.collection',
 });
 
 const shiny = settings.register({
   ...base,
+  // TODO: translation
   name: 'Merge Shiny Cards',
   key: 'underscript.deck.filter.shiny',
+  // TODO: translation
   options: ['Never (default)', 'Deck', 'Always'],
   default: 'Deck',
 });
@@ -146,6 +152,7 @@ function ownSelect() {
     eventManager.once('translation:loaded', () => applyLook(false));
     return '';
   }
+  // TODO: translation
   return $(`
   <select id="collectionType" onchange="applyFilters(); showPage(0);">
     <option value="all">${translateText('crafting-all-cards')}</option>

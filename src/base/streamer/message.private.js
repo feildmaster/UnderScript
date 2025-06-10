@@ -49,9 +49,11 @@ eventManager.on('preChat:getPrivateMessage', function streamerMode(data) {
 
   if (val === silent || toasts[userId]) return; // Don't announce anymore
   toasts[userId] = toast({
+    // TODO: translation
     text: `Message from ${username(user)}`,
     buttons: [{
       css,
+      // TODO: translation
       text: 'Open',
       className: 'dismiss',
       onclick: () => {

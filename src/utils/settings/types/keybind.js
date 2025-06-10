@@ -27,6 +27,7 @@ export default class extends Text {
     const input = $(`<input type="text" id="${id}">`)
       .val(temp)
       .on('focus', () => {
+        // TODO: translation
         input.val('').prop('placeholder', 'Press Any Key...');
         ret.addClass('editing');
       })
@@ -41,6 +42,7 @@ export default class extends Text {
         input.blur();
       })
       .on('blur', () => {
+        // TODO: translation
         input.val(temp).prop('placeholder', 'Click to bind');
         ret.removeClass('editing');
       })

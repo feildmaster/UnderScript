@@ -2,6 +2,7 @@ import eventManager from 'src/utils/eventManager.js';
 import { infoToast } from 'src/utils/2.toasts.js';
 import { window } from 'src/utils/1.variables.js';
 
+// TODO: translation
 eventManager.on(':load:GamesList', () => {
   let toast = infoToast({
     text: 'You can now press enter on the Create Game window.',
@@ -18,7 +19,7 @@ eventManager.on(':load:GamesList', () => {
       if (!input.length) return; // This is just to prevent errors... though this is an error in itself
       $(input[0]).focus();
       input.on('keydown.script', (e) => {
-        if (e.which === 13) {
+        if (e.key === 'Enter') {
           if (toast) {
             toast.close('processed');
           }

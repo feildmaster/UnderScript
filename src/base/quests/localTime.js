@@ -3,8 +3,10 @@ import wrap from 'src/utils/2.pokemon.js';
 import eventManager from 'src/utils/eventManager.js';
 import sleep from 'src/utils/sleep.js';
 
+// TODO: translation
 wrap(function localTime() {
   eventManager.on(':load:Quests', () => {
+    // TODO: compoundEvent
     sleep().then(updateTime);
   });
 

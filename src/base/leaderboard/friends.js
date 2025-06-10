@@ -56,6 +56,7 @@ function init() {
 
   document.querySelectorAll('button.btn-lg').forEach((el) => el.classList.remove('btn-lg'));
   document.querySelector('#navButtons').append(btn);
+  // TODO: translation
   hover.tip('Toggle friend rankings', btn);
 
   const leaderboard = global('leaderboard');

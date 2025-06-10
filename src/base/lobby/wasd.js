@@ -3,6 +3,7 @@ import * as settings from 'src/utils/settings/index.js';
 import { global, globalSet } from 'src/utils/global.js';
 import onPage from 'src/utils/onPage.js';
 
+// TODO: translation
 const setting = settings.register({
   name: 'Use WASD',
   key: 'underscript.minigames.wasd',

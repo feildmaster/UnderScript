@@ -7,12 +7,20 @@ import { buttonCSS as css, hotkeys } from 'src/utils/1.variables.js';
 import { BUTTON as MOUSE_BUTTON } from 'src/utils/mouse.js';
 
 const fullDisable = settings.register({
+  // TODO: translation
   name: 'Disable End Turn Hotkey',
   key: 'underscript.disable.endTurn',
   page: 'Game',
   category: 'Hotkeys',
+  onChange() {
+    /* eslint-disable no-use-before-define */
+    spaceDisable.refresh();
+    mouseDisable.refresh();
+    /* eslint-enable */
+  },
 });
 const spaceDisable = settings.register({
+  // TODO: translation
   name: 'Disable End Turn with Space',
   key: 'underscript.disable.endTurn.space',
   disabled: () => fullDisable.value(),
@@ -20,6 +28,7 @@ const spaceDisable = settings.register({
   category: 'Hotkeys',
 });
 const mouseDisable = settings.register({
+  // TODO: translation
   name: 'Disable End Turn with Middle Click',
   key: 'underscript.disable.endTurn.middleClick',
   disabled: () => fullDisable.value(),
@@ -41,6 +50,7 @@ eventManager.on('PlayingGame', function bindHotkeys() {
 
   if (!fullDisable.value() && !spaceDisable.value() && !mouseDisable.value()) {
     infoToast({
+      // TODO: translation
       text: 'You can skip turns with <code>space</code> and <code>middle mouse button</code>. (These can be disabled in settings)',
       className: 'dismissable',
       buttons: {

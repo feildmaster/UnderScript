@@ -9,6 +9,7 @@ eventManager.on(':preload:leaderboard', () => {
     if (row === -1) {
       if (!toasts[user] || !toasts[user].exists()) {
         toasts[user] = toast({
+          // TODO: translation
           title: 'Not ranked',
           text: `Unfortunately ${user} has not qualified to be ranked, or the user does not exist.`,
         });

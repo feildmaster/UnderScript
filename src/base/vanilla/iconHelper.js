@@ -3,6 +3,7 @@ import eventManager from 'src/utils/eventManager.js';
 import style from 'src/utils/style.js';
 import each from 'src/utils/each.js';
 
+// TODO: translation?
 const icons = {
   gold: 'Gold',
   dust: 'Dust<hr>Used to craft cards',

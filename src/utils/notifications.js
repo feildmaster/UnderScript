@@ -37,6 +37,7 @@ if (isType() && !setting.value()) {
   eventManager.on(':load:Play', () => show(Translation.Toast('game.request.message')));
 }
 
+// TODO: translation
 function show(text = 'UnderScript would like to send notifications.') {
   const buttons = [{
     css,

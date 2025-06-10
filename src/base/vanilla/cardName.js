@@ -5,6 +5,7 @@ import toLocale from 'src/utils/toLocale.js';
 import { window } from 'src/utils/1.variables.js';
 
 const setting = settings.register({
+  // TODO: translation
   name: 'Force English for card names',
   key: 'underscript.standardized.cardname',
 });

@@ -4,6 +4,7 @@ import style from 'src/utils/style.js';
 import VarStore from 'src/utils/VarStore.js';
 
 const setting = settings.register({
+  // TODO: translation
   name: 'Disable Full Card Art',
   key: 'underscript.hide.full-skin',
   page: 'Library',

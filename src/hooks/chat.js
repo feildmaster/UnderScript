@@ -151,7 +151,7 @@ eventManager.on(':preload', () => {
     // Send text hook
     const messages = $(`#${room} .chat-messages`);
     $(`#${room} input[type="text"]`).keydown(function sending(e) {
-      if (e.which !== 13) return;
+      if (e.key !== 'Enter') return;
 
       const data = {
         room,

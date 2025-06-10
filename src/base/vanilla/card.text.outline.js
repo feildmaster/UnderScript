@@ -4,6 +4,7 @@ import VarStore from 'src/utils/VarStore.js';
 import style from 'src/utils/style.js';
 
 const setting = settings.register({
+  // TODO: translation
   name: 'Add Text Outline',
   key: 'underscript.card.text.outline',
   page: 'Library',

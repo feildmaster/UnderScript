@@ -8,6 +8,7 @@ import { infoToast } from './2.toasts.js';
 import { debug } from './debug.js';
 import addMenuButton from './menubuttons.js';
 import { translateText } from './translate.js';
+import compound from './compoundEvent.js';
 
 let initialized;
 let menuOpen;
@@ -147,12 +148,12 @@ export function addButton(button = {}) {
   dirty();
 }
 
-eventManager.on(':load', () => {
-  const btn = addMenuButton('Menu');
+compound(':load', 'underscript:ready', () => {
+  const btn = addMenuButton(Translation.Menu('menu'));
   if (btn) btn.addEventListener('click', () => open());
 
   toast = infoToast({
-    text: Translation.Toast('menu'),
+    text: Translation.Toast('menu').translate(),
     onClose: (reason) => {
       toast = null;
       // return reason !== 'opened';
