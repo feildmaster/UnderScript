@@ -3,11 +3,13 @@ import * as settings from 'src/utils/settings/index.js';
 import style from 'src/utils/style.js';
 import VarStore from 'src/utils/VarStore.js';
 
+// TODO: translation
 const def = 'Breaking (Default)';
 const tran = 'Covered (Transparent)';
 const dis = 'Covered';
 
 const setting = settings.register({
+  // TODO: translation
   name: 'Breaking Card Art Behavior',
   key: 'underscript.hide.breaking-skin',
   options: [def, tran, dis],

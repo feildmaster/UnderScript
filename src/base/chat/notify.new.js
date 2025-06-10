@@ -13,7 +13,7 @@ import { pingExtras } from './toast.js';
 style.add('.highlight { color: yellow; }');
 
 const setting = settings.register({
-  name: Translation.Setting('disable.ping'),
+  name: Translation.Setting('ping'),
   key: 'underscript.disable.ping',
   page: 'Chat',
 });

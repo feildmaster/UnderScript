@@ -4,7 +4,7 @@ import { globalSet } from 'src/utils/global.js';
 import Translation from 'src/structures/constants/translation';
 
 const setting = settings.register({
-  name: Translation.Setting('disable.links'),
+  name: Translation.Setting('links'),
   key: 'underscript.disable.linkify',
   page: 'Chat',
 });

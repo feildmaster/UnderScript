@@ -24,7 +24,7 @@ function init() {
   updateEmotes();
 }
 
-const EmojiName = Translation.Setting('disable.emote', 1);
+const EmojiName = Translation.Setting('emote.disable', 1);
 
 function makeSettings() {
   originalEmotes.forEach((emote) => {

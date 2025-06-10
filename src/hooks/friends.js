@@ -4,6 +4,7 @@ import decrypt from 'src/utils/decrypt.emails.js';
 import debug from 'src/utils/debugToast';
 import sleep from 'src/utils/sleep.js';
 import { window } from 'src/utils/1.variables.js';
+import length from 'src/utils/length';
 
 // Friends list hooks. TODO: only work if logged in
 function getFromEl(el) {
@@ -30,7 +31,7 @@ function loadFriends(validate) {
       const f = getFromEl($(this));
       requests[f.id] = f.name;
     });
-    const count = Object.keys(requests).length;
+    const count = length(requests);
     if (count !== validated && count > 3 && !validate) {
       return loadFriends(count);
     }

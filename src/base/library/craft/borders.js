@@ -8,7 +8,7 @@ import * as cardHelper from 'src/utils/cardHelper.js';
 import Translation from 'src/structures/constants/translation';
 
 const setting = settings.register({
-  name: Translation.Setting('disable.border'),
+  name: Translation.Setting('craft.border'),
   key: 'underscript.disable.craftingborder',
   onChange: () => {
     if (onPage('Crafting')) {

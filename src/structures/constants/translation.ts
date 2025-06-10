@@ -59,7 +59,7 @@ export default class Translation extends Constant implements TranslationBase {
   static CATEGORY_STREAMER = this.Setting('category.streamer');
   static CATEGORY_UPDATES = this.Setting('category.updates');
 
-  static DISABLE_COMMAND_SETTING = this.Setting('disable.command', 1);
+  static DISABLE_COMMAND_SETTING = this.Setting('command', 1);
 
   static IGNORED = this.Toast('ignore', 1);
 

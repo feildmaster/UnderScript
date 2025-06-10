@@ -9,7 +9,7 @@ import Translation from 'src/structures/constants/translation.js';
 import setBypass from './protection.js';
 
 const setting = settings.register({
-  name: Translation.Setting('disable.craftHotkey'),
+  name: Translation.Setting('craft.hotkey'),
   key: 'underscript.disable.craftMax',
   category: Translation.CATEGORY_LIBRARY_CRAFTING,
   onChange() {

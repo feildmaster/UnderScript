@@ -14,11 +14,11 @@ import hasOwn from 'src/utils/hasOwn.js';
 import Translation from 'src/structures/constants/translation';
 
 const setting = settings.register({
-  name: Translation.Setting('disable.disenchant'),
+  name: Translation.Setting('disenchant'),
   key: 'underscript.disable.disenchant',
   default: true,
   refresh: onPage('Crafting'),
-  note: Translation.Setting('disable.disenchant.note'),
+  note: Translation.Setting('disenchant.note'),
   category: Translation.CATEGORY_LIBRARY_CRAFTING,
   page: 'Library',
 });

@@ -4,7 +4,7 @@ import { infoToast } from 'src/utils/2.toasts.js';
 import Translation from 'src/structures/constants/translation';
 
 const setting = settings.register({
-  name: Translation.Setting('autocomplete'),
+  name: Translation.Setting('broadcast'),
   key: 'underscript.disable.broadcast',
   page: 'Chat',
 });
