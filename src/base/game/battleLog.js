@@ -10,9 +10,11 @@ import * as userInfo from 'src/utils/user.js';
 import find from 'src/utils/find.js';
 import merge from 'src/utils/merge.js';
 import { window } from 'src/utils/1.variables.js';
+import { translateText } from 'src/utils/translate';
 
 /* eslint-disable no-use-before-define */
 settings.register({
+  // TODO: translation
   name: 'Disable Battle Log',
   key: 'underscript.disable.logger',
   page: 'Game',
@@ -27,6 +29,7 @@ settings.register({
 });
 
 settings.register({
+  // TODO: translation
   name: 'Hide Dust Counter',
   key: 'underscript.disable.dust',
   type: 'select',
@@ -60,6 +63,7 @@ eventManager.on('GameStart', function battleLogger() {
     getAnimation: '',
     getArtifactDoingEffect: 'artifact activates, handled by getBattleLog',
   });
+  // TODO: translation
   const turnText = '>>> Turn';
   const surrendered = 'surrendered';
   const overwhelmed = 'was overwhelmed';
@@ -96,7 +100,7 @@ eventManager.on('GameStart', function battleLogger() {
     },
     card: function makeCard(card) {
       const c = $('<span>');
-      c.append(card.name);
+      c.text(translateText(`card-name-${card.fixedId}`));
       c.css('text-decoration', 'underline');
 
       const d = $('<div>');
