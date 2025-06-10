@@ -7,11 +7,10 @@ import * as settings from 'src/utils/settings';
 import each from 'src/utils/each';
 import wrap from 'src/utils/2.pokemon';
 import Translation from 'src/structures/constants/translation';
-import { buttonCSS, DAY, scriptVersion, HOUR, UNDERSCRIPT } from 'src/utils/1.variables';
+import { buttonCSS, DAY, HOUR, scriptVersion, UNDERSCRIPT } from 'src/utils/1.variables';
 import sleep from 'src/utils/sleep';
 import createParser from 'src/utils/parser';
 import DialogHelper from 'src/utils/DialogHelper';
-import { getVersion } from 'src/utils/plugin';
 import compound from 'src/utils/compoundEvent';
 import { getTranslationArray } from 'src/base/underscript/translation';
 
@@ -39,7 +38,6 @@ const keys = {
   toast: Translation.Toast('updater'),
   button: Translation.General('updater.open'),
   checking: Translation.Toast('update.checking'),
-  update: Translation.Menu('update'),
   updateNote: Translation.Menu('update.note', 1),
   available: Translation.Toast('update.available', 1),
   title: Translation.General('updates'),
@@ -94,7 +92,8 @@ export function registerPlugin(plugin, data = {}) {
     if (newVersion !== version) {
       register({
         plugin,
-        version: newVersion,
+        newVersion,
+        version,
         url: await parser.getDownload(info),
       });
     } else {
@@ -111,7 +110,10 @@ export function validate(plugin) {
   const key = plugin.name || plugin;
   const existing = pendingUpdates.get(key);
   if (existing) {
-    if (existing.version !== plugin.version) {
+    const version = key === UNDERSCRIPT ? scriptVersion : plugin.version;
+    const isValid = existing.version === undefined || existing.version === version;
+    const isNotUpdated = existing.newVersion !== version;
+    if (isNotUpdated && isValid) {
       return existing;
     }
     unregister(plugin);
@@ -266,13 +268,13 @@ function build() {
     addedRefresh = true;
   }
   function add({
-    currentVersion,
     name,
+    newVersion,
     url,
     version,
   }) {
     const button = $(`<a>`)
-      .text(keys.updateNew.translate(version))
+      .text(keys.updateNew.translate(newVersion))
       .attr({
         href: url,
         rel: 'noreferrer',
@@ -287,7 +289,7 @@ function build() {
       });
     container.append($('<fieldset>').append(
       $('<legend>').text(name),
-      $('<div>').text(keys.updateCurrent.translate(currentVersion || Translation.UNKNOWN.translate())),
+      $('<div>').text(keys.updateCurrent.translate(version || Translation.UNKNOWN)),
       button,
     ));
   }
@@ -296,7 +298,6 @@ function build() {
     add({
       ...underscript,
       name: UNDERSCRIPT,
-      currentVersion: scriptVersion,
     });
   }
   [...pendingUpdates.entries()].forEach(
@@ -305,7 +306,6 @@ function build() {
       add({
         ...data,
         name,
-        currentVersion: getVersion(name),
       });
     },
   );

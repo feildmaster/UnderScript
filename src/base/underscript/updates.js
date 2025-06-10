@@ -14,6 +14,7 @@ import {
   validate,
 } from 'src/hooks/updates';
 import plugin from 'src/utils/underscript';
+import Translation from 'src/structures/constants/translation';
 
 // Check for script updates
 wrap(() => {
@@ -46,11 +47,11 @@ wrap(() => {
       updateToast?.close('stale');
       if (data.announce) return;
       updateToast = Toast({
-        title: '[UnderScript] Update Available!',
-        text: `Version ${data.version}.`,
+        title: Translation.Toast('update.title').translate(),
+        text: Translation.Toast('update.text', data.version).translate(),
         className: 'dismissable',
         buttons: [{
-          text: 'Update',
+          text: Translation.Toast('update').translate(),
           className: 'dismiss',
           css: buttonCSS,
           onclick() {
@@ -70,9 +71,11 @@ wrap(() => {
       const data = await checker.getUpdateData();
       const update = {
         url: await checker.getDownload(data),
-        version: await checker.getVersion(data),
+        newVersion: await checker.getVersion(data),
         time: data.assets.find(({ name }) => name.endsWith('.user.js')).updated_at,
+        // TODO: separate setting
         announce: silent.value(),
+        version: scriptVersion.includes('.') ? scriptVersion : undefined,
         plugin,
       };
       if (compareAndToast(update)) {
