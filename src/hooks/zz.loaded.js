@@ -22,7 +22,7 @@ function done() {
 
 if (location.host.includes('undercards.net')) {
   console.log(`UnderScript(v${scriptVersion}): Loaded`); // eslint-disable-line no-console
-  if (!location.pathname.includes('/', 1)) {
+  if (document.title.includes('Undercards')) {
     register();
   }
 }
