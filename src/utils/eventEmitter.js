@@ -124,7 +124,7 @@ export default function eventEmitter() {
       if (typeof fn !== 'function') return this;
       function wrapper(...args) {
         off(event, wrapper);
-        fn.call(this, ...args);
+        return fn.call(this, ...args);
       }
       return this.on(event, wrapper);
     },
@@ -136,10 +136,15 @@ export default function eventEmitter() {
       function wrapper(...args) {
         const ret = fn.call(this, ...args);
         if (ret instanceof Promise) {
-          ret.then((val) => val && off(event, wrapper));
-        } else if (ret) {
+          return ret.then((val) => {
+            if (val) off(event, wrapper);
+            return val;
+          });
+        }
+        if (ret) {
           off(event, wrapper);
         }
+        return ret;
       }
       return this.on(event, wrapper);
     },
