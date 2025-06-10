@@ -24,21 +24,22 @@ export function translateText(text, {
   locale,
 } = {}) {
   if (window.$?.i18n) {
+    const string = `${text}`;
     const val = (() => {
       if (locale && $.i18n().locale !== locale) {
         const temp = toLocale({
-          id: text,
+          id: string,
           data: args,
           locale,
         });
         if (temp === 'ERROR') {
-          return text;
+          return string;
         }
         return temp;
       }
-      return $.i18n(`${text}`, ...args);
+      return $.i18n(string, ...args);
     })();
-    if (val !== text) return val;
+    if (val !== string) return val;
   }
-  return fallback;
+  return `${fallback}`;
 }
