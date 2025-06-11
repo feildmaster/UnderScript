@@ -9,20 +9,28 @@ wrap(() => {
 
   const name = 'events';
   function mod(plugin) {
+    function log(error, event, args, meta) {
+      capturePluginError(plugin, error, {
+        args,
+        ...meta,
+      });
+      plugin.logger.error(`Event error (${event}):\n`, error, '\n', JSON.stringify({
+        args,
+        event: meta,
+      }));
+    }
     function wrapper(fn, event) {
       function listener(...args) {
         try {
-          fn.call(this, ...args);
+          const val = fn.call(this, ...args);
+          if (val instanceof Promise) {
+            val.catch((error) => log(error, event, args, this));
+          }
+          return val;
         } catch (e) {
-          capturePluginError(plugin, e, {
-            args,
-            ...this,
-          });
-          plugin.logger.error(`Event error (${event}):\n`, e, '\n', JSON.stringify({
-            args,
-            event: this,
-          }));
+          log(e, event, args, this);
         }
+        return undefined;
       }
       listener.plugin = plugin;
       return listener;
