@@ -35,8 +35,8 @@ wrap(() => {
   function isNewer(data) {
     const version = scriptVersion;
     if (version === 'L' && !localStorage.getItem(DEBUG)) return false;
-    if (version.includes('-')) return semver(data.version, version); // Allow test scripts to update to release
-    return data.version !== version; // Always assume that the marked version is better
+    if (version.includes('-')) return semver(data.newVersion, version); // Allow test scripts to update to release
+    return data.newVersion !== version; // Always assume that the marked version is better
   }
   function compareAndToast(data) {
     if (!data || !isNewer(data)) {
@@ -48,7 +48,7 @@ wrap(() => {
       if (data.announce) return;
       updateToast = Toast({
         title: Translation.Toast('update.title').translate(),
-        text: Translation.Toast('update.text', data.version).translate(),
+        text: Translation.Toast('update.text', data.newVersion).translate(),
         className: 'dismissable',
         buttons: [{
           text: Translation.Toast('update').translate(),
