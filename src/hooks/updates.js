@@ -281,8 +281,10 @@ function build() {
       url,
       version,
     } = data;
+    const isPlugin = name !== UNDERSCRIPT;
+    const skip = isPlugin && !announce;
     const wrapper = $('<fieldset>')
-      .toggleClass('silent', !announce);
+      .toggleClass('silent', skip);
     const button = $('<a>')
       .text(keys.updateNew.translate(newVersion))
       .attr({
@@ -291,14 +293,18 @@ function build() {
         target: 'updateUserScript',
       })
       .addClass('btn')
-      .toggleClass('btn-success', announce)
-      .toggleClass('btn-skip', !announce)
+      .toggleClass('btn-success', !skip)
+      .toggleClass('btn-skip', skip)
       .on('click auxclick', () => {
         refreshButton();
         button
-          .removeClass('btn-success btn-skip')
-          .addClass('btn-primary');
-      });
+          .removeClass()
+          .addClass('btn btn-primary');
+      })
+      .prepend(
+        $('<span class="glyphicon glyphicon-arrow-up"></span>'),
+        ' ',
+      );
     const silence = $('<button>')
       .text(keys.skip)
       .addClass('btn btn-skip')
@@ -313,8 +319,8 @@ function build() {
     container.append(wrapper.append(
       $('<legend>').text(name),
       $('<div>').text(keys.updateCurrent.translate(version || Translation.UNKNOWN)),
-      announce && silence,
       button,
+      announce && isPlugin && silence,
     ));
   }
   const underscript = pendingUpdates.get(UNDERSCRIPT);

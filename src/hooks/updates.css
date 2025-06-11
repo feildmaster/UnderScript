@@ -1,0 +1,26 @@
+.updates {
+  --silent: dimgray;
+}
+
+.updates fieldset.silent {
+  border-color: var(--silent);
+}
+
+.updates fieldset {
+  text-align: center;
+}
+
+.updates .modal-body .btn {
+  width: 100%;
+}
+
+.updates .silent legend {
+  color: var(--silent);
+}
+
+.updates .btn-skip {
+  background-color: var(--silent);
+  color: white;
+  display: block;
+  margin-top: 5px;
+}
