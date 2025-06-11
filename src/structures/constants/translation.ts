@@ -54,6 +54,7 @@ export default class Translation extends Constant implements TranslationBase {
   static CATEGORY_CHAT_COMMAND = this.Setting('category.chat.commands');
   static CATEGORY_CHAT_IGNORED = this.Setting('category.chat.ignored');
   static CATEGORY_CHAT_IMPORT = this.Setting('category.chat.import');
+  static CATEGORY_CUSTOM = this.Setting('category.custom');
   static CATEGORY_FRIENDSHIP = this.Setting('category.friendship');
   static CATEGORY_HOME = this.Setting('category.home');
   static CATEGORY_HOTKEYS = this.Setting('category.hotkeys');

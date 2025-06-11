@@ -14,6 +14,7 @@
   "category.chat.import": "Import",
   "category.chat.links": "Trusted Domains",
   "category.chat.ping": "Ping Me",
+  "category.custom": "Custom",
   "category.filter": "Filter",
   "category.friendship": "Friendship",
   "category.home": "Home",
@@ -26,6 +27,8 @@
   "command": "Disable $1 command",
   "craft.border": "Disable Crafting Highlight",
   "craft.hotkey": "Disable craft max hotkey",
+  "custom.friends": "Friends only",
+  "custom.friends.note": "Setting this will only allow friends to join custom games by default.",
   "deck.average": "Disable deck average counter",
   "deck.preview": "Disable Deck Preview",
   "disenchant": "Disable Smart Disenchanting",
@@ -60,9 +63,9 @@
   "ignore": "Disable",
   "ignore.how": "Behavior",
   "ignore.option": [
-    "remove",
-    "hide",
-    "none"
+    "Remove",
+    "Hide",
+    "None"
   ],
   "import.shiny": "Prefer Shiny",
   "large.avatar": "Large Icon mode",

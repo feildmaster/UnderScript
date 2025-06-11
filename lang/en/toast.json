@@ -1,6 +1,9 @@
 {
   "broadcast": "[INFO] Undercards Broadcast Message",
   "craftable": "Craftable cards are highlighted in {{STYLE:highlight-green|green}}",
+  "custom.ban": "[Match] Banned User",
+  "custom.ban.user": "'$1' has been banned from custom match!",
+  "custom.enter": "You can now press enter on the Create Game window.",
   "dismiss": "Dismiss",
   "friendship": "Claimed Friendship Rewards",
   "friendship.notification": "Pending Friendship Rewards",
