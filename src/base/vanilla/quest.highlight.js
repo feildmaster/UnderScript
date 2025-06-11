@@ -13,6 +13,16 @@ wrap(() => {
     key: 'underscript.disable.questHighlight',
   });
 
+  const clear = settings.register({
+    key: 'underscript.quest.clear',
+    hidden: true,
+  });
+
+  const skip = settings.register({
+    key: 'underscript.quest.skip',
+    hidden: true,
+  });
+
   if (setting.value()) return;
   const questSelector = 'input[type="submit"][value="Claim"]:not(:disabled)';
 
@@ -20,27 +30,25 @@ wrap(() => {
   style.add('a.highlightQuest {color: gold !important;}');
 
   function highlightQuest() {
-    $('a[href="Quests"]').toggleClass('highlightQuest', localStorage.getItem('underscript.quest.clear') !== null);
+    $('a[href="Quests"]').toggleClass('highlightQuest', clear.value());
   }
 
   function clearHighlight() {
-    localStorage.removeItem('underscript.quest.clear');
+    clear.set(null);
   }
 
   function updateQuests(quests) {
     const completed = quests.filter((q) => q.claimable);
     if (completed.length) {
-      localStorage.setItem('underscript.quest.clear', true);
+      clear.set(true);
     } else {
       clearHighlight();
     }
     highlightQuest();
   }
 
-  if (!localStorage.getItem('underscript.quest.clear')) {
-    if (!localStorage.getItem('underscript.quest.skip')) { // TODO: If logged in
-      onPage('', () => fetch(({ quests }) => quests && updateQuests(quests), false));
-    }
+  if (onPage('') && !clear.value() && !skip.value()) { // TODO: If logged in
+    fetch(({ quests }) => quests && updateQuests(quests), false);
   }
 
   eventManager.on('questProgress', updateQuests);
@@ -51,10 +59,10 @@ wrap(() => {
     const quests = $('a[href="Quests"]');
     if (quests.length) {
       if (quests.text().includes('(0)')) {
-        localStorage.setItem('underscript.quest.skip', true);
+        skip.set(true);
         clearHighlight();
       } else {
-        localStorage.removeItem('underscript.quest.skip');
+        skip.set(null);
       }
     }
 
