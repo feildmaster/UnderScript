@@ -5,11 +5,11 @@ import onPage from 'src/utils/onPage.js';
 import style from 'src/utils/style.js';
 import $el from 'src/utils/elementHelper.js';
 import { fetch } from 'src/utils/quests.js';
+import Translation from 'src/structures/constants/translation';
 
 wrap(() => {
   const setting = settings.register({
-    // TODO: translation
-    name: 'Disable Quest Highlight',
+    name: Translation.Setting('quest.highlight'),
     key: 'underscript.disable.questHighlight',
   });
 

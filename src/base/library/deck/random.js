@@ -5,6 +5,7 @@ import shuffle from 'src/utils/shuffle.js';
 import style from 'src/utils/style.js';
 import rand from 'src/utils/rand.js';
 import * as deckLoader from 'src/utils/loadDeck.js';
+import { getTranslationArray } from 'src/base/underscript/translation';
 
 const limits = {
   BASE: 3,
@@ -92,12 +93,10 @@ eventManager.on(':preload:Decks', () => {
   button.append(inner);
   button.click(fillDeck);
   eventManager.on('underscript:ready', () => {
-    // TODO: translation
-    button.hover(hover.show([
-      'Randomly fill deck',
-      'CTRL: Shiny mode',
-      'SHIFT: Non-shiny mode',
-    ].join('<br>')), hover.hide);
+    button.hover(hover.show(
+      getTranslationArray('underscript.general.deck.fill')
+        .join('<br>'),
+    ), hover.hide);
   });
   const clearDeck = $('#yourCardList > button:last');
   clearDeck.after(' ', button);

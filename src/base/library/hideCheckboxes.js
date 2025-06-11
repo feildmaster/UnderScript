@@ -1,15 +1,22 @@
 import eventManager from 'src/utils/eventManager.js';
 import * as settings from 'src/utils/settings/index.js';
 import style from 'src/utils/style.js';
+import Translation from 'src/structures/constants/translation';
 import { crafting, decks } from './filter.js';
+import { getTranslationArray } from '../underscript/translation.js';
 
-// TODO: translation
 const setting = settings.register({
   key: 'underscript.library.hidebuttons',
-  name: 'Trim filter buttons',
-  options: ['Always', 'Deck', 'Crafting', 'Never'],
+  name: Translation.Setting('filter.trim'),
+  options() {
+    const { key } = Translation.Setting('filter.trim.option');
+    const array = getTranslationArray(key);
+    return ['Always', 'Deck', 'Crafting', 'Never'].map(
+      (val, i) => [array[i], val],
+    );
+  },
   page: 'Library',
-  category: 'Filter',
+  category: Translation.Setting('category.filter'),
   onChange: refresh,
 });
 

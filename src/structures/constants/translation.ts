@@ -145,6 +145,6 @@ export default class Translation extends Constant implements TranslationBase {
   static Vanilla<N extends number>(key: string, ...args: Tuple<string, N>): TranslationWithArgs<N>;
   static Vanilla<N extends number>(key: string, hasArgs?: string | N, ...rest: string[]): TranslationBase | TranslationWithArgs<N> {
     const args = typeof hasArgs === 'string' ? [hasArgs, ...rest] : rest;
-    return new Translation(key, { args, prefix: null });
+    return new Translation(key.toLowerCase(), { args, prefix: null });
   }
 }

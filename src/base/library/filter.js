@@ -3,8 +3,9 @@ import * as settings from 'src/utils/settings/index.js';
 import { global, globalSet } from 'src/utils/global.js';
 import style from 'src/utils/style.js';
 import onPage from 'src/utils/onPage.js';
-import { translateText } from 'src/utils/translate.js';
 import { max } from 'src/utils/cardHelper.js';
+import Translation from 'src/structures/constants/translation';
+import { getTranslationArray } from '../underscript/translation.js';
 
 export const crafting = onPage('Crafting');
 export const decks = onPage('Decks');
@@ -23,7 +24,7 @@ filters.shift(); // Remove template
 
 const base = {
   onChange: () => applyLook(),
-  category: 'Filter',
+  category: Translation.Setting('category.filter'),
   page: 'Library',
   default: true,
 };
@@ -31,39 +32,40 @@ const base = {
 const setting = settings.register({
   ...base,
   default: false,
-  // TODO: translation
-  name: 'Disable filter',
+  name: Translation.Setting('filter.disable'),
   key: 'underscript.deck.filter.disable',
 });
 
 const splitBaseGen = settings.register({
   ...base,
-  // TODO: translation
-  name: 'Split Based and Token',
+  name: Translation.Setting('filter.split'),
   key: 'underscript.deck.filter.split',
 });
 
 const tribe = settings.register({
   ...base,
-  // TODO: translation
-  name: 'Tribe button',
+  name: Translation.Setting('filter.tribe'),
   key: 'underscript.deck.filter.tribe',
 });
 
 const owned = settings.register({
   ...base,
-  // TODO: translation
-  name: 'Collection dropdown',
+  name: Translation.Setting('filter.collection'),
   key: 'underscript.deck.filter.collection',
 });
 
 const shiny = settings.register({
   ...base,
-  // TODO: translation
-  name: 'Merge Shiny Cards',
+  name: Translation.Setting('filter.shiny'),
   key: 'underscript.deck.filter.shiny',
-  // TODO: translation
-  options: ['Never (default)', 'Deck', 'Always'],
+  options: () => {
+    const { key } = Translation.Setting('filter.shiny.option');
+    const options = getTranslationArray(key);
+    return ['Never (default)', 'Deck', 'Always'].map((val, i) => [
+      options[i],
+      val,
+    ]);
+  },
   default: 'Deck',
 });
 
@@ -99,10 +101,12 @@ function applyLook(refresh = decks || crafting) {
   const allCardsElement = $('[data-i18n="[html]crafting-all-cards"]');
   if (setting.value() || !owned.value()) {
     $('#collectionType').remove();
-    allCardsElement.toggleClass('invisible', false);
+    allCardsElement.removeClass('invisible');
   } else if (!$('#collectionType').length) {
-    allCardsElement.toggleClass('invisible', true)
-      .after(ownSelect());
+    eventManager.on('underscript:ready', () => {
+      allCardsElement.addClass('invisible')
+        .after(ownSelect());
+    });
   }
 
   $('#shinyInput').prop('disabled', mergeShiny());
@@ -148,19 +152,14 @@ function allTribeButton() {
 }
 
 function ownSelect() {
-  if (!global('translationReady', { throws: false })) {
-    eventManager.once('translation:loaded', () => applyLook(false));
-    return '';
-  }
-  // TODO: translation
   return $(`
   <select id="collectionType" onchange="applyFilters(); showPage(0);">
-    <option value="all">${translateText('crafting-all-cards')}</option>
-    <option value="owned">Owned cards</option>
-    <option value="unowned">Unowned cards</option>
-    <option value="maxed">Maxed cards</option>
-    <option value="surplus">Surplus cards</option>
-    <option value="craftable">Craftable cards</option>
+    <option value="all">${Translation.Vanilla('crafting-all-cards')}</option>
+    <option value="owned">${Translation.General('cards.owned')}</option>
+    <option value="unowned">${Translation.General('cards.unowned')}</option>
+    <option value="maxed">${Translation.General('cards.maxed')}</option>
+    <option value="surplus">${Translation.General('cards.surplus')}</option>
+    <option value="craftable">${Translation.General('cards.craftable')}</option>
   </select>
   `);
 }

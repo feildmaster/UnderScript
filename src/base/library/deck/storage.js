@@ -8,6 +8,9 @@ import * as deckLoader from 'src/utils/loadDeck.js';
 import compound from 'src/utils/compoundEvent.js';
 import hasOwn from 'src/utils/hasOwn.js';
 import { cardName } from 'src/utils/cardHelper.js';
+import { translateText } from 'src/utils/translate';
+import { getTranslationArray } from 'src/base/underscript/translation';
+import Translation from 'src/structures/constants/translation';
 
 // TODO: translation
 const setting = settings.register({
@@ -157,7 +160,8 @@ onPage('Decks', function deckStorage() {
       getArtifacts(id).forEach((art) => {
         const artifact = userArtifacts.find(({ id: artID }) => artID === art);
         if (artifact) {
-          list.push(`<span class="${artifact.legendary ? 'yellow' : ''}"><img style="height: 16px;" src="images/artifacts/${artifact.image}.png" /> ${artifact.name}</span>`);
+          const name = translateText(`artifact-name-${artifact.id}`);
+          list.push(`<span class="${artifact.legendary ? 'yellow' : ''}"><img style="height: 16px;" src="images/artifacts/${artifact.image}.png" /> ${name}</span>`);
         }
       });
       return list.join(', ');
@@ -191,30 +195,28 @@ onPage('Decks', function deckStorage() {
         if (e.type === 'mouseenter') {
           const deck = getDeck(i);
           fixClass(!!deck);
-          // TODO: translation
+          const SOUL = `${Translation.Vanilla(`soul-${soul}`)}-${i + 1}`;
           if (deck) {
+            const note = Translation.General('storage.note').key;
             text = `
-              <div id="deckName">${localStorage.getItem(nameKey) || `${soul}-${i + 1}`}</div>
-              <div><input id="deckNameInput" maxlength="28" style="border: 0; border-bottom: 2px solid #00617c; background: #000; width: 100%; display: none;" type="text" placeholder="${soul}-${i + 1}" value="${localStorage.getItem(nameKey) || ''}"></div>
+              <div id="deckName">${localStorage.getItem(nameKey) || SOUL}</div>
+              <div><input id="deckNameInput" maxlength="28" style="border: 0; border-bottom: 2px solid #00617c; background: #000; width: 100%; display: none;" type="text" placeholder="${SOUL}" value="${localStorage.getItem(nameKey) || ''}"></div>
               <div style="font-size: 13px;">${artifacts(i)}</div>
-              <div>Click to load (${deck.length})</div>
+              <div>${Translation.General('storage.load').translate(deck.length)}</div>
               <div style="font-size: 13px;">${cards(deck)}</div>
               <div style="font-style: italic; color: #b3b3b3;">
-                * Right Click to name deck<br />
-                * Shift Click to re-save deck<br />
-                * CTRL Click to erase deck
+                ${getTranslationArray(note).join('<br>')}
               </div>
             `;
           } else {
             text = `
-              <div id="name">${soul}-${i + 1}</div>
-              <div>Click to save current deck</div>`;
+              <div id="name">${SOUL}</div>
+              <div>${Translation.General('storage.save')}</div>`;
           }
         }
         hover.show(text)(e);
       }
       fixClass(!!localStorage.getItem(deckKey))
-        .hover(hoverButton)
         .on('click.script.deckStorage', (e) => {
           if (!localStorage.getItem(deckKey)) {
             saveButton();
@@ -257,6 +259,9 @@ onPage('Decks', function deckStorage() {
               storeInput();
             });
         });
+      eventManager.on('underscript:ready', () => {
+        button.hover(hoverButton);
+      });
     }
 
     compound('Deck:Loaded', 'Chat:Connected', loadStorage);
