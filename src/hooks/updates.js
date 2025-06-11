@@ -13,6 +13,8 @@ import createParser from 'src/utils/parser';
 import DialogHelper from 'src/utils/DialogHelper';
 import compound from 'src/utils/compoundEvent';
 import { getTranslationArray } from 'src/base/underscript/translation';
+import style from 'src/utils/style';
+import css from './updates.css';
 
 const CHECKING = 'underscript.update.checking'; // TODO: change to setting?
 const LAST = 'underscript.update.last'; // TODO: change to setting?
@@ -20,6 +22,8 @@ const PREFIX = 'underscript.pending.';
 
 let autoTimeout;
 let toast;
+
+style.add(css);
 
 export const disabled = settings.register({
   name: Translation.Setting('update'),
@@ -36,8 +40,9 @@ export const silent = settings.register({
 const keys = {
   frequency: Translation.Setting('update.frequency.option').key,
   toast: Translation.Toast('updater'),
-  button: Translation.General('updater.open'),
+  button: Translation.OPEN,
   checking: Translation.Toast('update.checking'),
+  skip: Translation.General('update.skip'),
   updateNote: Translation.Menu('update.note', 1),
   available: Translation.Toast('update.available', 1),
   title: Translation.General('updates'),
@@ -207,7 +212,8 @@ function setup() {
 
 function open() {
   dialog.open({
-    title: keys.title,
+    title: keys.title.translate(),
+    cssClass: 'underscript-dialog updates',
     message: build,
   });
 }
@@ -267,29 +273,47 @@ function build() {
     });
     addedRefresh = true;
   }
-  function add({
-    name,
-    newVersion,
-    url,
-    version,
-  }) {
-    const button = $(`<a>`)
+  function add(data) {
+    const {
+      announce = true,
+      name,
+      newVersion,
+      url,
+      version,
+    } = data;
+    const wrapper = $('<fieldset>')
+      .toggleClass('silent', !announce);
+    const button = $('<a>')
       .text(keys.updateNew.translate(newVersion))
       .attr({
         href: url,
         rel: 'noreferrer',
         target: 'updateUserScript',
       })
-      .addClass('btn btn-success')
+      .addClass('btn')
+      .toggleClass('btn-success', announce)
+      .toggleClass('btn-skip', !announce)
       .on('click auxclick', () => {
         refreshButton();
         button
-          .removeClass('btn-success')
+          .removeClass('btn-success btn-skip')
           .addClass('btn-primary');
       });
-    container.append($('<fieldset>').append(
+    const silence = $('<button>')
+      .text(keys.skip)
+      .addClass('btn btn-skip')
+      .on('click', () => {
+        register({
+          ...data,
+          plugin: name,
+          announce: false,
+        });
+        wrapper.remove();
+      });
+    container.append(wrapper.append(
       $('<legend>').text(name),
       $('<div>').text(keys.updateCurrent.translate(version || Translation.UNKNOWN)),
+      announce && silence,
       button,
     ));
   }

@@ -17,6 +17,7 @@
   "update.current": "Current: $1",
   "update.new": "Update to $1",
   "update.open": "Show Updates",
+  "update.skip": "Skip Update",
   "updates": "Pending Updates",
   "dismiss": "Dismiss",
   "open": "Open",
