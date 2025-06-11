@@ -24,7 +24,7 @@ wrap(() => {
         try {
           const val = fn.call(this, ...args);
           if (val instanceof Promise) {
-            val.catch((error) => log(error, event, args, this));
+            return val.catch((error) => log(error, event, args, this));
           }
           return val;
         } catch (e) {
