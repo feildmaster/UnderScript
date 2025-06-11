@@ -7,13 +7,13 @@ import each from 'src/utils/each.js';
 import some from 'src/utils/some.js';
 import clear from 'src/utils/clear.js';
 import Item from 'src/structures/constants/item.js';
+import Translation from 'src/structures/constants/translation';
 
 const setting = settings.register({
-  // TODO: translation
-  name: 'Disable Collect All',
+  name: Translation.Setting('friendship'),
   key: 'underscript.disable.friendship.collect',
   page: 'Library',
-  category: 'Friendship',
+  category: Translation.CATEGORY_FRIENDSHIP,
 });
 
 const maxClaim = 200 / 5; // Current level limit, no way to dynamically figure this out if he ever adds more rewards
@@ -96,8 +96,9 @@ eventManager.on('Friendship:results', (error) => {
   });
   const toast = error ? errorToast : basicToast;
   toast({
-    // TODO: translation
-    title: 'Claimed Friendship Rewards',
+    title: new Translation('toast.friendship', {
+      fallback: 'Claimed Friendship Rewards',
+    }).translate(),
     text: lines.join('<br>'),
   });
   updateButton();
@@ -109,11 +110,12 @@ eventManager.on('Friendship:loaded', () => {
 });
 
 eventManager.on(':preload:Friendship', () => {
-  // TODO: translation
   button = $('<button class="btn btn-info">Collect All</button>');
   setting.on(setupButton);
   button.on('click.script', collect);
-  // TODO: translation
-  button.hover(hover.show('Collect all rewards'));
+  eventManager.on('underscript:ready', () => {
+    button.text(Translation.General('collect'));
+    button.hover(hover.show(Translation.General('collect.note')));
+  });
   $('p[data-i18n="[html]crafting-all-cards"]').css('display', 'inline-block').after(' ', button);
 });

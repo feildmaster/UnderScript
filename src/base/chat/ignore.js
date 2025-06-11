@@ -57,8 +57,8 @@ function processMessage(message, room, history = false) {
       pendingIgnore.set(true);
       return;
     }
-    // TODO: translation
-    msg.find(`.chat-message`).html('<span class="gray">Message Ignored</span>')
+    msg.find(`.chat-message`)
+      .html(`<span class="gray">${Translation.General('message.hidden')}</span>`)
       .removeClass().addClass('chat-message');
   } else if (type === 'remove') {
     debug(`removed ${fnUser.name(message.user)}`, 'debugging.chat');
@@ -78,7 +78,7 @@ function processMessage(message, room, history = false) {
     } else if (history) {
       msg.remove();
     }
-    container.text(`${count} Message${count > 1 ? 's' : ''} Ignored`);
+    container.text(Translation.General('message.removed', count));
     count += 1;
     return true;
   } else if (type === 'none') {
@@ -102,6 +102,7 @@ eventManager.on('Chat:getMessage', function hideMessage(data) {
   if (how.value() !== 'hide') return;
   const message = JSON.parse(data.chatMessage);
   if (!shouldIgnore(message) || global('isFriend')(message.user.id)) return;
-  $(`#${data.room} #message-${message.id} .chat-message`).html('<span class="gray">Message Ignored</span>')
+  $(`#${data.room} #message-${message.id} .chat-message`)
+    .html(`<span class="gray">${Translation.General('message.hidden')}</span>`)
     .removeClass().addClass('chat-message');
 });

@@ -37,26 +37,28 @@ onPage('Crafting', function craftMax() {
     if (amount >= max) return;
     const cost = cardHelper.dustCost(el);
     const total = cardHelper.totalDust();
-    if (cost > total) {
-      // TODO: translation
-      card.hover(hover.show('CTRL Click: insufficient dust'));
-      return;
-    }
-    // TODO: translation
-    card.hover(hover.show(`CTRL Click: Craft up to max(${max})`))
-      .off('click')
-      .on('click.script', (e) => {
-        const id = parseInt(card.attr('id'), 10);
-        const shiny = card.hasClass('shiny');
-        if (e.ctrlKey) {
-          hover.hide();
-          const count = max - cardHelper.quantity(el);
-          if (count <= 0) return;
-          craftCards(id, shiny, count, cost, total);
-        } else {
-          global('action')(id, shiny);
-        }
-      });
+    eventManager.on('underscript:ready', () => {
+      if (cost > total) {
+        // TODO: translation
+        card.hover(hover.show('CTRL Click: insufficient dust'));
+      } else {
+        // TODO: translation
+        card.hover(hover.show(`CTRL Click: Craft up to max(${max})`));
+      }
+    });
+    if (cost > total) return;
+    card.off('click').on('click.script', (e) => {
+      const id = parseInt(card.attr('id'), 10);
+      const shiny = card.hasClass('shiny');
+      if (e.ctrlKey) {
+        hover.hide();
+        const count = max - cardHelper.quantity(el);
+        if (count <= 0) return;
+        craftCards(id, shiny, count, cost, total);
+      } else {
+        global('action')(id, shiny);
+      }
+    });
   }
 
   let crafting = false;

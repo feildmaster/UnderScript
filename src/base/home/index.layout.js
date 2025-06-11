@@ -2,13 +2,13 @@ import eventManager from 'src/utils/eventManager.js';
 import * as settings from 'src/utils/settings/index.js';
 import onPage from 'src/utils/onPage.js';
 import { window } from 'src/utils/1.variables.js';
+import Translation from 'src/structures/constants/translation';
 
 const setting = settings.register({
-  // TODO: translation
-  name: 'Disable Game List Resizing',
+  name: Translation.Setting('gamelist'),
   key: 'underscript.disable.adjustSpectateView',
   refresh: () => onPage(''),
-  category: 'Home',
+  category: Translation.CATEGORY_HOME,
 });
 
 eventManager.on(':load:', () => {

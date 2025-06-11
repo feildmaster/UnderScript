@@ -44,16 +44,19 @@ export interface TranslationWithArgs<N extends number> extends TranslationBase {
 }
 
 export default class Translation extends Constant implements TranslationBase {
-  static DISMISS = this.General('dismiss');
-  static OPEN = this.General('open');
+  static DISMISS = new Translation('general.dismiss', { fallback: 'Dismiss' });
+  static ERROR = new Translation('general.error', { fallback: 'Error' });
+  static OPEN = new Translation('general.open', { fallback: 'Open' });
   static UNDO = new Translation('general.undo', { fallback: 'Undo' });
-  static UNKNOWN = this.General('unknown');
-  static UPDATE = this.General('update');
+  static UNKNOWN = new Translation('general.unknown', { fallback: 'Unknown' });
+  static UPDATE = new Translation('general.update', { fallback: 'Update' });
 
   static CATEGORY_CHAT_COMMAND = this.Setting('category.chat.commands');
   static CATEGORY_CHAT_IGNORED = this.Setting('category.chat.ignored');
   static CATEGORY_CHAT_IMPORT = this.Setting('category.chat.import');
+  static CATEGORY_FRIENDSHIP = this.Setting('category.friendship');
   static CATEGORY_HOME = this.Setting('category.home');
+  static CATEGORY_HOTKEYS = this.Setting('category.hotkeys');
   static CATEGORY_LIBRARY_CRAFTING = this.Setting('category.library.crafting');
   static CATEGORY_PLUGINS = this.Setting('category.plugins');
   static CATEGORY_STREAMER = this.Setting('category.streamer');
@@ -62,6 +65,7 @@ export default class Translation extends Constant implements TranslationBase {
   static DISABLE_COMMAND_SETTING = this.Setting('command', 1);
 
   static IGNORED = this.Toast('ignore', 1);
+  static INFO = new Translation('toast.info', { fallback: 'Did you know?' });
 
   static CLOSE = this.Vanilla('dialog-close');
 

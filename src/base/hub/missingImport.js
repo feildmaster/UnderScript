@@ -2,6 +2,7 @@ import eventManager from 'src/utils/eventManager.js';
 import { global } from 'src/utils/global.js';
 import style from 'src/utils/style.js';
 import { dismissable } from 'src/utils/2.toasts.js';
+import Translation from 'src/structures/constants/translation';
 
 style.add(
   '.missingArt { color: yellow; }',
@@ -12,8 +13,7 @@ style.add(
 function init() {
   eventManager.on('ShowPage', (page) => thing(page * 10));
   dismissable({
-    // TODO: translation
-    title: 'Did you know?',
+    title: Translation.INFO.translate(),
     // TODO: translation
     text: `The import arrow is colored to symbolize <span class="missingDT">missing DT(s)</span>, <span class="missing">missing card(s)</span>, and <span class="missingArt">missing artifact(s)</span>`,
     key: 'underscript.notice.hubImport',

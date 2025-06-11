@@ -7,11 +7,10 @@ import cleanData from 'src/utils/cleanData.js';
 import Translation from 'src/structures/constants/translation';
 
 const setting = settings.register({
-  // TODO: translation
-  name: 'Disable version toast',
+  name: Translation.Setting('game.season'),
   key: 'underscript.season.disable',
   refresh: () => onPage(''),
-  category: 'Home',
+  category: Translation.CATEGORY_HOME,
 });
 eventManager.on(':preload:', () => {
   if (setting.value()) return;

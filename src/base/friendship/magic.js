@@ -4,13 +4,13 @@ import * as settings from 'src/utils/settings/index.js';
 import { toast } from 'src/utils/2.toasts.js';
 import getLevel from 'src/utils/getFriendshipLevel.js';
 import { buttonCSS as css } from 'src/utils/1.variables.js';
+import Translation from 'src/structures/constants/translation';
 
 const setting = settings.register({
-  // TODO: translation
-  name: 'Disable Friendship Notification',
+  name: Translation.Setting('friendship.notification'),
   key: 'underscript.disable.friendship.notification',
   page: 'Library',
-  category: 'Friendship',
+  category: Translation.CATEGORY_FRIENDSHIP,
 });
 
 const max = 200 / 5; // Limit level 200
@@ -27,13 +27,11 @@ function getFriendship() {
     if (!items.length) return;
 
     toast({
-      // TODO: translation
-      title: 'Pending Friendship Rewards',
+      title: Translation.Setting('friendship.notification').translate(),
       text: `- ${items.join('\n- ')}`,
       className: 'dismissable',
       buttons: {
-        // TODO: translation
-        text: 'Go now!',
+        text: Translation.General('go!').translate(),
         className: 'dismiss',
         css,
         onclick: (e) => {

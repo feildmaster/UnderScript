@@ -37,7 +37,7 @@ export function errorToast(error) {
   }
 
   const lToast = {
-    title: error.name || error.title || 'Error',
+    title: error.name || error.title || Translation.ERROR.translate(),
     text: error.message || error.text || getStack(error.error || error) || error,
     css: {
       'background-color': 'rgba(200,0,0,0.6)',
@@ -68,8 +68,7 @@ export function infoToast(arg, key, val = '1') {
     },
   };
   const defaults = {
-    // TODO: translation
-    title: 'Did you know?',
+    title: Translation.INFO.translate(),
     css: {
       'font-family': 'inherit',
     },

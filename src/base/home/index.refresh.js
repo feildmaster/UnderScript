@@ -6,17 +6,13 @@ import onPage from 'src/utils/onPage.js';
 import decrypt from 'src/utils/decrypt.emails.js';
 import translate from 'src/utils/translate.js';
 import eventManager from 'src/utils/eventManager.js';
+import Translation from 'src/structures/constants/translation';
 
 const setting = settings.register({
-  // TODO: translation
-  name: 'Disable Game List Refresh',
+  name: Translation.Setting('gamelist.refresh'),
   key: 'undercards.disable.lobbyRefresh',
   default: false,
-  // TODO: translation
-  category: 'Home',
-  init() {
-    onPage('', setup);
-  },
+  category: Translation.CATEGORY_HOME,
   onChange(val) {
     onPage('', setup);
   },
@@ -61,6 +57,8 @@ onPage('', function refreshGameList() {
   document.addEventListener('visibilitychange', refresh);
   // Queue initial refresh
   setup();
-  // TODO: translation
-  infoToast('The game list now refreshes automatically, every 10 seconds.', 'underscript.notice.refreshIndex', '1');
+  eventManager.on('underscript:ready', () => {
+    const text = Translation.Toast('gamelist.refresh').translate();
+    infoToast(text, 'underscript.notice.refreshIndex', '1');
+  });
 });

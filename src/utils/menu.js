@@ -151,6 +151,7 @@ export function addButton(button = {}) {
 compound(':load', 'underscript:ready', () => {
   const btn = addMenuButton(Translation.Menu('menu'));
   if (btn) btn.addEventListener('click', () => open());
+  dirty();
 
   toast = infoToast({
     text: Translation.Toast('menu').translate(),
