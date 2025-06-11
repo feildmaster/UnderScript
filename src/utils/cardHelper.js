@@ -161,7 +161,7 @@ export function getCardData(id) {
 }
 
 export function cardName(card, fallback = card.name) {
-  return translateText(`card-name-${card.id}`, {
+  return translateText(`card-name-${card.fixedId || card.id}`, {
     args: [1],
     fallback,
   });

@@ -10,7 +10,7 @@ import * as userInfo from 'src/utils/user.js';
 import find from 'src/utils/find.js';
 import merge from 'src/utils/merge.js';
 import { window } from 'src/utils/1.variables.js';
-import { translateText } from 'src/utils/translate';
+import { cardName } from 'src/utils/cardHelper';
 
 /* eslint-disable no-use-before-define */
 settings.register({
@@ -100,7 +100,7 @@ eventManager.on('GameStart', function battleLogger() {
     },
     card: function makeCard(card) {
       const c = $('<span>');
-      c.text(translateText(`card-name-${card.fixedId}`));
+      c.text(cardName(card));
       c.css('text-decoration', 'underline');
 
       const d = $('<div>');
