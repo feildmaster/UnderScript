@@ -196,6 +196,8 @@ describe('EventEmitter', () => {
       it('should not be canceled');
 
       it('should be delayed');
+
+      it('should retain the awaited value');
     });
 
     describe('singleton', () => {
@@ -257,6 +259,8 @@ describe('EventEmitter', () => {
         // Event is called 5 times, callback is only 3
         assertInc(3);
       });
+
+      it('should be called thrice (async)');
     });
 
     describe('off', () => {
