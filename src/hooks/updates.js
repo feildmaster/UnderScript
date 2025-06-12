@@ -182,11 +182,10 @@ async function check(auto = true) {
   if (updateFound) {
     finish();
     notify(keys.available.translate(updateFound), true);
-  } else if (!auto && !pendingUpdates.size) {
-    notify(keys.available.translate(0));
-    sleep(3000).then(finish);
   } else {
-    sleep(1000).then(finish);
+    notify(keys.available.translate(0));
+    const delay = !auto ? 3000 : 1000;
+    sleep(delay).then(finish);
   }
 
   // Setup next check, defaulting to an hour if "Page Load" is set
