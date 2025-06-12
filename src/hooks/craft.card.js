@@ -1,3 +1,4 @@
+import { cardName } from 'src/utils/cardHelper';
 import eventManager from 'src/utils/eventManager.js';
 import { global, globalSet } from 'src/utils/global.js';
 import onPage from 'src/utils/onPage.js';
@@ -19,7 +20,7 @@ onPage('Crafting', () => {
           const id = card.id || response.cardId;
           eventManager.emit('craftcard', {
             id,
-            name: card.name || $.i18n(`card-name-${id}`) || response.cardName,
+            name: cardName(card) || response.cardName,
             dust: response.dust,
             shiny: data.isShiny || response.shiny || false,
           });
