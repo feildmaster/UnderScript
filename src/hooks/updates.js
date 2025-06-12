@@ -95,6 +95,10 @@ export function registerPlugin(plugin, data = {}) {
     const newVersion = await parser.getVersion(info);
     if (finished || !plugin.canUpdate) return finished;
     if (newVersion !== version) {
+      const cached = pendingUpdates.get(plugin.name);
+      if (cached?.newVersion === newVersion) {
+        return false;
+      }
       register({
         plugin,
         newVersion,
