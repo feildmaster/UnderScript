@@ -104,5 +104,18 @@
     "Daily"
   ],
   "update.plugin": "Disable Auto Updates",
-  "update.silent": "Run automatic updates in the background"
+  "update.silent": "Run automatic updates in the background",
+  "vanilla.card.shiny": "Disable shiny card animation",
+  "vanilla.card.skin": "Disable breaking skins",
+  "vanilla.chat.avatar": "Disable chat avatars",
+  "vanilla.chat.rainbow": "Disable rainbow chat",
+  "vanilla.chat.sound": "Disable chat sounds",
+  "vanilla.game.music": "Disable game music",
+  "vanilla.game.sound": "Disable game sounds",
+  "vanilla.game.emote": "Disable emotes",
+  "vanilla.game.profile": "Disable profile skins",
+  "vanilla.game.shake": "Disable screen shake",
+  "vanilla.game.stats": "Disable stats",
+  "vanilla.game.vfx": "Disable VFX",
+  "volume.match.found": "Game Found Volume"
 }

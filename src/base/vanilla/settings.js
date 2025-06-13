@@ -1,68 +1,68 @@
 import * as settings from 'src/utils/settings/index.js';
 import onPage from 'src/utils/onPage.js';
+import Translation from 'src/structures/constants/translation';
 
-// TODO: translation
 [
   {
-    name: 'Disable rainbow chat',
+    name: Translation.Setting('vanilla.chat.rainbow'),
     key: 'chatRainbowDisabled',
     category: 'Chat',
   },
   {
-    name: 'Disable chat sounds',
+    name: Translation.Setting('vanilla.chat.sound'),
     key: 'chatSoundsDisabled',
     category: 'Chat',
   },
   {
-    name: 'Disable chat avatars',
+    name: Translation.Setting('vanilla.chat.avatar'),
     key: 'chatAvatarsDisabled',
     category: 'Chat',
   },
   {
-    name: 'Disable shiny card animation',
+    name: Translation.Setting('vanilla.card.shiny'),
     key: 'gameShinyDisabled',
     category: 'Game',
   },
   {
-    name: 'Disable game music',
+    name: Translation.Setting('vanilla.game.music'),
     key: 'gameMusicDisabled',
     category: 'Game',
   },
   {
-    name: 'Disable game sounds',
+    name: Translation.Setting('vanilla.game.sound'),
     key: 'gameSoundsDisabled',
     category: 'Game',
   },
   {
-    name: 'Disable profile skins',
+    name: Translation.Setting('vanilla.game.profile'),
     key: 'profileSkinsDisabled',
     category: 'Game',
   },
   {
-    name: 'Disable emotes',
+    name: Translation.Setting('vanilla.game.emote'),
     key: 'gameEmotesDisabled',
     category: 'Game',
   },
   {
-    name: 'Disable breaking skins',
+    name: Translation.Setting('vanilla.card.skin'),
     key: 'breakingDisabled',
     category: 'Game',
   },
   // show hand to friends.......
   {
-    name: 'Disable screen shake',
+    name: Translation.Setting('vanilla.game.shake'),
     key: 'shakeDisabled',
-    category: 'Game',
+    category: 'Animation',
   },
   {
-    name: 'Disable Stat Animation',
+    name: Translation.Setting('vanilla.game.stats'),
     key: 'statsDisabled',
-    category: 'Game',
+    category: 'Animation',
   },
   {
-    name: 'Disable VFX Animations',
+    name: Translation.Setting('vanilla.game.vfx'),
     key: 'vfxDisabled',
-    category: 'Game',
+    category: 'Animation',
   },
   { key: 'deckBeginnerInfo' },
   { key: 'firstVisit' },
@@ -78,7 +78,9 @@ import onPage from 'src/utils/onPage.js';
   // TODO: Add missing keys
 ].forEach((setting) => {
   const { name, category } = setting;
-  const refresh = category === 'Game' ? () => onPage('Game') || onPage('gameSpectating') : undefined;
+  const refresh = category === 'Game' || category === 'Animation' ?
+    () => onPage('Game') || onPage('gameSpectating') :
+    undefined;
   settings.register({
     ...setting,
     refresh,
