@@ -39,13 +39,29 @@ import onPage from 'src/utils/onPage.js';
     category: 'Game',
   },
   {
+    name: 'Disable emotes',
+    key: 'gameEmotesDisabled',
+    category: 'Game',
+  },
+  {
+    name: 'Disable breaking skins',
+    key: 'breakingDisabled',
+    category: 'Game',
+  },
+  // show hand to friends.......
+  {
     name: 'Disable screen shake',
     key: 'shakeDisabled',
     category: 'Game',
   },
   {
-    name: 'Disable emotes',
-    key: 'gameEmotesDisabled',
+    name: 'Disable Stat Animation',
+    key: 'statsDisabled',
+    category: 'Game',
+  },
+  {
+    name: 'Disable VFX Animations',
+    key: 'vfxDisabled',
     category: 'Game',
   },
   { key: 'deckBeginnerInfo' },
@@ -65,7 +81,6 @@ import onPage from 'src/utils/onPage.js';
   const refresh = category === 'Game' ? () => onPage('Game') || onPage('gameSpectating') : undefined;
   settings.register({
     ...setting,
-    category,
     refresh,
     page: 'game',
     remove: true,
