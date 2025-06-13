@@ -13,23 +13,6 @@ export type TranslationOptions = {
   prefix?: string | null;
 };
 
-/*
-export interface TranslationConstructor<N extends number> {
-  new (name: string, options: TranslationWithArgsOptions<N>): TranslationWithArgs<N>;
-  new (name: string, options?: TranslationOptions): TranslationBase;
-  new (name: string, options?: TranslationOptions | TranslationWithArgsOptions<N>): TranslationBase | TranslationWithArgs<N>;
-
-  Chat(key: string): TranslationBase;
-  Chat(key: string, hasArgs: N): TranslationWithArgs<N>;
-  Chat(key: string, ...args: Tuple<string, N>): TranslationBase;
-  Chat(
-    key: string,
-    hasArgs?: string | number,
-    ...rest: string[]
-  ): TranslationBase | TranslationWithArgs<N>;
-}
-// */
-
 export interface TranslationBase {
   readonly key: string;
   toString(): string;
@@ -44,13 +27,15 @@ export interface TranslationWithArgs<N extends number> extends TranslationBase {
 }
 
 export default class Translation extends Constant implements TranslationBase {
-  static DISMISS = new Translation('general.dismiss', { fallback: 'Dismiss' });
-  static ERROR = new Translation('general.error', { fallback: 'Error' });
-  static OPEN = new Translation('general.open', { fallback: 'Open' });
-  static UNDO = new Translation('general.undo', { fallback: 'Undo' });
-  static UNKNOWN = new Translation('general.unknown', { fallback: 'Unknown' });
-  static UPDATE = new Translation('general.update', { fallback: 'Update' });
+  static DISMISS = this.General('dismiss', 'Dismiss');
+  static ERROR = this.General('error', 'Error');
+  static OPEN = this.General('open', 'Open');
+  static PURCHASE = this.General('purchase.item');
+  static UNDO = this.General('undo', 'Undo');
+  static UNKNOWN = this.General('unknown', 'Unknown');
+  static UPDATE = this.General('update', 'Update');
 
+  static CATEGORY_CARD_SKINS = this.Setting('category.card.skins');
   static CATEGORY_CHAT_COMMAND = this.Setting('category.chat.commands');
   static CATEGORY_CHAT_IGNORED = this.Setting('category.chat.ignored');
   static CATEGORY_CHAT_IMPORT = this.Setting('category.chat.import');
@@ -59,6 +44,8 @@ export default class Translation extends Constant implements TranslationBase {
   static CATEGORY_HOME = this.Setting('category.home');
   static CATEGORY_HOTKEYS = this.Setting('category.hotkeys');
   static CATEGORY_LIBRARY_CRAFTING = this.Setting('category.library.crafting');
+  static CATEGORY_MINIGAMES = this.Setting('category.minigames');
+  static CATEGORY_OUTLINE = this.Setting('category.outline');
   static CATEGORY_PLUGINS = this.Setting('category.plugins');
   static CATEGORY_STREAMER = this.Setting('category.streamer');
   static CATEGORY_UPDATES = this.Setting('category.updates');
@@ -66,9 +53,11 @@ export default class Translation extends Constant implements TranslationBase {
   static DISABLE_COMMAND_SETTING = this.Setting('command', 1);
 
   static IGNORED = this.Toast('ignore', 1);
-  static INFO = new Translation('toast.info', { fallback: 'Did you know?' });
+  static INFO = this.Toast('toast.info', 'Did you know?');
 
-  static CLOSE = this.Vanilla('dialog-close');
+  static CANCEL = this.Vanilla('dialog-cancel', 'Cancel');
+  static CLOSE = this.Vanilla('dialog-close', 'Close');
+  static CONTINUE = this.Vanilla('dialog-continue', 'Continue');
 
   private args: string[];
   private fallback?: string;
@@ -110,42 +99,42 @@ export default class Translation extends Constant implements TranslationBase {
   }
 
   static General(key: string): Translation;
+  static General<N extends number>(key: string, fallback: string): Translation;
   static General<N extends number>(key: string, hasArgs: N): TranslationWithArgs<N>;
-  static General<N extends number>(key: string, ...args: Tuple<string, N>): TranslationWithArgs<N>;
-  static General<N extends number>(key: string, hasArgs?: string | N, ...rest: string[]): TranslationBase | TranslationWithArgs<N> {
-    const args = typeof hasArgs === 'string' ? [hasArgs, ...rest] : rest;
-    return new Translation(`general.${key}`, { args });
+  static General<N extends number>(key: string, text?: string | N): TranslationBase | TranslationWithArgs<N> {
+    const fallback = typeof text === 'string' ? text : undefined;
+    return new Translation(`general.${key}`, { fallback });
   }
 
   static Menu(key: string): Translation;
+  static Menu<N extends number>(key: string, fallback: string): Translation;
   static Menu<N extends number>(key: string, hasArgs: N): TranslationWithArgs<N>;
-  static Menu<N extends number>(key: string, ...args: Tuple<string, N>): TranslationWithArgs<N>;
-  static Menu<N extends number>(key: string, hasArgs?: string | N, ...rest: string[]): TranslationBase | TranslationWithArgs<N> {
-    const args = typeof hasArgs === 'string' ? [hasArgs, ...rest] : rest;
-    return new Translation(`menu.${key}`, { args });
+  static Menu<N extends number>(key: string, text?: string | N): TranslationBase | TranslationWithArgs<N> {
+    const fallback = typeof text === 'string' ? text : undefined;
+    return new Translation(`menu.${key}`, { fallback });
   }
 
   static Setting(key: string): Translation;
+  static Setting<N extends number>(key: string, fallback: string): Translation;
   static Setting<N extends number>(key: string, hasArgs: N): TranslationWithArgs<N>;
-  static Setting<N extends number>(key: string, ...args: Tuple<string, N>): TranslationWithArgs<N>;
-  static Setting<N extends number>(key: string, hasArgs?: string | N, ...rest: string[]): TranslationBase | TranslationWithArgs<N> {
-    const args = typeof hasArgs === 'string' ? [hasArgs, ...rest] : rest;
-    return new Translation(`settings.${key}`, { args });
+  static Setting<N extends number>(key: string, text?: string | N): TranslationBase | TranslationWithArgs<N> {
+    const fallback = typeof text === 'string' ? text : undefined;
+    return new Translation(`settings.${key}`, { fallback });
   }
 
   static Toast(key: string): Translation;
+  static Toast<N extends number>(key: string, fallback: string): Translation;
   static Toast<N extends number>(key: string, hasArgs: N): TranslationWithArgs<N>;
-  static Toast<N extends number>(key: string, ...args: Tuple<string, N>): TranslationWithArgs<N>;
-  static Toast<N extends number>(key: string, hasArgs?: string | N, ...rest: string[]): TranslationBase | TranslationWithArgs<N> {
-    const args = typeof hasArgs === 'string' ? [hasArgs, ...rest] : rest;
-    return new Translation(`toast.${key}`, { args });
+  static Toast<N extends number>(key: string, text?: string | N): TranslationBase | TranslationWithArgs<N> {
+    const fallback = typeof text === 'string' ? text : undefined;
+    return new Translation(`toast.${key}`, { fallback });
   }
 
   static Vanilla(key: string): Translation;
+  static Vanilla<N extends number>(key: string, fallback: string): Translation
   static Vanilla<N extends number>(key: string, hasArgs: N): TranslationWithArgs<N>;
-  static Vanilla<N extends number>(key: string, ...args: Tuple<string, N>): TranslationWithArgs<N>;
-  static Vanilla<N extends number>(key: string, hasArgs?: string | N, ...rest: string[]): TranslationBase | TranslationWithArgs<N> {
-    const args = typeof hasArgs === 'string' ? [hasArgs, ...rest] : rest;
-    return new Translation(key.toLowerCase(), { args, prefix: null });
+  static Vanilla<N extends number>(key: string, text?: string | number): TranslationBase | TranslationWithArgs<N> {
+    const fallback = typeof text === 'string' ? text : undefined;
+    return new Translation(key.toLowerCase(), { fallback, prefix: null });
   }
 }
