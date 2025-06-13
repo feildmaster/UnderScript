@@ -1,3 +1,4 @@
+import Translation from 'src/structures/constants/translation.js';
 import Setting from './array.js';
 
 export default class MapList extends Setting {
@@ -12,23 +13,25 @@ export default class MapList extends Setting {
   /**
    * @param {Map<string, string>} val
    */
-  element(val, update, { container }) {
+  element(val, update, { container, key: setting }) {
     const data = [...val.entries()];
     function invalid(text) {
       return data.some(([value]) => value === text);
     }
-    function add(value) {
+    function add(value, i) {
       function save(remove) {
         if (remove) data.splice(data.indexOf(value), 1);
         update(data.filter(([key]) => key));
       }
-      container.append(createItem({ value, save, invalid }));
+      container.append(createItem({ value, save, invalid, key: `${setting}.${i}` }));
     }
     data.forEach(add);
+    let entries = data.length;
     return $('<button class="btn btn-success glyphicon glyphicon-plus">').on('click', () => {
       const item = ['', ''];
       data.push(item);
-      add(item);
+      add(item, entries);
+      entries += 1;
     });
   }
 
@@ -46,7 +49,7 @@ export default class MapList extends Setting {
       '.btn { padding: 3px 6px; }',
       '.item { display: inline-flex; flex-wrap: wrap; align-items: center; padding-top: 5px; width: 100%; }',
       '.item > * { margin: 0 5px; }',
-      '.error *:first-child { border-color: red; }',
+      '.error [id]:not([id$=".value"]) { border-color: red; }',
       '.warning { display: none; color: red; flex-basis: 100%; user-select: none; }',
       '.error .warning { display: block; }',
     ];
@@ -61,6 +64,7 @@ function createItem({
   value = ['key', 'value'],
   save,
   invalid,
+  key,
 }) {
   const left = $('<input type="text">').val(value[0]).on('blur', () => {
     const newVal = left.val();
@@ -69,20 +73,19 @@ function createItem({
     if (isInvalid || newVal === value[0]) return;
     value[0] = newVal;
     save();
-  });
+  }).attr('id', key);
   const right = $('<input type="text">').val(value[1]).on('blur', () => {
     const newVal = right.val();
     if (newVal === value[1]) return;
     value[1] = newVal;
     save();
-  });
+  }).attr('id', `${key}.value`);
   const button = $('<button class="btn btn-danger glyphicon glyphicon-trash">').on('click', () => {
     save(true);
     button.parent().remove();
   });
-  // TODO: translation
   const warning = $('<div class="warning clickable">')
-    .text('Duplicate value, not updated! Click here to reset.')
+    .text(Translation.Setting('map.duplicate'))
     .on('click', () => left.val(value[0])
       .parent().removeClass('error'));
   return $('<div class="item">').append(left, ' : ', right, button, warning);

@@ -95,6 +95,9 @@ export default class AdvancedMap extends Setting {
         left.attr('id', options.key);
         simpleLookup = true;
       }
+      if (!right.find(`#${options.key}.value`).length) {
+        right.attr('id', `#${options.key}.value`);
+      }
       cacheLeftValue();
       refresh();
       untilClose(`refresh:${key}`, refresh, `create:${key}`);
