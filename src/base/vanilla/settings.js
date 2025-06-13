@@ -4,6 +4,19 @@ import Translation from 'src/structures/constants/translation';
 
 [
   {
+    name: Translation.Vanilla('settings-language'),
+    key: 'language',
+    options() {
+      return ['en', 'fr', 'ru', 'es', 'pt', 'cn', 'it', 'pl', 'de']
+        .map((locale) => [
+          Translation.Vanilla(`chat-${locale}`),
+          locale,
+        ]);
+    },
+    refresh: true,
+    remove: false,
+  },
+  {
     name: Translation.Setting('vanilla.chat.rainbow'),
     key: 'chatRainbowDisabled',
     category: 'Chat',
@@ -82,10 +95,10 @@ import Translation from 'src/structures/constants/translation';
     () => onPage('Game') || onPage('gameSpectating') :
     undefined;
   settings.register({
-    ...setting,
     refresh,
-    page: 'game',
     remove: true,
+    ...setting,
+    page: 'game',
     hidden: name === undefined,
   });
 });
