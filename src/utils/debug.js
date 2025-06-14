@@ -1,7 +1,7 @@
 export function debug(message, permission = 'debugging', ...extras) {
   if (!value(permission) && !value('debugging.*')) return;
   // message.stack = new Error().stack.split('\n').slice(2);
-  console.log(`[${permission}]`, message, ...extras);
+  console.debug(`[${permission}]`, message, ...extras);
 }
 
 export function value(key) {

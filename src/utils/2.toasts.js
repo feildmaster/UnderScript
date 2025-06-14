@@ -14,7 +14,7 @@ export function blankToast() {
 
 export function toast(arg) {
   if (!arg) return false;
-  if (typeof arg === 'string') {
+  if (typeof arg === 'string' || arg instanceof Translation) {
     arg = {
       text: arg,
     };

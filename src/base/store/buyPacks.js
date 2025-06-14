@@ -4,6 +4,8 @@ import * as hover from 'src/utils/hover.js';
 import wrap from 'src/utils/2.pokemon.js';
 import sleep from 'src/utils/sleep.js';
 import * as api from 'src/utils/4.api.js';
+import Translation from 'src/structures/constants/translation';
+import { getTranslationArray } from '../underscript/translation.js';
 
 wrap(() => {
   // buy multiple packs
@@ -60,19 +62,18 @@ wrap(() => {
             gold: !cost,
           };
           if (cost && !e.shiftKey) {
-            // TODO: translation
             global('BootstrapDialog').show({
-              title: 'Buy packs with UCP?',
-              message: $.i18n(`Buy ${count} pack${count > 1 ? 's' : ''} for {{UCP:${count * price}}} UCP?`),
+              title: `${Translation.PURCHASE}`,
+              message: Translation.General('purchase.pack.cost').translate(count, count * price),
               buttons: [{
-                label: $.i18n('dialog-continue'),
+                label: `${Translation.CONTINUE}`,
                 cssClass: 'btn-success',
                 action(diag) {
                   buyPacks(data);
                   diag.close();
                 },
               }, {
-                label: $.i18n('dialog-cancel'),
+                label: `${Translation.CANCEL}`,
                 cssClass: 'btn-danger',
                 action(diag) {
                   diag.close();
@@ -83,8 +84,14 @@ wrap(() => {
             buyPacks(data);
           }
         });
-        // TODO: translation
-        $(el).hover(hover.show(`CTRL: Buy MAX packs<br>ALT: Buy (up to) 10 packs${cost ? '<br>SHIFT: Bypass confirmation' : ''}`));
+        eventManager.on('underscript:ready', () => {
+          const { key } = Translation.General('purchase.pack.note');
+          const array = [...getTranslationArray(key)];
+          if (cost) {
+            array.push(Translation.General('bypass.shift'));
+          }
+          $(el).hover(hover.show(array.join('<br>')));
+        });
       });
     });
 

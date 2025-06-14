@@ -1,13 +1,14 @@
+import Translation from 'src/structures/constants/translation';
+import compound from 'src/utils/compoundEvent';
 import eventManager from 'src/utils/eventManager.js';
 import onPage from 'src/utils/onPage.js';
 
 onPage('Play', () => {
   const title = document.title;
-  eventManager.on('getWaitingQueue', function updateTitle() {
+  compound('getWaitingQueue', 'underscript:ready', function updateTitle() {
     // Title has been modified
     if (title !== document.title) return;
-    // TODO: translation
-    document.title = `Undercards - Match found!`;
+    document.title = `Undercards - ${Translation.General('match.found')}`;
   });
   eventManager.on('getLeaveQueue', function restoreTitle() {
     document.title = title;

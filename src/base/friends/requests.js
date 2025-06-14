@@ -4,10 +4,10 @@ import * as settings from 'src/utils/settings/index.js';
 import { toast } from 'src/utils/2.toasts.js';
 import each from 'src/utils/each.js';
 import { noop } from 'src/utils/1.variables.js';
+import Translation from 'src/structures/constants/translation';
 
 const setting = settings.register({
-  // TODO: translation
-  name: 'Disable Friend Request Notifications',
+  name: Translation.Setting('friend.request'),
   key: 'underscript.disable.friend.notifications',
   page: 'Friends',
 });
@@ -22,8 +22,7 @@ eventManager.on('Friends:requests', (friends) => {
       background: 'inherit',
     }; // I need to add a way to clear all styles
     toast({
-      // TODO: translation
-      title: `Pending Friend Request`,
+      title: Translation.Toast('friend.request'),
       text: friend,
       buttons: [{
         css,
@@ -48,13 +47,17 @@ eventManager.on('logout', () => {
   });
 });
 
+const request = {
+  accept: Translation.Toast('friend.request.accept', 1),
+  delete: Translation.Toast('friend.request.decline', 1),
+};
+
 function post(id, accept = true) {
   const action = accept ? 'accept' : 'delete';
   axios.get(`/Friends?${action}=${id}`).then(() => {
     const key = `underscript.request.${id}`;
     const name = sessionStorage.getItem(key);
     sessionStorage.removeItem(key);
-    // TODO: translation
-    toast(`${accept ? 'Accepted' : 'Declined'} friend request from: ${name}`);
+    toast(request[action].withArgs(name));
   }).catch(noop);
 }

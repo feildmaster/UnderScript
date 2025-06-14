@@ -154,7 +154,7 @@ compound(':load', 'underscript:ready', () => {
   dirty();
 
   toast = infoToast({
-    text: Translation.Toast('menu').translate(),
+    text: Translation.Toast('menu'),
     onClose: (reason) => {
       toast = null;
       // return reason !== 'opened';

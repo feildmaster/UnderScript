@@ -26,7 +26,7 @@ export default class DialogHelper {
         ...buttons,
         {
           cssClass: 'btn-primary',
-          label: Translation.CLOSE.translate(),
+          label: `${Translation.CLOSE}`,
           action: () => this.close(),
         },
       ],

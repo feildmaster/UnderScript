@@ -35,8 +35,8 @@ function joined({ username }) {
   if (this.canceled || !flag || isFriend(username)) return;
   debug(`Kicked: ${username}`);
   errorToast({
-    title: Translation.Toast('custom.ban').translate(),
-    text: Translation.Toast('custom.ban.user').translate(username),
+    title: Translation.Toast('custom.ban'),
+    text: Translation.Toast('custom.ban.user').withArgs(username),
   });
   this.canceled = true;
   global('banUser')();

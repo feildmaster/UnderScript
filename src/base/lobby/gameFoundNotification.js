@@ -1,13 +1,13 @@
-import eventManager from 'src/utils/eventManager.js';
 import onPage from 'src/utils/onPage.js';
 import active from 'src/utils/active.js';
 import notify from 'src/utils/notifications.js';
+import compound from 'src/utils/compoundEvent';
+import Translation from 'src/structures/constants/translation';
 
-// TODO: translation
 onPage('Play', () => {
-  eventManager.on('getWaitingQueue', function gameFound() {
+  compound('getWaitingQueue', 'underscript:ready', function gameFound() {
     if (!active()) {
-      notify('Match found!');
+      notify(Translation.General('match.found'));
     }
   });
 });

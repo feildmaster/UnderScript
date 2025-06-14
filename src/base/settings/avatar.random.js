@@ -1,6 +1,9 @@
+import Translation from 'src/structures/constants/translation';
 import wrap from 'src/utils/2.pokemon.js';
 import eventManager from 'src/utils/eventManager.js';
 import style from 'src/utils/style.js';
+import html from './random.html';
+import css from './random.css';
 
 wrap(() => {
   function random() {
@@ -8,18 +11,14 @@ wrap(() => {
   }
 
   eventManager.on(':preload:Avatars', () => {
-    $('.avatarsList').prepend(buildButton());
-    $('.avatarsList button').click(random);
+    const wrapper = $(html);
+    $('.avatarsList').prepend(wrapper);
+    const button = wrapper.find('button');
+    button.click(random);
+    eventManager.on('underscript:ready', () => {
+      button.text(Translation.General('random'));
+    });
   });
 
-  style.add('.avatar.glyphicon-random { width: 64px; text-align: center; margin: auto; height: 64px; padding-top: 24px; }');
-
-  // TODO: translation
-  function buildButton() {
-    const elements = `<div class="col-sm-2">
-    <div class="avatarGroup"><span class="avatar MYTHIC glyphicon glyphicon-random"></span></div>
-    <br><br>
-    <button class="btn btn-sm btn-primary">Random</button></div>`;
-    return $(elements)[0];
-  }
+  style.add(css);
 });

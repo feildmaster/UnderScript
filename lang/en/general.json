@@ -1,4 +1,5 @@
 {
+  "bypass.shift": "SHIFT: Bypass confirmation",
   "changelog": "UnderScript Change Log",
   "changelog.loading": "Please wait",
   "changelog.unavailable": "Unavailable at this time",
@@ -10,6 +11,9 @@
   "collect": "Collect All",
   "collect.note": "Collect all rewards",
   "disenchant": "Smart Disenchant",
+  "friend.block": "Block $1",
+  "friend.decline": "Decline all",
+  "match.found": "Match found!",
   "message.hidden": "Message Ignored",
   "message.removed": "$1 {{PLURAL:$1|Message|Messages}} Ignored",
   "deck.average": "Average gold cost",
@@ -25,9 +29,19 @@
     "* CTRL Click to erase deck"
   ],
   "storage.save": "Click to save current deck",
+  "time.local": "$1 local",
   "error": "Error",
   "go!": "Go now!",
+  "page.first": "CTRL Click: Go to first page",
+  "page.last": "CTRL Click: Go to last page",
   "passive": "Passive",
+  "purchase.item": "Buy with UCP?",
+  "purchase.item.cost": "Buy for {{UCP:$1}} UCP?",
+  "purchase.pack.cost": "Buy $1 {{PLURAL:$1|pack|packs}} for {{UCP:$2}} UCP?",
+  "purchase.pack.note": [
+    "CTRL: Buy MAX packs",
+    "ALT: Buy (up to) 10 packs"
+  ],
   "reconnecting": "Reconnecting...",
   "profile": "Profile",
   "message": "Message",
@@ -35,6 +49,8 @@
   "unignore": "Unignore",
   "mention": "Mention",
   "mute": "Mute",
+  "quest.pending": "Completed Quests",
+  "random": "Random",
   "refresh": "Refresh Page",
   "settings": "Open Settings",
   "update.current": "Current: $1",
@@ -43,8 +59,11 @@
   "update.skip": "Skip Update",
   "updates": "Pending Updates",
   "dismiss": "Dismiss",
+  "loading": "Loading",
   "open": "Open",
   "undo": "Undo",
   "update": "Update",
-  "unknown": "Unknown"
+  "unknown": "Unknown",
+  "disable": "Disable",
+  "enable": "Enable"
 }

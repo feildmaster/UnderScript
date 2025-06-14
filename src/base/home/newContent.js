@@ -66,13 +66,11 @@ function toast(type) {
   const prefix = `underscript.dismiss.${type}.`;
   const key = `${prefix}${names.join(',')}`;
   cleanData(prefix, key);
-  if (settings.value(key)) return;
-  eventManager.on('underscript:ready', () => {
-    dismissable({
-      key,
-      text: links.join('').replace(/\n/g, ''),
-      title: title(type, links.length > 1),
-    });
+  if (settings.value(key) || !links.length) return;
+  dismissable({
+    key,
+    text: links.join('').replace(/\n/g, ''),
+    title: title(type, links.length > 1),
   });
 }
 
@@ -82,7 +80,7 @@ function title(type, plural = false) {
     case 'skins':
     case 'emotes':
     case 'pass':
-    case 'card': return Translation.Toast(`new.${type}`).translate(plural + 1);
+    case 'card': return Translation.Toast(`new.${type}`).withArgs(plural + 1);
     default: throw new Error(`Unknown Type: ${type}`);
   }
 }

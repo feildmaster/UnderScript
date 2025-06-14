@@ -31,7 +31,7 @@ eventManager.on(':preload:', () => {
       dismissable({
         key,
         text: element.html(),
-        title: Translation.Toast('game.update').translate(),
+        title: Translation.Toast('game.update'),
         value,
       });
     });

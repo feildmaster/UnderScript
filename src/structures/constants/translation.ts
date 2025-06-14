@@ -35,6 +35,7 @@ export default class Translation extends Constant implements TranslationBase {
   static UNKNOWN = this.General('unknown', 'Unknown');
   static UPDATE = this.General('update', 'Update');
 
+  static CATEGORY_AUTO_DECLINE = this.Setting('category.autodecline');
   static CATEGORY_CARD_SKINS = this.Setting('category.card.skins');
   static CATEGORY_CHAT_COMMAND = this.Setting('category.chat.commands');
   static CATEGORY_CHAT_IGNORED = this.Setting('category.chat.ignored');

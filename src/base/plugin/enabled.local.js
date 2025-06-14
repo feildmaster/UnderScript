@@ -52,15 +52,14 @@ wrap(() => {
           button: 'dismiss',
         },
         buttons: [{
-          // TODO: translation
-          text: isEnabled ? 'Disable' : 'Enable',
+          text: Translation.General(isEnabled ? 'disable' : 'enable'),
           css,
           onclick() {
             enabled.set(!isEnabled);
             registered.set(true);
           },
         }, {
-          text: Translation.DISMISS.translate(),
+          text: Translation.DISMISS,
           css,
           onclick() {
             enabled.set(isEnabled);

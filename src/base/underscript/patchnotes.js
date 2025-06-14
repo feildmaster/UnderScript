@@ -49,15 +49,15 @@ wrap(function patchNotes() {
     .then((text) => eventManager.on('underscript:ready', () => notify(text)))
     .catch(noop);
 
-  const title = Translation.Toast('patch.notes');
-
   function notify(text) {
-    installed.set(scriptVersion);
     toast({
       text,
-      title: title.translate(),
+      title: Translation.Toast('patch.notes'),
       footer: `v${scriptVersion}`,
       className: 'uschangelog',
+      onClose() {
+        installed.set(scriptVersion);
+      },
     });
   }
 });

@@ -1,4 +1,5 @@
 import tippy from 'tippy.js';
+import Translation from 'src/structures/constants/translation.js';
 import eventManager from './eventManager.js';
 import { footer, footer2, window } from './1.variables.js';
 import { debug } from './debug.js';
@@ -33,8 +34,15 @@ export function show(data, border = null) {
   return function hoverAction(event) {
     hide();
     if (event.type === 'mouseleave' || event.type === 'blur') return;
-    e = $('<div>');
-    e.append(data);
+    const el = $('<div>');
+    e = el;
+    if (data instanceof Translation) {
+      eventManager.on('underscript:ready', () => {
+        el.prepend(`${data}`);
+      });
+    } else {
+      e.append(data);
+    }
     e.append($(footer).clone());
     e.css({
       border,

@@ -1,4 +1,5 @@
 import each from './each.js';
+import isSimpleObject from './isSimpleObject.js';
 
 export default function merge(...obj) {
   const ret = {};
@@ -6,7 +7,7 @@ export default function merge(...obj) {
     obj.forEach((o) => {
       each(o, (val, key) => {
         // TODO: How to handle arrays?
-        ret[key] = Object.getPrototypeOf(val) === Object.prototype ? merge(ret[key], val) : val;
+        ret[key] = isSimpleObject(val) ? merge(ret[key], val) : val;
       });
     });
   }

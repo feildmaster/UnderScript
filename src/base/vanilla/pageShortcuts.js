@@ -2,10 +2,10 @@ import eventManager from 'src/utils/eventManager.js';
 import * as settings from 'src/utils/settings/index.js';
 import { global, globalSet } from 'src/utils/global.js';
 import * as hover from 'src/utils/hover.js';
+import Translation from 'src/structures/constants/translation';
 
 const disable = settings.register({
-  // TODO: translation
-  name: 'Disable First/Last Page Shortcut',
+  name: Translation.Setting('page.jump'),
   key: 'underscript.disable.quickpages',
 });
 
@@ -37,7 +37,10 @@ function setPage(page, max = global('getMaxPage')()) {
 
 eventManager.on(':preload', () => {
   if (!global('getMaxPage', { throws: false })) return;
-  // TODO: translation
-  $('#btnNext').on('click.script', lastPage).hover(hover.show('CTRL Click: Go to last page'));
-  $('#btnPrevious').on('click.script', firstPage).hover(hover.show('CTRL Click: Go to first page'));
+  const next = $('#btnNext').on('click.script', lastPage);
+  const prev = $('#btnPrevious').on('click.script', firstPage);
+  eventManager.on('underscript:ready', () => {
+    prev.hover(hover.show(`${Translation.General('page.first')}`));
+    next.hover(hover.show(`${Translation.General('page.last')}`));
+  });
 });

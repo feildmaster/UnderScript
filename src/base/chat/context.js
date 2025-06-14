@@ -160,7 +160,7 @@ eventManager.on('jQuery', () => {
               },
               buttons: [{
                 css: buttonCSS,
-                text: Translation.UNDO.translate(),
+                text: Translation.UNDO,
                 className: 'dismiss',
                 onclick: () => {
                   settings.remove(key);

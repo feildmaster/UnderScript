@@ -48,11 +48,11 @@ eventManager.on('PlayingGame', function bindHotkeys() {
 
   if (!fullDisable.value() && !spaceDisable.value() && !mouseDisable.value()) {
     infoToast({
-      // TODO: translation
+      // TODO: translation?
       text: 'You can skip turns with <code>space</code> and <code>middle mouse button</code>. (These can be disabled in settings)',
       className: 'dismissable',
       buttons: {
-        text: Translation.General('settings').translate(),
+        text: Translation.General('settings'),
         className: 'dismiss',
         css,
         onclick: (_) => {

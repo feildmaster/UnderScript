@@ -7,31 +7,29 @@ import onPage from 'src/utils/onPage.js';
 import * as hover from 'src/utils/hover.js';
 import each from 'src/utils/each.js';
 import { captureError } from 'src/utils/sentry.js';
+import Translation from 'src/structures/constants/translation';
 
 const disabled = settings.register({
-  // TODO: translation
-  name: 'Disable',
+  name: Translation.Setting('friend.auto'),
   key: 'userscript.autodecline.disable',
   page: 'Friends',
-  category: 'Auto Decline',
+  category: Translation.CATEGORY_AUTO_DECLINE,
 });
 
 const silent = settings.register({
-  // TODO: translation
-  name: 'Silent',
+  name: Translation.Setting('friend.auto.silent'),
   key: 'underscript.autodecline.silent',
   default: true,
   page: 'Friends',
-  category: 'Auto Decline',
+  category: Translation.CATEGORY_AUTO_DECLINE,
 });
 
 const chat = settings.register({
-  // TODO: translation
-  name: 'Include ignored chat users',
+  name: Translation.Setting('friend.auto.ignore'),
   key: 'underscript.autodecline.ignored',
   default: true,
   page: 'Friends',
-  category: 'Auto Decline',
+  category: Translation.CATEGORY_AUTO_DECLINE,
 });
 
 // Load blocked users
@@ -46,7 +44,7 @@ function register(key, name, set = false) {
     name,
     type: 'remove',
     page: 'Friends',
-    category: 'Auto Decline',
+    category: Translation.CATEGORY_AUTO_DECLINE,
   });
   if (set) {
     localStorage.setItem(key, name);
@@ -56,8 +54,7 @@ function register(key, name, set = false) {
 function post(id, name) {
   axios.get(`/Friends?delete=${id}`).then(() => {
     if (!name) return;
-    // TODO: translation
-    const message = `Auto declined friend request from: ${name}`;
+    const message = Translation.Toast('friend.request.auto').translate(name);
     debug(message);
     if (!silent.value()) {
       toast(message);
@@ -103,8 +100,7 @@ onPage('Friends', function blockRequests() {
         el.find('a[href^="Friends?"]').remove();
         el.addClass('deleted');
         $(this).remove();
-      // TODO: translation
-      }).hover(hover.show(`Block ${el.text().substring(0, name)}`)));
+      }).hover(hover.show(Translation.General('friend.block').withArgs(name))));
     });
   });
 });

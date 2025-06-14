@@ -2,13 +2,13 @@ import eventManager from 'src/utils/eventManager.js';
 import * as settings from 'src/utils/settings/index.js';
 import { globalSet } from 'src/utils/global.js';
 import { window } from 'src/utils/1.variables.js';
+import Translation from 'src/structures/constants/translation';
 
 const setting = settings.register({
-  // TODO: translation
-  name: 'Force Basic Card Skins',
+  name: Translation.Setting('skins.basic'),
   key: 'underscript.hide.card-skins',
   page: 'Library',
-  category: 'Card Skins',
+  category: Translation.CATEGORY_CARD_SKINS,
 });
 
 function createCard(card) {

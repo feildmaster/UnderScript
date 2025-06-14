@@ -78,7 +78,7 @@ function processMessage(message, room, history = false) {
     } else if (history) {
       msg.remove();
     }
-    container.text(Translation.General('message.removed', count));
+    container.text(Translation.General('message.removed').translate(count));
     count += 1;
     return true;
   } else if (type === 'none') {

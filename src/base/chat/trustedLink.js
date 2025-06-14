@@ -47,7 +47,7 @@ eventManager.on('BootstrapDialog:show', (dialog) => {
   const host = cache.value;
   const after = dialog.options.buttons[0];
   dialog.options.buttons.unshift({
-    label: TrustDomain.withArgs(host).translate(),
+    label: TrustDomain.translate(host),
     cssClass: 'btn-danger',
     action(ref) {
       register(host);

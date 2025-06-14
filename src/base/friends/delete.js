@@ -6,10 +6,10 @@ import { toast, errorToast } from 'src/utils/2.toasts.js';
 import decrypt from 'src/utils/decrypt.emails.js';
 import style from 'src/utils/style.js';
 import { captureError } from 'src/utils/sentry.js';
+import Translation from 'src/structures/constants/translation';
 
 const setting = settings.register({
-  // TODO: translation
-  name: 'Remove friends without refreshing',
+  name: Translation.Setting('friend.background'),
   key: 'underscript.removeFriend.background',
   default: true,
   page: 'Friends',

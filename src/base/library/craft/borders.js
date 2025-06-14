@@ -48,6 +48,6 @@ onPage('Crafting', function craftableCards() {
   eventManager.on('Craft:RefreshPage', () => eventManager.emit('refreshhighlight'));
 
   eventManager.on('underscript:ready', () => {
-    infoToast(Translation.Toast('craftable').translate(), 'underscript.notice.craftingborder', '1');
+    infoToast(Translation.Toast('craftable'), 'underscript.notice.craftingborder', '1');
   });
 });

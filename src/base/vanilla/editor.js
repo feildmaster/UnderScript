@@ -1,7 +1,6 @@
 import eventManager from 'src/utils/eventManager.js';
 import addMenuButton from 'src/utils/menubuttons.js';
 
-// TODO: translation?
 eventManager.on('jQuery', () => {
   const text = `<li class="computerLink">
     <a href="https://undercard.feildmaster.com" target="_blank" rel="noreferrer" title="Card Editor">

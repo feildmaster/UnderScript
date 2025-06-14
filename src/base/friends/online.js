@@ -4,19 +4,18 @@ import { global } from 'src/utils/global.js';
 import * as hover from 'src/utils/hover.js';
 import style from 'src/utils/style.js';
 import { name } from 'src/utils/user.js';
+import Translation from 'src/structures/constants/translation';
 
 const setting = settings.register({
-  // TODO: translation
-  name: 'Enable online friends',
+  name: Translation.Setting('friend.online'),
   key: 'underscript.enable.onlinefriends',
   default: true,
   page: 'Friends',
 });
-let target;
+let popper;
 export default function updateTip() {
-  if (!target) return;
-  // eslint-disable-next-line no-underscore-dangle
-  target._tippy.popper.querySelector('.onlineFriends').innerHTML = global('selfFriends').filter(({ online }) => online).map((user) => name(user)).join('<br>') || 'None';
+  if (!popper) return;
+  popper.querySelector('.onlineFriends').innerHTML = global('selfFriends').filter(({ online }) => online).map((user) => name(user)).join('<br>') || 'None';
 }
 eventManager.on(':preload', () => {
   const px = 12;
@@ -30,9 +29,7 @@ eventManager.on(':preload', () => {
 
   const el = document.querySelector('a span.nbFriends');
   if (!el) return;
-  target = el.parentElement;
-  // TODO: translation
-  hover.tip('<div class="onlineFriends">(Loading)</div>', target, {
+  hover.tip('<div class="onlineFriends">(Loading)</div>', el.parentElement, {
     arrow: true,
     distance: 0,
     follow: false,
@@ -41,5 +38,10 @@ eventManager.on(':preload', () => {
     placement: 'top-start',
     onShow: () => setting.value(),
   });
+  // eslint-disable-next-line no-underscore-dangle
+  popper = el.parentElement._tippy.popper;
   eventManager.on('Chat:Connected', updateTip);
+  eventManager.on('underscript:ready', () => {
+    popper.querySelector('.onlineFriends').textContent = Translation.General('loading');
+  });
 });

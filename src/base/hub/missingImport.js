@@ -13,7 +13,7 @@ style.add(
 function init() {
   eventManager.on('ShowPage', (page) => thing(page * 10));
   dismissable({
-    title: Translation.INFO.translate(),
+    title: Translation.INFO,
     // TODO: translation
     text: `The import arrow is colored to symbolize <span class="missingDT">missing DT(s)</span>, <span class="missing">missing card(s)</span>, and <span class="missingArt">missing artifact(s)</span>`,
     key: 'underscript.notice.hubImport',

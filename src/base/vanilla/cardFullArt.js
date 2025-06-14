@@ -1,15 +1,15 @@
+import Translation from 'src/structures/constants/translation';
 import eventManager from 'src/utils/eventManager.js';
 import * as settings from 'src/utils/settings/index.js';
 import style from 'src/utils/style.js';
 import VarStore from 'src/utils/VarStore.js';
 
 const setting = settings.register({
-  // TODO: translation
-  name: 'Disable Full Card Art',
+  name: Translation.Setting('skins.full'),
   key: 'underscript.hide.full-skin',
   page: 'Library',
   onChange: toggle,
-  category: 'Card Skins',
+  category: Translation.CATEGORY_CARD_SKINS,
 });
 const art = VarStore();
 

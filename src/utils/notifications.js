@@ -2,9 +2,9 @@ import Translation from 'src/structures/constants/translation.js';
 
 import * as settings from './settings/index.js';
 import sleep from './sleep.js';
-import eventManager from './eventManager.js';
 import { toast } from './2.toasts.js';
 import { buttonCSS as css, window } from './1.variables.js';
+import compound from './compoundEvent.js';
 
 const setting = settings.register({
   key: 'underscript.notification.dismissPrompt',
@@ -34,18 +34,18 @@ export default function notify(text, title = 'Undercards') {
 }
 
 if (isType() && !setting.value()) {
-  eventManager.on(':load:Play', () => show(Translation.Toast('game.request.message')));
+  compound(':load:Play', 'underscript.ready', () => show());
 }
 
-// TODO: translation
-function show(text = 'UnderScript would like to send notifications.') {
+function show() {
   const buttons = [{
     css,
     text: Translation.Toast('game.request'),
     className: 'dismiss',
     onclick() {
       requestPermission().then((result) => {
-        toast(Translation.Toast(`game.request.${result === 'granted' ? 'allowed' : 'denied'}`));
+        const key = result === 'granted' ? 'allowed' : 'denied';
+        toast(Translation.Toast(`game.request.${key}`));
       });
     },
   }, {
@@ -58,7 +58,7 @@ function show(text = 'UnderScript would like to send notifications.') {
   }];
   toast({
     buttons,
-    text,
+    text: Translation.Toast('game.request.message'),
     className: 'dismissable',
   });
 }

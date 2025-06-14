@@ -1,17 +1,16 @@
 import luxon from 'luxon';
+import Translation from 'src/structures/constants/translation';
 import wrap from 'src/utils/2.pokemon.js';
-import eventManager from 'src/utils/eventManager.js';
-import sleep from 'src/utils/sleep.js';
+import compound from 'src/utils/compoundEvent';
 
-// TODO: translation
 wrap(function localTime() {
-  eventManager.on(':load:Quests', () => {
-    // TODO: compoundEvent
-    sleep().then(updateTime);
-  });
+  compound(':load:Quests', 'underscript:ready', updateTime);
 
   function updateTime() {
-    const time = luxon.DateTime.fromObject({ hour: 6, minute: 0, zone: 'Europe/Paris' }).toLocal();
-    $('[data-i18n="[html]quests-reset"],[data-i18n="[html]quests-day"]').append(` (${time.toLocaleString(luxon.DateTime.TIME_SIMPLE)} local)`);
+    const time = luxon.DateTime.fromObject({ hour: 6, minute: 0, zone: 'Europe/Paris' })
+      .toLocal()
+      .toLocaleString(luxon.DateTime.TIME_SIMPLE);
+    const text = Translation.General('time.local').translate(time);
+    $('[data-i18n="[html]quests-reset"],[data-i18n="[html]quests-day"]').append(` (${text})`);
   }
 });

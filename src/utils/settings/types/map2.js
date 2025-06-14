@@ -1,3 +1,4 @@
+import Translation from 'src/structures/constants/translation';
 import Setting from './map.js';
 import SettingType from './setting.js';
 import { getSettingType, isSettingType } from '../settingRegistry.js';
@@ -75,9 +76,8 @@ export default class AdvancedMap extends Setting {
         line.remove();
       });
       let leftValue;
-      // TODO: translation
       const warning = $('<div class="warning clickable">')
-        .text('Duplicate value, not updated! Click here to reset.')
+        .text(Translation.Setting('map.duplicate'))
         .on('click', () => left.val(leftValue)
           .parent().removeClass('error'));
       function refresh() {

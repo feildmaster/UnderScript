@@ -1,10 +1,10 @@
 import eventManager from 'src/utils/eventManager.js';
 import * as settings from 'src/utils/settings/index.js';
 import { global } from 'src/utils/global.js';
+import Translation from 'src/structures/constants/translation';
 
-// TODO: translation
 const volume = settings.register({
-  name: 'Game Found Volume',
+  name: Translation.Setting('volume.match.found'),
   key: 'underscript.volume.gameFound',
   type: 'slider',
   default: 0.3,

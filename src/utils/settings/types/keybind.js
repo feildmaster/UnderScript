@@ -1,9 +1,13 @@
 import { translateText } from 'src/utils/translate.js';
+import Translation from 'src/structures/constants/translation';
 import Text from './text.js';
 
 const baseLabels = {
   ' ': 'Space',
 };
+
+const any = Translation.Setting('key.any');
+const bind = Translation.Setting('key.bind');
 
 export default class extends Text {
   constructor(name = 'keybind') {
@@ -27,8 +31,7 @@ export default class extends Text {
     const input = $(`<input type="text" id="${id}">`)
       .val(temp)
       .on('focus', () => {
-        // TODO: translation
-        input.val('').prop('placeholder', 'Press Any Key...');
+        input.val('').prop('placeholder', any);
         ret.addClass('editing');
       })
       .on('keydown', (event) => {
@@ -42,11 +45,10 @@ export default class extends Text {
         input.blur();
       })
       .on('blur', () => {
-        // TODO: translation
-        input.val(temp).prop('placeholder', 'Click to bind');
+        input.val(temp).prop('placeholder', bind);
         ret.removeClass('editing');
       })
-      .prop('placeholder', 'Click to bind');
+      .prop('placeholder', bind);
     const button = $('<button class="glyphicon glyphicon-remove-sign">')
       .on('click', () => {
         if (temp === '') return;

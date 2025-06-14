@@ -47,11 +47,11 @@ wrap(() => {
       updateToast?.close('stale');
       if (data.announce) return;
       updateToast = Toast({
-        title: Translation.Toast('update.title').translate(),
-        text: Translation.Toast('update.text', data.newVersion).translate(),
+        title: Translation.Toast('update.title'),
+        text: Translation.Toast('update.text').withArgs(data.newVersion),
         className: 'dismissable',
         buttons: [{
-          text: Translation.Toast('update').translate(),
+          text: Translation.Toast('update'),
           className: 'dismiss',
           css: buttonCSS,
           onclick() {

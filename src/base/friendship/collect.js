@@ -98,7 +98,7 @@ eventManager.on('Friendship:results', (error) => {
   toast({
     title: new Translation('toast.friendship', {
       fallback: 'Claimed Friendship Rewards',
-    }).translate(),
+    }),
     text: lines.join('<br>'),
   });
   updateButton();
@@ -112,10 +112,10 @@ eventManager.on('Friendship:loaded', () => {
 eventManager.on(':preload:Friendship', () => {
   button = $('<button class="btn btn-info">Collect All</button>');
   setting.on(setupButton);
-  button.on('click.script', collect);
+  button.on('click.script', collect)
+    .hover(hover.show(Translation.General('collect.note')));
   eventManager.on('underscript:ready', () => {
     button.text(Translation.General('collect'));
-    button.hover(hover.show(Translation.General('collect.note')));
   });
   $('p[data-i18n="[html]crafting-all-cards"]').css('display', 'inline-block').after(' ', button);
 });

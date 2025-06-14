@@ -57,8 +57,6 @@ onPage('', function refreshGameList() {
   document.addEventListener('visibilitychange', refresh);
   // Queue initial refresh
   setup();
-  eventManager.on('underscript:ready', () => {
-    const text = Translation.Toast('gamelist.refresh').translate();
-    infoToast(text, 'underscript.notice.refreshIndex', '1');
-  });
+  const text = Translation.Toast('gamelist.refresh');
+  infoToast(text, 'underscript.notice.refreshIndex', '1');
 });

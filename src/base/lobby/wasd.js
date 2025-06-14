@@ -2,13 +2,13 @@ import eventManager from 'src/utils/eventManager.js';
 import * as settings from 'src/utils/settings/index.js';
 import { global, globalSet } from 'src/utils/global.js';
 import onPage from 'src/utils/onPage.js';
+import Translation from 'src/structures/constants/translation';
 
-// TODO: translation
 const setting = settings.register({
-  name: 'Use WASD',
+  name: Translation.Setting('minigame.wasd'),
   key: 'underscript.minigames.wasd',
   page: 'Lobby',
-  category: 'Minigames',
+  category: Translation.CATEGORY_MINIGAMES,
 });
 
 function onCreate() {

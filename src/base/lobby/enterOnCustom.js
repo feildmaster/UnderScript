@@ -1,11 +1,11 @@
 import eventManager from 'src/utils/eventManager.js';
 import { infoToast } from 'src/utils/2.toasts.js';
 import { window } from 'src/utils/1.variables.js';
+import Translation from 'src/structures/constants/translation';
 
-// TODO: translation
 eventManager.on(':load:GamesList', () => {
   let toast = infoToast({
-    text: 'You can now press enter on the Create Game window.',
+    text: Translation.Toast('custom.enter'),
     onClose: (reason) => {
       toast = null;
       // return reason !== 'processed';
@@ -20,9 +20,7 @@ eventManager.on(':load:GamesList', () => {
       $(input[0]).focus();
       input.on('keydown.script', (e) => {
         if (e.key === 'Enter') {
-          if (toast) {
-            toast.close('processed');
-          }
+          toast?.close('processed');
           e.preventDefault();
           $('.bootstrap-dialog-footer-buttons button:first').trigger('click');
         }

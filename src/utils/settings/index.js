@@ -297,7 +297,7 @@ export function open(page = 'main') {
     return;
   }
   dialog.open({
-    title: Translation.Setting('title').translate(),
+    title: `${Translation.Setting('title')}`,
     // size: 'size-wide',
     message() {
       return getScreen().render(true);

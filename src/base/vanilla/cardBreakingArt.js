@@ -1,21 +1,28 @@
+import Translation from 'src/structures/constants/translation';
 import eventManager from 'src/utils/eventManager.js';
 import * as settings from 'src/utils/settings/index.js';
 import style from 'src/utils/style.js';
 import VarStore from 'src/utils/VarStore.js';
+import { getTranslationArray } from '../underscript/translation.js';
 
-// TODO: translation
 const def = 'Breaking (Default)';
 const tran = 'Covered (Transparent)';
 const dis = 'Covered';
 
 const setting = settings.register({
-  // TODO: translation
-  name: 'Breaking Card Art Behavior',
+  name: Translation.Setting('skins.breaking'),
   key: 'underscript.hide.breaking-skin',
-  options: [def, tran, dis],
+  options: () => {
+    const { key } = Translation.Setting('skins.breaking.option');
+    const options = getTranslationArray(key);
+    return [def, tran, dis].map((val, i) => [
+      options[i],
+      val,
+    ]);
+  },
   page: 'Library',
   onChange: update,
-  category: 'Card Skins',
+  category: Translation.CATEGORY_CARD_SKINS,
   converter(value) {
     switch (value) {
       case '0': return def;

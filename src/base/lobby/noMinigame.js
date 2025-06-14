@@ -2,14 +2,15 @@ import * as settings from 'src/utils/settings/index.js';
 import { global, globalSet } from 'src/utils/global.js';
 import onPage from 'src/utils/onPage.js';
 import compound from 'src/utils/compoundEvent.js';
+import Translation from 'src/structures/constants/translation';
 
 // TODO: translation
 const setting = settings.register({
-  name: 'Disable',
+  name: Translation.Setting('minigame'),
   key: 'underscript.minigames.disabled',
   page: 'Lobby',
   refresh: onPage('Play'),
-  category: 'Minigames',
+  category: Translation.CATEGORY_MINIGAMES,
 });
 
 compound(':preload:Play', 'pre:getJoinedQueue', () => {

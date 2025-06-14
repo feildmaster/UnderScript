@@ -138,14 +138,14 @@ export function unregister(plugin) {
 
 function notify(text, addButton = false) {
   if (toast?.exists()) {
-    toast.setText(text);
+    toast.setText(`${text}`);
   } else {
     toast = Toast({
-      title: keys.toast.translate(),
+      title: keys.toast,
       text,
       className: 'dismissable',
       buttons: addButton ? {
-        text: keys.button.translate(),
+        text: keys.button,
         className: 'dismiss',
         css: buttonCSS,
         onclick: open,
@@ -181,9 +181,9 @@ async function check(auto = true) {
   const updateFound = [...pendingUpdates.values()].filter(({ announce = true }) => announce).length;
   if (updateFound) {
     finish();
-    notify(keys.available.translate(updateFound), true);
+    notify(keys.available.withArgs(updateFound), true);
   } else {
-    notify(keys.available.translate(0));
+    notify(keys.available.withArgs(0));
     const delay = !auto ? 3000 : 1000;
     sleep(delay).then(finish);
   }
@@ -215,7 +215,7 @@ function setup() {
 
 function open() {
   dialog.open({
-    title: keys.title.translate(),
+    title: `${keys.title}`,
     cssClass: 'underscript-dialog updates',
     message: build,
   });
@@ -245,7 +245,7 @@ menu.addButton({
 eventManager.on(':update', (auto) => {
   toast?.close();
   if (auto && silent.value()) return;
-  notify(keys.checking.translate());
+  notify(keys.checking);
 });
 
 // Load pending updates
@@ -268,7 +268,7 @@ function build() {
   function refreshButton() {
     if (addedRefresh) return;
     dialog.prependButton({
-      label: Translation.General('refresh').translate(),
+      label: `${Translation.General('refresh')}`,
       cssClass: 'btn-success',
       action() {
         location.reload();

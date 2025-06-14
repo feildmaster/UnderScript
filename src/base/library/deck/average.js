@@ -32,7 +32,7 @@ eventManager.on(':preload:Decks', () => {
 
   eventManager.on('Deck:Soul Deck:Change Deck:Loaded', count);
   eventManager.on('underscript:ready', () => {
-    label.text(Translation.General('passive').translate());
-    avg.hover(hover.show(Translation.General('deck.average').translate()));
+    label.text(Translation.General('passive'));
+    avg.hover(hover.show(Translation.General('deck.average')));
   });
 });

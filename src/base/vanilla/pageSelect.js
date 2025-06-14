@@ -3,10 +3,10 @@ import * as settings from 'src/utils/settings/index.js';
 import { global, globalSet } from 'src/utils/global.js';
 import onPage from 'src/utils/onPage.js';
 import sleep from 'src/utils/sleep.js';
+import Translation from 'src/structures/constants/translation';
 
 const disable = settings.register({
-  // TODO: translation
-  name: 'Disable Page Select',
+  name: Translation.Setting('page.select'),
   key: 'underscript.disable.pageselect',
 });
 

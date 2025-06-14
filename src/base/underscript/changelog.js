@@ -51,10 +51,10 @@ function getAxios() {
 function open(message) {
   BootstrapDialog.show({
     message,
-    title: keys.title.translate(),
+    title: `${keys.title}`,
     cssClass: 'mono us-changelog',
     buttons: [{
-      label: Translation.CLOSE.translate(),
+      label: `${Translation.CLOSE}`,
       action(self) {
         self.close();
       },
@@ -89,7 +89,7 @@ export function load(version = 'latest', short = false) {
   get(version, short).catch((e) => {
     // eslint-disable-next-line no-console
     console.error(e);
-    return keys.unavailable.translate();
+    return `${keys.unavailable}`;
   }).then((m) => container.html(m));
 }
 

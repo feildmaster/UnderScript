@@ -1,3 +1,4 @@
+import Translation from 'src/structures/constants/translation';
 import wrap from 'src/utils/2.pokemon.js';
 import eventManager from 'src/utils/eventManager.js';
 
@@ -27,8 +28,10 @@ wrap(() => {
     const block = document.createElement('div');
     const h3 = document.createElement('h3');
     h3.classList.add('event-title');
-    // TODO: translation
     h3.textContent = 'Completed Quests';
+    eventManager.on('underscript:ready', () => {
+      h3.textContent = Translation.General('quest.pending');
+    });
     const table = document.createElement('table');
     table.classList.add('table', 'questTable');
     const tbody = document.createElement('tbody');
