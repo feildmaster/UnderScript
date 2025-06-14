@@ -1,6 +1,12 @@
 import Translation from 'src/structures/constants/translation.js';
 import { buttonCSS } from './1.variables.js';
 import merge from './merge.js';
+import eventManager from './eventManager.js';
+import toArray from './toArray.js';
+
+let ready = false;
+
+eventManager.on('underscript:ready', () => ready = true);
 
 export function blankToast() {
   return new SimpleToast();
@@ -13,6 +19,11 @@ export function toast(arg) {
       text: arg,
     };
   }
+  const isTranslation = [
+    arg.text,
+    arg.title,
+    ...toArray(arg.buttons).map(({ text }) => text),
+  ].some((obj) => obj instanceof Translation);
   const defaults = {
     footer: 'via UnderScript',
     css: {
@@ -24,7 +35,15 @@ export function toast(arg) {
       },
     },
   };
-  return new SimpleToast(merge(defaults, arg));
+  if (ready && isTranslation) preprocess(arg);
+  const slice = new SimpleToast(merge(defaults, arg));
+  if (!ready && isTranslation && slice.exists()) {
+    const el = $('#AlertToast > div:last');
+    eventManager.on('underscript:ready', () => {
+      process(slice, el, arg);
+    });
+  }
+  return slice;
 }
 
 export function errorToast(error) {
@@ -37,7 +56,7 @@ export function errorToast(error) {
   }
 
   const lToast = {
-    title: error.name || error.title || Translation.ERROR.translate(),
+    title: error.name || error.title || Translation.ERROR,
     text: error.message || error.text || getStack(error.error || error) || error,
     css: {
       'background-color': 'rgba(200,0,0,0.6)',
@@ -68,7 +87,7 @@ export function infoToast(arg, key, val = '1') {
     },
   };
   const defaults = {
-    title: Translation.INFO.translate(),
+    title: Translation.INFO,
     css: {
       'font-family': 'inherit',
     },
@@ -79,7 +98,7 @@ export function infoToast(arg, key, val = '1') {
 export function dismissable({ title, text, key, value = 'true', css = {} }) {
   if (localStorage.getItem(key) === value) return undefined;
   const buttons = {
-    text: Translation.DISMISS.translate(),
+    text: Translation.DISMISS,
     className: 'dismiss',
     css: buttonCSS,
     onclick: (e) => {
@@ -92,5 +111,23 @@ export function dismissable({ title, text, key, value = 'true', css = {} }) {
     buttons,
     className: 'dismissable',
     css,
+  });
+}
+
+function preprocess(arg) {
+  ['text', 'title'].forEach((prop) => {
+    if (arg[prop] instanceof Translation) arg[prop] = `${arg[prop]}`;
+  });
+  toArray(arg.buttons).forEach((button) => {
+    if (button.text instanceof Translation) button.text = `${button.text}`;
+  });
+}
+
+function process(instance, el, { text, title, buttons }) {
+  if (text instanceof Translation) instance.setText(`${text}`);
+  if (title instanceof Translation) el.find('> span:first').text(title);
+  const $buttons = el.find('> button');
+  toArray(buttons).forEach((button, i) => {
+    if (button.text instanceof Translation) $buttons[i].textContent = button.text;
   });
 }
