@@ -16,6 +16,7 @@ const setting = settings.register({
 });
 
 let reminded = false;
+const failed = Translation.Toast('friend.delete.failed', 1);
 
 function remove(e) {
   if (!setting.value()) return;
@@ -30,21 +31,19 @@ function process(btn) {
   axios.get(link).then((response) => {
     const onlineFriends = $(response.data).find(`#onlineFriends`);
     if (!onlineFriends.length) {
-      // TODO: translation
-      errorToast('Try logging back in');
+      errorToast(Translation.Toast('login'));
       return;
     }
     const found = decrypt(onlineFriends).find(`a[href="${link}"]`);
     if (found.length) {
-      // TODO: translation
-      toast(`Failed to remove: ${found.parent().find('span:nth-child(3)').text()}`);
+      const name = found.parent().find('span:nth-child(3)').text();
+      toast(failed.withArgs(name));
       btn.appendTo(parent);
     } else {
       if (!reminded) {
         toast({
-          // TODO: translation
-          title: 'Please note:',
-          text: 'Friends list will be updated upon refresh.',
+          title: Translation.Toast('note'),
+          text: Translation.Toast('friend.delete'),
         });
         reminded = true;
       }

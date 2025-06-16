@@ -5,10 +5,11 @@ import { toast } from 'src/utils/2.toasts.js';
 import onPage from 'src/utils/onPage.js';
 import decrypt from 'src/utils/decrypt.emails.js';
 import * as $el from 'src/utils/elementHelper.js';
+import Translation from 'src/structures/constants/translation';
+import style from 'src/utils/style';
 
 const setting = settings.register({
-  // TODO: translation
-  name: 'Add friends without refreshing',
+  name: Translation.Setting('friend.add'),
   key: 'underscript.friend.add',
   default: true,
   page: 'Friends',
@@ -17,6 +18,9 @@ const setting = settings.register({
 onPage('Friends', function addFriend() {
   const single = true;
   const input = document.querySelector('input[name="username"]');
+  const sent = Translation.Toast('friend.request.sent');
+  const failed = Translation.Toast('friend.request.failed');
+  style.add('.green { color: green; }');
 
   function submit() {
     if (typeof URLSearchParams === 'undefined' || !setting.value()) return undefined;
@@ -32,10 +36,8 @@ onPage('Friends', function addFriend() {
         const result = page.querySelector('form[action="Friends"] + p');
         if (result) {
           const success = result.classList.contains('green');
-          toast({
-            // TODO: translation
-            text: `<p style="color: ${success ? 'green' : 'red'}">${success ? 'Sent' : 'Failed to send'} friend request to ${name}</p>`,
-          });
+          const text = success ? sent : failed;
+          toast(text.withArgs(name));
           if (success) {
             const element = $el.text.contains(decrypt(page).querySelectorAll('a[href^="Friends?delete="]'), `${name} LV`, { mutex, single });
             $el.text.contains(document.querySelectorAll('p'), 'Pending requests', { single }).parentElement.append(element);

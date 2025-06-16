@@ -63,6 +63,7 @@
   ],
   "fishday": "Disable April Fools Jokes",
   "fishday.note": "Disables *almost* everything.",
+  "friend.add": "Add friends without refreshing",
   "friend.auto": "Disable",
   "friend.auto.ignore": "Include ignored chat users",
   "friend.auto.silent": "Silent",
