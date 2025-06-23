@@ -96,7 +96,7 @@ export default class AdvancedMap extends Setting {
         simpleLookup = true;
       }
       if (!right.find(`#${options.key}.value`).length) {
-        right.attr('id', `#${options.key}.value`);
+        right.attr('id', `${options.key}.value`);
       }
       cacheLeftValue();
       refresh();
