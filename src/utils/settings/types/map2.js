@@ -104,10 +104,11 @@ export default class AdvancedMap extends Setting {
       container.append(line.append(left, ' : ', right, button, warning));
     };
     data.forEach(add);
+    const { defaultKey, defaultValue } = mapData;
     return $('<button class="btn btn-success glyphicon glyphicon-plus">').on('click', () => {
       const item = [
-        this.#keyType.default(dataKey) ?? '',
-        this.#valueType.default(dataValue) ?? '',
+        defaultKey ?? this.#keyType.default(dataKey) ?? '',
+        defaultValue ?? this.#valueType.default(dataValue) ?? '',
       ];
       data.push(item);
       add(item, entries);
@@ -164,9 +165,9 @@ export default class AdvancedMap extends Setting {
   }
 }
 
-function getData({ key, keyData, leftData, value, valueData, rightData } = {}, secondary = false) {
+function getData({ dataKey, dataValue, key, keyData, leftData, value, valueData, rightData } = {}, secondary = false) {
   if (secondary) {
-    return value || valueData || rightData;
+    return value || dataValue || valueData || rightData;
   }
-  return key || keyData || leftData;
+  return key || dataKey || keyData || leftData;
 }
