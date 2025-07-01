@@ -4,7 +4,6 @@ import { global, globalSet } from 'src/utils/global.js';
 import style from 'src/utils/style.js';
 import * as fnUser from 'src/utils/user.js';
 import { debug } from 'src/utils/debug.js';
-import css from 'src/utils/css.js';
 import Translation from 'src/structures/constants/translation.js';
 
 const setting = settings.register({
@@ -18,7 +17,7 @@ let current = false;
 const lists = {};
 style.add(
   // '.chat-footer { position: relative; }', // this bugs the chat
-  css`
+  `
   .autobox {
     position: absolute;
     border: 1px solid #D4D4D4;
