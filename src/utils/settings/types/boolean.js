@@ -5,9 +5,12 @@ export default class extends Setting {
     super(name);
   }
 
-  value(val, { extraValue } = {}) {
+  value(val, { extraValue, reverse = false } = {}) {
     if (typeof val === 'boolean') return val;
-    return ['1', 'true', 1, `${extraValue}`].includes(val);
+    const truthy = ['1', 'true', 1];
+    if (extraValue) truthy.push(`${extraValue}`);
+    const ret = truthy.includes(val);
+    return reverse ? !ret : ret;
   }
 
   element(value, update, {
@@ -18,8 +21,8 @@ export default class extends Setting {
       .on('change.script', (e) => update(getValue(e.target, remove)));
   }
 
-  default() {
-    return false;
+  default({ reverse } = {}) {
+    return !!reverse;
   }
 
   labelFirst() {
