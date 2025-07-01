@@ -11,7 +11,7 @@ import style from 'src/utils/style';
 const setting = settings.register({
   name: Translation.Setting('friend.add'),
   key: 'underscript.friend.add',
-  default: true,
+  data: { reverse: true },
   page: 'Friends',
 });
 

@@ -5,13 +5,15 @@ import { infoToast } from 'src/utils/2.toasts.js';
 import style from 'src/utils/style.js';
 
 const tag = settings.register({
+  // TODO: Translation
   name: 'Highlight <span class="friend">friends</span> in chat',
   key: 'underscript.tag.friend',
-  default: true,
+  data: { reverse: true },
   page: 'Chat',
 });
 
 const color = settings.register({
+  // TODO: Translation
   name: 'Friend color',
   key: 'underscript.tag.friend.color',
   type: 'color',
@@ -21,6 +23,8 @@ const color = settings.register({
   reset: true,
 });
 
+const friendColor = style.add();
+
 setColor(color.value());
 
 let toast;
@@ -28,6 +32,7 @@ function processMessage(message, room) {
   if (!tag.value()) return;
   if (global('isFriend')(message.user.id)) {
     if (!toast) {
+      // TODO: Translation
       toast = infoToast('<span class="friend">Friends</span> are now highlighted in chat.', 'underscript.notice.highlighting', '1');
     }
     $(`#${room} #message-${message.id} .chat-user`).addClass('friend');
@@ -47,5 +52,5 @@ eventManager.on('Chat:getMessage', function tagFriends(data) {
 });
 
 function setColor(newColor) {
-  style.add(`.friend { color: ${newColor} !important; }`);
+  friendColor.replace(`.friend { color: ${newColor} !important; }`);
 }

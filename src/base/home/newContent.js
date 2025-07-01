@@ -5,43 +5,36 @@ import onPage from 'src/utils/onPage.js';
 import cleanData from 'src/utils/cleanData.js';
 import Translation from 'src/structures/constants/translation';
 
-const category = Translation.CATEGORY_HOME;
-
+const base = {
+  data: { reverse: true },
+  refresh: () => onPage(''),
+  category: Translation.CATEGORY_HOME,
+};
 const bundle = settings.register({
+  ...base,
   name: Translation.Setting('toast.bundle'),
   key: 'underscript.toast.bundle',
-  default: true,
-  refresh: () => onPage(''),
-  category,
   // TODO: Always hide bundles?
 });
 const skin = settings.register({
+  ...base,
   name: Translation.Setting('toast.skins'),
   key: 'underscript.toast.skins',
-  default: true,
-  refresh: () => onPage(''),
-  category,
 });
 const emotes = settings.register({
+  ...base,
   name: Translation.Setting('toast.emotes'),
   key: 'underscript.toast.emotes',
-  default: true,
-  refresh: () => onPage(''),
-  category,
 });
 const quest = settings.register({
+  ...base,
   name: Translation.Setting('toast.pass'),
   key: 'underscript.toast.quests',
-  default: true,
-  refresh: () => onPage(''),
-  category,
 });
 const card = settings.register({
+  ...base,
   name: Translation.Setting('toast.cards'),
   key: 'underscript.toast.cards',
-  default: true,
-  refresh: () => onPage(''),
-  category,
 });
 
 eventManager.on(':preload:', function toasts() {

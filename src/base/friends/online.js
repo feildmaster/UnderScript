@@ -9,7 +9,7 @@ import Translation from 'src/structures/constants/translation';
 const setting = settings.register({
   name: Translation.Setting('friend.online'),
   key: 'underscript.enable.onlinefriends',
-  default: true,
+  data: { reverse: true },
   page: 'Friends',
 });
 let popper;

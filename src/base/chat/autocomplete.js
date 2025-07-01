@@ -9,7 +9,7 @@ import Translation from 'src/structures/constants/translation.js';
 const setting = settings.register({
   name: Translation.Setting('autocomplete'),
   key: 'underscript.autocomplete',
-  default: true,
+  data: { reverse: true },
   page: 'Chat',
 });
 
