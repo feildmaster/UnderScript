@@ -1,3 +1,4 @@
+import charCount from './charCount.js';
 import eventManager from './eventManager.js';
 import last from './last.js';
 
@@ -7,7 +8,7 @@ export function newStyle(plugin = false) {
   const el = document.createElement('style');
   function appendStyle() {
     if (el.parentElement) return;
-    if (plugin) el.dataset.underscriptPlugin = plugin;
+    if (plugin) el.dataset.underscriptPlugin = plugin.name;
     else el.dataset.underscript = '';
     document.head.append(el);
   }
@@ -26,6 +27,11 @@ export function newStyle(plugin = false) {
 
   function append(styles = [], nodes = []) {
     styles.flat().forEach((s) => {
+      if (charCount(s, '{') !== charCount(s, '}')) {
+        const logger = plugin?.logger ?? console;
+        logger.error('Malformed CSS (missing { or }):\n', s);
+        return;
+      }
       el.append(s);
       nodes.push(last(el.childNodes));
     });

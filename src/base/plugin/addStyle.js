@@ -14,7 +14,7 @@ wrap(() => {
   }
 
   function mod(plugin) {
-    return (...styles) => getStyle(plugin.name).add(...styles);
+    return (...styles) => getStyle(plugin).add(...styles);
   }
 
   registerModule(name, mod);
