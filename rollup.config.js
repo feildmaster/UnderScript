@@ -62,7 +62,7 @@ export default [{
     name: 'ucs',
     file: 'dist/undercards.user.js',
     banner: meta,
-    format: 'module', // module, iife
+    format: 'iife', // module, iife
     esModule: false,
     exports: 'none',
     preferConst: true,
