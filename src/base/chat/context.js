@@ -7,7 +7,6 @@ import each from 'src/utils/each.js';
 import * as fnUser from 'src/utils/user.js';
 import ignoreUser from 'src/utils/ignoreUser.js';
 import decode from 'src/utils/decode.js';
-import css from 'src/utils/css.js';
 import { buttonCSS, window } from 'src/utils/1.variables.js';
 import Translation from 'src/structures/constants/translation';
 
@@ -17,7 +16,7 @@ const setting = settings.register({
   page: 'Chat',
 });
 
-style.add(css`
+style.add(`
   .chatContext {
     background-color: #F4F4F4;
     margin: 10px;

@@ -1,4 +1,5 @@
 import eventManager from './eventManager.js';
+import last from './last.js';
 
 // Custom CSS classes are great.
 export function newStyle(plugin = false) {
@@ -15,17 +16,18 @@ export function newStyle(plugin = false) {
   });
 
   function add(...styles) {
-    const hasChildren = styles.length || el.children.length;
-    if (loaded && hasChildren) appendStyle();
-    else if (!loaded) eventManager.once(':preload', () => appendStyle());
+    const hasChildren = styles.length + el.children.length;
+    if (hasChildren) {
+      if (loaded) appendStyle();
+      else eventManager.once(':preload', () => appendStyle());
+    }
     return wrapper(append(styles));
   }
 
   function append(styles = [], nodes = []) {
     styles.flat().forEach((s) => {
-      const node = document.createTextNode(s);
-      nodes.push(node);
-      el.appendChild(node);
+      el.append(s);
+      nodes.push(last(el.childNodes));
     });
     return nodes;
   }

@@ -17,7 +17,7 @@ import DialogHelper from '../DialogHelper.js';
 
 const defaultSetting = new RegisteredSetting();
 
-style.add(styles.split('\n\n'));
+style.add(styles);
 
 /**
  * @type {{[key: string]: RegisteredSetting}}

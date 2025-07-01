@@ -3,7 +3,6 @@ import wrap from 'src/utils/2.pokemon.js';
 import { noop, scriptVersion } from 'src/utils/1.variables.js';
 import style from 'src/utils/style.js';
 import { toast } from 'src/utils/2.toasts.js';
-import css from 'src/utils/css.js';
 import Translation from 'src/structures/constants/translation';
 import eventManager from 'src/utils/eventManager';
 import * as changelog from './changelog.js';
@@ -33,7 +32,7 @@ wrap(function patchNotes() {
     installed.value() === scriptVersion
   ) return;
 
-  style.add(css`
+  style.add(`
     #AlertToast div.uschangelog span:nth-of-type(2) {
       max-height: 300px;
       overflow-y: auto;

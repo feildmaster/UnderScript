@@ -4,7 +4,6 @@ import debugToast from 'src/utils/debugToast';
 import { toast as Toast } from 'src/utils/2.toasts.js';
 import semver from 'src/utils/version.js';
 import { buttonCSS, scriptVersion, window } from 'src/utils/1.variables.js';
-import css from 'src/utils/css.js';
 import createParser from 'src/utils/parser';
 import eventManager from 'src/utils/eventManager';
 import {
@@ -18,7 +17,7 @@ import Translation from 'src/structures/constants/translation';
 
 // Check for script updates
 wrap(() => {
-  style.add(css`
+  style.add(`
     #AlertToast h2,
     #AlertToast h3 {
       margin: 0;

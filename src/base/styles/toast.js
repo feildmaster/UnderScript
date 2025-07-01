@@ -1,7 +1,6 @@
-import css from 'src/utils/css.js';
 import style from 'src/utils/style.js';
 
-style.add(css`
+style.add(`
   #AlertToast {
     height: 0;
   }
