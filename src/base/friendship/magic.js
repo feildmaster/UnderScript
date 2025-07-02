@@ -27,7 +27,7 @@ function getFriendship() {
     if (!items.length) return;
 
     toast({
-      title: Translation.Setting('friendship.notification'),
+      title: Translation.Toast('friendship.notification'),
       text: `- ${items.join('\n- ')}`,
       className: 'dismissable',
       buttons: {
