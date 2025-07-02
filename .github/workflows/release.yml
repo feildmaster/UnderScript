@@ -33,7 +33,7 @@ jobs:
       with:
         registry-url: "https://registry.npmjs.org"
     - name: Install dependencies
-      run: npm install
+      run: npm install --include=dev
     - name: Parse Changelog # Exits if changelog not found
       id: changelog
       env:
