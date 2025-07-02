@@ -13,13 +13,13 @@ const category = Translation.Setting('category.chat.ping');
 const setting = settings.register({
   name: Translation.Setting('ping.toast'),
   key: 'underscript.enable.pingToast',
-  data: { reverse: true },
+  default: true,
   category,
   page: 'Chat',
 });
 
 export const globalPing = settings.register({
-  name: Translation.Setting('ping.global'),
+  name: Translation.Setting('ping.toast'),
   key: 'underscript.enable.ping.global',
   category,
   page: 'Chat',

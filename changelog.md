@@ -1,5 +1,9 @@
 # UnderScript Changelog
 
+## Version 0.63.1 (2025-07-02)
+1. Reverted "reversed settings"
+  - They were completely broken
+
 ## Version 0.63.0 (2025-07-01)
 Over 5000 line changes~ (in 250 files)
 ### Features

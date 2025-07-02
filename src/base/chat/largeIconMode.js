@@ -8,7 +8,7 @@ import style from 'src/utils/style.js';
 const setting = settings.register({
   name: Translation.Setting('large.avatar'),
   key: 'underscript.chat.largeIcons',
-  data: { reverse: true },
+  default: true,
   page: 'Chat',
   onChange: update,
 });

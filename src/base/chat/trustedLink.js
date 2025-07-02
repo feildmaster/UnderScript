@@ -13,7 +13,7 @@ const base = {
 const setting = settings.register({
   ...base,
   name: Translation.Setting('safelink'),
-  data: { reverse: true },
+  default: true,
   key: 'underscript.enabled.safelink',
 });
 

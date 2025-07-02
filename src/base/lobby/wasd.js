@@ -4,8 +4,8 @@ import { global, globalSet } from 'src/utils/global.js';
 import onPage from 'src/utils/onPage.js';
 import Translation from 'src/structures/constants/translation.ts';
 
-const disable = settings.register({
-  name: Translation.Setting('minigame.keys'),
+const setting = settings.register({
+  name: Translation.Setting('minigame.wasd'),
   key: 'underscript.minigames.wasd',
   page: 'Lobby',
   category: Translation.CATEGORY_MINIGAMES,
@@ -13,7 +13,7 @@ const disable = settings.register({
 
 function onCreate() {
   this.super();
-  if (disable.value()) return;
+  if (!setting.value()) return;
   const game = global('game');
   const KeyCode = global('Phaser').KeyCode;
   const cursors = game.input.keyboard.addKeys({ up: KeyCode.W, down: KeyCode.S, left: KeyCode.A, right: KeyCode.D });
