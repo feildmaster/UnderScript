@@ -20,7 +20,7 @@ jobs:
       id: check
   latest:
     name: Publish Latest
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: check
     if: contains(github.ref, 'master') && needs.check.outputs.changed == 'true' && needs.check.outputs.beta != 'true'
     steps:
