@@ -3,7 +3,7 @@ import * as settings from 'src/utils/settings/index.js';
 import { global } from 'src/utils/global.js';
 import { toast as SimpleToast } from 'src/utils/2.toasts.js';
 import { self, name } from 'src/utils/user.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 const category = Translation.Setting('category.announce.draw');
 

@@ -1,7 +1,7 @@
 import eventManager from 'src/utils/eventManager.js';
 import * as settings from 'src/utils/settings/index.js';
 import { global } from 'src/utils/global.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 const volume = settings.register({
   name: Translation.Setting('volume.match.found'),

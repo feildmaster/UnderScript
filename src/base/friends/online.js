@@ -4,7 +4,7 @@ import { global } from 'src/utils/global.js';
 import * as hover from 'src/utils/hover.js';
 import style from 'src/utils/style.js';
 import { name } from 'src/utils/user.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 const setting = settings.register({
   name: Translation.Setting('friend.online'),

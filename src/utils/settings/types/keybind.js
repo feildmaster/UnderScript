@@ -1,5 +1,5 @@
 import { translateText } from 'src/utils/translate.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 import Text from './text.js';
 
 const baseLabels = {

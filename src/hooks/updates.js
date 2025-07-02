@@ -6,7 +6,7 @@ import * as menu from 'src/utils/menu';
 import * as settings from 'src/utils/settings';
 import each from 'src/utils/each';
 import wrap from 'src/utils/2.pokemon';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 import { buttonCSS, DAY, HOUR, scriptVersion, UNDERSCRIPT } from 'src/utils/1.variables';
 import sleep from 'src/utils/sleep';
 import createParser from 'src/utils/parser';

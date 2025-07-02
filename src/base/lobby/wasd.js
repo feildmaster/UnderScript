@@ -2,7 +2,7 @@ import eventManager from 'src/utils/eventManager.js';
 import * as settings from 'src/utils/settings/index.js';
 import { global, globalSet } from 'src/utils/global.js';
 import onPage from 'src/utils/onPage.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 const disable = settings.register({
   name: Translation.Setting('minigame.keys'),

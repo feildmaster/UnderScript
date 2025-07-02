@@ -4,7 +4,7 @@ import { global } from 'src/utils/global.js';
 import { toast } from 'src/utils/2.toasts.js';
 import isFriend from 'src/utils/isFriend.js';
 import { self, name } from 'src/utils/user.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 const category = Translation.Setting('category.announce.user');
 

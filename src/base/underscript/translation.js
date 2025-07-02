@@ -1,4 +1,4 @@
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 import clone from 'src/utils/clone';
 import eventManager from 'src/utils/eventManager';
 

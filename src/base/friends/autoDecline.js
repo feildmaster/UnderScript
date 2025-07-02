@@ -7,7 +7,7 @@ import onPage from 'src/utils/onPage.js';
 import * as hover from 'src/utils/hover.js';
 import each from 'src/utils/each.js';
 import { captureError } from 'src/utils/sentry.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 const disabled = settings.register({
   name: Translation.Setting('friend.auto'),

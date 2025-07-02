@@ -3,7 +3,7 @@ import axios from 'axios';
 import { scriptVersion } from 'src/utils/1.variables.js';
 import style from 'src/utils/style.js';
 import * as menu from 'src/utils/menu.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 const changelog = {};
 

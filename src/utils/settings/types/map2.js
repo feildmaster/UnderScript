@@ -1,4 +1,4 @@
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 import Setting from './map.js';
 import SettingType from './setting.js';
 import { getSettingType, isSettingType } from '../settingRegistry.js';

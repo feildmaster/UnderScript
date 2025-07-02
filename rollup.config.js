@@ -103,7 +103,7 @@ export default [{
     typescript({
       outDir: './dist',
       target: 'ES2023',
-      tsconfig: './src/tsconfig.json',
+      tsconfig: path.resolve('./src/tsconfig.json'),
     }),
     css(),
     importString({

@@ -1,8 +1,8 @@
 import wrap from 'src/utils/2.pokemon.js';
 import { registerModule } from 'src/utils/plugin.js';
-import { registerPlugin } from 'src/hooks/updates';
+import { registerPlugin } from 'src/hooks/updates.js';
 import * as settings from 'src/utils/settings/index.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 const text = Translation.Setting('update.plugin');
 const setting = settings.register({

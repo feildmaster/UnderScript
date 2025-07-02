@@ -3,7 +3,7 @@ import * as settings from 'src/utils/settings/index.js';
 import { dismissable } from 'src/utils/2.toasts.js';
 import onPage from 'src/utils/onPage.js';
 import cleanData from 'src/utils/cleanData.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 const base = {
   data: { reverse: true },

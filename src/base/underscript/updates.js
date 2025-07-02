@@ -13,7 +13,7 @@ import {
   validate,
 } from 'src/hooks/updates';
 import plugin from 'src/utils/underscript';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 // Check for script updates
 wrap(() => {

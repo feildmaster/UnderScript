@@ -2,7 +2,7 @@ import eventManager from 'src/utils/eventManager.js';
 import * as settings from 'src/utils/settings/index.js';
 import { global } from 'src/utils/global.js';
 import { infoToast } from 'src/utils/2.toasts.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 const command = 'spectate';
 const setting = settings.register({

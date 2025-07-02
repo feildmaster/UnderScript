@@ -8,7 +8,7 @@ import * as fnUser from 'src/utils/user.js';
 import ignoreUser from 'src/utils/ignoreUser.js';
 import decode from 'src/utils/decode.js';
 import { buttonCSS, window } from 'src/utils/1.variables.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 const setting = settings.register({
   name: Translation.Setting('chat.rightclick'),

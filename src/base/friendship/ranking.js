@@ -6,7 +6,7 @@ import { global, globalSet } from 'src/utils/global.js';
 import style from 'src/utils/style.js';
 import each from 'src/utils/each.js';
 import { HOUR } from 'src/utils/1.variables';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 // Add setting to disable, or use top 500 (simple mode)
 const disabled = 'No';

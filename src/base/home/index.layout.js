@@ -2,7 +2,7 @@ import eventManager from 'src/utils/eventManager.js';
 import * as settings from 'src/utils/settings/index.js';
 import onPage from 'src/utils/onPage.js';
 import { window } from 'src/utils/1.variables.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 const setting = settings.register({
   name: Translation.Setting('gamelist'),

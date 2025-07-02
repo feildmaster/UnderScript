@@ -4,7 +4,7 @@ import * as settings from 'src/utils/settings/index.js';
 import { toast } from 'src/utils/2.toasts.js';
 import getLevel from 'src/utils/getFriendshipLevel.js';
 import { buttonCSS as css } from 'src/utils/1.variables.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 const setting = settings.register({
   name: Translation.Setting('friendship.notification'),

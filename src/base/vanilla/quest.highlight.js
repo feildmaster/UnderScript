@@ -5,7 +5,7 @@ import onPage from 'src/utils/onPage.js';
 import style from 'src/utils/style.js';
 import $el from 'src/utils/elementHelper.js';
 import { fetch } from 'src/utils/quests.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 wrap(() => {
   const setting = settings.register({

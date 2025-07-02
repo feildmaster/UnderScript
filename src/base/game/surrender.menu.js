@@ -2,7 +2,7 @@ import eventManager from 'src/utils/eventManager.js';
 import { global } from 'src/utils/global.js';
 import onPage from 'src/utils/onPage.js';
 import * as menu from 'src/utils/menu.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 onPage('Game', () => {
   // Unbind the "surrender" hotkey

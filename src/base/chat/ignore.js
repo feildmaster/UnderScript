@@ -5,7 +5,7 @@ import { global } from 'src/utils/global.js';
 import * as fnUser from 'src/utils/user.js';
 import pendingIgnore from 'src/utils/pendingIgnore.js';
 import { debug } from 'src/utils/debug.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 const setting = settings.register({
   name: Translation.Setting('ignore'),

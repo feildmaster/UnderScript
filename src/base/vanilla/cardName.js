@@ -3,7 +3,7 @@ import * as settings from 'src/utils/settings/index.js';
 import { globalSet } from 'src/utils/global.js';
 import { toEnglish } from 'src/utils/toLocale.js';
 import { window } from 'src/utils/1.variables.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 const setting = settings.register({
   name: Translation.Setting('card.name.english'),

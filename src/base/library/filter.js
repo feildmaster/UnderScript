@@ -4,7 +4,7 @@ import { global, globalSet } from 'src/utils/global.js';
 import style from 'src/utils/style.js';
 import onPage from 'src/utils/onPage.js';
 import { max } from 'src/utils/cardHelper.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 import { getTranslationArray } from '../underscript/translation.js';
 
 export const crafting = onPage('Crafting');

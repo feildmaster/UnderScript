@@ -5,7 +5,7 @@ import { infoToast } from 'src/utils/2.toasts.js';
 import onPage from 'src/utils/onPage.js';
 import style from 'src/utils/style.js';
 import * as cardHelper from 'src/utils/cardHelper.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 const setting = settings.register({
   name: Translation.Setting('craft.border'),

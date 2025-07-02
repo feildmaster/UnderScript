@@ -3,7 +3,7 @@ import * as settings from 'src/utils/settings/index.js';
 import * as api from 'src/utils/4.api.js';
 import { toast } from 'src/utils/2.toasts.js';
 import * as menu from 'src/utils/menu.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 const silent = 'Yes (silent)';
 const disabled = 'No';

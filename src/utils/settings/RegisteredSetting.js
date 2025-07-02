@@ -1,4 +1,4 @@
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 import EventEmitter from '../eventEmitter.js';
 import { translateText } from '../translate.js';
 import SettingType from './types/setting.js';

@@ -3,7 +3,7 @@ import wrap from 'src/utils/2.pokemon.js';
 import { noop, scriptVersion } from 'src/utils/1.variables.js';
 import style from 'src/utils/style.js';
 import { toast } from 'src/utils/2.toasts.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 import eventManager from 'src/utils/eventManager';
 import * as changelog from './changelog.js';
 

@@ -1,4 +1,4 @@
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 import eventEmitter from './eventEmitter.js';
 
 export default class DialogHelper {

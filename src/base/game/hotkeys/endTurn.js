@@ -5,7 +5,7 @@ import { infoToast } from 'src/utils/2.toasts.js';
 import Hotkey from 'src/utils/hotkey.class.js';
 import { buttonCSS as css, hotkeys } from 'src/utils/1.variables.js';
 import { BUTTON as MOUSE_BUTTON } from 'src/utils/mouse.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 const fullDisable = settings.register({
   name: Translation.Setting('endTurn'),

@@ -4,7 +4,7 @@ import { global } from 'src/utils/global.js';
 import { errorToast } from 'src/utils/2.toasts.js';
 import { debug } from 'src/utils/debug.js';
 import isFriend from 'src/utils/isFriend.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 const name = Translation.Setting('custom.friends');
 const setting = settings.register({

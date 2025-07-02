@@ -5,7 +5,7 @@ import { toast } from 'src/utils/2.toasts.js';
 import onPage from 'src/utils/onPage.js';
 import decrypt from 'src/utils/decrypt.emails.js';
 import * as $el from 'src/utils/elementHelper.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 import style from 'src/utils/style';
 
 const setting = settings.register({

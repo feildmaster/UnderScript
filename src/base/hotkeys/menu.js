@@ -1,6 +1,6 @@
 import { hotkeys } from 'src/utils/1.variables.js';
 import Hotkey from 'src/utils/hotkey.class.js';
-import length from 'src/utils/length';
+import length from 'src/utils/length.js';
 import * as menu from 'src/utils/menu.js';
 
 hotkeys.push(new Hotkey('Open Menu', () => {

@@ -6,7 +6,7 @@ import { toast, errorToast } from 'src/utils/2.toasts.js';
 import decrypt from 'src/utils/decrypt.emails.js';
 import style from 'src/utils/style.js';
 import { captureError } from 'src/utils/sentry.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 const setting = settings.register({
   name: Translation.Setting('friend.background'),

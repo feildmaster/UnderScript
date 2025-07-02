@@ -10,7 +10,7 @@ import * as userInfo from 'src/utils/user.js';
 import find from 'src/utils/find.js';
 import merge from 'src/utils/merge.js';
 import { window } from 'src/utils/1.variables.js';
-import { cardName } from 'src/utils/cardHelper';
+import { cardName } from 'src/utils/cardHelper.js';
 
 /* eslint-disable no-use-before-define */
 settings.register({

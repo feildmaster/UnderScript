@@ -7,7 +7,7 @@ import each from 'src/utils/each.js';
 import some from 'src/utils/some.js';
 import clear from 'src/utils/clear.js';
 import Item from 'src/structures/constants/item.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 const setting = settings.register({
   name: Translation.Setting('friendship'),

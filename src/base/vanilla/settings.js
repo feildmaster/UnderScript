@@ -1,6 +1,6 @@
 import * as settings from 'src/utils/settings/index.js';
 import onPage from 'src/utils/onPage.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 [
   {

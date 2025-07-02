@@ -4,14 +4,14 @@ import * as settings from 'src/utils/settings/index.js';
 import { global } from 'src/utils/global.js';
 import { toast as fnToast } from 'src/utils/2.toasts.js';
 import { debug } from 'src/utils/debug.js';
-import debugToast from 'src/utils/debugToast';
+import debugToast from 'src/utils/debugToast.js';
 import * as cardHelper from 'src/utils/cardHelper.js';
 import onPage from 'src/utils/onPage.js';
 import * as hover from 'src/utils/hover.js';
 import each from 'src/utils/each.js';
 import { captureError } from 'src/utils/sentry.js';
 import hasOwn from 'src/utils/hasOwn.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 const setting = settings.register({
   name: Translation.Setting('disenchant'),

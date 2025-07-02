@@ -4,7 +4,7 @@ import { global } from 'src/utils/global.js';
 import { dismissable } from 'src/utils/2.toasts.js';
 import onPage from 'src/utils/onPage.js';
 import cleanData from 'src/utils/cleanData.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 const setting = settings.register({
   name: Translation.Setting('game.season'),

@@ -1,4 +1,4 @@
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 import { buttonCSS as css } from 'src/utils/1.variables.js';
 import wrap from 'src/utils/2.pokemon.js';
 import { registerModule } from 'src/utils/plugin.js';

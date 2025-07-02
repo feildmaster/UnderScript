@@ -2,7 +2,7 @@ import eventManager from 'src/utils/eventManager.js';
 import { global } from 'src/utils/global.js';
 import style from 'src/utils/style.js';
 import { dismissable } from 'src/utils/2.toasts.js';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 style.add(
   '.missingArt { color: yellow; }',

@@ -10,7 +10,7 @@ import hasOwn from 'src/utils/hasOwn.js';
 import { cardName } from 'src/utils/cardHelper.js';
 import { translateText } from 'src/utils/translate';
 import { getTranslationArray } from 'src/base/underscript/translation';
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 
 // TODO: translation
 const setting = settings.register({

@@ -1,4 +1,4 @@
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 import each from 'src/utils/each.js';
 import eventManager from 'src/utils/eventManager.js';
 import { globalSet } from 'src/utils/global.js';

@@ -1,4 +1,4 @@
-import Translation from 'src/structures/constants/translation';
+import Translation from 'src/structures/constants/translation.ts';
 import { buttonCSS as css } from 'src/utils/1.variables.js';
 import { infoToast } from 'src/utils/2.toasts.js';
 import eventManager from 'src/utils/eventManager.js';
