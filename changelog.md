@@ -1,5 +1,48 @@
 # UnderScript Changelog
 
+## Version 0.63.0 (2025-07-01)
+Over 5000 line changes~ (in 250 files)
+### Features
+1. Added custom translation files for UnderScript text
+  - Work in progress, there's a lot of text in UnderScript...
+1. Added ability to `transform` setting values
+1. Added new "update" utility
+  - Used with UnderScript (and plugin) updates
+1. Added setting to change auto update frequency
+1. Added setting to run auto updates silently
+  - Only shows a notification if updates are found
+1. Added setting to `Disable Plugin Updates`
+  - You can disable updates for each plugin as well
+    - Plugins must opt-in to use the updater before you can see this setting
+1. Added `Pending Updates` window
+1. Added more vanilla settings
+1. Reversed some settings that were "enabled" when checked rather than "disabled" when checked.
+### Fixes
+1. Fixed list setting defaults not using the correct values
+1. Fixed issues with "matching" advanced map keys
+1. DT's are now craftable
+1. Fixed `events.one` not passing event metadata
+1. Fixed issue with `async` events not being async
+1. Fixed battle log card names not using the correct name
+1. Fixed quick craft not using correct name
+1. Fixed error where Daily Rewards could say you have one less day
+1. Fixed some bugs with `AdvancedMap` settings
+### Plugins
+1. Pack Items are now valid when using `openPacks`
+1. `underscript:ready` event
+  - Called when UnderScript assets are loaded
+1. Added plugin update checker<extended>
+  - When creating plugins use `underscript.plugin(name, version)`
+    - You ***must*** pass version to get access to `updater`
+  - Basic: `plugin.updater(downloadUrl)`
+    - Supports `github.com`, `gist.github.com`
+  - Github Release: `plugin.updater({ updateURL: '@USER/REPO' })`
+</extended>
+1. Fixed events not returning the proper value
+1. Improved `addStyle()` code
+  - Added error when style is malformed
+1. You can now pass defaults to `AdvancedMap`s
+
 ## Version 0.62.5 (2025-05-20)
 1. Fixed (another) bug with advanced map
 1. Fixed bug with chat
