@@ -56,7 +56,7 @@ eventManager.on('PlayingGame', function bindHotkeys() {
         className: 'dismiss',
         css,
         onclick: (_) => {
-          settings.open('Game');
+          fullDisable.show(true);
         },
       },
     }, 'underscript.notice.endTurn.hotkeys', '1');
