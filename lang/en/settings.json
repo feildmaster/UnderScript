@@ -48,7 +48,7 @@
   "filter.disable": "Disable filter",
   "filter.shiny": "Merge Shiny Cards",
   "filter.shiny.option": [
-    "Never (default)",
+    "Never (Vanilla)",
     "Deck",
     "Always"
   ],
@@ -112,7 +112,7 @@
   "skins.basic": "Force Basic Card Skins",
   "skins.breaking": "Breaking Card Art Behavior",
   "skins.breaking.option": [
-    "Breaking (Default)",
+    "Breaking (Vanilla)",
     "Covered (Transparent)",
     "Covered"
   ],
