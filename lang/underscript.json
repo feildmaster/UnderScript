@@ -132,7 +132,7 @@
     "underscript.settings.filter.disable": "Disable filter",
     "underscript.settings.filter.shiny": "Merge Shiny Cards",
     "underscript.settings.filter.shiny.option": [
-      "Never (default)",
+      "Never (Vanilla)",
       "Deck",
       "Always"
     ],
@@ -196,7 +196,7 @@
     "underscript.settings.skins.basic": "Force Basic Card Skins",
     "underscript.settings.skins.breaking": "Breaking Card Art Behavior",
     "underscript.settings.skins.breaking.option": [
-      "Breaking (Default)",
+      "Breaking (Vanilla)",
       "Covered (Transparent)",
       "Covered"
     ],
