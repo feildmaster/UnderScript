@@ -109,7 +109,12 @@ function applyLook(refresh = decks || crafting) {
     });
   }
 
+  // Re-add shiny filter
+  if (!$('#shinyInput').length) {
+    $('#utyInput').parent().after(' ', shinyButton());
+  }
   $('#shinyInput').prop('disabled', mergeShiny());
+
   if (refresh) {
     global('applyFilters')();
     global('showPage')(0);
@@ -138,7 +143,7 @@ function mergeShiny() {
 function createButton(type) {
   return $(`
   <label>
-    <input type="checkbox" id="${type.toLowerCase()}RarityInput" class="rarityInput custom" rarity="${type}" onchange="applyFilters(); showPage(0);">
+    <input type="checkbox" id="${type.toLowerCase()}RarityInput" class="rarityInput custom" rarity="${type}" onchange="applyFilters(); showPage(currentPage);">
     <img src="images/rarity/BASE_${type}.png">
   </label>`);
 }
@@ -146,8 +151,16 @@ function createButton(type) {
 function allTribeButton() {
   return $(`
   <label>
-    <input type="checkbox" id="allTribeInput" onchange="applyFilters(); showPage(0);">
+    <input type="checkbox" id="allTribeInput" onchange="applyFilters(); showPage(currentPage);">
     <img src="images/tribes/ALL.png">
+  </label>`);
+}
+
+function shinyButton() {
+  return $(`
+  <label>
+    <input type="checkbox" id="shinyInput" onchange="applyFilters(); showPage(currentPage);">
+    <span class="rainbowText">S</span>
   </label>`);
 }
 
@@ -170,7 +183,11 @@ filters.push(
     return this.super(card);
   },
   function shinyFilter(card, removed) {
-    if (removed && mergeShiny()) {
+    if (!removed) {
+      return !mergeShiny() && card.shiny !== $('#shinyInput').prop('checked');
+    }
+
+    if (mergeShiny()) {
       return this.super({
         ...card,
         shiny: !card.shiny,

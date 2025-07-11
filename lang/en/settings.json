@@ -48,8 +48,8 @@
   "filter.disable": "Disable filter",
   "filter.shiny": "Merge Shiny Cards",
   "filter.shiny.option": [
-    "Never (Vanilla)",
-    "Deck",
+    "Never",
+    "Deck (Vanilla)",
     "Always"
   ],
   "filter.split": "Split Based and Token",

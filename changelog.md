@@ -1,5 +1,8 @@
 # UnderScript Changelog
 
+## Version 0.63.3 (2025-07-06)
+1. Added Shiny filter on Decks page back
+
 ## Version 0.63.2 (2025-07-06)
 1. Fixed a translation error with friendship rewards
 1. Fixed end turn hotkey toast not showing correct setting
