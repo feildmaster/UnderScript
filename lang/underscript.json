@@ -132,8 +132,8 @@
     "underscript.settings.filter.disable": "Disable filter",
     "underscript.settings.filter.shiny": "Merge Shiny Cards",
     "underscript.settings.filter.shiny.option": [
-      "Never (Vanilla)",
-      "Deck",
+      "Never",
+      "Deck (Vanilla)",
       "Always"
     ],
     "underscript.settings.filter.split": "Split Based and Token",
