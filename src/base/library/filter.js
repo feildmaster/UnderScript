@@ -111,7 +111,7 @@ function applyLook(refresh = decks || crafting) {
 
   // Re-add shiny filter
   if (!$('#shinyInput').length) {
-    $('#utyInput').parent().after(' ', shinyButton());
+    $('#utyInput').parent().after(shinyButton());
   }
   $('#shinyInput').prop('disabled', mergeShiny());
 
@@ -126,11 +126,16 @@ eventManager.on(':preload:Decks :preload:Crafting', () => {
   applyLook(false);
   globalSet('isRemoved', function newFilter(card) {
     if (setting.value()) return this.super(card);
+    const results = new Map();
     return filters.reduce((removed, func) => {
-      const val = func.call(this, card, removed);
+      if (!func) return removed;
+      const val = func.call(this, card, removed, Object.fromEntries(results));
+      const key = func.displayName || func.name;
       if (typeof val === 'boolean') {
+        results.set(key, val !== removed);
         return val;
       }
+      results.set(key, null);
       return removed;
     }, false);
   });
@@ -178,55 +183,80 @@ function ownSelect() {
 }
 
 filters.push(
-  function basicFilter(card) {
-    // Rarity, Type, Extension, Search
-    return this.super(card);
+  // function isRemoved(card) {
+  //   // Shiny, Rarity, Type, Extension, Search
+  //   return this.super(card);
+  // },
+  // eslint-disable-next-line no-shadow
+  function shiny(card, removed) {
+    if (removed) return null;
+    if (mergeShiny()) return false;
+    return card.shiny !== $('#shinyInput').prop('checked');
   },
-  function shinyFilter(card, removed) {
-    if (!removed) {
-      return !mergeShiny() && card.shiny !== $('#shinyInput').prop('checked');
-    }
-
-    if (mergeShiny()) {
-      return this.super({
-        ...card,
-        shiny: !card.shiny,
-      });
-    }
-    return removed;
+  function rarity(card, removed) {
+    if (removed) return null;
+    const rarities = $('.rarityInput:checked').map(function getRarity() {
+      return this.getAttribute('rarity');
+    }).get();
+    return rarities.length > 0 && !rarities.includes(card.rarity);
   },
-  function baseGenFilter(card, removed) {
-    if (!removed && crafting && splitBaseGen.value()) {
-      if (card.rarity === 'BASE' && !card.shiny && !$('#baseRarityInput').prop('checked')) {
-        return true;
-      }
-      if (card.rarity === 'TOKEN' && !$('#tokenRarityInput').prop('checked')) {
-        return true;
-      }
+  function type(card, removed) {
+    if (removed) return null;
+    const monster = $('#monsterInput').prop('checked');
+    const spell = $('#spellInput').prop('checked');
+    const cardType = monster ? 0 : 1;
+    return monster !== spell && card.typeCard !== cardType;
+  },
+  function extension(card, removed) {
+    if (removed) return null;
+    const extensions = [];
+    if ($('#undertaleInput').prop('checked')) {
+      extensions.push('BASE');
     }
-    return removed;
+    if ($('#deltaruneInput').prop('checked')) {
+      extensions.push('DELTARUNE');
+    }
+    if ($('#utyInput').prop('checked')) {
+      extensions.push('UTY');
+    }
+    return extensions.length > 0 && !extensions.includes(card.extension);
+  },
+  function search(card, removed) {
+    if (removed) return null;
+    const text = $('#searchInput').val().toLowerCase();
+    if (!text.length) return false;
+    function includes(dirty) {
+      return dirty.replace(/(<.*?>)/g, '').toLowerCase().includes(text);
+    }
+    return (
+      !includes($.i18n(`card-name-${card.id}`, 1)) &&
+      !includes($.i18n(`card-${card.id}`)) &&
+      !(card.soul?.name && includes($.i18n(`soul-${card.soul.name.toLowerCase().replace(/_/g, '-')}`))) &&
+      !card.tribes.some((t) => includes($.i18n(`tribe-${t.toLowerCase().replace(/_/g, '-')}`)))
+    );
+  },
+  crafting && function baseGenFilter(card, removed) {
+    if (removed || !splitBaseGen.value()) return null;
+    return (
+      card.rarity === 'BASE' && !card.shiny && !$('#baseRarityInput').prop('checked')
+    ) || (
+      card.rarity === 'TOKEN' && !$('#tokenRarityInput').prop('checked')
+    );
   },
   function tribeFilter(card, removed) {
-    if (!removed && tribe.value() && $('#allTribeInput').prop('checked')) {
-      return !card.tribes.length;
-    }
-    return removed;
+    if (removed || !tribe.value()) return null;
+    return $('#allTribeInput').prop('checked') && !card.tribes.length;
   },
-  function searchFilter(card, removed) { // Custom keywords
-    return removed;
-  },
-  function ownedFilter(card, removed) {
-    if (!removed && crafting && owned.value()) {
-      switch ($('#collectionType').val()) {
-        case 'owned': return !card.quantity;
-        case 'unowned': return card.quantity > 0;
-        case 'maxed': return card.quantity < max(card.rarity);
-        case 'surplus': return card.quantity <= max(card.rarity);
-        case 'craftable': return card.quantity >= max(card.rarity);
-        case 'all':
-        default: break;
-      }
+  crafting && function ownedFilter(card, removed) {
+    if (removed || !owned.value()) return null;
+    switch ($('#collectionType').val()) {
+      case 'owned': return !card.quantity;
+      case 'unowned': return card.quantity > 0;
+      case 'maxed': return card.quantity < max(card.rarity);
+      case 'surplus': return card.quantity <= max(card.rarity);
+      case 'craftable': return card.quantity >= max(card.rarity);
+      case 'all':
+      default: return false;
     }
-    return removed;
   },
 );
