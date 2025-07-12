@@ -36,12 +36,6 @@ const setting = settings.register({
   key: 'underscript.deck.filter.disable',
 });
 
-const splitBaseGen = settings.register({
-  ...base,
-  name: Translation.Setting('filter.split'),
-  key: 'underscript.deck.filter.split',
-});
-
 const tribe = settings.register({
   ...base,
   name: Translation.Setting('filter.tribe'),
@@ -78,16 +72,8 @@ style.add(
 
 function applyLook(refresh = decks || crafting) {
   $('input[onchange^="applyFilters();"]').parent().parent().toggleClass('filter', !setting.value());
-  if (crafting) {
-    if (setting.value() || !splitBaseGen.value()) {
-      $('#baseGenInput').prop('checked', false).prop('disabled', false);
-      $('.rarityInput.custom').parent().remove();
-    } else if (!$('#baseRarityInput').length) {
-      // Add BASE
-      $('#commonRarityInput').parent().before(createButton('BASE'), ' ');
-      $('#baseGenInput').prop('checked', true).prop('disabled', true).parent()
-        .after(createButton('TOKEN'));
-    }
+  if (crafting && !setting.value()) {
+    $('input[rarity]:checked').prop('checked', false);
   }
 
   // Tribe filter
@@ -143,14 +129,6 @@ eventManager.on(':preload:Decks :preload:Crafting', () => {
 
 function mergeShiny() {
   return shiny.value() === 'Always' || (decks && shiny.value() === 'Deck');
-}
-
-function createButton(type) {
-  return $(`
-  <label>
-    <input type="checkbox" id="${type.toLowerCase()}RarityInput" class="rarityInput custom" rarity="${type}" onchange="applyFilters(); showPage(currentPage);">
-    <img src="images/rarity/BASE_${type}.png">
-  </label>`);
 }
 
 function allTribeButton() {
@@ -236,12 +214,8 @@ filters.push(
     );
   },
   crafting && function baseGenFilter(card, removed) {
-    if (removed || !splitBaseGen.value()) return null;
-    return (
-      card.rarity === 'BASE' && !card.shiny && !$('#baseRarityInput').prop('checked')
-    ) || (
-      card.rarity === 'TOKEN' && !$('#tokenRarityInput').prop('checked')
-    );
+    if (removed || $('.rarityInput:checked').length) return null;
+    return ['BASE', 'TOKEN'].includes(card.rarity);
   },
   function tribeFilter(card, removed) {
     if (removed || !tribe.value()) return null;
