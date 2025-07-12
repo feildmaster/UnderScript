@@ -1,5 +1,10 @@
 # UnderScript Changelog
 
+## Version 0.63.4 (2025-07-11)
+1. Improved Deck/Crafting filters
+1. Added `results` to `addFilter` callback
+1. Restored old rarity behavior on Crafting page
+
 ## Version 0.63.3 (2025-07-06)
 1. Added Shiny filter on Decks page back
 
