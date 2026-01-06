@@ -22,11 +22,15 @@ function checkUpdate() {
   }
 }
 
-axios.get('https://unpkg.com/underscript/package.json').then((response) => {
-  const version = response.data.version;
+axios.get('https://api.github.com/repos/UCProjects/UnderScript/releases/latest').then(({ data: { version, assets = [] } }) => {
+  const file = assets.find(({ name = '' }) => name.endsWith('.user.js'))?.browser_download_url;
+  if (!file) return;
   underscript.latest = version;
   const install = document.getElementById('install');
   install.textContent = `UnderScript (${version})`;
-  install.href = `https://unpkg.com/underscript@${version}/${response.data.unpkg}`
+  install.href = '#';
+  install.onclick = () => {
+    window.open(file, 'updateUserScript', 'noreferrer');
+  };
   checkUpdate();
 });
