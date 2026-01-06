@@ -22,7 +22,7 @@ function checkUpdate() {
   }
 }
 
-axios.get('https://api.github.com/repos/UCProjects/UnderScript/releases/latest').then(({ data: { version, assets = [] } }) => {
+axios.get('https://api.github.com/repos/UCProjects/UnderScript/releases/latest').then(({ data: { tag_name: version, assets = [] } }) => {
   const file = assets.find(({ name = '' }) => name.endsWith('.user.js'))?.browser_download_url;
   if (!file) return;
   underscript.latest = version;
