@@ -10,7 +10,7 @@ export default function createSearch(showSetting, settingReg, dialog) {
   const input = document.createElement('input');
   input.type = 'text';
   input.classList.add('setting-search-input');
-  input.placeholder = translateText(Translation.Setting('search'));
+  input.placeholder = translateText(Translation.General('search'));
 
   const results = document.createElement('ul');
   results.classList.add('setting-search-results');

@@ -12,6 +12,7 @@ const keys = {
   note: Translation.Menu('plugins.note'),
   title: Translation.General('plugins'),
   author: Translation.General('plugins.author'),
+  available: Translation.General('plugins.available'),
   empty: Translation.General('plugins.empty'),
   failed: Translation.General('plugins.failed'),
   install: Translation.General('plugins.install'),
@@ -19,8 +20,10 @@ const keys = {
   latest: Translation.General('plugins.latest'),
   loading: Translation.General('loading'),
   name: Translation.General('plugins.name'),
+  noMatch: Translation.General('plugins.noMatch'),
   refresh: Translation.General('refresh'),
   reinstall: Translation.General('plugins.reinstall'),
+  search: Translation.General('search.plugins'),
   stale: Translation.General('plugins.stale'),
   unavailable: Translation.General('plugins.unavailable'),
 };
@@ -29,15 +32,27 @@ const EMPTY = '-';
 
 style.add(css);
 
+const STATUSES = [
+  { id: 'installed', label: keys.installed },
+  { id: 'stale', label: keys.stale },
+  { id: 'available', label: keys.available },
+];
+
 const dialog = new DialogHelper();
 let container;
+let tableHolder;
 let refreshed;
 let complete;
+let query = '';
+const hidden = new Set();
 
 dialog.onClose(() => {
   container = null;
+  tableHolder = null;
   refreshed = false;
   complete = false;
+  query = '';
+  hidden.clear();
 });
 
 function addRefresh() {
@@ -67,26 +82,62 @@ function update() {
 }
 
 function build() {
-  container = $('<div>');
+  tableHolder = $('<div>');
+  container = $('<div>').append(toolbar(), tableHolder);
   render();
   return container;
 }
 
+function toolbar() {
+  const search = $('<input type="search" class="form-control plugin-search">')
+    .attr('placeholder', `${keys.search}`)
+    .val(query)
+    .on('input', () => {
+      query = search.val().trim().toLowerCase();
+      render();
+    });
+  const filters = $('<div class="plugin-filters">').append(
+    STATUSES.map(({ id, label }) => {
+      const button = $('<button type="button" class="btn btn-sm">')
+        .text(`${label}`)
+        .on('click', () => {
+          if (!hidden.delete(id)) hidden.add(id);
+          button.toggleClass('btn-primary', !hidden.has(id)).toggleClass('btn-stale', hidden.has(id));
+          render();
+        });
+      return button.toggleClass('btn-primary', !hidden.has(id)).toggleClass('btn-stale', hidden.has(id));
+    }),
+  );
+  return $('<div class="plugin-toolbar">').append(search, filters);
+}
+
+function statusOf(name) {
+  if (registry.isRunning(name)) return 'installed';
+  return registry.wasSeen(name) ? 'stale' : 'available';
+}
+
+function matches({ name, author }) {
+  if (hidden.has(statusOf(name))) return false;
+  if (!query) return true;
+  return `${name} ${author || ''}`.toLowerCase().includes(query);
+}
+
 function render() {
-  if (!container) return;
+  if (!tableHolder) return;
   const plugins = registry.plugins();
+  const visible = plugins.filter(matches);
   const body = $('<tbody>');
-  if (!plugins.length) {
+  if (!visible.length) {
     body.append($('<tr>').append(
-      $('<td class="empty" colspan="5">').text(`${emptyText()}`),
+      $('<td class="empty" colspan="5">').text(`${plugins.length ? keys.noMatch : emptyText()}`),
     ));
   } else {
-    plugins.sort(
+    visible.sort(
       ({ name: nameA }, { name: nameB }) => nameA.localeCompare(nameB),
     ).forEach((entry) => body.append(row(entry)));
   }
   complete = plugins.length > 0 && plugins.every(({ name }) => registry.info(name));
-  container.empty().append($('<table class="table">').append(header(), body));
+  tableHolder.empty().append($('<table class="table">').append(header(), body));
 }
 
 function header() {

@@ -7,6 +7,30 @@
   padding-top: 0;
 }
 
+.plugin-registry .plugin-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  padding: 10px 0;
+  background-color: #000;
+}
+
+.plugin-registry .plugin-search {
+  flex: 1 1 160px;
+  width: auto;
+  background-color: #000;
+  color: white;
+}
+
+.plugin-registry .plugin-filters {
+  display: flex;
+  gap: 4px;
+}
+
 .plugin-registry table {
   margin: 0;
   border-collapse: separate;
@@ -21,7 +45,7 @@
 
 .plugin-registry th {
   position: sticky;
-  top: 0;
+  top: 54px;
   z-index: 1;
   background-color: #000;
   border-bottom: 2px solid;

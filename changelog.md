@@ -1,5 +1,9 @@
 # UnderScript Changelog
 
+## Unreleased
+### Features
+1. Added a search bar and status filters to the community plugins list, which is now sorted by name
+
 ## Version 0.64.0 (2026-08-28)
 ### Features
 1. Added "crafting" option for "merge shiny cards" setting

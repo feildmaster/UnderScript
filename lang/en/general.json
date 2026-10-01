@@ -68,12 +68,14 @@
   "plugins": {
     "~": "Community Plugins",
     "author": "Author",
+    "available": "Not installed",
     "empty": "No plugins listed",
     "failed": "Unavailable",
     "install": "Install",
     "installed": "Installed",
     "latest": "Latest",
     "name": "Plugin",
+    "noMatch": "No plugins match your filters",
     "reinstall": "Reinstall",
     "stale": "Not running",
     "unavailable": "Plugin list unavailable"
@@ -87,6 +89,10 @@
   "quest.pending": "Completed Quests",
   "random": "Random",
   "refresh": "Refresh Page",
+  "search": {
+    "~": "Search",
+    "plugins": "Search plugins"
+  },
   "settings": "Open Settings",
   "update": {
     "~": "Update",
