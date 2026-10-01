@@ -1,11 +1,10 @@
 import { expect } from 'chai';
 import tabManager from '../../src/utils/tabbedView.js';
 
-const win = $('<div>').get(0).ownerDocument.defaultView;
 const restore = [];
 
 function owner(name) {
-  let proto = win.HTMLElement.prototype;
+  let proto = window.HTMLElement.prototype;
   while (proto && !Object.hasOwn(proto, name)) proto = Object.getPrototypeOf(proto);
   return proto;
 }
@@ -51,8 +50,8 @@ function build(count, width, options) {
 
 describe('tabbedView paging', () => {
   before(() => {
-    globalThis.getComputedStyle = win.getComputedStyle.bind(win);
-    globalThis.Event = win.Event;
+    globalThis.getComputedStyle = window.getComputedStyle.bind(window);
+    globalThis.Event = window.Event;
   });
 
   afterEach(() => {
@@ -108,7 +107,7 @@ describe('tabbedView paging', () => {
   it('activates arrows from the keyboard', () => {
     const { view } = build(5, 300);
     const [, next] = arrows(view);
-    next.dispatchEvent(new win.KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+    next.dispatchEvent(new window.KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
     expect(offscreen(view)).to.deep.equal([true, true, false, false, true]);
   });
 
@@ -116,7 +115,7 @@ describe('tabbedView paging', () => {
     const { view } = build(5, 300);
     const [, , , fourth] = view.querySelectorAll(':scope > .tabButton');
     fourth.checked = true;
-    fourth.dispatchEvent(new win.Event('change', { bubbles: true }));
+    fourth.dispatchEvent(new window.Event('change', { bubbles: true }));
     expect(offscreen(view)).to.deep.equal([true, true, false, false, true]);
   });
 
@@ -191,12 +190,12 @@ describe('tabbedView arrow tooltips', () => {
   let tooltip;
 
   function fire(el, type) {
-    el.dispatchEvent(new win.Event(type));
+    el.dispatchEvent(new window.Event(type));
   }
 
   before(() => {
-    globalThis.getComputedStyle = win.getComputedStyle.bind(win);
-    globalThis.Event = win.Event;
+    globalThis.getComputedStyle = window.getComputedStyle.bind(window);
+    globalThis.Event = window.Event;
   });
 
   beforeEach(() => {
