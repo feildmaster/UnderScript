@@ -1,0 +1,4 @@
+.checkGroup > .checkItem,
+.checkGroup > .checkGroup {
+  margin-left: 5px;
+}
