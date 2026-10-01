@@ -8,6 +8,7 @@
   - This also applies to any horizontal view made with `utils.tabManager()`. Those can pass `labels: { previous(page, total), next(page, total) }` and `tooltip: underscript.utils.hover` to `tabManager().settings()` to change the tooltip text or use UnderScript's hover instead of a plain `title`.
   - Settings pages always use UnderScript's own arrows and tooltips.
 </extended>
+1. Added `plugin.settings().name(<string>)` to rename the first settings tab
 
 ## Version 0.64.0 (2026-08-28)
 ### Features

@@ -98,7 +98,8 @@ function getPluginView(plugin) {
   const tab = config?.page ?? getScreen().plugins.addTab(plugin.name, manager);
   tab.setContent(manager);
 
-  const main = manager.addTab(config?.name ?? plugin.name, pageBuilder(plugin));
+  const tabName = config?.mainName ?? config?.name ?? plugin.name;
+  const main = manager.addTab(translateText(tabName), pageBuilder(plugin));
   if (config) config.page = main;
 
   const view = { tab, manager, main };
@@ -398,6 +399,13 @@ export function setDisplayName(name, page = 'main') {
   return false;
 }
 
+export function setMainName(plugin, name) {
+  if (!name) return false;
+  init(plugin).mainName = name;
+  pluginViews.get(plugin)?.main.setName(translateText(name));
+  return true;
+}
+
 export function isOpen() {
   return dialog.isOpen();
 }
@@ -546,7 +554,8 @@ eventManager.on('translation:loaded', () => {
   configs.forEach((config, key) => {
     if (!config.name || !config.page) return;
     const name = translateText(config.name);
-    config.page.setName(name);
-    pluginViews.get(key)?.tab.setName(name);
+    const view = pluginViews.get(key);
+    config.page.setName(view && config.mainName ? translateText(config.mainName) : name);
+    view?.tab.setName(name);
   });
 });

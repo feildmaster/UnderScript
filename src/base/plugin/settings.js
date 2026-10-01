@@ -34,6 +34,12 @@ wrap(() => {
           open: () => settings.open(plugin, tab),
         });
       },
+      name(value) {
+        if (typeof value !== 'string') throw new Error(`Name must be a string, got ${typeof value}`);
+        const title = value.trim();
+        if (!title) throw new Error('Name must be provided');
+        return settings.setMainName(plugin, title);
+      },
       on: (...args) => settings.on(...args),
       open: () => settings.open(plugin),
       isOpen: () => settings.isOpen(),
