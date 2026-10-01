@@ -16,7 +16,7 @@ eventManager.on(':preload', () => {
     window.allCards = parsed;
     call(parsed);
   } else if (!allCards.length) {
-    document.addEventListener('allCardsReady', () => call(global('allCards')));
+    document.addEventListener('allCardsReady', () => call(global('allCards')), { once: true });
   } else {
     call(allCards);
   }
