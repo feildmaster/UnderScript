@@ -38,7 +38,9 @@ export const mod = new Proxy(modules, {
 
 window.underscript = new Proxy(underscript, {
   get(...args) {
-    return new Proxy(Reflect.get(...args), { set() {} });
+    const value = Reflect.get(...args);
+    if (value === null || (typeof value !== 'object' && typeof value !== 'function')) return value;
+    return new Proxy(value, { set() {} });
   },
   set() {},
 });
