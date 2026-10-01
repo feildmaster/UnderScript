@@ -213,8 +213,8 @@ describe('tabbedView arrow tooltips', () => {
   it('uses the title when no tooltip is provided', () => {
     const { view } = build(5, 300);
     const [previous, next] = arrows(view);
-    expect(previous.title).to.equal('Previous tabs (1 of 3)');
-    expect(next.title).to.equal('More tabs (1 of 3)');
+    expect(previous.title).to.equal('Previous tab (1 of 3)');
+    expect(next.title).to.equal('Next tab (1 of 3)');
   });
 
   it('shows through the tooltip instead of the title', () => {
@@ -223,7 +223,7 @@ describe('tabbedView arrow tooltips', () => {
     expect(next.hasAttribute('title')).to.equal(false);
     fire(next, 'mouseenter');
     fire(next, 'mouseleave');
-    expect(calls).to.deep.equal(['mouseenter:More tabs (1 of 3)', 'mouseleave:More tabs (1 of 3)']);
+    expect(calls).to.deep.equal(['mouseenter:Next tab (1 of 3)', 'mouseleave:Next tab (1 of 3)']);
   });
 
   it('shows on keyboard focus and hides on blur', () => {
@@ -239,7 +239,7 @@ describe('tabbedView arrow tooltips', () => {
     const [, next] = arrows(view);
     fire(next, 'mouseenter');
     next.click();
-    expect(calls).to.deep.equal(['mouseenter:More tabs (1 of 3)', 'mouseenter:More tabs (2 of 3)']);
+    expect(calls).to.deep.equal(['mouseenter:Next tab (1 of 3)', 'mouseenter:Next tab (2 of 3)']);
   });
 
   it('does not refresh the tooltip when not hovered', () => {
@@ -257,7 +257,7 @@ describe('tabbedView arrow tooltips', () => {
       return this.classList.contains('tabLabel') ? 100 : 0;
     });
     manager.render(true);
-    expect(calls).to.deep.equal(['mouseenter:More tabs (1 of 3)', 'mouseleave:More tabs (1 of 3)']);
+    expect(calls).to.deep.equal(['mouseenter:Next tab (1 of 3)', 'mouseleave:Next tab (1 of 3)']);
   });
 
   it('uses custom labels', () => {
