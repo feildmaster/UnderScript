@@ -74,6 +74,39 @@
   box-sizing: border-box;
 }
 
+.tabbedView.paged {
+  grid-template-columns: repeat(var(--tab-visible), max-content) 1fr repeat(2, max-content);
+}
+
+.tabbedView.paged > .tabLabel {
+  overflow: visible;
+  text-overflow: clip;
+}
+
+.tabbedView > .tabLabel.offscreen {
+  display: none;
+}
+
+.tabbedView > .tabArrow {
+  min-width: 26px;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.tabbedView > .tabArrow[data-dir='-1'] {
+  grid-column: -3 / -2;
+}
+
+.tabbedView > .tabArrow[data-dir='1'] {
+  grid-column: -2 / -1;
+}
+
+.tabbedView > .tabArrow.disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
 .tabbedView.left > .tabLabel {
   grid-column: 1;
   grid-row: auto;

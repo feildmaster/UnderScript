@@ -3,6 +3,11 @@ import styles from './tabbedView.css';
 
 style.add(styles);
 
+const defaultLabels = {
+  previous: (page, total) => `Previous tab (${page} of ${total})`,
+  next: (page, total) => `Next tab (${page} of ${total})`,
+};
+
 let groupID = 0;
 
 export default function TabManager() {
@@ -12,10 +17,17 @@ export default function TabManager() {
   const tabSettings = {
     left: false,
     right: false,
+    labels: defaultLabels,
+    tooltip: null,
   };
 
   const view = document.createElement('div');
   view.classList.add('tabbedView');
+
+  const pager = createPager(view, () => tabSettings);
+  view.addEventListener('change', ({ target }) => {
+    if (target.classList.contains('tabButton')) pager.layout();
+  });
 
   function addTab(name = '', content = '', { fold = false } = {}) {
     const id = tabs.length ? tabs[tabs.length - 1].id + 1 : 0;
@@ -152,6 +164,8 @@ export default function TabManager() {
       first.elements[0].checked = true;
     }
 
+    pager.layout();
+
     if (raw) return view;
     return view.outerHTML;
   }
@@ -159,9 +173,13 @@ export default function TabManager() {
   function settings({
     left = false,
     right = false,
+    labels = {},
+    tooltip = null,
   }) {
     tabSettings.left = left;
     tabSettings.right = right;
+    tabSettings.labels = { ...defaultLabels, ...labels };
+    tabSettings.tooltip = tooltip;
   }
 
   function refreshAll() {
@@ -182,6 +200,155 @@ export default function TabManager() {
       return tabs.length;
     },
   };
+}
+
+function naturalWidth(el) {
+  return el.scrollWidth + el.offsetWidth - el.clientWidth;
+}
+
+function paginate(widths, room, gap) {
+  const pages = [];
+  let start = 0;
+  while (start < widths.length) {
+    let used = widths[start];
+    let end = start + 1;
+    while (end < widths.length && used + gap + widths[end] <= room) {
+      used += gap + widths[end];
+      end += 1;
+    }
+    pages.push({ start, end });
+    start = end;
+  }
+  return pages;
+}
+
+function createArrow(direction, onClick, getTooltip) {
+  const arrow = document.createElement('div');
+  arrow.classList.add('tabLabel', 'tabArrow');
+  arrow.setAttribute('role', 'button');
+  arrow.tabIndex = 0;
+  arrow.dataset.dir = direction;
+  arrow.textContent = direction < 0 ? '◀' : '▶';
+  const activate = (e) => {
+    e.preventDefault();
+    if (!arrow.classList.contains('disabled')) onClick(direction);
+  };
+  arrow.addEventListener('click', activate);
+  arrow.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') activate(e);
+  });
+
+  let hovered = false;
+  const tip = (type) => getTooltip()?.show(arrow.getAttribute('aria-label'))({ type });
+  ['mouseenter', 'focus'].forEach((type) => arrow.addEventListener(type, () => {
+    hovered = true;
+    tip(type);
+  }));
+  ['mouseleave', 'blur'].forEach((type) => arrow.addEventListener(type, () => {
+    hovered = false;
+    tip(type);
+  }));
+  arrow.addEventListener('tipchange', () => {
+    if (hovered) tip('mouseenter');
+  });
+  arrow.addEventListener('tipdrop', () => {
+    if (!hovered) return;
+    hovered = false;
+    tip('mouseleave');
+  });
+  return arrow;
+}
+
+function createPager(view, getSettings) {
+  let page = 0;
+  let width = 0;
+  let revealed = null;
+  const enabled = () => !getSettings().left && !getSettings().right;
+  const tooltip = () => getSettings().tooltip;
+  const previous = createArrow(-1, (dir) => move(dir), tooltip);
+  const next = createArrow(1, (dir) => move(dir), tooltip);
+
+  function labels() {
+    return Array.from(view.querySelectorAll(':scope > .tabLabel:not(.tabArrow)'));
+  }
+
+  function activeIndex(list) {
+    return list.findIndex((label) => label.previousElementSibling?.checked);
+  }
+
+  function clear() {
+    previous.dispatchEvent(new Event('tipdrop'));
+    next.dispatchEvent(new Event('tipdrop'));
+    previous.remove();
+    next.remove();
+    view.classList.remove('paged');
+  }
+
+  function layout() {
+    const available = view.clientWidth;
+    const list = labels();
+    if (!enabled()) {
+      list.forEach((label) => label.classList.remove('offscreen'));
+      clear();
+      return;
+    }
+    if (!available) return;
+    const resized = available !== width;
+    width = available;
+    const activeLabel = list[activeIndex(list)] ?? null;
+    list.forEach((label) => label.classList.remove('offscreen'));
+
+    const gap = parseFloat(getComputedStyle(view).columnGap) || 0;
+    const widths = list.map(naturalWidth);
+    const total = widths.reduce((sum, w) => sum + w, 0) + gap * Math.max(list.length - 1, 0);
+    if (total <= available) {
+      page = 0;
+      revealed = null;
+      clear();
+      return;
+    }
+
+    view.classList.add('paged');
+    view.style.setProperty('--tab-visible', list.length);
+    if (view.lastElementChild !== next) view.append(previous, next);
+    const room = available - previous.offsetWidth - next.offsetWidth - gap * 3;
+    const pages = paginate(widths, room, gap);
+    page = Math.max(0, Math.min(page, pages.length - 1));
+    if (resized || activeLabel !== revealed) {
+      const active = list.indexOf(activeLabel);
+      const found = pages.findIndex(({ start, end }) => active >= start && active < end);
+      if (found >= 0) page = found;
+      revealed = activeLabel;
+    }
+
+    const { start, end } = pages[page];
+    list.forEach((label, i) => label.classList.toggle('offscreen', i < start || i >= end));
+    view.style.setProperty('--tab-visible', end - start);
+    previous.classList.toggle('disabled', page === 0);
+    next.classList.toggle('disabled', page === pages.length - 1);
+    const text = getSettings().labels;
+    const labelFor = (arrow, value) => {
+      arrow.setAttribute('aria-label', value);
+      if (tooltip()) arrow.removeAttribute('title');
+      else arrow.title = value;
+      arrow.dispatchEvent(new Event('tipchange'));
+    };
+    labelFor(previous, `${text.previous(page + 1, pages.length)}`);
+    labelFor(next, `${text.next(page + 1, pages.length)}`);
+  }
+
+  function move(direction) {
+    page += direction;
+    layout();
+  }
+
+  if (typeof ResizeObserver === 'function') {
+    new ResizeObserver(() => {
+      if (view.clientWidth !== width) layout();
+    }).observe(view);
+  }
+
+  return { layout };
 }
 
 function newTab(id = 0, group = 0) {

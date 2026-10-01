@@ -94,6 +94,10 @@
     "plugins": "Search plugins"
   },
   "settings": "Open Settings",
+  "tabs": {
+    "next": "Next ($1 of $2)",
+    "previous": "Previous ($1 of $2)"
+  },
   "update": {
     "~": "Update",
     "current": "Current: $1",

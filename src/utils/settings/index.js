@@ -87,6 +87,13 @@ function getPluginView(plugin) {
   if (existing) return existing;
 
   const manager = tabManager();
+  manager.settings({
+    tooltip: hover,
+    labels: {
+      previous: (page, total) => Translation.General('tabs.previous').withArgs(`${page}`, `${total}`),
+      next: (page, total) => Translation.General('tabs.next').withArgs(`${page}`, `${total}`),
+    },
+  });
   const config = configs.get(plugin);
   const tab = config?.page ?? getScreen().plugins.addTab(plugin.name, manager);
   tab.setContent(manager);
