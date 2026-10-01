@@ -42,10 +42,21 @@ export default class FileParser {
   }
 
   async getDownload(data) {
-    if (this.#downloadURL) return this.#downloadURL;
-    const resolvedData = await Promise.resolve(data || this.getUpdateData());
-    const downloadURL = this.parseDownload(resolvedData);
-    if (!downloadURL || typeof downloadURL !== 'string') throw new Error('URL not found');
-    return downloadURL;
+    const fallback = this.#downloadURL;
+    try {
+      const resolvedData = await Promise.resolve(data || this.getUpdateData());
+      const downloadURL = this.parseDownload(resolvedData);
+      if (!downloadURL || typeof downloadURL !== 'string') {
+        if (fallback) return fallback;
+        throw new Error('URL not found');
+      }
+      return downloadURL;
+    } catch (e) {
+      if (fallback) {
+        console.warn(`Failed to resolve ${this.#updateURL}, using fallback download URL:`, e);
+        return fallback;
+      }
+      throw e;
+    }
   }
 }
