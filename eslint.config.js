@@ -31,7 +31,7 @@ export default [
       ecmaVersion: 'latest',
     },
     rules: {
-      camelcase: ['warn', { ignoreGlobals: true }],
+      camelcase: ['warn', { ignoreGlobals: true, allow: ['^GM_'] }],
       'consistent-return': 'warn',
       'lines-between-class-members': ['error', 'always', {
         exceptAfterSingleLine: true,
@@ -154,6 +154,7 @@ export default [
         $: readonly,
         window: readonly,
         document: readonly,
+        GM_info: readonly,
       },
     },
     rules: {

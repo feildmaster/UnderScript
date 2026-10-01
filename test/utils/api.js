@@ -4,17 +4,15 @@ describe('underscript api', () => {
   let api;
 
   before(async () => {
-    Reflect.set(globalThis, 'GM_info', { script: { version: '1.2.3' } });
     api = await import('../../src/utils/4.api.js');
   });
 
   after(() => {
-    Reflect.deleteProperty(globalThis, 'GM_info');
     delete globalThis.underscript;
   });
 
   it('exposes the version', () => {
-    expect(globalThis.underscript.version).to.equal('1.2.3');
+    expect(globalThis.underscript.version).to.equal(GM_info.script.version);
   });
 
   it('returns primitives untouched', () => {
@@ -39,6 +37,6 @@ describe('underscript api', () => {
 
   it('ignores writes to the api itself', () => {
     Reflect.set(globalThis.underscript, 'version', 'hacked');
-    expect(globalThis.underscript.version).to.equal('1.2.3');
+    expect(globalThis.underscript.version).to.equal(GM_info.script.version);
   });
 });
