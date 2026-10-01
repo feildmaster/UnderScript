@@ -155,6 +155,7 @@ export default [
         window: readonly,
         document: readonly,
         GM_info: readonly,
+        localStorage: readonly,
       },
     },
     rules: {
