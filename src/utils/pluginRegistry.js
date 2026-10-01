@@ -39,8 +39,11 @@ function write(key, data) {
 function clean(data) {
   if (!Array.isArray(data)) throw new Error('Invalid registry');
   return data.filter(
-    ({ name, updateURL, downloadURL } = {}) => typeof name === 'string' && name &&
-      (typeof updateURL === 'string' || typeof downloadURL === 'string'),
+    (entry) => {
+      const { name, updateURL, downloadURL } = entry ?? {};
+      return typeof name === 'string' && name &&
+        (typeof updateURL === 'string' || typeof downloadURL === 'string');
+    },
   ).map(({ name, author, updateURL, downloadURL }) => ({
     name,
     author,
