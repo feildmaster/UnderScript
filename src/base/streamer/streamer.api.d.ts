@@ -1,0 +1,3 @@
+interface UnderScriptAPI {
+  streamerMode(): boolean;
+}

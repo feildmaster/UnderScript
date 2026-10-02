@@ -6,7 +6,7 @@ const constants = api.mod.constants;
 Object.entries(Item).forEach((([key, value]) => {
   Object.defineProperty(constants, key, {
     get() {
-      console.warn(`'underscript.constants.${key}' is deprecated, use 'underscript.items.${key}' instead.`);
+      console.warn(`'underscript.constants.${key}' is deprecated, use 'underscript.item.${key}' instead.`);
       return value;
     },
   });

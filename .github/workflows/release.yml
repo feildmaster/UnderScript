@@ -41,6 +41,8 @@ jobs:
       run: node ./scripts/changelog/index.cjs
     - name: Build
       run: npm run build
+    - name: Bundle types
+      run: npm run types:bundle
     - name: Tag and Release
       uses: softprops/action-gh-release@v1
       with:
@@ -68,6 +70,8 @@ jobs:
       run: npm install
     - name: Build
       run: npm run build
+    - name: Bundle types
+      run: npm run types:bundle
     - name: Tag and Release
       uses: softprops/action-gh-release@v1
       with:

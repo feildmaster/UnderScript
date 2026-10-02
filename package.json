@@ -27,6 +27,7 @@
     "version": "node scripts/validate.cjs",
     "bundle": "node scripts/lang.js",
     "types": "tsc",
+    "types:bundle": "node scripts/types.js",
     "//": "versioning scripts",
     "patch": "npm version patch --m=\"chore(patch): Release v%s\"",
     "nextpatch": "npm version prepatch --m=\"chore(next): Build patch v%s\"",
@@ -37,6 +38,11 @@
     "dist/*.js",
     "changelog.md"
   ],
+  "overrides": {
+    "eslint-config-airbnb-base": {
+      "eslint": "$eslint"
+    }
+  },
   "devDependencies": {
     "@actions/core": "^1.11.1",
     "@eslint/eslintrc": "^3.3.7",
