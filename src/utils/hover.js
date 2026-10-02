@@ -3,18 +3,23 @@ import Translation from 'src/structures/constants/translation.js';
 import eventManager from './eventManager.js';
 import { footer, footer2, window } from './1.variables.js';
 import { debug } from './debug.js';
+import tooltipPosition from './tooltipPosition.js';
 
 let e;
 let x;
 let y;
 function update() {
   if (!e) return;
-  e.css({
-    // move to left if at the edge of screen
-    left: x + e.width() + 15 < $(window).width() ? x + 15 : x - e.width() - 10,
-    // Try to lock to the bottom
-    top: y + e.height() + 18 > $(window).height() ? $(window).height() - e.height() : y + 18,
-  });
+  e.css({ left: 0, top: 0 });
+  const { clientWidth, clientHeight } = document.documentElement;
+  e.css(tooltipPosition({
+    x,
+    y,
+    width: e.outerWidth(),
+    height: e.outerHeight(),
+    viewWidth: clientWidth,
+    viewHeight: clientHeight,
+  }));
 }
 eventManager.on('jQuery', () => {
   $(document).on('mousemove.script', function mouseMove(event) {
@@ -50,6 +55,10 @@ export function show(data, border = null) {
       'background-color': 'rgba(0,0,0,0.9)',
       padding: '2px',
       'z-index': 1220,
+      'max-width': 'calc(100vw - 10px)',
+      'max-height': 'calc(100vh - 10px)',
+      'overflow-y': 'hidden',
+      'pointer-events': 'none',
     });
     $('body').append(e);
     update();
