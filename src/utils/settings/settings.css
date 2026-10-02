@@ -118,6 +118,32 @@
   }
 }
 
+#underscriptImportFile {
+  display: none;
+}
+
+#underscriptImportPick {
+  margin-right: 6px;
+}
+
+#underscriptImportText {
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 6px;
+  color: black;
+  resize: vertical;
+}
+
+#underscriptAdvancedStatus {
+  margin-top: 6px;
+
+  ul {
+    margin: 4px 0 0;
+    padding-left: 24px;
+    list-style: disc;
+  }
+}
+
 .setting-description {
   flex-basis: 100%;
   margin: 0 0 4px 20px;

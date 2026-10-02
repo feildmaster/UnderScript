@@ -15,6 +15,7 @@ import RegisteredSetting from './RegisteredSetting.js';
 import styles from './settings.css';
 import { isSettingType, registry } from './settingRegistry.js';
 import createSearch from './search.js';
+import { createFilter, parse, serialize } from './portable.js';
 
 const defaultSetting = new RegisteredSetting();
 
@@ -440,48 +441,24 @@ export function exists(key) {
   return key in settingReg;
 }
 
+function portableFilter() {
+  return createFilter(Object.values(settingReg));
+}
+
 export function exportSettings() {
-  const localSet = {};
-  const extras = ['underscript.notice.'];
-  const skip = [];
-  let used = false;
-  each(settingReg, (setting) => {
-    const { key, extraPrefix, exportable } = setting;
-    if (!exportable) {
-      skip.push(key);
-      return;
-    }
-    const val = localStorage.getItem(key);
-    if (val !== null) {
-      used = true;
-      localSet[key] = val;
-    }
-    // By checking against prefixes later we cut on iterations
-    if (extraPrefix) {
-      extras.push(extraPrefix);
-    }
-  });
-  each(localStorage, (val, key) => {
-    if (localSet[key] !== undefined || skip.includes(key)) return;
-    used |= extras.some((prefix) => {
-      if (key.startsWith(prefix)) {
-        localSet[key] = val;
-        return true;
-      }
-      return false;
-    });
-  });
-  return used ? btoa(JSON.stringify(localSet)) : '';
+  return serialize(localStorage, portableFilter());
+}
+
+export function parseSettings(string) {
+  return parse(string, portableFilter());
 }
 
 export function importSettings(string) {
-  wrap(() => {
-    // TODO: Call setting events?
-    const parsed = JSON.parse(atob(string));
-    each(parsed, (val, key) => {
-      localStorage.setItem(key, val);
-    });
+  const result = parseSettings(string);
+  each(result.accepted, (val, key) => {
+    localStorage.setItem(key, val);
   });
+  return result;
 }
 
 init('main');

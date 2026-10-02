@@ -17,6 +17,7 @@ wrap(function patchNotes() {
     key: 'underscript.update.installed',
     type: 'text',
     hidden: true,
+    export: false,
     converter() {
       const key = `underscript.update.${scriptVersion}`;
       if (localStorage.getItem(key)) {

@@ -33,7 +33,7 @@ wrap(() => {
       get: () => enabled.value(),
     });
 
-    const registered = plugin.settings().add({ key: 'plugin.registered', hidden: true });
+    const registered = plugin.settings().add({ key: 'plugin.registered', hidden: true, export: false });
     if (registered.value()) return;
     if (!setting.value().includes('toast')) {
       registered.set(true);
