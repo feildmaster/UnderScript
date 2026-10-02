@@ -4,19 +4,25 @@
   overflow-y: auto;
 }
 
-.underscript-dialog fieldset {
-  padding: 0.35em 0.625em 0.75em;
-  margin: 0 2px;
-  border: 1px solid silver;
-}
+.underscript-dialog {
+  fieldset {
+    padding: 0.35em 0.625em 0.75em;
+    margin: 0 2px;
+    border: 1px solid silver;
+  }
 
-.underscript-dialog legend {
-  padding: 0;
-  border: 0;
-  width: auto;
-  margin: 0;
-  font-family: DTM-Mono, sans-serif;
-  color: white;
+  legend {
+    padding: 0;
+    border: 0;
+    width: auto;
+    margin: 0;
+    font-family: DTM-Mono, sans-serif;
+    color: white;
+  }
+
+  .modal-footer button.btn {
+    margin-bottom: 5px;
+  }
 }
 
 /*
@@ -28,7 +34,3 @@
   background-color: transparent;
 }
 */
-
-.underscript-dialog .modal-footer button.btn {
-  margin-bottom: 5px;
-}

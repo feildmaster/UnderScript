@@ -14,6 +14,7 @@ import { cardName } from 'src/utils/cardHelper.js';
 import extractImageName from 'src/utils/extractImageName';
 import { translateText } from 'src/utils/translate.js';
 import Translation from 'src/structures/constants/translation.js';
+import styles from './battleLog.css';
 
 /* eslint-disable no-use-before-define */
 settings.register({
@@ -438,15 +439,7 @@ eventManager.on('GameStart', function battleLogger() {
     return find(players, (player) => userInfo.name(player) === name);
   }
 
-  style.add(
-    '#history { border: 2px solid white; background-color: rgba(0,0,0,0.9); position: absolute; right: 10px; top: 10px; z-index: 20; user-select: text; }',
-    '#history .handle { border-bottom: 1px solid white; text-align: center; }',
-    '#history #log { display: flex; flex-direction: column-reverse; align-items: flex-start; overflow-y: auto; max-height: 600px; }',
-    '#history img { height: 16px; padding-right: 4px; }',
-    '#history #log div { position: relative; width: 100% }',
-    '#history #log div:after { content: ""; border-bottom: 1px dashed rgb(133,133,133); position: absolute; left: 0; right: 0; bottom: -1px; }',
-    '.dust-counter { pointer-events: none; }', // Don't let the counter cover the button
-  );
+  style.add(styles);
 
   const log = {
     init() {

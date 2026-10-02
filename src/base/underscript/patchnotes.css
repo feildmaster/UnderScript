@@ -1,0 +1,11 @@
+#AlertToast div.uschangelog {
+  span:nth-of-type(2) {
+    max-height: 300px;
+    overflow-y: auto;
+    display: block;
+  }
+
+  extended {
+    display: none;
+  }
+}

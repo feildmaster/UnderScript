@@ -8,6 +8,7 @@ import Translation from 'src/structures/constants/translation.ts';
 import Priority from 'src/structures/constants/priority.js';
 import extractImageName from 'src/utils/extractImageName';
 import { getTranslationArray } from '../underscript/translation.js';
+import styles from './filter.css';
 
 export const crafting = onPage('Crafting');
 export const decks = onPage('Decks');
@@ -65,12 +66,7 @@ const shiny = settings.register({
   default: 'Deck',
 });
 
-style.add(
-  '#collectionType { margin-bottom: 10px; }',
-  '.filter input+* {  opacity: 0.4; }',
-  '.filter input:checked+* {  opacity: 1; }',
-  '.filter input:disabled, .filter input:disabled+* { display: none; }',
-);
+style.add(styles);
 
 function applyLook(refresh = decks || crafting) {
   $('input[onchange^="applyFilters();"]').parent().parent().toggleClass('filter', !setting.value());

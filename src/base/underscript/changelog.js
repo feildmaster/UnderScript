@@ -5,6 +5,7 @@ import { scriptVersion } from 'src/utils/1.variables.js';
 import style from 'src/utils/style.js';
 import * as menu from 'src/utils/menu.js';
 import Translation from 'src/structures/constants/translation.ts';
+import styles from './changelog.css';
 
 const changelog = {};
 
@@ -17,19 +18,7 @@ const keys = {
 };
 
 // Change log :O
-style.add(`
-  .us-changelog h2 {
-    font-size: 24px;
-  }
-
-  .us-changelog h3 {
-    font-size: 20px;
-  }
-
-  extended {
-    display: contents;
-  }
-`);
+style.add(styles);
 function getMarkdown() {
   if (!changelog.markdown) {
     changelog.markdown = new showdown.Converter({

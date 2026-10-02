@@ -6,14 +6,14 @@
   display: flex;
   align-items: flex-start;
   flex-wrap: wrap;
-}
 
-.flex-start > label + * {
-  margin-left: 7px;
-}
+  > label + * {
+    margin-left: 7px;
+  }
 
-.flex-start > input {
-  margin-right: 4px;
+  > input {
+    margin-right: 4px;
+  }
 }
 
 .settings-search-container {
@@ -21,27 +21,31 @@
   flex-direction: column;
 }
 
-.underscript-dialog label.disabled {
-  color: #666;
-  cursor: not-allowed;
-}
+.underscript-dialog {
+  label.disabled {
+    color: #666;
+    cursor: not-allowed;
+  }
 
-.underscript-dialog .target-setting {
-  border: 2px solid yellow;
-}
+  .target-setting {
+    border: 2px solid yellow;
+  }
 
-/* TODO: convert reset to a type? for convenience {} */
-.underscript-dialog .reset:hover {
-  cursor: pointer;
-  font-weight: bold;
-}
+  /* TODO: convert reset to a type? for convenience {} */
+  .reset {
+    &:hover {
+      cursor: pointer;
+      font-weight: bold;
+    }
 
-.underscript-dialog .reset::before {
-  content: '[';
-}
+    &::before {
+      content: '[';
+    }
 
-.underscript-dialog .reset::after {
-  content: ']';
+    &::after {
+      content: ']';
+    }
+  }
 }
 
 .setting-search {
@@ -65,18 +69,18 @@
   list-style: none;
   background: #222;
   border: 1px solid white;
-}
 
-.setting-search-results li {
-  display: flex;
-  justify-content: space-between;
-  padding: 4px 8px;
-  cursor: pointer;
-}
+  li {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 8px;
+    cursor: pointer;
 
-.setting-search-results li.active,
-.setting-search-results li:hover {
-  background-color: rgb(68, 100, 189);
+    &.active,
+    &:hover {
+      background-color: rgb(68, 100, 189);
+    }
+  }
 }
 
 .setting-search-page {
@@ -84,28 +88,34 @@
   font-size: 0.85em;
 }
 
-.settings .modal-dialog {
-  width: min(800px, 90vw);
-}
+.settings {
+  .modal-dialog {
+    width: min(800px, 90vw);
+  }
 
-.settings .modal-body {
-  max-height: none;
-  overflow-y: visible;
-}
+  .modal-body {
+    max-height: none;
+    overflow-y: visible;
+  }
 
-.settings .tabbedView {
-  max-height: 70vh;
-  overflow-y: auto;
-}
+  .tabContent {
+    position: sticky;
+    top: 0;
+    height: 70vh;
+    overflow-y: auto;
+    contain: layout paint;
+    padding: 12px 3px 8px;
+    box-sizing: border-box;
 
-.settings .tabContent {
-  position: sticky;
-  top: 0;
-  height: 70vh;
-  overflow-y: auto;
-  contain: layout paint;
-  padding: 12px 3px 8px;
-  box-sizing: border-box;
+    &:has(> .tabbedView) {
+      height: auto;
+      overflow-y: visible;
+    }
+
+    > .tabbedView > .tabLabel {
+      margin-bottom: 5px;
+    }
+  }
 }
 
 .setting-description {
@@ -113,8 +123,4 @@
   margin: 0 0 4px 20px;
   font-size: 0.9em;
   opacity: 0.7;
-}
-
-.settings .tabContent > .tabbedView > .tabLabel {
-  margin-bottom: 5px;
 }

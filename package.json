@@ -21,7 +21,7 @@
     "prepack": "rollup -c",
     "start": "rollup -c --watch --configDebug",
     "lint": "eslint .",
-    "css": "stylelint ./src/",
+    "css": "stylelint \"src/**/*.{css,js}\"",
     "test": "mocha",
     "update": "npm version minor --m=\"chore(update): Release v%s\"",
     "version": "node scripts/validate.cjs",

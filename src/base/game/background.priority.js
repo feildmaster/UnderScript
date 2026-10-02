@@ -3,6 +3,7 @@ import eventManager from 'src/utils/eventManager.js';
 import * as settings from 'src/utils/settings/index.js';
 import style from 'src/utils/style.js';
 import Translation from 'src/structures/constants/translation.js';
+import styles from './background.priority.css';
 
 const NONE = 'None';
 
@@ -56,19 +57,7 @@ const boardClasses = levels
   .map(({ rank }) => `BOARD_${rank}`)
   .join(' ');
 
-style.add(
-  '.sortedList .PRIORITY.COPPER { --color: #b87333; }',
-  '.sortedList .PRIORITY.IRON { --color: #8f8f8f; }',
-  '.sortedList .PRIORITY.GOLD { --color: #ffe455; }',
-  '.sortedList .PRIORITY.EMERALD { --color: #00ca78; }',
-  '.sortedList .PRIORITY.DIAMOND { --color: #00ced2; }',
-  '.sortedList .PRIORITY.MASTER { --color: #ffb100; }',
-  '.sortedList .PRIORITY.HIGH_MASTER { --color: #ff7b00; }',
-  '.sortedList .PRIORITY.ULTIMATE_MASTER { --color: #ff3c00; }',
-  '.sortedList .PRIORITY.LEGEND { animation-name: rainbowSetting; animation-duration: 7s; animation-timing-function: linear; animation-iteration-count: infinite; }',
-  '@keyframes rainbowSetting { 0% { box-shadow: inset 0px 0px 20px 1px #f00; } 17% { box-shadow: inset 0px 0px 20px 1px #ff0; } 33% { box-shadow: inset 0px 0px 20px 1px #0f0; } 50% { box-shadow: inset 0px 0px 20px 1px #0ff; } 67% { box-shadow: inset 0px 0px 20px 1px #00f; } 84% { box-shadow: inset 0px 0px 20px 1px #f0f; } 100% { box-shadow: inset 0px 0px 20px 1px #f00; } }',
-  '.sortedList .PRIORITY { padding-left: 5px; margin-bottom: 5px; box-shadow: inset 0px 0px 20px 1px var(--color); }',
-);
+style.add(styles);
 
 const notify = settings.register({
   name: Translation.Setting('board.priority.notify'),

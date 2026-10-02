@@ -1,0 +1,52 @@
+.rank {
+  position: relative;
+  z-index: 9;
+  width: 32px;
+  height: 32px;
+  left: 76px;
+  top: 99px;
+  opacity: 0.9;
+  background-image: url('images/friendship.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+
+  &:not([top])[val]::after {
+    content: attr(val);
+    font-size: 17px;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-shadow: -1px -1px 0 #000, 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000;
+  }
+
+  &[top]::after {
+    content: ' ';
+    background-repeat: no-repeat;
+    background-position: center center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
+  &[val='1']::after {
+    background-image: url('images/rarity/DELTARUNE_DETERMINATION.png');
+  }
+
+  &[val='2']::after {
+    background-image: url('images/rarity/DELTARUNE_LEGENDARY.png');
+  }
+
+  &[val='3']::after {
+    background-image: url('images/rarity/DELTARUNE_EPIC.png');
+  }
+
+  &[val='4']::after {
+    background-image: url('images/rarity/DELTARUNE_RARE.png');
+  }
+
+  &[val='5']::after {
+    background-image: url('images/rarity/DELTARUNE_COMMON.png');
+  }
+}

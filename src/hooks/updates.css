@@ -1,31 +1,31 @@
 .updates {
   --silent: dimgray;
-}
 
-.updates .bootstrap-dialog-message {
-  display: flex;
-  flex-wrap: wrap;
-}
+  .bootstrap-dialog-message {
+    display: flex;
+    flex-wrap: wrap;
+  }
 
-.updates fieldset.silent {
-  border-color: var(--silent);
-}
+  fieldset.silent {
+    border-color: var(--silent);
+  }
 
-.updates fieldset {
-  text-align: center;
-}
+  fieldset {
+    text-align: center;
+  }
 
-.updates .modal-body .btn {
-  width: 100%;
-}
+  .modal-body .btn {
+    width: 100%;
+  }
 
-.updates .silent legend {
-  color: var(--silent);
-}
+  .silent legend {
+    color: var(--silent);
+  }
 
-.updates .btn-skip {
-  background-color: var(--silent);
-  color: white;
-  display: block;
-  margin-top: 5px;
+  .btn-skip {
+    background-color: var(--silent);
+    color: white;
+    display: block;
+    margin-top: 5px;
+  }
 }

@@ -6,18 +6,26 @@
   bottom: 100%;
   left: 0;
   right: 0;
-}
 
-.autobox div {
-  padding: 10px;
-  cursor: pointer;
-  background-color: rgba(0, 0, 0, 90%);
-  border-top: 1px solid #D4D4D4;
-  border-bottom: 1px solid #D4D4D4;
-}
+  div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 90%);
+    border-top: 1px solid #D4D4D4;
+    border-bottom: 1px solid #D4D4D4;
 
-.autobox div:hover {
-  background-color: #666;
+    &:hover {
+      background-color: #666;
+    }
+
+    &.autobox-hint {
+      cursor: default;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 90%);
+      }
+    }
+  }
 }
 
 div.autobox-active {
@@ -28,12 +36,4 @@ div.autobox-active {
 .autobox-note {
   opacity: 0.6;
   font-size: 0.85em;
-}
-
-.autobox div.autobox-hint {
-  cursor: default;
-}
-
-.autobox div.autobox-hint:hover {
-  background-color: rgba(0, 0, 0, 90%);
 }
