@@ -8,3 +8,5 @@ notice:
 ---
 
 Tired of those minigames? Just want to wait in peace until your game starts? Enable this setting.
+
+Prefer to play them? A setting switches the minigame controls to WASD.

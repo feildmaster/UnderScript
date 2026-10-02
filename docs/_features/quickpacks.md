@@ -5,3 +5,5 @@ version: 0.17.0
 ---
 
 Quickly open booster packs with Shift (all) and Ctrl (one).
+
+Opening several packs at once shows a progress bar, with a button to stop.

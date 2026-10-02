@@ -6,3 +6,5 @@ version: 0.20.0
 ---
 
 Friends are now highlighted in chat so you are more aware of their messages.
+
+Pick the color friends are highlighted with in the Chat settings.

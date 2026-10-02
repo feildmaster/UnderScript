@@ -6,10 +6,13 @@ method: true
 The Plugin API is a service made to allow elevated access to UnderScript's internals.
 
 ## Syntax
-> underscript.plugin(*name*);
+> underscript.plugin(*name*, *version*);
 
 name
 : Name of plugin (See [name restrictions](#restrictions))
+
+version
+: Version of your plugin, optional. A plugin with a version can use [`plugin.updater()`]({% link _api/plugin/updater.md %}).
 
 Return Value
 : Returns `Plugin` object

@@ -5,3 +5,5 @@ version: 0.22.0
 ---
 
 Remembers the music that was playing, no longer losing it on refresh.
+
+It now remembers the arena background too (Persist Arena in the Game settings), and you can show your preferred board background in games.

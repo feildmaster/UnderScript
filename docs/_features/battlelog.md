@@ -6,3 +6,5 @@ version: 0.5.0
 ---
 
 The battle log gives you a visual history of what's happened during your game.
+
+The in-game battle log can be turned off in the settings.

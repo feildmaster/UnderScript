@@ -18,8 +18,8 @@ type
 ## Examples
 {% highlight javascript %}
 // Open 10 packs
-undescript.openPacks(10);
+underscript.openPacks(10);
 
 // Open 5 deltarune packs
-undescript.openPacks(5, 'DR');
+underscript.openPacks(5, 'DR');
 {% endhighlight %}
