@@ -10,6 +10,7 @@ import decode from 'src/utils/decode.js';
 import { buttonCSS, window } from 'src/utils/1.variables.js';
 import Translation from 'src/structures/constants/translation.ts';
 import isCtrl from 'src/utils/isCtrl';
+import styles from './context.css';
 
 const setting = settings.register({
   name: Translation.Setting('chat.rightclick'),
@@ -17,44 +18,7 @@ const setting = settings.register({
   page: 'Chat',
 });
 
-style.add(`
-  .chatContext {
-    background-color: #F4F4F4;
-    margin: 10px;
-    color: #333;
-    border: 1px dashed #000;
-    position: absolute;
-    z-index: 1000;
-    text-align: center;
-    border-radius: 10px;
-  }
-  .chatContext header {
-    padding: 0 5px;
-    height: auto;
-  }
-  /* TODO: Why is this !important? */
-  .chatContext select {
-    background-color: transparent !important;
-  }
-  .chatContext li {
-    list-style: none;
-    margin: 0;
-    padding: 3px;
-    border-top: 1px solid #CCC;
-    cursor: pointer;
-  }
-  .chatContext .disabled {
-    background-color: #CCC;
-    cursor: not-allowed;
-  }
-  .chatContext li:not(.disabled):hover {
-    background-color: #036;
-    color: #F2F2F2;
-  }
-  .chatContext > :last-child {
-    border-radius: 0 0 10px 10px;
-  }
-`);
+style.add(styles);
 let toast;
 
 eventManager.on('jQuery', () => {

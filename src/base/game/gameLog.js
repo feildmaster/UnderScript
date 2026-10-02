@@ -2,16 +2,9 @@ import eventManager from 'src/utils/eventManager.js';
 import * as settings from 'src/utils/settings/index.js';
 import style from 'src/utils/style.js';
 import Translation from 'src/structures/constants/translation.js';
+import styles from './gameLog.css';
 
-style.add(
-  '#game-history.left { width: 75px; left: -66px; top: 70px; overflow-y: auto; right: initial; height: 426px; }',
-  '#game-history.left::-webkit-scrollbar { width: 8px; background-color: unset;  }',
-  '#game-history.left::-webkit-scrollbar-thumb { background-color: #555; }',
-  '#game-history.hidden { display: none; }',
-  '.timer.active { left: -65px; height: 26px; line-height: 22px; top: 497px; }',
-  // '.timer.active.ally { top: 526px; }',
-  // '.timer.active.enemy { top: 39px; }',
-);
+style.add(styles);
 
 let gameActive = false;
 const BattleLogSetting = 'underscript.disable.logger';

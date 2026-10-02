@@ -3,12 +3,9 @@ import { global } from 'src/utils/global.js';
 import style from 'src/utils/style.js';
 import { dismissable } from 'src/utils/2.toasts.js';
 import Translation from 'src/structures/constants/translation.ts';
+import styles from './missingImport.css';
 
-style.add(
-  '.missingArt { color: yellow; }',
-  '.missing { color: orange; }',
-  '.missingDT { color: red; }',
-);
+style.add(styles);
 
 function init() {
   eventManager.on('ShowPage', (page) => thing(page * 10));

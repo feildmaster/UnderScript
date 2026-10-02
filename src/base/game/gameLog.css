@@ -1,0 +1,30 @@
+#game-history {
+  &.left {
+    width: 75px;
+    left: -66px;
+    top: 70px;
+    overflow-y: auto;
+    right: initial;
+    height: 426px;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+      background-color: unset;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #555;
+    }
+  }
+
+  &.hidden {
+    display: none;
+  }
+}
+
+.timer.active {
+  left: -65px;
+  height: 26px;
+  line-height: 22px;
+  top: 497px;
+}

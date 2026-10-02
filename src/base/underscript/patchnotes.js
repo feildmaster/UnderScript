@@ -6,6 +6,7 @@ import { toast } from 'src/utils/2.toasts.js';
 import Translation from 'src/structures/constants/translation.ts';
 import eventManager from 'src/utils/eventManager';
 import * as changelog from './changelog.js';
+import styles from './patchnotes.css';
 
 wrap(function patchNotes() {
   const setting = settings.register({
@@ -32,17 +33,7 @@ wrap(function patchNotes() {
     installed.value() === scriptVersion
   ) return;
 
-  style.add(`
-    #AlertToast div.uschangelog span:nth-of-type(2) {
-      max-height: 300px;
-      overflow-y: auto;
-      display: block;
-    }
-
-    #AlertToast div.uschangelog extended {
-      display: none;
-    }
-  `);
+  style.add(styles);
 
   changelog.get(scriptVersion, true)
     .then((text) => eventManager.on('underscript:ready', () => notify(text)))

@@ -1,0 +1,45 @@
+#history {
+  border: 2px solid white;
+  background-color: rgba(0, 0, 0, 90%);
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 20;
+  user-select: text;
+
+  .handle {
+    border-bottom: 1px solid white;
+    text-align: center;
+  }
+
+  #log {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    overflow-y: auto;
+    max-height: 600px;
+
+    div {
+      position: relative;
+      width: 100%;
+
+      &::after {
+        content: '';
+        border-bottom: 1px dashed rgb(133, 133, 133);
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -1px;
+      }
+    }
+  }
+
+  img {
+    height: 16px;
+    padding-right: 4px;
+  }
+}
+
+.dust-counter {
+  pointer-events: none;
+}

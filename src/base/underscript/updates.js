@@ -14,20 +14,11 @@ import {
 } from 'src/hooks/updates';
 import plugin from 'src/utils/underscript';
 import Translation from 'src/structures/constants/translation.ts';
+import styles from './updates.css';
 
 // Check for script updates
 wrap(() => {
-  style.add(`
-    #AlertToast h2,
-    #AlertToast h3 {
-      margin: 0;
-      font-size: 20px;
-    }
-
-    #AlertToast h3 {
-      font-size: 17px;
-    }
-  `);
+  style.add(styles);
   const checker = createParser({ updateURL: 'UCProjects/UnderScript' });
   const DEBUG = 'underscript.update.debug';
   let updateToast;

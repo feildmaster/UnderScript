@@ -4,6 +4,7 @@ import { global } from 'src/utils/global.js';
 import { infoToast } from 'src/utils/2.toasts.js';
 import style from 'src/utils/style.js';
 import Translation from 'src/structures/constants/translation.js';
+import styles from './tag.friend.css';
 
 const tag = settings.register({
   name: Translation.Setting('tag.friend'),
@@ -22,6 +23,7 @@ const color = settings.register({
   reset: true,
 });
 
+style.add(styles);
 setColor(color.value());
 
 let toast;
@@ -48,5 +50,5 @@ eventManager.on('Chat:getMessage', function tagFriends(data) {
 });
 
 function setColor(newColor) {
-  style.add(`.friend { color: ${newColor} !important; }`);
+  document.documentElement.style.setProperty('--underscript-friend-color', newColor);
 }

@@ -1,0 +1,26 @@
+#AlertToast {
+  height: 0;
+
+  .dismissable {
+    > span {
+      display: block;
+      text-align: center;
+    }
+
+    .dismiss {
+      background-color: transparent;
+      border: 1px solid #FFF;
+      display: block;
+      font-family: DTM-Mono, monospace;
+      font-size: 14px;
+      margin: 5px auto;
+      max-width: 80%;
+      min-width: 160px;
+      text-transform: capitalize;
+
+      &:hover {
+        opacity: 0.6;
+      }
+    }
+  }
+}

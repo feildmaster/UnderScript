@@ -3,6 +3,8 @@
 ## Unreleased
 ### Features
 1. Added a search bar and status filters to the community plugins list, which is now sorted by name
+### Fixes
+1. Fixed some settings pages showing an extra scrollbar when they didn't need one
 ### Plugins
 1. Plugin setting pages with too many tabs to fit now split into pages, with arrows to flip between them<extended>
   - This also applies to any horizontal view made with `utils.tabManager()`. Those can pass `labels: { previous(page, total), next(page, total) }` and `tooltip: underscript.utils.hover` to `tabManager().settings()` to change the tooltip text or use UnderScript's hover instead of a plain `title`.

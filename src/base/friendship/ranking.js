@@ -7,6 +7,7 @@ import style from 'src/utils/style.js';
 import each from 'src/utils/each.js';
 import { HOUR } from 'src/utils/1.variables';
 import Translation from 'src/structures/constants/translation.ts';
+import styles from './ranking.css';
 
 // Add setting to disable, or use top 500 (simple mode)
 const disabled = 'No';
@@ -135,43 +136,7 @@ function displayRank(card, rank) {
 // eventManager.on('updateFriendship', (data) => updateCache({ ...data, save: true }));
 
 eventManager.on(':preload:Friendship', () => {
-  style.add(
-    `.rank {
-      position: relative;
-      z-index: 9;
-      width: 32px;
-      height: 32px;
-      left: 76px;
-      top: 99px;
-      opacity: 0.9;
-      background-image: url(images/friendship.png);
-      background-repeat: no-repeat;
-      background-position: center center;
-    }`,
-    `.rank:not([top])[val]::after {
-      content: attr(val);
-      font-size: 17px;
-      text-align: center;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-shadow: -1px -1px 0 #000, 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000;
-    }`,
-    `.rank[top]::after {
-      content: ' ';
-      background-repeat: no-repeat;
-      background-position: center center;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-    }`,
-    '.rank[val="1"]::after { background-image: url(images/rarity/DELTARUNE_DETERMINATION.png); }',
-    '.rank[val="2"]::after { background-image: url(images/rarity/DELTARUNE_LEGENDARY.png); }',
-    '.rank[val="3"]::after { background-image: url(images/rarity/DELTARUNE_EPIC.png); }',
-    '.rank[val="4"]::after { background-image: url(images/rarity/DELTARUNE_RARE.png); }',
-    '.rank[val="5"]::after { background-image: url(images/rarity/DELTARUNE_COMMON.png); }',
-  );
+  style.add(styles);
 
   const pending = [];
   let loaded = false;

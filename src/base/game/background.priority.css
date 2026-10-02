@@ -1,0 +1,61 @@
+@keyframes rainbow-setting {
+  0% {
+    box-shadow: inset 0 0 20px 1px #F00;
+  }
+  17% {
+    box-shadow: inset 0 0 20px 1px #FF0;
+  }
+  33% {
+    box-shadow: inset 0 0 20px 1px #0F0;
+  }
+  50% {
+    box-shadow: inset 0 0 20px 1px #0FF;
+  }
+  67% {
+    box-shadow: inset 0 0 20px 1px #00F;
+  }
+  84% {
+    box-shadow: inset 0 0 20px 1px #F0F;
+  }
+  100% {
+    box-shadow: inset 0 0 20px 1px #F00;
+  }
+}
+
+.sortedList .PRIORITY {
+  padding-left: 5px;
+  margin-bottom: 5px;
+  box-shadow: inset 0 0 20px 1px var(--color);
+
+  &.COPPER {
+    --color: #B87333;
+  }
+  &.IRON {
+    --color: #8F8F8F;
+  }
+  &.GOLD {
+    --color: #FFE455;
+  }
+  &.EMERALD {
+    --color: #00CA78;
+  }
+  &.DIAMOND {
+    --color: #00CED2;
+  }
+  &.MASTER {
+    --color: #FFB100;
+  }
+  &.HIGH_MASTER {
+    --color: #FF7B00;
+  }
+  &.ULTIMATE_MASTER {
+    --color: #FF3C00;
+  }
+
+  &.LEGEND {
+    animation-name: rainbow-setting;
+    animation-duration: 7s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+}

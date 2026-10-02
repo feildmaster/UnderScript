@@ -9,19 +9,122 @@
   grid-template-rows: min-content 1fr;
   column-gap: var(--tab-label-gap);
   align-content: start;
-}
 
-.tabbedView.left,
-.tabbedView.right {
-  grid-template-rows: repeat(var(--tab-count), min-content) 1fr;
-}
+  &.left,
+  &.right {
+    grid-template-rows: repeat(var(--tab-count), min-content) 1fr;
+  }
 
-.tabbedView.left {
-  grid-template-columns: fit-content(var(--tab-label-max-width)) 1fr;
-}
+  &.left {
+    grid-template-columns: fit-content(var(--tab-label-max-width)) 1fr;
 
-.tabbedView.right {
-  grid-template-columns: 1fr fit-content(var(--tab-label-max-width));
+    > .tabContent {
+      grid-column: 2;
+      grid-row: 1 / -1;
+      min-width: 0;
+    }
+
+    > .tabLabel {
+      grid-column: 1;
+      grid-row: auto;
+    }
+
+    > .tabContent.nested > .tabbedView > .tabLabel {
+      grid-column: 1;
+      grid-row: auto;
+      margin-left: 12px;
+      border-left: 3px solid rgb(68, 100, 189);
+    }
+
+    > .tabContent.nested > .tabbedView > .tabContent {
+      grid-column: 2;
+      grid-row: 1 / -1;
+      min-width: 0;
+    }
+
+    > .tabLabel.end + .tabContent.nested > .tabbedView > .tabLabel {
+      order: 1;
+    }
+  }
+
+  &.right {
+    grid-template-columns: 1fr fit-content(var(--tab-label-max-width));
+
+    > .tabContent {
+      grid-column: 1;
+      grid-row: 1 / -1;
+      min-width: 0;
+    }
+
+    > .tabLabel {
+      grid-column: 2;
+      grid-row: auto;
+      order: 3;
+
+      &.end {
+        order: 4;
+      }
+    }
+  }
+
+  > .tabContent {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    min-width: 0;
+  }
+
+  > .tabLabel {
+    grid-row: 1;
+    box-sizing: border-box;
+
+    &.offscreen {
+      display: none;
+    }
+  }
+
+  &.paged {
+    grid-template-columns: repeat(var(--tab-visible), max-content) 1fr repeat(2, max-content);
+
+    > .tabLabel {
+      overflow: visible;
+      text-overflow: clip;
+    }
+  }
+
+  > .tabArrow {
+    min-width: 26px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+
+    &[data-dir='-1'] {
+      grid-column: -3 / -2;
+    }
+
+    &[data-dir='1'] {
+      grid-column: -2 / -1;
+    }
+
+    &.disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+  }
+
+  &.single {
+    > .tabLabel {
+      display: none;
+    }
+
+    &.left,
+    &.right {
+      grid-template-columns: 1fr;
+
+      > .tabContent {
+        grid-column: 1;
+      }
+    }
+  }
 }
 
 .tabButton {
@@ -31,28 +134,37 @@
   height: 0;
   margin: 0;
   pointer-events: none;
+
+  &:checked + .tabLabel {
+    background-color: rgb(68, 100, 189);
+
+    + .tabContent {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+
+      &.nested {
+        display: contents;
+      }
+    }
+  }
+
+  &:focus-visible + .tabLabel {
+    outline: 2px solid rgb(68, 100, 189);
+    outline-offset: 1px;
+  }
 }
 
 .tabContent {
   display: none;
-}
 
-.tabbedView > .tabContent {
-  grid-row: 2;
-  grid-column: 1 / -1;
-  min-width: 0;
-}
+  &.nested > .tabbedView {
+    display: contents;
 
-.tabbedView.left > .tabContent {
-  grid-column: 2;
-  grid-row: 1 / -1;
-  min-width: 0;
-}
-
-.tabbedView.right > .tabContent {
-  grid-column: 1;
-  grid-row: 1 / -1;
-  min-width: 0;
+    &.single > .tabLabel {
+      display: block;
+    }
+  }
 }
 
 /* Labels */
@@ -63,119 +175,8 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
 
-.tabLabel.end {
-  order: 1;
-}
-
-.tabbedView > .tabLabel {
-  grid-row: 1;
-  box-sizing: border-box;
-}
-
-.tabbedView.paged {
-  grid-template-columns: repeat(var(--tab-visible), max-content) 1fr repeat(2, max-content);
-}
-
-.tabbedView.paged > .tabLabel {
-  overflow: visible;
-  text-overflow: clip;
-}
-
-.tabbedView > .tabLabel.offscreen {
-  display: none;
-}
-
-.tabbedView > .tabArrow {
-  min-width: 26px;
-  text-align: center;
-  cursor: pointer;
-  user-select: none;
-}
-
-.tabbedView > .tabArrow[data-dir='-1'] {
-  grid-column: -3 / -2;
-}
-
-.tabbedView > .tabArrow[data-dir='1'] {
-  grid-column: -2 / -1;
-}
-
-.tabbedView > .tabArrow.disabled {
-  opacity: 0.35;
-  cursor: default;
-}
-
-.tabbedView.left > .tabLabel {
-  grid-column: 1;
-  grid-row: auto;
-}
-
-.tabbedView.right > .tabLabel {
-  grid-column: 2;
-  grid-row: auto;
-  order: 3;
-}
-
-.tabbedView.right > .tabLabel.end {
-  order: 4;
-}
-
-.tabButton:checked + .tabLabel {
-  background-color: rgb(68, 100, 189);
-}
-
-.tabButton:focus-visible + .tabLabel {
-  outline: 2px solid rgb(68, 100, 189);
-  outline-offset: 1px;
-}
-
-.tabButton:checked + .tabLabel + .tabContent {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-
-.tabbedView.single > .tabLabel {
-  display: none;
-}
-
-.tabContent.nested > .tabbedView.single > .tabLabel {
-  display: block;
-}
-
-.tabbedView.single.left,
-.tabbedView.single.right {
-  grid-template-columns: 1fr;
-}
-
-.tabbedView.single.left > .tabContent,
-.tabbedView.single.right > .tabContent {
-  grid-column: 1;
-}
-
-.tabButton:checked + .tabLabel + .tabContent.nested {
-  display: contents;
-}
-
-.tabContent.nested > .tabbedView {
-  display: contents;
-}
-
-.tabbedView.left > .tabContent.nested > .tabbedView > .tabLabel {
-  grid-column: 1;
-  grid-row: auto;
-  margin-left: 12px;
-  border-left: 3px solid rgb(68, 100, 189);
-}
-
-.tabbedView.left > .tabContent.nested > .tabbedView > .tabContent {
-  grid-column: 2;
-  grid-row: 1 / -1;
-  min-width: 0;
-}
-
-.tabbedView.left > .tabLabel.end + .tabContent.nested > .tabbedView > .tabLabel {
-  order: 1;
+  &.end {
+    order: 1;
+  }
 }

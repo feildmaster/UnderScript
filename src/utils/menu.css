@@ -1,0 +1,80 @@
+.menu-backdrop {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 40%);
+  z-index: 1010;
+}
+
+.menu-close {
+  float: right;
+  color: #AAA;
+  font-size: 28px;
+  font-weight: bold;
+  margin: -5px;
+
+  &:hover,
+  &:focus {
+    color: #FFF;
+    text-decoration: none;
+    cursor: pointer;
+  }
+}
+
+.menu-content {
+  color: #FFF;
+  margin: 4% auto;
+  padding: 0;
+  border: 2px solid #888;
+  width: 280px;
+  background: #000 url('../images/backgrounds/2.png') center 632px;
+
+  > * {
+    padding: 2px 16px;
+  }
+
+  a {
+    color: #FFF;
+  }
+}
+
+.menu-header {
+  text-align: center;
+  font-size: 30px;
+}
+
+.menu-footer img {
+  height: 16px;
+  vertical-align: middle;
+}
+
+.menu-body {
+  background-color: rgba(0, 0, 0, 60%);
+  min-height: 250px;
+  max-height: 600px;
+  overflow-y: auto;
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  li {
+    list-style-type: none;
+    border: 1px solid #FFF;
+    width: 80%;
+    text-align: center;
+    margin: 5px auto;
+    opacity: 1;
+
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+      opacity: 0.4;
+    }
+  }
+}
