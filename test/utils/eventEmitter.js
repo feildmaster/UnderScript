@@ -275,6 +275,29 @@ describe('EventEmitter', () => {
         emitter.emit('test');
         assertInc(0);
       });
+
+      it('should turn off a wrapped listener by its original function', () => {
+        let calls = 0;
+        function callback() {
+          calls += 1;
+        }
+        function wrapped(...args) {
+          return callback(...args);
+        }
+        wrapped.original = callback;
+        emitter.on('test', wrapped);
+        emitter.off('test', callback);
+        emitter.emit('test');
+        expect(calls).to.equal(0);
+      });
+
+      it('should leave unrelated listeners alone', () => {
+        let calls = 0;
+        emitter.on('test', () => { calls += 1; });
+        emitter.off('test', () => {});
+        emitter.emit('test');
+        expect(calls).to.equal(1);
+      });
     });
   });
   describe('Extend', () => {

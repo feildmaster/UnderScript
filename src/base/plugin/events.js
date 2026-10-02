@@ -33,6 +33,7 @@ wrap(() => {
         return undefined;
       }
       listener.plugin = plugin;
+      listener.original = fn;
       return listener;
     }
     const obj = {

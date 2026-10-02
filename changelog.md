@@ -9,6 +9,7 @@
   - Settings pages always use UnderScript's own arrows and tooltips.
 </extended>
 1. Added `plugin.settings().name(<string>)` to rename the first settings tab
+1. Fixed `plugin.events.once`, `until`, and `off` not removing listeners
 
 ## Version 0.64.0 (2026-08-28)
 ### Features

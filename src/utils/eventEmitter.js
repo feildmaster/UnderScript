@@ -93,8 +93,10 @@ export default function eventEmitter() {
   function off(event, fn) {
     event.split(' ').forEach((e) => {
       const list = events[e] || [];
-      while (list.includes(fn)) {
-        list.splice(list.indexOf(fn), 1);
+      for (let i = list.length - 1; i >= 0; i--) {
+        if (list[i] === fn || list[i].original === fn) {
+          list.splice(i, 1);
+        }
       }
     });
   }

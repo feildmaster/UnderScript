@@ -159,6 +159,7 @@ export default [
       },
     },
     rules: {
+      'no-console': 'off',
       'no-unused-expressions': 'off',
     },
   },
