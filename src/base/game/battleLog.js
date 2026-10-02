@@ -16,6 +16,71 @@ import { translateText } from 'src/utils/translate.js';
 import Translation from 'src/structures/constants/translation.js';
 import styles from './battleLog.css';
 
+const sizeSetting = settings.register({
+  key: 'underscript.battlelog.size',
+  type: 'text',
+  default: '',
+  hidden: true,
+});
+const minimizedSetting = settings.register({
+  key: 'underscript.battlelog.minimized',
+  hidden: true,
+});
+const minWidth = 200;
+const minHeight = 60;
+
+function loadSize() {
+  try {
+    return JSON.parse(sizeSetting.value()) || {};
+  } catch {
+    return {};
+  }
+}
+
+function clampWidth(width) {
+  return Math.max(minWidth, Math.min(width, window.innerWidth - 20));
+}
+
+function setMinimized(history, toggle, minimized) {
+  history.toggleClass('minimized', minimized);
+  toggle.text(minimized ? '+' : '−');
+  toggle.attr('title', minimized ? 'Expand' : 'Minimize');
+}
+
+function startResize(event, history, logElement, grip, { horizontal, vertical }) {
+  event.preventDefault();
+  const startX = event.clientX;
+  const startY = event.clientY;
+  const startWidth = history.outerWidth();
+  const startHeight = logElement.height();
+  grip[0].setPointerCapture(event.originalEvent.pointerId);
+  const move = ({ originalEvent: { clientX, clientY } }) => {
+    if (horizontal) {
+      history.css('width', `${clampWidth(startWidth + startX - clientX)}px`);
+    }
+    if (vertical) {
+      logElement.css({ height: `${Math.max(minHeight, startHeight + clientY - startY)}px`, maxHeight: 'none' });
+    }
+  };
+  const end = () => {
+    grip.off('pointermove', move);
+    grip.off('pointerup pointercancel', end);
+    const saved = loadSize();
+    sizeSetting.set({
+      width: horizontal ? Math.round(history.outerWidth()) : saved.width,
+      height: vertical ? Math.round(logElement.height()) : saved.height,
+    });
+  };
+  grip.on('pointermove', move);
+  grip.on('pointerup pointercancel', end);
+}
+
+function addGrip(history, logElement, name, directions) {
+  const grip = $(`<div class='grip ${name}'></div>`);
+  grip.on('pointerdown', (event) => startResize(event, history, logElement, grip, directions));
+  history.append(grip);
+}
+
 /* eslint-disable no-use-before-define */
 settings.register({
   name: Translation.Setting('disable.logger'),
@@ -193,7 +258,7 @@ eventManager.on('GameStart', function battleLogger() {
     if (settings.value('underscript.disable.logger')) {
       $('#history').hide();
     }
-    $('div#history div.handle').html('').append(`[${data.gameType}] `, make.player(you), ' vs ', make.player(enemy));
+    $('div#history div.handle .title').html('').append(`[${data.gameType}] `, make.player(you), ' vs ', make.player(enemy));
     log.add(`${turnText} ${turn}`);
     if (data.userTurn) {
       currentTurn = data.userTurn;
@@ -444,7 +509,8 @@ eventManager.on('GameStart', function battleLogger() {
   const log = {
     init() {
       const hi = $('<div id=\'history\'></div>');
-      const ha = $('<div class=\'handle\'>History</div>');
+      const ha = $('<div class=\'handle\'><span class=\'title\'>History</span></div>');
+      const toggle = $('<span class=\'toggle\'></span>');
       const lo = $('<div id=\'log\'></div>');
       // Positional math -- not working anymore??
       const mainContent = $('div.gameContent');
@@ -454,8 +520,21 @@ eventManager.on('GameStart', function battleLogger() {
       hi.css({
         width: `${window.innerWidth - pos - 20}px`,
       });
+      const saved = loadSize();
+      if (saved.width) hi.css('width', `${clampWidth(saved.width)}px`);
+      if (saved.height) lo.css({ height: `${saved.height}px`, maxHeight: 'none' });
+      setMinimized(hi, toggle, minimizedSetting.value());
+      toggle.on('click', () => {
+        const minimized = !hi.hasClass('minimized');
+        setMinimized(hi, toggle, minimized);
+        minimizedSetting.set(minimized);
+      });
+      ha.append(toggle);
       hi.append(ha);
       hi.append(lo);
+      addGrip(hi, lo, 'left', { horizontal: true });
+      addGrip(hi, lo, 'bottom', { vertical: true });
+      addGrip(hi, lo, 'corner', { horizontal: true, vertical: true });
       $('body').append(hi);
     },
     add(...args) {
