@@ -53,17 +53,24 @@ export function getAllArtifacts() { // TODO: This isn't really a "user" function
   return getDeckConfig().then(({ allArtifacts: data = [] }) => parse(data));
 }
 
+let deckConfig;
 function getDeckConfig() {
-  return new Promise((res) => {
-    eventManager.on('Deck:Loaded', (data) => res(data));
-    sleep(500).then(() => res());
-  }).then((res) => {
-    if (res) return res;
-    return axios.get('DecksConfig').then(({ data }) => {
-      eventManager.singleton.emit('Deck:Loaded', data);
-      return data;
+  if (!deckConfig) {
+    deckConfig = new Promise((res) => {
+      eventManager.once('Deck:Loaded', res);
+      sleep(500).then(() => res());
+    }).then((res) => {
+      if (res) return res;
+      return axios.get('DecksConfig').then(({ data }) => {
+        eventManager.singleton.emit('Deck:Loaded', data);
+        return data;
+      });
+    }).catch((err) => {
+      deckConfig = undefined;
+      throw err;
     });
-  });
+  }
+  return deckConfig;
 }
 
 function parse(data) {
