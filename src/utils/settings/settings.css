@@ -126,6 +126,10 @@
   margin-right: 6px;
 }
 
+#underscriptDebugButton {
+  margin-left: auto;
+}
+
 #underscriptImportText {
   box-sizing: border-box;
   width: 100%;

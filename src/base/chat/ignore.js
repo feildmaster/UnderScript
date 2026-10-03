@@ -5,6 +5,7 @@ import { global } from 'src/utils/global.js';
 import * as fnUser from 'src/utils/user.js';
 import pendingIgnore from 'src/utils/pendingIgnore.js';
 import { debug } from 'src/utils/debug.js';
+import { chat, chatMessage } from 'src/utils/debugFlags.js';
 import Translation from 'src/structures/constants/translation.ts';
 
 const setting = settings.register({
@@ -44,7 +45,7 @@ export default function shouldIgnore(message, self = false) {
 let count;
 
 function processMessage(message, room, history = false) {
-  debug(message, 'debugging.chat.message');
+  debug(message, chatMessage);
   if (!shouldIgnore(message) || global('isFriend')(message.user.id)) {
     $(`#${room}`).removeData('container');
     return;
@@ -61,7 +62,7 @@ function processMessage(message, room, history = false) {
       .html(`<span class="gray">${Translation.General('message.hidden')}</span>`)
       .removeClass().addClass('chat-message');
   } else if (type === 'remove') {
-    debug(`removed ${fnUser.name(message.user)}`, 'debugging.chat');
+    debug(`removed ${fnUser.name(message.user)}`, chat);
     let container = $(`#${room}`).data('container');
     if (!container) {
       count = 1;

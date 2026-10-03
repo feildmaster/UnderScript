@@ -1,4 +1,5 @@
 import * as settings from 'src/utils/settings/index.js';
+import debugMode from 'src/base/underscript/debugMode.js';
 import html from './advanced.html';
 
 const page = document.createElement('div');
@@ -6,6 +7,7 @@ page.innerHTML = html;
 const text = page.querySelector('#underscriptImportText');
 const file = page.querySelector('#underscriptImportFile');
 const status = page.querySelector('#underscriptAdvancedStatus');
+const debugButton = page.querySelector('#underscriptDebugButton');
 const MAX_LISTED = 10;
 let pending;
 text.addEventListener('input', () => {
@@ -22,9 +24,20 @@ file.addEventListener('change', async () => {
   text.dispatchEvent(new Event('input'));
   file.value = '';
 });
+debugButton.addEventListener('click', () => {
+  const on = !debugMode.value();
+  debugMode.set(on ? true : undefined);
+  updateDebugButton();
+  show(`Debug mode is ${on ? 'on' : 'off'}. Reload the page to ${on ? 'show' : 'hide'} the Debug tab.`);
+});
+updateDebugButton();
 // TODO: Translate export/import
 
 settings.getScreen().addTab('Advanced', page).setEnd(true);
+
+function updateDebugButton() {
+  debugButton.textContent = debugMode.value() ? 'Disable debug mode' : 'Enable debug mode';
+}
 
 function save(data = settings.exportSettings()) {
   if (!data) {

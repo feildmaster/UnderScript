@@ -3,6 +3,7 @@ import * as settings from 'src/utils/settings/index.js';
 import { global } from 'src/utils/global.js';
 import style from 'src/utils/style.js';
 import { debug } from 'src/utils/debug.js';
+import * as flags from 'src/utils/debugFlags.js';
 import onPage from 'src/utils/onPage.js';
 import * as hover from 'src/utils/hover.js';
 import each from 'src/utils/each.js';
@@ -193,7 +194,7 @@ eventManager.on('GameStart', function battleLogger() {
   };
 
   eventManager.on('connect', function initBattle(data) {
-    debug(data, 'debugging.raw.game');
+    debug(data, flags.rawGame);
     const you = JSON.parse(data.you);
     const enemy = JSON.parse(data.enemy);
     if (you.username.startsWith('story-')) {
@@ -220,7 +221,7 @@ eventManager.on('GameStart', function battleLogger() {
     enemy.class = window.enemySoul?.name ?? data.enemySoul;
     enemy.rank = data.enemyRank;
     // yourArtifacts, yourAvatar {id, image, name, rarity, ucpCost}, division, oldDivision, profileSkin {id, name, image, ucpCost}
-    debug({ you, enemy }, 'debugging.game');
+    debug({ you, enemy }, flags.game);
     turn = data.turn || 0;
     players[you.id] = you;
     players[enemy.id] = enemy;
@@ -277,7 +278,7 @@ eventManager.on('GameStart', function battleLogger() {
     log.add(make.card(monsters[data.attackMonster]), ' attacked ', target);
   });
   eventManager.on('getUpdatePlayerHp', function updateHP(data) {
-    debug(data, 'debugging.raw.updateHP');
+    debug(data, flags.rawUpdateHP);
     const player = players[data.playerId];
     const oHp = player.hp;
     player.hp = data.hp;
@@ -292,7 +293,7 @@ eventManager.on('GameStart', function battleLogger() {
     }
   });
   eventManager.on('getDoingEffect', function doEffect(data) {
-    debug(data, 'debugging.raw.effect');
+    debug(data, flags.rawEffect);
     if (data.card) {
       const card = JSON.parse(data.card);
       monsters[card.id] = card;
@@ -335,7 +336,7 @@ eventManager.on('GameStart', function battleLogger() {
     return bits;
   }
   eventManager.on('getTurnStart', function turnStart(data) {
-    debug(data, 'debugging.raw.turnStart');
+    debug(data, flags.rawTurnStart);
     lastEffect = 0;
     if (data.numTurn !== turn) {
       turn = data.numTurn;
@@ -347,7 +348,7 @@ eventManager.on('GameStart', function battleLogger() {
     }
   });
   eventManager.on('getTurnEnd', function turnEnd(data) {
-    debug(data, 'debugging.raw.turnEnd');
+    debug(data, flags.rawTurnEnd);
     // Lets switch the turn NOW, rather than later, the purpose of this is currently unknown... It just sounded like a good idea, also delete the "lostLife" flag...
     if (global('time') <= 0) {
       log.add(make.player(players[data.idPlayer]), ' timed out');
@@ -358,7 +359,7 @@ eventManager.on('GameStart', function battleLogger() {
     lastSP = 0;
   });
   eventManager.on('getUpdateBoard', function updateGame(data) {
-    debug(data, 'debugging.raw.boardUpdate');
+    debug(data, flags.rawBoardUpdate);
     // const oldMonsters = monsters;
     monsters = {};
     // TOOD: stuff....
@@ -370,25 +371,25 @@ eventManager.on('GameStart', function battleLogger() {
   });
   eventManager.on('updateMonster updateCard', function updateCard(data) {
     data.monster = JSON.parse(data.monster || data.card);
-    debug(data, 'debugging.raw.updateMonster');
+    debug(data, flags.rawUpdateMonster);
     const card = data.monster;
     monsters[card.id] = merge(monsters[card.id], card);
   });
   eventManager.on('getMonsterDestroyed', function monsterKilled(data) {
-    debug(data, 'debugging.raw.kill');
+    debug(data, flags.rawKill);
     // monsterId: #
     log.add(make.card(monsters[data.monsterId]), ' was killed');
     delete monsters[data.monsterId];
   });
   eventManager.on('getCardBoard getMonsterPlayed', function playCard(data) { // Adds card to X, Y (0(enemy), 1(you))
-    debug(data, 'debugging.raw.boardAdd');
+    debug(data, flags.rawBoardAdd);
     const card = JSON.parse(data.card);
     card.owner = data.idPlayer;
     monsters[card.id] = card;
     log.add(make.player(players[data.idPlayer]), ' played ', make.card(card));
   });
   eventManager.on('getSpellPlayed', function useSpell(data) {
-    debug(data, 'debugging.raw.spell');
+    debug(data, flags.rawSpell);
     // immediately calls "getDoingEffect" and "getUpdateBoard"
     const card = JSON.parse(data.card);
     if (lastSP === card.id) return;
@@ -402,13 +403,13 @@ eventManager.on('GameStart', function battleLogger() {
     log.add(make.player(players[data.idPlayer]), ' exposed ', make.card(card));
   });
   eventManager.on('getCardDestroyedHandFull', function destroyCard(data) {
-    debug(data, 'debugging.raw.fullHand');
+    debug(data, flags.rawFullHand);
     const card = JSON.parse(data.card);
-    debug(data.card, 'debugging.destroyed.card');
+    debug(data.card, flags.destroyedCard);
     log.add(make.player(players[data.idPlayer || card.ownerId]), ' discarded ', make.card(card));
   });
   eventManager.on('getPlayersStats', function updatePlayer(data) { // TODO: When does this get called?
-    debug(data, 'debugging.raw.stats');
+    debug(data, flags.rawStats);
     let temp = JSON.parse(data.handsSize);
     Object.keys(temp).forEach((key) => {
       // TODO: hand size monitoring
@@ -435,7 +436,7 @@ eventManager.on('GameStart', function battleLogger() {
     // data.turn
   });
   eventManager.on('getVictory getDefeat', function gameEnd(data) {
-    debug(data, 'debugging.raw.end');
+    debug(data, flags.rawEnd);
     const userId = global('userId');
     const opponentId = global('opponentId');
     const you = make.player(players[userId]);
@@ -459,7 +460,7 @@ eventManager.on('GameStart', function battleLogger() {
     log.add(you, ' beat ', enemy);
   });
   eventManager.on('getResult', function endSpectating(data) {
-    debug(data, 'debugging.raw.end');
+    debug(data, flags.rawEnd);
     const loser = lookupPlayer(data.looser);
     let loseReason = '';
     if (data.cause === 'game-end-surrender') {
@@ -484,8 +485,8 @@ eventManager.on('GameStart', function battleLogger() {
     log.add(make.player(winner), ` beat `, lost);
   });
   eventManager.on(ignoreEvents.join(' '), function ignore(data) {
-    debug(data, 'debugging.raw.ignore');
-    debug(data, `debugging.raw.ignore.${this.event}`);
+    debug(data, flags.rawIgnore);
+    debug(data, flags.rawIgnoreEvent(this.event));
   });
   eventManager.on('getUpdateSoul', function blah(data) {
     updateSoul({

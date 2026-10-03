@@ -1,4 +1,5 @@
 import { debug } from './debug.js';
+import { extractMeta as flag } from './debugFlags.js';
 
 const regex = /\B\/\/ ==UserScript==\r?\n([\S\s]*?)\r?\n\/\/ ==\/UserScript==/;
 
@@ -23,7 +24,7 @@ export default function extractMeta(text = '') {
     }, {});
   } catch (err) {
     console.error(err);
-    debug(err, 'debugging.extractMeta');
+    debug(err, flag);
     return null;
   }
 }

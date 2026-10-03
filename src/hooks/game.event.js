@@ -1,16 +1,17 @@
 import eventManager from 'src/utils/eventManager.js';
 import { debug } from 'src/utils/debug.js';
 import debugToast from 'src/utils/debugToast';
+import { eventExtra, eventName, eventRaw } from 'src/utils/debugFlags.js';
 
 eventManager.on('GameStart', function gameEvents() {
   let finished = false;
   eventManager.on('GameEvent', function logEvent(data) {
     if (finished) { // Sometimes we get events after the battle is over
-      debugToast(`Extra action: ${data.action}`, 'debugging.events.extra');
+      debugToast(`Extra action: ${data.action}`, eventExtra);
       return;
     }
-    debug(data.action, 'debugging.events.name');
-    debug(data, 'debugging.events.raw');
+    debug(data.action, eventName);
+    debug(data, eventRaw);
     const emitted = eventManager.emit(data.action, data).ran;
     if (!emitted) {
       debugToast(`Unknown action: ${data.action}`);

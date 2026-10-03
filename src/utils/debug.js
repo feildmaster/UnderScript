@@ -1,10 +1,24 @@
-export function debug(message, permission = 'debugging', ...extras) {
-  if (!value(permission) && !value('debugging.*')) return;
-  // message.stack = new Error().stack.split('\n').slice(2);
-  console.debug(`[${permission}]`, message, ...extras);
+import { all, general } from './debugFlags.js';
+
+/**
+ * @param {unknown} message
+ * @param {import('./debugFlags.js').DebugFlag} [flag]
+ * @param {...unknown} extras
+ */
+export function debug(message, flag = general, ...extras) {
+  if (!enabled(flag)) return;
+  console.debug(`[${flag.key}]`, message, ...extras);
 }
 
-export function value(key) {
+/**
+ * @param {import('./debugFlags.js').DebugFlag} flag
+ * @returns {boolean}
+ */
+export function enabled(flag) {
+  return value(flag.key) || value(all.key);
+}
+
+function value(key) {
   const val = localStorage.getItem(key);
   return val === '1' || val === 'true';
 }

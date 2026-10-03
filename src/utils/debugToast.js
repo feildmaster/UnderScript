@@ -1,9 +1,14 @@
 import { toast } from './2.toasts.js';
 import merge from './merge.js';
-import { value } from './debug.js';
+import { enabled } from './debug.js';
+import { general } from './debugFlags.js';
 
-export default function debugToast(arg, permission = 'debugging') {
-  if (!value(permission) && !value('debugging.*')) return false;
+/**
+ * @param {string | object} arg
+ * @param {import('./debugFlags.js').DebugFlag} [flag]
+ */
+export default function debugToast(arg, flag = general) {
+  if (!enabled(flag)) return false;
   if (typeof arg === 'string') {
     arg = {
       text: arg,

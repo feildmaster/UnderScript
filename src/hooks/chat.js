@@ -1,6 +1,7 @@
 import { SOCKET_SCRIPT_CLOSED } from 'src/utils/1.variables.js';
 import eventManager from 'src/utils/eventManager.js';
 import { debug } from 'src/utils/debug.js';
+import { rawChat } from 'src/utils/debugFlags.js';
 import { global, globalSet } from 'src/utils/global.js';
 import VarStore from 'src/utils/VarStore.js';
 import { attach } from 'src/utils/autocomplete.js';
@@ -23,7 +24,7 @@ function bind(socketChat) {
   socketChat.onmessage = (event) => {
     const data = JSON.parse(event.data);
     const { action } = data;
-    debug(data, `debugging.rawchat.${action}`);
+    debug(data, rawChat(action));
 
     if (action === 'getMessage' && data.idRoom) { // For new chat.
       data.room = `chat-public-${data.idRoom}`;

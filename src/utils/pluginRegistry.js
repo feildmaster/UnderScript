@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { HOUR } from './1.variables.js';
 import { debug } from './debug.js';
+import { pluginRegistry } from './debugFlags.js';
 import createParser from './parser/index.js';
 import { getPluginNames, getVersion } from './plugin.js';
 
@@ -23,7 +24,7 @@ function read(key) {
   try {
     return JSON.parse(localStorage.getItem(key)) || {};
   } catch (e) {
-    debug(e, 'debugging.registry');
+    debug(e, pluginRegistry);
     return {};
   }
 }
@@ -32,7 +33,7 @@ function write(key, data) {
   try {
     localStorage.setItem(key, JSON.stringify(data));
   } catch (e) {
-    debug(e, 'debugging.registry');
+    debug(e, pluginRegistry);
   }
 }
 
@@ -59,7 +60,7 @@ function localList() {
   try {
     return clean(JSON.parse(text));
   } catch (e) {
-    debug(e, 'debugging.registry');
+    debug(e, pluginRegistry);
     return undefined;
   }
 }
@@ -92,7 +93,7 @@ export function load(force = false) {
     state = 'ready';
     return list;
   }).catch((e) => {
-    debug(e, 'debugging.registry');
+    debug(e, pluginRegistry);
     list = Array.isArray(cache.plugins) ? cache.plugins : [];
     state = list.length ? 'ready' : 'error';
     return list;
@@ -151,7 +152,7 @@ export function refresh({ force = false } = {}) {
     const pending = force ? entries : entries.filter(({ name }) => !versions[name]);
     if (!pending.length) return;
     await Promise.all(pending.map((entry) => resolve(entry).catch((e) => {
-      debug(e, 'debugging.registry', entry.name);
+      debug(e, pluginRegistry, entry.name);
       versions[entry.name] = { time: Date.now(), error: true };
     })));
     write(VERSIONS, versions);
