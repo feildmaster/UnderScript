@@ -1,6 +1,7 @@
 import eventManager from 'src/utils/eventManager.js';
 import wrap from 'src/utils/2.pokemon.js';
 import { window } from 'src/utils/1.variables.js';
+import ensureStylesheet from 'src/utils/ensureStylesheet.js';
 
 function setter(key, args) {
   const original = args[`on${key}`];
@@ -42,6 +43,7 @@ function get(target, prop, R) {
 
 eventManager.on(':preload', () => {
   if (window.BootstrapDialog) {
+    ensureStylesheet('bootstrap-dialog', 'https://undercards.net/css/bootstrap-dialog.min.css');
     window.BootstrapDialog = new Proxy(window.BootstrapDialog, { construct, get });
   }
 });
