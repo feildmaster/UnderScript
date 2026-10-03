@@ -253,7 +253,13 @@ function getMessage(page) {
         return;
       }
       const newElement = createSetting(data);
-      element.replaceWith(newElement);
+      if (element && newElement) {
+        element.replaceWith(newElement);
+      } else if (element) {
+        element.remove();
+      } else if (newElement) {
+        category(data.category).append(newElement);
+      }
       element = newElement;
     }
     untilClose(data.key, refresh);
