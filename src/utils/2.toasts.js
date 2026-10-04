@@ -1,12 +1,33 @@
 import Translation from 'src/structures/constants/translation.js';
-import { buttonCSS } from './1.variables.js';
 import merge from './merge.js';
 import eventManager from './eventManager.js';
 import toArray from './toArray.js';
+import applyToastCss from './toastCss.js';
 
 let ready = false;
 
 eventManager.on('underscript:ready', () => ready = true);
+
+function addToastClass(className, name) {
+  if (className && typeof className === 'object' && !Array.isArray(className)) {
+    return { ...className, toast: [name, ...toArray(className.toast)] };
+  }
+  return [name, ...toArray(className)];
+}
+
+function dismissing(button) {
+  if (!button) return button;
+  return {
+    ...button,
+    onclick(event, instance) {
+      try {
+        if (typeof button.onclick === 'function') button.onclick.call(this, event, instance);
+      } finally {
+        if (!event.cancelBubble) instance.close('dismissed');
+      }
+    },
+  };
+}
 
 export function blankToast() {
   return new SimpleToast();
@@ -26,21 +47,16 @@ export function toast(arg) {
   ].some((obj) => obj instanceof Translation);
   const defaults = {
     footer: 'via UnderScript',
-    css: {
-      'background-color': 'rgba(0,5,20,0.6)',
-      'text-shadow': '',
-      'font-family': 'monospace',
-      footer: {
-        'text-align': 'end',
-      },
-    },
   };
   if (ready && isTranslation) preprocess(arg);
-  const slice = new SimpleToast(merge(defaults, arg));
+  const { css, ...options } = merge(defaults, arg);
+  options.className = addToastClass(options.className, 'underscript-toast');
+  if (options.buttons) options.buttons = toArray(options.buttons).map(dismissing);
+  const slice = new SimpleToast(options);
+  if (slice.exists()) applyToastCss(slice, css, options.buttons);
   if (!ready && isTranslation && slice.exists()) {
-    const el = $('#AlertToast > div:last');
     eventManager.on('underscript:ready', () => {
-      process(slice, el, arg);
+      process(slice, arg);
     });
   }
   return slice;
@@ -58,13 +74,11 @@ export function errorToast(error) {
   const lToast = {
     title: error.name || error.title || Translation.ERROR,
     text: error.message || error.text || getStack(error.error || error) || error,
-    css: {
-      'background-color': 'rgba(200,0,0,0.6)',
-    },
-    className: error.className,
+    className: addToastClass(error.className, 'underscript-toast-error'),
     onClose: error.onClose,
     footer: error.footer,
     buttons: error.buttons,
+    timeout: error.timeout,
   };
   return toast(lToast);
 }
@@ -77,6 +91,7 @@ export function infoToast(arg, key, val = '1') {
     };
   } else if (typeof arg !== 'object') return null;
   const override = {
+    className: addToastClass(arg.className, 'underscript-toast-info'),
     onClose: (...args) => {
       if (typeof arg.onClose === 'function') {
         if (arg.onClose(...args)) {
@@ -88,9 +103,6 @@ export function infoToast(arg, key, val = '1') {
   };
   const defaults = {
     title: Translation.INFO,
-    css: {
-      'font-family': 'inherit',
-    },
   };
   return toast(merge(defaults, arg, override));
 }
@@ -100,7 +112,6 @@ export function dismissable({ title, text, key, value = 'true', css = {} }) {
   const buttons = {
     text: Translation.DISMISS,
     className: 'dismiss',
-    css: buttonCSS,
     onclick: (e) => {
       localStorage.setItem(key, value);
     },
@@ -123,11 +134,12 @@ function preprocess(arg) {
   });
 }
 
-function process(instance, el, { text, title, buttons }) {
+function process(instance, { text, title, buttons }) {
+  const el = instance.element;
   if (text instanceof Translation) instance.setText(`${text}`);
-  if (title instanceof Translation) el.find('> span:first').text(title);
-  const $buttons = el.find('> button');
-  toArray(buttons).forEach((button, i) => {
-    if (button.text instanceof Translation) $buttons[i].textContent = button.text;
+  if (title instanceof Translation) el.querySelector('.simpletoast-title').textContent = `${title}`;
+  const rendered = el.querySelectorAll('.simpletoast-button');
+  toArray(buttons).filter((button) => button?.text).forEach((button, i) => {
+    if (button.text instanceof Translation) rendered[i].textContent = `${button.text}`;
   });
 }

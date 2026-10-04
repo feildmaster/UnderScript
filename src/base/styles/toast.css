@@ -1,6 +1,33 @@
 #AlertToast {
   height: 0;
 
+  .underscript-toast {
+    background-color: rgba(0, 5, 20, 60%);
+    font-family: monospace;
+    text-shadow: none;
+
+    .simpletoast-footer {
+      text-align: end;
+    }
+  }
+
+  .underscript-toast-error {
+    background-color: rgba(200, 0, 0, 60%);
+  }
+
+  .underscript-toast-info {
+    font-family: inherit;
+  }
+
+  .dismiss {
+    border: revert;
+    border-radius: revert;
+    background: revert;
+    font-size: inherit;
+    height: revert;
+    margin: revert;
+  }
+
   .dismissable {
     > span {
       display: block;

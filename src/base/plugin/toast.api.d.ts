@@ -20,6 +20,7 @@ type UnderScriptToastClass = string | readonly string[];
 type UnderScriptToastCloseReason = 'timeout' | 'dismissed' | 'unknown' | (string & {});
 
 type UnderScriptToast = {
+  readonly element: HTMLElement;
   exists(): boolean;
   setText(text: string): void;
   close(reason?: string): void;
@@ -28,6 +29,7 @@ type UnderScriptToast = {
 type UnderScriptToastButton = {
   text: string;
   className?: UnderScriptToastClass;
+  /** @deprecated Use `className` instead */
   css?: UnderScriptToastButtonStyle;
   onclick?(this: UnderScriptToast, event: MouseEvent, toast: UnderScriptToast): unknown;
 };
@@ -35,6 +37,7 @@ type UnderScriptToastButton = {
 type UnderScriptToastOptions = {
   text: string;
   title?: string;
+  /** @deprecated Use `className` instead */
   css?: UnderScriptToastCSS;
   className?: UnderScriptToastClass | { toast?: UnderScriptToastClass; button?: UnderScriptToastClass };
   buttons?: UnderScriptToastButton | readonly UnderScriptToastButton[];
