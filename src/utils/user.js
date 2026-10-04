@@ -28,7 +28,7 @@ export function isStaff(user) {
   return isPriority(user, 6);
 }
 
-function isPriority(user, priority) {
+export function isPriority(user, priority) {
   if (typeof user?.mainGroup?.priority !== 'number') throw new Error('Invalid user');
   return user.mainGroup.priority <= priority;
 }

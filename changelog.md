@@ -4,6 +4,7 @@
 ### Features
 1. Added a search bar and status filters to the community plugins list, which is now sorted by name
 1. The battle log can now be resized by dragging its bottom-left corner, and minimized with the button in its header
+1. Staff chat commands now show up in chat autocomplete for users with permission to use them
 ### Fixes
 1. Fixed some settings pages showing an extra scrollbar when they didn't need one
 1. Fixed setting notes and other hover text going off the screen

@@ -1,9 +1,29 @@
 {
+  "ban": {
+    "~": "Ban a user from public chat",
+    "usage": "<username>"
+  },
+  "broadcast": {
+    "~": "Send an announcement to all connected users",
+    "usage": "<message>"
+  },
   "gg": "Wish your opponent a good game",
   "scroll": "Scroll the chat back to the bottom",
   "spectate": {
     "~": "Share a spectate link for your current game",
     "usage": "[text (optional)]",
     "note": "/spectate [text (optional)]<br/>Output:<br/>You vs Enemy: url [text]"
+  },
+  "to": {
+    "~": "Temporarily mute a user and delete their messages",
+    "usage": "<username> <seconds>"
+  },
+  "unban": {
+    "~": "Remove a public chat ban",
+    "usage": "<username>"
+  },
+  "unto": {
+    "~": "Remove a temporary mute",
+    "usage": "<username>"
   }
 }
