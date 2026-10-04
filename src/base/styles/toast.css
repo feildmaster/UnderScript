@@ -15,17 +15,37 @@
     background-color: rgba(200, 0, 0, 60%);
   }
 
-  .underscript-toast-info {
+  .underscript-toast-info,
+  .underscript-toast-inherit {
     font-family: inherit;
   }
 
-  .dismiss {
-    border: revert;
-    border-radius: revert;
-    background: revert;
-    font-size: inherit;
-    height: revert;
-    margin: revert;
+  .underscript-toast-danger {
+    background-color: rgba(208, 0, 0, 60%);
+  }
+
+  .underscript-toast-highlight {
+    color: yellow;
+
+    .simpletoast-footer {
+      color: white;
+    }
+  }
+
+  .underscript-toast-result {
+    font-family: inherit;
+
+    .simpletoast-button {
+      background: rgb(0, 0, 20);
+    }
+  }
+
+  .underscript-icon-button {
+    background: inherit;
+  }
+
+  .underscript-toast-wrap button {
+    white-space: normal;
   }
 
   .dismissable {
@@ -34,12 +54,14 @@
       text-align: center;
     }
 
-    .dismiss {
+    button {
       background-color: transparent;
       border: 1px solid #FFF;
+      border-radius: 0;
       display: block;
       font-family: DTM-Mono, monospace;
       font-size: 14px;
+      height: auto;
       margin: 5px auto;
       max-width: 80%;
       min-width: 160px;

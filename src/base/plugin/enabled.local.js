@@ -1,5 +1,4 @@
 import Translation from 'src/structures/constants/translation.ts';
-import { buttonCSS as css } from 'src/utils/1.variables.js';
 import wrap from 'src/utils/2.pokemon.js';
 import { registerModule } from 'src/utils/plugin.js';
 import * as settings from 'src/utils/settings/index.js';
@@ -47,20 +46,15 @@ wrap(() => {
         title: 'New Plugin Detected',
         text: `"${plugin.name}" has been <span class="${isEnabled ? 'green' : 'gray'}">${isEnabled ? 'enabled' : 'disabled'}</span> by default.`,
         error: true, // Make it red.
-        className: {
-          toast: 'dismissable',
-          button: 'dismiss',
-        },
+        className: 'dismissable',
         buttons: [{
           text: Translation.General(isEnabled ? 'disable' : 'enable'),
-          css,
           onclick() {
             enabled.set(!isEnabled);
             registered.set(true);
           },
         }, {
           text: Translation.DISMISS,
-          css,
           onclick() {
             enabled.set(isEnabled);
             registered.set(true);

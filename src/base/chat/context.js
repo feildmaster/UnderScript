@@ -7,7 +7,7 @@ import each from 'src/utils/each.js';
 import * as fnUser from 'src/utils/user.js';
 import ignoreUser from 'src/utils/ignoreUser.js';
 import decode from 'src/utils/decode.js';
-import { buttonCSS, window } from 'src/utils/1.variables.js';
+import { window } from 'src/utils/1.variables.js';
 import Translation from 'src/structures/constants/translation.ts';
 import isCtrl from 'src/utils/isCtrl';
 import styles from './context.css';
@@ -119,19 +119,14 @@ eventManager.on('jQuery', () => {
           if (!settings.value(key)) {
             simpleToast({
               text: Translation.IGNORED.translate(name),
-              css: {
-                'background-color': 'rgba(208, 0, 0, 0.6)',
-              },
               buttons: [{
-                css: buttonCSS,
                 text: Translation.UNDO,
-                className: 'dismiss',
                 onclick: () => {
                   settings.remove(key);
                   updateIgnoreText(id);
                 },
               }],
-              className: 'dismissable',
+              className: ['dismissable', 'underscript-toast-danger'],
             });
             ignoreUser(name, key, true);
           } else {

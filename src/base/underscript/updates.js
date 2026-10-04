@@ -3,7 +3,7 @@ import wrap from 'src/utils/2.pokemon.js';
 import debugToast from 'src/utils/debugToast';
 import { toast as Toast } from 'src/utils/2.toasts.js';
 import semver from 'src/utils/version.js';
-import { buttonCSS, scriptVersion, window } from 'src/utils/1.variables.js';
+import { scriptVersion, window } from 'src/utils/1.variables.js';
 import createParser from 'src/utils/parser';
 import eventManager from 'src/utils/eventManager';
 import {
@@ -42,8 +42,6 @@ wrap(() => {
         className: 'dismissable',
         buttons: [{
           text: Translation.Toast('update'),
-          className: 'dismiss',
-          css: buttonCSS,
           onclick() {
             const url = data.url || `https://github.com/UCProjects/UnderScript/releases/download/${data.version}/undercards.user.js`;
             window.open(url, 'updateUserScript', 'noreferrer');

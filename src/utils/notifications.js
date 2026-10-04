@@ -3,7 +3,7 @@ import Translation from 'src/structures/constants/translation.js';
 import * as settings from './settings/index.js';
 import sleep from './sleep.js';
 import { toast } from './2.toasts.js';
-import { buttonCSS as css, window } from './1.variables.js';
+import { window } from './1.variables.js';
 import compound from './compoundEvent.js';
 
 const setting = settings.register({
@@ -39,9 +39,7 @@ if (isType() && !setting.value()) {
 
 function show() {
   const buttons = [{
-    css,
     text: Translation.Toast('game.request'),
-    className: 'dismiss',
     onclick() {
       requestPermission().then((result) => {
         const key = result === 'granted' ? 'allowed' : 'denied';
@@ -49,9 +47,7 @@ function show() {
       });
     },
   }, {
-    css,
     text: Translation.DISMISS,
-    className: 'dismiss',
     onclick() {
       setting.set(true);
     },

@@ -61,12 +61,7 @@ eventManager.on('preChat:getMessageAuto', function drawAnnouncement(data) {
 
     const toast = SimpleToast({
       text: translateFromServerJson(data.message),
-      css: {
-        color: 'yellow',
-        footer: {
-          color: 'white',
-        },
-      },
+      className: 'underscript-toast-highlight',
     });
     toast.cards = [card];
     toast.owner = user;

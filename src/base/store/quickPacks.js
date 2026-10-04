@@ -11,7 +11,7 @@ import { packs as packsFlag } from 'src/utils/debugFlags.js';
 import { retryAfter, waitSeconds } from 'src/utils/rateLimit.js';
 import formatNumber from 'src/utils/formatNumber.js';
 import { getCollection } from 'src/utils/user.js';
-import { buttonCSS as css, window } from 'src/utils/1.variables.js';
+import { window } from 'src/utils/1.variables.js';
 import Item from 'src/structures/constants/item.js';
 import length from 'src/utils/length';
 import isCtrl from 'src/utils/isCtrl';
@@ -175,8 +175,6 @@ onPage('Packs', async function quickOpenPack() {
         className: 'dismissable',
         buttons: {
           text: 'Stop',
-          className: 'dismiss',
-          css,
           onclick: (e) => {
             events.emit('cancel');
           },
@@ -255,7 +253,7 @@ onPage('Packs', async function quickOpenPack() {
         // TODO: translation?
         title: `Results: ${formatNumber(results.packs)} Packs${cardResults.shiny ? ` (${total % 4 ? `${formatNumber(total)}, ` : ''}${formatNumber(cardResults.shiny)} shiny)` : total % 4 ? ` (${formatNumber(total)})` : ''}`,
         text,
-        css: { 'font-family': 'inherit' },
+        className: 'underscript-toast-inherit',
       });
 
       // Show cards... I guess

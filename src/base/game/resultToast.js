@@ -23,10 +23,7 @@ eventManager.on('getResult:before', function resultToast() {
       className: 'skiptranslate',
       text: '🏠',
     },
-    css: {
-      'font-family': 'inherit',
-      button: { background: 'rgb(0, 0, 20)' },
-    },
+    className: 'underscript-toast-result',
     onClose: () => {
       document.location.href = '/';
     },

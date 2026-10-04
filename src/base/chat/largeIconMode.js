@@ -1,5 +1,4 @@
 import Translation from 'src/structures/constants/translation.ts';
-import { buttonCSS as css } from 'src/utils/1.variables.js';
 import { infoToast } from 'src/utils/2.toasts.js';
 import eventManager from 'src/utils/eventManager.js';
 import * as settings from 'src/utils/settings/index.js';
@@ -34,8 +33,6 @@ eventManager.on('ChatDetected', () => {
   const value = setting.value();
   const buttons = {
     text: value ? 'Revert it!' : 'Enable it!',
-    className: 'dismiss',
-    css,
     onclick: (e) => {
       setting.set(!value);
     },

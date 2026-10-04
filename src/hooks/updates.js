@@ -7,7 +7,7 @@ import * as settings from 'src/utils/settings';
 import each from 'src/utils/each';
 import wrap from 'src/utils/2.pokemon';
 import Translation from 'src/structures/constants/translation.ts';
-import { buttonCSS, DAY, HOUR, scriptVersion, UNDERSCRIPT } from 'src/utils/1.variables';
+import { DAY, HOUR, scriptVersion, UNDERSCRIPT } from 'src/utils/1.variables';
 import sleep from 'src/utils/sleep';
 import createParser from 'src/utils/parser';
 import DialogHelper from 'src/utils/DialogHelper';
@@ -146,8 +146,6 @@ function notify(text, addButton = false) {
       className: 'dismissable',
       buttons: addButton ? {
         text: keys.button,
-        className: 'dismiss',
-        css: buttonCSS,
         onclick: open,
       } : undefined,
     });

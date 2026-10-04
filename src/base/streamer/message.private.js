@@ -4,7 +4,6 @@ import { global } from 'src/utils/global.js';
 import { toast } from 'src/utils/2.toasts.js';
 import { debug } from 'src/utils/debug.js';
 import each from 'src/utils/each.js';
-import { buttonCSS as css } from 'src/utils/1.variables.js';
 import { isMod, name as username } from 'src/utils/user';
 import Translation from 'src/structures/constants/translation.js';
 import streaming from './0.streamer.js';
@@ -53,10 +52,8 @@ eventManager.on('preChat:getPrivateMessage', function streamerMode(data) {
     // TODO: translation
     text: `Message from ${username(user)}`,
     buttons: [{
-      css,
       // TODO: translation
       text: 'Open',
-      className: 'dismiss',
       onclick: () => {
         open(user);
       },

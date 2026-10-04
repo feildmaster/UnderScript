@@ -4,14 +4,6 @@ export const footer = `<div style="width:100%;text-align:center;font-size:12px;f
 export const footer2 = `<div style="width:100%;text-align:center;font-size:12px;font-family:monospace;">via ${UNDERSCRIPT}</div>`;
 export const hotkeys = [];
 export const scriptVersion = GM_info.script.version;
-export const buttonCSS = {
-  border: '',
-  height: '',
-  background: '',
-  'font-size': '',
-  margin: '',
-  'border-radius': '',
-};
 /**
  * @type {globalThis}
  */

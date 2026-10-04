@@ -59,10 +59,7 @@ eventManager.on('preChat:getMessageAuto', function winstreaks(data) {
   const toast = toasts.add(SimpleToast({
     text: global('translateFromServerJson')(data.message),
     // timeout: 10000,
-    css: {
-      color: 'yellow',
-      footer: { color: 'white' },
-    },
+    className: 'underscript-toast-highlight',
   }));
   toast.time = Date.now();
 });

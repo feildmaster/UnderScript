@@ -3,7 +3,7 @@ import * as settings from 'src/utils/settings/index.js';
 import { global } from 'src/utils/global.js';
 import { infoToast } from 'src/utils/2.toasts.js';
 import Hotkey from 'src/utils/hotkey.class.js';
-import { buttonCSS as css, hotkeys } from 'src/utils/1.variables.js';
+import { hotkeys } from 'src/utils/1.variables.js';
 import { BUTTON as MOUSE_BUTTON } from 'src/utils/mouse.js';
 import Translation from 'src/structures/constants/translation.ts';
 
@@ -53,8 +53,6 @@ eventManager.on('PlayingGame', function bindHotkeys() {
       className: 'dismissable',
       buttons: {
         text: Translation.General('settings'),
-        className: 'dismiss',
-        css,
         onclick: (_) => {
           fullDisable.show(true);
         },

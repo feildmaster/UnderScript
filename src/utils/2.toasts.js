@@ -2,18 +2,12 @@ import Translation from 'src/structures/constants/translation.js';
 import merge from './merge.js';
 import eventManager from './eventManager.js';
 import toArray from './toArray.js';
+import addToastClass from './toastClass.js';
 import applyToastCss from './toastCss.js';
 
 let ready = false;
 
 eventManager.on('underscript:ready', () => ready = true);
-
-function addToastClass(className, name) {
-  if (className && typeof className === 'object' && !Array.isArray(className)) {
-    return { ...className, toast: [name, ...toArray(className.toast)] };
-  }
-  return [name, ...toArray(className)];
-}
 
 function dismissing(button) {
   if (!button) return button;
@@ -107,11 +101,10 @@ export function infoToast(arg, key, val = '1') {
   return toast(merge(defaults, arg, override));
 }
 
-export function dismissable({ title, text, key, value = 'true', css = {} }) {
+export function dismissable({ title, text, key, value = 'true' }) {
   if (localStorage.getItem(key) === value) return undefined;
   const buttons = {
     text: Translation.DISMISS,
-    className: 'dismiss',
     onclick: (e) => {
       localStorage.setItem(key, value);
     },
@@ -121,7 +114,6 @@ export function dismissable({ title, text, key, value = 'true', css = {} }) {
     text,
     buttons,
     className: 'dismissable',
-    css,
   });
 }
 

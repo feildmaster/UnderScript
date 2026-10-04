@@ -54,9 +54,6 @@ eventManager.on('preChat:getMessageAuto', function legend(data) {
   }
   toast({
     text: global('translateFromServerJson')(data.message),
-    css: {
-      color: 'yellow',
-      footer: { color: 'white' },
-    },
+    className: 'underscript-toast-highlight',
   });
 });

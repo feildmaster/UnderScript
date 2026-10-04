@@ -4,7 +4,6 @@ import { global, globalSet } from 'src/utils/global.js';
 import pendingIgnore from 'src/utils/pendingIgnore.js';
 import pingRegex from 'src/utils/pingRegex.js';
 import { infoToast } from 'src/utils/2.toasts.js';
-import { buttonCSS } from 'src/utils/1.variables.js';
 import Translation from 'src/structures/constants/translation.js';
 import style from 'src/utils/style.js';
 
@@ -62,27 +61,18 @@ function notify() {
     text: Translation.Toast('ping'),
     buttons: [{
       text: Translation.Toast('ping.settings'),
-      className: 'dismiss',
       onclick() {
         pingExtras.show(true);
       },
     }, {
       text: Translation.Toast('ping.remove'),
-      className: 'dismiss',
       onclick() {
         const words = pingExtras.value();
         pingExtras.set(words.filter((word) => word !== '@underscript'));
       },
     }, {
       text: Translation.DISMISS,
-      className: 'dismiss',
     }],
-    className: 'dismissable',
-    css: {
-      button: {
-        ...buttonCSS,
-        'white-space': 'normal',
-      },
-    },
+    className: ['dismissable', 'underscript-toast-wrap'],
   }, 'underscript.alert.ping');
 }

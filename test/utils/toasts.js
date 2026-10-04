@@ -213,7 +213,7 @@ describe('toasts', function toastTests() {
       const instance = dismissable({ title: 'T', text: 'x', key: 'test.dismiss' });
       expect(instance.element.className).to.contain('dismissable');
       const [button] = buttons(instance);
-      expect(button.className).to.contain('dismiss');
+      expect(button.textContent).to.equal(`${Translation.DISMISS}`);
       button.click();
       expect(localStorage.getItem('test.dismiss')).to.equal('true');
       expect(instance.exists()).to.equal(false);

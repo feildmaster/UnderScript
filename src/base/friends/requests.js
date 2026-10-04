@@ -18,21 +18,16 @@ eventManager.on('Friends:requests', (friends) => {
   each(friends, (friend, id) => {
     const key = `underscript.request.${id}`;
     if (sessionStorage.getItem(key)) return;
-    const css = {
-      background: 'inherit',
-    }; // I need to add a way to clear all styles
     toast({
       title: Translation.Toast('friend.request'),
       text: friend,
       buttons: [{
-        css,
         text: ' ',
-        className: 'glyphicon glyphicon-ok green',
+        className: 'glyphicon glyphicon-ok green underscript-icon-button',
         onclick: post.bind(null, id),
       }, {
-        css,
         text: ' ',
-        className: 'glyphicon glyphicon-remove red',
+        className: 'glyphicon glyphicon-remove red underscript-icon-button',
         onclick: post.bind(null, id, false),
       }],
     });
