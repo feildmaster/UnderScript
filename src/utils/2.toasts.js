@@ -10,14 +10,14 @@ let ready = false;
 eventManager.on('underscript:ready', () => ready = true);
 
 function dismissing(button) {
-  if (!button) return button;
+  if (!button || button.dismiss === false) return button;
   return {
     ...button,
     onclick(event, instance) {
       try {
         if (typeof button.onclick === 'function') button.onclick.call(this, event, instance);
       } finally {
-        if (!event.cancelBubble) instance.close('dismissed');
+        if (!event.cancelBubble && !event.defaultPrevented) instance.close('dismissed');
       }
     },
   };

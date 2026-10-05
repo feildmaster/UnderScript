@@ -31,6 +31,7 @@ type UnderScriptToastButton = {
   className?: UnderScriptToastClass;
   /** @deprecated Use `className` instead */
   css?: UnderScriptToastButtonStyle;
+  dismiss?: boolean;
   onclick?(this: UnderScriptToast, event: MouseEvent, toast: UnderScriptToast): unknown;
 };
 

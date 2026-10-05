@@ -43,7 +43,7 @@ plain.toast({
   title: 'Title',
   text: 'Text',
   className: { toast: 'dismissable', button: 'dismiss' },
-  buttons: [{ text: 'OK', className: 'dismiss', onclick: () => {} }],
+  buttons: [{ text: 'OK', className: 'dismiss', onclick: () => {} }, { text: 'Stay', dismiss: false }],
   css: { 'background-color': 'red', footer: { 'text-align': 'end' } },
   error: true,
 }).exists() satisfies boolean;

@@ -150,6 +150,55 @@ describe('toasts', function toastTests() {
       expect(instance.exists()).to.equal(true);
     });
 
+    it('keep the toast open when the handler prevents default', () => {
+      const instance = toast({ text: 'a', buttons: { text: 'b', onclick(event) { event.preventDefault(); } } });
+      buttons(instance)[0].click();
+      expect(instance.exists()).to.equal(true);
+    });
+
+    it('keep the toast open when a button sets dismiss to false', () => {
+      const calls = [];
+      const instance = toast({ text: 'a', buttons: { text: 'b', dismiss: false, onclick(event, self) { calls.push([this, self]); } } });
+      buttons(instance)[0].click();
+      expect(instance.exists()).to.equal(true);
+      expect(calls).to.have.length(1);
+      expect(calls[0][0]).to.equal(instance);
+      expect(calls[0][1]).to.equal(instance);
+    });
+
+    it('keep the toast open for a dismiss false button without a handler', () => {
+      const instance = toast({ text: 'a', buttons: { text: 'b', dismiss: false } });
+      buttons(instance)[0].click();
+      expect(instance.exists()).to.equal(true);
+    });
+
+    it('still close when a button sets dismiss to true', () => {
+      const instance = toast({ text: 'a', buttons: { text: 'b', dismiss: true } });
+      buttons(instance)[0].click();
+      expect(instance.exists()).to.equal(false);
+    });
+
+    it('let a dismiss false handler close the toast itself', () => {
+      let reason;
+      const instance = toast({
+        text: 'a',
+        buttons: { text: 'b', dismiss: false, onclick(event, self) { self.close('done'); } },
+        onClose: (why) => { reason = why; },
+      });
+      buttons(instance)[0].click();
+      expect(instance.exists()).to.equal(false);
+      expect(reason).to.equal('done');
+    });
+
+    it('only apply dismiss to the button that sets it', () => {
+      const instance = toast({ text: 'a', buttons: [{ text: 'stay', dismiss: false }, { text: 'go' }] });
+      const [stay, go] = buttons(instance);
+      stay.click();
+      expect(instance.exists()).to.equal(true);
+      go.click();
+      expect(instance.exists()).to.equal(false);
+    });
+
     it('keep the reason a handler closed with', () => {
       let reason;
       const instance = toast({
