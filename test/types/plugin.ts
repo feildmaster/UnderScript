@@ -48,6 +48,7 @@ plain.toast({
   error: true,
 }).exists() satisfies boolean;
 plain.toast({ text: 'Single button', buttons: { text: 'OK' } }).setText('Changed');
+plain.toast({ title: 'Old', text: 'Titled' }).setTitle('Changed');
 plain.toast({ text: 'Closes itself', timeout: 5000 }).close();
 plain.toast({ text: 'Closes itself' }).close('custom reason');
 plain.toast({

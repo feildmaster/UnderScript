@@ -129,7 +129,7 @@ function preprocess(arg) {
 function process(instance, { text, title, buttons }) {
   const el = instance.element;
   if (text instanceof Translation) instance.setText(`${text}`);
-  if (title instanceof Translation) el.querySelector('.simpletoast-title').textContent = `${title}`;
+  if (title instanceof Translation) instance.setTitle(`${title}`);
   const rendered = el.querySelectorAll('.simpletoast-button');
   toArray(buttons).filter((button) => button?.text).forEach((button, i) => {
     if (button.text instanceof Translation) rendered[i].textContent = `${button.text}`;

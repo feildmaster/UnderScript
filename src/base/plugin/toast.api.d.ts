@@ -23,6 +23,7 @@ type UnderScriptToast = {
   readonly element: HTMLElement;
   exists(): boolean;
   setText(text: string): void;
+  setTitle(title: string): void;
   close(reason?: string): void;
 };
 

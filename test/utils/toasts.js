@@ -11,6 +11,11 @@ describe('toasts', function toastTests() {
 
   afterEach(clearToasts);
 
+  const setTemplate = (html) => {
+    document.body.insertAdjacentHTML('beforeend', `<template id="simpletoast-template">${html}</template>`);
+  };
+  const removeTemplate = () => document.getElementById('simpletoast-template')?.remove();
+
   const body = (instance) => instance.element.querySelector('.simpletoast-body');
   const buttons = (instance) => [...instance.element.querySelectorAll('.simpletoast-button')];
 
@@ -112,6 +117,21 @@ describe('toasts', function toastTests() {
       button.dispatchEvent(new window.MouseEvent('mouseleave'));
       expect(button.style.color).to.equal('red');
       expect(button.style.backgroundColor).to.equal('');
+    });
+
+    describe('with a template that has no title or footer part', () => {
+      beforeEach(() => setTemplate('<article><i class="simpletoast-body"></i></article>'));
+      afterEach(removeTemplate);
+
+      it('still applies the css to the toast', () => {
+        const instance = toast({
+          title: 'T',
+          text: 'x',
+          css: { color: 'green', title: { color: 'red' }, footer: { color: 'blue' } },
+        });
+        expect(instance.element.tagName).to.equal('ARTICLE');
+        expect(instance.element.style.color).to.equal('green');
+      });
     });
 
     it('does not pass css on to the library', () => {
@@ -274,6 +294,24 @@ describe('toasts', function toastTests() {
     const text = Translation.General('test.text', 'Translated text');
     const title = Translation.General('test.title', 'Translated title');
     const label = Translation.General('test.label', 'Translated label');
+
+    it('are filled in when UnderScript becomes ready, even with no title part', () => {
+      setTemplate('<article><i class="simpletoast-body"></i></article>');
+      const errors = [];
+      const originalError = console.error; // eslint-disable-line no-console
+      console.error = (...args) => errors.push(args); // eslint-disable-line no-console
+      try {
+        const instance = toast({ title, text, buttons: { text: label } });
+        eventManager.emit('underscript:ready');
+        expect(errors).to.have.length(0);
+        expect(body(instance).textContent).to.equal(`${text}`);
+        expect(buttons(instance)[0].textContent).to.equal(`${label}`);
+        expect(instance.element.textContent).to.not.contain(`${title}`);
+      } finally {
+        console.error = originalError; // eslint-disable-line no-console
+        removeTemplate();
+      }
+    });
 
     it('are filled in when UnderScript becomes ready', () => {
       const instance = toast({ title, text, buttons: [{ text: '' }, { text: label }] });

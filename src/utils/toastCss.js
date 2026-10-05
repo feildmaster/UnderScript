@@ -29,9 +29,9 @@ export default function applyToastCss({ element }, css, buttons) {
   apply(element, style.toast || style);
 
   const title = element.querySelector('.simpletoast-title');
-  if (title.hasChildNodes()) apply(title, style.title);
+  if (title?.hasChildNodes()) apply(title, style.title);
   const footer = element.querySelector('.simpletoast-footer');
-  if (footer.hasChildNodes()) apply(footer, style.footer);
+  if (footer?.hasChildNodes()) apply(footer, style.footer);
 
   const rendered = element.querySelectorAll('.simpletoast-button');
   toArray(buttons).filter((button) => button?.text).forEach((button, index) => {
