@@ -1,11 +1,27 @@
 const root = new URL('../../', import.meta.url);
 
-function withTypeScript(specifier) {
-  return specifier.endsWith('.js') ? `${specifier.slice(0, -3)}.ts` : undefined;
+const EXTENSION = /\.(js|ts|mjs|cjs|json|css|node)$/;
+
+function fallbacks(specifier) {
+  if (specifier.endsWith('.js')) return [`${specifier.slice(0, -3)}.ts`];
+  const local = specifier.startsWith('file:') || specifier.startsWith('.');
+  if (!local || EXTENSION.test(specifier)) return [];
+  return [`${specifier}.js`, `${specifier}.ts`];
 }
 
 function aliased(specifier) {
   return specifier.startsWith('src/') ? new URL(specifier, root).href : specifier;
+}
+
+async function firstResolved(candidates, context, nextResolve, original) {
+  const [candidate, ...rest] = candidates;
+  if (!candidate) throw original;
+  try {
+    return await nextResolve(candidate, context);
+  } catch (e) {
+    if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e;
+    return firstResolved(rest, context, nextResolve, original);
+  }
 }
 
 export async function resolve(specifier, context, nextResolve) {
@@ -13,9 +29,8 @@ export async function resolve(specifier, context, nextResolve) {
   try {
     return await nextResolve(target, context);
   } catch (e) {
-    const fallback = e.code === 'ERR_MODULE_NOT_FOUND' ? withTypeScript(target) : undefined;
-    if (!fallback) throw e;
-    return nextResolve(fallback, context);
+    if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e;
+    return firstResolved(fallbacks(target), context, nextResolve, e);
   }
 }
 

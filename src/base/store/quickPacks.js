@@ -6,6 +6,9 @@ import onPage from 'src/utils/onPage.js';
 import * as hover from 'src/utils/hover.js';
 import { blankToast, toast as basicToast } from 'src/utils/2.toasts.js';
 import * as api from 'src/utils/4.api.js';
+import { enabled, debug } from 'src/utils/debug.js';
+import { packs as packsFlag } from 'src/utils/debugFlags.js';
+import { retryAfter, waitSeconds } from 'src/utils/rateLimit.js';
 import formatNumber from 'src/utils/formatNumber.js';
 import { getCollection } from 'src/utils/user.js';
 import { buttonCSS as css, window } from 'src/utils/1.variables.js';
@@ -28,14 +31,38 @@ onPage('Packs', async function quickOpenPack() {
     pending: 0, // How many packs are being waited on
     pingTimeout: 0,
     errors: 0,
+    rateLimits: 0,
+    waitUntil: 0,
   };
   const events = eventEmitter();
 
   let timeoutID;
+  let resumeID;
+
+  function isLimited() {
+    return Date.now() < status.waitUntil;
+  }
+
+  function clearResume() {
+    if (resumeID) clearTimeout(resumeID);
+    resumeID = 0;
+  }
+
+  function scheduleResume() {
+    clearResume();
+    resumeID = setTimeout(() => events.emit('next'), Math.min(1000, status.waitUntil - Date.now()));
+  }
+
+  function progress() {
+    const seconds = Math.ceil((status.waitUntil - Date.now()) / 1000);
+    const bar = `<progress value="${results.packs}" max="${status.total}"></progress>`;
+    return seconds > 0 ? `${bar}<br>Rate limited, resuming in ${seconds}s` : bar;
+  }
 
   function setupPing(reset = true) {
     if (status.state === 'waiting') return;
     clearPing(reset);
+    if (isLimited()) return;
     timeoutID = setTimeout(() => {
       status.pingTimeout += 1;
       if (status.pingTimeout > 10) {
@@ -82,6 +109,8 @@ onPage('Packs', async function quickOpenPack() {
     status.remaining = amt - offset;
     status.pending = 0;
     status.errors = 0;
+    status.rateLimits = 0;
+    status.waitUntil = 0;
     if (!offset) {
       events.emit('next');
     }
@@ -91,6 +120,7 @@ onPage('Packs', async function quickOpenPack() {
   let toast = blankToast();
   events.on('pack', (cards = []) => {
     status.pending -= 1;
+    status.rateLimits = 0;
     results.packs += 1;
     cards.forEach((card) => {
       const cCard = collection.find((c) => c.id === card.id && c.shiny === card.shiny);
@@ -114,10 +144,13 @@ onPage('Packs', async function quickOpenPack() {
     if (status.state === 'waiting') return;
 
     if (status.state === 'processing') {
-      if (status.remaining > 0 && status.pending <= 0) {
+      if (isLimited()) {
+        scheduleResume();
+      } else if (status.remaining > 0 && status.pending <= 0) {
         const count = Math.min(status.remaining, 5);
         status.remaining -= count;
         open(status.pack, count);
+        setupPing();
       }
       events.emit('update');
     }
@@ -133,12 +166,12 @@ onPage('Packs', async function quickOpenPack() {
 
   events.on('update', () => {
     if (toast.exists()) {
-      toast.setText(`<progress value="${results.packs}" max="${status.total}"></progress>`);
+      toast.setText(progress());
     } else {
       // TODO: translation
       toast = basicToast({
         title: `Opening ${formatNumber(status.total)} packs`,
-        text: `<progress value="${results.packs}" max="${status.total}"></progress>`,
+        text: progress(),
         className: 'dismissable',
         buttons: {
           text: 'Stop',
@@ -156,7 +189,9 @@ onPage('Packs', async function quickOpenPack() {
   events.on('finished', () => {
     if (status.state === 'waiting') return; // Invalid state
     status.state = 'waiting';
+    status.waitUntil = 0;
     clearPing();
+    clearResume();
     // Post results
     $(`#nb${status.pack.substring(4, status.pack.length - 4)}Packs`).text(status.original - results.packs);
     const event = eventManager.cancelable.emit('openedPacks', {
@@ -233,7 +268,22 @@ onPage('Packs', async function quickOpenPack() {
     if (status.state === 'processing') {
       status.state = 'canceled';
       clearPing();
+      clearResume();
+      events.emit('next');
     }
+  });
+
+  events.on('limited', (requested) => {
+    status.pending -= 1;
+    if (status.state !== 'processing') {
+      events.emit('next');
+      return;
+    }
+    if (!isLimited()) status.rateLimits += 1;
+    status.waitUntil = Math.max(status.waitUntil, Date.now() + waitSeconds(requested, status.rateLimits) * 1000);
+    status.remaining += 1;
+    clearPing();
+    events.emit('next');
   });
 
   events.on('error', (err) => {
@@ -266,7 +316,16 @@ onPage('Packs', async function quickOpenPack() {
 
     $(document).ajaxComplete((event, xhr, s) => {
       if (s.url !== 'PacksConfig' || !s.data) return;
+      if (enabled(packsFlag)) debug(`PacksConfig ${xhr.status}`, packsFlag, xhr.getAllResponseHeaders());
+      if (xhr.status === 429) {
+        if (openingPacks()) events.emit('limited', retryAfter((name) => xhr.getResponseHeader(name)));
+        return;
+      }
       const data = xhr.responseJSON;
+      if (!data) {
+        if (openingPacks()) events.emit('error');
+        return;
+      }
       const error = data.action === 'getError';
       if (data.action !== 'getCards' && !error) return;
       if (data.cards) { // This has to always be done, to update the collection

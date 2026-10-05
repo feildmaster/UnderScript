@@ -43,6 +43,7 @@ export const all = define('debugging.*', 'Turn on every debug flag');
 export const general = define('debugging', 'Debug messages without a more specific flag');
 export const extractMeta = define('debugging.extractMeta', 'Plugin metadata parsing');
 export const pluginRegistry = define('debugging.registry', 'Community plugin registry requests');
+export const packs = define('debugging.packs', 'Pack opening responses and their rate limit headers');
 export const chat = define('debugging.chat', 'Chat handling');
 export const chatMessage = define('debugging.chat.message', 'Chat messages as they are processed');
 export const eventName = define('debugging.events.name', 'Name of every game event');
