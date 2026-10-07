@@ -5,43 +5,13 @@ import Translation from 'src/structures/constants/translation.ts';
 
 wrap(() => {
   eventManager.on(':preload:CosmeticsShop', () => {
-    $('form[action=CosmeticsShop] button')
+    $('form.cosmetic-purchase button[type="submit"]')
       .hover(hover.show(Translation.General('bypass.shift')), hover.hide)
       .click(function click(e) {
-        if (e.shiftKey) return;
+        if (!e.shiftKey) return;
         e.preventDefault();
-        const form = $(e.currentTarget).parent();
-        const parent = getParent(form);
-        const image = parent.find('img')[0]?.outerHTML || '[Failed to detect image]';
-        const cost = parent.find('span[class=ucp]:first').text();
-        BootstrapDialog.show({
-          title: `${Translation.PURCHASE}`,
-          message: `<div style="overflow: hidden;">${image}</div> ${
-            Translation.General('purchase.item.cost').translate(cost)
-          }`,
-          buttons: [{
-            label: `${Translation.CONTINUE}`,
-            cssClass: 'btn-success',
-            action(diag) {
-              form.submit();
-              diag.close();
-            },
-          }, {
-            label: `${Translation.CANCEL}`,
-            cssClass: 'btn-danger',
-            action(diag) {
-              diag.close();
-            },
-          }],
-        });
+        e.stopImmediatePropagation();
+        $(e.currentTarget).closest('form')[0].submit();
       });
   });
 });
-
-function getParent(form) {
-  const table = $(form.parents('table, div')[0]);
-  if (table.find('img').length) {
-    return table;
-  }
-  return table.parent().parent();
-}
