@@ -5,6 +5,7 @@
 1. Added a search bar and status filters to the community plugins list, which is now sorted by name
 1. The battle log can now be resized by dragging its bottom-left corner, and minimized with the button in its header
 1. Staff chat commands now show up in chat autocomplete for users with permission to use them
+1. Toasts can now be reached with the keyboard and dismissed with Escape
 ### Fixes
 1. Fixed some settings pages showing an extra scrollbar when they didn't need one
 1. Fixed setting notes and other hover text going off the screen
@@ -23,6 +24,15 @@
   - This is optional, plugins work the same without it.
   - Download `underscript.d.ts` from the latest release and put it next to your plugin's script.
 </extended>
+#### `plugin.toast()`
+1. A `footer` passed to `plugin.toast()` is now kept and shown in front of your plugin's name, instead of being replaced
+1. `button.onclick()` was deprecated in favor of `button.onClick()`
+1. `buttons` option can set `dismiss: false`, or call `event.preventDefault()` in `onClick`, to keep the toast open after the button is clicked. Buttons still close the toast by default
+1. The `css` option of `plugin.toast()` is deprecated, use `className` instead. `css` still works, but a warning will show when used
+#### `toast = plugin.toast()`
+1. Added `toast.setFooter(text)`, which prepends text to the footer
+1. Added `toast.setTitle(title)`, which allows you to modify toast title
+1. Added `toast.element`, so you can modify the element directly
 
 ## Version 0.64.0 (2026-08-28)
 ### Features

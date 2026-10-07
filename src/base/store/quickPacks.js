@@ -175,7 +175,7 @@ onPage('Packs', async function quickOpenPack() {
         className: 'dismissable',
         buttons: {
           text: 'Stop',
-          onclick: (e) => {
+          onClick: (e) => {
             events.emit('cancel');
           },
         },

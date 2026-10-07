@@ -75,6 +75,94 @@ describe('plugin toast', function pluginToastTests() {
       toast(data);
       expect(data).to.deep.equal({ text: 'hello' });
     });
+
+    describe('with a footer from the plugin', () => {
+      const footerOf = (instance) => instance.element.querySelector('.simpletoast-footer').textContent;
+
+      it('keeps it in front of the plugin name', () => {
+        const { name, toast } = setup();
+        expect(footerOf(toast({ text: 'hello', footer: 'mine' }))).to.equal(`mine • ${name} • via UnderScript`);
+      });
+
+      it('keeps it on error toasts too', () => {
+        const { name, toast } = setup();
+        expect(footerOf(toast({ error: true, text: 'broken', footer: 'mine' }))).to.equal(`mine • ${name} • via UnderScript`);
+      });
+
+      it('ignores an empty footer', () => {
+        const { name, toast } = setup();
+        expect(footerOf(toast({ text: 'hello', footer: '' }))).to.equal(`${name} • via UnderScript`);
+      });
+    });
+
+    describe('setFooter', () => {
+      const footerOf = (instance) => instance.element.querySelector('.simpletoast-footer').textContent;
+
+      it('changes the plugin part and keeps the rest', () => {
+        const { name, toast } = setup();
+        const instance = toast({ text: 'hello', footer: 'first' });
+        instance.setFooter('2 left');
+        expect(footerOf(instance)).to.equal(`2 left • ${name} • via UnderScript`);
+      });
+
+      it('goes back to just the attribution when cleared', () => {
+        const { name, toast } = setup();
+        const instance = toast({ text: 'hello', footer: 'first' });
+        instance.setFooter('');
+        expect(footerOf(instance)).to.equal(`${name} • via UnderScript`);
+      });
+
+      it('can never remove the attribution', () => {
+        const { name, toast } = setup();
+        const instance = toast({ text: 'hello' });
+        [undefined, null, '', false].forEach((value) => {
+          instance.setFooter(value);
+          expect(footerOf(instance)).to.equal(`${name} • via UnderScript`);
+        });
+      });
+
+      it('works on error toasts', () => {
+        const { name, toast } = setup();
+        const instance = toast({ error: true, text: 'broken' });
+        instance.setFooter('worse');
+        expect(footerOf(instance)).to.equal(`worse • ${name} • via UnderScript`);
+      });
+
+      it('works without the toast', () => {
+        const { name, toast } = setup();
+        const instance = toast({ text: 'hello' });
+        const { setFooter } = instance;
+        setFooter('detached');
+        expect(footerOf(instance)).to.equal(`detached • ${name} • via UnderScript`);
+      });
+
+      it('names the plugin that made the toast, not another one', () => {
+        const first = setup();
+        const second = setup();
+        const one = first.toast({ text: 'one' });
+        const two = second.toast({ text: 'two' });
+        two.setFooter('from the second');
+        expect(footerOf(one)).to.equal(`${first.name} • via UnderScript`);
+        expect(footerOf(two)).to.equal(`from the second • ${second.name} • via UnderScript`);
+      });
+
+      it('does nothing after the toast is closed', () => {
+        const { name, toast } = setup();
+        const instance = toast({ text: 'hello' });
+        instance.close();
+        instance.setFooter('too late');
+        expect(footerOf(instance)).to.equal(`${name} • via UnderScript`);
+      });
+
+      it('is safe on a toast that was never shown', () => {
+        const { toast } = setup();
+        const controller = new AbortController();
+        controller.abort();
+        const instance = toast({ text: 'hello', signal: controller.signal });
+        expect(instance.exists()).to.equal(false);
+        expect(() => instance.setFooter('x')).to.not.throw();
+      });
+    });
   });
 
   describe('css warning', () => {

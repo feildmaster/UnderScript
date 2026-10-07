@@ -143,7 +143,7 @@ describe('toasts', function toastTests() {
   describe('buttons', () => {
     it('close the toast after their handler, like before', () => {
       const calls = [];
-      const instance = toast({ text: 'a', buttons: { text: 'b', onclick(event, self) { calls.push([this, self]); } } });
+      const instance = toast({ text: 'a', buttons: { text: 'b', onClick(event, self) { calls.push([this, self]); } } });
       buttons(instance)[0].click();
       expect(calls).to.have.length(1);
       expect(calls[0][0]).to.equal(instance);
@@ -165,20 +165,20 @@ describe('toasts', function toastTests() {
     });
 
     it('keep the toast open when the handler stops propagation', () => {
-      const instance = toast({ text: 'a', buttons: { text: 'b', onclick(event) { event.stopPropagation(); } } });
+      const instance = toast({ text: 'a', buttons: { text: 'b', onClick(event) { event.stopPropagation(); } } });
       buttons(instance)[0].click();
       expect(instance.exists()).to.equal(true);
     });
 
     it('keep the toast open when the handler prevents default', () => {
-      const instance = toast({ text: 'a', buttons: { text: 'b', onclick(event) { event.preventDefault(); } } });
+      const instance = toast({ text: 'a', buttons: { text: 'b', onClick(event) { event.preventDefault(); } } });
       buttons(instance)[0].click();
       expect(instance.exists()).to.equal(true);
     });
 
     it('keep the toast open when a button sets dismiss to false', () => {
       const calls = [];
-      const instance = toast({ text: 'a', buttons: { text: 'b', dismiss: false, onclick(event, self) { calls.push([this, self]); } } });
+      const instance = toast({ text: 'a', buttons: { text: 'b', dismiss: false, onClick(event, self) { calls.push([this, self]); } } });
       buttons(instance)[0].click();
       expect(instance.exists()).to.equal(true);
       expect(calls).to.have.length(1);
@@ -202,7 +202,7 @@ describe('toasts', function toastTests() {
       let reason;
       const instance = toast({
         text: 'a',
-        buttons: { text: 'b', dismiss: false, onclick(event, self) { self.close('done'); } },
+        buttons: { text: 'b', dismiss: false, onClick(event, self) { self.close('done'); } },
         onClose: (why) => { reason = why; },
       });
       buttons(instance)[0].click();
@@ -223,7 +223,7 @@ describe('toasts', function toastTests() {
       let reason;
       const instance = toast({
         text: 'a',
-        buttons: { text: 'b', onclick(event, self) { self.close('custom'); } },
+        buttons: { text: 'b', onClick(event, self) { self.close('custom'); } },
         onClose: (why) => { reason = why; },
       });
       buttons(instance)[0].click();
@@ -231,7 +231,7 @@ describe('toasts', function toastTests() {
     });
 
     it('still close the toast when the handler throws', () => {
-      const instance = toast({ text: 'a', buttons: { text: 'b', onclick() { throw new Error('boom'); } } });
+      const instance = toast({ text: 'a', buttons: { text: 'b', onClick() { throw new Error('boom'); } } });
       try {
         buttons(instance)[0].click();
       } catch (e) {
@@ -241,10 +241,54 @@ describe('toasts', function toastTests() {
     });
 
     it('do not touch the caller button objects', () => {
-      const button = { text: 'b', onclick() {} };
-      const original = button.onclick;
+      const button = { text: 'b', onclick() {}, onClick() {} };
+      const { onclick, onClick } = button;
       toast({ text: 'a', buttons: button });
-      expect(button.onclick).to.equal(original);
+      expect(button.onclick).to.equal(onclick);
+      expect(button.onClick).to.equal(onClick);
+    });
+
+    it('run an onClick handler and close the toast after it', () => {
+      const calls = [];
+      const instance = toast({ text: 'a', buttons: { text: 'b', onClick(event, self) { calls.push([this, self]); } } });
+      buttons(instance)[0].click();
+      expect(calls).to.have.length(1);
+      expect(calls[0][0]).to.equal(instance);
+      expect(calls[0][1]).to.equal(instance);
+      expect(instance.exists()).to.equal(false);
+    });
+
+    it('prefer onClick over onclick', () => {
+      const calls = [];
+      const instance = toast({
+        text: 'a',
+        buttons: { text: 'b', onClick() { calls.push('onClick'); }, onclick() { calls.push('onclick'); } },
+      });
+      buttons(instance)[0].click();
+      expect(calls).to.deep.equal(['onClick']);
+    });
+
+    it('keep the toast open when an onClick handler prevents default', () => {
+      const instance = toast({ text: 'a', buttons: { text: 'b', onClick(event) { event.preventDefault(); } } });
+      buttons(instance)[0].click();
+      expect(instance.exists()).to.equal(true);
+    });
+
+    it('keep the toast open for an onClick button that sets dismiss to false', () => {
+      const calls = [];
+      const instance = toast({ text: 'a', buttons: { text: 'b', dismiss: false, onClick() { calls.push(1); } } });
+      buttons(instance)[0].click();
+      expect(calls).to.have.length(1);
+      expect(instance.exists()).to.equal(true);
+    });
+
+    it('keep the handler the button had when the toast was created', () => {
+      const calls = [];
+      const button = { text: 'b', onClick() { calls.push('original'); } };
+      const instance = toast({ text: 'a', buttons: button });
+      button.onClick = () => calls.push('replacement');
+      buttons(instance)[0].click();
+      expect(calls).to.deep.equal(['original']);
     });
   });
 

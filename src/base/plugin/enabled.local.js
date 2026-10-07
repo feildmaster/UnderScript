@@ -49,13 +49,13 @@ wrap(() => {
         className: 'dismissable',
         buttons: [{
           text: Translation.General(isEnabled ? 'disable' : 'enable'),
-          onclick() {
+          onClick() {
             enabled.set(!isEnabled);
             registered.set(true);
           },
         }, {
           text: Translation.DISMISS,
-          onclick() {
+          onClick() {
             enabled.set(isEnabled);
             registered.set(true);
           },

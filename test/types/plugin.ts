@@ -43,7 +43,7 @@ plain.toast({
   title: 'Title',
   text: 'Text',
   className: { toast: 'dismissable', button: 'dismiss' },
-  buttons: [{ text: 'OK', className: 'dismiss', onclick: () => {} }, { text: 'Stay', dismiss: false }],
+  buttons: [{ text: 'OK', className: 'dismiss', onClick: () => {} }, { text: 'Stay', dismiss: false }],
   css: { 'background-color': 'red', footer: { 'text-align': 'end' } },
   error: true,
 }).exists() satisfies boolean;
@@ -59,7 +59,7 @@ plain.toast({
     text: 'Undo',
     className: ['dismiss'],
     css: { background: 'red', mouseOver: { background: 'darkred' } },
-    onclick(event, toast) {
+    onClick(event, toast) {
       event.preventDefault();
       toast.setText('Undone');
       this.close('undone');

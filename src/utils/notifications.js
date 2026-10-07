@@ -40,7 +40,7 @@ if (isType() && !setting.value()) {
 function show() {
   const buttons = [{
     text: Translation.Toast('game.request'),
-    onclick() {
+    onClick() {
       requestPermission().then((result) => {
         const key = result === 'granted' ? 'allowed' : 'denied';
         toast(Translation.Toast(`game.request.${key}`));
@@ -48,7 +48,7 @@ function show() {
     },
   }, {
     text: Translation.DISMISS,
-    onclick() {
+    onClick() {
       setting.set(true);
     },
   }];

@@ -121,7 +121,7 @@ eventManager.on('jQuery', () => {
               text: Translation.IGNORED.translate(name),
               buttons: [{
                 text: Translation.UNDO,
-                onclick: () => {
+                onClick: () => {
                   settings.remove(key);
                   updateIgnoreText(id);
                 },

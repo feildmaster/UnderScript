@@ -54,7 +54,7 @@ eventManager.on('preChat:getPrivateMessage', function streamerMode(data) {
     buttons: [{
       // TODO: translation
       text: 'Open',
-      onclick: () => {
+      onClick: () => {
         open(user);
       },
     }],

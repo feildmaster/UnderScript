@@ -24,6 +24,7 @@ type UnderScriptToast = {
   exists(): boolean;
   setText(text: string): void;
   setTitle(title: string): void;
+  setFooter(footer: string): void;
   close(reason?: string): void;
 };
 
@@ -33,6 +34,8 @@ type UnderScriptToastButton = {
   /** @deprecated Use `className` instead */
   css?: UnderScriptToastButtonStyle;
   dismiss?: boolean;
+  onClick?(this: UnderScriptToast, event: MouseEvent, toast: UnderScriptToast): unknown;
+  /** @deprecated Use `onClick` instead */
   onclick?(this: UnderScriptToast, event: MouseEvent, toast: UnderScriptToast): unknown;
 };
 

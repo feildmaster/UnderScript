@@ -61,12 +61,12 @@ function notify() {
     text: Translation.Toast('ping'),
     buttons: [{
       text: Translation.Toast('ping.settings'),
-      onclick() {
+      onClick() {
         pingExtras.show(true);
       },
     }, {
       text: Translation.Toast('ping.remove'),
-      onclick() {
+      onClick() {
         const words = pingExtras.value();
         pingExtras.set(words.filter((word) => word !== '@underscript'));
       },

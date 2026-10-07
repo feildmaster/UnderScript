@@ -53,7 +53,7 @@ eventManager.on('PlayingGame', function bindHotkeys() {
       className: 'dismissable',
       buttons: {
         text: Translation.General('settings'),
-        onclick: (_) => {
+        onClick: (_) => {
           fullDisable.show(true);
         },
       },

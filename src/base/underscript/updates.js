@@ -42,7 +42,7 @@ wrap(() => {
         className: 'dismissable',
         buttons: [{
           text: Translation.Toast('update'),
-          onclick() {
+          onClick() {
             const url = data.url || `https://github.com/UCProjects/UnderScript/releases/download/${data.version}/undercards.user.js`;
             window.open(url, 'updateUserScript', 'noreferrer');
           },

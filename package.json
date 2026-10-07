@@ -82,7 +82,7 @@
     "luxon": "^1.28.0",
     "popper.js": "^1.16.1",
     "showdown": "^2.0.0",
-    "simpletoast": "github:feildmaster/SimpleToast#2.0.3",
+    "simpletoast": "github:feildmaster/SimpleToast#next",
     "tippy.js": "^4.3.5"
   }
 }

@@ -11,11 +11,13 @@ eventManager.on('underscript:ready', () => ready = true);
 
 function dismissing(button) {
   if (!button || button.dismiss === false) return button;
+  const { onclick, onClick, ...rest } = button;
+  const handler = onClick ?? onclick;
   return {
-    ...button,
-    onclick(event, instance) {
+    ...rest,
+    onClick(event, instance) {
       try {
-        if (typeof button.onclick === 'function') button.onclick.call(this, event, instance);
+        if (typeof handler === 'function') handler.call(this, event, instance);
       } finally {
         if (!event.cancelBubble && !event.defaultPrevented) instance.close('dismissed');
       }
@@ -105,7 +107,7 @@ export function dismissable({ title, text, key, value = 'true' }) {
   if (localStorage.getItem(key) === value) return undefined;
   const buttons = {
     text: Translation.DISMISS,
-    onclick: (e) => {
+    onClick: (e) => {
       localStorage.setItem(key, value);
     },
   };

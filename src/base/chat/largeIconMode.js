@@ -33,7 +33,7 @@ eventManager.on('ChatDetected', () => {
   const value = setting.value();
   const buttons = {
     text: value ? 'Revert it!' : 'Enable it!',
-    onclick: (e) => {
+    onClick: (e) => {
       setting.set(!value);
     },
   };

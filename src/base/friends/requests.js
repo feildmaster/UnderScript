@@ -24,11 +24,11 @@ eventManager.on('Friends:requests', (friends) => {
       buttons: [{
         text: ' ',
         className: 'glyphicon glyphicon-ok green underscript-icon-button',
-        onclick: post.bind(null, id),
+        onClick: post.bind(null, id),
       }, {
         text: ' ',
         className: 'glyphicon glyphicon-remove red underscript-icon-button',
-        onclick: post.bind(null, id, false),
+        onClick: post.bind(null, id, false),
       }],
     });
     sessionStorage.setItem(key, friend);

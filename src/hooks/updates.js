@@ -146,7 +146,7 @@ function notify(text, addButton = false) {
       className: 'dismissable',
       buttons: addButton ? {
         text: keys.button,
-        onclick: open,
+        onClick: open,
       } : undefined,
     });
   }

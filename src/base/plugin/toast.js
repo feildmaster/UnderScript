@@ -4,9 +4,16 @@ import { toast as basicToast, errorToast } from 'src/utils/2.toasts.js';
 import toArray from 'src/utils/toArray.js';
 
 wrap(() => {
+  const buildFooter = (plugin, text) => [text, plugin.name, 'via UnderScript'].filter(Boolean).join(' • ');
   const name = 'toast';
-  function pluginToast(plugin, toast) {
-    toast.footer = `${plugin.name} • via UnderScript`;
+  /**
+   * @param {*} plugin
+   * @param {import('simpletoast').SimpleToastOptions} options
+   * @returns {import('simpletoast').SimpleToastHandle}
+   */
+  function pluginToast(plugin, options) {
+    const footer = buildFooter(plugin, options.footer);
+    const toast = { ...options, footer };
     if (toast.error) return errorToast(toast);
     return basicToast(toast);
   }
@@ -14,12 +21,16 @@ wrap(() => {
   function mod(plugin) {
     let warned = false;
     return (data) => {
-      const toast = typeof data === 'object' ? { ...data } : { text: data };
-      if (!warned && (toast.css || toArray(toast.buttons).some((button) => button?.css))) {
+      const options = typeof data === 'object' ? { ...data } : { text: data };
+      if (!warned && (options.css || toArray(options.buttons).some((button) => button?.css))) {
         warned = true;
         plugin.logger.warn('toast(): `css` is deprecated, please use `className` instead.');
       }
-      return pluginToast(plugin, toast);
+      const toast = pluginToast(plugin, options);
+      if (!toast.exists()) return toast;
+      const { setFooter } = toast;
+      toast.setFooter = (text) => setFooter(buildFooter(plugin, text));
+      return toast;
     };
   }
 

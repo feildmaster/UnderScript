@@ -31,7 +31,7 @@ function getFriendship() {
       className: 'dismissable',
       buttons: {
         text: Translation.General('go!'),
-        onclick: (e) => {
+        onClick: (e) => {
           location.href = '/Friendship';
         },
       },
