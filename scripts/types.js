@@ -33,12 +33,16 @@ export async function bundleTypes(pattern = PUBLIC_TYPES) {
 
 /**
  * @param {string} version
+ * @param {{ devDependencies?: Record<string, string> }} pkg
  * @returns {string}
  */
-export function typesBanner(version = '') {
+export function typesBanner(version = '', { devDependencies = {} } = {}) {
+  const jquery = devDependencies['@types/jquery'];
+  const toast = devDependencies.simpletoast;
   return [
     `// UnderScript${version ? ` ${version}` : ''} plugin API type definitions. Generated file, do not edit.`,
-    '// Requires @types/jquery, the site runs jQuery 2.x: npm install --save-dev @types/jquery@^2.0.68',
+    `// Requires @types/jquery, the site runs jQuery 2.x: npm install --save-dev @types/jquery${jquery ? `@${jquery}` : ''}`,
+    `// Requires SimpleToast, for toast types: npm install --save-dev ${toast || 'github:feildmaster/SimpleToast'}`,
   ].join('\n');
 }
 
@@ -47,8 +51,8 @@ export function typesBanner(version = '') {
  * @returns {Promise<string>}
  */
 export async function buildTypes(pattern = PUBLIC_TYPES) {
-  const { version } = await readJSON('package.json');
-  return `${typesBanner(version)}\n\n${await bundleTypes(pattern)}`;
+  const pkg = await readJSON('package.json');
+  return `${typesBanner(pkg.version, pkg)}\n\n${await bundleTypes(pattern)}`;
 }
 
 export default async function main(filePath = 'dist/underscript.d.ts') {

@@ -131,14 +131,29 @@ describe('type bundle', function suite() {
       expect(typesBanner('1.2.3')).to.contain('@types/jquery');
     });
 
+    it('tells authors to install SimpleToast', () => {
+      expect(typesBanner('1.2.3')).to.contain('SimpleToast');
+    });
+
+    it('uses the dependency versions from package.json', () => {
+      const banner = typesBanner('1.2.3', {
+        devDependencies: {
+          '@types/jquery': '^2.5.0',
+          simpletoast: 'github:feildmaster/SimpleToast#semver:^4.0.0',
+        },
+      });
+      expect(banner).to.contain('@types/jquery@^2.5.0');
+      expect(banner).to.contain('github:feildmaster/SimpleToast#semver:^4.0.0');
+    });
+
     it('is only comments', () => {
       typesBanner('1.2.3').split('\n').forEach((line) => expect(line.startsWith('//')).to.equal(true));
     });
 
     it('comes before the references and slices in the built file', async () => {
-      const { version } = JSON.parse(await fs.readFile('package.json', 'utf8'));
+      const pkg = JSON.parse(await fs.readFile('package.json', 'utf8'));
       const built = await buildTypes();
-      expect(built.startsWith(typesBanner(version))).to.equal(true);
+      expect(built.startsWith(typesBanner(pkg.version, pkg))).to.equal(true);
       const code = built.split('\n').filter((line) => !/^\/\/(?!\/)/.test(line) && line.trim());
       expect(code[0]).to.equal('/// <reference types="jquery" />');
     });
@@ -171,6 +186,7 @@ describe('type bundle', function suite() {
         lib: ['lib.es2023.d.ts', 'lib.dom.d.ts'],
         types: [],
         typeRoots: [path.resolve('node_modules/@types')],
+        paths: { simpletoast: [path.resolve('node_modules/simpletoast/dist/simpletoast.d.ts')] },
       },
     );
     const messages = ts.getPreEmitDiagnostics(program)

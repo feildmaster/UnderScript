@@ -85,8 +85,7 @@ plain.toast({ text: 'Button', buttons: { className: 'dismiss' } });
 plain.toast({ text: 'Style', css: { title: { mouseOver: { color: 'red' } } } });
 // @ts-expect-error toasts need text or options
 plain.toast();
-// @ts-expect-error the footer is set by the plugin
-plain.toast({ text: 'Footer', footer: 'mine' });
+plain.toast({ text: 'Footer', footer: 'mine', pauseOnHover: false, role: 'alert' });
 
 const style = plain.addStyle('.a { color: red; }', ['.b { color: blue; }']);
 style.append('.c {}').replace('.d {}').remove() satisfies UnderScriptStyle;

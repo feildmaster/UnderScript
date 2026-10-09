@@ -15,39 +15,23 @@ type UnderScriptToastCSS = {
   button?: UnderScriptToastButtonStyle;
 };
 
-type UnderScriptToastClass = string | readonly string[];
+type UnderScriptToastClass = import('simpletoast').SimpleToastClassName;
 
-type UnderScriptToastCloseReason = 'timeout' | 'dismissed' | 'unknown' | (string & {});
+type UnderScriptToastCloseReason = import('simpletoast').SimpleToastCloseReason;
 
-type UnderScriptToast = {
-  readonly element: HTMLElement;
-  exists(): boolean;
-  setText(text: string): void;
-  setTitle(title: string): void;
-  setFooter(footer: string): void;
-  close(reason?: string): void;
-};
+type UnderScriptToast = import('simpletoast').SimpleToastHandle;
 
-type UnderScriptToastButton = {
-  text: string;
-  className?: UnderScriptToastClass;
+type UnderScriptToastButton = import('simpletoast').SimpleToastButton & {
   /** @deprecated Use `className` instead */
   css?: UnderScriptToastButtonStyle;
   dismiss?: boolean;
-  onClick?(this: UnderScriptToast, event: MouseEvent, toast: UnderScriptToast): unknown;
-  /** @deprecated Use `onClick` instead */
-  onclick?(this: UnderScriptToast, event: MouseEvent, toast: UnderScriptToast): unknown;
 };
 
-type UnderScriptToastOptions = {
+type UnderScriptToastOptions = Omit<import('simpletoast').SimpleToastOptions, 'text' | 'buttons'> & {
   text: string;
-  title?: string;
   /** @deprecated Use `className` instead */
   css?: UnderScriptToastCSS;
-  className?: UnderScriptToastClass | { toast?: UnderScriptToastClass; button?: UnderScriptToastClass };
-  buttons?: UnderScriptToastButton | readonly UnderScriptToastButton[];
-  timeout?: number;
-  onClose?(this: UnderScriptToast, reason: UnderScriptToastCloseReason, toast: UnderScriptToast): unknown;
+  buttons?: UnderScriptToastButton | ReadonlyArray<UnderScriptToastButton>;
   error?: boolean;
 };
 
