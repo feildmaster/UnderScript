@@ -36,7 +36,7 @@
 1. Added `toast.setTitle(title)`, which allows you to modify toast title
 1. Added `toast.element`, so you can modify the element directly
 
-## Version 0.64.0 (2026-08-28)
+## Version 0.64.0 (2026-09-28)
 ### Features
 1. Added "crafting" option for "merge shiny cards" setting
 1. Added a search bar to the settings screen
