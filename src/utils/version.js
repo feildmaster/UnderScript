@@ -45,7 +45,7 @@ export default function compare(to, from = scriptVersion) {
 function emptyString(...args) {
   return args.some((arg) => typeof arg !== 'string' || !arg.trim());
 }
-api.register('semver', {
+export const semver = {
   isNewer: (ver, current) => {
     if (emptyString(ver)) throw new Error('Expected non-empty string');
     return compare(ver.trim(), current) === true;
@@ -58,8 +58,17 @@ api.register('semver', {
     if (emptyString(ver)) throw new Error('Expected non-empty string');
     return compare(ver.trim(), current) !== true;
   },
+  meets: (ver, current) => {
+    if (emptyString(ver)) throw new Error('Expected non-empty string');
+    return compare(ver.trim(), current) !== true;
+  },
+  isBehind: (ver, current) => {
+    if (emptyString(ver)) throw new Error('Expected non-empty string');
+    return compare(ver.trim(), current) === true;
+  },
   compare: (newer, current) => {
     if (emptyString(newer, current)) throw new Error('Expected non-empty strings');
     return compare(newer.trim(), current.trim());
   },
-});
+};
+api.register('semver', semver);

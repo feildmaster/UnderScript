@@ -5,6 +5,8 @@ plugin.name satisfies string;
 
 underscript.version satisfies string;
 underscript.semver.isOlder('0.65.0') satisfies boolean;
+underscript.semver.meets('0.65.0') satisfies boolean;
+underscript.semver.isBehind('0.65.0', '0.64.0') satisfies boolean;
 underscript.semver.compare('0.65.0', '0.64.0') satisfies boolean | undefined;
 
 const settings = plugin.settings();
