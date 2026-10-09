@@ -1,5 +1,6 @@
 ---
 title: Random avatar
+banner: randomAvatar.png
 date: 2021-06-16
 version: 0.45.0
 ---
