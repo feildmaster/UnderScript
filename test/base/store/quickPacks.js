@@ -35,7 +35,7 @@ describe('quick packs', () => {
   };
   const start = (count) => globalThis.underscript.openPacks(count);
   const progress = () => toasts[0].texts[toasts[0].texts.length - 1];
-  const stop = () => toasts[0].options.buttons.onclick();
+  const stop = () => toasts[0].options.buttons[0].onClick(new window.Event('click'), toasts[0]);
 
   before(async () => {
     globalThis.location = window.location;
@@ -51,6 +51,7 @@ describe('quick packs', () => {
       let open = options !== undefined;
       const toast = {
         options,
+        element: document.createElement('div'),
         texts: [options?.text],
         exists: () => open,
         setText(text) { this.texts.push(text); },
