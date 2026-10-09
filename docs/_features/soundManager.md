@@ -2,7 +2,7 @@
 title: Sound Manager
 banner: soundManager.png
 deprecated: true
-notice: Removed in 0.63.18, the volume controls are now part of the game settings in UnderScript's settings window
+notice: Removed in 0.63.18, the volume controls are now on the Undercards page of UnderScript's settings window
 date: 2021-12-16
 version: 0.47.1
 ---

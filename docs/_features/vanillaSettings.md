@@ -1,12 +1,13 @@
 ---
-title: Game settings
-date: 2025-07-01
-version: 0.63.0
+title: Undercards settings
+date: 2018-11-10
+version: 0.19.0
 ---
 
-Options the game does not offer, in UnderScript's settings window. Some of them:
+The game's own settings are also in UnderScript's settings window, on the Undercards page, so you can change them without leaving for the game's Settings page.
 
-* Turn off chat avatars, rainbow chat, and chat sounds
-* Turn off shiny card animations and breaking card skins
-* Turn off screen shake, VFX, stats, emotes, and profile skins in games
-* Set the volume of music, jingles, and effects separately, or turn each off
+* Language
+* Chat: rainbow chat, chat sounds, and chat avatars
+* Sound: music, jingles, and sound effects, each with its own on or off and volume
+* Cards: shiny card animations and breaking card skins
+* In games: emotes, profile skins, screen shake, stats, and VFX
