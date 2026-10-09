@@ -14,7 +14,7 @@
 // @require      https://unpkg.com/tippy.js@4.3.5/umd/index.all.min.js
 // @require      https://unpkg.com/axios@0.21.4/dist/axios.min.js
 // @require      https://unpkg.com/luxon@1.28.0/build/global/luxon.min.js
-// @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/2.0.3/simpletoast.js
+// @require      https://raw.githubusercontent.com/feildmaster/SimpleToast/3.0.0/dist/simpletoast.js
 // @homepage     https://feildmaster.github.io/UnderScript/
 // @source       https://github.com/UCProjects/UnderScript
 // @supportURL   https://github.com/UCProjects/UnderScript/issues
