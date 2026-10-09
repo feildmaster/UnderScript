@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+import Rarity from 'src/structures/constants/rarity.js';
 import * as api from './4.api.js';
 import { debug } from './debug.js';
 import eventManager from './eventManager.js';
@@ -14,15 +15,14 @@ eventManager.on('allCardsReady', (allCards) => {
 
 const unset = [undefined, null];
 export function max(rarity) { // eslint-disable-line no-shadow
-  switch (rarity) {
-    case 'DETERMINATION':
-    case 'LEGENDARY': return 1;
-    case 'EPIC': return 2;
-    case 'RARE':
-    case 'BASE':
-    case 'COMMON': return 3;
-    case 'TOKEN':
-    case 'GENERATED': return 0;
+  switch (Rarity.find(rarity)) {
+    case Rarity.DETERMINATION:
+    case Rarity.LEGENDARY: return 1;
+    case Rarity.EPIC: return 2;
+    case Rarity.RARE:
+    case Rarity.BASE:
+    case Rarity.COMMON: return 3;
+    case Rarity.TOKEN: return 0;
     default:
       debug(`Unknown rarity: ${rarity}`);
       return undefined;
@@ -72,18 +72,17 @@ export function craftable(el) {
     return false;
   }
   const s = isShiny(el);
-  switch (r) {
-    case 'DETERMINATION': return fragCost(r, s) <= totalFrags();
-    case 'LEGENDARY':
-    case 'EPIC':
-    case 'RARE':
-    case 'COMMON':
-    case 'BASE': {
+  switch (Rarity.find(r)) {
+    case Rarity.DETERMINATION: return fragCost(r, s) <= totalFrags();
+    case Rarity.LEGENDARY:
+    case Rarity.EPIC:
+    case Rarity.RARE:
+    case Rarity.COMMON:
+    case Rarity.BASE: {
       const dust = dustCost(r, s);
       return dust !== null && dust <= totalDust();
     }
-    case 'TOKEN':
-    case 'GENERATED': return false;
+    case Rarity.TOKEN: return false;
     default: {
       debug(`Unknown Rarity: ${r}`);
       return false;
@@ -96,65 +95,64 @@ export function totalFrags() {
 }
 
 export function fragCost(r, s) {
-  if (typeof r === 'object') {
+  if (typeof r === 'object' && !(r instanceof Rarity)) {
     if (typeof s !== 'boolean') {
       s = isShiny(r);
     }
     r = rarity(r);
   }
-  switch (r) {
-    case 'DETERMINATION': return s ? 8 : 4;
+  switch (Rarity.find(r)) {
+    case Rarity.DETERMINATION: return s ? 8 : 4;
     default: return null;
   }
 }
 
 export function fragGain(r, s) {
-  if (typeof r === 'object') {
+  if (typeof r === 'object' && !(r instanceof Rarity)) {
     if (typeof s !== 'boolean') {
       s = isShiny(r);
     }
     r = rarity(r);
   }
-  switch (r) {
-    case 'DETERMINATION': return s ? 4 : 2;
+  switch (Rarity.find(r)) {
+    case Rarity.DETERMINATION: return s ? 4 : 2;
     default: return null;
   }
 }
 
 export function dustCost(r, s) {
-  if (typeof r === 'object') {
+  if (typeof r === 'object' && !(r instanceof Rarity)) {
     if (typeof s !== 'boolean') {
       s = isShiny(r);
     }
     r = rarity(r);
   }
-  switch (r) {
-    case 'DETERMINATION': return null;
-    case 'LEGENDARY': return s ? 3200 : 1600;
-    case 'EPIC': return s ? 1600 : 400;
-    case 'RARE': return s ? 800 : 100;
-    case 'COMMON': return s ? 400 : 40;
-    case 'BASE': return s ? 400 : null;
+  switch (Rarity.find(r)) {
+    case Rarity.DETERMINATION: return null;
+    case Rarity.LEGENDARY: return s ? 3200 : 1600;
+    case Rarity.EPIC: return s ? 1600 : 400;
+    case Rarity.RARE: return s ? 800 : 100;
+    case Rarity.COMMON: return s ? 400 : 40;
+    case Rarity.BASE: return s ? 400 : null;
     default: return null;
   }
 }
 
 export function dustGain(r, s) {
-  if (typeof r === 'object') {
+  if (typeof r === 'object' && !(r instanceof Rarity)) {
     if (typeof s !== 'boolean') {
       s = isShiny(r);
     }
     r = rarity(r);
   }
-  switch (r) {
-    case 'TOKEN':
-    case 'GENERATED': // You can't craft this, but I don't want an error
-    case 'DETERMINATION': return null;
-    case 'LEGENDARY': return s ? 1600 : 400;
-    case 'EPIC': return s ? 400 : 100;
-    case 'RARE': return s ? 100 : 20;
-    case 'COMMON': return s ? 40 : 5;
-    case 'BASE': return s ? 40 : null;
+  switch (Rarity.find(r)) {
+    case Rarity.TOKEN: // You can't craft this, but I don't want an error
+    case Rarity.DETERMINATION: return null;
+    case Rarity.LEGENDARY: return s ? 1600 : 400;
+    case Rarity.EPIC: return s ? 400 : 100;
+    case Rarity.RARE: return s ? 100 : 20;
+    case Rarity.COMMON: return s ? 40 : 5;
+    case Rarity.BASE: return s ? 40 : null;
     default: {
       debug(`Unknown Rarity: ${r}`);
       return null;

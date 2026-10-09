@@ -6,6 +6,7 @@ import onPage from 'src/utils/onPage.js';
 import style from 'src/utils/style.js';
 import * as cardHelper from 'src/utils/cardHelper.js';
 import Translation from 'src/structures/constants/translation.ts';
+import Rarity from 'src/structures/constants/rarity.js';
 
 const setting = settings.register({
   name: Translation.Setting('craft.border'),
@@ -31,7 +32,7 @@ onPage('Crafting', function craftableCards() {
   }
 
   function update({ id, shiny, dust }) {
-    if (dust >= cardHelper.dustCost('LEGENDARY', true)) {
+    if (dust >= cardHelper.dustCost(Rarity.LEGENDARY, true)) {
       const el = cardHelper.find(id, shiny);
       if (el) highlight(el);
     } else {

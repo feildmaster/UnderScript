@@ -15,6 +15,7 @@ import { window } from 'src/utils/1.variables.js';
 import Item from 'src/structures/constants/item.js';
 import length from 'src/utils/length';
 import isCtrl from 'src/utils/isCtrl';
+import Rarity from 'src/structures/constants/rarity.js';
 
 onPage('Packs', async function quickOpenPack() {
   const collection = await getCollection();
@@ -183,7 +184,7 @@ onPage('Packs', async function quickOpenPack() {
     }
   });
 
-  const rarity = ['DETERMINATION', 'LEGENDARY', 'EPIC', 'RARE', 'COMMON'];
+  const rarity = [Rarity.DETERMINATION, Rarity.LEGENDARY, Rarity.EPIC, Rarity.RARE, Rarity.COMMON].map(String);
   events.on('finished', () => {
     if (status.state === 'waiting') return; // Invalid state
     status.state = 'waiting';

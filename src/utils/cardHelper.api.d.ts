@@ -5,13 +5,14 @@ type UnderScriptRarity =
   | 'EPIC'
   | 'LEGENDARY'
   | 'DETERMINATION'
+  | 'DT'
   | 'TOKEN'
   | 'GENERATED';
 
 type UnderScriptRarityHelper = {
-  max(rarity: UnderScriptRarity): number | undefined;
-  cost(rarity: UnderScriptRarity, shiny?: boolean): number | null;
-  dust(rarity: UnderScriptRarity, shiny?: boolean): number | null;
+  max(rarity: UnderScriptRarity | UnderScriptRarityConstant): number | undefined;
+  cost(rarity: UnderScriptRarity | UnderScriptRarityConstant, shiny?: boolean): number | null;
+  dust(rarity: UnderScriptRarity | UnderScriptRarityConstant, shiny?: boolean): number | null;
 };
 
 interface UnderScriptUtils {

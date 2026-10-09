@@ -7,6 +7,7 @@ import * as hover from 'src/utils/hover.js';
 import * as cardHelper from 'src/utils/cardHelper.js';
 import Translation from 'src/structures/constants/translation.js';
 import isCtrl from 'src/utils/isCtrl.js';
+import Rarity from 'src/structures/constants/rarity.js';
 import setBypass from './protection.js';
 
 const setting = settings.register({
@@ -32,7 +33,7 @@ onPage('Crafting', function craftMax() {
     card.off('hover');
     if (setting.value()) return;
     const rarity = cardHelper.rarity(el);
-    if (rarity === 'DETERMINATION') return;
+    if (Rarity.DETERMINATION.equals(rarity)) return;
     const max = cardHelper.max(rarity);
     const amount = cardHelper.quantity(el);
     if (amount >= max) return;

@@ -1,20 +1,13 @@
 import eventManager from 'src/utils/eventManager.js';
 import { global } from 'src/utils/global.js';
+import * as cardHelper from 'src/utils/cardHelper.js';
 import * as hover from 'src/utils/hover.js';
 import shuffle from 'src/utils/shuffle.js';
 import style from 'src/utils/style.js';
 import rand from 'src/utils/rand.js';
 import * as deckLoader from 'src/utils/loadDeck.js';
 import { getTranslationArray } from 'src/base/underscript/translation';
-
-const limits = {
-  BASE: 3,
-  COMMON: 3,
-  RARE: 3,
-  EPIC: 2,
-  LEGENDARY: 1,
-  DETERMINATION: 1,
-};
+import Rarity from 'src/structures/constants/rarity.js';
 
 function buildPool(shinyFilter) {
   const cards = [{ id: 0, shiny: false, rarity: '' }];
@@ -60,8 +53,8 @@ function fillDeck(e) {
 
   function addCard(card) {
     const amt = counts.get(card.id) || 0;
-    if (amt === limits[card.rarity]) return;
-    if (card.rarity === 'DETERMINATION') {
+    if (amt === cardHelper.max(card.rarity)) return;
+    if (Rarity.DETERMINATION.equals(card.rarity)) {
       if (dtFlag) return;
       dtFlag = true;
     }

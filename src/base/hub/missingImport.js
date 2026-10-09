@@ -3,6 +3,7 @@ import { global } from 'src/utils/global.js';
 import style from 'src/utils/style.js';
 import { dismissable } from 'src/utils/2.toasts.js';
 import Translation from 'src/structures/constants/translation.ts';
+import Rarity from 'src/structures/constants/rarity.js';
 import styles from './missingImport.css';
 
 style.add(styles);
@@ -31,7 +32,7 @@ function check({ code, id }) {
   const allCards = toObject(global('allCards'));
   const missingCards = getMissingCards(deck.cardIds);
 
-  const missingDT = missingCards.some((i) => allCards[i].rarity === 'DETERMINATION');
+  const missingDT = missingCards.some((i) => Rarity.DETERMINATION.equals(allCards[i].rarity));
   const missingCard = missingCards.length > 0;
   const missingArt = deck.artifactIds.filter((art) => !checkArt(art));
 

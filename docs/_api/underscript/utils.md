@@ -54,7 +54,7 @@ VarStore
 : Holds a value. `consume()` reads it and puts the default back.
 
 rarity
-: `max(rarity)`, `cost(rarity, shiny)` and `dust(rarity, shiny)` for card rarities
+: `max(rarity)`, `cost(rarity, shiny)` and `dust(rarity, shiny)` for card rarities. A rarity is its name, like `'EPIC'`, or an [`underscript.rarity`]({% link _api/underscript/rarity.md %}).
 
 ## Examples
 {% highlight javascript %}

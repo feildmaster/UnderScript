@@ -7,6 +7,7 @@ import { max } from 'src/utils/cardHelper.js';
 import Translation from 'src/structures/constants/translation.ts';
 import Priority from 'src/structures/constants/priority.js';
 import extractImageName from 'src/utils/extractImageName';
+import Rarity from 'src/structures/constants/rarity.js';
 import { getTranslationArray } from '../underscript/translation.js';
 import styles from './filter.css';
 
@@ -225,7 +226,7 @@ filters.push(
   Priority.HIGH,
   crafting && function baseGenFilter(card, removed) {
     if (removed || $('.rarityInput:checked').length) return null;
-    return ['BASE', 'TOKEN'].includes(card.rarity);
+    return [Rarity.BASE, Rarity.TOKEN].some((rarity) => rarity.equals(card.rarity));
   },
   function tribeFilter(card, removed) {
     if (removed || !tribe.value()) return null;

@@ -12,6 +12,7 @@ import each from 'src/utils/each.js';
 import { captureError } from 'src/utils/sentry.js';
 import hasOwn from 'src/utils/hasOwn.js';
 import Translation from 'src/structures/constants/translation.ts';
+import Rarity from 'src/structures/constants/rarity.js';
 
 const setting = settings.register({
   name: Translation.Setting('disenchant'),
@@ -265,15 +266,14 @@ onPage('Crafting', function disenchantWrapper() {
   }
 
   function include(rarity) {
-    switch (rarity) {
-      case 'BASE':
-      case 'GENERATED':
-      case 'TOKEN':
-      case 'DETERMINATION': return false;
-      case 'LEGENDARY':
-      case 'EPIC':
-      case 'RARE':
-      case 'COMMON': return true;
+    switch (Rarity.find(rarity)) {
+      case Rarity.BASE:
+      case Rarity.TOKEN:
+      case Rarity.DETERMINATION: return false;
+      case Rarity.LEGENDARY:
+      case Rarity.EPIC:
+      case Rarity.RARE:
+      case Rarity.COMMON: return true;
       default:
         debugToast(`Unknown Rarity: ${rarity}`);
         return false;
