@@ -33,7 +33,7 @@ eventManager.on('ChatDetected', () => {
   if (!setting.value()) return;
 
   infoToast({
-    text: 'Prefer small icons? You can switch to small icons in the chat settings.',
+    text: 'Chat avatars are large now. Prefer the compact look?',
     className: 'dismissable',
     buttons: {
       text: 'Switch to small icons',
