@@ -8,6 +8,7 @@ on:
 jobs:
   bundle:
     name: Bundle
+    if: github.repository == 'UCProjects/UnderScript'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository

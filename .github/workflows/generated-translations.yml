@@ -6,7 +6,7 @@ on:
 jobs:
   check:
     name: Check
-    if: github.event.pull_request.head.repo.fork
+    if: github.repository == 'UCProjects/UnderScript' && github.event.pull_request.head.repo.fork
     runs-on: ubuntu-latest
     steps:
     - name: Reject generated file

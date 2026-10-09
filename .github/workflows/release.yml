@@ -6,6 +6,7 @@ on:
       - next
 jobs:
   check:
+    if: github.repository == 'UCProjects/UnderScript'
     runs-on: ubuntu-latest
     outputs:
       changed: ${{ steps.check.outputs.changed }}
