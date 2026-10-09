@@ -30,17 +30,16 @@ function update() {
 eventManager.on('ChatDetected', () => {
   update();
 
-  const value = setting.value();
-  const buttons = {
-    text: value ? 'Revert it!' : 'Enable it!',
-    onClick: (e) => {
-      setting.set(!value);
-    },
-  };
+  if (!setting.value()) return;
 
   infoToast({
-    text: `There's a Large Icon Mode chat setting`,
+    text: 'Prefer small icons? You can switch to small icons in the chat settings.',
     className: 'dismissable',
-    buttons,
+    buttons: {
+      text: 'Switch to small icons',
+      onClick: () => {
+        setting.set(false);
+      },
+    },
   }, 'underscript.notice.largeIcons', '1');
 });

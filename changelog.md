@@ -13,6 +13,7 @@
 1. Opening packs now waits and carries on when the game rate limits the requests, instead of stopping early
 1. Fixed the cosmetics shop showing two purchase confirmations, shift-click still skips the confirmation
 1. Fixed the Deck Hub import arrow staying orange when you are missing a DT, it is red again
+1. The Large Icon mode notice now offers to switch to small icons, since the game shows large icons already
 ### Plugins
 1. Plugin setting pages with too many tabs to fit now split into pages, with arrows to flip between them<extended>
   - This also applies to any horizontal view made with `utils.tabManager()`. Those can pass `labels: { previous(page, total), next(page, total) }` and `tooltip: underscript.utils.hover` to `tabManager().settings()` to change the tooltip text or use UnderScript's hover instead of a plain `title`.
