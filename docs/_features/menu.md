@@ -1,7 +1,7 @@
 ---
-title: Menu extras
-date: 2020-10-12
-version: 0.41.0
+title: UnderScript Menu
+date: 2018-11-10
+version: 0.19.0
 ---
 
 UnderScript has its own menu, which you open from the Undercards menu. It has:
