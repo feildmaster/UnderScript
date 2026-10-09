@@ -4,17 +4,29 @@ date: 2025-07-01
 version: 0.63.0
 ---
 
-UnderScript's own text, like its settings, menu, toasts and chat commands, can be translated, and is shown in the language you picked for the game. English is the only language included so far.
+UnderScript's own text, like its settings, menu, toasts and chat commands, can be translated, and is shown in the language you picked for the game. Anything without a translation shows in English.
 
 ## Adding a language ##
-Translations live in the `lang` folder of the [UnderScript repository](https://github.com/UCProjects/UnderScript), with a folder for each language, named with the same code the game uses, like `fr` or `de`. `en` has everything, and is the one to copy from. It has these files:
+Translations live in the `lang` folder of the [UnderScript repository](https://github.com/UCProjects/UnderScript), with a folder for each language, named with the code the game uses, like `fr` or `de`. The English text is in `lang/en`.
 
-* `command.json`, for chat commands
-* `general.json`, for text used in many places
-* `menu.json`, for the UnderScript menu
-* `settings.json`, for settings and their descriptions
-* `toast.json`, for toasts
+To start a new language, clone the repository and generate a template. You need [Node.js](https://nodejs.org/) 18 or newer.
 
-Copy them into a new folder and translate the values, keeping the keys the same. A `~` key holds the main text of an entry, and the keys next to it are its extras, like a note or usage.
+{% highlight sh %}
+npm install
+npm run lang -- fr
+{% endhighlight %}
 
-Send the new folder as a pull request. Don't add `lang/underscript.json`, it is built from the language folders automatically.
+This creates `lang/fr` with a file for each file that exists in English. Every string appears twice, a `//` line with the English text for reference, and the real key with an empty value for you to fill in.
+
+{% highlight json %}
+"//dismiss": "Dismiss",
+"dismiss": "Fermer"
+{% endhighlight %}
+
+* Only edit the values, and leave the `//` lines alone
+* Strings left empty show in English, so a partial translation is fine. A list of strings is only used once every entry in it is filled in
+* Keep placeholders such as `$1` and `{% raw %}{{...}}{% endraw %}` exactly as they are
+* Run the command again after pulling changes. It adds new strings, never overwrites your translations, and tells you how many are left in each file
+* If the English text of a string you already translated changes, its `//` line becomes `//dismiss!`. Review your translation, then remove the `!` to clear it
+
+Send the new folder as a pull request. Don't add `lang/underscript.json`, it is built from the language folders automatically. The [readme](https://github.com/UCProjects/UnderScript#translations) has the full details.
