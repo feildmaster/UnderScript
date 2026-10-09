@@ -2,7 +2,6 @@ title: UnderScript
 description: Various changes to <a class="header" href="https://undercards.net/SignUp?ref=63068">undercards</a>, an <a class="header" href="https://undertale.com/">undertale</a> fan-made card game.
 discord_url: https://discord.gg/jRupwTU
 repository: UCProjects/UnderScript
-theme: jekyll-theme-dinky
 permalink: /:title
 plugins:
   - jekyll-last-modified-at

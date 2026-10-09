@@ -19,8 +19,18 @@ Tampermonkey is a script manager program that loads scripts automatically, and i
 ## Features ##
 
 <ol>
-{% assign features = site.features | sort: "date" %}
-{% for feature in features %}
+{% assign keys = "" | split: "" %}
+{% for item in site.features %}
+  {% assign parts = item.version | split: "." %}
+  {% assign minor = parts[1] | default: "0" | prepend: "000" | slice: -3, 3 %}
+  {% assign patch = parts[2] | default: "0" | prepend: "000" | slice: -3, 3 %}
+  {% capture key %}{{ item.date | date: "%Y%m%d" }}.{{ parts[0] | default: "0" | prepend: "000" | slice: -3, 3 }}.{{ minor }}.{{ patch }}.{{ item.title | downcase }}|{{ forloop.index0 }}{% endcapture %}
+  {% assign keys = keys | push: key %}
+{% endfor %}
+{% assign keys = keys | sort %}
+{% for key in keys %}
+  {% assign position = key | split: "|" | last | plus: 0 %}
+  {% assign feature = site.features[position] %}
   <li id="feature-{{forloop.index}}"
     {% if feature.banner %}{% assign banner = site.static_files | where: "name", feature.banner | first %}
     {% if banner %}data-tippy="<img src='{{banner.path | relative_url}}'>"{% endif %}

@@ -4,55 +4,50 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     {% seo %}
+    <meta name="theme-color" content="#000000">
+    <meta name="color-scheme" content="dark">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
     <script src="https://unpkg.com/axios@^0.18.x/dist/axios.min.js"></script>
     <script src="{{ '/assets/js/versioning.js?v=1' | relative_url }}"></script>
     <script src="{{ '/assets/js/simpletoast.js' | relative_url }}"></script>
-    <script src="{{ '/assets/js/scale.fix.js' | relative_url }}"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
-    <div class="wrapper">
-      <header>
-        <h1 class="header">{{ site.title | default: site.github.repository_name }}</h1>
-        <p class="header">{{ site.description | default: site.github.project_tagline }}</p>
-
-        <ul>
-          {% if site.show_downloads %}
-            <li class="download"><a class="buttons" href="{{ site.github.zip_url }}">Download ZIP</a></li>
-            <li class="download"><a class="buttons" href="{{ site.github.tar_url }}">Download TAR</a></li>
-          {% endif %}
-          <li><a class="buttons github" href="{{ site.github.repository_url }}">View On GitHub</a></li>
+    <nav class="topbar">
+      <div class="topbar-inner">
+        <div class="brand-block">
+          <a class="brand" href="{{ '/' | relative_url }}">{{ site.title | default: site.github.repository_name }}</a>
+          <p class="tagline">{{ site.description | default: site.github.project_tagline }}</p>
+        </div>
+        <ul class="topbar-links">
+          <li><a href="{{ '/#features' | relative_url }}">Features</a></li>
+          <li><a href="{% link _api/index.md %}">API</a></li>
+          <li><a class="github" href="{{ site.github.repository_url }}">GitHub</a></li>
           {% if site.discord_url %}
-            <li><a target="blank" class="buttons discord" href="{{ site.discord_url }}">Join the Discord</a></li>
+            <li><a target="_blank" rel="noopener" class="discord" href="{{ site.discord_url }}">Discord</a></li>
           {% endif %}
           {% if site.patreon_id %}
-            <li><a target="blank" href="https://www.patreon.com/bePatron?u={{ site.patreon_id }}" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script></li>
+            <li><a target="_blank" rel="noopener" href="https://www.patreon.com/bePatron?u={{ site.patreon_id }}">Patreon</a></li>
           {% endif %}
         </ul>
+      </div>
+    </nav>
 
-        {% if site.github.is_project_page %}
-          <p class="header">This project is maintained by <a class="header name" href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a></p>
-        {% endif %}
-
-        {% if site.github.is_user_page %}
-          <ul>
-            <li><a class="buttons github" href="{{ site.github.owner_url }}">GitHub Profile</a></li>
-          </ul>
-        {% endif %}
-      </header>
-
-      <section>
+    <main>
+      <section class="content">
         {{ content }}
       </section>
+    </main>
 
-      <footer>
-        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
-      </footer>
-    </div>
+    <footer class="footer">
+      <p>
+        Maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a>.
+        Hosted on <a href="https://pages.github.com">GitHub Pages</a>.
+      </p>
+    </footer>
     <script src="https://unpkg.com/popper.js@1.15.0/dist/umd/popper.min.js"></script>
     <script src="https://unpkg.com/tippy.js@4.3.5/umd/index.all.min.js"></script>
     <script>
@@ -63,6 +58,5 @@
         maxWidth: 800,
       });
     </script>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
   </body>
 </html>
