@@ -14,5 +14,5 @@ Object.entries(Item).forEach((([key, value]) => {
 
 constants.getItem = (value) => Item.find(value);
 constants.isItem = (other) => Item.find(other) !== undefined;
-constants.getPriority = (value) => Priority.find(value);
-constants.isPriority = (other) => Priority.find(other) !== undefined;
+constants.getPriority = (value) => Priority.get(value);
+constants.isPriority = (other) => Priority.get(other) !== undefined;

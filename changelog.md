@@ -20,6 +20,7 @@
 </extended>
 1. Added `plugin.settings().name(<string>)` to rename the first settings tab
 1. Fixed `plugin.events.once`, `until`, and `off` not removing listeners
+1. Fixed `underscript.constants.getPriority()` and `isPriority()` throwing an error
 1. Fixed `underscript.user.getDecks()`, `getCollection()`, `getArtifacts()`, and `getAllArtifacts()` each making their own request when called at the same time
 1. Added `underscript.d.ts` to each release, so editors like VS Code can suggest and check your plugin code<extended>
   - This is optional, plugins work the same without it.
