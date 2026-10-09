@@ -1,6 +1,6 @@
 ---
 title: Chat Commands
-banner: 
+banner: chatCommands.png
 date: 2019-04-06
 version: 0.25.0
 credit: 
