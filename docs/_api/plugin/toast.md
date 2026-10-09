@@ -20,6 +20,9 @@ text: `string`
 title: `string`
 : Title shown above the message
 
+footer: `string`
+: Text shown in front of your plugin's name in the footer
+
 timeout: `number`
 : Milliseconds before the toast closes on its own
 
@@ -29,11 +32,8 @@ error: `boolean`
 className: `string` or `string[]` or `{ toast, button }`
 : Classes to add to the toast, or to its buttons
 
-css: `object`
-: Styles for the toast, or for sections of it (`toast`, `title`, `footer`, `button`)
-
 buttons: `object` or `object[]`
-: Buttons to show, each with `text` (required), `className`, `css`, and `onclick(event, toast)`
+: Buttons to show, each with `text` (required), `className`, `onClick(event, toast)`, and `dismiss`. Clicking a button closes the toast, set `dismiss: false` or call `event.preventDefault()` in `onClick` to keep it open.
 
 onClose: `function(reason, toast)`
 : Called after the toast closes. `reason` is `timeout`, `dismissed`, or what was passed to `close()`.
@@ -43,7 +43,10 @@ Return Value
 {% highlight javascript %}
 Toast {
   exists(), // true if the toast is still showing
+  element, // the toast's element
   setText(text), // change the message
+  setTitle(title), // change the title
+  setFooter(text), // change the text shown in front of your plugin's name
   close(reason), // close the toast
 }
 {% endhighlight %}
@@ -63,7 +66,7 @@ plugin.toast({
   text: 'Saved. Undo?',
   buttons: {
     text: 'Undo',
-    onclick(event, toast) {
+    onClick(event, toast) {
       toast.close('undone');
     },
   },
