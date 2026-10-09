@@ -16,9 +16,6 @@ Events UnderScript emits. Listen to them with [`plugin.events`]({% link _api/plu
 `:preload:PAGE`, `:load:PAGE`, `:unload:PAGE`
 : The same events, but only on one page. `PAGE` is the page name, such as `Packs` or `Decks`.
 
-`:loaded`, `:loaded:PAGE`
-: Old names for `:preload` and `:preload:PAGE`. Deprecated, use the new names.
-
 `underscript:ready`
 : UnderScript's own assets (like translations) finished loading
 
@@ -115,6 +112,12 @@ Events UnderScript emits. Listen to them with [`plugin.events`]({% link _api/plu
 `craftcard`({ *id*, *name*, *dust*, *shiny* })
 : A card was crafted
 
+`crafterrror`(*message*, *status*)
+: Crafting a card failed. `message` and `status` come from the game's response.
+
+`refreshhighlight`
+: The craftable card highlights on the Crafting page are redrawn. Emit it to refresh them yourself.
+
 `openedPacks`({ *count*, *cards* })
 : Packs were opened
 
@@ -133,6 +136,13 @@ Events UnderScript emits. Listen to them with [`plugin.events`]({% link _api/plu
 
 `Friendship:load`, `Friendship:loaded`, `Friendship:page`(*page*), `Friendship:claim`(*result*), `Friendship:results`(*error*)
 : Friendship page events
+
+## Leaderboard
+`Rankings:init`
+: The leaderboard finished loading
+
+`Rankings:selectPage`(*page*)
+: A page was picked from the page dropdown
 
 ## Windows and settings
 `BootstrapDialog:create`(*dialog*), `BootstrapDialog:preshow`(*dialog*)

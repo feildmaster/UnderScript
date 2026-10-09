@@ -26,6 +26,3 @@ if (item.GOLD.equals('gold')) {
   console.log('Gold!');
 }
 {% endhighlight %}
-
-# underscript.priority
-Used when a filter or similar decides what goes first: `FIRST`, `HIGHEST`, `HIGH`, `NORMAL`, `LOW`, `LOWEST`, `LAST`. Like items, they have `equals(other)`, and anywhere one is accepted you can also pass its name as text, such as `'high'`.

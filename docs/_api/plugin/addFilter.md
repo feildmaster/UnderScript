@@ -18,12 +18,14 @@ filter
 Return `true` to hide the card, `false` to show it, or nothing to leave it alone.
 
 priority
-: When to run, compared to other filters: `underscript.priority.HIGH`, or the name as text, `'high'`. (default: normal)
+: When to run, compared to other filters: [`underscript.priority.HIGH`]({% link _api/underscript/priority.md %}), or the name as text, `'high'`. (default: normal)
 
 ## Examples
 {% highlight javascript %}
+const { onPage } = underscript;
 const plugin = underscript.plugin('My great plugin');
 
-// Only on the Decks and Crafting pages
-plugin.addFilter?.((card) => card.cost > 5);
+if (onPage('Decks') || onPage('Crafting')) {
+  plugin.addFilter((card) => card.cost > 5);
+}
 {% endhighlight %}
