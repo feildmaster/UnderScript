@@ -11,12 +11,8 @@ export default class Priority extends Constant {
   static LAST = new Priority('last', 'bottom');
 
   static get(value) {
-    if (value instanceof Priority) return value;
-    // eslint-disable-next-line no-use-before-define
-    return values.find((v) => v.equals(value));
+    return this.find(value);
   }
 }
-
-const values = Object.values(Priority);
 
 api.mod.priority = Object.fromEntries(Object.entries(Priority));

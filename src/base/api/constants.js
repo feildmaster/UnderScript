@@ -1,4 +1,5 @@
 import * as api from 'src/utils/4.api.js';
+import eventManager from 'src/utils/eventManager.js';
 import Item from 'src/structures/constants/item.js';
 import Priority from 'src/structures/constants/priority';
 
@@ -14,5 +15,10 @@ Object.entries(Item).forEach((([key, value]) => {
 
 constants.getItem = (value) => Item.find(value);
 constants.isItem = (other) => Item.find(other) !== undefined;
-constants.getPriority = (value) => Priority.get(value);
-constants.isPriority = (other) => Priority.get(other) !== undefined;
+constants.getPriority = (value) => Priority.find(value);
+constants.isPriority = (other) => Priority.find(other) !== undefined;
+
+eventManager.on('underscript:ready', () => {
+  Item.lock();
+  Priority.lock();
+});

@@ -21,14 +21,6 @@ export default class Item extends Constant {
   static AVATAR = new Item('Avatar', 'avatar', 'reward-avatar');
   static EMOTE = new Item('Emote', 'emote', 'reward-emote');
   static PROFILE = new Item('Profile Skin', 'Profile', 'profile skin', 'profile', 'reward-profile-skin');
-
-  static find(value) {
-    if (value instanceof Item) return value;
-    // eslint-disable-next-line no-use-before-define
-    return items.find((item) => item.equals(value));
-  }
 }
-
-const items = Object.values(Item);
 
 api.mod.item = Object.fromEntries(Object.entries(Item));
