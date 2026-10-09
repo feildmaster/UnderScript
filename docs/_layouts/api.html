@@ -1,0 +1,18 @@
+---
+layout: default
+---
+<header class="page-head">
+  <h1>{{ page.title }}</h1>
+  <p class="meta">by {{ page.author }} ({{ page.date | date: "%B %-d, %Y" }})</p>
+</header>
+
+{{ content }}
+
+<nav class="api-nav">
+  <span>API Documentation</span>
+  <a href="{{site.baseurl}}{% link _api/underscript/index.md %}">UnderScript</a>
+  <a href="{{site.baseurl}}{% link _api/plugin/index.md %}">Plugin</a>
+  <a href="{{site.baseurl}}{% link _api/eventemitter.md %}">EventEmitter</a>
+  <a href="{{site.baseurl}}{% link _api/events.md %}">Events</a>
+</nav>
+<p class="meta">{{ page.last_modified_at | date: "Last updated: %B %-d, %Y at %H:%M" }}</p>

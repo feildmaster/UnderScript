@@ -17,9 +17,7 @@ export default [
       'node_modules/**',
       '_site/**',
       '.vscode/**',
-      '_features/**',
-      '_api/**',
-      'assets/**',
+      'docs/**',
     ],
   },
   ...compat.extends('airbnb-base'),
@@ -62,7 +60,7 @@ export default [
         json: 'always',
       }],
       'import/no-extraneous-dependencies': ['error', {
-        devDependencies: ['./scripts/**', './test/**', '*'],
+        devDependencies: ['./scripts/**', './src/**', './test/**', '*'],
         optionalDependencies: false,
         peerDependencies: false,
         bundledDependencies: false,
@@ -116,16 +114,6 @@ export default [
         Sentry: readonly,
         globalThis: readonly,
         window: 'off',
-      },
-    },
-  },
-  {
-    files: ['src/bundle/**'],
-    languageOptions: {
-      sourceType: 'module',
-      globals: {
-        ...globals.browser,
-        ...globals.node,
       },
     },
   },

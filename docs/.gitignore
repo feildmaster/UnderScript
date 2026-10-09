@@ -1,0 +1,7 @@
+/_site
+/node_modules
+/dist
+/.vscode
+/src
+
+*.ignore.*
