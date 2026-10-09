@@ -114,6 +114,9 @@ underscript.item.GOLD satisfies UnderScriptItem;
 underscript.priority.NORMAL.equals('normal') satisfies boolean;
 underscript.constants.getItem('gold') satisfies UnderScriptItem | undefined;
 underscript.constants.isPriority('first') satisfies boolean;
+underscript.rarity.DETERMINATION satisfies UnderScriptRarityConstant;
+underscript.constants.getRarity('DT') satisfies UnderScriptRarityConstant | undefined;
+underscript.constants.isRarity('TOKEN') satisfies boolean;
 // @ts-expect-error item constants are read-only
 underscript.item.GOLD = underscript.item.UCP;
 

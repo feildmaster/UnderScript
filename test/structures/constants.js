@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import Constant from 'src/structures/constants/constant.js';
 import Item from 'src/structures/constants/item.js';
 import Priority from 'src/structures/constants/priority.js';
+import Rarity from 'src/structures/constants/rarity.js';
 
 function constants(values) {
   class Test extends Constant {}
@@ -92,5 +93,37 @@ describe('Item and Priority', () => {
   it('still has get for finding a priority', () => {
     expect(Priority.get('normal')).to.equal(Priority.NORMAL);
     expect(Priority.get('nope')).to.equal(undefined);
+  });
+});
+
+describe('Rarity', () => {
+  const names = ['BASE', 'COMMON', 'RARE', 'EPIC', 'LEGENDARY', 'DETERMINATION', 'TOKEN'];
+
+  names.forEach((name) => {
+    it(`is the same as the game rarity ${name}`, () => {
+      expect(`${Rarity[name]}`).to.equal(name);
+      expect(Rarity.find(name)).to.equal(Rarity[name]);
+      expect(Rarity[name].equals(name)).to.equal(true);
+    });
+  });
+
+  it('treats GENERATED as another name for TOKEN', () => {
+    expect(Rarity.find('GENERATED')).to.equal(Rarity.TOKEN);
+    expect(Rarity.TOKEN.equals('GENERATED')).to.equal(true);
+  });
+
+  it('treats DT as another name for DETERMINATION', () => {
+    expect(Rarity.find('DT')).to.equal(Rarity.DETERMINATION);
+    expect(Rarity.DETERMINATION.equals('DT')).to.equal(true);
+  });
+
+  it('does not know other rarities', () => {
+    expect(Rarity.find('MYTHIC')).to.equal(undefined);
+    expect(Rarity.DETERMINATION.equals('LEGENDARY')).to.equal(false);
+  });
+
+  it('does not find other constants', () => {
+    expect(Rarity.find(Priority.HIGH)).to.equal(undefined);
+    expect(Rarity.find('gold')).to.equal(undefined);
   });
 });

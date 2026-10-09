@@ -8,6 +8,8 @@ type UnderScriptItem = UnderScriptConstant;
 
 type UnderScriptPriority = UnderScriptConstant;
 
+type UnderScriptRarityConstant = UnderScriptConstant;
+
 type UnderScriptPriorityName =
   | 'first'
   | 'top'
@@ -49,7 +51,18 @@ type UnderScriptPriorities = {
   readonly LAST: UnderScriptPriority;
 };
 
+type UnderScriptRarities = {
+  readonly BASE: UnderScriptRarityConstant;
+  readonly COMMON: UnderScriptRarityConstant;
+  readonly RARE: UnderScriptRarityConstant;
+  readonly EPIC: UnderScriptRarityConstant;
+  readonly LEGENDARY: UnderScriptRarityConstant;
+  readonly DETERMINATION: UnderScriptRarityConstant;
+  readonly TOKEN: UnderScriptRarityConstant;
+};
+
 interface UnderScriptAPI {
   readonly item: UnderScriptItems;
   readonly priority: UnderScriptPriorities;
+  readonly rarity: UnderScriptRarities;
 }

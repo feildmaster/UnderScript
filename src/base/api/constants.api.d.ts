@@ -40,6 +40,8 @@ type UnderScriptConstants = UnderScriptDeprecatedItems & {
   isItem(other: unknown): boolean;
   getPriority(value: unknown): UnderScriptPriority | undefined;
   isPriority(other: unknown): boolean;
+  getRarity(value: unknown): UnderScriptRarityConstant | undefined;
+  isRarity(other: unknown): boolean;
 };
 
 interface UnderScriptAPI {

@@ -18,6 +18,21 @@ describe('underscript constants', () => {
     expect(`${constants.getPriority('high')}`).to.equal('high');
   });
 
+  it('exposes the rarities', () => {
+    expect(`${globalThis.underscript.rarity.LEGENDARY}`).to.equal('LEGENDARY');
+    expect(globalThis.underscript.rarity.TOKEN.equals('GENERATED')).to.equal(true);
+  });
+
+  it('finds a rarity by name', () => {
+    expect(constants.isRarity('DT')).to.equal(true);
+    expect(constants.getRarity('DT')).to.equal(globalThis.underscript.rarity.DETERMINATION);
+  });
+
+  it('knows when something is not a rarity', () => {
+    expect(constants.isRarity('MYTHIC')).to.equal(false);
+    expect(constants.getRarity('MYTHIC')).to.equal(undefined);
+  });
+
   it('knows when something is not a priority', () => {
     expect(constants.isPriority('not a priority')).to.equal(false);
     expect(constants.getPriority('not a priority')).to.equal(undefined);
