@@ -31,6 +31,11 @@ const {
   SENTRY_DSN = '',
 } = process.env;
 
+const lexicalThis = {
+  name: 'lexical-this',
+  renderChunk: (code) => code.replace(/^\(function \(\) \{$/m, '(() => {'),
+};
+
 export default [{
   input: {
     include: [
@@ -49,6 +54,7 @@ export default [{
     esModule: false,
     exports: 'none',
     preferConst: true,
+    plugins: [lexicalThis],
   }, {
     name: 'ucs',
     file: 'dist/underscript.js',
@@ -56,6 +62,7 @@ export default [{
     esModule: false,
     exports: 'none',
     preferConst: true,
+    plugins: [lexicalThis],
   }],
   external: ['luxon', 'showdown', 'axios', 'tippy.js'],
   plugins: [

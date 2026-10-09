@@ -13,7 +13,14 @@ function locate() {
   }
 }
 
+let loaded;
+
 export default function loadSimpleToast() {
+  loaded ??= load();
+  return loaded;
+}
+
+function load() {
   const file = locate();
   if (!file) return false;
   const source = fs.readFileSync(file, 'utf8');

@@ -1,6 +1,7 @@
 import { register } from 'node:module';
 import { JSDOM } from 'jsdom';
 import jQuery from 'jquery';
+import loadSimpleToast from './simpletoast.js';
 
 register('./loader.js', import.meta.url);
 
@@ -17,3 +18,4 @@ globalThis.GM_info = {
   scriptHandler: 'test',
 };
 globalThis.fetch = () => Promise.reject(new Error('Unexpected fetch, stub it with mockFetch()'));
+loadSimpleToast();

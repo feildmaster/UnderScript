@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import eventManager from '../../../src/utils/eventManager.js';
 import installClock from '../../setup/clock.js';
+import { clearToasts } from '../../setup/simpletoast.js';
 
 const flush = () => new Promise((resolve) => { setImmediate(resolve); });
 
@@ -21,7 +22,6 @@ describe('quick packs', () => {
   let clock;
   let requested;
   let answered;
-  let toasts;
   let finished;
 
   const outstanding = () => requested - answered;
@@ -34,8 +34,8 @@ describe('quick packs', () => {
     for (let i = 0; i < count; i += 1) respond(make(i));
   };
   const start = (count) => globalThis.underscript.openPacks(count);
-  const progress = () => toasts[0].texts[toasts[0].texts.length - 1];
-  const stop = () => toasts[0].options.buttons[0].onClick(new window.Event('click'), toasts[0]);
+  const progress = () => document.querySelector('.simpletoast-body').innerHTML;
+  const stop = () => document.querySelector('.simpletoast-button').click();
 
   before(async () => {
     globalThis.location = window.location;
@@ -47,20 +47,6 @@ describe('quick packs', () => {
     globalThis.canOpen = false;
     globalThis.revealCard = () => {};
     globalThis.translateFromServerJson = (message) => message;
-    globalThis.SimpleToast = function SimpleToast(options) {
-      let open = options !== undefined;
-      const toast = {
-        options,
-        element: document.createElement('div'),
-        texts: [options?.text],
-        exists: () => open,
-        setText(text) { this.texts.push(text); },
-        close() { open = false; },
-      };
-      toasts.push(toast);
-      return toast;
-    };
-    toasts = [];
     await import('../../../src/base/store/quickPacks.js');
     eventManager.emit('Deck:Loaded', { collection: '[]' });
     await flush();
@@ -75,7 +61,6 @@ describe('quick packs', () => {
   beforeEach(() => {
     requested = 0;
     answered = 0;
-    toasts = [];
     finished = [];
     clock = installClock();
   });
@@ -86,6 +71,7 @@ describe('quick packs', () => {
       respondAll(success);
     }
     clock.restore();
+    clearToasts();
   });
 
   after(() => {
@@ -93,7 +79,6 @@ describe('quick packs', () => {
     delete globalThis.canOpen;
     delete globalThis.revealCard;
     delete globalThis.translateFromServerJson;
-    delete globalThis.SimpleToast;
   });
 
   it('opens packs five at a time and reports the result', () => {

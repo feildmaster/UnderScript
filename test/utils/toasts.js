@@ -304,6 +304,13 @@ describe('toasts', function toastTests() {
       expect(errorToast({ message: 'bad', className: 'mine' }).element.className).to.contain('mine');
     });
 
+    it('escapes every angle bracket in a stack trace', () => {
+      const error = { stack: 'Error\n    at <a> (<img src=x onerror=alert(1)>)' };
+      const instance = errorToast({ error });
+      expect(body(instance).querySelector('img, a')).to.equal(null);
+      expect(body(instance).textContent).to.contain('<img src=x onerror=alert(1)>');
+    });
+
     it('passes the timeout through', () => {
       expect(errorToast({ message: 'bad', timeout: 5000, idle: false }).element.hasAttribute('data-simpletoast-timed')).to.equal(true);
       expect(errorToast({ message: 'bad' }).element.hasAttribute('data-simpletoast-timed')).to.equal(false);

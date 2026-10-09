@@ -1,9 +1,12 @@
 import Translation from 'src/structures/constants/translation.js';
+import { script } from './1.variables.js';
 import merge from './merge.js';
 import eventManager from './eventManager.js';
 import toArray from './toArray.js';
 import addToastClass from './toastClass.js';
 import applyToastCss from './toastCss.js';
+
+const SimpleToast = script.SimpleToast;
 
 let ready = false;
 
@@ -62,7 +65,7 @@ export function errorToast(error) {
   function getStack(err = {}) {
     const stack = err.stack;
     if (stack) {
-      return stack.replace('<', '&lt;');
+      return stack.replace(/</g, '&lt;');
     }
     return null;
   }
