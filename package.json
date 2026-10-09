@@ -26,6 +26,7 @@
     "update": "npm version minor --m=\"chore(update): Release v%s\"",
     "version": "node scripts/validate.cjs",
     "bundle": "node scripts/lang.js",
+    "lang": "node scripts/lang-template.js",
     "types": "tsc",
     "types:bundle": "node scripts/types.js",
     "//": "versioning scripts",

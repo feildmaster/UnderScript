@@ -3,7 +3,7 @@ import nodePath from 'node:path';
 
 export function assign(obj = {}, lang = '', key = '', value = '') {
   // Only add key if value exists
-  if (!value) return;
+  if (!value || (Array.isArray(value) && value.some((_) => !_))) return;
   obj[lang] ??= {}; // Does lang exist?
   obj[lang][key] = value;
 }
