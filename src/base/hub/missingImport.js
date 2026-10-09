@@ -31,7 +31,7 @@ function check({ code, id }) {
   const allCards = toObject(global('allCards'));
   const missingCards = getMissingCards(deck.cardIds);
 
-  const missingDT = missingCards.some((i) => allCards[i].rarity === ' ');
+  const missingDT = missingCards.some((i) => allCards[i].rarity === 'DETERMINATION');
   const missingCard = missingCards.length > 0;
   const missingArt = deck.artifactIds.filter((art) => !checkArt(art));
 
