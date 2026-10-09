@@ -20,7 +20,7 @@ npm install
 
 ### Trying it out ###
 
-Install a userscript manager such as [Tampermonkey](https://www.tampermonkey.net/), allow it to access file URLs, and add a script that loads your build:
+Install a userscript manager such as [Tampermonkey](https://www.tampermonkey.net/), allow it to access file URLs, and add a script that loads your build. Chrome, Edge and Opera also need "Developer mode" turned on at `chrome://extensions` (`edge://extensions`, `opera://extensions`), or "Allow User Scripts" for Tampermonkey on Chrome 138 or newer:
 
 ```js
 // ==UserScript==
@@ -34,12 +34,12 @@ Install a userscript manager such as [Tampermonkey](https://www.tampermonkey.net
 // @require  https://unpkg.com/tippy.js@4.3.5/umd/index.all.min.js
 // @require  https://unpkg.com/axios@0.21.4/dist/axios.min.js
 // @require  https://unpkg.com/luxon@1.28.0/build/global/luxon.min.js
-// @require  https://raw.githubusercontent.com/feildmaster/SimpleToast/2.0.3/simpletoast.js
+// @require  https://raw.githubusercontent.com/feildmaster/SimpleToast/3.0.0/dist/simpletoast.js
 // @require  file:///path/to/UnderScript/dist/underscript.js
 // ==/UserScript==
 ```
 
-The `@require` lines before the last one are copied from [src/meta.js](src/meta.js), which is the source of truth if they ever change. Disable the regular UnderScript while you test. If both are enabled, whichever loads second stops with "UnderScript loaded twice" in the console, and that may be your build.
+The `@require` lines before the last one are copied from [src/meta.js](src/meta.js), which is the source of truth if they ever change. Tampermonkey does not re-read the header of a local script, so copy any change into it by hand. Disable the regular UnderScript while you test. If both are enabled, whichever loads second stops with "UnderScript loaded twice" in the console, and that may be your build.
 
 ### Before opening a pull request ###
 
