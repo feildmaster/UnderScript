@@ -2,6 +2,9 @@ name: Bundle Translations
 on:
   workflow_dispatch:
   push:
+    branches:
+      - master
+      - next
     paths:
       - 'lang/**'
       - '!lang/undercards.json'
