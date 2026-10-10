@@ -15,4 +15,4 @@ layout: default
   <a href="{{site.baseurl}}{% link _api/eventemitter.md %}">EventEmitter</a>
   <a href="{{site.baseurl}}{% link _api/events.md %}">Events</a>
 </nav>
-<p class="meta">{{ page.last_modified_at | date: "Last updated: %B %-d, %Y at %H:%M" }}</p>
+{% if page.last_modified_at %}<p class="meta">{{ page.last_modified_at | date: "Last updated: %B %-d, %Y at %H:%M" }}</p>{% endif %}
