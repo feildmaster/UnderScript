@@ -1,6 +1,6 @@
 # UnderScript Changelog
 
-## Unreleased
+## Version 0.65.0 (2026-10-09)
 Gave the [UnderScript website](https://git.io/fxysg) a face-lift.
 ### Features
 1. Added a search bar and status filters to the community plugins list, which is now sorted by name
