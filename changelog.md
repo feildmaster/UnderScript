@@ -17,9 +17,8 @@ Gave the [UnderScript website](https://git.io/fxysg) a face-lift.
 1. The Large Icon mode notice now offers to switch to small icons, since the game shows large icons already
 ### Plugins
 1. Plugin setting pages with too many tabs to fit now split into pages, with arrows to flip between them (special thanks to Wiza for the original idea)<extended>
-  - This also applies to any horizontal view made with `utils.tabManager()`. Those can pass `labels: { previous(page, total), next(page, total) }` and `tooltip: underscript.utils.hover` to `tabManager().settings()` to change the tooltip text or use UnderScript's hover instead of a plain `title`.
-  - Settings pages always use UnderScript's own arrows and tooltips.
-</extended>
+    - This also applies to any horizontal view made with `utils.tabManager()`. Those can pass `labels: { previous(page, total), next(page, total) }` and `tooltip: underscript.utils.hover` to `tabManager().settings()` to change the tooltip text or use UnderScript's hover instead of a plain `title`.
+    - Settings pages always use UnderScript's own arrows and tooltips.</extended>
 1. Added `underscript.semver.meets(<version>)` and `isBehind(<version>)` to check the UnderScript version
 1. Added `plugin.settings().name(<string>)` to rename the first settings tab
 1. Fixed `plugin.events.once`, `until`, and `off` not removing listeners
@@ -27,20 +26,18 @@ Gave the [UnderScript website](https://git.io/fxysg) a face-lift.
 1. Added `underscript.rarity`, and `underscript.constants.getRarity()` and `isRarity()`. `underscript.utils.rarity` now accepts them, and `'DT'` for `'DETERMINATION'`
 1. Fixed `underscript.user.getDecks()`, `getCollection()`, `getArtifacts()`, and `getAllArtifacts()` each making their own request when called at the same time
 1. Added `underscript.d.ts` to each release, so editors like VS Code can suggest and check your plugin code<extended>
-  - This is optional, plugins work the same without it.
-  - Download `underscript.d.ts` from the latest release and put it next to your plugin's script.
-</extended>
+    - This is optional, plugins work the same without it.
+    - Download `underscript.d.ts` from the latest release and put it next to your plugin's script.</extended>
 1. Plugin `toast()` API was modified<extended>
-  - `plugin.toast()`
-      - A `footer` passed to `plugin.toast()` is now kept and shown in front of your plugin's name, instead of being replaced
-      - `button.onclick()` was deprecated in favor of `button.onClick()`
-      - `buttons` option can set `dismiss: false`, or call `event.preventDefault()` in `onClick`, to keep the toast open after the button is clicked. Buttons still close the toast by default
-      - The `css` option of `plugin.toast()` is deprecated, use `className` instead. `css` still works, but a warning will show when used
-  - `toast = plugin.toast()`
-      - Added `toast.setFooter(text)`, which prepends text to the footer
-      - Added `toast.setTitle(title)`, which allows you to modify toast title
-      - Added `toast.element`, so you can modify the element directly
-</extended>
+    - `plugin.toast()`
+        - A `footer` passed to `plugin.toast()` is now kept and shown in front of your plugin's name, instead of being replaced
+        - `button.onclick()` was deprecated in favor of `button.onClick()`
+        - `buttons` option can set `dismiss: false`, or call `event.preventDefault()` in `onClick`, to keep the toast open after the button is clicked. Buttons still close the toast by default
+        - The `css` option of `plugin.toast()` is deprecated, use `className` instead. `css` still works, but a warning will show when used
+    - `toast = plugin.toast()`
+        - Added `toast.setFooter(text)`, which prepends text to the footer
+        - Added `toast.setTitle(title)`, which allows you to modify toast title
+        - Added `toast.element`, so you can modify the element directly</extended>
 
 ## Version 0.64.0 (2026-09-28)
 ### Features
