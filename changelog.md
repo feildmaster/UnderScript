@@ -1,6 +1,7 @@
 # UnderScript Changelog
 
 ## Unreleased
+Gave the [UnderScript website](https://git.io/fxysg) a face-lift.
 ### Features
 1. Added a search bar and status filters to the community plugins list, which is now sorted by name
 1. The battle log can now be resized by dragging its bottom-left corner, and minimized with the button in its header
@@ -9,13 +10,13 @@
 ### Fixes
 1. Fixed some settings pages showing an extra scrollbar when they didn't need one
 1. Fixed setting notes and other hover text going off the screen
-1. Fixed dialogs looking broken on pages that don't load the dialog stylesheet, like the sign in page
+1. Fixed the sign in page not showing the settings window correctly
 1. Opening packs now waits and carries on when the game rate limits the requests, instead of stopping early
 1. Fixed the cosmetics shop showing two purchase confirmations, shift-click still skips the confirmation
 1. Fixed the Deck Hub import arrow staying orange when you are missing a DT, it is red again
 1. The Large Icon mode notice now offers to switch to small icons, since the game shows large icons already
 ### Plugins
-1. Plugin setting pages with too many tabs to fit now split into pages, with arrows to flip between them<extended>
+1. Plugin setting pages with too many tabs to fit now split into pages, with arrows to flip between them (special thanks to Wiza for the original idea)<extended>
   - This also applies to any horizontal view made with `utils.tabManager()`. Those can pass `labels: { previous(page, total), next(page, total) }` and `tooltip: underscript.utils.hover` to `tabManager().settings()` to change the tooltip text or use UnderScript's hover instead of a plain `title`.
   - Settings pages always use UnderScript's own arrows and tooltips.
 </extended>
@@ -29,15 +30,17 @@
   - This is optional, plugins work the same without it.
   - Download `underscript.d.ts` from the latest release and put it next to your plugin's script.
 </extended>
-#### `plugin.toast()`
-1. A `footer` passed to `plugin.toast()` is now kept and shown in front of your plugin's name, instead of being replaced
-1. `button.onclick()` was deprecated in favor of `button.onClick()`
-1. `buttons` option can set `dismiss: false`, or call `event.preventDefault()` in `onClick`, to keep the toast open after the button is clicked. Buttons still close the toast by default
-1. The `css` option of `plugin.toast()` is deprecated, use `className` instead. `css` still works, but a warning will show when used
-#### `toast = plugin.toast()`
-1. Added `toast.setFooter(text)`, which prepends text to the footer
-1. Added `toast.setTitle(title)`, which allows you to modify toast title
-1. Added `toast.element`, so you can modify the element directly
+1. Plugin `toast()` API was modified<extended>
+  - `plugin.toast()`
+      - A `footer` passed to `plugin.toast()` is now kept and shown in front of your plugin's name, instead of being replaced
+      - `button.onclick()` was deprecated in favor of `button.onClick()`
+      - `buttons` option can set `dismiss: false`, or call `event.preventDefault()` in `onClick`, to keep the toast open after the button is clicked. Buttons still close the toast by default
+      - The `css` option of `plugin.toast()` is deprecated, use `className` instead. `css` still works, but a warning will show when used
+  - `toast = plugin.toast()`
+      - Added `toast.setFooter(text)`, which prepends text to the footer
+      - Added `toast.setTitle(title)`, which allows you to modify toast title
+      - Added `toast.element`, so you can modify the element directly
+</extended>
 
 ## Version 0.64.0 (2026-09-28)
 ### Features
