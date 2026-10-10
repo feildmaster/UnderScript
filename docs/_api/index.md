@@ -14,10 +14,12 @@ The [Plugin Object]({{ site.baseurl }}{% link _api/plugin/index.md %}) is where 
 Features are added over time. To only use a feature when it exists, check the version first:
 
 {% highlight javascript %}
-if (underscript.semver.isOlder('0.64.0')) {
-  // Safe to use features from 0.64.0
+if (underscript.semver.meets('0.65.0')) {
+  // Safe to use features from 0.65.0
 }
 {% endhighlight %}
+
+`meets` was added in 0.65.0. If your plugin also runs on older versions, use `underscript.semver.isOlder('0.64.0')` for the same check.
 
 See [underscript.semver]({{ site.baseurl }}{% link _api/underscript/semver.md %}).
 
