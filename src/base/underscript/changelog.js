@@ -44,6 +44,15 @@ function open(message) {
   });
 }
 
+async function getText() {
+  if (typeof GM_getResourceText === 'function') {
+    const text = GM_getResourceText('changelog.md');
+    if (text) return text;
+  }
+  const { data } = await axios.get('https://raw.githubusercontent.com/UCProjects/UnderScript/refs/heads/master/changelog.md');
+  return data;
+}
+
 export async function get(version = 'latest', short = false) {
   const cache = version.includes('.');
   const key = `${version}${short ? '_short' : ''}`;
@@ -62,7 +71,7 @@ export async function get(version = 'latest', short = false) {
     return getHtml(`## ${name} (${date})\n${text}`);
   }
 
-  const { data } = await axios.get('https://raw.githubusercontent.com/UCProjects/UnderScript/refs/heads/master/changelog.md');
+  const data = await getText();
   const start = data.indexOf(`\n## ${cache ? `Version ${version}` : ''}`);
   if (!~start) throw new Error('Invalid Changelog');
   return getHtml(data.substring(start));
