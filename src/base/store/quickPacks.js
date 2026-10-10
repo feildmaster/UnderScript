@@ -17,9 +17,17 @@ import length from 'src/utils/length';
 import isCtrl from 'src/utils/isCtrl';
 import Rarity from 'src/structures/constants/rarity.js';
 
+const SILENCE_PINGS = 25;
+const ORPHAN_LIFETIME = 30000;
+const LATE_DELAY = 500;
+
 onPage('Packs', async function quickOpenPack() {
   const collection = await getCollection();
   const results = {
+    packs: 0,
+    cards: [],
+  };
+  const late = {
     packs: 0,
     cards: [],
   };
@@ -39,6 +47,33 @@ onPage('Packs', async function quickOpenPack() {
 
   let timeoutID;
   let resumeID;
+  let lateID;
+  let orphans = []; // Requests a finished run never heard back from: { count, at }
+
+  function takeOrphan() {
+    const now = Date.now();
+    orphans = orphans.filter(({ at }) => now - at < ORPHAN_LIFETIME);
+    if (!orphans.length) return false;
+    orphans[0].count -= 1;
+    if (orphans[0].count <= 0) orphans.shift();
+    return true;
+  }
+
+  function track(cards = []) {
+    cards.forEach((card) => {
+      const cCard = collection.find((c) => c.id === card.id && c.shiny === card.shiny);
+      // Don't have one yet?
+      if (!cCard) {
+        // Add to collection
+        collection.push({
+          ...card,
+          quantity: 1,
+        });
+        // Mark as new
+        card.new = true;
+      }
+    });
+  }
 
   function isLimited() {
     return Date.now() < status.waitUntil;
@@ -57,6 +92,10 @@ onPage('Packs', async function quickOpenPack() {
   function progress() {
     const seconds = Math.ceil((status.waitUntil - Date.now()) / 1000);
     const bar = `<progress value="${results.packs}" max="${status.total}"></progress>`;
+    if (status.state === 'canceled') {
+      const waiting = Math.max(status.pending, 0);
+      return `${bar}<br>Stopping, waiting for ${formatNumber(waiting)} pack${waiting === 1 ? '' : 's'}`;
+    }
     return seconds > 0 ? `${bar}<br>Rate limited, resuming in ${seconds}s` : bar;
   }
 
@@ -66,8 +105,9 @@ onPage('Packs', async function quickOpenPack() {
     if (isLimited()) return;
     timeoutID = setTimeout(() => {
       status.pingTimeout += 1;
-      if (status.pingTimeout > 10) {
-        events.emit('cancel');
+      if (status.pingTimeout > SILENCE_PINGS) {
+        events.emit('finished');
+        return;
       }
       setupPing(false);
       events.emit('next');
@@ -123,19 +163,7 @@ onPage('Packs', async function quickOpenPack() {
     status.pending -= 1;
     status.rateLimits = 0;
     results.packs += 1;
-    cards.forEach((card) => {
-      const cCard = collection.find((c) => c.id === card.id && c.shiny === card.shiny);
-      // Don't have one yet?
-      if (!cCard) {
-        // Add to collection
-        collection.push({
-          ...card,
-          quantity: 1,
-        });
-        // Mark as new
-        card.new = true;
-      }
-    });
+    track(cards);
     results.cards.push(...cards);
     events.emit('next');
     setupPing();
@@ -159,16 +187,17 @@ onPage('Packs', async function quickOpenPack() {
     const notWaiting = status.pending <= 0;
     const finishedOpening = results.packs === status.total;
     const canceled = status.state === 'canceled';
-    const timedout = canceled && status.pingTimeout;
-    if (timedout || notWaiting && (finishedOpening || canceled)) {
+    if (notWaiting && (finishedOpening || canceled)) {
       events.emit('finished');
+    } else if (canceled) {
+      events.emit('update');
     }
   });
 
   events.on('update', () => {
     if (toast.exists()) {
       toast.setText(progress());
-    } else {
+    } else if (status.state !== 'canceled') {
       // TODO: translation
       toast = basicToast({
         title: `Opening ${formatNumber(status.total)} packs`,
@@ -176,6 +205,7 @@ onPage('Packs', async function quickOpenPack() {
         className: 'dismissable',
         buttons: {
           text: 'Stop',
+          dismiss: false,
           onClick: (e) => {
             events.emit('cancel');
           },
@@ -185,10 +215,73 @@ onPage('Packs', async function quickOpenPack() {
   });
 
   const rarity = [Rarity.DETERMINATION, Rarity.LEGENDARY, Rarity.EPIC, Rarity.RARE, Rarity.COMMON].map(String);
+  function showResults(packs, opened, heading = 'Results') {
+    const cardResults = {
+      shiny: 0,
+    };
+    rarity.forEach((type) => {
+      cardResults[type] = {};
+    });
+    opened.forEach((card) => { // Convert each card
+      const r = cardResults[card.rarity];
+      const c = r[card.name] = r[card.name] || { total: 0, shiny: 0, new: false };
+      c.total += 1;
+      if (card.new) c.new = true;
+      if (card.shiny) {
+        if (status.pack !== 'openShinyPack') {
+          cardResults.shiny += 1;
+        }
+        c.shiny += 1;
+      }
+    });
+
+    // Magic numbers, yep. Have between 6...26 cards showing
+    let limit = Math.min(Math.max(Math.floor(window.innerHeight / 38), 6), 26);
+    // Increase the limit if we don't have a specific rarity
+    rarity.forEach((key) => {
+      if (!length(cardResults[key])) {
+        limit += 1;
+      }
+    });
+
+    let text = '';
+    // Build visual results
+    rarity.forEach((key) => {
+      const cards = cardResults[key];
+      const keys = Object.keys(cards);
+      if (!keys.length) return;
+      const buffer = [];
+      let count = 0;
+      let shiny = 0;
+      if (keys.length > limit) keys.sort((a, b) => cards[b].new - cards[a].new); // Push new cards to top of list if we have cards that'll get cut off
+      keys.forEach((name) => {
+        const card = cards[name];
+        count += card.total;
+        shiny += card.shiny;
+        if (limit) {
+          limit -= 1;
+          buffer.push(`${card.new ? `<span class="yellow">{${$.i18n('cosmetics-new')}}</span>` : ''}${card.shiny ? '<span class="yellow">S</span> ' : ''}${name}${card.total > 1 ? ` (${formatNumber(card.total)}${card.shiny ? `, ${card.shiny}` : ''})` : ''}${limit ? '' : '...'}`);
+        }
+      });
+      text += `${key} (${count}${shiny ? `, ${shiny} shiny` : ''}):${buffer.length ? `\n- ${buffer.join('\n- ')}` : ' ...'}\n`;
+    });
+
+    // Create result toast
+    const total = opened.length;
+    basicToast({
+      // TODO: translation?
+      title: `${heading}: ${formatNumber(packs)} Packs${cardResults.shiny ? ` (${total % 4 ? `${formatNumber(total)}, ` : ''}${formatNumber(cardResults.shiny)} shiny)` : total % 4 ? ` (${formatNumber(total)})` : ''}`,
+      text,
+      className: 'underscript-toast-inherit',
+    });
+  }
+
   events.on('finished', () => {
     if (status.state === 'waiting') return; // Invalid state
     status.state = 'waiting';
     status.waitUntil = 0;
+    if (status.pending > 0) orphans.push({ count: status.pending, at: Date.now() });
+    status.pending = 0;
     clearPing();
     clearResume();
     // Post results
@@ -196,66 +289,10 @@ onPage('Packs', async function quickOpenPack() {
     const event = eventManager.cancelable.emit('openedPacks', {
       count: results.packs,
       cards: Object.freeze([...results.cards]),
+      late: false,
     });
-    if (!event.canceled) {
-      const cardResults = {
-        shiny: 0,
-      };
-      rarity.forEach((type) => {
-        cardResults[type] = {};
-      });
-      results.cards.forEach((card) => { // Convert each card
-        const r = cardResults[card.rarity];
-        const c = r[card.name] = r[card.name] || { total: 0, shiny: 0, new: false };
-        c.total += 1;
-        if (card.new) c.new = true;
-        if (card.shiny) {
-          if (status.pack !== 'openShinyPack') {
-            cardResults.shiny += 1;
-          }
-          c.shiny += 1;
-        }
-      });
-
-      // Magic numbers, yep. Have between 6...26 cards showing
-      let limit = Math.min(Math.max(Math.floor(window.innerHeight / 38), 6), 26);
-      // Increase the limit if we don't have a specific rarity
-      rarity.forEach((key) => {
-        if (!length(cardResults[key])) {
-          limit += 1;
-        }
-      });
-
-      let text = '';
-      // Build visual results
-      rarity.forEach((key) => {
-        const cards = cardResults[key];
-        const keys = Object.keys(cards);
-        if (!keys.length) return;
-        const buffer = [];
-        let count = 0;
-        let shiny = 0;
-        if (keys.length > limit) keys.sort((a, b) => cards[b].new - cards[a].new); // Push new cards to top of list if we have cards that'll get cut off
-        keys.forEach((name) => {
-          const card = cards[name];
-          count += card.total;
-          shiny += card.shiny;
-          if (limit) {
-            limit -= 1;
-            buffer.push(`${card.new ? `<span class="yellow">{${$.i18n('cosmetics-new')}}</span>` : ''}${card.shiny ? '<span class="yellow">S</span> ' : ''}${name}${card.total > 1 ? ` (${formatNumber(card.total)}${card.shiny ? `, ${card.shiny}` : ''})` : ''}${limit ? '' : '...'}`);
-          }
-        });
-        text += `${key} (${count}${shiny ? `, ${shiny} shiny` : ''}):${buffer.length ? `\n- ${buffer.join('\n- ')}` : ' ...'}\n`;
-      });
-
-      // Create result toast
-      const total = results.cards.length;
-      basicToast({
-        // TODO: translation?
-        title: `Results: ${formatNumber(results.packs)} Packs${cardResults.shiny ? ` (${total % 4 ? `${formatNumber(total)}, ` : ''}${formatNumber(cardResults.shiny)} shiny)` : total % 4 ? ` (${formatNumber(total)})` : ''}`,
-        text,
-        className: 'underscript-toast-inherit',
-      });
+    if (!event.canceled && results.packs > 0) {
+      showResults(results.packs, results.cards);
 
       // Show cards... I guess
       showCards();
@@ -263,11 +300,39 @@ onPage('Packs', async function quickOpenPack() {
     toast.close();
   });
 
+  events.on('late', (cards = []) => {
+    track(cards);
+    late.packs += 1;
+    late.cards.push(...cards);
+    if (lateID) clearTimeout(lateID);
+    lateID = setTimeout(() => events.emit('lateResults'), LATE_DELAY);
+  });
+
+  events.on('lateResults', () => {
+    lateID = 0;
+    const { packs, cards } = late;
+    late.packs = 0;
+    late.cards = [];
+    if (!packs) return;
+    const counter = status.pack && $(`#nb${status.pack.substring(4, status.pack.length - 4)}Packs`);
+    if (counter?.length) {
+      const remaining = parseInt(counter.text(), 10);
+      if (!Number.isNaN(remaining)) counter.text(Math.max(remaining - packs, 0));
+    }
+    const event = eventManager.cancelable.emit('openedPacks', {
+      count: packs,
+      cards: Object.freeze([...cards]),
+      late: true,
+    });
+    if (!event.canceled) showResults(packs, cards, 'Late results');
+  });
+
   events.on('cancel', () => { // Sets the canceled flag
     if (status.state === 'processing') {
       status.state = 'canceled';
-      clearPing();
+      status.waitUntil = 0;
       clearResume();
+      setupPing();
       events.emit('next');
     }
   });
@@ -316,20 +381,23 @@ onPage('Packs', async function quickOpenPack() {
     $(document).ajaxComplete((event, xhr, s) => {
       if (s.url !== 'PacksConfig' || !s.data) return;
       if (enabled(packsFlag)) debug(`PacksConfig ${xhr.status}`, packsFlag, xhr.getAllResponseHeaders());
+      const abandoned = takeOrphan();
       if (xhr.status === 429) {
+        if (abandoned) return;
         if (openingPacks()) events.emit('limited', retryAfter((name) => xhr.getResponseHeader(name)));
         return;
       }
       const data = xhr.responseJSON;
       if (!data) {
-        if (openingPacks()) events.emit('error');
+        if (!abandoned && openingPacks()) events.emit('error');
         return;
       }
       const error = data.action === 'getError';
       if (data.action !== 'getCards' && !error) return;
       if (data.cards) { // This has to always be done, to update the collection
-        events.emit('pack', JSON.parse(data.cards));
+        events.emit(abandoned ? 'late' : 'pack', JSON.parse(data.cards));
       }
+      if (abandoned) return;
       if (openingPacks()) {
         if (data.status || error) {
           events.emit('error', data.message);

@@ -8,7 +8,7 @@ interface UnderScriptEvents {
   'Craft:RefreshPage': [page: unknown, previous: unknown];
   'craftcard': [crafted: { id: unknown; name: string; dust: unknown; shiny: boolean }];
   'crafterrror': [message: unknown, status: unknown];
-  'openedPacks': [opened: { count: unknown; cards: readonly unknown[] }];
+  'openedPacks': [opened: { count: unknown; cards: readonly unknown[]; late: boolean }];
   'questProgress': [updated: UnderScriptQuest[], previous: UnderScriptQuest[]];
   'Home:Refresh': [];
 }

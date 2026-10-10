@@ -1,5 +1,11 @@
 # UnderScript Changelog
 
+## Version 0.65.1 (2026-10-10)
+1. Fixed the Craftable cards notice on the Crafting page showing no text
+1. Fixed opening packs showing several results, including an empty one, when the game was slow to answer
+1. Fixed a bug where pack results could be "lost." You now get them in a separate "Late results" toast
+1. For plugins: `openedPacks` events with "Late results" are marked as `late`.
+
 ## Version 0.65.0 (2026-10-09)
 Gave the [UnderScript website](https://git.io/fxysg) a face-lift.
 ### Features
