@@ -11,7 +11,7 @@ Names for deciding what goes first, used when a filter or similar has to be put 
 FIRST, HIGHEST, HIGH, NORMAL, LOW, LOWEST, LAST
 : From going first to going last. `FIRST` is also known as `'top'` and `LAST` as `'bottom'`.
 
-Every priority has `equals(other)`. To turn text into a priority, or check if something is one, use [underscript.constants]({% link _api/underscript/constants.md %}).
+Every priority has `equals(other)`. To turn text into a priority, or check if something is one, use [underscript.constants]({{ site.baseurl }}{% link _api/underscript/constants.md %}).
 
 ## Examples
 {% highlight javascript %}

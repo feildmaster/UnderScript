@@ -15,7 +15,7 @@ More ways to find cards on the Decks and Crafting pages.
 
 ![The collection dropdown]({{ '/assets/features/collectionFiltersDropdown.png' | relative_url }})
 
-Plugins can add their own filters too, with [plugin.addFilter()]({% link _api/plugin/addFilter.md %}). These options are in the Library settings, where the whole thing can be turned off.
+Plugins can add their own filters too, with [plugin.addFilter()]({{ site.baseurl }}{% link _api/plugin/addFilter.md %}). These options are in the Library settings, where the whole thing can be turned off.
 
 For comparison, this is how the game shows the filters, with a checkbox next to every button.
 

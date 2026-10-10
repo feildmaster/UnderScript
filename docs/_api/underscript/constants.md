@@ -3,7 +3,7 @@ title: underscript.constants
 categories: underscript
 property: true
 ---
-Helpers for working with [items]({% link _api/underscript/item.md %}), [priorities]({% link _api/underscript/priority.md %}) and [rarities]({% link _api/underscript/rarity.md %}) when you are not sure what you were given. They accept an item, priority or rarity, or the text for one, like `'gold'`, `'high'` or `'DT'`.
+Helpers for working with [items]({{ site.baseurl }}{% link _api/underscript/item.md %}), [priorities]({{ site.baseurl }}{% link _api/underscript/priority.md %}) and [rarities]({{ site.baseurl }}{% link _api/underscript/rarity.md %}) when you are not sure what you were given. They accept an item, priority or rarity, or the text for one, like `'gold'`, `'high'` or `'DT'`.
 
 ## Syntax
 > underscript.constants.getItem(*value*);<br>
@@ -20,13 +20,13 @@ isItem
 : `true` if the value is an item, or the text for one.
 
 getPriority
-: Returns the matching [`underscript.priority`]({% link _api/underscript/priority.md %}), or `undefined` if there isn't one.
+: Returns the matching [`underscript.priority`]({{ site.baseurl }}{% link _api/underscript/priority.md %}), or `undefined` if there isn't one.
 
 isPriority
 : `true` if the value is a priority, or the text for one.
 
 getRarity
-: Returns the matching [`underscript.rarity`]({% link _api/underscript/rarity.md %}), or `undefined` if there isn't one.
+: Returns the matching [`underscript.rarity`]({{ site.baseurl }}{% link _api/underscript/rarity.md %}), or `undefined` if there isn't one.
 
 isRarity
 : `true` if the value is a rarity, or the text for one.

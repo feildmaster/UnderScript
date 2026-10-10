@@ -12,4 +12,4 @@ Buy more than one pack at a time on the Packs page.
 
 Paying with UCP asks you to confirm first. Hold SHIFT while clicking to skip the confirmation.
 
-Plugins can buy packs too with [underscript.buyPacks()]({% link _api/underscript/packs.buy.md %}).
+Plugins can buy packs too with [underscript.buyPacks()]({{ site.baseurl }}{% link _api/underscript/packs.buy.md %}).

@@ -8,4 +8,4 @@ The announcement for new cards on the home page is turned into a toast that you 
 
 Turn it off in the Home settings to show the announcement on the page like normal.
 
-See also: [Skin Toasts]({% link _features/skinToasts.md %}), [Bundle and emote toasts]({% link _features/toastContent.md %}), [Quest pass toasts]({% link _features/questPassToast.md %}).
+See also: [Skin Toasts]({{ site.baseurl }}{% link _features/skinToasts.md %}), [Bundle and emote toasts]({{ site.baseurl }}{% link _features/toastContent.md %}), [Quest pass toasts]({{ site.baseurl }}{% link _features/questPassToast.md %}).

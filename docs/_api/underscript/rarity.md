@@ -17,7 +17,7 @@ DETERMINATION
 TOKEN
 : Cards that can't be crafted. Also known as `'GENERATED'`.
 
-Every rarity has `equals(other)`, and turns into the game's text for that rarity when used as text. To turn text into a rarity, or check if something is one, use [underscript.constants]({% link _api/underscript/constants.md %}).
+Every rarity has `equals(other)`, and turns into the game's text for that rarity when used as text. To turn text into a rarity, or check if something is one, use [underscript.constants]({{ site.baseurl }}{% link _api/underscript/constants.md %}).
 
 ## Examples
 {% highlight javascript %}

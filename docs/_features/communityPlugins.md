@@ -9,4 +9,4 @@ Browse plugins made by the community from the UnderScript menu, and install them
 
 The list is sorted by name, and has a search bar that looks through names and authors. Buttons next to it hide the plugins you don't want to see, based on their status.
 
-Plugins add new features to UnderScript. Want to make your own? Check out the [Plugin API]({% link _api/index.md %}).
+Plugins add new features to UnderScript. Want to make your own? Check out the [Plugin API]({{ site.baseurl }}{% link _api/index.md %}).

@@ -13,7 +13,7 @@ count
 : Number of packs to open
 
 type
-: Type of pack to open ('', 'DR', 'UTY', 'Shiny', 'Super', 'Final') or its [item]({% link _api/underscript/item.md %}), like `underscript.item.DR_PACK` (default: '')
+: Type of pack to open ('', 'DR', 'UTY', 'Shiny', 'Super', 'Final') or its [item]({{ site.baseurl }}{% link _api/underscript/item.md %}), like `underscript.item.DR_PACK` (default: '')
 
 ## Checking if packs are opening
 > underscript.openingPacks();

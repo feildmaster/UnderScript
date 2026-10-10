@@ -7,7 +7,7 @@ banner:
 credit: CMD_God
 notice: 
 ---
-UnderScript wraps BootstrapDialog in a way that all of their dialog events call an event in the EventManager. Plugins can listen to them with [plugin.events]({% link _api/plugin/events.md %}).
+UnderScript wraps BootstrapDialog in a way that all of their dialog events call an event in the EventManager. Plugins can listen to them with [plugin.events]({{ site.baseurl }}{% link _api/plugin/events.md %}).
 
 ## Events
 All events have access to the `dialog` instance.

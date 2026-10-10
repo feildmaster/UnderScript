@@ -8,4 +8,4 @@ The announcement for a new quest pass on the home page is turned into a toast th
 
 Turn it off in the Home settings to show the announcement on the page like normal.
 
-See also: [Skin Toasts]({% link _features/skinToasts.md %}), [Bundle and emote toasts]({% link _features/toastContent.md %}), [New card toasts]({% link _features/cardToast.md %}).
+See also: [Skin Toasts]({{ site.baseurl }}{% link _features/skinToasts.md %}), [Bundle and emote toasts]({{ site.baseurl }}{% link _features/toastContent.md %}), [New card toasts]({{ site.baseurl }}{% link _features/cardToast.md %}).

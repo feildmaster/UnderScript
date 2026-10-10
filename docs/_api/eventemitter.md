@@ -1,7 +1,7 @@
 ---
 title: EventEmitter
 ---
-Events are how UnderScript tells your code that something happened, such as a page finishing loading or a chat message arriving. Plugins get one through [`plugin.events`]({% link _api/plugin/events.md %}), and `underscript.utils.eventEmitter()` creates a new one for your own use.
+Events are how UnderScript tells your code that something happened, such as a page finishing loading or a chat message arriving. Plugins get one through [`plugin.events`]({{ site.baseurl }}{% link _api/plugin/events.md %}), and `underscript.utils.eventEmitter()` creates a new one for your own use.
 
 ## Methods
 on(*event*, *listener*)
@@ -69,4 +69,4 @@ events.on('hello', function listener(name) {
 events.emit('hello', 'world');
 {% endhighlight %}
 
-Read the list of [events UnderScript emits]({% link _api/events.md %}).
+Read the list of [events UnderScript emits]({{ site.baseurl }}{% link _api/events.md %}).

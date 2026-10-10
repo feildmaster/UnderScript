@@ -24,7 +24,7 @@
         </div>
         <ul class="topbar-links">
           <li><a href="{{ '/#features' | relative_url }}">Features</a></li>
-          <li><a href="{% link _api/index.md %}">API</a></li>
+          <li><a href="{{ site.baseurl }}{% link _api/index.md %}">API</a></li>
           <li><a class="github" href="{{ site.github.repository_url }}">GitHub</a></li>
           {% if site.discord_url %}
             <li><a target="_blank" rel="noopener" class="discord" href="{{ site.discord_url }}">Discord</a></li>

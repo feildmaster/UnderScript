@@ -18,7 +18,7 @@ filter
 Return `true` to hide the card, `false` to show it, or nothing to leave it alone.
 
 priority
-: When to run, compared to other filters: [`underscript.priority.HIGH`]({% link _api/underscript/priority.md %}), or the name as text, `'high'`. (default: normal)
+: When to run, compared to other filters: [`underscript.priority.HIGH`]({{ site.baseurl }}{% link _api/underscript/priority.md %}), or the name as text, `'high'`. (default: normal)
 
 ## Examples
 {% highlight javascript %}

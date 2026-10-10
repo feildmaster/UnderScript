@@ -39,13 +39,13 @@ hover
 
 ## Building things
 eventEmitter()
-: Create an [EventEmitter]({% link _api/eventemitter.md %})
+: Create an [EventEmitter]({{ site.baseurl }}{% link _api/eventemitter.md %})
 
 Hotkey, mouse
-: See [plugin.hotkey]({% link _api/plugin/hotkey.md %})
+: See [plugin.hotkey]({{ site.baseurl }}{% link _api/plugin/hotkey.md %})
 
 SettingType
-: Make your own type of setting for [plugin.settings().addType()]({% link _api/plugin/settings.md %})
+: Make your own type of setting for [plugin.settings().addType()]({{ site.baseurl }}{% link _api/plugin/settings.md %})
 
 tabManager()
 : Build a page of tabs. `addTab(name, content)` adds one and `render(true)` gives you the element to put on the page. Tabs that don't fit on one row split into pages with arrows. `settings({ labels, tooltip })` changes the text of the arrows' tooltips (`labels.previous(page, total)`, `labels.next(page, total)`), or sets `tooltip` to `underscript.utils.hover` to use UnderScript's hover instead of a plain `title`.
@@ -54,7 +54,7 @@ VarStore
 : Holds a value. `consume()` reads it and puts the default back.
 
 rarity
-: `max(rarity)`, `cost(rarity, shiny)` and `dust(rarity, shiny)` for card rarities. A rarity is its name, like `'EPIC'`, or an [`underscript.rarity`]({% link _api/underscript/rarity.md %}).
+: `max(rarity)`, `cost(rarity, shiny)` and `dust(rarity, shiny)` for card rarities. A rarity is its name, like `'EPIC'`, or an [`underscript.rarity`]({{ site.baseurl }}{% link _api/underscript/rarity.md %}).
 
 ## Examples
 {% highlight javascript %}

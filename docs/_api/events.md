@@ -1,7 +1,7 @@
 ---
 title: Events
 ---
-Events UnderScript emits. Listen to them with [`plugin.events`]({% link _api/plugin/events.md %}). Data shown as `unknown` is game data that UnderScript passes along as it received it.
+Events UnderScript emits. Listen to them with [`plugin.events`]({{ site.baseurl }}{% link _api/plugin/events.md %}). Data shown as `unknown` is game data that UnderScript passes along as it received it.
 
 ## Page lifecycle
 `:preload`
@@ -122,7 +122,7 @@ Events UnderScript emits. Listen to them with [`plugin.events`]({% link _api/plu
 : Packs were opened
 
 `questProgress`(*updated*, *previous*)
-: Quest progress changed. Both are lists of [quests]({% link _api/plugin/quests.md %}).
+: Quest progress changed. Both are lists of [quests]({{ site.baseurl }}{% link _api/plugin/quests.md %}).
 
 `Home:Refresh`
 : The home page refreshed its game list
@@ -155,4 +155,4 @@ Events UnderScript emits. Listen to them with [`plugin.events`]({% link _api/plu
 : The settings window opened. `body` is a jQuery object.
 
 `setting:change`(*key*, *value*, *previous*), `open`, `close`
-: Events on [`plugin.settings().on()`]({% link _api/plugin/settings.md %})
+: Events on [`plugin.settings().on()`]({{ site.baseurl }}{% link _api/plugin/settings.md %})

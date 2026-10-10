@@ -14,7 +14,7 @@ Tampermonkey is a script manager program that loads scripts automatically, and i
   <li><a id="tampermonkey" class="buttons install" href="https://tampermonkey.net/" target="_blank">Tampermonkey</a></li>
   <li><a id="install" class="buttons install" href="https://github.com/UCProjects/UnderScript/releases/latest/download/undercards.user.js">UnderScript</a></li>
 </ul>
-![Install UnderScript](/assets/features/installscript.png)
+![Install UnderScript]({{ site.baseurl }}/assets/features/installscript.png)
 
 ### Chrome, Edge and Opera ###
 These browsers only let Tampermonkey run userscripts after you allow it, so UnderScript will not load until you do.

@@ -12,7 +12,7 @@ name
 : Name of plugin (See [name restrictions](#restrictions))
 
 version
-: Version of your plugin, optional. A plugin with a version can use [`plugin.updater()`]({% link _api/plugin/updater.md %}).
+: Version of your plugin, optional. A plugin with a version can use [`plugin.updater()`]({{ site.baseurl }}{% link _api/plugin/updater.md %}).
 
 Return Value
 : Returns `Plugin` object
