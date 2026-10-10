@@ -84,7 +84,7 @@ export function errorToast(error) {
 
 export function infoToast(arg, key, val = '1') {
   if (localStorage.getItem(key) === val) return null;
-  if (typeof arg === 'string') {
+  if (typeof arg === 'string' || arg instanceof Translation) {
     arg = {
       text: arg,
     };

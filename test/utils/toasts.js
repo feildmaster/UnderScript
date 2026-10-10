@@ -326,6 +326,11 @@ describe('toasts', function toastTests() {
       expect(localStorage.getItem('test.info')).to.equal('1');
       expect(infoToast('Fyi', 'test.info')).to.equal(null);
     });
+
+    it('accepts a translation as the text', () => {
+      const instance = infoToast(Translation.General('test.info', 'Translated fyi'), 'test.info.translated');
+      expect(instance.element.textContent).to.contain('Translated fyi');
+    });
   });
 
   describe('dismissable', () => {
