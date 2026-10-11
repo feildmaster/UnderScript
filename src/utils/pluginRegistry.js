@@ -10,7 +10,11 @@ const LIST = 'underscript.registry.list';
 const VERSIONS = 'underscript.registry.versions';
 const SEEN = 'underscript.registry.seen';
 
-/** @type {{ name: string, author: string, updateURL: string, downloadURL?: string }[]} */
+/**
+ * @typedef {{ name: string, author?: string } & Exclude<UnderScriptPluginUpdate, string>} RegistryEntry
+ */
+
+/** @type {RegistryEntry[]} */
 let list = [];
 /** @type {'loading'|'ready'|'error'} */
 let state = 'loading';
