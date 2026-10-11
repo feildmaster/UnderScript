@@ -96,6 +96,30 @@ export async function resolve(entry) {
   return { version, url };
 }
 
+const HEAD_UNSUPPORTED = [403, 405];
+const PROBE = { maxRedirects: 5, validateStatus: () => true };
+
+async function reach(url) {
+  const response = await axios.head(url, PROBE);
+  if (!HEAD_UNSUPPORTED.includes(response.status)) return response;
+  const ranged = await axios.get(url, { ...PROBE, headers: { Range: 'bytes=0-0' }, responseType: 'stream' });
+  ranged.data?.destroy?.();
+  return ranged;
+}
+
+/**
+ * Makes sure an install link answers, and is not a web page.
+ * @param {string} url
+ * @returns {Promise<void>}
+ */
+export async function verify(url) {
+  const { status, headers } = await reach(url);
+  if (status >= 400) throw new Error(`${url} answered ${status}`);
+  if (/text\/html/i.test(headers?.['content-type'] ?? '')) {
+    throw new Error(`${url} is a web page, not a script`);
+  }
+}
+
 const HINTS = {
   'Version not found': 'the file has no // @version line',
   'URL not found': 'the file has no // @downloadURL line, and the entry has no downloadURL',
@@ -127,12 +151,19 @@ export async function check(text, { network = true } = {}) {
   const invalid = new Set(problems.map(({ index }) => index));
   const failures = await Promise.all(data.map(async (entry, index) => {
     if (invalid.has(index)) return undefined;
+    const fail = (message) => ({ index, name: entry.name, message });
+    let link;
     try {
-      await resolve(entry);
-      return undefined;
+      link = await resolve(entry);
     } catch (e) {
-      return { index, name: entry.name, message: `Could not resolve an install link: ${describe(e)}` };
+      return fail(`Could not resolve an install link: ${describe(e)}`);
     }
+    try {
+      await verify(link.url);
+    } catch (e) {
+      return fail(`The install link does not work: ${describe(e)}`);
+    }
+    return undefined;
   }));
   return [...problems, ...failures.filter(Boolean)];
 }

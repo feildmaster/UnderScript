@@ -123,10 +123,18 @@ describe('plugins.json', () => {
 
   describe('network', () => {
     const original = axios.get;
+    const originalHead = axios.head;
     let responses;
+    let heads;
 
     beforeEach(() => {
       responses = new Map();
+      heads = new Map();
+      axios.head = async (url) => {
+        const answer = heads.get(url) ?? { status: 200, headers: { 'content-type': 'text/plain' } };
+        if (answer instanceof Error) throw answer;
+        return answer;
+      };
       axios.get = async (url) => {
         if (!responses.has(url)) {
           const error = new Error('Request failed with status code 404');
@@ -140,6 +148,7 @@ describe('plugins.json', () => {
 
     afterEach(() => {
       axios.get = original;
+      axios.head = originalHead;
     });
 
     describe('resolve', () => {
@@ -240,6 +249,58 @@ describe('plugins.json', () => {
           name: 'Example',
           message: 'Could not resolve an install link: the file has no // @downloadURL line, and the entry has no downloadURL',
         }]);
+      });
+
+      describe('install link', () => {
+        const install = 'https://example.com/install.user.js';
+        const serve = () => responses.set('https://example.com/example.user.js', script([
+          '// @version 1.0.0',
+          `// @downloadURL ${install}`,
+        ]));
+        const run = async () => (await check(JSON.stringify([entry()])))
+          .map(({ message }) => message);
+
+        it('accepts a link that answers', async () => {
+          serve();
+          expect(await run()).to.deep.equal([]);
+        });
+
+        it('reports a link that answers 404', async () => {
+          serve();
+          heads.set(install, { status: 404, headers: {} });
+          expect(await run()).to.deep.equal([
+            `The install link does not work: ${install} answered 404`,
+          ]);
+        });
+
+        it('falls back to a ranged request when HEAD is refused', async () => {
+          serve();
+          heads.set(install, { status: 405, headers: {} });
+          responses.set(install, 'script');
+          expect(await run()).to.deep.equal([]);
+        });
+
+        it('reports a link that is a web page', async () => {
+          serve();
+          heads.set(install, { status: 200, headers: { 'content-type': 'text/html; charset=utf-8' } });
+          expect(await run()).to.deep.equal([
+            `The install link does not work: ${install} is a web page, not a script`,
+          ]);
+        });
+
+        it('reports a link that cannot be reached', async () => {
+          serve();
+          heads.set(install, new Error('getaddrinfo ENOTFOUND example.com'));
+          expect(await run()).to.deep.equal([
+            'The install link does not work: getaddrinfo ENOTFOUND example.com',
+          ]);
+        });
+
+        it('is skipped when offline', async () => {
+          serve();
+          heads.set(install, { status: 404, headers: {} });
+          expect(await check(JSON.stringify([entry()]), { network: false })).to.deep.equal([]);
+        });
       });
 
       it('does not use the network when offline', async () => {
