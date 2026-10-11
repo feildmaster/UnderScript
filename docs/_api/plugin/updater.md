@@ -15,7 +15,7 @@ data
 : Where to find updates. One of:
 * A `string`. A link to the download. GitHub and gist links are supported.
 * `{ downloadURL }`. The same, as an object.
-* `{ updateURL }`. A link to something the version can be read from: a userscript, a `.meta.js` file, a gist, or a GitHub release (`@USER/REPO`). The download link is read from its `@downloadURL`, or from the release's `.user.js` file.
+* `{ updateURL }`. A link to something the version can be read from: a userscript, a `.meta.js` file, a gist, or a GitHub release (`USER/REPO`). The download link is read from its `@downloadURL`, or from the release's `.user.js` file.
 * Both. `downloadURL` is only needed when it cannot be found from `updateURL`.
 
 Return Value
@@ -30,7 +30,7 @@ plugin.canUpdate
 const plugin = underscript.plugin('My great plugin', '1.2.0');
 
 // GitHub release
-plugin.updater({ updateURL: '@USER/REPO' });
+plugin.updater({ updateURL: 'USER/REPO' });
 
 // Or a link to the script
 plugin.updater('https://example.com/my-plugin.user.js');
