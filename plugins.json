@@ -18,5 +18,10 @@
     "name": "PrettyCards",
     "author": "elytrafae",
     "updateURL": "https://github.com/elytrafae/prettycards/releases/latest/download/prettycards.user.js"
+  },
+  {
+    "name": "Chat Deck Viewer",
+    "author": "feildmaster",
+    "updateURL": "https://gist.github.com/feildmaster/c7ddffd9e7dc5120fe234ac744393c04/raw/chatDeck.user.js"
   }
 ]
