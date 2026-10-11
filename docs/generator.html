@@ -96,14 +96,17 @@ description: Fill in a few fields and get a ready-to-install UnderScript plugin,
   <h2>What next</h2>
   <p>
     The comments in the file explain each part. When you want to do more, the <a href="{{ site.baseurl }}{% link _api/index.md %}">Plugin API</a> lists everything a plugin can do.
-    The <a href="https://github.com/UCProjects/plugin-template#sharing-your-plugin">plugin template</a> explains how to share your plugin and get it into the Community Plugins menu.
+    The <a href="https://github.com/UCProjects/Plugin-Template#sharing-your-plugin">plugin template</a> explains how to share your plugin and get it into the Community Plugins menu.
+  </p>
+  <p>
+    If you want to split your plugin across several files, or add editor autocomplete, code checking and automatic releases, the <a href="https://github.com/UCProjects/Plugin-Generator">command-line generator</a> sets up a full project and leaves out whatever you decline: <code>npx github:UCProjects/Plugin-Generator</code>
   </p>
 </section>
 
 {% raw %}
 <script>
   (() => {
-    const TEMPLATE = 'https://raw.githubusercontent.com/UCProjects/plugin-template/master/single-file/my-plugin.user.js';
+    const TEMPLATE = 'https://raw.githubusercontent.com/UCProjects/Plugin-Template/master/single-file/my-plugin.user.js';
     const REGISTRY = 'https://raw.githubusercontent.com/UCProjects/UnderScript/master/plugins.json';
     const NAME_RULE = /^[A-Za-z0-9 ]{1,20}$/;
     const VERSION_RULE = /^\d+\.\d+\.\d+$/;
@@ -251,7 +254,7 @@ description: Fill in a few fields and get a ready-to-install UnderScript plugin,
         update();
       })
       .catch(() => {
-        status.innerHTML = 'Could not load the template. Open it on <a href="https://github.com/UCProjects/plugin-template/blob/master/single-file/my-plugin.user.js">GitHub</a> instead.';
+        status.innerHTML = 'Could not load the template. Open it on <a href="https://github.com/UCProjects/Plugin-Template/blob/master/single-file/my-plugin.user.js">GitHub</a> instead.';
       });
   })();
 </script>
