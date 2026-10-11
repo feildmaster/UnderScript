@@ -4,7 +4,7 @@ Looking to install the script? [Click Here](https://git.io/fxysg)
 
 ## Contributing ##
 
-You'll need [Node.js](https://nodejs.org/) 18 or newer.
+You'll need [Node.js](https://nodejs.org/) 24. The tests need at least 22.18, which is where Node started running TypeScript files without a flag.
 
 ```sh
 git clone https://github.com/UCProjects/UnderScript.git
