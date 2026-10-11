@@ -1,0 +1,258 @@
+---
+title: Plugin Generator
+description: Fill in a few fields and get a ready-to-install UnderScript plugin, with no coding needed.
+---
+<style>
+  .generator { display: grid; gap: 18px; margin: 24px 0; }
+  .generator label { display: block; font-weight: 600; margin-bottom: 6px; }
+  .generator input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    background: var(--panel);
+    color: var(--text);
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    font: inherit;
+  }
+  .generator input:focus-visible { outline: none; border-color: var(--yellow); }
+  .generator input[aria-invalid="true"] { border-color: var(--red-bright); }
+  .generator .hint, .generator .error { margin: 6px 0 0; font-size: 0.85rem; }
+  .generator .hint { color: var(--muted); }
+  .generator .error { color: var(--link); min-height: 1.2em; }
+  .generator .warning { margin: 6px 0 0; font-size: 0.85rem; color: var(--yellow); }
+  .generator-result textarea {
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 22rem;
+    padding: 12px;
+    background: var(--code-bg);
+    color: var(--text);
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    font: 0.85rem/1.5 var(--mono);
+    resize: vertical;
+  }
+  .generator-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 12px 0 0; }
+  .generator-actions button.buttons { font: inherit; cursor: pointer; }
+  .generator-actions button.buttons:disabled { opacity: 0.5; cursor: not-allowed; }
+  #generator-status { color: var(--muted); }
+</style>
+
+<p>
+  Make your own plugin for UnderScript without writing code. Fill in the fields, copy the result into Tampermonkey, and you have a plugin with a setting and a message to build on.
+</p>
+
+<form id="generator" class="generator" novalidate>
+  <div>
+    <label for="plugin-name">Plugin name</label>
+    <input id="plugin-name" name="name" type="text" maxlength="20" autocomplete="off" value="My Plugin" required aria-describedby="name-hint name-error">
+    <p id="name-hint" class="hint">Up to 20 letters, numbers and spaces. No two plugins can share a name.</p>
+    <p id="name-error" class="error" aria-live="polite"></p>
+    <p id="name-warning" class="warning" aria-live="polite" hidden></p>
+  </div>
+  <div>
+    <label for="plugin-description">Description</label>
+    <input id="plugin-description" name="description" type="text" autocomplete="off" value="What my plugin does" aria-describedby="description-hint">
+    <p id="description-hint" class="hint">Shown in Tampermonkey. You can leave it empty.</p>
+  </div>
+  <div>
+    <label for="plugin-author">Author</label>
+    <input id="plugin-author" name="author" type="text" autocomplete="name" aria-describedby="author-error" required>
+    <p id="author-error" class="error" aria-live="polite"></p>
+  </div>
+  <div>
+    <label for="plugin-version">Version</label>
+    <input id="plugin-version" name="version" type="text" autocomplete="off" value="1.0.0" aria-describedby="version-hint version-error" required>
+    <p id="version-hint" class="hint">Three numbers with dots, like 1.0.0. Raise it every time you publish a change.</p>
+    <p id="version-error" class="error" aria-live="polite"></p>
+  </div>
+  <div>
+    <label for="plugin-url">Link to your file (optional)</label>
+    <input id="plugin-url" name="url" type="url" autocomplete="off" placeholder="https://example.com/my-plugin.user.js" aria-describedby="url-hint url-error">
+    <p id="url-hint" class="hint">If you will host the file somewhere, like a GitHub repository or a gist, put the link to the raw file here and Tampermonkey will offer updates.</p>
+    <p id="url-error" class="error" aria-live="polite"></p>
+  </div>
+</form>
+
+<p id="generator-status" role="status">Loading the template...</p>
+
+<section id="generator-result" class="generator-result" hidden>
+  <h2>Your plugin</h2>
+  <textarea id="generator-output" readonly spellcheck="false" aria-label="Generated plugin"></textarea>
+  <div class="generator-actions">
+    <button type="button" id="generator-copy" class="buttons">Copy</button>
+    <button type="button" id="generator-download" class="buttons">Download</button>
+  </div>
+
+  <h2>Install it</h2>
+  <ol>
+    <li>Install <a href="{{ site.baseurl }}/#setup">Tampermonkey and UnderScript</a>. In Chrome, Edge and Opera, also <a href="{{ site.baseurl }}/#chrome-edge-and-opera">allow Tampermonkey to run userscripts</a>.</li>
+    <li>Open the Tampermonkey dashboard and add a new script with the <strong>+</strong> tab.</li>
+    <li>Replace everything in it with your plugin and save.</li>
+    <li>Reload <a href="https://undercards.net/">undercards</a>. You should see a "Hello from my plugin!" message, and your plugin's settings under Plugins in the UnderScript settings.</li>
+  </ol>
+
+  <h2>What next</h2>
+  <p>
+    The comments in the file explain each part. When you want to do more, the <a href="{{ site.baseurl }}{% link _api/index.md %}">Plugin API</a> lists everything a plugin can do.
+    The <a href="https://github.com/UCProjects/plugin-template#sharing-your-plugin">plugin template</a> explains how to share your plugin and get it into the Community Plugins menu.
+  </p>
+</section>
+
+{% raw %}
+<script>
+  (() => {
+    const TEMPLATE = 'https://raw.githubusercontent.com/UCProjects/plugin-template/master/single-file/my-plugin.user.js';
+    const REGISTRY = 'https://raw.githubusercontent.com/UCProjects/UnderScript/master/plugins.json';
+    const NAME_RULE = /^[A-Za-z0-9 ]{1,20}$/;
+    const VERSION_RULE = /^\d+\.\d+\.\d+$/;
+    const REPLACEMENTS = /My Plugin|What my plugin does|YOUR-NAME|YOUR NAME|(?<=@version\s+)1\.0\.0/g;
+    const GRANT = '// @grant        none';
+    const DESCRIPTION_LINE = /^\/\/ @description .*\r?\n/m;
+
+    const single = (value) => value.replace(/\s+/g, ' ').trim();
+
+    function validate({ name, author, version, url }) {
+      const errors = {};
+      if (!NAME_RULE.test(name)) errors.name = 'Use 1 to 20 letters, numbers and spaces.';
+      if (!author) errors.author = 'Enter your name.';
+      if (!VERSION_RULE.test(version)) errors.version = 'Use three numbers with dots, like 1.0.0.';
+      if (url && !/^https?:\/\/\S+$/.test(url)) errors.url = 'Enter a link that starts with http:// or https://';
+      return errors;
+    }
+
+    function fill(template, { name, description, author, version, url }) {
+      const values = {
+        'My Plugin': name,
+        'What my plugin does': description,
+        'YOUR-NAME': author.replace(/ /g, '-'),
+        'YOUR NAME': author,
+        '1.0.0': version,
+      };
+      let text = template.replace(REPLACEMENTS, (match) => values[match]);
+      if (!description) text = text.replace(DESCRIPTION_LINE, '');
+      if (url) text = text.replace(GRANT, `// @updateURL    ${url}\n// @downloadURL  ${url}\n${GRANT}`);
+      return text;
+    }
+
+    function unfilled(template) {
+      const missing = [];
+      ['My Plugin', 'What my plugin does', 'YOUR-NAME', 'YOUR NAME', '// @version      1.0.0', GRANT]
+        .forEach((token) => {
+          if (!template.includes(token)) missing.push(token);
+        });
+      return missing;
+    }
+
+    const form = document.getElementById('generator');
+    const status = document.getElementById('generator-status');
+    const result = document.getElementById('generator-result');
+    const output = document.getElementById('generator-output');
+    const copy = document.getElementById('generator-copy');
+    const download = document.getElementById('generator-download');
+    const nameWarning = document.getElementById('name-warning');
+    const fields = ['name', 'description', 'author', 'version', 'url'];
+    let template = null;
+    let registry = [];
+    let notice = '';
+
+    function read() {
+      const values = {};
+      fields.forEach((field) => {
+        values[field] = single(form.elements[field].value);
+      });
+      return values;
+    }
+
+    function showErrors(errors, touched) {
+      ['name', 'author', 'version', 'url'].forEach((field) => {
+        const message = touched.has(field) ? errors[field] : undefined;
+        document.getElementById(`${field}-error`).textContent = message || '';
+        form.elements[field].setAttribute('aria-invalid', message ? 'true' : 'false');
+      });
+    }
+
+    function showNameWarning(name) {
+      const taken = registry.find((entry) => entry.name.toLowerCase() === name.toLowerCase());
+      nameWarning.hidden = !taken;
+      if (taken) {
+        nameWarning.textContent = `There is already a community plugin named "${taken.name}" by ${taken.author}. Pick another name so the two do not clash.`;
+      }
+    }
+
+    const touched = new Set();
+
+    function update() {
+      if (!template) return;
+      const values = read();
+      const errors = validate(values);
+      showErrors(errors, touched);
+      showNameWarning(values.name);
+      const ready = Object.keys(errors).length === 0;
+      result.hidden = !ready && !output.value;
+      copy.disabled = !ready;
+      download.disabled = !ready;
+      if (ready) output.value = fill(template, values);
+      status.textContent = ready ? notice : 'Fill in the fields above to get your plugin.';
+    }
+
+    function fileName(name) {
+      return `${name.toLowerCase().replace(/ +/g, '-')}.user.js`;
+    }
+
+    copy.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(output.value);
+      } catch (e) {
+        output.focus();
+        output.select();
+        document.execCommand('copy');
+      }
+      status.textContent = 'Copied. Paste it into a new Tampermonkey script.';
+    });
+
+    download.addEventListener('click', () => {
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(new Blob([output.value], { type: 'text/javascript' }));
+      link.href = url;
+      link.download = fileName(read().name);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    form.addEventListener('input', (event) => {
+      if (event.target.name) touched.add(event.target.name);
+      update();
+    });
+    form.addEventListener('submit', (event) => event.preventDefault());
+
+    fetch(REGISTRY)
+      .then((response) => (response.ok ? response.json() : []))
+      .then((list) => {
+        registry = Array.isArray(list) ? list.filter((entry) => entry && entry.name) : [];
+        update();
+      })
+      .catch(() => {});
+
+    fetch(TEMPLATE)
+      .then((response) => {
+        if (!response.ok) throw new Error(`${response.status}`);
+        return response.text();
+      })
+      .then((text) => {
+        template = text;
+        const missing = unfilled(text);
+        if (missing.length) {
+          notice = 'The template has changed and some fields may not be filled in. Please tell us on Discord.';
+        }
+        update();
+      })
+      .catch(() => {
+        status.innerHTML = 'Could not load the template. Open it on <a href="https://github.com/UCProjects/plugin-template/blob/master/single-file/my-plugin.user.js">GitHub</a> instead.';
+      });
+  })();
+</script>
+{% endraw %}

@@ -1,6 +1,8 @@
 ---
 title: Plugin API
 ---
+New to making plugins? The [Plugin Generator]({{ site.baseurl }}{% link generator.html %}) gives you a ready-to-install plugin to start from.
+
 UnderScript exposes its API to other scripts through the `underscript` variable. Most plugins start by creating a plugin object:
 
 {% highlight javascript %}
