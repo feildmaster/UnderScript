@@ -62,7 +62,10 @@ Community plugins are listed in [plugins.json](plugins.json), which UnderScript 
 
 - `name` **must** match the name the plugin passes to `underscript.plugin(name)`, otherwise UnderScript can't tell that it's already installed.
 - `updateURL` points at anything the version can be read from: a userscript (or `.meta.js`) file, a gist, or a github release. The install link is taken from its `@downloadURL`, or from the release's `.user.js` asset.
-- `downloadURL` is optional, and only needed when the install link can't be derived from `updateURL`.
+- `downloadURL` is only needed when the install link can't be derived from `updateURL`.
+- A plugin needs at least one of `updateURL` and `downloadURL`. With only `downloadURL`, UnderScript reads the version from it and installs from it, the same as `plugin.updater('https://...')`.
+
+Pull requests that change `plugins.json` are checked automatically. The file must be valid JSON, every entry needs a valid `name` and `author` and at least one of `updateURL` and `downloadURL` (https links only), and UnderScript must be able to read a version and an install link from them. Run `npm run plugins` to see the same errors locally, or `npm run plugins -- --offline` to skip the network part.
 
 To try entries out before pushing them, declare the file as a `plugins.json` resource in your development userscript header:
 

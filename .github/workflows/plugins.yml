@@ -1,0 +1,25 @@
+name: Plugin registry
+on:
+  pull_request:
+    paths:
+      - plugins.json
+      - scripts/plugins.js
+      - src/utils/parser/**
+  workflow_dispatch:
+jobs:
+  check:
+    if: github.repository == 'UCProjects/UnderScript'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 24
+    - name: Install dependencies
+      run: npm ci
+    - name: Check plugins.json
+      run: npm run plugins
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
