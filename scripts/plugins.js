@@ -170,7 +170,7 @@ export async function check(text, { network = true } = {}) {
 
 function authenticate(token) {
   axios.interceptors.request.use((config) => {
-    if (config.url?.startsWith('https://api.github.com/')) {
+    if (config.url?.startsWith('https://api.github.com/') && !config.url.startsWith('https://api.github.com/gists/')) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
