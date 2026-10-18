@@ -23,5 +23,20 @@
     "name": "Chat Deck Viewer",
     "author": "feildmaster",
     "updateURL": "https://gist.github.com/feildmaster/c7ddffd9e7dc5120fe234ac744393c04/raw/chatDeck.user.js"
+  },
+  {
+    "name": "Hover Info",
+    "author": "clpb",
+    "updateURL": "https://gist.github.com/Megaclpb/ef1708a06cc661e9b1f57c71c4caaee7/raw/hoverinfo.user.js"
+  },
+  {
+    "name": "Keyword Icons",
+    "author": "clpb",
+    "updateURL": "https://gist.github.com/Megaclpb/1a604aef522786a1bcc65ed0dbea4473/raw/keywordicons.user.js"
+  },
+  {
+    "name": "Deck Builder",
+    "author": "clpb",
+    "updateURL": "https://gist.github.com/Megaclpb/1043df6b5981badd06c00e63d3e5e331/raw/deckbuilder.user.js"
   }
 ]
