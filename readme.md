@@ -67,6 +67,8 @@ Community plugins are listed in [plugins.json](plugins.json), which UnderScript 
 
 Pull requests that change `plugins.json` are checked automatically. The file must be valid JSON, every entry needs a valid `name` and `author` and at least one of `updateURL` and `downloadURL` (https links only), and UnderScript must be able to read a version and an install link from them, and that link has to answer and not be a web page. Run `npm run plugins` to see the same errors locally, or `npm run plugins -- --offline` to skip the network part.
 
+A daily workflow writes when each plugin was last updated to `plugins.meta.json` on the `registry` branch. It is generated, so don't edit it by hand. Run `npm run plugins:meta -- plugins.json some/folder/plugins.meta.json` to see what it would write.
+
 To try entries out before pushing them, declare the file as a `plugins.json` resource in your development userscript header:
 
 ```js

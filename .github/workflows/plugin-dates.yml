@@ -1,0 +1,51 @@
+name: Plugin dates
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  push:
+    branches:
+      - master
+    paths:
+      - plugins.json
+      - scripts/pluginMeta.js
+  workflow_dispatch:
+concurrency:
+  group: plugin-dates
+jobs:
+  dates:
+    if: github.repository == 'UCProjects/UnderScript'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 24
+    - name: Install dependencies
+      run: npm ci
+    - name: Check out the registry branch
+      run: |
+        if git ls-remote --exit-code --heads origin registry > /dev/null; then
+          git fetch origin registry
+          git worktree add -B registry registry-data FETCH_HEAD
+        else
+          git worktree add --orphan -b registry registry-data
+        fi
+    - name: Update plugin dates
+      run: npm run plugins:meta -- plugins.json registry-data/plugins.meta.json
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+    - name: Publish the dates
+      working-directory: registry-data
+      run: |
+        git add plugins.meta.json
+        if git diff --cached --quiet; then
+          exit 0
+        fi
+        git config user.name 'github-actions[bot]'
+        git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+        git commit -m 'chore: update plugin dates'
+        git push origin registry
