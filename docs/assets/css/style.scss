@@ -120,14 +120,15 @@ hr { border: 0; border-top: 2px solid var(--border); margin: 2em 0; }
 ul.setup { display: flex; flex-wrap: wrap; gap: 12px; list-style: none; padding: 0; margin: 0 0 1.25em; }
 .setup li { margin: 0; padding: 0; }
 .setup li a { color: #fff; }
-.setup li:last-child .buttons { background: var(--red); }
-.setup li:last-child .buttons:hover { background: var(--red-bright); color: #fff; border-color: var(--yellow); }
+.setup #install { background: var(--red); }
+.setup #install:hover { background: var(--red-bright); color: #fff; border-color: var(--yellow); }
 
 a.install::before { content: '\2193  Install '; }
 a.hide { display: none; }
 a.installed::before { content: '\2713  Installed '; }
 a.installed::after { content: '!'; }
 a.update::before { content: '\2191  Update '; }
+a.external::after { content: ' \2197\FE0E'; }
 
 .notice {
   display: block;

@@ -6,13 +6,14 @@ title: UnderScript
 UnderScript is a userscript (made with javascript) that gets loaded by a script manager to change the behavior of undercards. These changes range from fixing bugs (removing ghost mines from the board) to adding features (a battle log). There are {{ site.features.size }} features and counting for UnderScript, and is fairly popular and completely safe to use. UnderScript will never add anything to harm your computer or account, nor will it ever feature anything considered "hacking" or get you banned.
 
 ### Why Tampermonkey? ###
-Tampermonkey is a script manager program that loads scripts automatically, and is supported on all major browsers.
+Tampermonkey is a script manager program that loads scripts automatically, and is supported on all major browsers. Prefer not to use one? The [UnderScript App](https://app.uc.feildmaster.com/) is a desktop app for Windows, macOS and Linux with UnderScript built in.
 
 ## Setup ##
 <span class="notice">UnderScript is not supported on mobile devices</span>
 <ul class="setup">
   <li><a id="tampermonkey" class="buttons install" href="https://tampermonkey.net/" target="_blank">Tampermonkey</a></li>
   <li><a id="install" class="buttons install" href="https://github.com/UCProjects/UnderScript/releases/latest/download/undercards.user.js">UnderScript</a></li>
+  <li><a id="app" class="buttons external" href="https://app.uc.feildmaster.com/" target="_blank" rel="noopener">Get the App!</a></li>
 </ul>
 ![Install UnderScript]({{ site.baseurl }}/assets/features/installscript.png)
 

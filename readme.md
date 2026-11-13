@@ -1,6 +1,6 @@
 # Undercards Script #
 
-Looking to install the script? [Click Here](https://git.io/fxysg)
+Looking to install the script? [Click Here](https://git.io/fxysg), or get the [desktop app](https://app.uc.feildmaster.com/).
 
 ## Contributing ##
 
