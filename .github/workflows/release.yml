@@ -45,7 +45,7 @@ jobs:
     - name: Bundle types
       run: npm run types:bundle
     - name: Tag and Release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v3
       with:
         tag_name: ${{ needs.check.outputs.version }}
         target_commitish: ${{ needs.check.outputs.commit }}
@@ -74,7 +74,7 @@ jobs:
     - name: Bundle types
       run: npm run types:bundle
     - name: Tag and Release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v3
       with:
         tag_name: ${{ needs.check.outputs.version }}
         target_commitish: ${{ needs.check.outputs.commit }}
