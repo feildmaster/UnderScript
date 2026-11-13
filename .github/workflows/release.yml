@@ -15,7 +15,7 @@ jobs:
       beta: ${{ startsWith(steps.check.outputs.type, 'pre') }}
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v7
     - name: Check version changes
       uses: EndBug/version-check@v2
       id: check
@@ -26,7 +26,7 @@ jobs:
     if: contains(github.ref, 'master') && needs.check.outputs.changed == 'true' && needs.check.outputs.beta != 'true'
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v7
       with:
         ref: ${{ needs.check.outputs.commit }}
     - name: Set up Node.js
@@ -60,7 +60,7 @@ jobs:
     if: contains(github.ref, 'next') && needs.check.outputs.changed == 'true' && needs.check.outputs.beta == 'true'
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v7
       with:
         ref: ${{ needs.check.outputs.commit }}
     - name: Set up Node.js
