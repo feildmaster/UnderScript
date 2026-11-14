@@ -5,7 +5,7 @@ date: 2026-09-26
 version: 0.64.0
 ---
 
-Browse plugins made by the community from the UnderScript menu, and install them from there.
+Browse plugins made by the community from the UnderScript menu, and install them from there. Plugins in this list can also be installed in the [UnderScript App](https://app.uc.feildmaster.com/).
 
 The list is sorted by name, and has a search bar that looks through names and authors. Buttons next to it hide the plugins you don't want to see, based on their status.
 

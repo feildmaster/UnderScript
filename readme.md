@@ -50,7 +50,7 @@ The `@require` lines before the last one are copied from [src/meta.js](src/meta.
 
 ## Plugin Registry ##
 
-Community plugins are listed in [plugins.json](plugins.json), which UnderScript fetches from `master` to populate the "Community Plugins" menu. To add a plugin, open a pull request with an entry:
+Community plugins are listed in [plugins.json](plugins.json), which UnderScript fetches from `master` to populate the "Community Plugins" menu. Plugins in this list can also be installed in the [UnderScript App](https://app.uc.feildmaster.com/). To add a plugin, open a pull request with an entry:
 
 ```json
 {
